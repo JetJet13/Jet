@@ -36,8 +36,10 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
      - [x] `tail`
 4. Structs
     - [x] Done
+    - [ ] ref value assignment
 5. Tuples 
     - [x] Done
+    - [ ] ref value assignment
 6. Classes
    - [x] Multiple Constructors
    - [x] Access Modifiers (`public`, `private`)
@@ -56,6 +58,8 @@ The purpose of the `golden-master-test-file.jet` test file is to validate that e
     - [x] Import
     - [x] Export
     - [x] Declaration
+    - [ ] ref value assignment
+    - [x] value assignment
 11. Built-In Functions
     - [x] `print(...vararg)`
     - [x] `range`

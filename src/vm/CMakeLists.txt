@@ -573,8 +573,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.h
         ir-generator/ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.cpp
         ir-generator/ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-object-access-expression-injector-strategy/tuple-ir-object-access-expression-injector-strategy.cpp
@@ -733,8 +733,8 @@ add_library(jet-vm
         ir-nodes/ir-class-nodes/ir-class-static-property-node.h
         ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.h
-        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-node/ir-class-static-property-assignment-node.cpp
-        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-node/ir-class-static-property-assignment-node.h
+        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-statement-node.h
         ir-injector/ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.h
         ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.cpp
@@ -776,8 +776,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h
         ir-generator/ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.cpp
         ir-generator/ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-node.h
         ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h
         utils/dependency-graph/dependency-graph.cpp
@@ -846,6 +846,36 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.h
+        ir-nodes/ir-statement-nodes/ir-array-access-ref-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-array-access-ref-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-object-access-ref-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-object-access-ref-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-tuple-access-ref-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-tuple-access-ref-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-module-access-ref-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-module-access-ref-assignment-statement-node.h
+        ir-generator/ir-strategies/array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.h
+        ir-generator/ir-strategies/object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-class-static-property-ref-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-static-property-ref-assignment-statement-node.h
+        ir-generator/ir-strategies/module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.h
+        ir-generator/ir-strategies/tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.h
+        ir-injector/ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-module-access-expression-injector-strategy/ref-ir-module-access-expression-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-module-access-expression-injector-strategy/ref-ir-module-access-expression-injector-strategy.h
 )
 
 target_link_libraries(jet-vm

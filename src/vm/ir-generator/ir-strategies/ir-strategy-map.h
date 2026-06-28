@@ -54,9 +54,13 @@ class DrefExpressionIRStrategy;
 class SrefExpressionIRStrategy;
 class PrintStatementIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
+class ArrayAccessRefAssignmentStatementIRStrategy;
 class ObjectAccessAssignmentStatementIRStrategy;
+class ObjectAccessRefAssignmentStatementIRStrategy;
 class TupleAccessAssignmentStatementIRStrategy;
+class TupleAccessRefAssignmentStatementIRStrategy;
 class ModuleAccessAssignmentStatementIRStrategy;
+class ModuleAccessRefAssignmentStatementIRStrategy;
 class ClassPropertyRefValueAssignmentStatementIRStrategy;
 class RefValueAssignmentStatementIRStrategy;
 
@@ -137,9 +141,13 @@ private:
     DrefExpressionIRStrategy* _drefExpressionIRStrategy;
     SrefExpressionIRStrategy* _srefExpressionIRStrategy;
     ArrayAccessAssignmentStatementIRStrategy* _arrayAccessAssignmentStatementIRStrategy;
+    ArrayAccessRefAssignmentStatementIRStrategy* _arrayAccessRefAssignmentStatementIRStrategy;
     ObjectAccessAssignmentStatementIRStrategy* _objectAccessAssignmentStatementIRStrategy;
+    ObjectAccessRefAssignmentStatementIRStrategy* _objectAccessRefAssignmentStatementIRStrategy;
     TupleAccessAssignmentStatementIRStrategy* _tupleAccessAssignmentStatementIRStrategy;
+    TupleAccessRefAssignmentStatementIRStrategy* _tupleAccessRefAssignmentStatementIRStrategy;
     ModuleAccessAssignmentStatementIRStrategy* _moduleAccessAssignmentStatementIRStrategy;
+    ModuleAccessRefAssignmentStatementIRStrategy* _moduleAccessRefAssignmentStatementIRStrategy;
     ClassPropertyRefValueAssignmentStatementIRStrategy* _classPropertyRefValueAssignmentStatementIRStrategy;
     RefValueAssignmentStatementIRStrategy* _refValueAssignmentStatementIRStrategy;
 
@@ -212,9 +220,13 @@ public:
     ClassPropertyAssignmentStatementIRStrategy* getClassPropertyAssignmentStatementIRStrategy();
     VariableAssignmentStatementIRStrategy* getVariableAssignmentStatementIRStrategy();
     ArrayAccessAssignmentStatementIRStrategy* getArrayAccessAssignmentStatementIRStrategy();
+    ArrayAccessRefAssignmentStatementIRStrategy* getArrayAccessRefAssignmentStatementIRStrategy();
     ObjectAccessAssignmentStatementIRStrategy* getObjectAccessAssignmentStatementIRStrategy();
+    ObjectAccessRefAssignmentStatementIRStrategy* getObjectAccessRefAssignmentStatementIRStrategy();
     TupleAccessAssignmentStatementIRStrategy* getTupleAccessAssignmentStatementIRStrategy();
+    TupleAccessRefAssignmentStatementIRStrategy* getTupleAccessRefAssignmentStatementIRStrategy();
     ModuleAccessAssignmentStatementIRStrategy* getModuleAccessAssignmentStatementIRStrategy();
+    ModuleAccessRefAssignmentStatementIRStrategy* getModuleAccessRefAssignmentStatementIRStrategy();
     ClassPropertyRefValueAssignmentStatementIRStrategy* getClassPropertyRefValueAssignmentStatementIRStrategy();
     RefValueAssignmentStatementIRStrategy* getRefValueAssignmentStatementIRStrategy();
     IfStatementIRStrategy* getIfStatementIRStrategy();

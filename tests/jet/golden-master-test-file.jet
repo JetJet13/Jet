@@ -2389,7 +2389,6 @@ proc testTuples() {
     const passedDownTuple = passDownTuple();
     assert(passedDownTuple.0 == 5);
     assert(passedDownTuple.1 == false);
-    assert(passedDownTuple.1990 == false);
     const refA = passedDownTuple.0;
     const refB = passedDownTuple.1;
     updateTuple(refA, refB);
@@ -2474,3 +2473,12 @@ proc testStructs() {
     updateStruct(refA, refB);
 }
 testStructs();
+
+proc assignParameterTest(val: int, expectedVal: int) {
+    const x = val;
+    assert(x == val);
+    val = x + 1;
+    assert(x != val);
+    assert(val == expectedVal);
+}
+assignParameterTest(4, 5);

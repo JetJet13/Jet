@@ -40,9 +40,13 @@
 #include "./ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
+#include "./array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.h"
 #include "./object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
+#include "./object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.h"
 #include "./tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.h"
+#include "./tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.h"
 #include "./module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.h"
+#include "./module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -125,9 +129,13 @@ IRStrategyMap::IRStrategyMap() {
     _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
     _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
     _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
+    _arrayAccessRefAssignmentStatementIRStrategy = new ArrayAccessRefAssignmentStatementIRStrategy();
     _objectAccessAssignmentStatementIRStrategy = new ObjectAccessAssignmentStatementIRStrategy();
+    _objectAccessRefAssignmentStatementIRStrategy = new ObjectAccessRefAssignmentStatementIRStrategy();
     _tupleAccessAssignmentStatementIRStrategy = new TupleAccessAssignmentStatementIRStrategy();
+    _tupleAccessRefAssignmentStatementIRStrategy = new TupleAccessRefAssignmentStatementIRStrategy();
     _moduleAccessAssignmentStatementIRStrategy = new ModuleAccessAssignmentStatementIRStrategy();
+    _moduleAccessRefAssignmentStatementIRStrategy = new ModuleAccessRefAssignmentStatementIRStrategy();
     _classPropertyRefValueAssignmentStatementIRStrategy = new ClassPropertyRefValueAssignmentStatementIRStrategy();
     _refValueAssignmentStatementIRStrategy = new RefValueAssignmentStatementIRStrategy();
     _ifStatementIRStrategy = new IfStatementIRStrategy();
@@ -334,16 +342,32 @@ ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmen
     return _arrayAccessAssignmentStatementIRStrategy;
 }
 
+ArrayAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessRefAssignmentStatementIRStrategy() {
+    return _arrayAccessRefAssignmentStatementIRStrategy;
+}
+
 ObjectAccessAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
     return _objectAccessAssignmentStatementIRStrategy;
+}
+
+ObjectAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessRefAssignmentStatementIRStrategy() {
+    return _objectAccessRefAssignmentStatementIRStrategy;
 }
 
 TupleAccessAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
     return _tupleAccessAssignmentStatementIRStrategy;
 }
 
+TupleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessRefAssignmentStatementIRStrategy() {
+    return _tupleAccessRefAssignmentStatementIRStrategy;
+}
+
 ModuleAccessAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessAssignmentStatementIRStrategy() {
     return _moduleAccessAssignmentStatementIRStrategy;
+}
+
+ModuleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessRefAssignmentStatementIRStrategy() {
+    return _moduleAccessRefAssignmentStatementIRStrategy;
 }
 
 ClassPropertyRefValueAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {

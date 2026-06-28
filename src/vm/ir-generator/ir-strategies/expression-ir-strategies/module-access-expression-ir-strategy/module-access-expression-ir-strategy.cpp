@@ -13,5 +13,5 @@ IRExpressionNode* ModuleAccessExpressionIRStrategy::generate(ASTModuleAccessExpr
         sourceValue = scope->findGlobalVariable(node->getModuleId(), lambdaValueName);
     }
 
-    return new IRModuleAccessExpressionNode(node, sourceValue.value()->getValue(), sourceValue.value()->getIRType()->getUnderlyingType());
+    return new IRModuleAccessExpressionNode(node, sourceValue.value()->getValue(), sourceValue.value()->getIRType());
 }

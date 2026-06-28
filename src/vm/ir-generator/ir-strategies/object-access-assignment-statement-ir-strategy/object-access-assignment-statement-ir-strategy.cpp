@@ -3,8 +3,8 @@
 //
 
 #include "object-access-assignment-statement-ir-strategy.h"
-#include "../../../ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-nodes/ir-object-access-assignment-statement-node.h"
-#include "../../../ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-node/ir-class-static-property-assignment-node.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-statement-node.h"
 
 IRStatementNode* ObjectAccessAssignmentStatementIRStrategy::generate(ASTObjectAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));

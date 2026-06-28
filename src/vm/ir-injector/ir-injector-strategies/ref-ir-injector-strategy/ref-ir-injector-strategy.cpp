@@ -21,6 +21,8 @@ llvm::Value* RefIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlo
         return this->_refIRTupleAccessExpressionInjectorStrategy.inject((IRTupleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_ARRAY_ACCESS_EXPRESSION_NODE)) {
         return this->_refIRArrayAccessExpressionInjectorStrategy.inject((IRArrayAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irExpression->is(IR_MODULE_ACCESS_EXPRESSION_NODE)) {
+        return this->_refIRModuleAccessExpressionInjectorStrategy.inject((IRModuleAccessExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
         return this->_refIRFunctionInvocationExpressionInjectorStrategy.inject((IRFunctionInvocationExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {

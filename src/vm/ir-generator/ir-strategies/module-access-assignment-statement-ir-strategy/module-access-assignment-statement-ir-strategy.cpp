@@ -3,7 +3,7 @@
 //
 
 #include "module-access-assignment-statement-ir-strategy.h"
-#include "../../../ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-nodes/ir-module-access-assignment-statement-node.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-node.h"
 
 IRStatementNode* ModuleAccessAssignmentStatementIRStrategy::generate(ASTModuleAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));

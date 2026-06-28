@@ -62,17 +62,5 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocatio
 }
 
 llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto rawValue = irInjector->inject(irBlock, irExpression->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
-    if (irOperation->isRefGlobalAssignment()) {
-        auto globalVariable = new llvm::GlobalVariable(
-                irExpression->getIRType()->getSourceType()->getType(),
-                false,
-                llvm::GlobalValue::InternalLinkage
-        );
-        irModule->getModule()->get()->insertGlobalVariable(globalVariable);
-        InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRType()->getRefValueIRType());
-        return rawValue;
-    }
-
-    return rawValue;
+    return irInjector->inject(irBlock, irExpression->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
 }

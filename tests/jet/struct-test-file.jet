@@ -1,10 +1,7 @@
-type TestType = [int];
+import BigModule from "./big-module.jet";
 
-func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => int, { int, bool }, { foo: bool, bar: string } } {
-    const x: { () => int } = { () => 5 };
-    const y: { int } = { 5 };
-    const z: { int, bool } = { 10, true };
-    const a: { TestType } = { [1,2,3] };
-    const b: { TestType, bool } = { [1,2,3,4], false };
-    return { 1, [1,2,3], false, () => "hello", (x: TestType) => 500, { 6, false }, { foo: false, bar: "testing" } };
+proc testTupleInvocation() {
+    print("BigModule::BIG_STRUCT_REF.foo", BigModule::BIG_STRUCT_REF.foo);
+    assert(BigModule::BIG_STRUCT_REF.foo == 1);
 }
+testTupleInvocation();

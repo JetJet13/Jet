@@ -24,10 +24,15 @@
 #include "ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h"
@@ -60,10 +65,15 @@ IRInjector::IRInjector() {
     _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
     _variableAssignmentIRInjectorStrategy = new VariableAssignmentIRInjectorStrategy();
     _arrayAccessAssignmentIRInjectorStrategy = new ArrayAccessAssignmentIRInjectorStrategy();
+    _arrayAccessRefAssignmentIRInjectorStrategy = new ArrayAccessRefAssignmentIRInjectorStrategy();
     _objectAccessAssignmentIRInjectorStrategy = new ObjectAccessAssignmentIRInjectorStrategy();
+    _objectAccessRefAssignmentIRInjectorStrategy = new ObjectAccessRefAssignmentIRInjectorStrategy();
     _tupleAccessAssignmentIRInjectorStrategy = new TupleAccessAssignmentIRInjectorStrategy();
+    _tupleAccessRefAssignmentIRInjectorStrategy = new TupleAccessRefAssignmentIRInjectorStrategy();
     _moduleAccessAssignmentIRInjectorStrategy = new ModuleAccessAssignmentIRInjectorStrategy();
+    _moduleAccessRefAssignmentIRInjectorStrategy = new ModuleAccessRefAssignmentIRInjectorStrategy();
     _classStaticPropertyAssignmentIRInjectorStrategy = new ClassStaticPropertyAssignmentIRInjectorStrategy();
+    _classStaticPropertyRefAssignmentIRInjectorStrategy = new ClassStaticPropertyRefAssignmentIRInjectorStrategy();
     _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
     _classPropertyRefValueAssignmentIRInjectorStrategy = new ClassPropertyRefValueAssignmentIRInjectorStrategy();
     _refValueAssignmentIRInjectorStrategy = new RefValueAssignmentIRInjectorStrategy();
@@ -142,14 +152,24 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std:
         _variableAssignmentIRInjectorStrategy->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _arrayAccessAssignmentIRInjectorStrategy->inject((IRArrayAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
+        _arrayAccessRefAssignmentIRInjectorStrategy->inject((IRArrayAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _objectAccessAssignmentIRInjectorStrategy->inject((IRObjectAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
+        _objectAccessRefAssignmentIRInjectorStrategy->inject((IRObjectAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _tupleAccessAssignmentIRInjectorStrategy->inject((IRTupleAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
+        _tupleAccessRefAssignmentIRInjectorStrategy->inject((IRTupleAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _moduleAccessAssignmentIRInjectorStrategy->inject((IRModuleAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
+        _moduleAccessRefAssignmentIRInjectorStrategy->inject((IRModuleAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _classStaticPropertyAssignmentIRInjectorStrategy->inject((IRClassStaticPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+    } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_STATEMENT_NODE)) {
+        _classStaticPropertyRefAssignmentIRInjectorStrategy->inject((IRClassStaticPropertyRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
         _ifStatementIRInjectorStrategy->inject((IRIfStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_WHILE_STATEMENT_NODE)) {
