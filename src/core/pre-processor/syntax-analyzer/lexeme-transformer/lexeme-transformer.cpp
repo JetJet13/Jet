@@ -64,7 +64,6 @@
 #include "../../../ast/ast-nodes/ast-export-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h"
 #include "../../../ast/ast-nodes/ast-dref-node.h"
-#include "../../../ast/ast-nodes/ast-sref-node.h"
 #include "../../../ast/ast-nodes/ast-concat-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
@@ -212,8 +211,6 @@ ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
         return new ASTRefBaseNode(lexeme);
     } else if (symbol->isDref()) {
         return new ASTDrefNode(lexeme);
-    } else if (symbol->isSref()) {
-        return new ASTSrefNode(lexeme);
     } else if (symbol->isConcat()) {
         return new ASTConcatNode(lexeme);
     } else if (symbol->isInterface()) {

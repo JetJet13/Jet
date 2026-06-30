@@ -18,7 +18,6 @@
 #include "type-checker-rules/match-argument-list-count-with-parameter-list-count-type-checker-rule/match-argument-list-count-with-parameter-list-count-type-checker-rule.h"
 #include "type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.h"
 #include "type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h"
-#include "type-checker-rules/sref-type-checker-rule/sref-type-checker-rule.h"
 #include "type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h"
 #include "type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h"
@@ -43,7 +42,6 @@ private:
     static MatchArgumentListCountWithParameterListCountTypeCheckerRule* _matchArgumentListCountWithParameterListCountTypeCheckerRule;
     static ArgumentListTypeSignatureMismatchTypeCheckerRule* _argumentListTypeSignatureMismatchTypeCheckerRule;
     static DrefTypeSignatureTypeCheckerRule* _drefTypeSignatureTypeCheckerRule;
-    static SrefTypeSignatureTypeCheckerRule* _srefTypeSignatureTypeCheckerRule;
     static RefTypeSignatureTypeCheckerRule* _refTypeSignatureTypeCheckerRule;
     static RefValueAssignmentTypeCheckerRule* _refValueAssignmentTypeCheckerRule;
     static ClassSelfReferenceTypeCheckerRule* _classSelfReferenceTypeCheckerRule;
@@ -64,7 +62,6 @@ public:
     static MatchArgumentListCountWithParameterListCountTypeCheckerRule* getMatchArgumentListCountWithParameterListCountTypeCheckerRule();
     static ArgumentListTypeSignatureMismatchTypeCheckerRule* getArgumentListTypeSignatureMismatchTypeCheckerRule();
     static DrefTypeSignatureTypeCheckerRule* getDrefTypeSignatureTypeCheckerRule();
-    static SrefTypeSignatureTypeCheckerRule* getSrefTypeSignatureTypeCheckerRule();
     static RefTypeSignatureTypeCheckerRule* getRefTypeSignatureTypeCheckerRule();
     static RefValueAssignmentTypeCheckerRule* getRefValueAssignmentTypeCheckerRule();
     static ClassSelfReferenceTypeCheckerRule* getClassSelfReferenceTypeCheckerRule();

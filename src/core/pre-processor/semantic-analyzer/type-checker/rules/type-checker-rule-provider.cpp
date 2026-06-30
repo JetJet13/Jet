@@ -19,7 +19,6 @@ ReturnTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_returnTypeSignatur
 MatchArgumentListCountWithParameterListCountTypeCheckerRule* TypeCheckerRuleProvider::_matchArgumentListCountWithParameterListCountTypeCheckerRule = new MatchArgumentListCountWithParameterListCountTypeCheckerRule();
 ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::_argumentListTypeSignatureMismatchTypeCheckerRule = new ArgumentListTypeSignatureMismatchTypeCheckerRule();
 DrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_drefTypeSignatureTypeCheckerRule = new DrefTypeSignatureTypeCheckerRule();
-SrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_srefTypeSignatureTypeCheckerRule = new SrefTypeSignatureTypeCheckerRule();
 RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_refTypeSignatureTypeCheckerRule = new RefTypeSignatureTypeCheckerRule();
 RefValueAssignmentTypeCheckerRule* TypeCheckerRuleProvider::_refValueAssignmentTypeCheckerRule = new RefValueAssignmentTypeCheckerRule();
 ClassSelfReferenceTypeCheckerRule* TypeCheckerRuleProvider::_classSelfReferenceTypeCheckerRule = new ClassSelfReferenceTypeCheckerRule();
@@ -83,10 +82,6 @@ ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::getAr
 
 DrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule() {
     return _drefTypeSignatureTypeCheckerRule;
-}
-
-SrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getSrefTypeSignatureTypeCheckerRule() {
-    return _srefTypeSignatureTypeCheckerRule;
 }
 
 RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule() {

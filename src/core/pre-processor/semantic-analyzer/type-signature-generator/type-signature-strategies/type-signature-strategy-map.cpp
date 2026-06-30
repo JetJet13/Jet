@@ -32,7 +32,6 @@
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
@@ -117,7 +116,6 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
     _refExpressionTypeSignatureStrategy = new RefExpressionTypeSignatureStrategy();
     _drefExpressionTypeSignatureStrategy = new DrefExpressionTypeSignatureStrategy();
-    _srefExpressionTypeSignatureStrategy = new SrefExpressionTypeSignatureStrategy();
     _lambdaExpressionScopeParameterTypeSignatureStrategy = new LambdaExpressionScopeParameterTypeSignatureStrategy();
     _classScopeParameterTypeSignatureStrategy = new ClassScopeParameterTypeSignatureStrategy();
     _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
@@ -291,10 +289,6 @@ RefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getRefExpressionTy
 
 DrefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getDrefExpressionTypeSignatureStrategy() {
     return _drefExpressionTypeSignatureStrategy;
-}
-
-SrefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getSrefExpressionTypeSignatureStrategy() {
-    return _srefExpressionTypeSignatureStrategy;
 }
 
 LambdaExpressionScopeParameterTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpressionScopeParameterTypeSignatureStrategy() {

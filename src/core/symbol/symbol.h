@@ -94,7 +94,6 @@ public:
     bool isExport();
     bool isRef();
     bool isDref();
-    bool isSref();
     bool isConcat();
     bool isInterface();
     bool isImplements();

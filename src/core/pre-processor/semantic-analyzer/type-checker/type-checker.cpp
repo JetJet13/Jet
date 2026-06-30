@@ -43,7 +43,6 @@
 #include "policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h"
 #include "policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.h"
 #include "policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.h"
-#include "policies/expressions/sref-expression-type-checker-policy/sref-expression-type-checker-policy.h"
 #include "policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.h"
 #include "policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.h"
@@ -236,9 +235,6 @@ namespace TypeChecker {
                 break;
             case AST_DREF_EXPRESSION_NODE:
                 DrefExpressionTypeCheckerPolicy::apply((ASTDrefExpressionNode*)node, typeCheckerResult);
-                break;
-            case AST_SREF_EXPRESSION_NODE:
-                SrefExpressionTypeCheckerPolicy::apply((ASTSrefExpressionNode*)node, typeCheckerResult);
                 break;
             case AST_MODULE_ACCESS_EXPRESSION_NODE:
                 ModuleAccessExpressionTypeCheckerPolicy::apply((ASTModuleAccessExpressionNode*)node, typeCheckerResult);

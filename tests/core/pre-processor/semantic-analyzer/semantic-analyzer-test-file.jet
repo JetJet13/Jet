@@ -350,11 +350,6 @@ const lambdaRef = (x: ref<int>) ref<int> {
 };
 const refArrayRaw = ref [ 50, 60, 70 ];
 
-const sharedReferenceStruct = sref rId;
-const sharedReferenceChar = sref rIdChar;
-const sharedReferenceInt = sref refsArray[0];
-const sharedReferenceString = sref refsTuple.0;
-
 const concatStrings = "hello" ++ "world";
 const tripleConcatString = "hello" ++ "world" ++ "!";
 const string1 = "foo";

@@ -10,7 +10,6 @@
 #include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.h"
 #include "strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.h"
-#include "strategies/ref-ir-sref-expression-injector-strategy/ref-ir-sref-expression-injector-strategy.h"
 #include "strategies/ref-ir-object-access-expression-injector-strategy/ref-ir-object-access-expression-injector-strategy.h"
 #include "strategies/ref-ir-array-access-expression-injector-strategy/ref-ir-array-access-expression-injector-strategy.h"
 #include "strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h"
@@ -35,7 +34,6 @@ private:
     RefIRClassMethodInvocationExpressionInjectorStrategy _refIRClassMethodInvocationExpressionInjectorStrategy = RefIRClassMethodInvocationExpressionInjectorStrategy();
     RefIRClassStaticMethodInvocationExpressionInjectorStrategy _refIRClassStaticMethodInvocationExpressionInjectorStrategy = RefIRClassStaticMethodInvocationExpressionInjectorStrategy();
     RefIRClassPropertyAccessExpressionInjectorStrategy _refIRClassPropertyAccessExpressionInjectorStrategy = RefIRClassPropertyAccessExpressionInjectorStrategy();
-    RefIRSrefExpressionInjectorStrategy _refIRSrefExpressionInjectorStrategy = RefIRSrefExpressionInjectorStrategy();
     RefIRObjectAccessExpressionInjectorStrategy _refIRObjectAccessExpressionInjectorStrategy = RefIRObjectAccessExpressionInjectorStrategy();
     RefIRArrayAccessExpressionInjectorStrategy _refIRArrayAccessExpressionInjectorStrategy = RefIRArrayAccessExpressionInjectorStrategy();
     RefIRTupleAccessExpressionInjectorStrategy _refIRTupleAccessExpressionInjectorStrategy = RefIRTupleAccessExpressionInjectorStrategy();

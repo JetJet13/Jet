@@ -433,12 +433,6 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-dref-expression-injector-strategy/string-ir-dref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/pointer-ir-injector-helper/pointer-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/pointer-ir-injector-helper/pointer-ir-injector-helper.h
-        ir-generator/ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.cpp
-        ir-generator/ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h
-        ir-nodes/ir-expression-nodes/ir-sref-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-sref-expression-node.h
-        ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-sref-expression-injector-strategy/pointer-ir-sref-expression-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-sref-expression-injector-strategy/pointer-ir-sref-expression-injector-strategy.h
         ir-generator/ir-util-functions/copy-array-ir-function/copy-array-ir-function.cpp
         ir-generator/ir-util-functions/copy-array-ir-function/copy-array-ir-function.h
         ir-generator/ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.cpp
@@ -474,8 +468,6 @@ add_library(jet-vm
         ir-generator/ir-strategies/type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/ref-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/ref-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-sref-expression-injector-strategy/ref-ir-sref-expression-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-sref-expression-injector-strategy/ref-ir-sref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.cpp
@@ -484,8 +476,6 @@ add_library(jet-vm
         ir-generator/ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h
         ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.cpp
         ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.h
-        ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.cpp
-        ir-generator/ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.cpp
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp
@@ -608,8 +598,6 @@ add_library(jet-vm
         types/ir-ref-prototype-function.h
         ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.cpp
         ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.h
-        ir-generator/ir-util-functions/sref-with-ir-function/sref-with-ir-function.cpp
-        ir-generator/ir-util-functions/sref-with-ir-function/sref-with-ir-function.h
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp

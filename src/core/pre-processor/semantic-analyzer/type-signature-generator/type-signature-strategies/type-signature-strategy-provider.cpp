@@ -33,7 +33,6 @@
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/sref-expression-type-signature-strategy/sref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
@@ -372,11 +371,6 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(ASTNode* node, TypeSi
             this->_typeSignatureStrategyMap
                     ->getDrefExpressionTypeSignatureStrategy()
                     ->assign((ASTDrefExpressionNode*) node, context, typeSignatureScope, this);
-            break;
-        case AST_SREF_EXPRESSION_NODE:
-            this->_typeSignatureStrategyMap
-                    ->getSrefExpressionTypeSignatureStrategy()
-                    ->assign((ASTSrefExpressionNode*) node, context, typeSignatureScope, this);
             break;
         case AST_PUBLIC_NODE:
         case AST_PROTECTED_NODE:

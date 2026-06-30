@@ -34,7 +34,6 @@
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
-#include "ir-strategies/expression-ir-strategies/sref-expression-ir-strategy/sref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/print-statement-ir-strategy/print-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
@@ -106,7 +105,6 @@
 #include "ir-util-functions/free-string-ir-function/free-string-ir-function.h"
 #include "ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h"
 #include "ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
-#include "ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 #include "ir-util-functions/range-ir-function/range-ir-function.h"
 #include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
@@ -129,7 +127,6 @@
 #include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
 #include "ir-prototypes/ir-ref-prototype-map.h"
 #include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
-#include "ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
 #include "ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
 #include "ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.h"
 #include "ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h"
@@ -335,8 +332,6 @@ IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTabl
         return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperation);
-    } else if (node->is(AST_SREF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getSrefExpressionIRStrategy()->generate((ASTSrefExpressionNode*)node,  this, scope, irContext, irOperation);
     } else if (node->is(AST_MODULE_ACCESS_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate((ASTModuleAccessExpressionNode*)node,  this, scope, irContext, irOperation);
     }
@@ -1301,11 +1296,9 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             ArraySizeIRFunction::getArraySizeIRFunctionName(),
             ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
-            SetupSrefIRFunction::getSetupSrefIRFunctionName(),
             SetupRefIRFunction::getSetupRefIRFunctionName(),
             SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName(),
             RefOfIRFunction::getRefOfIRFunctionName(),
-            SrefWithIRFunction::getSrefWithIRFunctionName(),
             SameRefAsIRFunction::getSameRefAsIRFunctionName(),
             SetRefValueIRFunction::getSetRefValueIRFunctionName(),
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),

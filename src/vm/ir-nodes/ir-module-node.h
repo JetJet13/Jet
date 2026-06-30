@@ -83,11 +83,9 @@ private:
     std::string _arraySizeFunctionName;
     std::string _arrayEmptyFunctionName;
     std::string _memcpyFunctionName;
-    std::string _setupSrefFunctionName;
     std::string _setupRefFunctionName;
     std::string _setupRefForStructFunctionName;
     std::string _refOfFunctionName;
-    std::string _srefWithFunctionName;
     std::string _sameRefAsFunctionName;
     std::string _setRefValueFunctionName;
     std::string _incrementRefCountFunctionName;
@@ -167,11 +165,9 @@ public:
                  std::string arraySizeFunctionName,
                  std::string arrayEmptyFunctionName,
                  std::string memcpyFunctionName,
-                 std::string setupSrefFunctionName,
                  std::string setupRefFunctionName,
                  std::string setupRefForStructFunctionName,
                  std::string refOfFunctionName,
-                 std::string srefWithFunctionName,
                  std::string sameRefAsFunctionName,
                  std::string _setRefValueFunctionName,
                  std::string incrementRefCountFunctionName,
@@ -253,11 +249,9 @@ public:
     llvm::Function* getArraySizeFunction();
     llvm::Function* getArrayEmptyFunction();
     llvm::Function* getMemcpyFunction();
-    llvm::Function* getSetupSrefFunction();
     llvm::Function* getSetupRefFunction();
     llvm::Function* getSetupRefForStructFunction();
     llvm::Function* getRefOfFunction();
-    llvm::Function* getSrefWithFunction();
     llvm::Function* getSameRefAsFunction();
     llvm::Function* getSetRefValueFunction();
     llvm::Function* getIncrementRefCountFunction();

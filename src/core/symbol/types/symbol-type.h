@@ -80,7 +80,6 @@ typedef enum {
     SYM_EXPORT,
     SYM_REF,
     SYM_DREF,
-    SYM_SREF,
     SYM_CONCAT,
     SYM_INTERFACE,
     SYM_IMPLEMENTS,

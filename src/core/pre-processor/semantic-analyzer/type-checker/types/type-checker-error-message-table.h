@@ -235,9 +235,6 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda DrefExpressionTypeInvalid(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "dref expression does not have type ref"); };
     }
-    static ErrorMessageLambda SrefExpressionTypeInvalid(ASTNode* node) {
-      return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "sref expression does not have type ref"); };
-    }
     static ErrorMessageLambda RefExpressionTypeInvalid(ASTNode* node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "ref expression cannot have type ref"); };
     }

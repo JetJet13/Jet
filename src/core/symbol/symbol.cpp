@@ -329,10 +329,6 @@ bool Symbol::isDref() {
     return _type == SYM_DREF;
 }
 
-bool Symbol::isSref() {
-    return _type == SYM_SREF;
-}
-
 bool Symbol::isConcat() {
     return _type == SYM_CONCAT;
 }

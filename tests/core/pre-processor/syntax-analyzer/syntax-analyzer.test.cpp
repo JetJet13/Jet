@@ -3290,37 +3290,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {217, new ASTVariableDeclarationNode(
-                ASTNodeFactory::constInit,
-                ASTNodeFactory::createSrefExpression(ASTNodeFactory::idExpression)
-        )},
-        {218, new ASTVariableDeclarationNode(
-                ASTNodeFactory::constInit,
-                ASTNodeFactory::createSrefExpression(
-                        ASTNodeFactory::createObjectAccessExpression(
-                                ASTNodeFactory::objectAccessSourceId,
-                                ASTNodeFactory::objectAccessTargetId
-                        )
-                )
-        )},
-        {219, new ASTVariableDeclarationNode(
-                ASTNodeFactory::constInit,
-                ASTNodeFactory::createSrefExpression(
-                        new ASTArrayAccessExpressionNode(
-                                ASTNodeFactory::idExpression,
-                                ASTNodeFactory::arrayAccessInt
-                        )
-                )
-        )},
-        {220, new ASTVariableDeclarationNode(
-                ASTNodeFactory::constInit,
-                ASTNodeFactory::createSrefExpression(
-                        ASTNodeFactory::createTupleAccessExpression(
-                                ASTNodeFactory::objectAccessSourceId,
-                                ASTNodeFactory::tupleAccess
-                        )
-                )
-        )},
+
+
         {221, new ASTVariableDeclarationNode(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createConcatExpression(

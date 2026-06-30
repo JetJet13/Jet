@@ -36,9 +36,7 @@
 #include "../../ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h"
 #include "../../ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h"
 #include "../../ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
-#include "../../ir-util-functions/sref-with-ir-function/sref-with-ir-function.h"
 #include "../../ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
-#include "../../ir-util-functions/setup-sref-ir-function/setup-sref-ir-function.h"
 #include "../../ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 #include "../../ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.h"
 #include "../../ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
@@ -142,11 +140,9 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGene
     IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(irGenerator, context, irModule);
     IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessaryFunction(irGenerator, context, irModule);
     RefOfIRFunction::generateRefOfFunction(irGenerator, context, irModule);
-    SrefWithIRFunction::generateSrefWithFunction(irGenerator, context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(irGenerator, context, irModule);
     FreeRefValueIRFunction::generateFreeRefValueFunction(irGenerator, context, irModule);
     SetRefValueIRFunction::generateSetRefValueFunction(irGenerator, context, irModule);
-    SetupSrefIRFunction::generateSetupSrefFunction(irGenerator, context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(irGenerator, context, irModule);
     SetupRefForStructIRFunction::generateSetupRefForStructFunction(irGenerator, context, irModule);
     CopyValueIRFunction::generateCopyValueFunction(irGenerator, context, irModule);

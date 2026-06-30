@@ -100,7 +100,6 @@
 #include "reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h"
-#include "reducer-strategies/sref-expression-reducer-strategy/sref-expression-reducer-strategy.h"
 #include "reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h"
 #include "reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.h"
@@ -258,7 +257,6 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_THIS_EXPRESSION_NODE, new ThisExpressionReducerStrategy());
     this->addStrategy(AST_REF_EXPRESSION_NODE, new RefExpressionReducerStrategy());
     this->addStrategy(AST_DREF_EXPRESSION_NODE, new DrefExpressionReducerStrategy());
-    this->addStrategy(AST_SREF_EXPRESSION_NODE, new SrefExpressionReducerStrategy());
     this->addStrategy(AST_CONCAT_EXPRESSION_NODE, new ConcatExpressionReducerStrategy());
     this->addStrategy(AST_REF_TYPE_NODE, new RefTypeReducerStrategy());
     this->addStrategy(AST_INTERFACE_DEFINITION_NODE, new InterfaceDefinitionReducerStrategy());

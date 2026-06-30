@@ -149,36 +149,36 @@ func getRefArray(y: [int]): ref<[int]> {
 }
 
 proc testClass() {
-    //const mySimpleClass = new SimpleClass(100);
-    //const staticResult = 200 + SimpleClass.staticValue;
-    //assert(staticResult == 300);
+    const mySimpleClass = new SimpleClass(100);
+    const staticResult = 200 + SimpleClass.staticValue;
+    assert(staticResult == 300);
 
     SimpleClass.staticValue = 150;
-    //assert(SimpleClass.staticValue == 150);
+    assert(SimpleClass.staticValue == 150);
 
-    //const myComplexClass = new ComplexClass(18);
-    //assert(myComplexClass.getAge() == 18);
-    //assert(myComplexClass.getName() == "Joe");
-    //assert(myComplexClass.getHairColor() == "Black");
-    //assert(myComplexClass.age == 18);
-    //assert(myComplexClass.name == "Joe");
-    //assert(myComplexClass.hairColor == "Black");
+    const myComplexClass = new ComplexClass(18);
+    assert(myComplexClass.getAge() == 18);
+    assert(myComplexClass.getName() == "Joe");
+    assert(myComplexClass.getHairColor() == "Black");
+    assert(myComplexClass.age == 18);
+    assert(myComplexClass.name == "Joe");
+    assert(myComplexClass.hairColor == "Black");
 
-    //const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
-    //assert(myOtherComplexClass.getAge() == 28);
-    //assert(myOtherComplexClass.getName() == "Roger");
-    //assert(myOtherComplexClass.getHairColor() == "Brown");
-    //assert(myOtherComplexClass.age == 28);
-    //assert(myOtherComplexClass.name == "Roger");
-    //assert(myOtherComplexClass.hairColor == "Brown");
+    const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
+    assert(myOtherComplexClass.getAge() == 28);
+    assert(myOtherComplexClass.getName() == "Roger");
+    assert(myOtherComplexClass.getHairColor() == "Brown");
+    assert(myOtherComplexClass.age == 28);
+    assert(myOtherComplexClass.name == "Roger");
+    assert(myOtherComplexClass.hairColor == "Brown");
 
-    //const myStaticComplexClass = ComplexClass.create();
-    //assert(myStaticComplexClass.getAge() == 2);
-    //assert(myStaticComplexClass.getName() == "Joe");
-    //assert(myStaticComplexClass.getHairColor() == "Black");
-    //assert(myStaticComplexClass.age == 2);
-    //assert(myStaticComplexClass.name == "Joe");
-    //assert(myStaticComplexClass.hairColor == "Black");
+    const myStaticComplexClass = ComplexClass.create();
+    assert(myStaticComplexClass.getAge() == 2);
+    assert(myStaticComplexClass.getName() == "Joe");
+    assert(myStaticComplexClass.getHairColor() == "Black");
+    assert(myStaticComplexClass.age == 2);
+    assert(myStaticComplexClass.name == "Joe");
+    assert(myStaticComplexClass.hairColor == "Black");
 
 }
 testClass();

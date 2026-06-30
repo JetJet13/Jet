@@ -1383,7 +1383,7 @@ testRefPrototype();
 
 proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
     assertDebugRefCount(s, 2);
-    const localArgRef = sref s;
+    const localArgRef = s;
     print("localArgRef", s.a);
     assertDebugRefCount(s, 3);
 }

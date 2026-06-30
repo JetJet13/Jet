@@ -180,7 +180,7 @@ proc testCopyFunctions() {
 proc testRefFunctions() {
     let x = 50;
     const refX = ref x;
-    const srefX = sref refX;
+    const srefX = refX;
     const y = dref refX;
     print("refX", x, refX, srefX, y);
     x = 45;
@@ -217,8 +217,8 @@ proc testRefFunctions() {
     print("novo.evo", myObj.nest.novo.0, refMyObj.nest.novo.0);
     const myTuple = { 13, true, { 'n', [1, 55, 6], { "evo", true, 113 } } };
     const refMyTuple = ref myTuple;
-    const refMyTupleCopy = sref refMyTuple;
-    const srefMyTuple = sref refMyTuple;
+    const refMyTupleCopy = refMyTuple;
+    const srefMyTuple = refMyTuple;
     const otherRefMyTuple = ref myTuple;
     const refMyTupleFoo = refMyTuple.0;
     print("refMyTuple", refMyTupleFoo, refMyTuple.0);
@@ -233,8 +233,8 @@ proc testRefFunctions() {
     assert(myTuple.0 == refTupleFoo);
     assert(refMyTuple == myTuple);
     assert(refMyTuple.refOf(myTuple));
-    assert(refMyTuple.srefWith(srefMyTuple));
-    assert(refMyTuple.srefWith(otherRefMyTuple));
+    assert(refMyTuple.sameRefAs(srefMyTuple));
+    assert(refMyTuple.sameRefAs(otherRefMyTuple));
     assert(refMyTuple.sameRefAs(otherRefMyTuple), "My custom message!");
     assert(myTuple.0 == refMyTuple.0);
     print("refTupleFoo (updated)", myTuple.0, refMyTuple.0, refTupleFoo);
@@ -462,7 +462,7 @@ proc testEquality() {
     assert(firstEnum == MyEnum.Alpha, "firstEnum == MyEnum.Alpha");
 
     // ref tests
-    const otherFirstRef = sref firstRef;
+    const otherFirstRef = firstRef;
     assert(firstRef != secondRef, "firstRef != secondRef");
     assert(firstRef == firstRef, "firstRef == firstRef");
     assert(firstRef == otherFirstRef, "firstRef == otherFirstRef");
@@ -513,15 +513,15 @@ proc testRefCleanup() {
     assertDebugRefCount(x, 1);
     if x > 10 {
         assertDebugRefCount(x, 1);
-        const ifXStruct = { foo: sref x, bar: 500, mars: "Hello world" };
+        const ifXStruct = { foo: x, bar: 500, mars: "Hello world" };
         assertDebugRefCount(x, 2);
     }
     assertDebugRefCount(x, 1);
-    const y = sref x;
+    const y = x;
     assertDebugRefCount(x, 2);
     if y > 10 {
         assertDebugRefCount(x, 2);
-        const ifYStruct = { foo: sref y, bar: 100, mars: [1,2,3,4] };
+        const ifYStruct = { foo: y, bar: 100, mars: [1,2,3,4] };
         assertDebugRefCount(x, 3);
     }
     assertDebugRefCount(x, 2);
@@ -531,10 +531,10 @@ proc testArcLiteral() {
     const x = 50;
     const refX = ref x;
     const lambdaX = () => x + 125;
-    const srefX = sref refX;
+    const srefX = refX;
     const otherRefX = ref x;
     if x > 20 {
-        const nestedRefX = sref refX;
+        const nestedRefX = refX;
     }
 }
 
@@ -542,7 +542,7 @@ proc testArcArray() {
     const y = [100, 200, 300];
     const refY = ref y;
     const lambdaY = () => y[0] + 125;
-    const srefY = sref refY;
+    const srefY = refY;
     const otherRefY = ref y;
 }
 
@@ -550,14 +550,14 @@ proc testArcStruct() {
     const z = { a: 10, b: true, mars: { hello: "world", nested: { g: 10 } }, voo: { 50.1, false, 'c' }, zoom: [100, 400, 900] };
     const refZ = ref z;
     const lambdaZ = () => z.a + 125;
-    const srefZ = sref refZ;
-    const secondSrefZ = sref srefZ;
+    const srefZ = refZ;
+    const secondSrefZ = srefZ;
     const otherRefZ = ref z;
 }
 
 proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
     assertDebugRefCount(s, 2);
-    const localArgRef = sref s;
+    const localArgRef = s;
     print("localArgRef", s.a);
     assertDebugRefCount(s, 3);
 }
@@ -577,9 +577,9 @@ func testPassUpInt() ref<int> {
 
 proc testArcPassUp() {
     assertDebugRefCount(testPassUpInt(), 1);
-    const passedUpX = sref testPassUpInt();
+    const passedUpX = testPassUpInt();
     assertDebugRefCount(passedUpX, 2);
-    const anotherX = sref passedUpX;
+    const anotherX = passedUpX;
     assertDebugRefCount(passedUpX, 3);
     print("passedUpX", passedUpX);
     assert(passedUpX == 121);
