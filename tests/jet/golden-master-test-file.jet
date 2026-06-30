@@ -19,6 +19,7 @@ import BigModule from "./big-module.jet";
 
 class SimpleClass {
     public static staticValue: int = 100;
+    public static staticRefValue: ref<int> = ref 101;
     public value: int;
 
     constructor(value: int) {
@@ -2482,3 +2483,192 @@ proc assignParameterTest(val: int, expectedVal: int) {
     assert(val == expectedVal);
 }
 assignParameterTest(4, 5);
+
+proc testRefValueAssignment() {
+    const myArrayWithRefs = [ ref 1, ref 2, ref 3, ref 4 ];
+    assert(myArrayWithRefs[0] == 1);
+    myArrayWithRefs[0] := 190;
+    assert(myArrayWithRefs[0] == 190);
+
+    const myStructWithRefs = {
+        a: ref 5,
+        b: ref 10.01,
+        c: ref false,
+        d: ref 'z',
+        e: ref "hello",
+        f: ref [1,2,3],
+        g: ref { a: ref 5, b: ref false },
+        h: ref { ref 5, ref false },
+        i: ref new SimpleClass(40),
+        j: ref BigModule::BIG_INT,
+        k: ref SimpleEnum.Alpha,
+        l: ref StringEnum.Alpha
+    };
+
+    assert(myStructWithRefs.a == 5);
+    myStructWithRefs.a := 50;
+    assert(myStructWithRefs.a == 50);
+
+    assert(myStructWithRefs.b == 10.01);
+    myStructWithRefs.b := 100.01;
+    assert(myStructWithRefs.b == 100.01);
+
+    assert(myStructWithRefs.c == false);
+    myStructWithRefs.c := true;
+    assert(myStructWithRefs.c == true);
+
+    assert(myStructWithRefs.d == 'z');
+    myStructWithRefs.d := 'n';
+    assert(myStructWithRefs.d == 'n');
+
+    assert(myStructWithRefs.e == "hello");
+    myStructWithRefs.e := "world";
+    assert(myStructWithRefs.e == "world");
+
+    assert(myStructWithRefs.f == [1,2,3]);
+    myStructWithRefs.f := [4,5,6];
+    assert(myStructWithRefs.f == [4,5,6]);
+
+    assert(myStructWithRefs.g.a == 5);
+    assert(myStructWithRefs.g.b == false);
+    myStructWithRefs.g.a := 51;
+    myStructWithRefs.g.b := true;
+    assert(myStructWithRefs.g.a == 51);
+    assert(myStructWithRefs.g.b == true);
+
+    print(myStructWithRefs.h.0);
+    assert(myStructWithRefs.h.0 == 5);
+    assert(myStructWithRefs.h.1 == false);
+    myStructWithRefs.h.0 := 52;
+    myStructWithRefs.h.1 := true;
+    assert(myStructWithRefs.h.0 == 52);
+    assert(myStructWithRefs.h.1 == true);
+
+    assert(myStructWithRefs.i == new SimpleClass(40));
+    myStructWithRefs.i := new SimpleClass(80);
+    assert(myStructWithRefs.i == new SimpleClass(80));
+
+    assert(myStructWithRefs.j == BigModule::BIG_INT);
+    myStructWithRefs.j := BigModule::BIG_SECOND_INT;
+    assert(myStructWithRefs.j == BigModule::BIG_SECOND_INT);
+
+    assert(myStructWithRefs.k == SimpleEnum.Alpha);
+    myStructWithRefs.k := SimpleEnum.Beta;
+    assert(myStructWithRefs.k == SimpleEnum.Beta);
+
+    assert(myStructWithRefs.l == StringEnum.Alpha);
+    myStructWithRefs.l := StringEnum.Beta;
+    assert(myStructWithRefs.l == StringEnum.Beta);
+
+    const myTupleWithRefs = {
+        ref 5,
+        ref 10.01,
+        ref false,
+        ref 'z',
+        ref "hello",
+        ref [1,2,3],
+        ref { a: ref 5, b: ref false },
+        ref { ref 5, ref false },
+        ref new SimpleClass(40),
+        ref BigModule::BIG_INT,
+        ref SimpleEnum.Alpha,
+        ref StringEnum.Alpha
+    };
+
+    assert(myTupleWithRefs.0 == 5);
+    myTupleWithRefs.0 := 50;
+    assert(myTupleWithRefs.0 == 50);
+
+    assert(myTupleWithRefs.1 == 10.01);
+    myTupleWithRefs.1 := 100.01;
+    assert(myTupleWithRefs.1 == 100.01);
+
+    assert(myTupleWithRefs.2 == false);
+    myTupleWithRefs.2 := true;
+    assert(myTupleWithRefs.2 == true);
+
+    assert(myTupleWithRefs.3 == 'z');
+    myTupleWithRefs.3 := 'n';
+    assert(myTupleWithRefs.3 == 'n');
+
+    assert(myTupleWithRefs.4 == "hello");
+    myTupleWithRefs.4 := "world";
+    assert(myTupleWithRefs.4 == "world");
+
+    assert(myTupleWithRefs.5 == [1,2,3]);
+    myTupleWithRefs.5 := [4,5,6];
+    assert(myTupleWithRefs.5 == [4,5,6]);
+
+    assert(myTupleWithRefs.6.a == 5);
+    assert(myTupleWithRefs.6.b == false);
+    myTupleWithRefs.6.a := 51;
+    myTupleWithRefs.6.b := true;
+    assert(myTupleWithRefs.6.a == 51);
+    assert(myTupleWithRefs.6.b == true);
+
+    assert(myTupleWithRefs.7.0 == 5);
+    assert(myTupleWithRefs.7.1 == false);
+    myTupleWithRefs.7.0 := 52;
+    myTupleWithRefs.7.1 := true;
+    assert(myTupleWithRefs.7.0 == 52);
+    assert(myTupleWithRefs.7.1 == true);
+
+    assert(myTupleWithRefs.8 == new SimpleClass(40));
+    myTupleWithRefs.8 := new SimpleClass(80);
+    assert(myTupleWithRefs.8 == new SimpleClass(80));
+
+    assert(myTupleWithRefs.9 == BigModule::BIG_INT);
+    myTupleWithRefs.9 := BigModule::BIG_SECOND_INT;
+    assert(myTupleWithRefs.9 == BigModule::BIG_SECOND_INT);
+
+    assert(myTupleWithRefs.10 == SimpleEnum.Alpha);
+    myTupleWithRefs.10 := SimpleEnum.Beta;
+    assert(myTupleWithRefs.10 == SimpleEnum.Beta);
+
+    assert(myTupleWithRefs.11 == StringEnum.Alpha);
+    myTupleWithRefs.11 := StringEnum.Beta;
+    assert(myTupleWithRefs.11 == StringEnum.Beta);
+
+    assert(SimpleClass.staticRefValue == 101);
+    SimpleClass.staticRefValue := 202;
+    assert(SimpleClass.staticRefValue == 202);
+
+    assert(BigModule::BIG_STRUCT_REF.foo == 1);
+    BigModule::BIG_STRUCT_REF.foo := 20;
+    assert(BigModule::BIG_STRUCT_REF.foo == 20);
+
+    assert(BigModule::BIG_STRUCT_REF.bar == true);
+    BigModule::BIG_STRUCT_REF.bar := false;
+    assert(BigModule::BIG_STRUCT_REF.bar == false);
+
+    assert(BigModule::BIG_STRUCT_REF.mars == 2);
+    BigModule::BIG_STRUCT_REF.mars := 290;
+    assert(BigModule::BIG_STRUCT_REF.mars == 290);
+
+    BigModule::BIG_STRUCT_REF := { foo: ref 3, bar: ref true, mars: ref 5 };
+    assert(BigModule::BIG_STRUCT_REF == {
+        foo: BigModule::BIG_STRUCT_REF.foo,
+        bar: BigModule::BIG_STRUCT_REF.bar,
+        mars: BigModule::BIG_STRUCT_REF.mars
+    });
+
+    assert(BigModule::BIG_TUPLE_REF.0 == 1);
+    BigModule::BIG_TUPLE_REF.0 := 20;
+    assert(BigModule::BIG_TUPLE_REF.0 == 20);
+
+    assert(BigModule::BIG_TUPLE_REF.1 == false);
+    BigModule::BIG_TUPLE_REF.1 := true;
+    assert(BigModule::BIG_TUPLE_REF.1 == true);
+
+    assert(BigModule::BIG_TUPLE_REF.2 == 2);
+    BigModule::BIG_TUPLE_REF.2 := 290;
+    assert(BigModule::BIG_TUPLE_REF.2 == 290);
+
+    BigModule::BIG_TUPLE_REF := { ref 3, ref true, ref 5 };
+    assert(BigModule::BIG_TUPLE_REF == {
+        BigModule::BIG_TUPLE_REF.0,
+        BigModule::BIG_TUPLE_REF.1,
+        BigModule::BIG_TUPLE_REF.2
+    });
+}
+testRefValueAssignment();

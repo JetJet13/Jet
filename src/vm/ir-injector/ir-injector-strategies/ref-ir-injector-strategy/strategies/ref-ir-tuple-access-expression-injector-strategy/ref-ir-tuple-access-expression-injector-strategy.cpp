@@ -9,7 +9,7 @@
 #include "../../../../../ir-type/ir-ref-type.h"
 
 llvm::Value* RefIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    if (irOperation->isCopy() || irOperation->isCopyGlobal()) {
+    if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionArgument()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
         return this->injectOperand(irExpression, irBlock, irInjector, irOperation, irModule, scope);
@@ -17,7 +17,7 @@ llvm::Value* RefIRTupleAccessExpressionInjectorStrategy::inject(IRTupleAccessExp
 }
 
 llvm::Value* RefIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto sourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { pointer });
     return InstructionIRInjectorHelper::injectLoad(irExpression->getTargetIRType()->getType(), pointer, irBlock);
@@ -28,8 +28,8 @@ llvm::Value* RefIRTupleAccessExpressionInjectorStrategy::injectOperand(IRTupleAc
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointerToIndexedElement = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, loadedPointerToIndexedElement);
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
-        auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), pointerToIndexedElement, irRefType->getRefValueIndex());
-        return InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
+        auto refValue = InstructionIRInjectorHelper::injectLoad(irRefType->getType(), pointerToIndexedElement, irBlock);
+        return irBlock->getBuilder()->get()->CreateExtractValue(refValue, irRefType->getRefValueIndex());
     } else if (irOperation->isOperandPointer()) {
         return pointerToIndexedElement;
     } else if (irOperation->isOperandValue() && irOperation->isUnderlying()) {

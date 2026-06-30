@@ -23,5 +23,5 @@ llvm::Value* ModuleAccessIRInjectorHelper::inject(IRModuleAccessExpressionNode* 
         return InstructionIRInjectorHelper::injectLoad(irType->getType(), allocation, irBlock);
     }
 
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getSourceType()->getType(), irExpression->getValue(), irBlock, irExpression->getIRType()->getSourceType());
 }

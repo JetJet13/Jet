@@ -19,11 +19,11 @@ IRExpressionNode* IRClassStaticPropertyAssignmentStatementNode::getIRExpression(
 }
 
 IRNodeType IRClassStaticPropertyAssignmentStatementNode::getNodeType() {
-    return IR_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_STATEMENT_NODE;
+    return IR_CLASS_STATIC_PROPERTY_ASSIGNMENT_STATEMENT_NODE;
 }
 
 std::string IRClassStaticPropertyAssignmentStatementNode::toString() {
-    return "IR_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_STATEMENT_NODE";
+    return "IR_CLASS_STATIC_PROPERTY_ASSIGNMENT_STATEMENT_NODE";
 }
 
 void IRClassStaticPropertyAssignmentStatementNode::print(std::unique_ptr<llvm::raw_fd_ostream> *stream) {
