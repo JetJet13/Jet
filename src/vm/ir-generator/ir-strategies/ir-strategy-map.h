@@ -51,7 +51,6 @@ class WhileStatementIRStrategy;
 class ForInStatementIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
-class PrintStatementIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
 class ArrayAccessRefAssignmentStatementIRStrategy;
 class ObjectAccessAssignmentStatementIRStrategy;
@@ -126,7 +125,6 @@ private:
     LambdaExpressionIRStrategy* _lambdaExpressionIRStrategy;
     ModuleAccessExpressionIRStrategy* _moduleAccessExpressionIRStrategy;
     ExpressionStatementIRStrategy* _expressionStatementIRStrategy;
-    PrintStatementIRStrategy* _printStatementIRStrategy;
     ClassDeclarationIRStrategy* _classDeclarationIRStrategy;
     ClassPropertyAccessExpressionIRStrategy* _classPropertyAccessExpressionIRStrategy;
     ClassMethodInvocationExpressionIRStrategy* _classMethodInvocationExpressionIRStrategy;
@@ -210,7 +208,6 @@ public:
     LambdaExpressionIRStrategy* getLambdaExpressionIRStrategy();
     ModuleAccessExpressionIRStrategy* getModuleAccessExpressionIRStrategy();
     ExpressionStatementIRStrategy* getExpressionStatementIRStrategy();
-    PrintStatementIRStrategy* getPrintStatementIRStrategy();
     ClassDeclarationIRStrategy* getClassDeclarationIRStrategy();
     ClassPropertyAccessExpressionIRStrategy* getClassPropertyAccessExpressionIRStrategy();
     ClassMethodInvocationExpressionIRStrategy* getClassMethodInvocationExpressionIRStrategy();

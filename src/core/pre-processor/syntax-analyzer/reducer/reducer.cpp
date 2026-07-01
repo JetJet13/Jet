@@ -113,7 +113,6 @@
 #include "reducer-strategies/custom-type-declaration-reducer-strategy/custom-type-declaration-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.h"
 #include "reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.h"
-#include "reducer-strategies/print-statement-reducer-strategy/print-statement-reducer-strategy.h"
 #include "reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h"

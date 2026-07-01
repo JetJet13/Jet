@@ -221,7 +221,6 @@ void SyntaxDfa::init() {
     DFANode* lambdaTypeParameterListStart = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE);
     DFANode* lambdaTypeParameterListEnd = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
     DFANode* lambdaTypeParameterList = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
-    DFANode* printKeyword = DFANodeFactory::Once::create(AST_PRINT_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -1820,13 +1819,6 @@ void SyntaxDfa::init() {
     typeAssignmentOperator
     ->markAlwaysReduceSelf();
 
-    printKeyword
-    ->markAlwaysReduceSelf()
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_PRINT_STATEMENT_NODE)
-    ));
-
     _dfa
     ->insertStartNode(varDeclaration)
     ->insertStartNode(varType)
@@ -2041,7 +2033,6 @@ void SyntaxDfa::init() {
     ->insertStartNode(lambdaTypeParameterListStart)
     ->insertStartNode(lambdaTypeParameterListEnd)
     ->insertStartNode(lambdaTypeParameterList)
-    ->insertStartNode(printKeyword)
     ->insertStartNode(DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_LIST_NODE))
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_START_NODE)->markAlwaysReduceSelf())
     ->insertStartNode(DFANodeFactory::Once::create(AST_INTERFACE_END_NODE)->markAlwaysReduceSelf())

@@ -133,8 +133,6 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-name-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-assignment-operator-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-print-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-print-statement-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
@@ -278,7 +276,6 @@ namespace ASTNodeFactory {
     static ASTConcatNode* concatOperator = new ASTConcatNode(createLexeme(SymbolFactory::createConcatSymbol()));
     static ASTInterfaceNode* interfaceKeyword = new ASTInterfaceNode(createLexeme(SymbolFactory::createInterfaceSymbol()));
     static ASTImplementsNode* implementsKeyword = new ASTImplementsNode(createLexeme(SymbolFactory::createImplementsSymbol()));
-    static ASTPrintNode* printKeyword = new ASTPrintNode(createLexeme(SymbolFactory::createPrintSymbol()));
     static ASTImplementsInterfaceNameNode* implementsInterfaceName = new ASTImplementsInterfaceNameNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
     static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
             ASTNodeFactory::bang,
@@ -743,14 +740,6 @@ namespace ASTNodeFactory {
                 contents,
                 ASTNodeFactory::createCommaList(contents.size()),
                 ASTNodeFactory::functionArgumentListEnd
-        );
-    }
-    static ASTExpressionStatementNode* createPrintStatement(std::vector<ASTFunctionArgumentNode*> arguments = {}) {
-        return new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
-                    ASTNodeFactory::callableIdExpression,
-                    ASTNodeFactory::createFunctionArgumentList(arguments)
-                )
         );
     }
     static ASTTupleExpressionNode* createTupleExpression(std::vector<ASTExpressionNode*> expressions = {}) {

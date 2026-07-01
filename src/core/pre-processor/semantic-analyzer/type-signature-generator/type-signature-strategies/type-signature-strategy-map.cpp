@@ -67,7 +67,6 @@
 #include "for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.h"
 #include "condition-type-signature-strategy/condition-type-signature-strategy.h"
 #include "expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.h"
-#include "print-statement-type-signature-strategy/print-statement-type-signature-strategy.h"
 #include "import-type-signature-strategy/import-type-signature-strategy.h"
 #include "module-type-signature-strategy/module-type-signature-strategy.h"
 #include "interface-type-signature-strategy/interface-type-signature-strategy.h"
@@ -146,7 +145,6 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _refValueAssignmentStatementTypeSignatureStrategy = new RefValueAssignmentStatementTypeSignatureStrategy();
     _blockTypeSignatureStrategy = new BlockTypeSignatureStrategy();
     _expressionStatementTypeSignatureStrategy = new ExpressionStatementTypeSignatureStrategy();
-    _printStatementTypeSignatureStrategy = new PrintStatementTypeSignatureStrategy();
     _conditionTypeSignatureStrategy = new ConditionTypeSignatureStrategy();
     _forStatementTypeSignatureStrategy = new ForInStatementTypeSignatureStrategy();
     _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
@@ -441,10 +439,6 @@ BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrat
 
 ExpressionStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getExpressionStatementTypeSignatureStrategy() {
     return _expressionStatementTypeSignatureStrategy;
-}
-
-PrintStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getPrintStatementTypeSignatureStrategy() {
-    return _printStatementTypeSignatureStrategy;
 }
 
 ConditionTypeSignatureStrategy* TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {

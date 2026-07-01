@@ -50,7 +50,6 @@ class IfStatementIRInjectorStrategy;
 class WhileStatementIRInjectorStrategy;
 class ForInStatementIRInjectorStrategy;
 class ExpressionStatementIRInjectorStrategy;
-class PrintStatementIRInjectorStrategy;
 class ProcedureDeclarationIRInjectorStrategy;
 class FunctionDeclarationIRInjectorStrategy;
 class TypeValueIRInjectorStrategy;
@@ -94,7 +93,6 @@ private:
     WhileStatementIRInjectorStrategy* _whileStatementIRInjectorStrategy;
     ForInStatementIRInjectorStrategy* _forInStatementIRInjectorStrategy;
     ExpressionStatementIRInjectorStrategy* _expressionStatementIRInjectorStrategy;
-    PrintStatementIRInjectorStrategy* _printStatementIRInjectorStrategy;
     ProcedureDeclarationIRInjectorStrategy* _procedureDeclarationIRInjectorStrategy;
     FunctionDeclarationIRInjectorStrategy* _functionDeclarationIRInjectorStrategy;
     TypeValueIRInjectorStrategy* _typeValueIRInjectorStrategy;

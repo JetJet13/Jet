@@ -37,7 +37,6 @@
 #include "ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.h"
-#include "ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.h"
 #include "ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h"
@@ -81,7 +80,6 @@ IRInjector::IRInjector() {
     _whileStatementIRInjectorStrategy = new WhileStatementIRInjectorStrategy();
     _forInStatementIRInjectorStrategy = new ForInStatementIRInjectorStrategy();
     _expressionStatementIRInjectorStrategy = new ExpressionStatementIRInjectorStrategy();
-    _printStatementIRInjectorStrategy = new PrintStatementIRInjectorStrategy();
     _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
     _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
     _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
@@ -178,8 +176,6 @@ void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std:
         _forInStatementIRInjectorStrategy->inject((IRForInStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_EXPRESSION_STATEMENT_NODE)) {
         _expressionStatementIRInjectorStrategy->inject((IRExpressionStatementNode*)irStatement, irBlock, this, irModule, scope);
-    } else if (irStatement->is(IR_PRINT_STATEMENT_NODE)) {
-        _printStatementIRInjectorStrategy->inject((IRPrintStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else {
         throw std::invalid_argument("unable to find injector for statement " + std::to_string(irStatement->getNodeType()));
     }

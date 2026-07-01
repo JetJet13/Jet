@@ -1811,9 +1811,6 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 ),
                 ASTNodeFactory::createControlFlowBlock({
-                    ASTNodeFactory::createPrintStatement({
-                        new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
-                    }),
                     ASTNodeFactory::breakStatement,
                     ASTNodeFactory::skipStatement,
                 })
@@ -1857,17 +1854,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTTryBlockNode(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                           new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
                     })
                 ),
                 new ASTCatchBlockNode(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                           new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
-                       })
                     }),
                     ASTNodeFactory::catchErrorVariable
                 )
@@ -1876,17 +1867,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTTryBlockNode(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
                     })
                 ),
                 new ASTCatchBlockNode(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                           new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
                     })
                 )
         )},
@@ -1894,26 +1879,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTTryBlockNode(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                          new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                        })
                     })
                 ),
                 new ASTCatchBlockNode(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
-                        })
                     }),
                     ASTNodeFactory::catchErrorVariable
                 ),
                 new ASTFinallyBlockNode(
                     ASTNodeFactory::finallyKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                        ASTNodeFactory::createPrintStatement({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                        })
                     })
                 )
         )},
@@ -1921,25 +1897,17 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 new ASTTryBlockNode(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
                     })
                 ),
                 new ASTCatchBlockNode(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                           new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
                     })
                 ),
                 new ASTFinallyBlockNode(
                     ASTNodeFactory::finallyKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                       ASTNodeFactory::createPrintStatement({
-                           new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-                       })
+
                     })
                 )
         )},
@@ -3576,9 +3544,6 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
             ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
             ASTNodeFactory::createStructKeyValue(ASTNodeFactory::falseExpression)
         }))},
-        {241, ASTNodeFactory::createPrintStatement({
-            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
-        })},
         {242, new ASTExpressionStatementNode(
                 new ASTFunctionInvocationExpressionNode(
                         ASTNodeFactory::callableIdExpression,

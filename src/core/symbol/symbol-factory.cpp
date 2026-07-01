@@ -330,8 +330,4 @@ namespace SymbolFactory {
     std::shared_ptr<Symbol> createTypeSymbol()  {
         return std::make_shared<Symbol>(SYM_TYPE, "type");
     }
-
-    std::shared_ptr<Symbol> createPrintSymbol()  {
-        return std::make_shared<Symbol>(SYM_PRINT, "print");
-    }
 }

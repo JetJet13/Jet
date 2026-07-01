@@ -551,12 +551,6 @@ add_library(jet-vm
         ir-generator/ir-strategies/custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.h
         ir-nodes/ir-type-declaration-nodes/ir-custom-type-declaration-node.cpp
         ir-nodes/ir-type-declaration-nodes/ir-custom-type-declaration-node.h
-        ir-generator/ir-strategies/print-statement-ir-strategy/print-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/print-statement-ir-strategy/print-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-print-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-print-statement-node.h
-        ir-injector/ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/print-statement-ir-injector-strategy/print-statement-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.cpp

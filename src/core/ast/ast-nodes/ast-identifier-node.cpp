@@ -29,8 +29,6 @@
 #include "ast-interface-nodes/ast-implements-interface-name-node.h"
 #include "ast-interface-nodes/ast-implements-interface-name-last-node.h"
 #include "ast-type-nodes/ast-type-name-node.h"
-#include "ast-print-node.h"
-#include "ast-range-node.h"
 #include "../../pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h"
 
 ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {

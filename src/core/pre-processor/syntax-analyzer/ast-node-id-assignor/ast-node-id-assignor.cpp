@@ -20,7 +20,6 @@
 #include "ast-node-id-strategies/module-access-expression-id-strategy/module-access-expression-id-strategy.h"
 #include "ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.h"
 #include "ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.h"
-#include "ast-node-id-strategies/print-id-strategy/print-id-strategy.h"
 
 ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
     _tokenTable = tokenTable;
@@ -30,7 +29,6 @@ ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
 
 void ASTNodeIdAssignor::initStrategies() {
     this->addStrategy(AST_IDENTIFIER_NODE, new IdentifierIdStrategy(_tokenTable));
-    this->addStrategy(AST_PRINT_NODE, new PrintIdStrategy(_tokenTable));
     this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
     this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
     this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationIdStrategy(_tokenTable));

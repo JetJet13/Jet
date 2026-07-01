@@ -349,10 +349,6 @@ bool Symbol::isVoid() {
     return _type == SYM_VOID_TYPE;
 }
 
-bool Symbol::isPrint() {
-    return _type == SYM_PRINT;
-}
-
 bool Symbol::isThis() {
     return _type == SYM_THIS;
 }
