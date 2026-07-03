@@ -11,7 +11,7 @@
 
 class LambdaWithFatArrowExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_WITH_FAT_ARROW_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -5,7 +5,7 @@
 #include "class-property-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {;
+void ClassPropertyTypeSignatureStrategy::assign(ASTClassPropertyDeclarationNode* classPropertyDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {;
     TypeSignature* classPropertyType = new UnknownTypeSignature();
     if (classPropertyDeclaration->getInitializer()) {
         strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getInitializer().value(), context, scope);

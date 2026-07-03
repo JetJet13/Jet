@@ -4,10 +4,10 @@
 
 #include "module-access-ref-assignment-statement-type-signature-strategy.h"
 
-void ModuleAccessRefAssignmentStatementTypeSignatureStrategy::assign(ASTModuleAccessRefAssignmentStatementNode* moduleAccessRefAssignmentStatement, TypeSignatureContext* context,  TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ModuleAccessRefAssignmentStatementTypeSignatureStrategy::assign(ASTModuleAccessRefAssignmentStatementNode* moduleAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context,  std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(moduleAccessRefAssignmentStatement->getModuleAccessAssignment()->getModuleAccess(), context, scope);
 
-    auto expressionStatementContext = new TypeSignatureContext(moduleAccessRefAssignmentStatement->getModuleAccessAssignment()->getModuleAccess()->getTypeSignature());
+    auto expressionStatementContext = std::make_shared<TypeSignatureContext>(moduleAccessRefAssignmentStatement->getModuleAccessAssignment()->getModuleAccess()->getTypeSignature());
     strategyMap->assignTypeSignatureFor(moduleAccessRefAssignmentStatement->getExpression(), expressionStatementContext, scope);
     moduleAccessRefAssignmentStatement->getExpression()->setTypeSignature(
             moduleAccessRefAssignmentStatement->getExpression()->getTypeSignature()->convertToVariableTypeSignature()

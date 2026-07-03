@@ -63,7 +63,7 @@ std::string ASTEnumKeyValueListNode::toString() {
     return "ENUM_KEY_VALUE_LIST";
 }
 
-bool ASTEnumKeyValueListNode::isSameAs(ASTNode *other) {
+bool ASTEnumKeyValueListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

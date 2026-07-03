@@ -39,7 +39,7 @@ std::string ASTModuleListAliasItemNode::toString() {
     return "MODULE_LIST_ALIAS_ITEM";
 }
 
-bool ASTModuleListAliasItemNode::isSameAs(ASTNode *other) {
+bool ASTModuleListAliasItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

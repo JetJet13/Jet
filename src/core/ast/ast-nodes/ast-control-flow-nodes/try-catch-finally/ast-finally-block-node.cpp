@@ -37,7 +37,7 @@ std::string ASTFinallyBlockNode::toString() {
     return "FINALLY_BLOCK";
 }
 
-bool ASTFinallyBlockNode::isSameAs(ASTNode *other) {
+bool ASTFinallyBlockNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

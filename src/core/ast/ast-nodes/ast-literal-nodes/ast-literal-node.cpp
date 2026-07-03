@@ -37,7 +37,7 @@ std::string ASTLiteralNode::toString() {
 }
 
 
-bool ASTLiteralNode::isSameAs(ASTNode *other) {
+bool ASTLiteralNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

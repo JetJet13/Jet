@@ -9,11 +9,11 @@
 
 class TypeSignatureGenerator {
 private:
-    TypeSignatureStrategyProvider* _typeSignatureStrategyProvider;
+    TypeSignatureStrategyProvider _typeSignatureStrategyProvider;
 public:
-    explicit TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider);
-    void assignInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
-    void assignPostInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
-    void assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
+    TypeSignatureGenerator();
+    void assignInitialTypeSignatureFor(ASTDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope);
+    void assignPostInitialTypeSignatureFor(ASTDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope);
+    void assignTypeSignatureFor(ASTNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope);
 };
 #endif //JETLANG_TYPE_SIGNATURE_GENERATOR_H

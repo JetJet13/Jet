@@ -30,7 +30,7 @@ std::string ASTImportModuleAliasNameNode::toString() {
     return "IMPORT_MODULE_ALIAS_NAME";
 }
 
-bool ASTImportModuleAliasNameNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleAliasNameNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

@@ -29,7 +29,7 @@ std::string ASTPrimitiveTypeNode::toString() {
     return "PRIMITIVE_TYPE";
 }
 
-bool ASTPrimitiveTypeNode::isSameAs(ASTNode *other) {
+bool ASTPrimitiveTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

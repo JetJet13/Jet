@@ -14,7 +14,7 @@
 
 class ClassPropertyAccessExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTClassPropertyAccessExpressionNode* classPropertyExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope);
+    void assign(ASTClassPropertyAccessExpressionNode* classPropertyExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

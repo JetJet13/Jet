@@ -16,7 +16,7 @@ IRLogicalExpressionNode* LogicalExpressionIRStrategy::generate(ASTLogicalExpress
     ), irType, leftExpressionIr, rightExpressionIr);
 }
 
-llvm::Instruction::BinaryOps LogicalExpressionIRStrategy::determineOperatorIR(ASTLogicalOperatorNode *node) {
+llvm::Instruction::BinaryOps LogicalExpressionIRStrategy::determineOperatorIR(ASTLogicalOperatorNode* node) {
     if (node->isAnd()) {
         return llvm::Instruction::BinaryOps::And;
     }

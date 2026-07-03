@@ -62,7 +62,7 @@ std::string ASTInterfacePropertyListNode::toString() {
     return "INTERFACE_PROPERTY_LIST";
 }
 
-bool ASTInterfacePropertyListNode::isSameAs(ASTNode *other) {
+bool ASTInterfacePropertyListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

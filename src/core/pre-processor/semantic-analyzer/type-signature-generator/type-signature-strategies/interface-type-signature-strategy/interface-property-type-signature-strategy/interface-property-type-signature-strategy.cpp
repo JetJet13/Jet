@@ -4,7 +4,7 @@
 
 #include "interface-property-type-signature-strategy.h"
 
-void InterfacePropertyTypeSignatureStrategy::assign(ASTInterfacePropertyNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void InterfacePropertyTypeSignatureStrategy::assign(ASTInterfacePropertyNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getType(), context, scope);
     node->setTypeSignature(new InterfacePropertyTypeSignature(node->getName()->getId(), node->getType()->getTypeSignature()));
 }

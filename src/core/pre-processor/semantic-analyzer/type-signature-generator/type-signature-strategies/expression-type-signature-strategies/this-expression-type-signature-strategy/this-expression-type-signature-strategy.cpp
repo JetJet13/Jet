@@ -4,6 +4,6 @@
 
 #include "this-expression-type-signature-strategy.h"
 
-void ThisExpressionTypeSignatureStrategy::assign(ASTThisExpressionNode* thisExpression, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void ThisExpressionTypeSignatureStrategy::assign(ASTThisExpressionNode* thisExpression, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable) {
     thisExpression->setTypeSignature(typeSignatureLookupTable->find(thisExpression->getId())->convertToVariableTypeSignature());
 }

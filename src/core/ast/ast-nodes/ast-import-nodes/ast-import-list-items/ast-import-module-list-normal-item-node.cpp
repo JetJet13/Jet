@@ -30,7 +30,7 @@ std::string ASTImportModuleListNormalItemNode::toString() {
     return "IMPORT_MODULE_LIST_NORMAL_ITEM";
 }
 
-bool ASTImportModuleListNormalItemNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListNormalItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

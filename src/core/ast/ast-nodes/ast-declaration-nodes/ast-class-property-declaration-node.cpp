@@ -85,7 +85,7 @@ std::string ASTClassPropertyDeclarationNode::toString() {
     return "CLASS_PROPERTY_DECLARATION";
 }
 
-bool ASTClassPropertyDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

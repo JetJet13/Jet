@@ -66,7 +66,7 @@ std::string ASTTupleExpressionNode::toString() {
     return "TUPLE_EXPRESSION";
 }
 
-bool ASTTupleExpressionNode::isSameAs(ASTNode *other) {
+bool ASTTupleExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

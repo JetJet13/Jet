@@ -13,8 +13,7 @@ class ASTIntLiteralNode : public ASTLiteralNode {
 private:
     std::string _value;
 public:
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
-                                  SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     void setValue(std::shared_ptr<TokenTable> tokenTable) override;

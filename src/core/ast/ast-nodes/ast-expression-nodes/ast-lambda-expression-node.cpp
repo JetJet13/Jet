@@ -76,7 +76,7 @@ std::string ASTLambdaExpressionNode::toString() {
     return "LAMBDA_EXPRESSION";
 }
 
-bool ASTLambdaExpressionNode::isSameAs(ASTNode *other) {
+bool ASTLambdaExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

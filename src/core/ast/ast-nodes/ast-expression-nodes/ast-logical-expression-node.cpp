@@ -43,7 +43,7 @@ std::string ASTLogicalExpressionNode::toString() {
     return "LOGICAL_EXPRESSION";
 }
 
-bool ASTLogicalExpressionNode::isSameAs(ASTNode *other) {
+bool ASTLogicalExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

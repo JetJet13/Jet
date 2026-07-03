@@ -48,7 +48,7 @@ std::string ASTFunctionReturnExpressionNode::toString() {
     return "FUNCTION_RETURN_EXPRESSION";
 }
 
-bool ASTFunctionReturnExpressionNode::isSameAs(ASTNode *other) {
+bool ASTFunctionReturnExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

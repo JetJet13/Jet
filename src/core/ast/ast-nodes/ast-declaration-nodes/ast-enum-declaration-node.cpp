@@ -55,7 +55,7 @@ std::string ASTEnumDeclarationNode::toString() {
     return "ENUM_DECLARATION";
 }
 
-bool ASTEnumDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTEnumDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -4,7 +4,7 @@
 
 #include "if-statement-type-signature-strategy.h"
 
-void IfStatementTypeSignatureStrategy::assign(ASTIfStatementNode* ifStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void IfStatementTypeSignatureStrategy::assign(ASTIfStatementNode* ifStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getCondition(), context, scope);
     strategyMap->assignTypeSignatureFor(ifStatementNode->getIfBlock()->getBlock(), context, scope);
 

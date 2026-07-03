@@ -47,7 +47,7 @@ std::string ASTForInStatementNode::toString() {
     return "FOR_IN_STATEMENT";
 }
 
-bool ASTForInStatementNode::isSameAs(ASTNode *other) {
+bool ASTForInStatementNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

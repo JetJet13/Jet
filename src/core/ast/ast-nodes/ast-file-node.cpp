@@ -14,7 +14,7 @@ ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vect
     _module = module;
 }
 
-void ASTFileNode::append(ASTNode *node) {
+void ASTFileNode::append(ASTNode* node) {
     _body.push_back(node);
 }
 
@@ -98,7 +98,7 @@ std::string ASTFileNode::toString() {
     return "FILE";
 }
 
-bool ASTFileNode::isSameAs(ASTNode *other) {
+bool ASTFileNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

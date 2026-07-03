@@ -54,7 +54,7 @@ std::string ASTArrayAccessInvocationExpressionNode::toString() {
     return "AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTArrayAccessInvocationExpressionNode::isSameAs(ASTNode *other) {
+bool ASTArrayAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

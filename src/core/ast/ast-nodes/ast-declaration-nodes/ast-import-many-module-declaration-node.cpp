@@ -45,7 +45,7 @@ std::string ASTImportManyModuleDeclarationNode::toString() {
     return "IMPORT_MANY_MODULE_DECLARATION";
 }
 
-bool ASTImportManyModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTImportManyModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

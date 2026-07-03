@@ -41,7 +41,7 @@ std::string ASTCurryExpressionNode::toString() {
     return "CURRY_EXPRESSION";
 }
 
-bool ASTCurryExpressionNode::isSameAs(ASTNode *other) {
+bool ASTCurryExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -10,7 +10,7 @@
 
 class TupleAccessInvocationExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_INVOCATION_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -36,7 +36,7 @@ std::string ASTElseBlockNode::toString() {
     return "ELSE_BLOCK";
 }
 
-bool ASTElseBlockNode::isSameAs(ASTNode *other) {
+bool ASTElseBlockNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

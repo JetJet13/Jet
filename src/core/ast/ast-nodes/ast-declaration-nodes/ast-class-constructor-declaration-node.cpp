@@ -55,7 +55,7 @@ std::string ASTClassConstructorDeclarationNode::toString() {
     return "CLASS_CONSTRUCTOR_DECLARATION";
 }
 
-bool ASTClassConstructorDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTClassConstructorDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

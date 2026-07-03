@@ -30,7 +30,7 @@ std::string ASTModuleAliasNameNode::toString() {
     return "MODULE_ALIAS_NAME";
 }
 
-bool ASTModuleAliasNameNode::isSameAs(ASTNode *other) {
+bool ASTModuleAliasNameNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

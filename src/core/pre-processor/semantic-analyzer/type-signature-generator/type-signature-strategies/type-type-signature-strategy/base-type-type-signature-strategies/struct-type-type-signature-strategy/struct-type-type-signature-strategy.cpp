@@ -5,7 +5,7 @@
 #include "struct-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-void StructTypeTypeSignatureStrategy::assign(ASTStructTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void StructTypeTypeSignatureStrategy::assign(ASTStructTypeNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto structTypeSignature = new StructTypeSignature();
     for (auto keyValuePair : node->getKeyValueTypes()) {
         strategyMap->assignTypeSignatureFor(keyValuePair->getType(), context, scope);

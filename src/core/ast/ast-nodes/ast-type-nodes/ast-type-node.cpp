@@ -39,7 +39,7 @@ std::string ASTTypeNode::toString() {
     return "TYPE";
 }
 
-bool ASTTypeNode::isSameAs(ASTNode *other) {
+bool ASTTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

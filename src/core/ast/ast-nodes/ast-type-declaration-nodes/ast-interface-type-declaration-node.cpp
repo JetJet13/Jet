@@ -57,7 +57,7 @@ std::string ASTInterfaceTypeDeclarationNode::toString() {
     return "INTERFACE_TYPE_DECLARATION";
 }
 
-bool ASTInterfaceTypeDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTInterfaceTypeDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

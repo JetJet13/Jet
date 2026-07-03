@@ -58,7 +58,7 @@ std::string ASTTypeParameterListNode::toString() {
     return "TYPE_PARAMETER_LIST";
 }
 
-bool ASTTypeParameterListNode::isSameAs(ASTNode *other) {
+bool ASTTypeParameterListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

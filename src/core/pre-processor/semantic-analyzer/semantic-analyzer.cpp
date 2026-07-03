@@ -6,9 +6,7 @@
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 
 SemanticAnalyzer::SemanticAnalyzer() {
-    _typeSignatureGenerator = new TypeSignatureGenerator(
-        new TypeSignatureStrategyProvider()
-    );
+    _typeSignatureGenerator = TypeSignatureGenerator();
 }
 
 TypeCheckerResult SemanticAnalyzer::analyze(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
@@ -22,14 +20,14 @@ TypeCheckerResult SemanticAnalyzer::analyze(std::shared_ptr<ASTFileNode> fileNod
 }
 // TODO - continue shared_ptr migration by replacing 'scope.get()' with scope
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {
-    auto typeSignatureContext = new TypeSignatureContext();
+    auto typeSignatureContext = std::make_shared<TypeSignatureContext>();
     auto declarations = std::vector<ASTDeclarationNode*>();
     for (auto node : *fileNode->getBody()) {
         if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-            _typeSignatureGenerator->assignTypeSignatureFor(node, typeSignatureContext, scope.get());
+            _typeSignatureGenerator.assignTypeSignatureFor(node, typeSignatureContext, scope);
         } else if (ASTNodeUtils::isDeclarableNode(node)) {
             auto declarationNode = (ASTDeclarationNode*)node;
-            _typeSignatureGenerator->assignInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope.get());
+            _typeSignatureGenerator.assignInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope);
             declarationNode->getTypeSignature()->setId(declarationNode->getId());
             if (declarationNode->getTypeSignature()->isInvocable()) {
                 scope->insertGlobalInvocable(
@@ -47,14 +45,14 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileN
     }
 
     for (auto declarationNode : declarations) {
-        _typeSignatureGenerator->assignPostInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope.get());
+        _typeSignatureGenerator.assignPostInitialTypeSignatureFor(declarationNode, typeSignatureContext, scope);
     }
 }
 
 void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
-    auto typeSignatureContext = new TypeSignatureContext();
+    auto typeSignatureContext = std::make_shared<TypeSignatureContext>();
     for (auto node : *fileNode->getBody()) {
-        _typeSignatureGenerator->assignTypeSignatureFor(node, typeSignatureContext, fileScope.get());
+        _typeSignatureGenerator.assignTypeSignatureFor(node, typeSignatureContext, fileScope);
         if (ASTNodeUtils::isDeclarableNode(node)) {
             fileScope->find(fileNode->getModuleName(), node->getId())->copyFrom(node->getTypeSignature());
         }
@@ -63,7 +61,7 @@ void SemanticAnalyzer::generateDeclarationTypeSignaturesFor(std::shared_ptr<ASTF
 
 void SemanticAnalyzer::generateTypeSignatureForModule(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     if (fileNode->getModule()) {
-        _typeSignatureGenerator->assignTypeSignatureFor(fileNode->getModule().value(), new TypeSignatureContext(), fileScope.get());
+        _typeSignatureGenerator.assignTypeSignatureFor(fileNode->getModule().value(), std::make_shared<TypeSignatureContext>(), fileScope);
     }
 }
 

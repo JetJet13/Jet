@@ -35,7 +35,7 @@ std::string ASTArrayAccessNode::toString() {
     return "ARRAY_ACCESS";
 }
 
-bool ASTArrayAccessNode::isSameAs(ASTNode *other) {
+bool ASTArrayAccessNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

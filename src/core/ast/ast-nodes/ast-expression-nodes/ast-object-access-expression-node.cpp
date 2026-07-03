@@ -38,7 +38,7 @@ std::string ASTObjectAccessExpressionNode::toString() {
     return "OBJECT_ACCESS_EXPRESSION";
 }
 
-bool ASTObjectAccessExpressionNode::isSameAs(ASTNode *other) {
+bool ASTObjectAccessExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

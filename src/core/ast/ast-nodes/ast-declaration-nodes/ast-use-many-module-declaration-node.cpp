@@ -49,7 +49,7 @@ std::string ASTUseManyModuleDeclarationNode::toString() {
     return "USE_MANY_MODULE_DECLARATION";
 }
 
-bool ASTUseManyModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTUseManyModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

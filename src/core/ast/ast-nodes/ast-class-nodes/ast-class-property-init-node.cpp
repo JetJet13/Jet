@@ -61,7 +61,7 @@ std::string ASTClassPropertyInitNode::toString() {
     return "CLASS_PROPERTY_INIT";
 }
 
-bool ASTClassPropertyInitNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyInitNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

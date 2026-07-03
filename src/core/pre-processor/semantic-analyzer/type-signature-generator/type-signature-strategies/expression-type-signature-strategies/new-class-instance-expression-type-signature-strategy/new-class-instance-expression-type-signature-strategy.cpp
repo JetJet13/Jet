@@ -5,7 +5,7 @@
 #include "new-class-instance-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void NewClassInstanceExpressionTypeSignatureStrategy::assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto moduleName = newClassInstanceExpression->getModuleName();
     auto typeSignature = moduleName
             ? typeSignatureLookupTable->find(moduleName.value(), newClassInstanceExpression->getClassName())

@@ -30,7 +30,7 @@ std::string ASTLiteralExpressionNode::toString() {
     return "LITERAL_EXPRESSION";
 }
 
-bool ASTLiteralExpressionNode::isSameAs(ASTNode *other) {
+bool ASTLiteralExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

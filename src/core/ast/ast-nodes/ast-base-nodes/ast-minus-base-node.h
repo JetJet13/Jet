@@ -16,7 +16,7 @@ private:
     Lexeme* _lexeme;
 public:
     explicit ASTMinusBaseNode(Lexeme* lexeme);
-    ASTNode *transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) override;
+    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

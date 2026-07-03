@@ -12,7 +12,7 @@
 
 class StructExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTStructExpressionNode* structExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTStructExpressionNode* structExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_STRUCT_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

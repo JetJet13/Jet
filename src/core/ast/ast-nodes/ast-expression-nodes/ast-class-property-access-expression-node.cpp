@@ -38,7 +38,7 @@ std::string ASTClassPropertyAccessExpressionNode::toString() {
     return "CLASS_PROPERTY_ACCESS_EXPRESSION";
 }
 
-bool ASTClassPropertyAccessExpressionNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyAccessExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

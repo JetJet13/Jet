@@ -53,7 +53,7 @@ std::string ASTTupleAccessInvocationExpressionNode::toString() {
     return "AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTTupleAccessInvocationExpressionNode::isSameAs(ASTNode *other) {
+bool ASTTupleAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

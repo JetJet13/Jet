@@ -36,12 +36,12 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
             currentScope = scopeStack.top();
         } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
             auto lambdaScope = new ASTLookupTable(currentScope);
-            lambdaScope->bindLambda((ASTLambdaExpressionNode *) node);
+            lambdaScope->bindLambda((ASTLambdaExpressionNode*) node);
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
         } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
             auto lambdaScope = new ASTLookupTable(currentScope);
-            lambdaScope->bindLambdaFatArrow((ASTLambdaWithFatArrowExpressionNode *) node);
+            lambdaScope->bindLambdaFatArrow((ASTLambdaWithFatArrowExpressionNode*) node);
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
         } else if (currentScope->isLambdaScope() && node->isOneOf({ AST_IDENTIFIER_EXPRESSION_NODE, AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE })) {

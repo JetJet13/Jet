@@ -45,7 +45,7 @@ std::string ASTClassMethodDefinitionNode::toString() {
     return "CLASS_METHOD_DEFINITION";
 }
 
-bool ASTClassMethodDefinitionNode::isSameAs(ASTNode *other) {
+bool ASTClassMethodDefinitionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

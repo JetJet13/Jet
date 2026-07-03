@@ -61,6 +61,6 @@ std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTableFactory::creat
 }
 
 
-TypeSignatureLookupTable* TypeSignatureLookupTableFactory::create() {
-    return new TypeSignatureLookupTable();
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTableFactory::create() {
+    return std::make_shared<TypeSignatureLookupTable>();
 }

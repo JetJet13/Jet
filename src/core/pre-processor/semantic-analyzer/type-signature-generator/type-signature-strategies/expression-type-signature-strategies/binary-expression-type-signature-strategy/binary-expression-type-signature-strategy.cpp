@@ -12,7 +12,7 @@ BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
     this->initCombinations();
 }
 
-void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpressionNode* binaryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), context, scope);
     strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), context, scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());
@@ -42,7 +42,7 @@ void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryArithmeticExpression
     binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 
-void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void BinaryExpressionTypeSignatureStrategy::assign(ASTBinaryComparatorExpressionNode* binaryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(binaryExpression->getLeftNode(), context, scope);
     strategyMap->assignTypeSignatureFor(binaryExpression->getRightNode(), context, scope);
     auto combination = this->findCombination(binaryExpression->getBinaryOperator());

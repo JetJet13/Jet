@@ -58,7 +58,7 @@ std::string ASTLambdaTypeParameterListNode::toString() {
     return "LAMBDA_TYPE_PARAMETER_LIST";
 }
 
-bool ASTLambdaTypeParameterListNode::isSameAs(ASTNode *other) {
+bool ASTLambdaTypeParameterListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

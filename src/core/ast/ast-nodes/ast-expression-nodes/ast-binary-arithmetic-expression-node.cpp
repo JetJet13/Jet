@@ -59,7 +59,7 @@ std::string ASTBinaryArithmeticExpressionNode::toString() {
     return "BINARY_ARITHMETIC_EXPRESSION";
 }
 
-bool ASTBinaryArithmeticExpressionNode::isSameAs(ASTNode *other) {
+bool ASTBinaryArithmeticExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

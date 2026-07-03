@@ -5,7 +5,7 @@
 #include "ast-tuple-type-start-node.h"
 #include "../ast-struct-type-nodes/ast-struct-type-start-node.h"
 
-ASTNode* ASTTupleTypeStartNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTTupleTypeStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_TYPE_MODE) {
         return new ASTStructTypeStartNode(this->getLexeme());
     }

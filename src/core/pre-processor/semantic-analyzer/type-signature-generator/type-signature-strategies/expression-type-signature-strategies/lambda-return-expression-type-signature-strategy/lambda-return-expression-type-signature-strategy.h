@@ -11,7 +11,7 @@
 
 class LambdaReturnExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTLambdaReturnExpressionNode* lambdaExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTLambdaReturnExpressionNode* lambdaExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_RETURN_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

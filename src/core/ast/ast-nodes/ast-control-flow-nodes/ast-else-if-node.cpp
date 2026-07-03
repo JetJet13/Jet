@@ -35,7 +35,7 @@ std::string ASTElseIfNode::toString() {
     return "ELSE_IF";
 }
 
-bool ASTElseIfNode::isSameAs(ASTNode *other) {
+bool ASTElseIfNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

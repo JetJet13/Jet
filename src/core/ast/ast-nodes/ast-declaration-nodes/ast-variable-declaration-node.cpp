@@ -73,7 +73,7 @@ std::string ASTVariableDeclarationNode::toString() {
     return "VARIABLE_DECLARATION";
 }
 
-bool ASTVariableDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTVariableDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

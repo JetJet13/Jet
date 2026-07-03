@@ -39,7 +39,7 @@ std::string ASTImportModuleListByWildcardItemNode::toString() {
     return "IMPORT_MODULE_LIST_BY_WILDCARD_ITEM";
 }
 
-bool ASTImportModuleListByWildcardItemNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListByWildcardItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

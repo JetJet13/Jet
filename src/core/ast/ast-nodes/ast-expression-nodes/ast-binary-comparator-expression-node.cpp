@@ -60,7 +60,7 @@ std::string ASTBinaryComparatorExpressionNode::toString() {
     return "BINARY_COMPARATOR_EXPRESSION";
 }
 
-bool ASTBinaryComparatorExpressionNode::isSameAs(ASTNode *other) {
+bool ASTBinaryComparatorExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

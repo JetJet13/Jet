@@ -44,7 +44,7 @@ std::string ASTConcatExpressionNode::toString() {
     return "CONCAT_EXPRESSION";
 }
 
-bool ASTConcatExpressionNode::isSameAs(ASTNode *other) {
+bool ASTConcatExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

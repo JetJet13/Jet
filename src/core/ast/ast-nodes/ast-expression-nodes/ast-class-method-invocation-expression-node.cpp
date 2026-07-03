@@ -47,7 +47,7 @@ std::string ASTClassMethodInvocationExpressionNode::toString() {
     return "CLASS_METHOD_INVOCATION_EXPRESSION";
 }
 
-bool ASTClassMethodInvocationExpressionNode::isSameAs(ASTNode *other) {
+bool ASTClassMethodInvocationExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

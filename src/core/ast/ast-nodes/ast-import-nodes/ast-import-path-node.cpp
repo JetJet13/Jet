@@ -30,7 +30,7 @@ std::string ASTImportPathNode::toString() {
     return "IMPORT_PATH";
 }
 
-bool ASTImportPathNode::isSameAs(ASTNode *other) {
+bool ASTImportPathNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

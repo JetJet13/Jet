@@ -70,7 +70,7 @@ std::string ASTNewClassInstanceExpressionNode::toString() {
     return "NEW_CLASS_INSTANCE_EXPRESSION";
 }
 
-bool ASTNewClassInstanceExpressionNode::isSameAs(ASTNode *other) {
+bool ASTNewClassInstanceExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

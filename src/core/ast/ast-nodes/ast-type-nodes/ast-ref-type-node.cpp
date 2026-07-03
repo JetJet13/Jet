@@ -33,7 +33,7 @@ std::string ASTRefTypeNode::toString() {
     return "REF_TYPE";
 }
 
-bool ASTRefTypeNode::isSameAs(ASTNode *other) {
+bool ASTRefTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

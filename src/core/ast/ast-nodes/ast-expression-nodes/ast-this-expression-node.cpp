@@ -31,7 +31,7 @@ std::string ASTThisExpressionNode::toString() {
     return "THIS_EXPRESSION";
 }
 
-bool ASTThisExpressionNode::isSameAs(ASTNode *other) {
+bool ASTThisExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

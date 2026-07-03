@@ -44,7 +44,7 @@ std::string ASTClassPropertyDefinitionWithTypeNode::toString() {
     return "CLASS_PROPERTY_DEFINITION_WITH_TYPE";
 }
 
-bool ASTClassPropertyDefinitionWithTypeNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyDefinitionWithTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

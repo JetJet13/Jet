@@ -14,7 +14,7 @@ Lexeme* ASTDotDotDotBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_MODULE_LIST_MODE || mode == SA_IMPORT_MODULE_LIST_MODE) {
         return new ASTModuleSpreadNode(_lexeme);
     }
@@ -30,7 +30,7 @@ std::string ASTDotDotDotBaseNode::toString() {
     return "DOT_DOT_DOT_BASE";
 }
 
-bool ASTDotDotDotBaseNode::isSameAs(ASTNode *other) {
+bool ASTDotDotDotBaseNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

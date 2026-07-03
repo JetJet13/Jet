@@ -11,7 +11,7 @@
 
 class LiteralExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTLiteralExpressionNode* literalExpression, TypeSignatureContext* context, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTLiteralExpressionNode* literalExpression, std::shared_ptr<TypeSignatureContext> context, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LITERAL_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

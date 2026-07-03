@@ -15,7 +15,7 @@ Lexeme* ASTFatArrowBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode * ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE)) {
         return new ASTLambdaTypeFatArrowNode(this->getLexeme());
     }
@@ -31,7 +31,7 @@ std::string ASTFatArrowBaseNode::toString() {
     return "FAT_ARROW";
 }
 
-bool ASTFatArrowBaseNode::isSameAs(ASTNode *other) {
+bool ASTFatArrowBaseNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

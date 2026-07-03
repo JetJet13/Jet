@@ -46,7 +46,7 @@ std::string ASTClassPropertyAssignmentNode::toString() {
     return "CLASS_PROPERTY_ASSIGNMENT";
 }
 
-bool ASTClassPropertyAssignmentNode::isSameAs(ASTNode *other) {
+bool ASTClassPropertyAssignmentNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

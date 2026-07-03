@@ -41,7 +41,7 @@ std::string ASTImportSingleModuleDeclarationNode::toString() {
     return "IMPORT_SINGLE_MODULE_DECLARATION";
 }
 
-bool ASTImportSingleModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTImportSingleModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

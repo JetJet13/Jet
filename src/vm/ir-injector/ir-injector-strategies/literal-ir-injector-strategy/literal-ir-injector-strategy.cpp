@@ -9,7 +9,7 @@
 #include "../../../ir-type/ir-array-pointer-type.h"
 #include "../ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h"
 
-llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode *irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_LITERAL_EXPRESSION_NODE)) {
         return this->_literalExpressionInjector.inject((IRLiteralExpressionNode*)irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {

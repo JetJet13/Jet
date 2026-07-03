@@ -30,7 +30,7 @@ std::string ASTFunctionArgumentNode::toString() {
     return "FUNCTION_ARGUMENT";
 }
 
-bool ASTFunctionArgumentNode::isSameAs(ASTNode *other) {
+bool ASTFunctionArgumentNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

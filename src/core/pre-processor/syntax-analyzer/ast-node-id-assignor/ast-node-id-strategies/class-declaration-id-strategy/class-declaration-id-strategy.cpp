@@ -33,7 +33,7 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
             astNode.value()->setId(classDeclarationNode->getId());
         } else if (astNode.value()->is(AST_CUSTOM_TYPE_NODE)) {
             auto customTypeName = _tokenTable->getIdentifier(
-                    ((ASTCustomTypeNode *) astNode.value())
+                    ((ASTCustomTypeNode*) astNode.value())
                             ->getLexeme()
                             ->getToken()
                             ->getValueId().value()

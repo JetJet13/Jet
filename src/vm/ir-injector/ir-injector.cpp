@@ -139,7 +139,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, 
 
 void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode *) irStatement, irBlock, this, irModule, scope);
+        _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode*) irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _classPropertyAssignmentIRInjectorStrategy->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {

@@ -6,7 +6,7 @@
 #include "../ast-type-nodes/ast-type-node-factory.h"
 #include "../ast-expression-nodes/ast-this-expression-node.h"
 
-ASTNode* ASTThisNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTThisNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
         return ASTTypeNodeFactory::createThisTypeNode(this);
     }

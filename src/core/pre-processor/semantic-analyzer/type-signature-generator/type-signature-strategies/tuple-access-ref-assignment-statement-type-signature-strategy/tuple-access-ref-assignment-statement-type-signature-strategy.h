@@ -11,7 +11,7 @@
 
 class TupleAccessRefAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

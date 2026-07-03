@@ -49,7 +49,7 @@ std::string ASTModuleDeclarationNode::toString() {
     return "MODULE_DECLARATION";
 }
 
-bool ASTModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

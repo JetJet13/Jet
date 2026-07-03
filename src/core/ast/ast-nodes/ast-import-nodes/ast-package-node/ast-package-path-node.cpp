@@ -30,7 +30,7 @@ std::string ASTPackagePathNode::toString() {
     return "PACKAGE_PATH";
 }
 
-bool ASTPackagePathNode::isSameAs(ASTNode *other) {
+bool ASTPackagePathNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

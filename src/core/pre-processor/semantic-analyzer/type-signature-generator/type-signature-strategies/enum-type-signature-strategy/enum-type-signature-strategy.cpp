@@ -5,7 +5,7 @@
 #include "enum-type-signature-strategy.h"
 #include "../../../../../type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.h"
 
-void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void EnumTypeSignatureStrategy::assign(ASTEnumDeclarationNode* enumDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     if (enumDeclaration->getValues()->getParameters().empty()) {
         enumDeclaration->setTypeSignature(new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature()));
         enumDeclaration->getTypeSignature()->setId(enumDeclaration->getId());

@@ -38,7 +38,7 @@ std::string ASTDrefExpressionNode::toString() {
     return "DREF_EXPRESSION";
 }
 
-bool ASTDrefExpressionNode::isSameAs(ASTNode *other) {
+bool ASTDrefExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -37,7 +37,7 @@ std::string ASTTupleItemNode::toString() {
     return "TUPLE_ITEM";
 }
 
-bool ASTTupleItemNode::isSameAs(ASTNode *other) {
+bool ASTTupleItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

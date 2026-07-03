@@ -4,6 +4,6 @@
 
 #include "this-type-type-signature-strategy.h"
 
-void ThisTypeTypeSignatureStrategy::assign(ASTThisTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void ThisTypeTypeSignatureStrategy::assign(ASTThisTypeNode* node, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable) {
     node->setTypeSignature(typeSignatureLookupTable->find(node->getId()));
 }

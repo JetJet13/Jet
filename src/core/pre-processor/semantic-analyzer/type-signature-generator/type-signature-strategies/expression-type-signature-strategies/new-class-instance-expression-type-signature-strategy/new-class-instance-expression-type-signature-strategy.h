@@ -12,7 +12,7 @@
 
 class NewClassInstanceExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_NEW_CLASS_INSTANCE_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

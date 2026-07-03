@@ -45,7 +45,7 @@ std::string ASTCatchBlockNode::toString() {
     return "CATCH_BLOCK";
 }
 
-bool ASTCatchBlockNode::isSameAs(ASTNode *other) {
+bool ASTCatchBlockNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -11,7 +11,7 @@
 
 class ThisExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTThisExpressionNode* thisExpression, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTThisExpressionNode* thisExpression, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable);
 };
 
 #endif //JETLANG_THIS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

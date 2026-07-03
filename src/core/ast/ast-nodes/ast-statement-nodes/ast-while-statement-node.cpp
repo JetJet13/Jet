@@ -39,7 +39,7 @@ std::string ASTWhileStatementNode::toString() {
     return "WHILE_STATEMENT";
 }
 
-bool ASTWhileStatementNode::isSameAs(ASTNode *other) {
+bool ASTWhileStatementNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

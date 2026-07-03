@@ -45,7 +45,7 @@ std::string ASTIdentifierNode::getValue(TokenTable* tokenTable) {
     );
 }
 
-ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTIdentifierNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_PERIOD_NODE, AST_MODULE_ACCESS_NODE })) {
         return this;
     }

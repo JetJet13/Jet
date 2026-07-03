@@ -37,7 +37,7 @@ std::string ASTArrayAccessExpressionNode::toString() {
     return "ARRAY_ACCESS_EXPRESSION";
 }
 
-bool ASTArrayAccessExpressionNode::isSameAs(ASTNode *other) {
+bool ASTArrayAccessExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

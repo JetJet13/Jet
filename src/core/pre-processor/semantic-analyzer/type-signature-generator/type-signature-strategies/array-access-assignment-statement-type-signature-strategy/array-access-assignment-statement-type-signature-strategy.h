@@ -11,7 +11,7 @@
 
 class ArrayAccessAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

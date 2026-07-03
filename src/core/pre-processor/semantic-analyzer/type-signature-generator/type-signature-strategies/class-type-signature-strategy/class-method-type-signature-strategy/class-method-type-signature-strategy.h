@@ -10,7 +10,7 @@
 
 class ClassMethodTypeSignatureStrategy {
 public:
-    void assign(ASTClassMethodDeclarationNode* classMethodDeclaration, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassMethodDeclarationNode* classMethodDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_METHOD_TYPE_SIGNATURE_STRATEGY_H

@@ -8,7 +8,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../../type-signature/class-type-signature/class-type-signature.h"
 
-void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
+void ClassPropertyAccessExpressionTypeSignatureStrategy::assign(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classPropertyAccessExpression->getPropertyAccess()->getClassAccess()->getThis()->getId());
     auto classPropertyTypeSignature = classTypeSignature->getInstanceProperties()->find(classPropertyAccessExpression->getPropertyAccess()->getPropertyName()->getId());
     if (!classPropertyTypeSignature) {

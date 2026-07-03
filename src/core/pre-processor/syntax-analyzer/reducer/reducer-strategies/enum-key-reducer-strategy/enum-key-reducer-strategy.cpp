@@ -11,6 +11,6 @@ ASTNode* EnumKeyReducerStrategy::execute(std::vector<ASTNode*> nodes) {
         throw std::invalid_argument("unable to reduce to enum key since nodes list is not 2");
     }
     return new ASTEnumKeyNode(
-            ((ASTIdentifierExpressionNode *) nodes[0])->getIdentifierNode()->getLexeme()
+            ((ASTIdentifierExpressionNode*) nodes[0])->getIdentifierNode()->getLexeme()
     );
 }

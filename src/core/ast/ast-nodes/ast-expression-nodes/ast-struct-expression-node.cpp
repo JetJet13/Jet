@@ -74,7 +74,7 @@ unsigned long ASTStructExpressionNode::size() {
     return _keyValuePairs.size();
 }
 
-bool ASTStructExpressionNode::isSameAs(ASTNode *other) {
+bool ASTStructExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

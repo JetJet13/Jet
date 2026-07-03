@@ -20,8 +20,8 @@ private:
     std::optional<BinaryExpressionTypeCombination*> findCombination(ASTBinaryComparatorOperatorNode* binaryOperatorNode);
 public:
     BinaryExpressionTypeSignatureStrategy();
-    void assign(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
-    void assign(ASTBinaryComparatorExpressionNode* binaryExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBinaryArithmeticExpressionNode* binaryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTBinaryComparatorExpressionNode* binaryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

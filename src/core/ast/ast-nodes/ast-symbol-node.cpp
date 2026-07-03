@@ -26,7 +26,7 @@ Position* ASTSymbolNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 
-bool ASTSymbolNode::isSameAs(ASTNode *other) {
+bool ASTSymbolNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

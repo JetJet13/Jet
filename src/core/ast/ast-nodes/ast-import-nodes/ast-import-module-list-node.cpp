@@ -56,7 +56,7 @@ std::string ASTImportModuleListNode::toString() {
     return "IMPORT_MODULE_LIST";
 }
 
-bool ASTImportModuleListNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

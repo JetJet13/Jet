@@ -30,7 +30,7 @@ std::string ASTCustomTypeNode::toString() {
     return "CUSTOM_TYPE";
 }
 
-bool ASTCustomTypeNode::isSameAs(ASTNode *other) {
+bool ASTCustomTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

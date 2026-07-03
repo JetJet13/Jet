@@ -11,7 +11,7 @@ ASTPlusBaseNode::ASTPlusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode * ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (!prevNode && !nextNode) {
         return this;
     }

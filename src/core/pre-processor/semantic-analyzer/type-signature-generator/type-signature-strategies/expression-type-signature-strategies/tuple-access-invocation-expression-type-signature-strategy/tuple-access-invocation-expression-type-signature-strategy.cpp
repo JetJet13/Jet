@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getSource()->getSource(), context, scope);
     strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getArguments(), context, scope);
 

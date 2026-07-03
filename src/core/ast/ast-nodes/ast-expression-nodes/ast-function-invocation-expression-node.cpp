@@ -49,7 +49,7 @@ std::string ASTFunctionInvocationExpressionNode::toString() {
     return "FUNCTION_INVOCATION_EXPRESSION";
 }
 
-bool ASTFunctionInvocationExpressionNode::isSameAs(ASTNode *other) {
+bool ASTFunctionInvocationExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

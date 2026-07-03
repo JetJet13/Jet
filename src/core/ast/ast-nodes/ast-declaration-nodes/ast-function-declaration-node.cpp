@@ -69,7 +69,7 @@ std::string ASTFunctionDeclarationNode::toString() {
     return "FUNCTION_DECLARATION";
 }
 
-bool ASTFunctionDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTFunctionDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

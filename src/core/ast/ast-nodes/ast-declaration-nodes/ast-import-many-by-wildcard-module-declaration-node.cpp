@@ -41,7 +41,7 @@ std::string ASTImportManyByWildcardModuleDeclarationNode::toString() {
     return "IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION";
 }
 
-bool ASTImportManyByWildcardModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTImportManyByWildcardModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

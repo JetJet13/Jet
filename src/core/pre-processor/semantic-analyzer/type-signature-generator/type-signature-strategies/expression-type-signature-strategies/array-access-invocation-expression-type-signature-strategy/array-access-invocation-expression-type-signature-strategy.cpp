@@ -4,7 +4,7 @@
 
 #include "array-access-invocation-expression-type-signature-strategy.h"
 
-void ArrayAccessInvocationExpressionTypeSignatureStrategy::assign(ASTArrayAccessInvocationExpressionNode* arrayAccessInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void ArrayAccessInvocationExpressionTypeSignatureStrategy::assign(ASTArrayAccessInvocationExpressionNode* arrayAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(arrayAccessInvocationExpression->getArrayAccess(), context, scope);
     strategyMap->assignTypeSignatureFor(arrayAccessInvocationExpression->getArguments(), context, scope);
     auto invocableTypeSignature = (InvocableTypeSignature*)arrayAccessInvocationExpression->getArrayAccess()->getTypeSignature();

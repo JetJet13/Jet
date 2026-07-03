@@ -41,7 +41,7 @@ std::string ASTUseManyByWildcardModuleDeclarationNode::toString() {
     return "USE_MANY_BY_WILDCARD_MODULE_DECLARATION";
 }
 
-bool ASTUseManyByWildcardModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTUseManyByWildcardModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

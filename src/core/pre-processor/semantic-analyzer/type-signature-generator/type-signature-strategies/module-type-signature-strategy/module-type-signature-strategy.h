@@ -12,7 +12,7 @@
 
 class ModuleTypeSignatureStrategy {
 public:
-    void assign(ASTModuleDeclarationNode* moduleDeclarationNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTModuleDeclarationNode* moduleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_MODULE_TYPE_SIGNATURE_STRATEGY_H

@@ -27,7 +27,7 @@ std::string ASTVoidTypeNode::toString() {
     return "VOID_TYPE";
 }
 
-bool ASTVoidTypeNode::isSameAs(ASTNode *other) {
+bool ASTVoidTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

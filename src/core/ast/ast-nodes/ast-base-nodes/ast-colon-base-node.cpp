@@ -8,7 +8,7 @@
 #include "../ast-interface-nodes/ast-interface-colon-node.h"
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.h"
 
-ASTNode* ASTColonBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTColonBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE ||
         mode == SA_GROUP_MODE ||
         (prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_FUNCTION_PARAMETER_LIST_NODE }))) {

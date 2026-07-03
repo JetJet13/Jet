@@ -47,7 +47,7 @@ std::string ASTModuleTypeNode::toString() {
     return "MODULE_TYPE";
 }
 
-bool ASTModuleTypeNode::isSameAs(ASTNode *other) {
+bool ASTModuleTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -39,7 +39,7 @@ std::string ASTUseSingleModuleDeclarationNode::toString() {
     return "USE_SINGLE_MODULE_DECLARATION";
 }
 
-bool ASTUseSingleModuleDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTUseSingleModuleDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

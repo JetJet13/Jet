@@ -35,7 +35,7 @@ std::string ASTArrayTypeNode::toString() {
     return "ARRAY_TYPE";
 }
 
-bool ASTArrayTypeNode::isSameAs(ASTNode *other) {
+bool ASTArrayTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

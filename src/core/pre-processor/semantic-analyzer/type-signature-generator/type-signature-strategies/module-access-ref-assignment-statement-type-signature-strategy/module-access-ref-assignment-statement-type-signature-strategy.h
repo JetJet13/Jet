@@ -11,7 +11,7 @@
 
 class ModuleAccessRefAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTModuleAccessRefAssignmentStatementNode* moduleAccessRefAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTModuleAccessRefAssignmentStatementNode* moduleAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

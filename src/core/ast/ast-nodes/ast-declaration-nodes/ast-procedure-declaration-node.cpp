@@ -67,7 +67,7 @@ std::string ASTProcedureDeclarationNode::toString() {
     return "PROCEDURE_DECLARATION";
 }
 
-bool ASTProcedureDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTProcedureDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

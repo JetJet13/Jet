@@ -38,7 +38,7 @@ std::string ASTUnaryExpressionNode::toString() {
     return "UNARY_EXPRESSION";
 }
 
-bool ASTUnaryExpressionNode::isSameAs(ASTNode *other) {
+bool ASTUnaryExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

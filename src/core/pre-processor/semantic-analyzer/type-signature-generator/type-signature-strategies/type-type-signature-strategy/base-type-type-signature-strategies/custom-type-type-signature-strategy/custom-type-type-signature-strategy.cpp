@@ -4,7 +4,7 @@
 
 #include "custom-type-type-signature-strategy.h"
 
-void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable) {
+void CustomTypeTypeSignatureStrategy::assign(ASTCustomTypeNode* node, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable) {
     auto customTypeSignature = typeSignatureLookupTable->find(node->getId());
     customTypeSignature->setId(node->getId());
     node->setTypeSignature(customTypeSignature);

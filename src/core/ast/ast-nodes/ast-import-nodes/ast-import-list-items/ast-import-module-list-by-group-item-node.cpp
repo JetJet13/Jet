@@ -38,7 +38,7 @@ std::string ASTImportModuleListByGroupItemNode::toString() {
     return "IMPORT_MODULE_LIST_BY_GROUP_ITEM";
 }
 
-bool ASTImportModuleListByGroupItemNode::isSameAs(ASTNode *other) {
+bool ASTImportModuleListByGroupItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

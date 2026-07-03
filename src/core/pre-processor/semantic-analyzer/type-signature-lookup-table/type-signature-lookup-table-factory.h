@@ -11,7 +11,7 @@ class TypeSignatureLookupTableFactory {
 public:
     static std::shared_ptr<TypeSignatureLookupTable> createForModule(std::string moduleName = "");
     static std::shared_ptr<TypeSignatureLookupTable> createForDebugModule(std::string moduleName = "");
-    static TypeSignatureLookupTable* create();
+    static std::shared_ptr<TypeSignatureLookupTable> create();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_LOOKUP_TABLE_FACTORY_H

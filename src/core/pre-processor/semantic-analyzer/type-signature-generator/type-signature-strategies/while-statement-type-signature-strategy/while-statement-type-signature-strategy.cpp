@@ -4,7 +4,7 @@
 
 #include "while-statement-type-signature-strategy.h"
 
-void WhileStatementTypeSignatureStrategy::assign(ASTWhileStatementNode* whileStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void WhileStatementTypeSignatureStrategy::assign(ASTWhileStatementNode* whileStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(whileStatementNode->getCondition(), context, scope);
     strategyMap->assignTypeSignatureFor(whileStatementNode->getBlock(), context, scope);
 }

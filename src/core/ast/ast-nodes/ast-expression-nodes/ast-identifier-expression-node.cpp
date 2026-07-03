@@ -30,7 +30,7 @@ std::string ASTIdentifierExpressionNode::toString() {
     return "IDENTIFIER_EXPRESSION";
 }
 
-bool ASTIdentifierExpressionNode::isSameAs(ASTNode *other) {
+bool ASTIdentifierExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

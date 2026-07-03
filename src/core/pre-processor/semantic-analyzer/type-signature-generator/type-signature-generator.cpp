@@ -5,18 +5,18 @@
 #include "type-signature-generator.h"
 #include "../../../type-signature/module-type-signature/module-type-signature.h"
 
-TypeSignatureGenerator::TypeSignatureGenerator(TypeSignatureStrategyProvider* typeSignatureStrategyProvider) {
-    _typeSignatureStrategyProvider = typeSignatureStrategyProvider;
+TypeSignatureGenerator::TypeSignatureGenerator() {
+    _typeSignatureStrategyProvider = TypeSignatureStrategyProvider();
 }
 
-void TypeSignatureGenerator::assignInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignInitialTypeSignatureFor(node, context, scope);
+void TypeSignatureGenerator::assignInitialTypeSignatureFor(ASTDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope) {
+    _typeSignatureStrategyProvider.assignInitialTypeSignatureFor(node, context, scope);
 }
 
-void TypeSignatureGenerator::assignPostInitialTypeSignatureFor(ASTDeclarationNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignPostInitialTypeSignatureFor(node, context, scope);
+void TypeSignatureGenerator::assignPostInitialTypeSignatureFor(ASTDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope) {
+    _typeSignatureStrategyProvider.assignPostInitialTypeSignatureFor(node, context, scope);
 }
 
-void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope) {
-    _typeSignatureStrategyProvider->assignTypeSignatureFor(node, context, scope);
+void  TypeSignatureGenerator::assignTypeSignatureFor(ASTNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope) {
+    _typeSignatureStrategyProvider.assignTypeSignatureFor(node, context, scope);
 }

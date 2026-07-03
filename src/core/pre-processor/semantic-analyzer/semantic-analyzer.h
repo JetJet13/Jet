@@ -15,7 +15,7 @@
 
 class SemanticAnalyzer {
 private:
-    TypeSignatureGenerator* _typeSignatureGenerator;
+    TypeSignatureGenerator _typeSignatureGenerator;
     void generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
     void generateDeclarationTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
     void generateTypeSignatureForModule(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);

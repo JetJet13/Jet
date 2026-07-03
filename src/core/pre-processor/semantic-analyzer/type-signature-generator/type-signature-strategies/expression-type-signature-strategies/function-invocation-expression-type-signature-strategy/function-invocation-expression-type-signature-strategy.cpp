@@ -6,14 +6,14 @@
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeSignatureContext* context, TypeSignatureLookupTable* typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
 
     auto id = functionInvocationExpression->getFunction()->getId();
     // if the name refers to a lambda
     auto lambdaTypeSignature = typeSignatureLookupTable->find(functionInvocationExpression->getFunction()->getModuleId(), id);
     if (lambdaTypeSignature->isInvocable()) {
         auto invocableTypeSignature = (InvocableTypeSignature*)lambdaTypeSignature;
-        strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), new TypeSignatureContext(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
+        strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
         functionInvocationExpression->getFunction()->setId(id);
         functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);
         functionInvocationExpression->setTypeSignature(
@@ -28,7 +28,7 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvoca
     if (functionTypeSignatureMap) {
         for (auto keyValue : *functionTypeSignatureMap.value()) {
             auto invocableTypeSignature = keyValue.second;
-            strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), new TypeSignatureContext(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
+            strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
             if (invocableTypeSignature->doArgumentsMatchParameters(functionInvocationExpression->getArguments()->getTypeSignature())) {
                 functionInvocationExpression->getFunction()->setId(id);
                 functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);

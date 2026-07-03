@@ -5,7 +5,7 @@
 #include "tuple-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 
-void TupleTypeTypeSignatureStrategy::assign(ASTTupleTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void TupleTypeTypeSignatureStrategy::assign(ASTTupleTypeNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (auto type : node->getValueTypes()) {
         strategyMap->assignTypeSignatureFor(type, context, scope);

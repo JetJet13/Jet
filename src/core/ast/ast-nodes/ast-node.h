@@ -39,7 +39,7 @@ public:
     virtual std::string toSourceCode();
     virtual TypeSignature* getTypeSignature();
     virtual std::vector<ASTNode*> getChildren();
-    virtual ASTNode* transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode);
+    virtual ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
     virtual bool isExportable();
     virtual bool isGlobal();
     bool isGrouped();

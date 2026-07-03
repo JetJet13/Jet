@@ -10,7 +10,7 @@
 
 class CustomTypeTypeSignatureStrategy {
 public:
-    void assign(ASTCustomTypeNode* node, TypeSignatureLookupTable* typeSignatureLookupTable);
+    void assign(ASTCustomTypeNode* node, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable);
 };
 
 #endif //JETLANG_CUSTOM_TYPE_TYPE_SIGNATURE_STRATEGY_H

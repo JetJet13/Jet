@@ -11,7 +11,7 @@
 
 class ClassPropertyAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTClassPropertyAssignmentStatementNode* classPropertyAssignmentStatementNode, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTClassPropertyAssignmentStatementNode* classPropertyAssignmentStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

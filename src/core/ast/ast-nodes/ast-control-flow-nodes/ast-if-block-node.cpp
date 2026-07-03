@@ -42,7 +42,7 @@ std::string ASTIfBlockNode::toString() {
     return "IF_BLOCK";
 }
 
-bool ASTIfBlockNode::isSameAs(ASTNode *other) {
+bool ASTIfBlockNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

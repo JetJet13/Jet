@@ -11,7 +11,7 @@
 
 class ObjectAccessRefAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTObjectAccessRefAssignmentStatementNode* objectAccessRefAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTObjectAccessRefAssignmentStatementNode* objectAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

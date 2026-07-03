@@ -33,7 +33,7 @@ std::string ASTModuleListSpreadItemNode::toString() {
     return "MODULE_LIST_SPREAD_ITEM";
 }
 
-bool ASTModuleListSpreadItemNode::isSameAs(ASTNode *other) {
+bool ASTModuleListSpreadItemNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

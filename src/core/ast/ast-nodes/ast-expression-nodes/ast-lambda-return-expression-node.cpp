@@ -37,7 +37,7 @@ std::string ASTLambdaReturnExpressionNode::toString() {
     return "LAMBDA_RETURN_EXPRESSION";
 }
 
-bool ASTLambdaReturnExpressionNode::isSameAs(ASTNode *other) {
+bool ASTLambdaReturnExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

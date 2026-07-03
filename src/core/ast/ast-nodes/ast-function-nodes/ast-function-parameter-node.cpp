@@ -60,7 +60,7 @@ std::string ASTFunctionParameterNode::toString() {
     return "FUNCTION_PARAMETER";
 }
 
-bool ASTFunctionParameterNode::isSameAs(ASTNode *other) {
+bool ASTFunctionParameterNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

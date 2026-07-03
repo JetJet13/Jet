@@ -5,7 +5,7 @@
 #include "ast-left-bracket-node.h"
 #include "../ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.h"
 
-ASTNode* ASTLeftBracketNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTLeftBracketNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_TYPE_PARAMETER_LIST_MODE ||
         mode == SA_FUNCTION_PARAMETER_LIST_MODE ||
         (prevNode &&

@@ -58,7 +58,7 @@ std::vector<ASTFunctionReturnExpressionNode*>* ASTBlockNode::getReturnStatements
     return new std::vector<ASTFunctionReturnExpressionNode*>();
 }
 
-ASTNode * ASTBlockNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode,
+ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode,
                                              SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_TYPE_PARAMETER_LIST_NODE })) {
         return new ASTFunctionBlockNode(_blockStartNode, _contents, _blockEndNode);

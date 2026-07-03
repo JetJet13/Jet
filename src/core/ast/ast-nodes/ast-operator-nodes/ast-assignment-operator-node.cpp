@@ -5,7 +5,7 @@
 #include "ast-assignment-operator-node.h"
 #include "../ast-type-nodes/ast-type-assignment-operator-node.h"
 
-ASTNode* ASTAssignmentOperatorNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTAssignmentOperatorNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NAME_NODE })) {
         return new ASTTypeAssignmentOperatorNode(this->getLexeme());
     }

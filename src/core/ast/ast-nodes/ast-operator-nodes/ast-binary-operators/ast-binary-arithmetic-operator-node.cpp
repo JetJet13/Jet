@@ -58,7 +58,7 @@ std::string ASTBinaryArithmeticOperatorNode::toString() {
     return "BINARY_ARITHMETIC_OPERATOR";
 }
 
-bool ASTBinaryArithmeticOperatorNode::isSameAs(ASTNode *other) {
+bool ASTBinaryArithmeticOperatorNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

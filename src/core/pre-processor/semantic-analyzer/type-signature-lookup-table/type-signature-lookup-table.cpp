@@ -9,7 +9,7 @@
 #include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope) {
+TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<std::shared_ptr<TypeSignatureLookupTable>> outerScope) {
     _moduleName = "";
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
     _globalTypeSignatureLookupTable = new std::unordered_map<std::string, TypeSignature*>();
@@ -19,8 +19,7 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLo
     _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>();
 }
 
-
-TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::optional<TypeSignatureLookupTable*> outerScope) {
+TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::optional<std::shared_ptr<TypeSignatureLookupTable>> outerScope) {
     _moduleName = moduleName;
     _typeSignatureLookupTable = std::unordered_map<std::string, TypeSignature*>();
     _globalTypeSignatureLookupTable = new std::unordered_map<std::string, TypeSignature*>();
@@ -30,19 +29,19 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::
     _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>();
 }
 
-TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
     typeSignature->setModuleId(this->getModuleName());
     _typeSignatureLookupTable.insert(std::pair(key, typeSignature));
-    return this;
+    return shared_from_this();
 }
 
-TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
     typeSignature->setModuleId(this->getModuleName());
     _globalTypeSignatureLookupTable->insert_or_assign(key, typeSignature);
-    return this;
+    return shared_from_this();
 }
 
-TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature) {
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature) {
     typeSignature->setModuleId(this->getModuleName());
     auto key = FunctionIdGenerator::generateFor(typeSignature);
     auto existing = _globalInvocableTypeSignatureLookupTable->find(name);
@@ -53,15 +52,15 @@ TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalInvocable(std::s
     } else {
         existing->second->insert_or_assign(key, typeSignature);
     }
-    return this;
+    return shared_from_this();
 }
 
-TypeSignatureLookupTable* TypeSignatureLookupTable::insertGlobalFunctionOverride(FunctionVarArgTypeSignatureMap* functionOverrideTypeSignatureMap) {
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobalFunctionOverride(FunctionVarArgTypeSignatureMap* functionOverrideTypeSignatureMap) {
     _globalFunctionOverrideLookupTable->insert_or_assign(
             functionOverrideTypeSignatureMap->getFunctionName(),
             functionOverrideTypeSignatureMap
     );
-    return this;
+    return shared_from_this();
 }
 
 std::string TypeSignatureLookupTable::getModuleName() {
@@ -215,7 +214,7 @@ std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* TypeSignatureL
     return _globalFunctionOverrideLookupTable;
 }
 
-void TypeSignatureLookupTable::inheritGlobalScope(TypeSignatureLookupTable* otherScope) {
+void TypeSignatureLookupTable::inheritGlobalScope(std::shared_ptr<TypeSignatureLookupTable> otherScope) {
     _linkedScopes = otherScope->getLinkedScopes();
     _globalTypeSignatureLookupTable = otherScope->getGlobalScope();
     _globalFunctionOverrideLookupTable = otherScope->getGlobalOverrideScope();

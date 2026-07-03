@@ -32,7 +32,7 @@ std::string ASTTupleTypeNodeDep::toString() {
     return "TUPLE_TYPE";
 }
 
-bool ASTTupleTypeNodeDep::isSameAs(ASTNode *other) {
+bool ASTTupleTypeNodeDep::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

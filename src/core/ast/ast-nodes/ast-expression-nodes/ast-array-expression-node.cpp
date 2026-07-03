@@ -52,7 +52,7 @@ std::string ASTArrayExpressionNode::toString() {
     return "ARRAY_EXPRESSION";
 }
 
-bool ASTArrayExpressionNode::isSameAs(ASTNode *other) {
+bool ASTArrayExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

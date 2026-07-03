@@ -46,7 +46,7 @@ std::string ASTRefExpressionNode::toString() {
     return "REF_EXPRESSION";
 }
 
-bool ASTRefExpressionNode::isSameAs(ASTNode *other) {
+bool ASTRefExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

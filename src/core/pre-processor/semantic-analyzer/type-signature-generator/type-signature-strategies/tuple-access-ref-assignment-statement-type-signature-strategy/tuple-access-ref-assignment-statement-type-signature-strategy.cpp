@@ -4,7 +4,7 @@
 
 #include "tuple-access-ref-assignment-statement-type-signature-strategy.h"
 
-void TupleAccessRefAssignmentStatementTypeSignatureStrategy::assign(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatement, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap) {
+void TupleAccessRefAssignmentStatementTypeSignatureStrategy::assign(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tupleAccessRefAssignmentStatement->getExpression(), context, scope);
     tupleAccessRefAssignmentStatement->getExpression()->setTypeSignature(
             tupleAccessRefAssignmentStatement->getExpression()->getTypeSignature()->convertToVariableTypeSignature()

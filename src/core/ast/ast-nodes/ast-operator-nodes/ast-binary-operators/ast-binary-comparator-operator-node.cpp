@@ -53,7 +53,7 @@ std::string ASTBinaryComparatorOperatorNode::toString() {
     return "BINARY_COMPARATOR_OPERATOR";
 }
 
-bool ASTBinaryComparatorOperatorNode::isSameAs(ASTNode *other) {
+bool ASTBinaryComparatorOperatorNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

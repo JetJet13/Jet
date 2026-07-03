@@ -29,7 +29,7 @@ std::string ASTTupleAccessNode::toString() {
     return "TUPLE_ACCESS";
 }
 
-bool ASTTupleAccessNode::isSameAs(ASTNode *other) {
+bool ASTTupleAccessNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

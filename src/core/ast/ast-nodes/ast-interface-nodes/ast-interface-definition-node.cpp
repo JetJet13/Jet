@@ -34,7 +34,7 @@ std::string ASTInterfaceDefinitionNode::toString() {
     return "INTERFACE_DEFINITION";
 }
 
-bool ASTInterfaceDefinitionNode::isSameAs(ASTNode *other) {
+bool ASTInterfaceDefinitionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

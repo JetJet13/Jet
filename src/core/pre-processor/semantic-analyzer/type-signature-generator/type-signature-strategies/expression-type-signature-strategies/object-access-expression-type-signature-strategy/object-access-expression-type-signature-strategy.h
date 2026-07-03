@@ -10,7 +10,7 @@
 
 class ObjectAccessExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTObjectAccessExpressionNode* objectAccessExpression, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTObjectAccessExpressionNode* objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

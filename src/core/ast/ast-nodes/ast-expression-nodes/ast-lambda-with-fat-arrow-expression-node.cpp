@@ -72,7 +72,7 @@ std::string ASTLambdaWithFatArrowExpressionNode::toString() {
     return "LAMBDA_WITH_FAT_ARROW_EXPRESSION";
 }
 
-bool ASTLambdaWithFatArrowExpressionNode::isSameAs(ASTNode *other) {
+bool ASTLambdaWithFatArrowExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

@@ -51,7 +51,7 @@ std::string ASTFunctionDefinitionNode::toString() {
     return "FUNCTION_DEFINITION";
 }
 
-bool ASTFunctionDefinitionNode::isSameAs(ASTNode *other) {
+bool ASTFunctionDefinitionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

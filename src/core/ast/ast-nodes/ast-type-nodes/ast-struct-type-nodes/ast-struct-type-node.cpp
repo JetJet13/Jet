@@ -58,7 +58,7 @@ std::string ASTStructTypeNode::toString() {
     return "STRUCT_TYPE";
 }
 
-bool ASTStructTypeNode::isSameAs(ASTNode *other) {
+bool ASTStructTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

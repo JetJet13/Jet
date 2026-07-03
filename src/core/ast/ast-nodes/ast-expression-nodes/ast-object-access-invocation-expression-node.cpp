@@ -83,7 +83,7 @@ std::string ASTObjectAccessInvocationExpressionNode::toString() {
     return "AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTObjectAccessInvocationExpressionNode::isSameAs(ASTNode *other) {
+bool ASTObjectAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

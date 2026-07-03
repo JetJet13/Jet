@@ -11,7 +11,7 @@
 
 class TypeTypeSignatureStrategy {
 public:
-    void assign(ASTTypeNode* node, TypeSignatureContext* context, TypeSignatureLookupTable* scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(ASTTypeNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TYPE_TYPE_SIGNATURE_STRATEGY_H

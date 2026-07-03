@@ -40,7 +40,7 @@ std::string ASTTupleAccessExpressionNode::toString() {
     return "TUPLE_ACCESS_EXPRESSION";
 }
 
-bool ASTTupleAccessExpressionNode::isSameAs(ASTNode *other) {
+bool ASTTupleAccessExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

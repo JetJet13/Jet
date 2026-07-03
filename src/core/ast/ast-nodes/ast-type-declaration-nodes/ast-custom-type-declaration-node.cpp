@@ -49,7 +49,7 @@ std::string ASTCustomTypeDeclarationNode::toString() {
     return "CUSTOM_TYPE_DECLARATION";
 }
 
-bool ASTCustomTypeDeclarationNode::isSameAs(ASTNode *other) {
+bool ASTCustomTypeDeclarationNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

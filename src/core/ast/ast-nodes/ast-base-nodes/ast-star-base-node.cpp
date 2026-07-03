@@ -13,7 +13,7 @@ ASTStarBaseNode::ASTStarBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode * ASTStarBaseNode::transformIfNecessary(std::optional<ASTNode *> prevNode, std::optional<ASTNode *> nextNode, SyntaxAnalyzerMode mode) {
+ASTNode* ASTStarBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_MODULE_ACCESS_NODE)) {
         return new ASTImportWildcardNode(_lexeme);
     }

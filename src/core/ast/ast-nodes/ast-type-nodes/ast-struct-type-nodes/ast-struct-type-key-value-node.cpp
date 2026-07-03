@@ -47,7 +47,7 @@ std::string ASTStructTypeKeyValueNode::toString() {
     return "STRUCT_TYPE_KEY";
 }
 
-bool ASTStructTypeKeyValueNode::isSameAs(ASTNode *other) {
+bool ASTStructTypeKeyValueNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

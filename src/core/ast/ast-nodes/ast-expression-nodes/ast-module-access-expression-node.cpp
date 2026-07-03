@@ -51,7 +51,7 @@ std::string ASTModuleAccessExpressionNode::toString() {
     return "MODULE_ACCESS_EXPRESSION";
 }
 
-bool ASTModuleAccessExpressionNode::isSameAs(ASTNode *other) {
+bool ASTModuleAccessExpressionNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

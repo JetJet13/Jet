@@ -39,7 +39,7 @@ std::string ASTLambdaTypeNode::toString() {
     return "LAMBDA_TYPE";
 }
 
-bool ASTLambdaTypeNode::isSameAs(ASTNode *other) {
+bool ASTLambdaTypeNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

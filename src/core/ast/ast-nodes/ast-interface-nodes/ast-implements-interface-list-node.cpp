@@ -58,7 +58,7 @@ std::string ASTImplementsInterfaceListNode::toString() {
     return "IMPLEMENTS_INTERFACE_LIST";
 }
 
-bool ASTImplementsInterfaceListNode::isSameAs(ASTNode *other) {
+bool ASTImplementsInterfaceListNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }

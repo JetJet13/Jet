@@ -37,7 +37,7 @@ std::string ASTTryBlockNode::toString() {
     return "TRY_BLOCK";
 }
 
-bool ASTTryBlockNode::isSameAs(ASTNode *other) {
+bool ASTTryBlockNode::isSameAs(ASTNode* other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
