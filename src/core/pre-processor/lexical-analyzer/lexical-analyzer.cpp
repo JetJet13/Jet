@@ -7,7 +7,7 @@
 #include "../../symbol/symbol-factory.h"
 #include "../../../shared/utils/logger/logger.h"
 
-LexicalAnalyzer::LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords) {
+LexicalAnalyzer::LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<ReservedKeywords> reservedKeywords) {
     _fileReader = FileReader();
     _reservedKeywords = reservedKeywords;
     _charTable = CharTable();
@@ -27,7 +27,6 @@ void LexicalAnalyzer::start(std::string &filePath) {
     } catch (std::exception &error) {
         throw error;
     }
-
 }
 
 void LexicalAnalyzer::stop() {

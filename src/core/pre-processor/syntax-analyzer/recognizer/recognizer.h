@@ -12,13 +12,13 @@
 
 class Recognizer {
 private:
-    SyntaxDfa* _syntaxDfa;
+    SyntaxDfa _syntaxDfa;
     RecognizerMode determineMode(Handle* handle);
     bool isBacktrackNode(std::optional<ASTNode*> astNode);
     bool isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode);
 public:
     Recognizer();
-    RecognizerResult* recognize(Handle* handle);
+    std::shared_ptr<RecognizerResult> recognize(Handle* handle);
 };
 
 #endif //JETLANG_RECOGNIZER_H

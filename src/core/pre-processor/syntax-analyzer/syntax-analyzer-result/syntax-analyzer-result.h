@@ -9,11 +9,11 @@
 
 class SyntaxAnalyzerResult {
 private:
-    FileScope* _fileScope;
+    std::shared_ptr<FileScope> _fileScope;
     std::vector<std::string> _syntaxErrors;
 public:
-    SyntaxAnalyzerResult(FileScope* fileScope, std::vector<std::string> syntaxErrors);
-    FileScope* getFileScope();
+    SyntaxAnalyzerResult(std::shared_ptr<FileScope> fileScope, std::vector<std::string> syntaxErrors);
+    std::shared_ptr<FileScope> getFileScope();
     std::vector<std::string>* getErrors();
     bool ok();
     void printErrors();

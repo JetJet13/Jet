@@ -4,7 +4,6 @@
 
 #include "ast-node-id-strategy.h"
 
-
-ASTNodeIdStrategy::ASTNodeIdStrategy(TokenTable* tokenTable) {
+ASTNodeIdStrategy::ASTNodeIdStrategy(std::shared_ptr<TokenTable> tokenTable) {
     _tokenTable = tokenTable;
 }

@@ -12,7 +12,7 @@ std::string ASTFloatLiteralNode::toString() {
     return "FLOAT_LITERAL - " + _lexeme->toString();
 }
 
-void ASTFloatLiteralNode::setValue(TokenTable* tokenTable) {
+void ASTFloatLiteralNode::setValue(std::shared_ptr<TokenTable> tokenTable) {
     _value = tokenTable->getFloat(_lexeme->getToken()->getValueId().value());
 }
 

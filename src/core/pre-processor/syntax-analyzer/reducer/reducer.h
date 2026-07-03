@@ -22,6 +22,6 @@ private:
     ASTNode* generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes);
 public:
     Reducer();
-    ASTNode* reduce(Handle handle, RecognizerResult* recognizerResult);
+    ASTNode* reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult);
 };
 #endif //JETLANG_REDUCER_H

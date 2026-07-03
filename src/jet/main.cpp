@@ -23,11 +23,11 @@ int main (int argc, const char* argv[]) {
     } else if (argc == 2) {
         std::string filePath = argv[1];
         Logger::log("executing file:", filePath);
-        auto tokenTable = new TokenTable();
-        auto reservedKeywords = new ReservedKeywords();
-        auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
-        auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-        auto semanticAnalyzer = new SemanticAnalyzer();
+        auto tokenTable = std::make_shared<TokenTable>();
+        auto reservedKeywords = std::make_shared<ReservedKeywords>();
+        auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
+        auto syntaxAnalyzer = std::make_shared<SyntaxAnalyzer>(tokenTable, lexicalAnalyzer);
+        auto semanticAnalyzer = std::make_shared<SemanticAnalyzer>();
         auto preProcessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
         auto jetFile = preProcessor.process(filePath);
         if (!jetFile->getTypeCheckerResult()->ok()) {

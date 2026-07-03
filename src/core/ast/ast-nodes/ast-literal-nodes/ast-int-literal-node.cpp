@@ -21,7 +21,7 @@ std::string ASTIntLiteralNode::toString() {
     return "INT_LITERAL - " + _lexeme->toString();
 }
 
-void ASTIntLiteralNode::setValue(TokenTable* tokenTable) {
+void ASTIntLiteralNode::setValue(std::shared_ptr<TokenTable> tokenTable) {
     _value = tokenTable->getInt(_lexeme->getToken()->getValueId().value());
 }
 

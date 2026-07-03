@@ -10,9 +10,9 @@
 
 class ASTNodeIdStrategy {
 protected:
-    TokenTable* _tokenTable;
+    std::shared_ptr<TokenTable> _tokenTable;
 public:
-    ASTNodeIdStrategy(TokenTable* tokenTable);
+    ASTNodeIdStrategy(std::shared_ptr<TokenTable> tokenTable);
     virtual void assign(ASTNode* node) = 0;
 };
 

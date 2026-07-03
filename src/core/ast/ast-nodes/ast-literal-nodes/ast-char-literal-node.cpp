@@ -12,7 +12,7 @@ std::string ASTCharLiteralNode::toString() {
     return "CHAR_LITERAL - " + _lexeme->toString();
 }
 
-void ASTCharLiteralNode::setValue(TokenTable* tokenTable) {
+void ASTCharLiteralNode::setValue(std::shared_ptr<TokenTable> tokenTable) {
     _value = tokenTable->getChar(_lexeme->getToken()->getValueId().value());
 }
 

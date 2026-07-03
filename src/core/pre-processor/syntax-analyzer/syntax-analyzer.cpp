@@ -9,31 +9,29 @@
 #include "../../ast/types/source-code-builder/source-code-builder.h"
 
 
-SyntaxAnalyzer::SyntaxAnalyzer(TokenTable *tokenTable, LexicalAnalyzer* lexicalAnalyzer) {
+SyntaxAnalyzer::SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<LexicalAnalyzer> lexicalAnalyzer) {
     _tokenTable = tokenTable;
-    _recognizer = new Recognizer();
-    _astNodeIdAssignor = new ASTNodeIdAssignor(_tokenTable);
+    _recognizer = Recognizer();
+    _astNodeIdAssignor = std::make_unique<ASTNodeIdAssignor>(_tokenTable);
     _reducer = Reducer();
     _handle = Handle();
     _lexemeTransformer = LexemeTransformer();
     _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<Scope>();
-    _recognizeStack = std::stack<std::stack<ASTNode*>*>();
+    _recognizeStack = std::stack<std::stack<ASTNode*>>();
     _lexicalAnalyzer = lexicalAnalyzer;
     _shiftDisabled = false;
     _syntaxErrorList = std::vector<std::string>();
 }
 
-SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
-    auto fileScope = new FileScope();
-    _recognizeStack.push(new std::stack<ASTNode*>());
+std::shared_ptr<SyntaxAnalyzerResult> SyntaxAnalyzer::analyze(std::string &filePath) {
+    auto fileScope = std::make_shared<FileScope>();
+    _recognizeStack.push(std::stack<ASTNode*>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     _shiftDisabled = false;
     _syntaxErrorList = std::vector<std::string>();
     while (true) {
-
-
         auto recognizerResult = this->recognizeHandle();
         if (_modeStack.empty()) {
             this->handleSyntaxErrors();
@@ -54,18 +52,18 @@ SyntaxAnalyzerResult* SyntaxAnalyzer::analyze(std::string &filePath) {
             this->handleSyntaxErrors();
         }
 
-        if (_handle.isEmpty() && _recognizeStack.top()->empty() && !_lexicalAnalyzer->hasMore()) {
+        if (_handle.isEmpty() && _recognizeStack.top().empty() && !_lexicalAnalyzer->hasMore()) {
             break;
         }
     }
-    return new SyntaxAnalyzerResult(fileScope, _syntaxErrorList);
+    return std::make_shared<SyntaxAnalyzerResult>(fileScope, _syntaxErrorList);
 }
 
-RecognizerResult* SyntaxAnalyzer::recognizeHandle() {
+std::shared_ptr<RecognizerResult> SyntaxAnalyzer::recognizeHandle() {
     Logger::log("recognize");
     this->prepHandleForRecognizer();
     _handle.print();
-    return _recognizer->recognize(&_handle);
+    return _recognizer.recognize(&_handle);
 }
 
 void SyntaxAnalyzer::shift() {
@@ -81,7 +79,7 @@ void SyntaxAnalyzer::shift() {
     }
 }
 
-void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope* fileScope) {
+void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerResult, std::shared_ptr<FileScope> fileScope) {
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
@@ -89,12 +87,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
         Logger::log("pushing new Scope to scope stack and creating new recognize stack");
         _scopeStack.push(Scope((ASTBlockStartNode*)reducedNode));
-        _recognizeStack.push(new std::stack<ASTNode*>());
+        _recognizeStack.push(std::stack<ASTNode*>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto scope = _scopeStack.top();
         _scopeStack.pop();
         _recognizeStack.pop();
-        _recognizeStack.top()->push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
+        _recognizeStack.top().push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
         _modeStack.pop();
     } else if (reducedNode->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
         fileScope->addImport((ASTImportSingleModuleDeclarationNode*)reducedNode);
@@ -111,7 +109,7 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
         }
     } else {
         Logger::log("pushing node to recognize stack:", reducedNode->toString());
-        _recognizeStack.top()->push(reducedNode);
+        _recognizeStack.top().push(reducedNode);
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
@@ -121,12 +119,12 @@ void SyntaxAnalyzer::reduceHandle(RecognizerResult* recognizerResult, FileScope*
 }
 
 void SyntaxAnalyzer::popFromStack() {
-    if (_recognizeStack.top()->empty()) {
+    if (_recognizeStack.top().empty()) {
         throw std::logic_error("stack is empty. Nothing to pop.");
     }
     Logger::log("popping from recognize stack...");
-    _handle.prepend(_recognizeStack.top()->top());
-    _recognizeStack.top()->pop();
+    _handle.prepend(_recognizeStack.top().top());
+    _recognizeStack.top().pop();
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
@@ -135,12 +133,12 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         return;
     }
 
-    if (!_recognizeStack.top()->empty()) {
-        _handle.setLastReducedNode(_recognizeStack.top()->top());
+    if (!_recognizeStack.top().empty()) {
+        _handle.setLastReducedNode(_recognizeStack.top().top());
     } else {
         _handle.clearLastReducedNode();
     }
-    if (_recognizeStack.top()->empty() && _handle.isTerminatorOnlyNode()) {
+    if (_recognizeStack.top().empty() && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
 
@@ -296,10 +294,10 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
 
 void SyntaxAnalyzer::handleSyntaxErrors() {
     auto recognizeNodes = std::vector<ASTNode*>();
-    auto numNodesInRecognizeStack = _recognizeStack.top()->size();
+    auto numNodesInRecognizeStack = _recognizeStack.top().size();
     for (unsigned long i = 0; i < numNodesInRecognizeStack; ++i) {
-        recognizeNodes.insert(recognizeNodes.begin(), _recognizeStack.top()->top());
-        _recognizeStack.top()->pop();
+        recognizeNodes.insert(recognizeNodes.begin(), _recognizeStack.top().top());
+        _recognizeStack.top().pop();
     }
     for (unsigned long i = 0; i < _handle.size(); ++i) {
         recognizeNodes.push_back(_handle.at(i).value());

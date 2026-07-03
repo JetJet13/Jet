@@ -10,7 +10,7 @@
 
 class ASTLiteralNodeValueAssignor {
 public:
-    void static assignValue(ASTNode* node, TokenTable* tokenTable);
+    void static assignValue(ASTNode* node, std::shared_ptr<TokenTable> tokenTable);
 };
 
 #endif //JETLANG_AST_LITERAL_NODE_VALUE_ASSIGNOR_H

@@ -38,28 +38,28 @@
 
 class SyntaxAnalyzer {
 private:
-    TokenTable* _tokenTable;
-    Recognizer* _recognizer;
-    ASTNodeIdAssignor* _astNodeIdAssignor;
+    std::shared_ptr<TokenTable> _tokenTable;
+    Recognizer _recognizer;
+    std::unique_ptr<ASTNodeIdAssignor> _astNodeIdAssignor;
     Reducer _reducer;
-    LexicalAnalyzer* _lexicalAnalyzer;
+    std::shared_ptr<LexicalAnalyzer> _lexicalAnalyzer;
     Handle _handle;
     LexemeTransformer _lexemeTransformer;
     std::stack<SyntaxAnalyzerMode> _modeStack;
     std::stack<Scope> _scopeStack;
-    std::stack<std::stack<ASTNode*>*> _recognizeStack;
+    std::stack<std::stack<ASTNode*>> _recognizeStack;
     std::vector<std::string> _syntaxErrorList;
     bool _shiftDisabled;
-    RecognizerResult* recognizeHandle();
+    std::shared_ptr<RecognizerResult> recognizeHandle();
     void shift();
-    void reduceHandle(RecognizerResult* recognizerResult, FileScope* fileScope);
+    void reduceHandle(std::shared_ptr<RecognizerResult> recognizerResult, std::shared_ptr<FileScope> fileScope);
     void popFromStack();
     void prepHandleForRecognizer();
     void updateModeIfNecessary(ASTNodeType astNodeType);
     void handleSyntaxErrors();
 public:
-    SyntaxAnalyzer(TokenTable* tokenTable, LexicalAnalyzer* lexicalAnalyzer);
-    SyntaxAnalyzerResult* analyze(std::string &filePath);
+    SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<LexicalAnalyzer> lexicalAnalyzer);
+    std::shared_ptr<SyntaxAnalyzerResult> analyze(std::string &filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_H

@@ -5,7 +5,7 @@
 #include "ast-literal-node-value-assignor.h"
 #include <any>
 
-void ASTLiteralNodeValueAssignor::assignValue(ASTNode* node, TokenTable* tokenTable) {
+void ASTLiteralNodeValueAssignor::assignValue(ASTNode* node, std::shared_ptr<TokenTable> tokenTable) {
     if (node->isOneOf({
         AST_INT_LITERAL_NODE,
         AST_FLOAT_LITERAL_NODE,

@@ -16,7 +16,7 @@ class ScopeAnalyzer {
 private:
     void traverse(ASTNode* startNode, ASTLookupTable* startScope);
 public:
-    void process(ASTFileNode* fileNode);
+    void process(std::shared_ptr<ASTFileNode> fileNode);
 };
 
 #endif //JETLANG_SCOPE_ANALYZER_H

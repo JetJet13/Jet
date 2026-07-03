@@ -6,7 +6,7 @@
 #include "../../shared/utils/logger/logger.h"
 
 DFA::DFA() {
-    _startNodes = std::unordered_map<ASTNodeType, DFANode*>();
+    _startNodes = std::unordered_map<ASTNodeType, std::shared_ptr<DFANode>>();
     _start = {};
     _current = {};
 }
@@ -21,8 +21,8 @@ void DFA::init(ASTNodeType astNodeType) {
     _current = startNode->second;
 }
 
-DFA* DFA::insertStartNode(DFANode* dfaNode) {
-    _startNodes.insert(std::pair<ASTNodeType, DFANode*>(dfaNode->getNodeType(), dfaNode));
+DFA* DFA::insertStartNode(std::shared_ptr<DFANode> dfaNode) {
+    _startNodes.insert(std::pair<ASTNodeType, std::shared_ptr<DFANode>>(dfaNode->getNodeType(), dfaNode));
     return this;
 }
 
@@ -39,15 +39,15 @@ void DFA::determine(ASTNodeType nextAstNodeType) {
     _current = _current.value()->transition(nextAstNodeType);
 }
 
-std::optional<DFANode*> DFA::getStartState() {
+std::optional<std::shared_ptr<DFANode>> DFA::getStartState() {
     return _start;
 }
 
-std::optional<DFANode*> DFA::getCurrentState() {
+std::optional<std::shared_ptr<DFANode>> DFA::getCurrentState() {
     return _current;
 }
 
-std::optional<DFANode*> DFA::findStartNode(ASTNodeType nodeType) {
+std::optional<std::shared_ptr<DFANode>> DFA::findStartNode(ASTNodeType nodeType) {
     auto prefixNode = _startNodes.find(nodeType);
     if (prefixNode == _startNodes.end()) {
         return {};

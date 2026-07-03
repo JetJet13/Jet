@@ -6,15 +6,15 @@
 #include "../jet-file/jet-file-id-generator/jet-file-id-generator.h"
 #include "semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
 
-PreProcessor::PreProcessor(SyntaxAnalyzer* syntaxAnalyzer, SemanticAnalyzer* semanticAnalyzer) {
+PreProcessor::PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::shared_ptr<SemanticAnalyzer> semanticAnalyzer) {
     _processedFileMap = PreProcessorMap();
     _scopeAnalyzer = ScopeAnalyzer();
     _syntaxAnalyzer = syntaxAnalyzer;
     _semanticAnalyzer = semanticAnalyzer;
 }
 
-ASTFileNode* PreProcessor::buildFile(std::string filePath, FileScope* fileScope) {
-    auto fileNode = new ASTFileNode(std::move(fileScope->getScope()), filePath, fileScope->getImports(), fileScope->getModule());
+std::shared_ptr<ASTFileNode> PreProcessor::buildFile(std::string filePath, std::shared_ptr<FileScope> fileScope) {
+    auto fileNode = std::make_shared<ASTFileNode>(std::move(fileScope->getScope()), filePath, fileScope->getImports(), fileScope->getModule());
     fileNode->markGlobalVariables();
     fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
     fileNode->setupModuleIfNecessary();
@@ -44,7 +44,7 @@ JetFile* PreProcessor::process(std::string filePath) {
     return new JetFile(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
 }
 
-std::set<JetFile*> PreProcessor::resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope) {
+std::set<JetFile*> PreProcessor::resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {
     auto importedJetFiles = std::set<JetFile*>();
     for (auto node : *fileNode->getImports()) {
         auto filePath = fileNode->getPathDirectory().append(node->getPath()->getImportPath()->getValue());

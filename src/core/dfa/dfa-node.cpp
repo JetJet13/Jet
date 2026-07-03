@@ -9,64 +9,64 @@
 DFANode::DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType) {
     _astNodeType = astNodeType;
     _predecessorsToBacktrackTo = std::vector<ASTNodeType>();
-    _backtrackToPredecessorRules = std::vector<BacktrackToPredecessorRule*>();
+    _backtrackToPredecessorRules = std::vector<std::shared_ptr<BacktrackToPredecessorRule>>();
     _successorsToReduceSelfFor = std::vector<ASTNodeType>();
-    _reduceToTargetMapsForPrevNode = std::vector<ReduceToTargetMap*>();
-    _reduceToTargetMapsForNextNode = std::vector<ReduceToTargetMap*>();
-    _reduceToTargetMapsForPrevNodeAndNextNode = std::vector<ReduceToTargetDualMap*>();
+    _reduceToTargetMapsForPrevNode = std::vector<std::shared_ptr<ReduceToTargetMap>>();
+    _reduceToTargetMapsForNextNode = std::vector<std::shared_ptr<ReduceToTargetMap>>();
+    _reduceToTargetMapsForPrevNodeAndNextNode = std::vector<std::shared_ptr<ReduceToTargetDualMap>>();
     _targetAstNodeType = targetAstNodeType;
     _occurrence = occurrence;
     _transitions = std::vector<DFATransition>();
     _alwaysReduceSelf = false;
 }
 
-DFANode* DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
+std::shared_ptr<DFANode> DFANode::backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors) {
     _predecessorsToBacktrackTo = std::move(predecessors);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::addBacktrackToPredecessorRule(BacktrackToPredecessorRule* backtrackToPredecessorRule) {
+std::shared_ptr<DFANode> DFANode::addBacktrackToPredecessorRule(std::shared_ptr<BacktrackToPredecessorRule> backtrackToPredecessorRule) {
     _backtrackToPredecessorRules.push_back(backtrackToPredecessorRule);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::addReduceToTargetMapForPrevNode(ReduceToTargetMap* reduceToTargetMap) {
+std::shared_ptr<DFANode> DFANode::addReduceToTargetMapForPrevNode(std::shared_ptr<ReduceToTargetMap> reduceToTargetMap) {
     _reduceToTargetMapsForPrevNode.push_back(reduceToTargetMap);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::addReduceToTargetMapForNextNode(ReduceToTargetMap* reduceToTargetMap) {
+std::shared_ptr<DFANode> DFANode::addReduceToTargetMapForNextNode(std::shared_ptr<ReduceToTargetMap> reduceToTargetMap) {
     _reduceToTargetMapsForNextNode.push_back(reduceToTargetMap);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::addReduceToTargetMapForPrevNodeAndNextNode(ReduceToTargetDualMap* reduceToTargetDualMap) {
+std::shared_ptr<DFANode> DFANode::addReduceToTargetMapForPrevNodeAndNextNode(std::shared_ptr<ReduceToTargetDualMap> reduceToTargetDualMap) {
     _reduceToTargetMapsForPrevNodeAndNextNode.push_back(reduceToTargetDualMap);
-    return this;
+    return shared_from_this();
 }
 
 
-DFANode* DFANode::reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors) {
+std::shared_ptr<DFANode> DFANode::reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors) {
     _successorsToReduceSelfFor = std::move(successors);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::addTransition(DFATransition transition) {
+std::shared_ptr<DFANode> DFANode::addTransition(DFATransition transition) {
     _transitions.push_back(transition);
-    return this;
+    return shared_from_this();
 }
 
-DFANode* DFANode::markAlwaysReduceSelf() {
+std::shared_ptr<DFANode> DFANode::markAlwaysReduceSelf() {
     _alwaysReduceSelf = true;
-    return this;
+    return shared_from_this();
 }
 
-std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
+std::optional<std::shared_ptr<DFANode>> DFANode::transition(ASTNodeType nextAstNodeType) {
     if (_astNodeType == nextAstNodeType &&
         (_occurrence == DFA_OCCURRENCE_ONCE_OR_MORE ||
                _occurrence == DFA_OCCURRENCE_NIL_OR_MORE)
     ) {
-        return this;
+        return shared_from_this();
     }
 
     for (auto transition : _transitions) {
@@ -79,7 +79,7 @@ std::optional<DFANode*> DFANode::transition(ASTNodeType nextAstNodeType) {
         }
     }
 
-    auto result = std::optional<DFANode*>();
+    auto result = std::optional<std::shared_ptr<DFANode>>();
     for (auto transition : _transitions) {
         if (transition.destination->isNilOrMore() || transition.destination->isNilOrOnce()) {
             result = transition.destination->transition(nextAstNodeType);

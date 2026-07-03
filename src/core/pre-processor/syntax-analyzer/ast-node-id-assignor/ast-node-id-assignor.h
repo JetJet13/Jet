@@ -13,12 +13,12 @@
 
 class ASTNodeIdAssignor {
 private:
-    TokenTable* _tokenTable;
-    std::unordered_map<ASTNodeType, ASTNodeIdStrategy*, std::hash<int>> _strategies;
+    std::shared_ptr<TokenTable> _tokenTable;
+    std::unordered_map<ASTNodeType, std::shared_ptr<ASTNodeIdStrategy>, std::hash<int>> _strategies;
     void initStrategies();
-    void addStrategy(ASTNodeType astNodeType, ASTNodeIdStrategy* reducerStrategy);
+    void addStrategy(ASTNodeType astNodeType, std::shared_ptr<ASTNodeIdStrategy> reducerStrategy);
 public:
-    ASTNodeIdAssignor(TokenTable* tokenTable);
+    ASTNodeIdAssignor(std::shared_ptr<TokenTable> tokenTable);
     void assignIdIfNecessary(ASTNode* node);
 };
 

@@ -81,7 +81,7 @@ void ScopeAnalyzer::traverse(ASTNode* startNode, ASTLookupTable* fileScope) {
     }
 }
 
-void ScopeAnalyzer::process(ASTFileNode* fileNode) {
+void ScopeAnalyzer::process(std::shared_ptr<ASTFileNode> fileNode) {
     auto fileScope = new ASTLookupTable();
     for (auto node : *fileNode->getBody()) {
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {

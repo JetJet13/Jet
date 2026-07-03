@@ -13,7 +13,7 @@ std::string ASTBooleanLiteralNode::toString() {
     return "BOOLEAN_LITERAL - " + _lexeme->toString();
 }
 
-void ASTBooleanLiteralNode::setValue(TokenTable* tokenTable) {
+void ASTBooleanLiteralNode::setValue(std::shared_ptr<TokenTable> tokenTable) {
     if (_lexeme->getToken()->getSymbol()->isTrue()) {
         _value = true;
         return;

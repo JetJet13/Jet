@@ -12,17 +12,17 @@
 
 class DFA {
 private:
-    std::unordered_map<ASTNodeType, DFANode*> _startNodes;
-    std::optional<DFANode*> _start;
-    std::optional<DFANode*> _current;
+    std::unordered_map<ASTNodeType, std::shared_ptr<DFANode>> _startNodes;
+    std::optional<std::shared_ptr<DFANode>> _start;
+    std::optional<std::shared_ptr<DFANode>> _current;
 public:
     DFA();
     void init(ASTNodeType astNodeType);
-    DFA* insertStartNode(DFANode* dfaNode);
+    DFA* insertStartNode(std::shared_ptr<DFANode> dfaNode);
     void reset();
     void determine(ASTNodeType nextAstNodeType);
-    std::optional<DFANode*> getStartState();
-    std::optional<DFANode*> getCurrentState();
-    std::optional<DFANode*> findStartNode(ASTNodeType nodeType);
+    std::optional<std::shared_ptr<DFANode>> getStartState();
+    std::optional<std::shared_ptr<DFANode>> getCurrentState();
+    std::optional<std::shared_ptr<DFANode>> findStartNode(ASTNodeType nodeType);
 };
 #endif //JETLANG_DFA_H

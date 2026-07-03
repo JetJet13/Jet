@@ -8,7 +8,7 @@
 #include "jet-file-id-generator/jet-file-id-generator.h"
 #include "../../shared/utils/logger/logger.h"
 
-JetFile::JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles) {
+JetFile::JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles) {
     _astFileNode = astFileNode;
     _fileScope = fileScope;
     _typeCheckerResult = std::move(typeCheckerResult);
@@ -16,7 +16,7 @@ JetFile::JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, 
     _id = JetFileIdGenerator::generate(astFileNode->getPath());
 }
 
-JetFile::JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult) {
+JetFile::JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult) {
     _astFileNode = astFileNode;
     _fileScope = fileScope;
     _typeCheckerResult = std::move(typeCheckerResult);
@@ -28,11 +28,11 @@ std::string JetFile::getId() {
     return _id;
 }
 
-ASTFileNode* JetFile::getFile() {
+std::shared_ptr<ASTFileNode> JetFile::getFile() {
     return _astFileNode;
 }
 
-TypeSignatureLookupTable* JetFile::getScope() {
+std::shared_ptr<TypeSignatureLookupTable> JetFile::getScope() {
     return _fileScope;
 }
 

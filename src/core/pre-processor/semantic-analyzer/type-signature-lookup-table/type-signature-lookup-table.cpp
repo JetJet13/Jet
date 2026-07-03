@@ -16,7 +16,7 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<TypeSignatureLo
     _globalInvocableTypeSignatureLookupTable = new std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>();
     _globalFunctionOverrideLookupTable = new std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>();
     _outerScope = outerScope;
-    _linkedScopes = new std::unordered_map<std::string, TypeSignatureLookupTable*>();
+    _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>();
 }
 
 
@@ -27,7 +27,7 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::
     _globalInvocableTypeSignatureLookupTable = new std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>();
     _globalFunctionOverrideLookupTable = new std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>();
     _outerScope = outerScope;
-    _linkedScopes = new std::unordered_map<std::string, TypeSignatureLookupTable*>();
+    _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>();
 }
 
 TypeSignatureLookupTable* TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
@@ -71,7 +71,7 @@ std::string TypeSignatureLookupTable::getModuleName() {
     return _moduleName;
 }
 
-void TypeSignatureLookupTable::link(TypeSignatureLookupTable* otherScope) {
+void TypeSignatureLookupTable::link(std::shared_ptr<TypeSignatureLookupTable> otherScope) {
     if (_outerScope) {
         _outerScope.value()->link(otherScope);
         return;
@@ -203,7 +203,7 @@ std::unordered_map<std::string, TypeSignature*>* TypeSignatureLookupTable::getGl
     return _globalTypeSignatureLookupTable;
 }
 
-std::unordered_map<std::string, TypeSignatureLookupTable*>* TypeSignatureLookupTable::getLinkedScopes() {
+std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>* TypeSignatureLookupTable::getLinkedScopes() {
     return _linkedScopes;
 }
 

@@ -276,7 +276,7 @@ void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrat
     _strategies.insert(std::pair<ASTNodeType, ReducerStrategy*>(astNodeType, reducerStrategy));
 }
 
-ASTNode* Reducer::reduce(Handle handle, RecognizerResult* recognizerResult) {
+ASTNode* Reducer::reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult) {
     if (handle.isEmpty()) {
         throw std::invalid_argument("handle cannot be empty");
     }

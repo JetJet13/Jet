@@ -22,7 +22,7 @@ private:
     std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>* _globalInvocableTypeSignatureLookupTable;
     std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* _globalFunctionOverrideLookupTable;
     std::optional<TypeSignatureLookupTable*> _outerScope;
-    std::unordered_map<std::string, TypeSignatureLookupTable*>* _linkedScopes;
+    std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>* _linkedScopes;
 public:
     explicit TypeSignatureLookupTable(std::optional<TypeSignatureLookupTable*> outerScope = {});
     explicit TypeSignatureLookupTable(std::string moduleName, std::optional<TypeSignatureLookupTable*> outerScope = {});
@@ -31,7 +31,7 @@ public:
     TypeSignatureLookupTable* insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature);
     TypeSignatureLookupTable* insertGlobalFunctionOverride(FunctionVarArgTypeSignatureMap* functionOverrideTypeSignatureMap);
     std::string getModuleName();
-    void link(TypeSignatureLookupTable* otherScope);
+    void link(std::shared_ptr<TypeSignatureLookupTable> otherScope);
     TypeSignature* find(std::string key);
     TypeSignature* find(std::string moduleId, std::string key);
     TypeSignature* findGlobal(std::string key);
@@ -43,7 +43,7 @@ public:
     std::optional<std::unordered_map<std::string, InvocableTypeSignature*>*> getGlobalFunction(std::string moduleId, std::string name);
     std::unordered_map<std::string, TypeSignature*> getLookupTable();
     std::unordered_map<std::string, TypeSignature*>* getGlobalScope();
-    std::unordered_map<std::string, TypeSignatureLookupTable*>* getLinkedScopes();
+    std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>* getLinkedScopes();
     std::unordered_map<std::string, std::unordered_map<std::string, InvocableTypeSignature*>*>* getGlobalInvocableScope();
     std::unordered_map<std::string, FunctionVarArgTypeSignatureMap*>* getGlobalOverrideScope();
     void inheritGlobalScope(TypeSignatureLookupTable* otherScope);

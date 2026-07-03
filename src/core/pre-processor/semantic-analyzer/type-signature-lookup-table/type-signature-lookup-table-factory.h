@@ -9,8 +9,8 @@
 
 class TypeSignatureLookupTableFactory {
 public:
-    static TypeSignatureLookupTable* createForModule(std::string moduleName = "");
-    static TypeSignatureLookupTable* createForDebugModule(std::string moduleName = "");
+    static std::shared_ptr<TypeSignatureLookupTable> createForModule(std::string moduleName = "");
+    static std::shared_ptr<TypeSignatureLookupTable> createForDebugModule(std::string moduleName = "");
     static TypeSignatureLookupTable* create();
 };
 

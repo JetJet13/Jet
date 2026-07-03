@@ -8,6 +8,6 @@
 #include "dfa-node.h"
 
 namespace DFATransitionFactory {
-    DFATransition create(DFANode* dfaNode);
+    DFATransition create(std::shared_ptr<DFANode> dfaNode);
 }
 #endif //JETLANG_DFA_TRANSITION_FACTORY_H

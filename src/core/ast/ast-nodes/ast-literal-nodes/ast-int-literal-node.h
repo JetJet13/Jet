@@ -17,7 +17,7 @@ public:
                                   SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    void setValue(TokenTable* tokenTable) override;
+    void setValue(std::shared_ptr<TokenTable> tokenTable) override;
     std::string getValue();
 };
 

@@ -6,8 +6,8 @@
 #include "../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 #include "../jet-debug-type-signature-map/jet-debug-type-signature-map.h"
 
-TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForModule(std::string moduleName) {
-    auto typeSignatureLookupTable = new TypeSignatureLookupTable(moduleName);
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTableFactory::createForModule(std::string moduleName) {
+    auto typeSignatureLookupTable = std::make_shared<TypeSignatureLookupTable>(moduleName);
 
     typeSignatureLookupTable->insertGlobalFunctionOverride(
         JetUtilsTypeSignatureMap::getPrintTypeSignatureMap()
@@ -35,7 +35,7 @@ TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForModule(std::
     return typeSignatureLookupTable;
 }
 
-TypeSignatureLookupTable* TypeSignatureLookupTableFactory::createForDebugModule(std::string moduleName) {
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTableFactory::createForDebugModule(std::string moduleName) {
     auto typeSignatureLookupTable = TypeSignatureLookupTableFactory::createForModule(moduleName);
     typeSignatureLookupTable->insertGlobal(
             JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignatureKey(),

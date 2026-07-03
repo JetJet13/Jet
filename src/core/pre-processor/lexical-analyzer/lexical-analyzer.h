@@ -15,9 +15,9 @@
 class LexicalAnalyzer {
 private:
     FileReader _fileReader;
-    ReservedKeywords* _reservedKeywords;
+    std::shared_ptr<ReservedKeywords> _reservedKeywords;
     CharTable _charTable;
-    TokenTable* _tokenTable;
+    std::shared_ptr<TokenTable> _tokenTable;
     int _tokenValueIdCursor;
     bool _hasMore;
     std::optional<Token*> _prevToken;
@@ -29,7 +29,7 @@ private:
     int generateTokenValueId();
     void resetAfterPeek(Cursor cursor, int numAdvances);
 public:
-    LexicalAnalyzer(TokenTable* tokenTable, ReservedKeywords* reservedKeywords);
+    LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<ReservedKeywords> reservedKeywords);
     void start(std::string &filePath);
     void stop();
     std::optional<Lexeme*> next();

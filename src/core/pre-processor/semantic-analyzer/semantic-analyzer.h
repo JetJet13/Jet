@@ -16,13 +16,13 @@
 class SemanticAnalyzer {
 private:
     TypeSignatureGenerator* _typeSignatureGenerator;
-    void generateInitialTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
-    void generateDeclarationTypeSignaturesFor(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
-    void generateTypeSignatureForModule(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
-    void runTypeChecker(ASTFileNode* fileNode, TypeCheckerResult* typeCheckerResults);
+    void generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
+    void generateDeclarationTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
+    void generateTypeSignatureForModule(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
+    void runTypeChecker(std::shared_ptr<ASTFileNode> fileNode, TypeCheckerResult* typeCheckerResults);
 public:
     SemanticAnalyzer();
-    TypeCheckerResult analyze(ASTFileNode* fileNode, TypeSignatureLookupTable* fileScope);
+    TypeCheckerResult analyze(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 #endif //JETLANG_SEMANTIC_ANALYZER_H

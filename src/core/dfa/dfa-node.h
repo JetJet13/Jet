@@ -15,30 +15,30 @@
 
 struct DFATransition;
 
-class DFANode {
+class DFANode : public std::enable_shared_from_this<DFANode> {
 private:
     std::vector<ASTNodeType> _predecessorsToBacktrackTo;
-    std::vector<BacktrackToPredecessorRule*> _backtrackToPredecessorRules;
+    std::vector<std::shared_ptr<BacktrackToPredecessorRule>> _backtrackToPredecessorRules;
     std::vector<ASTNodeType> _successorsToReduceSelfFor;
     std::optional<ASTNodeType> _targetAstNodeType;
-    std::vector<ReduceToTargetMap*> _reduceToTargetMapsForPrevNode;
-    std::vector<ReduceToTargetMap*> _reduceToTargetMapsForNextNode;
-    std::vector<ReduceToTargetDualMap*> _reduceToTargetMapsForPrevNodeAndNextNode;
+    std::vector<std::shared_ptr<ReduceToTargetMap>> _reduceToTargetMapsForPrevNode;
+    std::vector<std::shared_ptr<ReduceToTargetMap>> _reduceToTargetMapsForNextNode;
+    std::vector<std::shared_ptr<ReduceToTargetDualMap>> _reduceToTargetMapsForPrevNodeAndNextNode;
     DFANodeOccurrence _occurrence;
     ASTNodeType _astNodeType;
     std::vector<DFATransition> _transitions;
     bool _alwaysReduceSelf;
 public:
     DFANode(ASTNodeType astNodeType, DFANodeOccurrence occurrence, std::optional<ASTNodeType> targetAstNodeType = {});
-    DFANode* backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors);
-    DFANode* addBacktrackToPredecessorRule(BacktrackToPredecessorRule* backtrackToPredecessorRule);
-    DFANode* addReduceToTargetMapForPrevNode(ReduceToTargetMap* reduceToTargetMap);
-    DFANode* addReduceToTargetMapForNextNode(ReduceToTargetMap* reduceToTargetMap);
-    DFANode* addReduceToTargetMapForPrevNodeAndNextNode(ReduceToTargetDualMap* reduceToTargetDualMap);
-    DFANode* reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
-    DFANode* addTransition(DFATransition transition);
-    DFANode* markAlwaysReduceSelf();
-    std::optional<DFANode*> transition(ASTNodeType nextAstNodeType);
+    std::shared_ptr<DFANode> backtrackWhenLastReducedNodeIsOneOf(std::vector<ASTNodeType> predecessors);
+    std::shared_ptr<DFANode> addBacktrackToPredecessorRule(std::shared_ptr<BacktrackToPredecessorRule> backtrackToPredecessorRule);
+    std::shared_ptr<DFANode> addReduceToTargetMapForPrevNode(std::shared_ptr<ReduceToTargetMap> reduceToTargetMap);
+    std::shared_ptr<DFANode> addReduceToTargetMapForNextNode(std::shared_ptr<ReduceToTargetMap> reduceToTargetMap);
+    std::shared_ptr<DFANode> addReduceToTargetMapForPrevNodeAndNextNode(std::shared_ptr<ReduceToTargetDualMap> reduceToTargetDualMap);
+    std::shared_ptr<DFANode> reduceSelfWhenNextNodeIsOneOf(std::vector<ASTNodeType> successors);
+    std::shared_ptr<DFANode> addTransition(DFATransition transition);
+    std::shared_ptr<DFANode> markAlwaysReduceSelf();
+    std::optional<std::shared_ptr<DFANode>> transition(ASTNodeType nextAstNodeType);
     bool shouldBacktrackTo(ASTNodeType astNodeType);
     bool shouldBacktrackWhenPrevNodeAndNextNodeAre(ASTNodeType prevAstNodeType, ASTNodeType nextAstNodeType);
     bool shouldReduceSelfFor(ASTNodeType astNodeType);
@@ -61,7 +61,7 @@ public:
 
 struct DFATransition {
     ASTNodeType astNodeType;
-    DFANode* destination;
+    std::shared_ptr<DFANode> destination;
 };
 
 #endif //JETLANG_DFA_NODE_H

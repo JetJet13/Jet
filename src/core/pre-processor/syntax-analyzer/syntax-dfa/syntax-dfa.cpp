@@ -7,220 +7,220 @@
 #include "../../../dfa/dfa-transition-factory.h"
 
 SyntaxDfa::SyntaxDfa() {
-    _dfa = new DFA();
+    _dfa = DFA();
     this->init();
 }
 
 DFA* SyntaxDfa::getDFA() {
-    return _dfa;
+    return &_dfa;
 }
 
-std::optional<DFANode*> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode) {
+std::optional<std::shared_ptr<DFANode>> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode) {
     if (astNode.has_value()) {
-        return _dfa->findStartNode(astNode.value()->getNodeType());
+        return _dfa.findStartNode(astNode.value()->getNodeType());
     }
     return {};
 }
 
 void SyntaxDfa::init() {
-    DFANode* varDeclaration = DFANodeFactory::Once::create(AST_VARIABLE_DECLARATION_NODE);
-    DFANode* varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
-    DFANode* varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
-    DFANode* varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
-    DFANode* identifier = DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE);
-    DFANode* identifierExpression = DFANodeFactory::Once::create(AST_IDENTIFIER_EXPRESSION_NODE);
-    DFANode* callableIdentifierExpression = DFANodeFactory::Once::create(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE);
-    DFANode* literalExpression = DFANodeFactory::Once::create(AST_LITERAL_EXPRESSION_NODE);
-    DFANode* arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
-    DFANode* arrayAccessInvocationExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE);
-    DFANode* arrayExpression = DFANodeFactory::Once::create(AST_ARRAY_EXPRESSION_NODE);
-    DFANode* structExpression = DFANodeFactory::Once::create(AST_STRUCT_EXPRESSION_NODE);
-    DFANode* objectAccessExpression = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_EXPRESSION_NODE);
-    DFANode* objectAccessInvocationExpression = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE);
-    DFANode* binaryArithmeticExpression = DFANodeFactory::Once::create(AST_BINARY_ARITHMETIC_EXPRESSION_NODE);
-    DFANode* binaryComparatorExpression = DFANodeFactory::Once::create(AST_BINARY_COMPARATOR_EXPRESSION_NODE);
-    DFANode* logicalExpression = DFANodeFactory::Once::create(AST_LOGICAL_EXPRESSION_NODE);
-    DFANode* unaryExpression = DFANodeFactory::Once::create(AST_UNARY_EXPRESSION_NODE);
-    DFANode* binaryArithmeticOperator = DFANodeFactory::Once::create(AST_BINARY_ARITHMETIC_OPERATOR_NODE);
-    DFANode* binaryComparatorOperator = DFANodeFactory::Once::create(AST_BINARY_COMPARATOR_OPERATOR_NODE);
-    DFANode* logicalOperator = DFANodeFactory::Once::create(AST_LOGICAL_OPERATOR_NODE);
-    DFANode* unaryOperator = DFANodeFactory::Once::create(AST_UNARY_OPERATOR_NODE);
-    DFANode* arrayBase = DFANodeFactory::Once::create(AST_ARRAY_NODE);
-    DFANode* arrayAccess = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_NODE);
-    DFANode* arrayAccessAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_ASSIGNMENT_NODE);
-    DFANode* objectAccessAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_ASSIGNMENT_NODE);
-    DFANode* tupleAccessAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_ASSIGNMENT_NODE);
-    DFANode* moduleAccessAssignment = DFANodeFactory::Once::create(AST_MODULE_ACCESS_ASSIGNMENT_NODE);
-    DFANode* arrayAccessRefAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_REF_ASSIGNMENT_NODE);
-    DFANode* objectAccessRefAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE);
-    DFANode* tupleAccessRefAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_REF_ASSIGNMENT_NODE);
-    DFANode* moduleAccessRefAssignment = DFANodeFactory::Once::create(AST_MODULE_ACCESS_REF_ASSIGNMENT_NODE);
-    DFANode* structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
-    DFANode* block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
-    DFANode* typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
-    DFANode* structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
-    DFANode* period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
-    DFANode* refKeyword = DFANodeFactory::Once::create(AST_REF_NODE);
-    DFANode* refTypeKeyword = DFANodeFactory::Once::create(AST_REF_TYPE_KEYWORD_NODE);
-    DFANode* drefKeyword = DFANodeFactory::Once::create(AST_DREF_NODE);
-    DFANode* refExpression = DFANodeFactory::Once::create(AST_REF_EXPRESSION_NODE);
-    DFANode* drefExpression = DFANodeFactory::Once::create(AST_DREF_EXPRESSION_NODE);
-    DFANode* functionDeclaration = DFANodeFactory::Once::create(AST_FUNCTION_DECLARATION_NODE);
-    DFANode* functionDefinition = DFANodeFactory::Once::create(AST_FUNCTION_DEFINITION_NODE);
-    DFANode* functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
-    DFANode* functionName = DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE);
-    DFANode* functionCall = DFANodeFactory::Once::create(AST_FUNCTION_CALL_NODE);
-    DFANode* functionParameter = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_NODE);
-    DFANode* functionParameterList = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE);
-    DFANode* functionArgument = DFANodeFactory::Once::create(AST_FUNCTION_ARGUMENT_NODE);
-    DFANode* functionArgumentList = DFANodeFactory::Once::create(AST_FUNCTION_ARGUMENT_LIST_NODE);
-    DFANode* functionReturn = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_NODE);
-    DFANode* functionReturnExpression = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_EXPRESSION_NODE);
-    DFANode* functionInvocationExpression = DFANodeFactory::Once::create(AST_FUNCTION_INVOCATION_EXPRESSION_NODE);
-    DFANode* procedureDeclaration = DFANodeFactory::Once::create(AST_PROCEDURE_DECLARATION_NODE);
-    DFANode* procedureDefinition = DFANodeFactory::Once::create(AST_PROCEDURE_DEFINITION_NODE);
-    DFANode* procedureKeyword = DFANodeFactory::Once::create(AST_PROCEDURE_NODE);
-    DFANode* type = DFANodeFactory::Once::create(AST_TYPE_NODE);
-    DFANode* varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
-    DFANode* refValueAssignment = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_NODE);
-    DFANode* assignmentOperator = DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE);
-    DFANode* refValueAssignmentOperator = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE);
-    DFANode* varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* refValueAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* arrayAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* objectAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* tupleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* moduleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* arrayAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* objectAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* tupleAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* moduleAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
-    DFANode* enumDeclaration = DFANodeFactory::Once::createWithTarget(AST_ENUM_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE);
-    DFANode* enumKeyword = DFANodeFactory::Once::create(AST_ENUM_NODE);
-    DFANode* enumName = DFANodeFactory::Once::create(AST_ENUM_NAME_NODE);
-    DFANode* enumKey = DFANodeFactory::Once::create(AST_ENUM_KEY_NODE);
-    DFANode* enumKeyValue = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_NODE);
-    DFANode* enumKeyValueList = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_NODE);
-    DFANode* tupleItem = DFANodeFactory::Once::create(AST_TUPLE_ITEM_NODE);
-    DFANode* tupleExpression = DFANodeFactory::Once::create(AST_TUPLE_EXPRESSION_NODE);
-    DFANode* tupleAccess = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_NODE);
-    DFANode* tupleAccessExpression = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_EXPRESSION_NODE);
-    DFANode* tupleAccessInvocationExpression = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE);
-    DFANode* objectAccessSource = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_SOURCE_NODE);
-    DFANode* objectAccessTarget = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_TARGET_NODE);
-    DFANode* ifKeyword = DFANodeFactory::Once::create(AST_IF_NODE);
-    DFANode* elseIfKeyword = DFANodeFactory::Once::create(AST_ELSE_IF_NODE);
-    DFANode* elseKeyword = DFANodeFactory::Once::create(AST_ELSE_NODE);
-    DFANode* ifBlock = DFANodeFactory::Once::create(AST_IF_BLOCK_NODE);
-    DFANode* elseIfBlock = DFANodeFactory::Once::create(AST_ELSE_IF_BLOCK_NODE);
-    DFANode* elseBlock = DFANodeFactory::Once::create(AST_ELSE_BLOCK_NODE);
-    DFANode* controlFlowCondition = DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE);
-    DFANode* controlFlowStatement = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
-    DFANode* controlFlowStart = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
-    DFANode* whileKeyword = DFANodeFactory::Once::create(AST_WHILE_NODE);
-    DFANode* whileStatement = DFANodeFactory::Once::createWithTarget(AST_WHILE_STATEMENT_NODE, AST_WHILE_STATEMENT_NODE);
-    DFANode* forKeyword = DFANodeFactory::Once::create(AST_FOR_NODE);
-    DFANode* forInKeyword = DFANodeFactory::Once::create(AST_FOR_IN_NODE);
-    DFANode* forSource = DFANodeFactory::Once::create(AST_FOR_IN_SOURCE_NODE);
-    DFANode* forVariable = DFANodeFactory::Once::create(AST_FOR_IN_VARIABLE_NODE);
-    DFANode* forStatement = DFANodeFactory::Once::createWithTarget(AST_FOR_IN_STATEMENT_NODE, AST_FOR_IN_STATEMENT_NODE);
-    DFANode* breakKeyword = DFANodeFactory::Once::createWithTarget(AST_BREAK_NODE, AST_BREAK_NODE);
-    DFANode* skipKeyword = DFANodeFactory::Once::createWithTarget(AST_SKIP_NODE, AST_SKIP_NODE);
-    DFANode* tryStatement = DFANodeFactory::Once::createWithTarget(AST_TRY_STATEMENT_NODE, AST_TRY_STATEMENT_NODE);
-    DFANode* tryKeyword = DFANodeFactory::Once::create(AST_TRY_NODE);
-    DFANode* catchKeyword = DFANodeFactory::Once::create(AST_CATCH_NODE);
-    DFANode* finallyKeyword = DFANodeFactory::Once::create(AST_FINALLY_NODE);
-    DFANode* catchErrorVariable = DFANodeFactory::Once::create(AST_CATCH_ERROR_VARIABLE_NODE);
-    DFANode* tryBlock = DFANodeFactory::Once::create(AST_TRY_BLOCK_NODE);
-    DFANode* catchBlock = DFANodeFactory::Once::create(AST_CATCH_BLOCK_NODE);
-    DFANode* finallyBlock = DFANodeFactory::Once::create(AST_FINALLY_BLOCK_NODE);
-    DFANode* fatArrowBase = DFANodeFactory::Once::create(AST_FAT_ARROW_BASE_NODE);
-    DFANode* lambdaTypeFatArrow = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE);
-    DFANode* lambdaExpressionFatArrow = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE);
-    DFANode* lambdaReturnExpression = DFANodeFactory::Once::create(AST_LAMBDA_RETURN_EXPRESSION_NODE);
-    DFANode* lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
-    DFANode* lambdaWithFatArrowExpression = DFANodeFactory::Once::create(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE);
-    DFANode* typeParameterList = DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_NODE);
-    DFANode* curryExpression = DFANodeFactory::Once::create(AST_CURRY_EXPRESSION_NODE);
-    DFANode* tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
-    DFANode* arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
-    DFANode* moduleKeyword = DFANodeFactory::Once::create(AST_MODULE_NODE);
-    DFANode* moduleSpread = DFANodeFactory::Once::create(AST_MODULE_SPREAD_NODE);
-    DFANode* moduleListNormalItem = DFANodeFactory::Once::create(AST_MODULE_LIST_NORMAL_ITEM_NODE);
-    DFANode* moduleListAliasItem = DFANodeFactory::Once::create(AST_MODULE_LIST_ALIAS_ITEM_NODE);
-    DFANode* moduleListSpreadItem = DFANodeFactory::Once::create(AST_MODULE_LIST_SPREAD_ITEM_NODE);
-    DFANode* asKeyword = DFANodeFactory::Once::create(AST_AS_NODE);
-    DFANode* importKeyword = DFANodeFactory::Once::create(AST_IMPORT_NODE);
-    DFANode* useKeyword = DFANodeFactory::Once::create(AST_USE_NODE);
-    DFANode* fromKeyword = DFANodeFactory::Once::create(AST_FROM_NODE);
-    DFANode* importModuleName = DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE);
-    DFANode* moduleAccess = DFANodeFactory::Once::create(AST_MODULE_ACCESS_NODE);
-    DFANode* moduleAccessType = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TYPE_NODE);
-    DFANode* moduleTypeSource = DFANodeFactory::Once::create(AST_MODULE_TYPE_SOURCE_NODE);
-    DFANode* moduleTypeTarget = DFANodeFactory::Once::create(AST_MODULE_TYPE_TARGET_NODE);
-    DFANode* moduleAccessExpression = DFANodeFactory::Once::create(AST_MODULE_ACCESS_EXPRESSION_NODE);
-    DFANode* moduleAccessSource = DFANodeFactory::Once::create(AST_MODULE_ACCESS_SOURCE_NODE);
-    DFANode* moduleAccessTarget = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TARGET_NODE);
-    DFANode* importModuleListByWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE);
-    DFANode* importModuleListByGroupItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE);
-    DFANode* importModuleListAliasItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE);
-    DFANode* importModuleListSpreadItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE);
-    DFANode* importModuleListNormalItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_NORMAL_ITEM_NODE);
-    DFANode* importModuleListWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_WILDCARD_ITEM_NODE);
-    DFANode* classKeyword = DFANodeFactory::Once::create(AST_CLASS_NODE);
-    DFANode* className = DFANodeFactory::Once::create(AST_CLASS_NAME_NODE);
-    DFANode* thisKeyword = DFANodeFactory::Once::create(AST_THIS_NODE);
-    DFANode* thisAccess = DFANodeFactory::Once::create(AST_THIS_ACCESS_NODE);
-    DFANode* thisExpression = DFANodeFactory::Once::create(AST_THIS_EXPRESSION_NODE);
-    DFANode* publicKeyword = DFANodeFactory::Once::create(AST_PUBLIC_NODE);
-    DFANode* protectedKeyword = DFANodeFactory::Once::create(AST_PROTECTED_NODE);
-    DFANode* privateKeyword = DFANodeFactory::Once::create(AST_PRIVATE_NODE);
-    DFANode* staticKeyword = DFANodeFactory::Once::create(AST_STATIC_NODE);
-    DFANode* constKeyword = DFANodeFactory::Once::create(AST_CONST_NODE);
-    DFANode* classMethodCall = DFANodeFactory::Once::create(AST_CLASS_METHOD_CALL_NODE);
-    DFANode* classMethodName = DFANodeFactory::Once::create(AST_CLASS_METHOD_NAME_NODE);
-    DFANode* classMethod = DFANodeFactory::Once::create(AST_CLASS_METHOD_DECLARATION_NODE);
-    DFANode* classPropertyName = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NAME_NODE);
-    DFANode* classPropertyDefinition = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_NODE);
-    DFANode* classPropertyDefinitionWithType = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE);
-    DFANode* classPropertyInit = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_INIT_NODE);
-    DFANode* classPropertyDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_DECLARATION_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE);
-    DFANode* classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
-    DFANode* classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
-    DFANode* classPropertyRefValueAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE);
-    DFANode* classMethodInvocationExpression = DFANodeFactory::Once::create(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE);
-    DFANode* constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
-    DFANode* classConstructorDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE);
-    DFANode* classAccess = DFANodeFactory::Once::create(AST_CLASS_ACCESS_NODE);
-    DFANode* newKeyword = DFANodeFactory::Once::create(AST_NEW_NODE);
-    DFANode* newClassInstance = DFANodeFactory::Once::create(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE);
-    DFANode* classMethodDefinition = DFANodeFactory::Once::create(AST_CLASS_METHOD_DEFINITION_NODE);
-    DFANode* classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
-    DFANode* exportKeyword = DFANodeFactory::Once::create(AST_EXPORT_NODE);
-    DFANode* concatOperator = DFANodeFactory::Once::create(AST_CONCAT_NODE);
-    DFANode* concatExpression = DFANodeFactory::Once::create(AST_CONCAT_EXPRESSION_NODE);
-    DFANode* interfaceKeyword = DFANodeFactory::Once::create(AST_INTERFACE_NODE);
-    DFANode* interfaceName = DFANodeFactory::Once::create(AST_INTERFACE_NAME_NODE);
-    DFANode* interfaceDefinition = DFANodeFactory::Once::create(AST_INTERFACE_DEFINITION_NODE);
-    DFANode* interfacePropertyName = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NAME_NODE);
-    DFANode* interfaceProperty = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NODE);
-    DFANode* interfacePropertyList = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_LIST_NODE);
-    DFANode* interfaceColon = DFANodeFactory::Once::create(AST_INTERFACE_COLON_NODE);
-    DFANode* structTypeKey = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_NODE);
-    DFANode* structTypeKeyValue = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_VALUE_NODE);
-    DFANode* structTypeColon = DFANodeFactory::Once::create(AST_STRUCT_TYPE_COLON_NODE);
-    DFANode* implementsKeyword = DFANodeFactory::Once::create(AST_IMPLEMENTS_NODE);
-    DFANode* implementsInterfaceName = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_NODE);
-    DFANode* implementsInterfaceNameLast = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE);
-    DFANode* typeKeyword = DFANodeFactory::Once::create(AST_TYPE_KEYWORD_NODE);
-    DFANode* typeName = DFANodeFactory::Once::create(AST_TYPE_NAME_NODE);
-    DFANode* typeAssignmentOperator = DFANodeFactory::Once::create(AST_TYPE_ASSIGNMENT_OPERATOR_NODE);
-    DFANode* customTypeDeclaration = DFANodeFactory::Once::create(AST_CUSTOM_TYPE_DECLARATION_NODE);
-    DFANode* arrayTypeStart = DFANodeFactory::Once::create(AST_ARRAY_TYPE_START_NODE);
-    DFANode* arrayTypeEnd = DFANodeFactory::Once::create(AST_ARRAY_TYPE_END_NODE);
-    DFANode* lambdaTypeParameterListStart = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE);
-    DFANode* lambdaTypeParameterListEnd = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
-    DFANode* lambdaTypeParameterList = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
+    auto varDeclaration = DFANodeFactory::Once::create(AST_VARIABLE_DECLARATION_NODE);
+    auto varInit = DFANodeFactory::Once::create(AST_VARIABLE_INIT_NODE);
+    auto varType = DFANodeFactory::Once::create(AST_VARIABLE_TYPE_NODE);
+    auto varDefinition = DFANodeFactory::Once::create(AST_VARIABLE_DEFINITION_NODE);
+    auto identifier = DFANodeFactory::Once::createWithTarget(AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE);
+    auto identifierExpression = DFANodeFactory::Once::create(AST_IDENTIFIER_EXPRESSION_NODE);
+    auto callableIdentifierExpression = DFANodeFactory::Once::create(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE);
+    auto literalExpression = DFANodeFactory::Once::create(AST_LITERAL_EXPRESSION_NODE);
+    auto arrayAccessExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_EXPRESSION_NODE);
+    auto arrayAccessInvocationExpression = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE);
+    auto arrayExpression = DFANodeFactory::Once::create(AST_ARRAY_EXPRESSION_NODE);
+    auto structExpression = DFANodeFactory::Once::create(AST_STRUCT_EXPRESSION_NODE);
+    auto objectAccessExpression = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_EXPRESSION_NODE);
+    auto objectAccessInvocationExpression = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE);
+    auto binaryArithmeticExpression = DFANodeFactory::Once::create(AST_BINARY_ARITHMETIC_EXPRESSION_NODE);
+    auto binaryComparatorExpression = DFANodeFactory::Once::create(AST_BINARY_COMPARATOR_EXPRESSION_NODE);
+    auto logicalExpression = DFANodeFactory::Once::create(AST_LOGICAL_EXPRESSION_NODE);
+    auto unaryExpression = DFANodeFactory::Once::create(AST_UNARY_EXPRESSION_NODE);
+    auto binaryArithmeticOperator = DFANodeFactory::Once::create(AST_BINARY_ARITHMETIC_OPERATOR_NODE);
+    auto binaryComparatorOperator = DFANodeFactory::Once::create(AST_BINARY_COMPARATOR_OPERATOR_NODE);
+    auto logicalOperator = DFANodeFactory::Once::create(AST_LOGICAL_OPERATOR_NODE);
+    auto unaryOperator = DFANodeFactory::Once::create(AST_UNARY_OPERATOR_NODE);
+    auto arrayBase = DFANodeFactory::Once::create(AST_ARRAY_NODE);
+    auto arrayAccess = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_NODE);
+    auto arrayAccessAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_ASSIGNMENT_NODE);
+    auto objectAccessAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_ASSIGNMENT_NODE);
+    auto tupleAccessAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_ASSIGNMENT_NODE);
+    auto moduleAccessAssignment = DFANodeFactory::Once::create(AST_MODULE_ACCESS_ASSIGNMENT_NODE);
+    auto arrayAccessRefAssignment = DFANodeFactory::Once::create(AST_ARRAY_ACCESS_REF_ASSIGNMENT_NODE);
+    auto objectAccessRefAssignment = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE);
+    auto tupleAccessRefAssignment = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_REF_ASSIGNMENT_NODE);
+    auto moduleAccessRefAssignment = DFANodeFactory::Once::create(AST_MODULE_ACCESS_REF_ASSIGNMENT_NODE);
+    auto structKeyValue = DFANodeFactory::Once::create(AST_STRUCT_KEY_VALUE_NODE);
+    auto block = DFANodeFactory::Once::create(AST_BLOCK_NODE);
+    auto typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
+    auto structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
+    auto period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
+    auto refKeyword = DFANodeFactory::Once::create(AST_REF_NODE);
+    auto refTypeKeyword = DFANodeFactory::Once::create(AST_REF_TYPE_KEYWORD_NODE);
+    auto drefKeyword = DFANodeFactory::Once::create(AST_DREF_NODE);
+    auto refExpression = DFANodeFactory::Once::create(AST_REF_EXPRESSION_NODE);
+    auto drefExpression = DFANodeFactory::Once::create(AST_DREF_EXPRESSION_NODE);
+    auto functionDeclaration = DFANodeFactory::Once::create(AST_FUNCTION_DECLARATION_NODE);
+    auto functionDefinition = DFANodeFactory::Once::create(AST_FUNCTION_DEFINITION_NODE);
+    auto functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
+    auto functionName = DFANodeFactory::Once::create(AST_FUNCTION_NAME_NODE);
+    auto functionCall = DFANodeFactory::Once::create(AST_FUNCTION_CALL_NODE);
+    auto functionParameter = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_NODE);
+    auto functionParameterList = DFANodeFactory::Once::create(AST_FUNCTION_PARAMETER_LIST_NODE);
+    auto functionArgument = DFANodeFactory::Once::create(AST_FUNCTION_ARGUMENT_NODE);
+    auto functionArgumentList = DFANodeFactory::Once::create(AST_FUNCTION_ARGUMENT_LIST_NODE);
+    auto functionReturn = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_NODE);
+    auto functionReturnExpression = DFANodeFactory::Once::create(AST_FUNCTION_RETURN_EXPRESSION_NODE);
+    auto functionInvocationExpression = DFANodeFactory::Once::create(AST_FUNCTION_INVOCATION_EXPRESSION_NODE);
+    auto procedureDeclaration = DFANodeFactory::Once::create(AST_PROCEDURE_DECLARATION_NODE);
+    auto procedureDefinition = DFANodeFactory::Once::create(AST_PROCEDURE_DEFINITION_NODE);
+    auto procedureKeyword = DFANodeFactory::Once::create(AST_PROCEDURE_NODE);
+    auto type = DFANodeFactory::Once::create(AST_TYPE_NODE);
+    auto varAssignment = DFANodeFactory::Once::create(AST_VARIABLE_ASSIGNMENT_NODE);
+    auto refValueAssignment = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_NODE);
+    auto assignmentOperator = DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE);
+    auto refValueAssignmentOperator = DFANodeFactory::Once::create(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE);
+    auto varAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE, AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE);
+    auto refValueAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE);
+    auto arrayAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    auto objectAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    auto tupleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    auto moduleAccessAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE);
+    auto arrayAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
+    auto objectAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
+    auto tupleAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
+    auto moduleAccessRefAssignmentStatement = DFANodeFactory::Once::createWithTarget(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE);
+    auto enumDeclaration = DFANodeFactory::Once::createWithTarget(AST_ENUM_DECLARATION_NODE, AST_ENUM_DECLARATION_NODE);
+    auto enumKeyword = DFANodeFactory::Once::create(AST_ENUM_NODE);
+    auto enumName = DFANodeFactory::Once::create(AST_ENUM_NAME_NODE);
+    auto enumKey = DFANodeFactory::Once::create(AST_ENUM_KEY_NODE);
+    auto enumKeyValue = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_NODE);
+    auto enumKeyValueList = DFANodeFactory::Once::create(AST_ENUM_KEY_VALUE_LIST_NODE);
+    auto tupleItem = DFANodeFactory::Once::create(AST_TUPLE_ITEM_NODE);
+    auto tupleExpression = DFANodeFactory::Once::create(AST_TUPLE_EXPRESSION_NODE);
+    auto tupleAccess = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_NODE);
+    auto tupleAccessExpression = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_EXPRESSION_NODE);
+    auto tupleAccessInvocationExpression = DFANodeFactory::Once::create(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE);
+    auto objectAccessSource = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_SOURCE_NODE);
+    auto objectAccessTarget = DFANodeFactory::Once::create(AST_OBJECT_ACCESS_TARGET_NODE);
+    auto ifKeyword = DFANodeFactory::Once::create(AST_IF_NODE);
+    auto elseIfKeyword = DFANodeFactory::Once::create(AST_ELSE_IF_NODE);
+    auto elseKeyword = DFANodeFactory::Once::create(AST_ELSE_NODE);
+    auto ifBlock = DFANodeFactory::Once::create(AST_IF_BLOCK_NODE);
+    auto elseIfBlock = DFANodeFactory::Once::create(AST_ELSE_IF_BLOCK_NODE);
+    auto elseBlock = DFANodeFactory::Once::create(AST_ELSE_BLOCK_NODE);
+    auto controlFlowCondition = DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE);
+    auto controlFlowStatement = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
+    auto controlFlowStart = DFANodeFactory::Once::createWithTarget(AST_IF_STATEMENT_NODE, AST_IF_STATEMENT_NODE);
+    auto whileKeyword = DFANodeFactory::Once::create(AST_WHILE_NODE);
+    auto whileStatement = DFANodeFactory::Once::createWithTarget(AST_WHILE_STATEMENT_NODE, AST_WHILE_STATEMENT_NODE);
+    auto forKeyword = DFANodeFactory::Once::create(AST_FOR_NODE);
+    auto forInKeyword = DFANodeFactory::Once::create(AST_FOR_IN_NODE);
+    auto forSource = DFANodeFactory::Once::create(AST_FOR_IN_SOURCE_NODE);
+    auto forVariable = DFANodeFactory::Once::create(AST_FOR_IN_VARIABLE_NODE);
+    auto forStatement = DFANodeFactory::Once::createWithTarget(AST_FOR_IN_STATEMENT_NODE, AST_FOR_IN_STATEMENT_NODE);
+    auto breakKeyword = DFANodeFactory::Once::createWithTarget(AST_BREAK_NODE, AST_BREAK_NODE);
+    auto skipKeyword = DFANodeFactory::Once::createWithTarget(AST_SKIP_NODE, AST_SKIP_NODE);
+    auto tryStatement = DFANodeFactory::Once::createWithTarget(AST_TRY_STATEMENT_NODE, AST_TRY_STATEMENT_NODE);
+    auto tryKeyword = DFANodeFactory::Once::create(AST_TRY_NODE);
+    auto catchKeyword = DFANodeFactory::Once::create(AST_CATCH_NODE);
+    auto finallyKeyword = DFANodeFactory::Once::create(AST_FINALLY_NODE);
+    auto catchErrorVariable = DFANodeFactory::Once::create(AST_CATCH_ERROR_VARIABLE_NODE);
+    auto tryBlock = DFANodeFactory::Once::create(AST_TRY_BLOCK_NODE);
+    auto catchBlock = DFANodeFactory::Once::create(AST_CATCH_BLOCK_NODE);
+    auto finallyBlock = DFANodeFactory::Once::create(AST_FINALLY_BLOCK_NODE);
+    auto fatArrowBase = DFANodeFactory::Once::create(AST_FAT_ARROW_BASE_NODE);
+    auto lambdaTypeFatArrow = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_FAT_ARROW_NODE);
+    auto lambdaExpressionFatArrow = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE);
+    auto lambdaReturnExpression = DFANodeFactory::Once::create(AST_LAMBDA_RETURN_EXPRESSION_NODE);
+    auto lambdaExpression = DFANodeFactory::Once::create(AST_LAMBDA_EXPRESSION_NODE);
+    auto lambdaWithFatArrowExpression = DFANodeFactory::Once::create(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE);
+    auto typeParameterList = DFANodeFactory::Once::create(AST_TYPE_PARAMETER_LIST_NODE);
+    auto curryExpression = DFANodeFactory::Once::create(AST_CURRY_EXPRESSION_NODE);
+    auto tupleType = DFANodeFactory::Once::createWithTarget(AST_TUPLE_TYPE_NODE, AST_TUPLE_TYPE_NODE);
+    auto arrayType = DFANodeFactory::Once::createWithTarget(AST_ARRAY_TYPE_NODE, AST_ARRAY_TYPE_NODE);
+    auto moduleKeyword = DFANodeFactory::Once::create(AST_MODULE_NODE);
+    auto moduleSpread = DFANodeFactory::Once::create(AST_MODULE_SPREAD_NODE);
+    auto moduleListNormalItem = DFANodeFactory::Once::create(AST_MODULE_LIST_NORMAL_ITEM_NODE);
+    auto moduleListAliasItem = DFANodeFactory::Once::create(AST_MODULE_LIST_ALIAS_ITEM_NODE);
+    auto moduleListSpreadItem = DFANodeFactory::Once::create(AST_MODULE_LIST_SPREAD_ITEM_NODE);
+    auto asKeyword = DFANodeFactory::Once::create(AST_AS_NODE);
+    auto importKeyword = DFANodeFactory::Once::create(AST_IMPORT_NODE);
+    auto useKeyword = DFANodeFactory::Once::create(AST_USE_NODE);
+    auto fromKeyword = DFANodeFactory::Once::create(AST_FROM_NODE);
+    auto importModuleName = DFANodeFactory::Once::create(AST_IMPORT_MODULE_NAME_NODE);
+    auto moduleAccess = DFANodeFactory::Once::create(AST_MODULE_ACCESS_NODE);
+    auto moduleAccessType = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TYPE_NODE);
+    auto moduleTypeSource = DFANodeFactory::Once::create(AST_MODULE_TYPE_SOURCE_NODE);
+    auto moduleTypeTarget = DFANodeFactory::Once::create(AST_MODULE_TYPE_TARGET_NODE);
+    auto moduleAccessExpression = DFANodeFactory::Once::create(AST_MODULE_ACCESS_EXPRESSION_NODE);
+    auto moduleAccessSource = DFANodeFactory::Once::create(AST_MODULE_ACCESS_SOURCE_NODE);
+    auto moduleAccessTarget = DFANodeFactory::Once::create(AST_MODULE_ACCESS_TARGET_NODE);
+    auto importModuleListByWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE);
+    auto importModuleListByGroupItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_BY_GROUP_ITEM_NODE);
+    auto importModuleListAliasItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_ALIAS_ITEM_NODE);
+    auto importModuleListSpreadItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE);
+    auto importModuleListNormalItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_NORMAL_ITEM_NODE);
+    auto importModuleListWildcardItem = DFANodeFactory::Once::create(AST_IMPORT_MODULE_LIST_WILDCARD_ITEM_NODE);
+    auto classKeyword = DFANodeFactory::Once::create(AST_CLASS_NODE);
+    auto className = DFANodeFactory::Once::create(AST_CLASS_NAME_NODE);
+    auto thisKeyword = DFANodeFactory::Once::create(AST_THIS_NODE);
+    auto thisAccess = DFANodeFactory::Once::create(AST_THIS_ACCESS_NODE);
+    auto thisExpression = DFANodeFactory::Once::create(AST_THIS_EXPRESSION_NODE);
+    auto publicKeyword = DFANodeFactory::Once::create(AST_PUBLIC_NODE);
+    auto protectedKeyword = DFANodeFactory::Once::create(AST_PROTECTED_NODE);
+    auto privateKeyword = DFANodeFactory::Once::create(AST_PRIVATE_NODE);
+    auto staticKeyword = DFANodeFactory::Once::create(AST_STATIC_NODE);
+    auto constKeyword = DFANodeFactory::Once::create(AST_CONST_NODE);
+    auto classMethodCall = DFANodeFactory::Once::create(AST_CLASS_METHOD_CALL_NODE);
+    auto classMethodName = DFANodeFactory::Once::create(AST_CLASS_METHOD_NAME_NODE);
+    auto classMethod = DFANodeFactory::Once::create(AST_CLASS_METHOD_DECLARATION_NODE);
+    auto classPropertyName = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_NAME_NODE);
+    auto classPropertyDefinition = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_NODE);
+    auto classPropertyDefinitionWithType = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_DEFINITION_WITH_TYPE_NODE);
+    auto classPropertyInit = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_INIT_NODE);
+    auto classPropertyDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_DECLARATION_NODE, AST_CLASS_PROPERTY_DECLARATION_NODE);
+    auto classPropertyAccess = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_NODE);
+    auto classPropertyAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ASSIGNMENT_NODE);
+    auto classPropertyRefValueAssignment = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE);
+    auto classMethodInvocationExpression = DFANodeFactory::Once::create(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE);
+    auto constructorKeyword = DFANodeFactory::Once::create(AST_CONSTRUCTOR_NODE);
+    auto classConstructorDeclaration = DFANodeFactory::Once::createWithTarget(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE, AST_CLASS_CONSTRUCTOR_DECLARATION_NODE);
+    auto classAccess = DFANodeFactory::Once::create(AST_CLASS_ACCESS_NODE);
+    auto newKeyword = DFANodeFactory::Once::create(AST_NEW_NODE);
+    auto newClassInstance = DFANodeFactory::Once::create(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE);
+    auto classMethodDefinition = DFANodeFactory::Once::create(AST_CLASS_METHOD_DEFINITION_NODE);
+    auto classPropertyAccessExpression = DFANodeFactory::Once::create(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE);
+    auto exportKeyword = DFANodeFactory::Once::create(AST_EXPORT_NODE);
+    auto concatOperator = DFANodeFactory::Once::create(AST_CONCAT_NODE);
+    auto concatExpression = DFANodeFactory::Once::create(AST_CONCAT_EXPRESSION_NODE);
+    auto interfaceKeyword = DFANodeFactory::Once::create(AST_INTERFACE_NODE);
+    auto interfaceName = DFANodeFactory::Once::create(AST_INTERFACE_NAME_NODE);
+    auto interfaceDefinition = DFANodeFactory::Once::create(AST_INTERFACE_DEFINITION_NODE);
+    auto interfacePropertyName = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NAME_NODE);
+    auto interfaceProperty = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_NODE);
+    auto interfacePropertyList = DFANodeFactory::Once::create(AST_INTERFACE_PROPERTY_LIST_NODE);
+    auto interfaceColon = DFANodeFactory::Once::create(AST_INTERFACE_COLON_NODE);
+    auto structTypeKey = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_NODE);
+    auto structTypeKeyValue = DFANodeFactory::Once::create(AST_STRUCT_TYPE_KEY_VALUE_NODE);
+    auto structTypeColon = DFANodeFactory::Once::create(AST_STRUCT_TYPE_COLON_NODE);
+    auto implementsKeyword = DFANodeFactory::Once::create(AST_IMPLEMENTS_NODE);
+    auto implementsInterfaceName = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_NODE);
+    auto implementsInterfaceNameLast = DFANodeFactory::Once::create(AST_IMPLEMENTS_INTERFACE_NAME_LAST_NODE);
+    auto typeKeyword = DFANodeFactory::Once::create(AST_TYPE_KEYWORD_NODE);
+    auto typeName = DFANodeFactory::Once::create(AST_TYPE_NAME_NODE);
+    auto typeAssignmentOperator = DFANodeFactory::Once::create(AST_TYPE_ASSIGNMENT_OPERATOR_NODE);
+    auto customTypeDeclaration = DFANodeFactory::Once::create(AST_CUSTOM_TYPE_DECLARATION_NODE);
+    auto arrayTypeStart = DFANodeFactory::Once::create(AST_ARRAY_TYPE_START_NODE);
+    auto arrayTypeEnd = DFANodeFactory::Once::create(AST_ARRAY_TYPE_END_NODE);
+    auto lambdaTypeParameterListStart = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE);
+    auto lambdaTypeParameterListEnd = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_END_NODE);
+    auto lambdaTypeParameterList = DFANodeFactory::Once::create(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE);
 
 //    todo: add support for arbitrary precision integers because the developer won't have to think about integer overflow.
 //    todo: create built-in/first-class support for optional
@@ -395,7 +395,7 @@ void SyntaxDfa::init() {
     });
 
     identifier
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, { AST_GROUP_START_NODE }));
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, std::vector { AST_GROUP_START_NODE }));
 
 
     identifierExpression
@@ -403,22 +403,22 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
         AST_PERIOD_NODE
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_TARGET_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_MODULE_ACCESS_SOURCE_NODE, { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_VARIABLE_NODE, { AST_FOR_NODE }, {AST_FOR_IN_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_TARGET_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_MODULE_ACCESS_SOURCE_NODE, std::vector { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
+    ->addReduceToTargetMapForPrevNode(std::make_shared<ReduceToTargetMap>(AST_MODULE_ACCESS_TARGET_NODE, std::vector { AST_MODULE_ACCESS_NODE, AST_MODULE_ACCESS_TYPE_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_VARIABLE_NODE, std::vector { AST_FOR_NODE }, std::vector {AST_FOR_IN_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -430,8 +430,8 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_REF_VALUE_ASSIGNMENT_OPERATOR_NODE, AST_REF_VALUE_ASSIGNMENT_NODE)));
 
     callableIdentifierExpression
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_MODULE_ACCESS_TARGET_NODE, { AST_MODULE_ACCESS_NODE }))
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_TARGET_NODE, { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNode(std::make_shared<ReduceToTargetMap>(AST_MODULE_ACCESS_TARGET_NODE, std::vector { AST_MODULE_ACCESS_NODE }))
+    ->addReduceToTargetMapForPrevNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_TARGET_NODE, std::vector { AST_PERIOD_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)));
 
 
@@ -439,16 +439,16 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
          AST_UNARY_OPERATOR_NODE
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -456,30 +456,30 @@ void SyntaxDfa::init() {
 
     arrayExpression
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_UNARY_OPERATOR_NODE })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(concatOperator))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)));
 
     arrayAccessExpression
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_ACCESS_ASSIGNMENT_NODE)))
@@ -494,18 +494,18 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_PERIOD_NODE,
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_OBJECT_ACCESS_ASSIGNMENT_NODE)))
@@ -521,18 +521,18 @@ void SyntaxDfa::init() {
           AST_UNARY_OPERATOR_NODE,
           AST_PERIOD_NODE,
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -545,18 +545,18 @@ void SyntaxDfa::init() {
           AST_UNARY_OPERATOR_NODE,
           AST_PERIOD_NODE,
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -569,18 +569,18 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
         AST_PERIOD_NODE
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -593,18 +593,18 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
         AST_NEW_NODE
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, { AST_FOR_IN_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector { AST_FOR_IN_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_MODULE_ACCESS_ASSIGNMENT_NODE)))
@@ -620,16 +620,16 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -640,8 +640,8 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
     ->addTransition(DFATransitionFactory::create(concatOperator));
@@ -657,7 +657,7 @@ void SyntaxDfa::init() {
        AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator));
 
 
@@ -666,10 +666,10 @@ void SyntaxDfa::init() {
        AST_UNARY_OPERATOR_NODE
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator));
@@ -678,16 +678,16 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_UNARY_OPERATOR_NODE,
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -698,17 +698,17 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -718,20 +718,20 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_UNARY_OPERATOR_NODE
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
     ->addTransition(DFATransitionFactory::create(concatOperator));
 
     arrayBase
-    ->addReduceToTargetMapForPrevNode(new ReduceToTargetMap(AST_ARRAY_ACCESS_NODE, { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE, AST_TUPLE_ACCESS_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE }))
+    ->addReduceToTargetMapForPrevNode(std::make_shared<ReduceToTargetMap>(AST_ARRAY_ACCESS_NODE, std::vector { AST_IDENTIFIER_NODE, AST_IDENTIFIER_EXPRESSION_NODE, AST_ARRAY_NODE, AST_ARRAY_EXPRESSION_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_EXPRESSION_NODE, AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, AST_MODULE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_INVOCATION_EXPRESSION_NODE, AST_CURRY_EXPRESSION_NODE, AST_TUPLE_ACCESS_NODE, AST_TUPLE_ACCESS_EXPRESSION_NODE, AST_FUNCTION_ARGUMENT_LIST_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_ARRAY_EXPRESSION_NODE)));
 
     arrayAccess
@@ -824,7 +824,7 @@ void SyntaxDfa::init() {
 
     functionReturn
     ->markAlwaysReduceSelf()
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_FUNCTION_RETURN_EXPRESSION_NODE, { AST_TERMINATOR_NODE }));
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_FUNCTION_RETURN_EXPRESSION_NODE, std::vector { AST_TERMINATOR_NODE }));
 
     this->setupTransitionsWithTarget(functionReturn, AST_FUNCTION_RETURN_EXPRESSION_NODE, {
             AST_LITERAL_EXPRESSION_NODE,
@@ -923,18 +923,18 @@ void SyntaxDfa::init() {
         AST_UNARY_OPERATOR_NODE,
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -948,18 +948,18 @@ void SyntaxDfa::init() {
           AST_UNARY_OPERATOR_NODE,
     })
     ->markAlwaysReduceSelf()
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -985,7 +985,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     enumKey
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_ENUM_KEY_VALUE_NODE, { AST_COMMA_NODE, AST_ENUM_KEY_VALUE_LIST_END_NODE }))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_ENUM_KEY_VALUE_NODE, std::vector { AST_COMMA_NODE, AST_ENUM_KEY_VALUE_LIST_END_NODE }))
     ->addTransition(DFATransitionFactory::create(
         DFANodeFactory::Once::create(AST_ASSIGNMENT_OPERATOR_NODE)
         ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_INT_LITERAL_NODE, AST_ENUM_KEY_VALUE_NODE)))
@@ -1014,18 +1014,18 @@ void SyntaxDfa::init() {
     ->backtrackWhenLastReducedNodeIsOneOf({
           AST_UNARY_OPERATOR_NODE,
     })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_CONTROL_FLOW_CONDITION_NODE, { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, { AST_CONTROL_FLOW_START_NODE }))
-    ->addReduceToTargetMapForPrevNodeAndNextNode(new ReduceToTargetDualMap(AST_FOR_IN_SOURCE_NODE, {AST_FOR_IN_NODE }, {AST_CONTROL_FLOW_START_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ARRAY_ACCESS_NODE, AST_ARRAY_ACCESS_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_FUNCTION_ARGUMENT_LIST_NODE, AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)))
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_TUPLE_ACCESS_ASSIGNMENT_NODE)))
@@ -1693,16 +1693,16 @@ void SyntaxDfa::init() {
 
     classPropertyAccessExpression
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_UNARY_OPERATOR_NODE, AST_DREF_NODE, AST_REF_NODE })
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(new BacktrackToPredecessorRule(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_OBJECT_ACCESS_SOURCE_NODE, { AST_PERIOD_NODE }))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_OBJECT_ACCESS_SOURCE_NODE, std::vector { AST_PERIOD_NODE }))
     ->addTransition(DFATransitionFactory::create(logicalOperator))
     ->addTransition(DFATransitionFactory::create(binaryArithmeticOperator))
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
@@ -1718,7 +1718,6 @@ void SyntaxDfa::init() {
     newKeyword
     ->markAlwaysReduceSelf()
     ->addTransition(
-            // todo - add support for this: e.g. new Module::MyClass();
         DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_MODULE_ACCESS_EXPRESSION_NODE)
             ->addTransition(
@@ -1820,7 +1819,7 @@ void SyntaxDfa::init() {
     ->markAlwaysReduceSelf();
 
     _dfa
-    ->insertStartNode(varDeclaration)
+    .insertStartNode(varDeclaration)
     ->insertStartNode(varType)
     ->insertStartNode(varDefinition)
     ->insertStartNode(varInit)
@@ -2076,7 +2075,7 @@ void SyntaxDfa::init() {
   }));
 }
 
-void SyntaxDfa::setupTransitionsWithTarget(DFANode* node, ASTNodeType targetNodeType, std::vector<ASTNodeType> nodeTypes) {
+void SyntaxDfa::setupTransitionsWithTarget(std::shared_ptr<DFANode> node, ASTNodeType targetNodeType, std::vector<ASTNodeType> nodeTypes) {
     for (auto nodeType : nodeTypes) {
         node->addTransition(
                 DFATransitionFactory::create(
@@ -2084,7 +2083,7 @@ void SyntaxDfa::setupTransitionsWithTarget(DFANode* node, ASTNodeType targetNode
     }
 }
 
-void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
+void SyntaxDfa::initVarDefinition(std::shared_ptr<DFANode> varDefinition) {
     varDefinition
     ->addTransition(
         DFATransitionFactory::create(
@@ -2102,7 +2101,7 @@ void SyntaxDfa::initVarDefinition(DFANode* varDefinition) {
                 DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_VARIABLE_INIT_NODE)));
 }
 
-void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
+void SyntaxDfa::initVarInit(std::shared_ptr<DFANode> varInitNode, ASTNodeType targetNodeType) {
     varInitNode
             ->addTransition(
                     DFATransitionFactory::create(
@@ -2188,7 +2187,7 @@ void SyntaxDfa::initVarInit(DFANode* varInitNode, ASTNodeType targetNodeType) {
 
 }
 
-void SyntaxDfa::initFunction(DFANode* functionNode) {
+void SyntaxDfa::initFunction(std::shared_ptr<DFANode> functionNode) {
     functionNode
             ->addTransition(
                     DFATransitionFactory::create(
@@ -2210,7 +2209,7 @@ void SyntaxDfa::initFunction(DFANode* functionNode) {
             );
 }
 
-void SyntaxDfa::initProcedure(DFANode* procedureNode) {
+void SyntaxDfa::initProcedure(std::shared_ptr<DFANode> procedureNode) {
     procedureNode
             ->addTransition(
                     DFATransitionFactory::create(
@@ -2223,7 +2222,7 @@ void SyntaxDfa::initProcedure(DFANode* procedureNode) {
             );
 }
 
-void SyntaxDfa::initEnum(DFANode* enumNode) {
+void SyntaxDfa::initEnum(std::shared_ptr<DFANode> enumNode) {
     enumNode
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
     ->addTransition(
@@ -2237,7 +2236,7 @@ void SyntaxDfa::initEnum(DFANode* enumNode) {
     );
 }
 
-void SyntaxDfa::initCustomType(DFANode* typeKeyword) {
+void SyntaxDfa::initCustomType(std::shared_ptr<DFANode> typeKeyword) {
     typeKeyword
     ->backtrackWhenLastReducedNodeIsOneOf({ AST_EXPORT_NODE })
     ->addTransition(
@@ -2257,7 +2256,7 @@ void SyntaxDfa::initCustomType(DFANode* typeKeyword) {
     );
 }
 
-void SyntaxDfa::initIf(DFANode* ifNode) {
+void SyntaxDfa::initIf(std::shared_ptr<DFANode> ifNode) {
     ifNode
         ->addTransition(DFATransitionFactory::create(
             DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE)
@@ -2267,12 +2266,12 @@ void SyntaxDfa::initIf(DFANode* ifNode) {
         ));
 }
 
-void SyntaxDfa::initElse(DFANode* elseNode) {
+void SyntaxDfa::initElse(std::shared_ptr<DFANode> elseNode) {
     elseNode
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::Once::createWithTarget(AST_CONTROL_FLOW_BLOCK_NODE, AST_ELSE_BLOCK_NODE)));
 }
 
-void SyntaxDfa::initElseIf(DFANode* elseIfNode) {
+void SyntaxDfa::initElseIf(std::shared_ptr<DFANode> elseIfNode) {
     elseIfNode
         ->addTransition(DFATransitionFactory::create(
                 DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE)
@@ -2282,7 +2281,7 @@ void SyntaxDfa::initElseIf(DFANode* elseIfNode) {
         ));
 }
 
-void SyntaxDfa::initWhile(DFANode* whileNode) {
+void SyntaxDfa::initWhile(std::shared_ptr<DFANode> whileNode) {
     whileNode
             ->addTransition(DFATransitionFactory::create(
                     DFANodeFactory::Once::create(AST_CONTROL_FLOW_CONDITION_NODE)
@@ -2292,7 +2291,7 @@ void SyntaxDfa::initWhile(DFANode* whileNode) {
             ));
 }
 
-void SyntaxDfa::initFor(DFANode* forNode) {
+void SyntaxDfa::initFor(std::shared_ptr<DFANode> forNode) {
     forNode
             ->addTransition(
                     DFATransitionFactory::create(
@@ -2313,7 +2312,7 @@ void SyntaxDfa::initFor(DFANode* forNode) {
             );
 }
 
-void SyntaxDfa::initAccessModifier(DFANode* accessModifier) {
+void SyntaxDfa::initAccessModifier(std::shared_ptr<DFANode> accessModifier) {
     accessModifier
     ->addTransition(
         DFATransitionFactory::create(
@@ -2334,7 +2333,7 @@ void SyntaxDfa::initAccessModifier(DFANode* accessModifier) {
     );
 }
 
-void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
+void SyntaxDfa::initClassPropertyDefinition(std::shared_ptr<DFANode> classPropertyDefinition) {
     classPropertyDefinition
     ->addTransition(
         DFATransitionFactory::create(
@@ -2349,9 +2348,9 @@ void SyntaxDfa::initClassPropertyDefinition(DFANode* classPropertyDefinition) {
             DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));
 }
 
-void SyntaxDfa::initClassPropertyDefinitionWithType(DFANode* classPropertyDefinitionWithType) {
+void SyntaxDfa::initClassPropertyDefinitionWithType(std::shared_ptr<DFANode> classPropertyDefinitionWithType) {
     classPropertyDefinitionWithType
-    ->addReduceToTargetMapForNextNode(new ReduceToTargetMap(AST_CLASS_PROPERTY_INIT_NODE, {AST_TERMINATOR_NODE }))
+    ->addReduceToTargetMapForNextNode(std::make_shared<ReduceToTargetMap>(AST_CLASS_PROPERTY_INIT_NODE, std::vector { AST_TERMINATOR_NODE }))
     ->addTransition(
         DFATransitionFactory::create(
             DFANodeFactory::Once::createWithTarget(AST_ASSIGNMENT_OPERATOR_NODE, AST_CLASS_PROPERTY_INIT_NODE)));

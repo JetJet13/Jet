@@ -21,34 +21,34 @@
 #include "ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.h"
 #include "ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.h"
 
-ASTNodeIdAssignor::ASTNodeIdAssignor(TokenTable* tokenTable) {
+ASTNodeIdAssignor::ASTNodeIdAssignor(std::shared_ptr<TokenTable> tokenTable) {
     _tokenTable = tokenTable;
-    _strategies = std::unordered_map<ASTNodeType, ASTNodeIdStrategy*, std::hash<int>>();
+    _strategies = std::unordered_map<ASTNodeType, std::shared_ptr<ASTNodeIdStrategy>, std::hash<int>>();
     this->initStrategies();
 }
 
 void ASTNodeIdAssignor::initStrategies() {
-    this->addStrategy(AST_IDENTIFIER_NODE, new IdentifierIdStrategy(_tokenTable));
-    this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
-    this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, new IdentifierExpressionIdStrategy(_tokenTable));
-    this->addStrategy(AST_VARIABLE_DECLARATION_NODE, new VariableDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_CLASS_DECLARATION_NODE, new ClassDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_ENUM_DECLARATION_NODE, new EnumDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_FUNCTION_DECLARATION_NODE, new FunctionDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, new ProcedureDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_MODULE_DECLARATION_NODE, new ModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, new ModuleAccessExpressionIdStrategy(_tokenTable));
-    this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, new ImportSingleModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, new UseSingleModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, new ImportManyModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new ImportManyByWildcardModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, new UseManyModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, new UseManyByWildcardModuleDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_INTERFACE_TYPE_DECLARATION_NODE, new InterfaceTypeDeclarationIdStrategy(_tokenTable));
-    this->addStrategy(AST_CUSTOM_TYPE_DECLARATION_NODE, new CustomTypeDeclarationIdStrategy(_tokenTable));
+    this->addStrategy(AST_IDENTIFIER_NODE, std::make_shared<IdentifierIdStrategy>(_tokenTable));
+    this->addStrategy(AST_IDENTIFIER_EXPRESSION_NODE, std::make_shared<IdentifierExpressionIdStrategy>(_tokenTable));
+    this->addStrategy(AST_CALLABLE_IDENTIFIER_EXPRESSION_NODE, std::make_shared<IdentifierExpressionIdStrategy>(_tokenTable));
+    this->addStrategy(AST_VARIABLE_DECLARATION_NODE, std::make_shared<VariableDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_CLASS_DECLARATION_NODE, std::make_shared<ClassDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_ENUM_DECLARATION_NODE, std::make_shared<EnumDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_FUNCTION_DECLARATION_NODE, std::make_shared<FunctionDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_PROCEDURE_DECLARATION_NODE, std::make_shared<ProcedureDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_MODULE_DECLARATION_NODE, std::make_shared<ModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, std::make_shared<ModuleAccessExpressionIdStrategy>(_tokenTable));
+    this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, std::make_shared<ImportSingleModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, std::make_shared<UseSingleModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, std::make_shared<ImportManyModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, std::make_shared<ImportManyByWildcardModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_USE_MANY_MODULE_DECLARATION_NODE, std::make_shared<UseManyModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_NODE, std::make_shared<UseManyByWildcardModuleDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_INTERFACE_TYPE_DECLARATION_NODE, std::make_shared<InterfaceTypeDeclarationIdStrategy>(_tokenTable));
+    this->addStrategy(AST_CUSTOM_TYPE_DECLARATION_NODE, std::make_shared<CustomTypeDeclarationIdStrategy>(_tokenTable));
 }
 
-void ASTNodeIdAssignor::addStrategy(ASTNodeType astNodeType, ASTNodeIdStrategy* declarationIdStrategy) {
+void ASTNodeIdAssignor::addStrategy(ASTNodeType astNodeType, std::shared_ptr<ASTNodeIdStrategy> declarationIdStrategy) {
     _strategies.insert(std::pair(astNodeType, declarationIdStrategy));
 }
 

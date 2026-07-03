@@ -5,12 +5,12 @@
 #include "syntax-analyzer-result.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-SyntaxAnalyzerResult::SyntaxAnalyzerResult(FileScope* fileScope, std::vector<std::string> syntaxErrors) {
+SyntaxAnalyzerResult::SyntaxAnalyzerResult(std::shared_ptr<FileScope> fileScope, std::vector<std::string> syntaxErrors) {
     _fileScope = fileScope;
     _syntaxErrors = syntaxErrors;
 }
 
-FileScope* SyntaxAnalyzerResult::getFileScope() {
+std::shared_ptr<FileScope> SyntaxAnalyzerResult::getFileScope() {
     return _fileScope;
 }
 

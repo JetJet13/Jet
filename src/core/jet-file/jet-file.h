@@ -13,16 +13,16 @@
 class JetFile {
 private:
     std::string _id;
-    ASTFileNode* _astFileNode;
-    TypeSignatureLookupTable* _fileScope;
+    std::shared_ptr<ASTFileNode> _astFileNode;
+    std::shared_ptr<TypeSignatureLookupTable> _fileScope;
     TypeCheckerResult _typeCheckerResult;
     std::set<JetFile*> _importedJetFiles;
 public:
-    JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles);
-    JetFile(ASTFileNode* astFileNode, TypeSignatureLookupTable* fileScope, TypeCheckerResult typeCheckerResult);
+    JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles);
+    JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult);
     std::string getId();
-    ASTFileNode* getFile();
-    TypeSignatureLookupTable* getScope();
+    std::shared_ptr<ASTFileNode> getFile();
+    std::shared_ptr<TypeSignatureLookupTable> getScope();
     TypeCheckerResult* getTypeCheckerResult();
     void addImportedFile(JetFile* jetFile);
     std::set<JetFile*>* getImportedFiles();

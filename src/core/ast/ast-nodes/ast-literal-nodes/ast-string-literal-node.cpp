@@ -22,7 +22,7 @@ std::string ASTStringLiteralNode::toString() {
     return "STRING_LITERAL - " + _lexeme->toString();
 }
 
-void ASTStringLiteralNode::setValue(TokenTable* tokenTable) {
+void ASTStringLiteralNode::setValue(std::shared_ptr<TokenTable> tokenTable) {
     _value = tokenTable->getString(_lexeme->getToken()->getValueId().value());
 }
 

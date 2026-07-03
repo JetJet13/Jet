@@ -17,12 +17,12 @@ class PreProcessor {
 private:
     PreProcessorMap _processedFileMap;
     ScopeAnalyzer _scopeAnalyzer;
-    SyntaxAnalyzer* _syntaxAnalyzer;
-    SemanticAnalyzer* _semanticAnalyzer;
-    ASTFileNode* buildFile(std::string filePath, FileScope* fileScope);
-    std::set<JetFile*> resolveModuleImports(ASTFileNode* fileNode, TypeSignatureLookupTable* scope);
+    std::shared_ptr<SyntaxAnalyzer> _syntaxAnalyzer;
+    std::shared_ptr<SemanticAnalyzer> _semanticAnalyzer;
+    std::shared_ptr<ASTFileNode> buildFile(std::string filePath, std::shared_ptr<FileScope> fileScope);
+    std::set<JetFile*> resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
 public:
-    PreProcessor(SyntaxAnalyzer* syntaxAnalyzer, SemanticAnalyzer* semanticAnalyzer);
+    PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::shared_ptr<SemanticAnalyzer> semanticAnalyzer);
     JetFile* process(std::string filePath);
 };
 
