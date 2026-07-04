@@ -19,14 +19,15 @@ private:
     std::shared_ptr<ASTEnumKeyNode> _key;
     std::optional<std::shared_ptr<ASTAssignmentOperatorNode>> _assignmentOperator = {};
     std::optional<std::shared_ptr<ASTLiteralNode>> _value = {};
-    LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
+    std::shared_ptr<LiteralTypeSignature> _typeSignature = std::make_shared<LiteralTypeSignature>();
 public:
     ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key);
     ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTLiteralNode> value);
     std::shared_ptr<ASTEnumKeyNode> getKey();
     std::optional<std::shared_ptr<ASTLiteralNode>> getValue();
-    void setTypeSignature(LiteralTypeSignature* typeSignature);
-    LiteralTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<LiteralTypeSignature> typeSignature);
+    std::shared_ptr<LiteralTypeSignature> getLiteralTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

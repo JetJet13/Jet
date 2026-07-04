@@ -8,18 +8,18 @@
 
 void ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy::assign(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> classPropertyRefValueAssignmentStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(classPropertyRefValueAssignmentStatementNode->getExpression(), context, scope);
-    auto classTypeSignature = (ClassTypeSignature*)scope->find(
+    auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(scope->find(
             classPropertyRefValueAssignmentStatementNode
                     ->getPropertyAssignment()
                     ->getClassAccess()
                     ->getThis()
                     ->getId()
-    );
+    ));
 
     if (!classTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         classPropertyRefValueAssignmentStatementNode
                 ->getPropertyAssignment()
-                ->setTypeSignature(new InvalidTypeSignature());
+                ->setTypeSignature(std::make_shared<InvalidTypeSignature>());
     }
 
     auto propertyTypeSignature = classTypeSignature->getInstanceProperties()->find(
@@ -33,6 +33,6 @@ void ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy::assign(std::
         return;
     }
     classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->setTypeSignature(
-            new InvalidTypeSignature()
+            std::make_shared<InvalidTypeSignature>()
     );
 }

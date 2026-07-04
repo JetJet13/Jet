@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void StructExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTStructExpressionNode> structExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto structTypeSignature = new StructTypeSignature();
+    auto structTypeSignature = std::make_shared<StructTypeSignature>();
     for (auto keyValuePair : structExpression->getKeyValuePairs()) {
         strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), context, scope);
         auto valueTypeSignature = keyValuePair->getValue()->getTypeSignature()->convertToVariableTypeSignature();

@@ -9,7 +9,7 @@ void IdentifierExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTIdenti
     auto id = identifierExpression->getId();
     auto typeSignature = typeSignatureLookupTable->find(id);
     if (typeSignature->isUnknown() && context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {
-        auto invocableTypeSignature = (InvocableTypeSignature*)context->getTypeSignature().value();
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(context->getTypeSignature().value());
         auto functionTypeSignature = typeSignatureLookupTable->findGlobalFunction(id, FunctionIdGenerator::generateFor(invocableTypeSignature));
         if (functionTypeSignature) {
             identifierExpression->setTypeSignature(functionTypeSignature.value()->convertToVariableTypeSignature());

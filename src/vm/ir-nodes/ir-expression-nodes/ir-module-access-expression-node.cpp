@@ -25,7 +25,7 @@ IRType* IRModuleAccessExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRModuleAccessExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRModuleAccessExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

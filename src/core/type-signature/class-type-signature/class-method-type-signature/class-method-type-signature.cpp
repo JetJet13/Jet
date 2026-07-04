@@ -7,20 +7,20 @@
 #include "../../void-type-signature/void-type-signature.h"
 
 ClassMethodTypeSignature::ClassMethodTypeSignature() {
-    _accessModifier = new AccessModifierTypeSignature();
-    _parameterList = new ParameterListTypeSignature();
+    _accessModifier = std::make_shared<AccessModifierTypeSignature>();
+    _parameterList = std::make_shared<ParameterListTypeSignature>();
     _isStatic = false;
-    _returnType = new VoidTypeSignature();
+    _returnType = std::make_shared<VoidTypeSignature>();
 }
 
-ClassMethodTypeSignature::ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType) {
+ClassMethodTypeSignature::ClassMethodTypeSignature(std::shared_ptr<AccessModifierTypeSignature> accessModifier, std::shared_ptr<ParameterListTypeSignature> parameterList, bool isStatic, std::optional<std::shared_ptr<TypeSignature>> returnType) {
     _accessModifier = accessModifier;
     _parameterList = parameterList;
     _isStatic = isStatic;
     if (returnType) {
         _returnType = returnType.value();
     } else {
-        _returnType = new VoidTypeSignature();
+        _returnType = std::make_shared<VoidTypeSignature>();
     }
 }
 
@@ -28,27 +28,27 @@ bool ClassMethodTypeSignature::isStatic() {
     return _isStatic;
 }
 
-AccessModifierTypeSignature* ClassMethodTypeSignature::getAccessModifier() {
+std::shared_ptr<AccessModifierTypeSignature> ClassMethodTypeSignature::getAccessModifier() {
     return _accessModifier;
 }
 
-ParameterListTypeSignature* ClassMethodTypeSignature::getParameters() {
+std::shared_ptr<ParameterListTypeSignature> ClassMethodTypeSignature::getParameters() {
     return _parameterList;
 }
 
-std::vector<TypeSignature*>* ClassMethodTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* ClassMethodTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
-bool ClassMethodTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool ClassMethodTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
 }
 
-TypeSignature* ClassMethodTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> ClassMethodTypeSignature::getReturnType() {
     return _returnType;
 }
 
-void ClassMethodTypeSignature::setReturnType(TypeSignature* returnType) {
+void ClassMethodTypeSignature::setReturnType(std::shared_ptr<TypeSignature> returnType) {
     _returnType = returnType;
 }
 
@@ -64,11 +64,11 @@ TypeSource ClassMethodTypeSignature::getTypeSource() {
     return CLASS_METHOD_TYPE_SOURCE;
 }
 
-bool ClassMethodTypeSignature::isEqualTo(TypeSignature *otherType) {
+bool ClassMethodTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (ClassMethodTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ClassMethodTypeSignature>(otherType);
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
            this->isStatic() == other->isStatic() &&
            this->getParameters()->isEqualTo(other->getParameters()) &&

@@ -9,8 +9,8 @@
 void EnumKeyValueTypeSignatureStrategy::assign(std::shared_ptr<ASTEnumKeyValueNode> node, std::shared_ptr<TypeSignatureContext> context, TypeSignatureStrategyProvider* strategyMap) {
     if (node->getValue()) {
         strategyMap->assignTypeSignatureFor(node->getValue().value(), context);
-        node->setTypeSignature(node->getValue().value()->getTypeSignature());
+        node->setTypeSignature(node->getValue().value()->getLiteralTypeSignature());
         return;
     }
-    node->setTypeSignature(new DefaultEnumKeyValueTypeSignature());
+    node->setTypeSignature(std::make_shared<DefaultEnumKeyValueTypeSignature>());
 }

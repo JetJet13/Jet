@@ -54,7 +54,11 @@ IRType* IRFunctionInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-FunctionInvocationTypeSignature* IRFunctionInvocationExpressionNode::getTypeSignature() {
+std::shared_ptr<FunctionInvocationTypeSignature> IRFunctionInvocationExpressionNode::getInvocationTypeSignature() {
+    return _node->getInvocationTypeSignature();
+}
+
+std::shared_ptr<TypeSignature> IRFunctionInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

@@ -12,10 +12,11 @@
 class ASTAccessModifierNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 private:
-    AccessModifierTypeSignature* _typeSignature = new AccessModifierTypeSignature();
+    std::shared_ptr<AccessModifierTypeSignature> _typeSignature = std::make_shared<AccessModifierTypeSignature>();
 public:
-    void setTypeSignature(AccessModifierTypeSignature* typeSignature);
-    AccessModifierTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<AccessModifierTypeSignature> typeSignature);
+    std::shared_ptr<AccessModifierTypeSignature> getAccessModifierTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
 };
 
 #endif //JETLANG_AST_ACCESS_MODIFIER_NODE_H

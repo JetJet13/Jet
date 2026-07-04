@@ -100,7 +100,7 @@ void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
     destination->getScope()->link(jetFileToLink->getScope());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         if (exportedDeclaration->getTypeSignature()->isOneOf({ FUNCTION_TYPE_SOURCE, PROCEDURE_TYPE_SOURCE })) {
-            auto invocableTypeSignature = (InvocableTypeSignature*)exportedDeclaration->getTypeSignature();
+            auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(exportedDeclaration->getTypeSignature());
             auto irFunctionId = FunctionIdGenerator::generateFor(exportedDeclaration->getId(), invocableTypeSignature);
             auto declarationId = jetFileToLink->getFile()->getFile()->getModule().value()->getId() + "." + irFunctionId;
             auto exportedFunction = destination->getIRModule()->getModule()->get()->getFunction(irFunctionId);

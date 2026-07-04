@@ -13,13 +13,14 @@ class ASTRefExpressionNode : public ASTExpressionNode {
 private:
     std::shared_ptr<ASTExpressionNode> _expression;
     std::shared_ptr<ASTRefNode> _refNode;
-    RefTypeSignature* _typeSignature = new RefTypeSignature();
+    std::shared_ptr<RefTypeSignature> _typeSignature = std::make_shared<RefTypeSignature>();
 public:
     ASTRefExpressionNode(std::shared_ptr<ASTRefNode> refNode, std::shared_ptr<ASTExpressionNode> astExpressionNode);
     std::shared_ptr<ASTExpressionNode> getExpressionNode();
     std::shared_ptr<ASTRefNode> getRefNode();
-    RefTypeSignature* getTypeSignature() override;
-    void setTypeSignature(RefTypeSignature* typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    std::shared_ptr<RefTypeSignature> getRefTypeSignature();
+    void setTypeSignature(std::shared_ptr<RefTypeSignature> typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

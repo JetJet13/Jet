@@ -5,7 +5,7 @@
 #include "invocable-type-signature-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void InvocableTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
+void InvocableTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->isInvocable()) {
         typeCheckerResult->addError(message());
     }

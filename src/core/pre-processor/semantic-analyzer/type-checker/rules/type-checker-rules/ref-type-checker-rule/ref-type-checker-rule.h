@@ -13,7 +13,7 @@
 
 class RefTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(RefTypeSignature* typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<RefTypeSignature> typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

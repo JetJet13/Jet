@@ -5,8 +5,8 @@
 #include "unique-type-signature-with-id-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void UniqueTypeSignatureWithIdTypeCheckerRule::enforce(std::vector<std::pair<std::string, TypeSignature*>>* pairs, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
-    auto samePairs = std::vector<std::pair<std::string, TypeSignature*>>();
+void UniqueTypeSignatureWithIdTypeCheckerRule::enforce(std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>* pairs, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
+    auto samePairs = std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>();
     for (unsigned long i = 0; i < pairs->size(); ++i) {
         for (unsigned long j = i + 1; j < pairs->size(); ++j) {
             auto pair = pairs->at(i);

@@ -5,7 +5,7 @@
 #include "ref-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void RefTypeSignatureTypeCheckerRule::enforce(RefTypeSignature* typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void RefTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<RefTypeSignature> typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (typeSignature->getUnderlyingType()->typeSourceIs(REF_TYPE_SOURCE)) {
         typeCheckerResult->addError(invalidMessage());
     }

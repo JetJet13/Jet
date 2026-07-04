@@ -6,10 +6,10 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void ClassSelfReferenceTypeCheckerRule::enforce(ClassTypeSignature* classTypeSignature, ClassPropertyTypeSignature* classPropertyTypeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
+void ClassSelfReferenceTypeCheckerRule::enforce(std::shared_ptr<ClassTypeSignature> classTypeSignature, std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     auto propertyTypeSignature = classPropertyTypeSignature->getType();
     if (propertyTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        propertyTypeSignature = ((RefTypeSignature*)propertyTypeSignature)->getUnderlyingType();
+        propertyTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(propertyTypeSignature)->getUnderlyingType());
     }
 
     if (propertyTypeSignature->isEquivalentTo(classTypeSignature)) {

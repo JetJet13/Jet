@@ -20,9 +20,9 @@ public:
     static std::string generateFor(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode);
     static std::string generateFor(std::shared_ptr<ASTFunctionInvocationExpressionNode> functionInvocationExpressionNode);
     static std::string generateFor(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpressionNode);
-    static std::string generateFor(std::string name, InvocableTypeSignature* invocableTypeSignature);
-    static std::string generateFor(std::string moduleId, std::string name, InvocableTypeSignature* invocableTypeSignature);
-    static std::string generateFor(InvocableTypeSignature* invocableTypeSignature);
+    static std::string generateFor(std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
+    static std::string generateFor(std::string moduleId, std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
+    static std::string generateFor(std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
     static std::string generateFor(std::string functionName, std::string parameterDetailString);
 };
 

@@ -31,11 +31,15 @@ unsigned long ASTClassConstructorDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
-void ASTClassConstructorDeclarationNode::setTypeSignature(ClassConstructorTypeSignature* typeSignature) {
+void ASTClassConstructorDeclarationNode::setTypeSignature(std::shared_ptr<ClassConstructorTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ClassConstructorTypeSignature* ASTClassConstructorDeclarationNode::getTypeSignature() {
+std::shared_ptr<ClassConstructorTypeSignature> ASTClassConstructorDeclarationNode::getConstructorTypeSignature() {
+    return std::dynamic_pointer_cast<ClassConstructorTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTClassConstructorDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

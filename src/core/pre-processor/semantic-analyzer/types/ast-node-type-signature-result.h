@@ -10,7 +10,7 @@
 
 struct ASTNodeTypeSignatureResult {
     std::shared_ptr<ASTNode> node;
-    TypeSignature* typeSignature;
+    std::shared_ptr<TypeSignature> typeSignature;
 };
 
 #endif //JETLANG_AST_NODE_TYPE_SIGNATURE_RESULT_H

@@ -14,12 +14,12 @@ void ConcatExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTConcatExpr
     auto rightTypeSignature = concatExpression->getRightNode()->getTypeSignature();
 
     if (leftTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)leftTypeSignature->getTargetTypeSignature();
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(leftTypeSignature->getTargetTypeSignature());
         leftTypeSignature = refTypeSignature->getUnderlyingType();
     }
 
     if (rightTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)rightTypeSignature->getTargetTypeSignature();
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(rightTypeSignature->getTargetTypeSignature());
         rightTypeSignature = refTypeSignature->getUnderlyingType();
     }
 
@@ -32,5 +32,5 @@ void ConcatExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTConcatExpr
         concatExpression->setTypeSignature(leftTypeSignature->getTargetTypeSignature());
         return;
     }
-    concatExpression->setTypeSignature(new InvalidTypeSignature());
+    concatExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

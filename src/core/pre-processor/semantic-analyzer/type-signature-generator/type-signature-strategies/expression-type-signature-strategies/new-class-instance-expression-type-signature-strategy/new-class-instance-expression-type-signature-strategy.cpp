@@ -12,15 +12,15 @@ void NewClassInstanceExpressionTypeSignatureStrategy::assign(std::shared_ptr<AST
             : typeSignatureLookupTable->find(newClassInstanceExpression->getClassName());
     strategyMap->assignTypeSignatureFor(newClassInstanceExpression->getArguments(), context, typeSignatureLookupTable);
     if (typeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
-        auto classTypeSignature = (ClassTypeSignature*)typeSignature;
+        auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature);
         newClassInstanceExpression->setTypeSignature(
-                new NewClassInstanceTypeSignature(
+                std::make_shared<NewClassInstanceTypeSignature>(
                         classTypeSignature,
-                        classTypeSignature->findConstructorForArguments(newClassInstanceExpression->getArguments()->getTypeSignature()->getArgumentTypes()))
+                        classTypeSignature->findConstructorForArguments(newClassInstanceExpression->getArguments()->getArgumentListTypeSignature()->getArgumentTypes()))
                 );
         newClassInstanceExpression->getTypeSignature()->setModuleId(classTypeSignature->getModuleId());
         newClassInstanceExpression->getTypeSignature()->setId(newClassInstanceExpression->getClassName());
     } else {
-        newClassInstanceExpression->setTypeSignature(new NewClassInstanceTypeSignature());
+        newClassInstanceExpression->setTypeSignature(std::make_shared<NewClassInstanceTypeSignature>());
     }
 }

@@ -11,8 +11,8 @@ void LogicalExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTLogicalEx
     strategyMap->assignTypeSignatureFor(logicalExpression->getRightNode(), context, scope);
     if (logicalExpression->getLeftNode()->getTypeSignature()->typeTargetIs(INVALID_TYPE_SOURCE) ||
         logicalExpression->getRightNode()->getTypeSignature()->typeTargetIs(INVALID_TYPE_SOURCE)) {
-        logicalExpression->setTypeSignature(new InvalidTypeSignature());
+        logicalExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
         return;
     }
-    logicalExpression->setTypeSignature(new BoolLiteralTypeSignature());
+    logicalExpression->setTypeSignature(std::make_shared<BoolLiteralTypeSignature>());
 }

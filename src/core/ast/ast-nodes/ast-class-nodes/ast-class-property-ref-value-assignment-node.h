@@ -16,13 +16,13 @@ class ASTClassPropertyRefValueAssignmentNode : public ASTNode {
 private:
     std::shared_ptr<ASTClassPropertyAccessNode> _classPropertyAccess;
     std::shared_ptr<ASTRefValueAssignmentOperatorNode> _assignmentOperator;
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     explicit ASTClassPropertyRefValueAssignmentNode(std::shared_ptr<ASTClassPropertyAccessNode> classPropertyAccess, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator);
     std::shared_ptr<ASTClassAccessNode> getClassAccess();
     std::shared_ptr<ASTClassPropertyNameNode> getProperty();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

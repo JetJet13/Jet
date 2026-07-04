@@ -17,7 +17,7 @@ TypeSource NotNullTypeSignature::getTypeSource() {
     return NOT_NULL_TYPE_SOURCE;
 }
 
-bool NotNullTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool NotNullTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }
 

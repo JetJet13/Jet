@@ -37,7 +37,7 @@ public:
     virtual bool isScopedBlockNode();
     virtual void print();
     virtual std::string toSourceCode();
-    virtual TypeSignature* getTypeSignature();
+    virtual std::shared_ptr<TypeSignature> getTypeSignature();
     virtual std::vector<std::shared_ptr<ASTNode>> getChildren();
     virtual std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode);
     virtual bool isExportable();

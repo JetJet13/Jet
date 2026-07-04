@@ -43,7 +43,7 @@ namespace ObjectAccessRefAssignmentStatementTypeCheckerPolicy {
         if (!objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = (RefTypeSignature*)objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature();
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ObjectAccessRefValueAssignmentTypeMismatch(objectAccessRefAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
                 ->enforce(

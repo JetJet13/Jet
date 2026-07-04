@@ -30,7 +30,7 @@ public:
     std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getArc() override;
     IRStructRefType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     IRNodeType getNodeType() override;

@@ -17,11 +17,11 @@ public:
     static std::string getAssertDebugTupleRefCountTypeSignatureKey();
     static std::string getAssertDebugClassRefCountTypeSignatureKey();
     static std::string getAssertDebugLambdaRefCountTypeSignatureKey();
-    static FunctionTypeSignature* getAssertDebugRefCountTypeSignature();
-    static FunctionTypeSignature* getAssertDebugStructRefCountTypeSignature();
-    static FunctionTypeSignature* getAssertDebugTupleRefCountTypeSignature();
-    static FunctionTypeSignature* getAssertDebugClassRefCountTypeSignature();
-    static FunctionTypeSignature* getAssertDebugLambdaRefCountTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertDebugRefCountTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertDebugStructRefCountTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertDebugTupleRefCountTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertDebugClassRefCountTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertDebugLambdaRefCountTypeSignature();
 };
 
 #endif //JETLANG_JET_DEBUG_TYPE_SIGNATURE_MAP_H

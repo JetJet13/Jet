@@ -23,7 +23,7 @@ namespace RefExpressionTypeCheckerPolicy {
         auto refExpressionInvalidMessage = TypeCheckerErrorMessageTable::RefExpressionTypeInvalid(refExpression);
         TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule()
         ->enforce(
-            refExpression->getTypeSignature(),
+            refExpression->getRefTypeSignature(),
             refExpressionInvalidMessage,
             typeCheckerResult
         );

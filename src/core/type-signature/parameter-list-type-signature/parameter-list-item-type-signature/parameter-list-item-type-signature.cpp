@@ -6,15 +6,15 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../struct-type-signature/struct-type-signature.h"
 
-ParameterListItemTypeSignature* ParameterListItemTypeSignature::createScopeParameter(std::optional<LambdaScopeTypeSignature*> scopeTypeSignature) {
-    return new ParameterListItemTypeSignature("jet.lambda.scope", scopeTypeSignature.value_or(new LambdaScopeTypeSignature()));
+std::shared_ptr<ParameterListItemTypeSignature> ParameterListItemTypeSignature::createScopeParameter(std::optional<std::shared_ptr<LambdaScopeTypeSignature>> scopeTypeSignature) {
+    return std::make_shared<ParameterListItemTypeSignature>("jet.lambda.scope", scopeTypeSignature.value_or(std::make_shared<LambdaScopeTypeSignature>()));
 }
 
-ParameterListItemTypeSignature* ParameterListItemTypeSignature::createClassScopeParameter(std::optional<PointerTypeSignature*> scopeTypeSignature) {
-    return new ParameterListItemTypeSignature("jet.class.scope", scopeTypeSignature.value_or(new PointerTypeSignature(new StructTypeSignature())));
+std::shared_ptr<ParameterListItemTypeSignature> ParameterListItemTypeSignature::createClassScopeParameter(std::optional<std::shared_ptr<PointerTypeSignature>> scopeTypeSignature) {
+    return std::make_shared<ParameterListItemTypeSignature>("jet.class.scope", scopeTypeSignature.value_or(std::make_shared<PointerTypeSignature>(std::make_shared<StructTypeSignature>())));
 }
 
-ParameterListItemTypeSignature::ParameterListItemTypeSignature(std::string name, TypeSignature* type) {
+ParameterListItemTypeSignature::ParameterListItemTypeSignature(std::string name, std::shared_ptr<TypeSignature> type) {
     _name = name;
     _type = type;
 }
@@ -23,11 +23,11 @@ std::string ParameterListItemTypeSignature::getName() {
     return _name;
 }
 
-TypeSignature* ParameterListItemTypeSignature::getTypeSignature() {
+std::shared_ptr<TypeSignature> ParameterListItemTypeSignature::getTypeSignature() {
     return _type;
 }
 
-void ParameterListItemTypeSignature::setType(TypeSignature* typeSignature) {
+void ParameterListItemTypeSignature::setType(std::shared_ptr<TypeSignature> typeSignature) {
     _type = typeSignature;
 }
 
@@ -43,17 +43,17 @@ TypeSource ParameterListItemTypeSignature::getTypeSource() {
     return PARAMETER_ITEM_TYPE_SOURCE;
 }
 
-bool ParameterListItemTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ParameterListItemTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ParameterListItemTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ParameterListItemTypeSignature>(otherType);
     return this->getName() == other->getName() &&
             this->getTypeSignature()->isEqualTo(other->getTypeSignature());
 }
 
-bool ParameterListItemTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool ParameterListItemTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return _type->isEquivalentTo(otherType);
 }
 

@@ -52,7 +52,7 @@ IRType* IRBinaryComparisonExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRBinaryComparisonExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRBinaryComparisonExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

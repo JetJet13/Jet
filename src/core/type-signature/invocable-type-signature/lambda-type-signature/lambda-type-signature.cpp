@@ -7,19 +7,19 @@
 
 LambdaTypeSignature::LambdaTypeSignature() {
     _parameterTypes = {};
-    _returnType = new VoidTypeSignature();
+    _returnType = std::make_shared<VoidTypeSignature>();
 }
 
-LambdaTypeSignature::LambdaTypeSignature(std::vector<TypeSignature*> parameterTypes, std::optional<TypeSignature*> returnType) {
+LambdaTypeSignature::LambdaTypeSignature(std::vector<std::shared_ptr<TypeSignature>> parameterTypes, std::optional<std::shared_ptr<TypeSignature>> returnType) {
     _parameterTypes = parameterTypes;
-    _returnType = returnType.value_or(new VoidTypeSignature());
+    _returnType = returnType.value_or(std::make_shared<VoidTypeSignature>());
 }
 
 int LambdaTypeSignature::numParameters() {
     return _parameterTypes.size();
 }
 
-std::vector<TypeSignature*>* LambdaTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* LambdaTypeSignature::getParameterTypes() {
     return &_parameterTypes;
 }
 
@@ -27,7 +27,7 @@ bool LambdaTypeSignature::hasScopeArgument() {
     return true;
 }
 
-bool LambdaTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool LambdaTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     if (this->numParameters() != argumentListTypeSignature->numParameters()) {
         return false;
     }
@@ -42,7 +42,7 @@ bool LambdaTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* 
     return true;
 }
 
-TypeSignature* LambdaTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> LambdaTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -62,18 +62,18 @@ TypeSource LambdaTypeSignature::getTypeSource() {
     return LAMBDA_TYPE_SOURCE;
 }
 
-TypeSignature* LambdaTypeSignature::convertToVariableTypeSignature() {
-    return this;
+std::shared_ptr<TypeSignature> LambdaTypeSignature::convertToVariableTypeSignature() {
+    return shared_from_this();
 }
 
-bool LambdaTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool LambdaTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
         return true;
     } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (LambdaTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<LambdaTypeSignature>(otherType);
     auto otherParameters = other->getParameterTypes();
     if (this->numParameters() != other->numParameters()) {
         return false;

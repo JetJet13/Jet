@@ -33,7 +33,7 @@ namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
             return;
         }
 
-        auto invocableTypeSignature = (InvocableTypeSignature*)objectAccessInvocationExpression->getObjectAccess()->getTypeSignature();
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(objectAccessInvocationExpression->getObjectAccess()->getTypeSignature());
         auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(objectAccessInvocationExpression);
         auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(objectAccessInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()

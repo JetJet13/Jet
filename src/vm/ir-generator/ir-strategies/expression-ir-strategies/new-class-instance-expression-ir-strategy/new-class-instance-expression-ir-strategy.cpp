@@ -16,7 +16,7 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
                     scope,
                     irContext,
                     new IROperation(IR_FUNCTION_ARGUMENT_OP),
-                    node->getTypeSignature()->getConstructorTypeSignature()
+                    node->getClassInstanceTypeSignature()->getConstructorTypeSignature()
                 )
         );
     }
@@ -27,7 +27,7 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
     pointerAllocation->setParentAllocation(allocation);
     return new IRNewClassInstanceExpressionNode(
             node,
-            node->getTypeSignature()->getConstructorId(),
+            node->getClassInstanceTypeSignature()->getConstructorId(),
             irType->getIRConstructorType(),
             arguments,
             irType,

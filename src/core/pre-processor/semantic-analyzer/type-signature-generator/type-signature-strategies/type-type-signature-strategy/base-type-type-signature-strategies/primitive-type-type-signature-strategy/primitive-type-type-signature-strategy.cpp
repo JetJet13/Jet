@@ -18,6 +18,6 @@ void PrimitiveTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTPrimitiveType
     } else if (symbol->isBooleanType()) {
         node->setTypeSignature(literalTypeSignatureLookupTable->getBoolLiteralTypeSignature());
     } else {
-        node->setTypeSignature(new InvalidTypeSignature());
+        node->setTypeSignature(std::make_shared<InvalidTypeSignature>());
     }
 }

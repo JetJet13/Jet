@@ -95,7 +95,7 @@ IRType* IRBinaryArithmeticExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRBinaryArithmeticExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRBinaryArithmeticExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

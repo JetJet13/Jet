@@ -21,7 +21,7 @@ public:
     std::shared_ptr<ASTObjectAccessExpressionNode> getNode();
     IRPointerType* getPointerIRType();
     IRType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     llvm::Value* getValue() override;

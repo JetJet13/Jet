@@ -55,68 +55,68 @@ bool JetUtilsTypeSignatureMap::doesIdConflict(std::string id) {
 
 }
 
-ProcedureTypeSignature* JetUtilsTypeSignatureMap::getPrintTypeSignature() {
-    auto parameterList = new ParameterListTypeSignature();
-    parameterList->markAsVariableLength(0, new ParameterListItemTypeSignature("value", new LiteralTypeSignature()));
-    auto printTypeSignature = new ProcedureTypeSignature(parameterList);
+std::shared_ptr<ProcedureTypeSignature> JetUtilsTypeSignatureMap::getPrintTypeSignature() {
+    auto parameterList = std::make_shared<ParameterListTypeSignature>();
+    parameterList->markAsVariableLength(0, std::make_shared<ParameterListItemTypeSignature>("value", std::make_shared<LiteralTypeSignature>()));
+    auto printTypeSignature = std::make_shared<ProcedureTypeSignature>(parameterList);
     printTypeSignature->markAsBuiltIn(BI_PRINT_TYPE_SOURCE);
     return printTypeSignature;
 }
 
-FunctionTypeSignature* JetUtilsTypeSignatureMap::getRangeTypeSignature() {
-    auto rangeTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("end", new IntLiteralTypeSignature())
+std::shared_ptr<FunctionTypeSignature> JetUtilsTypeSignatureMap::getRangeTypeSignature() {
+    auto rangeTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+                std::make_shared<ParameterListItemTypeSignature>("end", std::make_shared<IntLiteralTypeSignature>())
             }),
-            new ArrayTypeSignature(new IntLiteralTypeSignature())
+            std::make_shared<ArrayTypeSignature>(std::make_shared<IntLiteralTypeSignature>())
     );
     rangeTypeSignature->markAsBuiltIn(BI_RANGE_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
-FunctionTypeSignature* JetUtilsTypeSignatureMap::getRange2pTypeSignature() {
-    auto rangeTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("start", new IntLiteralTypeSignature()),
-                new ParameterListItemTypeSignature("end", new IntLiteralTypeSignature())
+std::shared_ptr<FunctionTypeSignature> JetUtilsTypeSignatureMap::getRange2pTypeSignature() {
+    auto rangeTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>( std::vector {
+                std::make_shared<ParameterListItemTypeSignature>("start", std::make_shared<IntLiteralTypeSignature>()),
+                std::make_shared<ParameterListItemTypeSignature>("end", std::make_shared<IntLiteralTypeSignature>())
             }),
-            new ArrayTypeSignature(new IntLiteralTypeSignature())
+            std::make_shared<ArrayTypeSignature>(std::make_shared<IntLiteralTypeSignature>())
     );
     rangeTypeSignature->markAsBuiltIn(BI_RANGE_2P_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
-FunctionTypeSignature* JetUtilsTypeSignatureMap::getRange3pTypeSignature() {
-    auto rangeTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("start", new IntLiteralTypeSignature()),
-                new ParameterListItemTypeSignature("end", new IntLiteralTypeSignature()),
-                new ParameterListItemTypeSignature("step", new IntLiteralTypeSignature())
+std::shared_ptr<FunctionTypeSignature> JetUtilsTypeSignatureMap::getRange3pTypeSignature() {
+    auto rangeTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+                std::make_shared<ParameterListItemTypeSignature>("start", std::make_shared<IntLiteralTypeSignature>()),
+                std::make_shared<ParameterListItemTypeSignature>("end", std::make_shared<IntLiteralTypeSignature>()),
+                std::make_shared<ParameterListItemTypeSignature>("step", std::make_shared<IntLiteralTypeSignature>())
             }),
-            new ArrayTypeSignature(new IntLiteralTypeSignature())
+            std::make_shared<ArrayTypeSignature>(std::make_shared<IntLiteralTypeSignature>())
     );
     rangeTypeSignature->markAsBuiltIn(BI_RANGE_3P_TYPE_SOURCE);
     return rangeTypeSignature;
 }
 
-FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertTypeSignature() {
-    auto assertTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("value", new BoolLiteralTypeSignature())
+std::shared_ptr<FunctionTypeSignature> JetUtilsTypeSignatureMap::getAssertTypeSignature() {
+    auto assertTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+                std::make_shared<ParameterListItemTypeSignature>("value", std::make_shared<BoolLiteralTypeSignature>())
             }),
-            new VoidTypeSignature()
+            std::make_shared<VoidTypeSignature>()
     );
     assertTypeSignature->markAsBuiltIn(BI_ASSERT_TYPE_SOURCE);
     return assertTypeSignature;
 }
 
-FunctionTypeSignature* JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignature() {
-    auto assertWithMessageTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("value", new BoolLiteralTypeSignature()),
-               new ParameterListItemTypeSignature("message", new StringLiteralTypeSignature())
+std::shared_ptr<FunctionTypeSignature> JetUtilsTypeSignatureMap::getAssertWithMessageTypeSignature() {
+    auto assertWithMessageTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+               std::make_shared<ParameterListItemTypeSignature>("value", std::make_shared<BoolLiteralTypeSignature>()),
+               std::make_shared<ParameterListItemTypeSignature>("message", std::make_shared<StringLiteralTypeSignature>())
             }),
-            new VoidTypeSignature()
+            std::make_shared<VoidTypeSignature>()
     );
     assertWithMessageTypeSignature->markAsBuiltIn(BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE);
     return assertWithMessageTypeSignature;

@@ -52,11 +52,15 @@ void ASTLambdaExpressionNode::addCapturedValueId(std::string id) {
     _capturedValueIds.insert(id);
 }
 
-void ASTLambdaExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {
+void ASTLambdaExpressionNode::setTypeSignature(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature) {
     _typeSignature = lambdaExpressionTypeSignature;
 }
 
-LambdaExpressionTypeSignature* ASTLambdaExpressionNode::getTypeSignature() {
+std::shared_ptr<LambdaExpressionTypeSignature> ASTLambdaExpressionNode::getLambdaTypeSignature() {
+    return std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTLambdaExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 

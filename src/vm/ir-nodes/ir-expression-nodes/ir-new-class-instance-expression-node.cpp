@@ -50,7 +50,7 @@ IRNewClassInstanceType* IRNewClassInstanceExpressionNode::getIRType() {
     return _type;
 }
 
-NewClassInstanceTypeSignature* IRNewClassInstanceExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRNewClassInstanceExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

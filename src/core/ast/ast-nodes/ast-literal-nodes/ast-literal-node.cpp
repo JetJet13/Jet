@@ -12,11 +12,15 @@ Lexeme* ASTLiteralNode::getLiteral() {
     return _lexeme;
 }
 
-void ASTLiteralNode::setTypeSignature(LiteralTypeSignature* typeSignature) {
+void ASTLiteralNode::setTypeSignature(std::shared_ptr<LiteralTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-LiteralTypeSignature* ASTLiteralNode::getTypeSignature() {
+std::shared_ptr<LiteralTypeSignature> ASTLiteralNode::getLiteralTypeSignature() {
+    return std::dynamic_pointer_cast<LiteralTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTLiteralNode::getTypeSignature() {
     return _typeSignature;
 }
 

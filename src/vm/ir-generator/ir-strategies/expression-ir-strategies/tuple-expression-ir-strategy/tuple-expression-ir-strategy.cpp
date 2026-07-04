@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
 IRTupleExpressionNode* TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto irType = irGenerator->generateTypeFor(node->getTupleTypeSignature(), scope, irContext);
     auto tupleValues = std::vector<IRExpressionNode*>();
     for (unsigned long i = 0; i < node->numItems(); ++i) {
         auto tupleItem = node->getItems()->at(i);

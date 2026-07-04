@@ -33,11 +33,11 @@ TypeSource AccessModifierTypeSignature::getTypeSource() {
     return ACCESS_MODIFIER_TYPE_SOURCE;
 }
 
-bool AccessModifierTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool AccessModifierTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (AccessModifierTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<AccessModifierTypeSignature>(otherType);
     return (this->isPublic() && other->isPublic()) ||
            (this->isProtected() && other->isProtected()) ||
            (this->isPrivate() && other->isPrivate());

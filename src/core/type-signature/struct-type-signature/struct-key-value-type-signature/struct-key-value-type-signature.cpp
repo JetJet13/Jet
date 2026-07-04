@@ -5,7 +5,7 @@
 #include "struct-key-value-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-StructKeyValueTypeSignature::StructKeyValueTypeSignature(std::string key, TypeSignature* value) {
+StructKeyValueTypeSignature::StructKeyValueTypeSignature(std::string key, std::shared_ptr<TypeSignature> value) {
     _key = key;
     _value = value;
 }
@@ -14,7 +14,7 @@ std::string StructKeyValueTypeSignature::getKey() {
     return _key;
 }
 
-TypeSignature* StructKeyValueTypeSignature::getValue() {
+std::shared_ptr<TypeSignature> StructKeyValueTypeSignature::getValue() {
     return _value;
 }
 
@@ -30,7 +30,7 @@ TypeSource StructKeyValueTypeSignature::getTypeSource() {
     return STRUCT_KEY_VALUE_TYPE_SOURCE;
 }
 
-bool StructKeyValueTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool StructKeyValueTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }
 

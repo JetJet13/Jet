@@ -49,11 +49,11 @@ bool ASTVariableDeclarationNode::isCaptured() {
     return _captureCount > 0;
 }
 
-void ASTVariableDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTVariableDeclarationNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTVariableDeclarationNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTVariableDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

@@ -11,14 +11,14 @@ void TupleAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTTuple
     strategyMap->assignTypeSignatureFor(tupleAccessExpression->getSource()->getSource(), context, scope);
     auto sourceTypeSignature = tupleAccessExpression->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = ((RefTypeSignature*)sourceTypeSignature)->getUnderlyingType();
+        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeTargetIs(TUPLE_TYPE_SOURCE)) {
-        auto tupleTypeSignature = (TupleTypeSignature*)sourceTypeSignature->getTargetTypeSignature();
+        auto tupleTypeSignature = std::dynamic_pointer_cast<TupleTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
         tupleAccessExpression->setTypeSignature(tupleTypeSignature->getTypeSignatureAtIndex(tupleAccessExpression->getIndex()->getIndexValue()));
         return;
     }
 
-    tupleAccessExpression->setTypeSignature(new InvalidTypeSignature());
+    tupleAccessExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

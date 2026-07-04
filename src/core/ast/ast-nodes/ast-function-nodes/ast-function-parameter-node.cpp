@@ -36,11 +36,15 @@ bool ASTFunctionParameterNode::isCaptured() {
     return _captureCount > 0;
 }
 
-void ASTFunctionParameterNode::setTypeSignature(ParameterListItemTypeSignature* typeSignature) {
+void ASTFunctionParameterNode::setTypeSignature(std::shared_ptr<ParameterListItemTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ParameterListItemTypeSignature* ASTFunctionParameterNode::getTypeSignature() {
+std::shared_ptr<ParameterListItemTypeSignature> ASTFunctionParameterNode::getParameterTypeSignature() {
+    return std::dynamic_pointer_cast<ParameterListItemTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTFunctionParameterNode::getTypeSignature() {
     return _typeSignature;
 }
 

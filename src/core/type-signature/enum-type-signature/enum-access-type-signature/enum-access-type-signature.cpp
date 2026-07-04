@@ -5,12 +5,12 @@
 #include "enum-access-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-EnumAccessTypeSignature::EnumAccessTypeSignature(EnumTypeSignature* enumTypeSignature, std::string key) {
+EnumAccessTypeSignature::EnumAccessTypeSignature(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::string key) {
     _enum = enumTypeSignature;
     _key = key;
 }
 
-EnumTypeSignature* EnumAccessTypeSignature::getEnum() {
+std::shared_ptr<EnumTypeSignature> EnumAccessTypeSignature::getEnum() {
     return _enum;
 }
 
@@ -18,8 +18,8 @@ std::string EnumAccessTypeSignature::getKey() {
     return _key;
 }
 
-TypeSignature* EnumAccessTypeSignature::convertToVariableTypeSignature() {
-    auto enumTypeSignature = new EnumTypeSignature(_enum->getType()->clone(), *_enum->getKeyValuePairs());
+std::shared_ptr<TypeSignature> EnumAccessTypeSignature::convertToVariableTypeSignature() {
+    auto enumTypeSignature = std::make_shared<EnumTypeSignature>(_enum->getType()->clone(), *_enum->getKeyValuePairs());
     enumTypeSignature->setId(_enum->getId());
     enumTypeSignature->setKeyId(this->getKeyId());
     return enumTypeSignature;
@@ -44,23 +44,23 @@ TypeSource EnumAccessTypeSignature::getTypeTarget() {
     return INVALID_TYPE_SOURCE;
 }
 
-bool EnumAccessTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool EnumAccessTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (otherType->typeSourceIs(ENUM_TYPE_SOURCE)){
-        auto enumTypeSignature = (EnumTypeSignature*)otherType;
+        auto enumTypeSignature = std::dynamic_pointer_cast<EnumTypeSignature>(otherType);
         return this->getEnum()->isEqualTo(enumTypeSignature);
     } else if (otherType->typeSourceIs(ENUM_ACCESS_TYPE_SOURCE)){
-        auto enumAccessTypeSignature = (EnumAccessTypeSignature*)otherType;
+        auto enumAccessTypeSignature = std::dynamic_pointer_cast<EnumAccessTypeSignature>(otherType);
         return this->getEnum()->isEqualTo(enumAccessTypeSignature->getEnum());
     }
     return this->isEqualTo(otherType);
 }
 
-bool EnumAccessTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool EnumAccessTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource() || this->getTypeTarget() != otherType->getTypeTarget()) {
         return false;
     }
 
-    auto other = (EnumAccessTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<EnumAccessTypeSignature>(otherType);
     return this->getEnum()->isEqualTo(other->getEnum()) &&
            this->getKey() == other->getKey();
 }

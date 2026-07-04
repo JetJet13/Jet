@@ -55,7 +55,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<AST
     return new IRBinaryComparisonExpressionNode(node, comparison, leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
-llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, TypeSignature* typeSignature) {
+llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {
     if (operatorNode->isPlus()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FAdd
@@ -78,7 +78,7 @@ llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOper
     return llvm::Instruction::BinaryOps::BinaryOpsEnd;
 }
 
-llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, TypeSignature* typeSignature) {
+llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {
     if (operatorNode->isEqual()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OEQ

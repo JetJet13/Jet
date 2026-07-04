@@ -9,24 +9,24 @@
 #include "../../../../../type-signature/literal-type-signature/string-literal-type-signature.h"
 #include "../../../../../type-signature/literal-type-signature/char-literal-type-signature.h"
 
-std::optional<FunctionTypeSignature*> StringPrototypeTypeSignatureMap::find(std::string id) {
+std::optional<std::shared_ptr<FunctionTypeSignature>> StringPrototypeTypeSignatureMap::find(std::string id) {
     if (id == "drop" || id == "dropLast") {
-        auto dropTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature("num", new IntLiteralTypeSignature())
+        auto dropTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(std::vector {
+                       std::make_shared<ParameterListItemTypeSignature>("num", std::make_shared<IntLiteralTypeSignature>())
                 }),
-                new VoidTypeSignature()
+                std::make_shared<VoidTypeSignature>()
         );
         dropTypeSignature->markAsPrototype();
         return dropTypeSignature;
     }
 
     if (id == "take" || id == "takeLast") {
-        auto takeTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature({
-                    new ParameterListItemTypeSignature("num", new IntLiteralTypeSignature())
+        auto takeTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(std::vector {
+                    std::make_shared<ParameterListItemTypeSignature>("num", std::make_shared<IntLiteralTypeSignature>())
                 }),
-                new StringLiteralTypeSignature()
+                std::make_shared<StringLiteralTypeSignature>()
         );
         takeTypeSignature->markAsPrototype();
         return takeTypeSignature;
@@ -34,43 +34,43 @@ std::optional<FunctionTypeSignature*> StringPrototypeTypeSignatureMap::find(std:
 
     // will support head and last once we add null support
 //    if (id == "head" || id == "last") {
-//        auto headTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), new CharLiteralTypeSignature());
+//        auto headTypeSignature = std::make_shared<FunctionTypeSignature>(std::make_shared<ParameterListTypeSignature>(), std::make_shared<CharLiteralTypeSignature>());
 //        headTypeSignature->markAsPrototype();
 //        return headTypeSignature;
 //    }
 
     if (id == "size") {
-        auto sizeTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), new IntLiteralTypeSignature());
+        auto sizeTypeSignature = std::make_shared<FunctionTypeSignature>(std::make_shared<ParameterListTypeSignature>(), std::make_shared<IntLiteralTypeSignature>());
         sizeTypeSignature->markAsPrototype();
         return sizeTypeSignature;
     }
 
     if (id == "empty") {
-        auto emptyTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), new BoolLiteralTypeSignature());
+        auto emptyTypeSignature = std::make_shared<FunctionTypeSignature>(std::make_shared<ParameterListTypeSignature>(), std::make_shared<BoolLiteralTypeSignature>());
         emptyTypeSignature->markAsPrototype();
         return emptyTypeSignature;
     }
 
     if (id == "at") {
-        auto atTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("index", new IntLiteralTypeSignature())
-        }), new CharLiteralTypeSignature());
+        auto atTypeSignature = std::make_shared<FunctionTypeSignature>(std::make_shared<ParameterListTypeSignature>(std::vector {
+                std::make_shared<ParameterListItemTypeSignature>("index", std::make_shared<IntLiteralTypeSignature>())
+        }), std::make_shared<CharLiteralTypeSignature>());
         atTypeSignature->markAsPrototype();
         return atTypeSignature;
     }
 
     if (id == "tail") {
-        auto tailTypeSignature = new FunctionTypeSignature(new ParameterListTypeSignature(), new StringLiteralTypeSignature());
+        auto tailTypeSignature = std::make_shared<FunctionTypeSignature>(std::make_shared<ParameterListTypeSignature>(), std::make_shared<StringLiteralTypeSignature>());
         tailTypeSignature->markAsPrototype();
         return tailTypeSignature;
     }
 
     if (id == "append" || id == "prepend") {
-        auto appendTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("value", new CharLiteralTypeSignature())
+        auto appendTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+               std::make_shared<ParameterListItemTypeSignature>("value", std::make_shared<CharLiteralTypeSignature>())
             }),
-            new VoidTypeSignature()
+            std::make_shared<VoidTypeSignature>()
         );
         appendTypeSignature->markAsPrototype();
         return appendTypeSignature;

@@ -28,7 +28,7 @@ IRType* IRUnaryArithmeticExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRUnaryArithmeticExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRUnaryArithmeticExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

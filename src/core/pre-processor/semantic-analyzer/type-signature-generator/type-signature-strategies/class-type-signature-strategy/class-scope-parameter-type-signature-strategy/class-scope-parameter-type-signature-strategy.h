@@ -11,7 +11,7 @@
 
 class ClassScopeParameterTypeSignatureStrategy {
 public:
-    ParameterListItemTypeSignature* create(ClassTypeSignature* classTypeSignature);
+    std::shared_ptr<ParameterListItemTypeSignature> create(std::shared_ptr<ClassTypeSignature> classTypeSignature);
 };
 
 #endif //JETLANG_CLASS_SCOPE_PARAMETER_TYPE_SIGNATURE_STRATEGY_H

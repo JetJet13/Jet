@@ -27,7 +27,7 @@ IRType* IRUnaryNegateExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRUnaryNegateExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRUnaryNegateExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

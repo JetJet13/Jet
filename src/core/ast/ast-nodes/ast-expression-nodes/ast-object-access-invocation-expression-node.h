@@ -24,7 +24,7 @@ public:
     std::shared_ptr<ASTObjectAccessExpressionNode> getObjectAccess();
     std::shared_ptr<ASTObjectAccessSourceNode> getSource();
     std::shared_ptr<ASTObjectAccessTargetNode> getTarget();
-    InvocableTypeSignature* getInvocableTypeSignature();
+    std::shared_ptr<InvocableTypeSignature> getInvocableTypeSignature();
     std::string getName();
     unsigned long numArguments();
     bool isArrayPrototypeInvocation();

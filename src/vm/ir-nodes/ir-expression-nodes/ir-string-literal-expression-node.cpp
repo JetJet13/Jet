@@ -16,7 +16,7 @@ IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
     return _irArrayPointerType;
 }
 
-TypeSignature* IRStringLiteralExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRStringLiteralExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

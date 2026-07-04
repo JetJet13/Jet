@@ -12,7 +12,7 @@
 
 class StructTypeSignatureIRStrategy {
 public:
-    IRStructRefType* generate(StructTypeSignature* structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStructRefType* generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };

@@ -29,7 +29,7 @@ IRRefType* IRRefExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRRefExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRRefExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

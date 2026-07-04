@@ -47,7 +47,7 @@ IRType* IRStringPrototypeInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRStringPrototypeInvocationExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRStringPrototypeInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

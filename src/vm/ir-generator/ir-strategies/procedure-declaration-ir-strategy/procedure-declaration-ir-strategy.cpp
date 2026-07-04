@@ -15,7 +15,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(std::shared
     auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(procedureTypeNode->getType());
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    auto irFunctionId = FunctionIdGenerator::generateFor(node->getId(), node->getTypeSignature());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getId(), node->getProcedureTypeSignature());
     auto irFunction = llvm::Function::Create(functionType, linkage, 0, irFunctionId, irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), procedureScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, procedureScope);

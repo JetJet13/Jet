@@ -27,11 +27,11 @@ std::shared_ptr<ASTIdentifierExpressionNode> ASTForInVariableNode::getVariable()
     return _variable;
 }
 
-void ASTForInVariableNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTForInVariableNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTForInVariableNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTForInVariableNode::getTypeSignature() {
     return _typeSignature;
 }
 

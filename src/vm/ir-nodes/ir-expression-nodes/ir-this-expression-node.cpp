@@ -27,7 +27,7 @@ IRPointerType* IRThisExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRThisExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRThisExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

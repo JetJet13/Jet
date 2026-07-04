@@ -16,12 +16,12 @@ class IRFunctionArgumentNode : public IRNode {
 private:
     IRExpressionNode* _irArgument;
     IROperation* _irOperation;
-    std::optional<ParameterListItemTypeSignature*> _parameterTypeSignature;
+    std::optional<std::shared_ptr<ParameterListItemTypeSignature>> _parameterTypeSignature;
     void initIROperation();
 public:
     IRFunctionArgumentNode(IRExpressionNode* irArgument);
     IRFunctionArgumentNode(IRExpressionNode* irArgument, IROperation* irOperation);
-    IRFunctionArgumentNode(IRExpressionNode* irArgument, ParameterListItemTypeSignature* parameterTypeSignature);
+    IRFunctionArgumentNode(IRExpressionNode* irArgument, std::shared_ptr<ParameterListItemTypeSignature> parameterTypeSignature);
     IRExpressionNode* getArgument();
     IROperation* getOperation();
     IRNodeType getNodeType() override;

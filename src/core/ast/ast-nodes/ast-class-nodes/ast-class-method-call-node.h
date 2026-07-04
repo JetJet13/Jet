@@ -11,10 +11,11 @@
 class ASTClassMethodCallNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 private:
-    ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
+    std::shared_ptr<ClassMethodTypeSignature> _typeSignature = std::make_shared<ClassMethodTypeSignature>();
 public:
-    void setTypeSignature(ClassMethodTypeSignature* classMethodTypeSignature);
-    ClassMethodTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ClassMethodTypeSignature> classMethodTypeSignature);
+    std::shared_ptr<ClassMethodTypeSignature> getMethodTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
 };

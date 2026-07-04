@@ -5,7 +5,7 @@
 #include "ref-type-signature-ir-strategy.h"
 #include "../../../../types/ir-type-id.h"
 
-IRRefType* RefTypeSignatureIRStrategy::generate(RefTypeSignature* refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRRefType* RefTypeSignatureIRStrategy::generate(std::shared_ptr<RefTypeSignature> refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto underlyingIRType = irGenerator->generateTypeFor(refTypeSignature->getUnderlyingType(), scope, irContext);
     auto irRefType = irGenerator->generateIrRefType(underlyingIRType);
     irRefType->setValue(this->generateTypeValue(irRefType, irGenerator, irContext));

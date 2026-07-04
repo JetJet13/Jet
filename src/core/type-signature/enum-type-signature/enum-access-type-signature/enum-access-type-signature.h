@@ -10,19 +10,19 @@
 
 class EnumAccessTypeSignature : public TypeSignature {
 private:
-    EnumTypeSignature* _enum;
+    std::shared_ptr<EnumTypeSignature> _enum;
     std::string _key;
 public:
-    EnumAccessTypeSignature(EnumTypeSignature* enumTypeSignature, std::string key);
-    EnumTypeSignature* getEnum();
+    EnumAccessTypeSignature(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::string key);
+    std::shared_ptr<EnumTypeSignature> getEnum();
     std::string getKey();
-    TypeSignature* convertToVariableTypeSignature() override;
+    std::shared_ptr<TypeSignature> convertToVariableTypeSignature() override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
-    bool isEquivalentTo(TypeSignature* otherType) override;
-    bool isEqualTo(TypeSignature* otherType) override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

@@ -18,7 +18,7 @@ private:
 public:
     explicit ASTTupleAccessAssignmentNode(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator);
     std::shared_ptr<ASTTupleAccessExpressionNode> getTupleAccess();
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

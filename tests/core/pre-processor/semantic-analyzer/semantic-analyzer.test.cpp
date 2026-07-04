@@ -20,7 +20,7 @@
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
 
-auto colorEnumTypeSignature = new EnumTypeSignature(
+auto colorEnumTypeSignature = std::make_shared<EnumTypeSignature>(
         TypeSignatureFactory::stringLiteral,
         TypeSignatureMap<LiteralTypeSignature>({
                std::pair("Red", TypeSignatureFactory::stringLiteral),
@@ -28,25 +28,25 @@ auto colorEnumTypeSignature = new EnumTypeSignature(
                std::pair("Green", TypeSignatureFactory::stringLiteral),
         }));
 
-auto otherClassTypeSignature = new ClassTypeSignature();
-auto myClassTypeSignature = new ClassTypeSignature();
-auto testImplementationTypeSignature = new ClassTypeSignature();
-auto myInterfaceTypeSignature = new InterfaceTypeSignature(
+auto otherClassTypeSignature = std::make_shared<ClassTypeSignature>();
+auto myClassTypeSignature = std::make_shared<ClassTypeSignature>();
+auto testImplementationTypeSignature = std::make_shared<ClassTypeSignature>();
+auto myInterfaceTypeSignature = std::make_shared<InterfaceTypeSignature>(
         TypeSignatureMap<TypeSignature>({
             std::pair("foo", TypeSignatureFactory::intLiteral),
             std::pair("bar", TypeSignatureFactory::boolLiteral),
-            std::pair("hello", new LambdaTypeSignature({}, TypeSignatureFactory::stringLiteral)),
-            std::pair("structure", new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+            std::pair("hello", std::make_shared<LambdaTypeSignature>({}, TypeSignatureFactory::stringLiteral)),
+            std::pair("structure", std::make_shared<StructTypeSignature>(TypeSignatureMap<TypeSignature>({
                                            std::pair("a", TypeSignatureFactory::intLiteral),
                                            std::pair("b", TypeSignatureFactory::intLiteral),
                                     })
             )),
-            std::pair("bye", new LambdaTypeSignature({
-                                 new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+            std::pair("bye", std::make_shared<LambdaTypeSignature>({
+                                 std::make_shared<StructTypeSignature>(TypeSignatureMap<TypeSignature>({
                                      std::pair("a", TypeSignatureFactory::intLiteral),
                                      std::pair("b", TypeSignatureFactory::intLiteral),
                                  })),
-                                 new StructTypeSignature(TypeSignatureMap<TypeSignature>({
+                                 std::make_shared<StructTypeSignature>(TypeSignatureMap<TypeSignature>({
                                      std::pair("c", TypeSignatureFactory::boolLiteral),
                                      std::pair("d", TypeSignatureFactory::charLiteral),
                                  })),
@@ -55,146 +55,146 @@ auto myInterfaceTypeSignature = new InterfaceTypeSignature(
             )),
             std::pair("myClassInstance", myClassTypeSignature),
         }));
-        auto testInterfaceTypeSignature = new InterfaceTypeSignature(
+        auto testInterfaceTypeSignature = std::make_shared<InterfaceTypeSignature>(
             TypeSignatureMap<TypeSignature>({
                 std::pair("foo", TypeSignatureFactory::boolLiteral),
                 std::pair("bar", TypeSignatureFactory::intLiteral),
-                std::pair("getColor", new LambdaTypeSignature({}, TypeSignatureFactory::stringLiteral)),
-                std::pair("size", new LambdaTypeSignature({}, TypeSignatureFactory::intLiteral)),
+                std::pair("getColor", std::make_shared<LambdaTypeSignature>({}, TypeSignatureFactory::stringLiteral)),
+                std::pair("size", std::make_shared<LambdaTypeSignature>({}, TypeSignatureFactory::intLiteral)),
             })
         );
-        auto twoTestInterfaceTypeSignature = new InterfaceTypeSignature(
+        auto twoTestInterfaceTypeSignature = std::make_shared<InterfaceTypeSignature>(
                 TypeSignatureMap<TypeSignature>({
                     std::pair("magic", TypeSignatureFactory::boolLiteral),
                 })
         );
 
-std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
+std::unordered_map<int, std::shared_ptr<TypeSignature>> generateExpectedTypeSignatures() {
 
     otherClassTypeSignature
-    ->addProperty("OtherClass_property_myIntOne", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false));
+    ->addProperty("OtherClass_property_myIntOne", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature), false, false));
 
     myClassTypeSignature
-    ->addProperty("MyClass_property_myIntOne", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
-    ->addProperty("MyClass_property_myIntTwo", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
-    ->addProperty("MyClass_property_myIntThree", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
-    ->addProperty("MyClass_property_myIntOneConst", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
-    ->addProperty("MyClass_property_myIntTwoConst", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
-    ->addProperty("MyClass_property_myIntThreeConst", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
-    ->addProperty("MyClass_property_fooOneStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
-    ->addProperty("MyClass_property_fooTwoStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
-    ->addProperty("MyClass_property_fooThreeStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
-    ->addProperty("MyClass_property_mickOneStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
-    ->addProperty("MyClass_property_mickTwoStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
-    ->addProperty("MyClass_property_mickThreeStatic", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
-    ->addProperty("MyClass_property_initMyClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false))
-    ->addProperty("MyClass_property_myClassProp", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(myClassTypeSignature), false, false))
-    ->addProperty("MyClass_property_otherClass", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, new NewClassInstanceTypeSignature(otherClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_myIntOne", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
+    ->addProperty("MyClass_property_myIntTwo", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
+    ->addProperty("MyClass_property_myIntThree", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
+    ->addProperty("MyClass_property_myIntOneConst", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
+    ->addProperty("MyClass_property_myIntTwoConst", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
+    ->addProperty("MyClass_property_myIntThreeConst", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, true))
+    ->addProperty("MyClass_property_fooOneStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
+    ->addProperty("MyClass_property_fooTwoStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
+    ->addProperty("MyClass_property_fooThreeStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::protectedAccess, TypeSignatureFactory::intLiteral, true, false))
+    ->addProperty("MyClass_property_mickOneStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
+    ->addProperty("MyClass_property_mickTwoStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
+    ->addProperty("MyClass_property_mickThreeStatic", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, TypeSignatureFactory::boolLiteral, true, true))
+    ->addProperty("MyClass_property_initMyClass", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_myClassProp", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature), false, false))
+    ->addProperty("MyClass_property_otherClass", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, std::make_shared<NewClassInstanceTypeSignature>(otherClassTypeSignature), false, false))
     ->addConstructor(
         "MyClass_constructor_0",
-        new ClassConstructorTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("other", new NewClassInstanceTypeSignature(myClassTypeSignature))
+        std::make_shared<ClassConstructorTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>({
+                std::make_shared<ParameterListItemTypeSignature>("other", std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature))
     })))
     ->addConstructor(
         "MyClass_constructor_1",
-        new ClassConstructorTypeSignature(
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("foo", TypeSignatureFactory::intLiteral)
+        std::make_shared<ClassConstructorTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>({
+                std::make_shared<ParameterListItemTypeSignature>("foo", TypeSignatureFactory::intLiteral)
     })))
     ->addMethod(
         "MyClass_method_create",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::publicAccess,
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("foo", TypeSignatureFactory::intLiteral)
+            std::make_shared<ParameterListTypeSignature>({
+               std::make_shared<ParameterListItemTypeSignature>("foo", TypeSignatureFactory::intLiteral)
            }),
            true,
-            new NewClassInstanceTypeSignature(myClassTypeSignature)
+            std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature)
        )
    )
     ->addMethod(
         "MyClass_method_doSomething",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::protectedAccess,
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("other", new NewClassInstanceTypeSignature(myClassTypeSignature))
+            std::make_shared<ParameterListTypeSignature>({
+               std::make_shared<ParameterListItemTypeSignature>("other", std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature))
             }),
             true,
-            new NewClassInstanceTypeSignature(myClassTypeSignature)
+            std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature)
         )
     )
     ->addMethod(
         "MyClass_method_doSomethingElse",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::privateAccess,
-            new ParameterListTypeSignature(),
+            std::make_shared<ParameterListTypeSignature>(),
             true,
-            new NewClassInstanceTypeSignature(myClassTypeSignature)
+            std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature)
         )
     )
     ->addMethod(
         "MyClass_method_isValid",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::publicAccess,
-            new ParameterListTypeSignature(),
+            std::make_shared<ParameterListTypeSignature>(),
             false,
             TypeSignatureFactory::boolLiteral
         )
     )
     ->addMethod(
         "MyClass_method_setBar",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::protectedAccess,
-            new ParameterListTypeSignature({
-                new ParameterListItemTypeSignature("bar", TypeSignatureFactory::boolLiteral)
+            std::make_shared<ParameterListTypeSignature>({
+                std::make_shared<ParameterListItemTypeSignature>("bar", TypeSignatureFactory::boolLiteral)
             }),
             false,
-            new NewClassInstanceTypeSignature(myClassTypeSignature)
+            std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature)
         )
     )
     ->addMethod(
         "MyClass_method_hello",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::privateAccess,
-            new ParameterListTypeSignature(),
+            std::make_shared<ParameterListTypeSignature>(),
             false,
             TypeSignatureFactory::stringLiteral
         )
     )
     ->addMethod(
         "MyClass_method_helloBar",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
             TypeSignatureFactory::privateAccess,
-            new ParameterListTypeSignature(),
+            std::make_shared<ParameterListTypeSignature>(),
             false
         )
     );
 
     testImplementationTypeSignature
-    ->addProperty("TestImplementation_property_foo", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::boolLiteral, false, false))
-    ->addProperty("TestImplementation_property_bar", new ClassPropertyTypeSignature(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
-    ->addProperty("TestImplementation_property_color", new ClassPropertyTypeSignature(TypeSignatureFactory::privateAccess, TypeSignatureFactory::stringLiteral, false, false))
+    ->addProperty("TestImplementation_property_foo", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::boolLiteral, false, false))
+    ->addProperty("TestImplementation_property_bar", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::publicAccess, TypeSignatureFactory::intLiteral, false, false))
+    ->addProperty("TestImplementation_property_color", std::make_shared<ClassPropertyTypeSignature>(TypeSignatureFactory::privateAccess, TypeSignatureFactory::stringLiteral, false, false))
     ->addConstructor(
         "TestImplementation_constructor_0",
-        new ClassConstructorTypeSignature(
-                new ParameterListTypeSignature({
-                    new ParameterListItemTypeSignature("color", TypeSignatureFactory::stringLiteral)
+        std::make_shared<ClassConstructorTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>({
+                    std::make_shared<ParameterListItemTypeSignature>("color", TypeSignatureFactory::stringLiteral)
     })))
     ->addMethod(
         "TestImplementation_method_getColor",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
                 TypeSignatureFactory::privateAccess,
-                new ParameterListTypeSignature(),
+                std::make_shared<ParameterListTypeSignature>(),
                 false,
                 TypeSignatureFactory::stringLiteral
         )
     )
     ->addMethod(
         "TestImplementation_method_size",
-        new ClassMethodTypeSignature(
+        std::make_shared<ClassMethodTypeSignature>(
                 TypeSignatureFactory::publicAccess,
-                new ParameterListTypeSignature(),
+                std::make_shared<ParameterListTypeSignature>(),
                 false,
                 TypeSignatureFactory::intLiteral
         )
@@ -262,15 +262,15 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {58, TypeSignatureFactory::intLiteral},
             {59, TypeSignatureFactory::boolLiteral},
             {60, TypeSignatureFactory::boolLiteral},
-            {61, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
+            {61, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
             {62, TypeSignatureFactory::intLiteral},
             {63, TypeSignatureFactory::intLiteral},
-            {64, new ArrayTypeSignature(new ArrayTypeSignature(TypeSignatureFactory::intLiteral))},
-            {65, new ArrayTypeSignature(new ArrayTypeSignature(TypeSignatureFactory::intLiteral))},
-            {66, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
+            {64, std::make_shared<ArrayTypeSignature>(std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral))},
+            {65, std::make_shared<ArrayTypeSignature>(std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral))},
+            {66, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
             {67, TypeSignatureFactory::intLiteral},
             {68, TypeSignatureFactory::intLiteral},
-            {69, new StructTypeSignature(
+            {69, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap<TypeSignature>({
                         std::pair("i", TypeSignatureFactory::intLiteral),
                         std::pair("f", TypeSignatureFactory::floatLiteral),
@@ -278,12 +278,12 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                         std::pair("character", TypeSignatureFactory::charLiteral),
                         std::pair("str", TypeSignatureFactory::stringLiteral),
                         std::pair("identifier", TypeSignatureFactory::boolLiteral),
-                        std::pair("array", new ArrayTypeSignature(TypeSignatureFactory::intLiteral)),
+                        std::pair("array", std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)),
                         std::pair("arrAccess", TypeSignatureFactory::intLiteral),
-                        std::pair("obj", new StructTypeSignature(
+                        std::pair("obj", std::make_shared<StructTypeSignature>(
                             TypeSignatureMap<TypeSignature>({
                                 std::pair("test", TypeSignatureFactory::intLiteral),
-                                std::pair("nest", new StructTypeSignature(
+                                std::pair("nest", std::make_shared<StructTypeSignature>(
                                     TypeSignatureMap<TypeSignature>({
                                         std::pair("value", TypeSignatureFactory::boolLiteral),
                                     })
@@ -298,8 +298,8 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {70, TypeSignatureFactory::boolLiteral},
             {71, TypeSignatureFactory::intLiteral},
             {72, TypeSignatureFactory::boolLiteral},
-            {73, new ArrayTypeSignature(
-                    new StructTypeSignature(
+            {73, std::make_shared<ArrayTypeSignature>(
+                    std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                              std::pair("hello", TypeSignatureFactory::stringLiteral),
                              std::pair("test", TypeSignatureFactory::intLiteral),
@@ -307,20 +307,20 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     )
             )},
             {74, TypeSignatureFactory::stringLiteral},
-            {75, new StructTypeSignature(
+            {75, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap({
                          std::pair("array",
-                               new ArrayTypeSignature(
-                                   new StructTypeSignature(
+                               std::make_shared<ArrayTypeSignature>(
+                                   std::make_shared<StructTypeSignature>(
                                        TypeSignatureMap({
                                             std::pair("hello", TypeSignatureFactory::stringLiteral),
                                             std::pair("test", TypeSignatureFactory::intLiteral),
                                        })
                                    )
                                )),
-                         std::pair("arrNested", new ArrayTypeSignature(
-                             new ArrayTypeSignature(
-                                 new StructTypeSignature(
+                         std::pair("arrNested", std::make_shared<ArrayTypeSignature>(
+                             std::make_shared<ArrayTypeSignature>(
+                                 std::make_shared<StructTypeSignature>(
                                      TypeSignatureMap({
                                           std::pair("hello", TypeSignatureFactory::stringLiteral),
                                           std::pair("test", TypeSignatureFactory::intLiteral),
@@ -332,34 +332,34 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             )},
             {76, TypeSignatureFactory::stringLiteral},
             {77, TypeSignatureFactory::stringLiteral},
-            {78, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
+            {78, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
                        TypeSignatureFactory::createIntParameter("x"),
                        TypeSignatureFactory::createIntParameter("y")
                     }),
                     TypeSignatureFactory::intLiteral
             )},
-            {79, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
+            {79, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
                     TypeSignatureFactory::intLiteral
             )},
-            {80, new ProcedureTypeSignature(
-                    new ParameterListTypeSignature({
+            {80, std::make_shared<ProcedureTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
                         TypeSignatureFactory::createIntParameter("num")
                     })
             )},
-            {81, new ProcedureTypeSignature(
-                    new ParameterListTypeSignature()
+            {81, std::make_shared<ProcedureTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>()
             )},
-            {82, new ProcedureTypeSignature(
-                    new ParameterListTypeSignature()
+            {82, std::make_shared<ProcedureTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>()
             )},
-            {83, new EnumAccessTypeSignature(
+            {83, std::make_shared<EnumAccessTypeSignature>(
                     colorEnumTypeSignature,
                     "Red"
             )},
             {84, colorEnumTypeSignature },
-            {85, new EnumTypeSignature(
+            {85, std::make_shared<EnumTypeSignature>(
                     TypeSignatureFactory::charLiteral,
                     TypeSignatureMap<LiteralTypeSignature>({
                        std::pair("Red", TypeSignatureFactory::charLiteral),
@@ -367,7 +367,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                        std::pair("Green", TypeSignatureFactory::charLiteral),
                     }))
             },
-            {86, new EnumTypeSignature(
+            {86, std::make_shared<EnumTypeSignature>(
                     TypeSignatureFactory::intLiteral,
                     TypeSignatureMap<LiteralTypeSignature>({
                        std::pair("Zero", TypeSignatureFactory::intLiteral),
@@ -377,43 +377,43 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             },
             {87, TypeSignatureFactory::boolLiteral},
             {88, TypeSignatureFactory::boolLiteral},
-            {89, new TupleTypeSignature({
+            {89, std::make_shared<TupleTypeSignature>({
                     TypeSignatureFactory::stringLiteral,
                     TypeSignatureFactory::intLiteral,
                     TypeSignatureFactory::intLiteral
             })},
-            {90, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
+            {90, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
                     TypeSignatureFactory::stringLiteral
             )},
-            {91, new LambdaTypeSignature(
+            {91, std::make_shared<LambdaTypeSignature>(
                     {
                         colorEnumTypeSignature
                     },
                     colorEnumTypeSignature
             )},
-            {92, new LambdaTypeSignature(
+            {92, std::make_shared<LambdaTypeSignature>(
                     {
                        TypeSignatureFactory::intLiteral,
                        TypeSignatureFactory::intLiteral,
                     },
                     TypeSignatureFactory::boolLiteral
             )},
-            {93, new LambdaTypeSignature(
+            {93, std::make_shared<LambdaTypeSignature>(
                     {
                         TypeSignatureFactory::intLiteral,
                     },
                     TypeSignatureFactory::intLiteral
             )},
-            {94, new LambdaTypeSignature(
+            {94, std::make_shared<LambdaTypeSignature>(
                     {
                         TypeSignatureFactory::intLiteral,
                     },
-                    new LambdaTypeSignature(
+                    std::make_shared<LambdaTypeSignature>(
                             {
                                 TypeSignatureFactory::intLiteral,
                             },
-                            new LambdaTypeSignature(
+                            std::make_shared<LambdaTypeSignature>(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
@@ -421,31 +421,31 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                             ))
             )},
             {95, TypeSignatureFactory::boolLiteral },
-            {96, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature(
+            {96, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "x",
                            TypeSignatureFactory::intLiteral
                        ),
-                       new ParameterListItemTypeSignature(
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "lambda",
-                           new LambdaTypeSignature(
+                           std::make_shared<LambdaTypeSignature>(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral)
                        ),
                     }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {97, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature(
+            {97, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "lambda",
-                           new LambdaTypeSignature(
+                           std::make_shared<LambdaTypeSignature>(
                                {
                                    TypeSignatureFactory::intLiteral,
                                    TypeSignatureFactory::intLiteral
                                },
-                               new LambdaTypeSignature(
+                               std::make_shared<LambdaTypeSignature>(
                                    {
                                        TypeSignatureFactory::intLiteral
                                    },
@@ -456,29 +456,29 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {98, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
-                    new LambdaTypeSignature(
+            {98, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
+                    std::make_shared<LambdaTypeSignature>(
                         {},
                         TypeSignatureFactory::intLiteral
                     )
             )},
-            {99, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
-                    new LambdaTypeSignature(
+            {99, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
+                    std::make_shared<LambdaTypeSignature>(
                         { TypeSignatureFactory::intLiteral },
                         TypeSignatureFactory::intLiteral
                     )
             )},
-            {100, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
+            {100, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
                     TypeSignatureFactory::boolLiteral
             )},
-            {101, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature(
+            {101, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "x",
-                           new LambdaTypeSignature(
+                           std::make_shared<LambdaTypeSignature>(
                                { TypeSignatureFactory::intLiteral },
                                TypeSignatureFactory::boolLiteral
                            )
@@ -486,73 +486,73 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {102, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature(
+            {102, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "x",
-                           new LambdaTypeSignature()
+                           std::make_shared<LambdaTypeSignature>()
                        ),
-                       new ParameterListItemTypeSignature(
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "y",
-                           new LambdaTypeSignature({ colorEnumTypeSignature })
+                           std::make_shared<LambdaTypeSignature>({ colorEnumTypeSignature })
                        )
                    }),
                     TypeSignatureFactory::boolLiteral
             )},
-            {103, new LambdaTypeSignature(
+            {103, std::make_shared<LambdaTypeSignature>(
                     {},
                     TypeSignatureFactory::intLiteral
             )},
-            {104, new LambdaTypeSignature(
+            {104, std::make_shared<LambdaTypeSignature>(
                     {
                        TypeSignatureFactory::intLiteral
                     }
             )},
-            {105, new LambdaTypeSignature()},
+            {105, std::make_shared<LambdaTypeSignature>()},
             {106, TypeSignatureFactory::intLiteral},
             {107, TypeSignatureFactory::floatLiteral},
             {108, TypeSignatureFactory::charLiteral},
             {109, TypeSignatureFactory::stringLiteral},
             {110, TypeSignatureFactory::boolLiteral},
-            {111, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {112, new LambdaTypeSignature(
+            {111, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {112, std::make_shared<LambdaTypeSignature>(
                     { TypeSignatureFactory::intLiteral },
                     TypeSignatureFactory::boolLiteral
             )},
-            {113, new LambdaTypeSignature(
+            {113, std::make_shared<LambdaTypeSignature>(
                     { TypeSignatureFactory::intLiteral }
             )},
-            {114, new TupleTypeSignature({
+            {114, std::make_shared<TupleTypeSignature>({
                      TypeSignatureFactory::intLiteral,
                      TypeSignatureFactory::intLiteral
             })},
             {115, colorEnumTypeSignature},
-            {116, new NewClassInstanceTypeSignature(myClassTypeSignature)},
+            {116, std::make_shared<NewClassInstanceTypeSignature>(myClassTypeSignature)},
             {117, otherClassTypeSignature},
             {118, myClassTypeSignature},
-            {119, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
+            {119, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
                        TypeSignatureFactory::createIntParameter("n")
                     }),
                     TypeSignatureFactory::intLiteral
             )},
-            {120, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
+            {120, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
                     TypeSignatureFactory::intLiteral
             )},
-            {121, new FunctionTypeSignature(
-                    new ParameterListTypeSignature(),
+            {121, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>(),
                     TypeSignatureFactory::intLiteral
             )},
-            {122, new ArrayTypeSignature(
+            {122, std::make_shared<ArrayTypeSignature>(
                     TypeSignatureFactory::intLiteral
             )},
-            {123, new StructTypeSignature(
+            {123, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap({
                         std::pair("bar", TypeSignatureFactory::charLiteral),
                     })
             )},
-            {124, new ArrayTypeSignature(
+            {124, std::make_shared<ArrayTypeSignature>(
                     TypeSignatureFactory::intLiteral
             )},
             {125, TypeSignatureFactory::refIntLiteral},
@@ -560,26 +560,26 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {127, TypeSignatureFactory::refStringLiteral},
             {128, TypeSignatureFactory::refBoolLiteral},
             {129, TypeSignatureFactory::refCharLiteral},
-            {130, new RefTypeSignature(
-                    new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
+            {130, std::make_shared<RefTypeSignature>(
+                    std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
             )},
-            {131, new RefTypeSignature(
-                    new StructTypeSignature(
+            {131, std::make_shared<RefTypeSignature>(
+                    std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("a", TypeSignatureFactory::intLiteral),
                             std::pair("b", TypeSignatureFactory::boolLiteral),
                         })
                     )
             )},
-            {132, new RefTypeSignature(
-                    new TupleTypeSignature({
+            {132, std::make_shared<RefTypeSignature>(
+                    std::make_shared<TupleTypeSignature>({
                         TypeSignatureFactory::stringLiteral,
                         TypeSignatureFactory::boolLiteral,
                         TypeSignatureFactory::intLiteral
                     })
             )},
-            {133, new RefTypeSignature(
-                    new StructTypeSignature(
+            {133, std::make_shared<RefTypeSignature>(
+                    std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
                         })
@@ -588,21 +588,21 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {134, TypeSignatureFactory::refCharLiteral},
             {135, TypeSignatureFactory::refIntLiteral},
             {136, TypeSignatureFactory::refStringLiteral},
-            {137, new ArrayTypeSignature(
+            {137, std::make_shared<ArrayTypeSignature>(
                     TypeSignatureFactory::refIntLiteral
             )},
-            {138, new StructTypeSignature(
+            {138, std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("a", TypeSignatureFactory::refIntLiteral),
                             std::pair("b", TypeSignatureFactory::refCharLiteral),
                         })
             )},
-            {139, new TupleTypeSignature({
+            {139, std::make_shared<TupleTypeSignature>({
                         TypeSignatureFactory::refStringLiteral,
                         TypeSignatureFactory::refBoolLiteral,
                         TypeSignatureFactory::refIntLiteral
             })},
-            {140, new StructTypeSignature(
+            {140, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap({
                         std::pair("bar", TypeSignatureFactory::charLiteral),
                     })
@@ -610,73 +610,73 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {141, TypeSignatureFactory::charLiteral},
             {142, TypeSignatureFactory::intLiteral},
             {143, TypeSignatureFactory::stringLiteral},
-            {144, new FunctionTypeSignature(
-                    new ParameterListTypeSignature({
+            {144, std::make_shared<FunctionTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
                         TypeSignatureFactory::createRefIntParameter("x"),
                         TypeSignatureFactory::createRefBoolParameter("y"),
                         TypeSignatureFactory::createParameter(
                             "z",
-                            new RefTypeSignature(
-                                new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
+                            std::make_shared<RefTypeSignature>(
+                                std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
                             )
                         )
                     }),
                     TypeSignatureFactory::refIntLiteral
             )},
             {145, TypeSignatureFactory::refCharLiteral},
-            {146, new LambdaTypeSignature(
+            {146, std::make_shared<LambdaTypeSignature>(
                     {
                         TypeSignatureFactory::refIntLiteral,
                     },
                     TypeSignatureFactory::intLiteral
             )},
-            {147, new LambdaTypeSignature(
+            {147, std::make_shared<LambdaTypeSignature>(
                     {
                         TypeSignatureFactory::refIntLiteral,
                     },
                     TypeSignatureFactory::refIntLiteral
             )},
-            {148, new RefTypeSignature(
-                    new ArrayTypeSignature(TypeSignatureFactory::intLiteral)
+            {148, std::make_shared<RefTypeSignature>(
+                    std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
             )},
-            {149, new RefTypeSignature(
-                    new StructTypeSignature(
+            {149, std::make_shared<RefTypeSignature>(
+                    std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
                         })
                     )
             )},
-            {150, new RefTypeSignature(TypeSignatureFactory::charLiteral)},
-            {151, new RefTypeSignature(TypeSignatureFactory::intLiteral)},
-            {152, new RefTypeSignature(TypeSignatureFactory::stringLiteral)},
+            {150, std::make_shared<RefTypeSignature>(TypeSignatureFactory::charLiteral)},
+            {151, std::make_shared<RefTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {152, std::make_shared<RefTypeSignature>(TypeSignatureFactory::stringLiteral)},
             {153, TypeSignatureFactory::stringLiteral},
             {154, TypeSignatureFactory::stringLiteral},
             {155, TypeSignatureFactory::stringLiteral},
             {156, TypeSignatureFactory::stringLiteral},
             {157, TypeSignatureFactory::stringLiteral},
-            {158, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {159, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {160, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {161, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {162, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
+            {158, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {159, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {160, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {161, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {162, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
             {163, TypeSignatureFactory::intLiteral},
             {164, TypeSignatureFactory::intLiteral},
-            {165, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {166, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {167, new ArrayTypeSignature(TypeSignatureFactory::intLiteral)},
-            {168, new StructTypeSignature(
+            {165, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {166, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {167, std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {168, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap({
-                        std::pair("foo", new LambdaTypeSignature(
+                        std::pair("foo", std::make_shared<LambdaTypeSignature>(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
                                 TypeSignatureFactory::intLiteral
                         )),
-                        std::pair("bar", new LambdaTypeSignature(
+                        std::pair("bar", std::make_shared<LambdaTypeSignature>(
                                 {},
                                 TypeSignatureFactory::intLiteral
                         )),
-                        std::pair("foo2", new LambdaTypeSignature(
+                        std::pair("foo2", std::make_shared<LambdaTypeSignature>(
                                 {
                                     TypeSignatureFactory::intLiteral,
                                 },
@@ -685,18 +685,18 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     })
                     )
             },
-            {169, new TupleTypeSignature({
-                         new LambdaTypeSignature(
+            {169, std::make_shared<TupleTypeSignature>({
+                         std::make_shared<LambdaTypeSignature>(
                                  {
                                      TypeSignatureFactory::intLiteral,
                                  },
                                  TypeSignatureFactory::intLiteral
                          ),
-                         new LambdaTypeSignature(
+                         std::make_shared<LambdaTypeSignature>(
                                  {},
                                  TypeSignatureFactory::intLiteral
                          ),
-                         new LambdaTypeSignature(
+                         std::make_shared<LambdaTypeSignature>(
                                  {
                                      TypeSignatureFactory::intLiteral,
                                  },
@@ -705,7 +705,7 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             })},
             {170, TypeSignatureFactory::intLiteral},
             {171, myInterfaceTypeSignature},
-            {172, new StructTypeSignature(
+            {172, std::make_shared<StructTypeSignature>(
                         TypeSignatureMap<TypeSignature>({
                             std::pair("a", TypeSignatureFactory::boolLiteral),
                             std::pair("c", TypeSignatureFactory::charLiteral),
@@ -713,14 +713,14 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
                     )
             },
             {173, myInterfaceTypeSignature},
-            {174, new ProcedureTypeSignature(
-                    new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature(
+            {174, std::make_shared<ProcedureTypeSignature>(
+                    std::make_shared<ParameterListTypeSignature>({
+                       std::make_shared<ParameterListItemTypeSignature>(
                            "myStruct",
-                           new StructTypeSignature(
+                           std::make_shared<StructTypeSignature>(
                                    TypeSignatureMap<TypeSignature>({
                                         std::pair("a", TypeSignatureFactory::boolLiteral),
-                                        std::pair("b", new StructTypeSignature(
+                                        std::pair("b", std::make_shared<StructTypeSignature>(
                                                 TypeSignatureMap<TypeSignature>({
                                                     std::pair("foo", TypeSignatureFactory::intLiteral),
                                                     std::pair("bar", TypeSignatureFactory::boolLiteral),
@@ -738,25 +738,25 @@ std::unordered_map<int, TypeSignature*> generateExpectedTypeSignatures() {
             {179, twoTestInterfaceTypeSignature},
 
             {180, TypeSignatureFactory::stringLiteral},
-            {181, new LambdaTypeSignature({}, TypeSignatureFactory::boolLiteral)},
+            {181, std::make_shared<LambdaTypeSignature>({}, TypeSignatureFactory::boolLiteral)},
             {182, TypeSignatureFactory::floatLiteral},
-            {183, new StructTypeSignature(
+            {183, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap<TypeSignature>({
                         std::pair("x", TypeSignatureFactory::intLiteral),
                         std::pair("y", TypeSignatureFactory::intLiteral),
                     })
             )},
-            {184, new StructTypeSignature(
+            {184, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap<TypeSignature>({
                         std::pair("x", TypeSignatureFactory::intLiteral),
                         std::pair("y", TypeSignatureFactory::intLiteral),
                     })
             )},
-            {185, new ArrayTypeSignature(
-                    new StructTypeSignature(
+            {185, std::make_shared<ArrayTypeSignature>(
+                    std::make_shared<StructTypeSignature>(
                         TypeSignatureMap<TypeSignature>({
                             std::pair("foo", TypeSignatureFactory::boolLiteral),
-                            std::pair("nested", new StructTypeSignature(
+                            std::pair("nested", std::make_shared<StructTypeSignature>(
                                     TypeSignatureMap<TypeSignature>({
                                         std::pair("bar", TypeSignatureFactory::intLiteral),
                                     })

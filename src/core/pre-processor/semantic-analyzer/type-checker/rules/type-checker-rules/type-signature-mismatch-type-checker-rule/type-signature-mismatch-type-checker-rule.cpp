@@ -15,7 +15,7 @@ void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<std::shared_ptr
 
 }
 
-void TypeSignatureMismatchTypeCheckerRule::enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
+void TypeSignatureMismatchTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<TypeSignature> otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->isEquivalentTo(otherTypeSignature)) {
         typeCheckerResult->addError(mismatchMessage());
     }

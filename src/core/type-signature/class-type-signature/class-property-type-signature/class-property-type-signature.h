@@ -13,25 +13,25 @@
 
 class ClassPropertyTypeSignature : public TypeSignature {
 private:
-    AccessModifierTypeSignature* _accessModifier;
+    std::shared_ptr<AccessModifierTypeSignature> _accessModifier;
     bool _isStatic;
     bool _isConst;
-    TypeSignature* _type;
+    std::shared_ptr<TypeSignature> _type;
 public:
     ClassPropertyTypeSignature();
-    ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst);
+    ClassPropertyTypeSignature(std::shared_ptr<AccessModifierTypeSignature> accessModifier, std::shared_ptr<TypeSignature> type, bool isStatic, bool isConst);
     bool isStatic();
     bool isConst();
-    AccessModifierTypeSignature* getAccessModifier();
-    TypeSignature* getType();
-    void setType(TypeSignature* typeSignature);
+    std::shared_ptr<AccessModifierTypeSignature> getAccessModifier();
+    std::shared_ptr<TypeSignature> getType();
+    void setType(std::shared_ptr<TypeSignature> typeSignature);
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
     TypeSource getTypeTarget() override;
-    bool isEqualTo(TypeSignature* otherType) override;
-    bool isEquivalentTo(TypeSignature *otherType) override;
-    TypeSignature* convertToVariableTypeSignature() override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
+    std::shared_ptr<TypeSignature> convertToVariableTypeSignature() override;
     void print() override;
 };
 

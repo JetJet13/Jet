@@ -46,12 +46,16 @@ std::shared_ptr<ASTFunctionArgumentListNode> ASTFunctionArgumentListNode::addCom
     return std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(shared_from_this());
 }
 
-ArgumentListTypeSignature* ASTFunctionArgumentListNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTFunctionArgumentListNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTFunctionArgumentListNode::setTypeSignature(ArgumentListTypeSignature* typeSignature) {
+void ASTFunctionArgumentListNode::setTypeSignature(std::shared_ptr<ArgumentListTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
+}
+
+std::shared_ptr<ArgumentListTypeSignature> ASTFunctionArgumentListNode::getArgumentListTypeSignature() {
+    return std::dynamic_pointer_cast<ArgumentListTypeSignature>(_typeSignature);
 }
 
 Position* ASTFunctionArgumentListNode::getStartPosition() {

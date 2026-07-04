@@ -18,7 +18,7 @@ TypeSource VoidTypeSignature::getTypeSource() {
     return VOID_TYPE_SOURCE;
 }
 
-bool VoidTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool VoidTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }
 

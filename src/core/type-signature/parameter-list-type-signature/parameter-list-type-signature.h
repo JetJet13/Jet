@@ -14,27 +14,27 @@
 
 class ParameterListTypeSignature : public TypeSignature {
 private:
-    std::vector<ParameterListItemTypeSignature*> _parameters;
-    std::vector<TypeSignature*> _parameterTypes;
+    std::vector<std::shared_ptr<ParameterListItemTypeSignature>> _parameters;
+    std::vector<std::shared_ptr<TypeSignature>> _parameterTypes;
     bool _isVariableLength = false;
     unsigned long _variableLengthStartIndex = -1;
-    std::optional<ParameterListItemTypeSignature*> _variableLengthTypeSignature;
+    std::optional<std::shared_ptr<ParameterListItemTypeSignature>> _variableLengthTypeSignature;
 public:
     ParameterListTypeSignature();
-    ParameterListTypeSignature(std::vector<ParameterListItemTypeSignature*> parameters);
-    std::vector<ParameterListItemTypeSignature*>* getParameters();
-    std::vector<TypeSignature*>* getParameterTypes();
+    ParameterListTypeSignature(std::vector<std::shared_ptr<ParameterListItemTypeSignature>> parameters);
+    std::vector<std::shared_ptr<ParameterListItemTypeSignature>>* getParameters();
+    std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes();
     std::string getId();
     unsigned long numParameters();
-    void markAsVariableLength(unsigned long startIndex, ParameterListItemTypeSignature* typeSignature);
+    void markAsVariableLength(unsigned long startIndex, std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
     [[nodiscard]] bool isVariableLength() const;
     [[nodiscard]] unsigned long getVariableLengthStartIndex() const;
-    ParameterListItemTypeSignature* getVariableLengthTypeSignature();
+    std::shared_ptr<ParameterListItemTypeSignature> getVariableLengthTypeSignature();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    bool matchesWithArgumentList(ArgumentListTypeSignature* argumentListTypeSignature);
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
+    bool matchesWithArgumentList(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature);
     void print() override;
 };
 

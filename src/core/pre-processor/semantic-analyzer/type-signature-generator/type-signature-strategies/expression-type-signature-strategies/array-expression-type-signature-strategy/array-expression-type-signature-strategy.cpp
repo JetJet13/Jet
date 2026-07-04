@@ -12,7 +12,7 @@ void ArrayExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTArrayExpres
         arrayExpression->getParentNode() &&
         arrayExpression->getParentNode().value()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)) {
         arrayExpression->setTypeSignature(
-            (ArrayTypeSignature*)arrayExpression->getParentNode().value()->getTypeSignature()
+            std::dynamic_pointer_cast<ArrayTypeSignature>(arrayExpression->getParentNode().value()->getTypeSignature())
         );
         return;
     } else if (arrayExpression->size() == 0) {
@@ -23,5 +23,5 @@ void ArrayExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTArrayExpres
         strategyMap->assignTypeSignatureFor(element, context, scope);
     }
 
-    arrayExpression->setTypeSignature(new ArrayTypeSignature(arrayExpression->getElements()->at(0)->getTypeSignature()->convertToVariableTypeSignature()));
+    arrayExpression->setTypeSignature(std::make_shared<ArrayTypeSignature>(arrayExpression->getElements()->at(0)->getTypeSignature()->convertToVariableTypeSignature()));
 }

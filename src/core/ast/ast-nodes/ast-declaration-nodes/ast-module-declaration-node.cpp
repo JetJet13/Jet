@@ -25,11 +25,15 @@ void ASTModuleDeclarationNode::addExportedDeclaration(std::shared_ptr<ASTNode> d
     _exportedDeclarations.push_back(declarationNode);
 }
 
-void ASTModuleDeclarationNode::setTypeSignature(ModuleTypeSignature* typeSignature) {
+void ASTModuleDeclarationNode::setTypeSignature(std::shared_ptr<ModuleTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ModuleTypeSignature* ASTModuleDeclarationNode::getTypeSignature() {
+std::shared_ptr<ModuleTypeSignature> ASTModuleDeclarationNode::getModuleTypeSignature() {
+    return std::dynamic_pointer_cast<ModuleTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTModuleDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

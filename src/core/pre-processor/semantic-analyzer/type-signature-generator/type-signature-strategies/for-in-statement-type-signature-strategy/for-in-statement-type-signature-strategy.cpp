@@ -17,18 +17,18 @@ void ForInStatementTypeSignatureStrategy::assign(std::shared_ptr<ASTForInStateme
     );
 
     if (forStatementNode->getSource()->getSource()->getTypeSignature()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-        auto arrayTypeSignature = (ArrayTypeSignature*)forStatementNode->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
+        auto arrayTypeSignature = std::dynamic_pointer_cast<ArrayTypeSignature>(forStatementNode->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
         forStatementNode->getVariable()->getVariable()->setTypeSignature(arrayTypeSignature->getElementType());
     } else if (forStatementNode->getSource()->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)forStatementNode->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(forStatementNode->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
         if (refTypeSignature->getUnderlyingType()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-            auto arrayTypeSignature = (ArrayTypeSignature*)refTypeSignature->getUnderlyingType()->getTargetTypeSignature();
+            auto arrayTypeSignature = std::dynamic_pointer_cast<ArrayTypeSignature>(refTypeSignature->getUnderlyingType()->getTargetTypeSignature());
             forStatementNode->getVariable()->getVariable()->setTypeSignature(arrayTypeSignature->getElementType());
         } else {
-            forStatementNode->getVariable()->getVariable()->setTypeSignature(new UnknownTypeSignature());
+            forStatementNode->getVariable()->getVariable()->setTypeSignature(std::make_shared<UnknownTypeSignature>());
         }
     } else {
-        forStatementNode->getVariable()->getVariable()->setTypeSignature(new UnknownTypeSignature());
+        forStatementNode->getVariable()->getVariable()->setTypeSignature(std::make_shared<UnknownTypeSignature>());
     }
     forStatementNode->getVariable()->setTypeSignature(
         forStatementNode->getVariable()->getVariable()->getTypeSignature()

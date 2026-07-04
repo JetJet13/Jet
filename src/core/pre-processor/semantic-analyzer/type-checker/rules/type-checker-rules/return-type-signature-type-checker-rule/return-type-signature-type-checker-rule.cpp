@@ -11,7 +11,7 @@ void ReturnTypeSignatureTypeCheckerRule::enforce(std::optional<std::shared_ptr<A
     }
 }
 
-void ReturnTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void ReturnTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (typeSignature->isUnknown()) {
         typeCheckerResult->addError(unknownMessage());
     } else if (typeSignature->isInvalid()) {

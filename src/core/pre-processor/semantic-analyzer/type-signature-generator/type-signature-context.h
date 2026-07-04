@@ -9,14 +9,14 @@
 
 class TypeSignatureContext {
 private:
-    std::optional<TypeSignature*> _typeSignature;
-    std::optional<std::vector<TypeSignature*>*> _typeSignatures;
+    std::optional<std::shared_ptr<TypeSignature>> _typeSignature;
+    std::optional<std::vector<std::shared_ptr<TypeSignature>>*> _typeSignatures;
 public:
     TypeSignatureContext();
-    TypeSignatureContext(std::optional<TypeSignature*> typeSignature);
-    TypeSignatureContext(std::optional<std::vector<TypeSignature*>*> typeSignatures);
-    std::optional<TypeSignature*> getTypeSignature();
-    std::optional<std::vector<TypeSignature*>*> getTypeSignatures();
+    TypeSignatureContext(std::optional<std::shared_ptr<TypeSignature>> typeSignature);
+    TypeSignatureContext(std::optional<std::vector<std::shared_ptr<TypeSignature>>*> typeSignatures);
+    std::optional<std::shared_ptr<TypeSignature>> getTypeSignature();
+    std::optional<std::vector<std::shared_ptr<TypeSignature>>*> getTypeSignatures();
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_CONTEXT_H

@@ -17,15 +17,15 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
                         scope,
                         irContext,
                         new IROperation(IR_FUNCTION_ARGUMENT_OP),
-                        node->getTypeSignature()->getFunctionType()
+                        node->getInvocationTypeSignature()->getFunctionType()
                 )
         );
     }
-    auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getTypeSignature()->getFunctionType(), &arguments, scope, irContext);
+    auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getInvocationTypeSignature()->getFunctionType(), &arguments, scope, irContext);
 
     std::optional<IRInstructionNode*> varArgsTypeValueArgument = {};
-    if (node->getTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
-        auto startIndex = node->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
+    if (node->getInvocationTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
+        auto startIndex = node->getInvocationTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
         auto numVarArgs = arguments.size() - startIndex;
         varArgsTypeValueArgument = IRInstructionNodeFactory::create(
             irGenerator->generateIrArrayPointerType(irGenerator->generateIrTypeValueType()),
@@ -37,7 +37,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
     }
 
     auto irType = irGenerator->generateTypeFor(node->getFunction()->getTypeSignature(), scope, irContext);
-    auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature()->getReturnType(), scope, irContext);
+    auto irReturnType = irGenerator->generateTypeFor(node->getInvocationTypeSignature()->getReturnType(), scope, irContext);
 
     if (irType->isInvocableType()) {
         auto irInvocableType = (IRInvocableType*)irType;
@@ -48,7 +48,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
         auto irFunctionType = (IRFunctionType*)irType;
-        auto irParameterList = irGenerator->generateIRTypes(node->getTypeSignature()->getFunctionType()->getParameterTypes(), scope, irContext);
+        auto irParameterList = irGenerator->generateIRTypes(node->getInvocationTypeSignature()->getFunctionType()->getParameterTypes(), scope, irContext);
 
         auto irFunctionName = node->getFunction()->getTypeSignature()->isDebug()
                 ? irGenerator->getJetDebugFunctionName(node->getFunction()->getId())
@@ -56,7 +56,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
         auto function = irContext->getModule()->getFunction(irFunctionName);
         auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
 
-        if (node->getTypeSignature()->getFunctionType()->isOneOfBuiltInTypeSources({
+        if (node->getInvocationTypeSignature()->getFunctionType()->isOneOfBuiltInTypeSources({
                    BI_ASSERT_TYPE_SOURCE,
                    BI_ASSERT_WITH_MESSAGE_TYPE_SOURCE,
                    BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE,
@@ -73,7 +73,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
     }
 
     auto irFunctionType = (IRFunctionType*)irType;
-    auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getModuleId(), node->getFunction()->getId(), (InvocableTypeSignature*)node->getFunction()->getTypeSignature());
+    auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getModuleId(), node->getFunction()->getId(), std::dynamic_pointer_cast<InvocableTypeSignature>(node->getFunction()->getTypeSignature()));
     auto function = irContext->getModule()->getFunction(irFunctionId);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);

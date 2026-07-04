@@ -11,11 +11,11 @@
 
 class StringLiteralTypeSignature : public LiteralTypeSignature {
 public:
-    LiteralTypeSignature* clone() override;
+    std::shared_ptr<LiteralTypeSignature> clone() override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEquivalentTo(TypeSignature *otherType) override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
 };
 
 #endif //JETLANG_STRING_LITERAL_TYPE_SIGNATURE_H

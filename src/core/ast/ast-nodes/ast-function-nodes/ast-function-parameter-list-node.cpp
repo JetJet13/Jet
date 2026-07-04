@@ -46,11 +46,15 @@ std::shared_ptr<ASTFunctionParameterListNode> ASTFunctionParameterListNode::addC
     return std::dynamic_pointer_cast<ASTFunctionParameterListNode>(shared_from_this());
 }
 
-void ASTFunctionParameterListNode::setTypeSignature(ParameterListTypeSignature* typeSignature) {
+void ASTFunctionParameterListNode::setTypeSignature(std::shared_ptr<ParameterListTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ParameterListTypeSignature* ASTFunctionParameterListNode::getTypeSignature() {
+std::shared_ptr<ParameterListTypeSignature> ASTFunctionParameterListNode::getParameterListTypeSignature() {
+    return std::dynamic_pointer_cast<ParameterListTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTFunctionParameterListNode::getTypeSignature() {
     return _typeSignature;
 }
 

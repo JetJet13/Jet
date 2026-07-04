@@ -46,7 +46,7 @@ IRType* IRTupleAccessInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRTupleAccessInvocationExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRTupleAccessInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

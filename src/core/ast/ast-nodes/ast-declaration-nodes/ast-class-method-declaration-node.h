@@ -25,7 +25,7 @@ private:
     std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
     std::optional<std::shared_ptr<ASTTypeNode>> _returnType;
     std::shared_ptr<ASTFunctionBlockNode> _block;
-    ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
+    std::shared_ptr<ClassMethodTypeSignature> _typeSignature = std::make_shared<ClassMethodTypeSignature>();
 public:
     explicit ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content);
     explicit ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
@@ -35,8 +35,9 @@ public:
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     bool isStatic();
     unsigned long numParameters();
-    void setTypeSignature(ClassMethodTypeSignature* typeSignature);
-    ClassMethodTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ClassMethodTypeSignature> typeSignature);
+    std::shared_ptr<ClassMethodTypeSignature> getMethodTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

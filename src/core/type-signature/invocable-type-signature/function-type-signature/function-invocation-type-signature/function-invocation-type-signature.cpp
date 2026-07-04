@@ -6,18 +6,18 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 FunctionInvocationTypeSignature::FunctionInvocationTypeSignature() {
-    _invocableTypeSignature = new FunctionTypeSignature();
+    _invocableTypeSignature = std::make_shared<FunctionTypeSignature>();
 }
 
-FunctionInvocationTypeSignature::FunctionInvocationTypeSignature(InvocableTypeSignature* invocableTypeSignature) {
+FunctionInvocationTypeSignature::FunctionInvocationTypeSignature(std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     _invocableTypeSignature = invocableTypeSignature;
 }
 
-InvocableTypeSignature* FunctionInvocationTypeSignature::getFunctionType() {
+std::shared_ptr<InvocableTypeSignature> FunctionInvocationTypeSignature::getFunctionType() {
     return _invocableTypeSignature;
 }
 
-TypeSignature* FunctionInvocationTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> FunctionInvocationTypeSignature::getReturnType() {
     return _invocableTypeSignature->getReturnType();
 }
 
@@ -37,24 +37,24 @@ TypeSource FunctionInvocationTypeSignature::getTypeTarget() {
     return _invocableTypeSignature->getReturnType()->getTypeSource();
 }
 
-TypeSignature* FunctionInvocationTypeSignature::convertToVariableTypeSignature() {
+std::shared_ptr<TypeSignature> FunctionInvocationTypeSignature::convertToVariableTypeSignature() {
     return _invocableTypeSignature->getReturnType()->convertToVariableTypeSignature();
 }
 
-TypeSignature* FunctionInvocationTypeSignature::getTargetTypeSignature() {
+std::shared_ptr<TypeSignature> FunctionInvocationTypeSignature::getTargetTypeSignature() {
     return _invocableTypeSignature->getReturnType();
 }
 
-bool FunctionInvocationTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool FunctionInvocationTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (FunctionInvocationTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(otherType);
     return this->getFunctionType()->isEqualTo(other->getFunctionType());
 }
 
-bool FunctionInvocationTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool FunctionInvocationTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getReturnType()->isEquivalentTo(otherType->getTargetTypeSignature());
 }
 

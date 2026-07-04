@@ -13,12 +13,13 @@
 class ASTLiteralNode : public ASTNode {
 protected:
     Lexeme* _lexeme;
-    LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
+    std::shared_ptr<LiteralTypeSignature> _typeSignature = std::make_shared<LiteralTypeSignature>();
 public:
     explicit ASTLiteralNode(Lexeme* lexemeLiteral);
     Lexeme* getLiteral();
-    void setTypeSignature(LiteralTypeSignature* typeSignature);
-    LiteralTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<LiteralTypeSignature> typeSignature);
+    std::shared_ptr<LiteralTypeSignature> getLiteralTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

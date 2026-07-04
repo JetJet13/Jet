@@ -22,11 +22,11 @@ std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyAssignmentNode::getPro
     return _classPropertyAccess->getPropertyName();
 }
 
-void ASTClassPropertyAssignmentNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTClassPropertyAssignmentNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTClassPropertyAssignmentNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTClassPropertyAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 

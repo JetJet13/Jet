@@ -16,15 +16,16 @@ class ASTModuleDeclarationNode : public ASTDeclarationNode {
 private:
     std::shared_ptr<ASTModuleNode> _moduleKeyword;
     std::shared_ptr<ASTModuleNameNode> _name;
-    ModuleTypeSignature* _typeSignature = new ModuleTypeSignature();
+    std::shared_ptr<ModuleTypeSignature> _typeSignature = std::make_shared<ModuleTypeSignature>();
     std::vector<std::shared_ptr<ASTNode>> _exportedDeclarations = std::vector<std::shared_ptr<ASTNode>>();
 public:
     explicit ASTModuleDeclarationNode(std::shared_ptr<ASTModuleNode> moduleKeyword, std::shared_ptr<ASTModuleNameNode> name);
     std::shared_ptr<ASTModuleNameNode> getName();
     std::vector<std::shared_ptr<ASTNode>>* getExports();
     void addExportedDeclaration(std::shared_ptr<ASTNode> declarationNode);
-    void setTypeSignature(ModuleTypeSignature* typeSignature);
-    ModuleTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ModuleTypeSignature> typeSignature);
+    std::shared_ptr<ModuleTypeSignature> getModuleTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

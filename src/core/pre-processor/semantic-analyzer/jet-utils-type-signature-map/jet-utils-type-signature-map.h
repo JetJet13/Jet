@@ -20,12 +20,12 @@ public:
     static std::string getAssertTypeSignatureKey();
     static std::string getAssertWithMessageTypeSignatureKey();
     static bool doesIdConflict(std::string id);
-    static ProcedureTypeSignature* getPrintTypeSignature();
-    static FunctionTypeSignature* getRangeTypeSignature();
-    static FunctionTypeSignature* getRange2pTypeSignature();
-    static FunctionTypeSignature* getRange3pTypeSignature();
-    static FunctionTypeSignature* getAssertTypeSignature();
-    static FunctionTypeSignature* getAssertWithMessageTypeSignature();
+    static std::shared_ptr<ProcedureTypeSignature> getPrintTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getRangeTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getRange2pTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getRange3pTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertTypeSignature();
+    static std::shared_ptr<FunctionTypeSignature> getAssertWithMessageTypeSignature();
 };
 
 #endif //JETLANG_JET_UTILS_TYPE_SIGNATURE_MAP_H

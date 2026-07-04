@@ -11,19 +11,19 @@
 
 class TupleTypeSignature : public AggregateTypeSignature<TypeSignature> {
 private:
-    TypeSignatureMap<TypeSignature> _keyValuePairs;
+    TypeSignatureMap<std::shared_ptr<TypeSignature>> _keyValuePairs;
 public:
     TupleTypeSignature();
-    explicit TupleTypeSignature(std::vector<TypeSignature*>* elementTypes);
-    explicit TupleTypeSignature(std::vector<TypeSignature*> elementTypes);
-    TypeSignatureMap<TypeSignature>* getKeyValuePairs() override;
-    TypeSignature* getTypeSignatureForKey(std::string key) override;
-    TypeSignature* getTypeSignatureAtIndex(unsigned long index) override;
+    explicit TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature>>* elementTypes);
+    explicit TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature>> elementTypes);
+    TypeSignatureMap<std::shared_ptr<TypeSignature>>* getKeyValuePairs() override;
+    std::shared_ptr<TypeSignature> getTypeSignatureForKey(std::string key) override;
+    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
     unsigned long size();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

@@ -9,14 +9,14 @@ bool InvocableTypeSignature::isInvocable() {
     return true;
 }
 
-bool InvocableTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool InvocableTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (_isGeneric && otherType->isInvocable()) {
         return true;
     } else if (!otherType->isInvocable()) {
         return false;
     }
 
-    auto other = (InvocableTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<InvocableTypeSignature>(otherType);
     if (!this->getReturnType()->isEquivalentTo(other->getReturnType())) {
         return false;
     }
@@ -33,12 +33,12 @@ bool InvocableTypeSignature::isEquivalentTo(TypeSignature* otherType) {
     return true;
 }
 
-TypeSignature* InvocableTypeSignature::convertToVariableTypeSignature() {
-    auto parameterTypes = std::vector<TypeSignature*>();
+std::shared_ptr<TypeSignature> InvocableTypeSignature::convertToVariableTypeSignature() {
+    auto parameterTypes = std::vector<std::shared_ptr<TypeSignature>>();
     for (auto parameter : *this->getParameterTypes()) {
         parameterTypes.push_back(parameter->convertToVariableTypeSignature());
     }
-    return new LambdaTypeSignature(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
+    return std::make_shared<LambdaTypeSignature>(parameterTypes, this->getReturnType()->convertToVariableTypeSignature());
 }
 
 bool InvocableTypeSignature::isArgumentVarArg(int argumentIndex) {

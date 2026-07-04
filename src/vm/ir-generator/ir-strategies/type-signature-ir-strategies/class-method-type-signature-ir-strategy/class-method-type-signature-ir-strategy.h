@@ -12,7 +12,7 @@
 
 class ClassMethodTypeSignatureIRStrategy {
 public:
-    IRFunctionType* generate(ClassMethodTypeSignature* classMethodTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRFunctionType* generate(std::shared_ptr<ClassMethodTypeSignature> classMethodTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_METHOD_TYPE_SIGNATURE_IR_STRATEGY_H

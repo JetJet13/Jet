@@ -44,12 +44,12 @@ std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTObjectAccessInvo
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(std::string name, InvocableTypeSignature* invocableTypeSignature) {
+std::string FunctionIdGenerator::generateFor(std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     auto id = name + "." + MD5().operator()(invocableTypeSignature->toDetailString());
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(std::string moduleId, std::string name, InvocableTypeSignature* invocableTypeSignature) {
+std::string FunctionIdGenerator::generateFor(std::string moduleId, std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     auto id = FunctionIdGenerator::generateFor(name, invocableTypeSignature);
     if (moduleId.empty()) {
         return id;
@@ -57,7 +57,7 @@ std::string FunctionIdGenerator::generateFor(std::string moduleId, std::string n
     return moduleId + "." + id;
 }
 
-std::string FunctionIdGenerator::generateFor(InvocableTypeSignature* invocableTypeSignature) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     return MD5().operator()(invocableTypeSignature->toDetailString());
 }
 

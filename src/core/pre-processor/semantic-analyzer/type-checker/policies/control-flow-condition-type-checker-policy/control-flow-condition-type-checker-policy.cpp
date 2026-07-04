@@ -14,7 +14,7 @@ namespace ControlFlowConditionTypeCheckerPolicy {
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
             controlFlowConditionNode->getTypeSignature(),
-            new BoolLiteralTypeSignature(),
+            std::make_shared<BoolLiteralTypeSignature>(),
             mismatchMessage,
             typeCheckerResult
         );

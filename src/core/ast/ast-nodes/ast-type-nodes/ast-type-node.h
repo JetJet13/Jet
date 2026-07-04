@@ -16,8 +16,8 @@ private:
 public:
     explicit ASTTypeNode(std::shared_ptr<ASTTypeBaseNode> type);
     std::shared_ptr<ASTTypeBaseNode> getType();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -45,11 +45,15 @@ bool ASTFunctionDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
-void ASTFunctionDeclarationNode::setTypeSignature(FunctionTypeSignature* typeSignature) {
+void ASTFunctionDeclarationNode::setTypeSignature(std::shared_ptr<FunctionTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-FunctionTypeSignature* ASTFunctionDeclarationNode::getTypeSignature() {
+std::shared_ptr<FunctionTypeSignature> ASTFunctionDeclarationNode::getFunctionTypeSignature() {
+    return std::dynamic_pointer_cast<FunctionTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTFunctionDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

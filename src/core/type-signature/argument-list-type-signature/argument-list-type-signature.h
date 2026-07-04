@@ -11,16 +11,16 @@
 
 class ArgumentListTypeSignature : public TypeSignature {
 private:
-    std::vector<TypeSignature*> _argumentTypes;
+    std::vector<std::shared_ptr<TypeSignature>> _argumentTypes;
 public:
     ArgumentListTypeSignature();
-    ArgumentListTypeSignature(std::vector<TypeSignature*> argumentTypes);
-    std::vector<TypeSignature*>* getArgumentTypes();
+    ArgumentListTypeSignature(std::vector<std::shared_ptr<TypeSignature>> argumentTypes);
+    std::vector<std::shared_ptr<TypeSignature>>* getArgumentTypes();
     unsigned long numParameters();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

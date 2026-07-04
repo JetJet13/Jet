@@ -10,7 +10,7 @@
 IRExpressionNode* IdentifierExpressionIRStrategy::generate(std::shared_ptr<ASTIdentifierExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto allocation = scope->findAcrossScopes(node->getIdentifierNode()->getId());
     if (!allocation && node->getTypeSignature()->isInvocable()) {
-        auto invocableTypeSignature = (InvocableTypeSignature*)node->getTypeSignature();
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(node->getTypeSignature());
         allocation = scope->findAcrossScopes(FunctionIdGenerator::generateFor(node->getIdentifierNode()->getId(), invocableTypeSignature));
     }
 

@@ -5,8 +5,8 @@
 #include "literal-type-signature.h"
 #include "../../../shared/utils/logger/logger.h"
 
-LiteralTypeSignature* LiteralTypeSignature::clone() {
-    return new LiteralTypeSignature();
+std::shared_ptr<LiteralTypeSignature> LiteralTypeSignature::clone() {
+    return std::make_shared<LiteralTypeSignature>();
 }
 
 bool LiteralTypeSignature::isLiteral() {
@@ -25,11 +25,11 @@ TypeSource LiteralTypeSignature::getTypeSource() {
     return LITERAL_TYPE_SOURCE;
 }
 
-bool LiteralTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool LiteralTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }
 
-bool LiteralTypeSignature::isEquivalentTo(TypeSignature *otherType){
+bool LiteralTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType){
     return this->isLiteral() || this->getTypeSource() == otherType->getTypeSource();
 }
 

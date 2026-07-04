@@ -7,7 +7,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-IRType* LiteralTypeSignatureIRStrategy::generate(LiteralTypeSignature* literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRType* LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
         auto irType = new IRType(irGenerator->generateIntType());
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));

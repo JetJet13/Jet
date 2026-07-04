@@ -44,7 +44,7 @@ IRType* IRClassPropertyAccessExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRClassPropertyAccessExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRClassPropertyAccessExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

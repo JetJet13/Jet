@@ -19,13 +19,13 @@ private:
 public:
     BinaryExpressionTypeCombination(std::shared_ptr<Symbol> operatorSymbol, std::vector<BinaryComboResultType> binaryResultTypes);
     std::shared_ptr<Symbol> getOperator();
-    std::optional<TypeSignature*> match(TypeSignature* leftTypeSignature, TypeSignature* rightTypeSignature);
+    std::optional<std::shared_ptr<TypeSignature>> match(std::shared_ptr<TypeSignature> leftTypeSignature, std::shared_ptr<TypeSignature> rightTypeSignature);
 };
 
 struct BinaryComboResultType {
     TypeSource leftType;
     TypeSource rightType;
-    TypeSignature* resultType;
+    std::shared_ptr<TypeSignature> resultType;
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_COMBINATION_H

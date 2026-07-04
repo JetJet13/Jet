@@ -8,44 +8,44 @@
 #include "../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../../../type-signature/void-type-signature/void-type-signature.h"
 
-std::optional<FunctionTypeSignature*> RefPrototypeTypeSignatureMap::find(std::string id, TypeSignature* refType) {
+std::optional<std::shared_ptr<FunctionTypeSignature>> RefPrototypeTypeSignatureMap::find(std::string id, std::shared_ptr<TypeSignature> refType) {
     if (id == "refOf") {
-        auto refOfTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature({
-                       new ParameterListItemTypeSignature("other", refType)
+        auto refOfTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(std::vector {
+                       std::make_shared<ParameterListItemTypeSignature>("other", refType)
                 }),
-                new BoolLiteralTypeSignature()
+                std::make_shared<BoolLiteralTypeSignature>()
         );
         refOfTypeSignature->markAsPrototype();
         return refOfTypeSignature;
     }
 
     if (id == "srefWith" || id == "sameRefAs") {
-        auto srefWithTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature({
-                        new ParameterListItemTypeSignature("other", new RefTypeSignature(refType))
+        auto srefWithTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(std::vector {
+                        std::make_shared<ParameterListItemTypeSignature>("other", std::make_shared<RefTypeSignature>(refType))
                 }),
-                new BoolLiteralTypeSignature()
+                std::make_shared<BoolLiteralTypeSignature>()
         );
         srefWithTypeSignature->markAsPrototype();
         return srefWithTypeSignature;
     }
 
     if (id == "refCount") {
-        auto refCountTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature(),
-                new IntLiteralTypeSignature()
+        auto refCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(),
+                std::make_shared<IntLiteralTypeSignature>()
         );
         refCountTypeSignature->markAsPrototype();
         return refCountTypeSignature;
     }
 
     if (id == "setRefValue") {
-        auto setRefValueTypeSignature = new FunctionTypeSignature(
-                new ParameterListTypeSignature({
-                   new ParameterListItemTypeSignature("value", refType)
+        auto setRefValueTypeSignature = std::make_shared<FunctionTypeSignature>(
+                std::make_shared<ParameterListTypeSignature>(std::vector {
+                   std::make_shared<ParameterListItemTypeSignature>("value", refType)
                 }),
-                new VoidTypeSignature()
+                std::make_shared<VoidTypeSignature>()
         );
         setRefValueTypeSignature->markAsPrototype();
         return setRefValueTypeSignature;

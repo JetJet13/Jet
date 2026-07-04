@@ -7,7 +7,7 @@
 
 void EnumTypeSignatureStrategy::assign(std::shared_ptr<ASTEnumDeclarationNode> enumDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     if (enumDeclaration->getValues()->getParameters().empty()) {
-        enumDeclaration->setTypeSignature(new EnumTypeSignature(new DefaultEnumKeyValueTypeSignature()));
+        enumDeclaration->setTypeSignature(std::make_shared<EnumTypeSignature>(std::make_shared<DefaultEnumKeyValueTypeSignature>()));
         enumDeclaration->getTypeSignature()->setId(enumDeclaration->getId());
         scope->insertGlobal(
                 enumDeclaration->getId(),
@@ -16,12 +16,12 @@ void EnumTypeSignatureStrategy::assign(std::shared_ptr<ASTEnumDeclarationNode> e
         return;
     }
 
-    auto enumTypeSignature = new EnumTypeSignature();
+    auto enumTypeSignature = std::make_shared<EnumTypeSignature>();
     enumTypeSignature->setId(enumDeclaration->getId());
     for (auto enumKeyValue : enumDeclaration->getValues()->getParameters()) {
         strategyMap->assignTypeSignatureFor(enumKeyValue, context);
         if (enumTypeSignature->getType()->typeTargetIs(LITERAL_TYPE_SOURCE)) {
-            enumTypeSignature->setType(enumKeyValue->getTypeSignature());
+            enumTypeSignature->setType(enumKeyValue->getLiteralTypeSignature());
         }
         enumTypeSignature->addKey(enumKeyValue->getKey()->getId());
     }

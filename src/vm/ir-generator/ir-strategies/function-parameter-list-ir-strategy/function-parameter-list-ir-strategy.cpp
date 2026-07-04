@@ -10,7 +10,7 @@ IRFunctionParameterListNode* FunctionParameterListIRStrategy::generate(std::shar
     auto functionParameters = std::vector<IRFunctionParameterNode*>();
     for (unsigned long i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];
-        auto parameterType = irGenerator->generateParameterType(parameter->getTypeSignature(), scope, irContext);
+        auto parameterType = irGenerator->generateParameterType(parameter->getParameterTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);
         auto allocation = irGenerator->generateFunctionParameterAllocation(parameter, parameterType, irContext);
         scope->insert(parameterType->getName(), allocation);

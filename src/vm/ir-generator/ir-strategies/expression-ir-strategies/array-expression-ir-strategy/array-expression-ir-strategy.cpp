@@ -18,8 +18,8 @@ IRArrayExpressionNode* ArrayExpressionIRStrategy::generate(std::shared_ptr<ASTAr
             elementValueSourceAllocations.push_back(elementIrExpression->getSourceAllocation().value());
         }
     }
-    auto arrayElementIrType = irGenerator->generateTypeFor(node->getTypeSignature()->getElementType(), scope, irContext);
-    auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto arrayElementIrType = irGenerator->generateTypeFor(node->getArrayTypeSignature()->getElementType(), scope, irContext);
+    auto irType = irGenerator->generateTypeFor(node->getArrayTypeSignature(), scope, irContext);
     auto arrayType = irGenerator->generateIRArrayType(arrayElementIrType, node->getElements()->size());
     auto arrayAllocation = this->generateArrayAllocation(node, irType, arrayType, arrayElementIrType, elementValueSourceAllocations, irGenerator, irContext, irOperation);
     auto arrayPointerAllocation = this->generateArrayPointerAllocation(node, irType, arrayType, arrayAllocation, irGenerator, irContext, irOperation);

@@ -11,7 +11,7 @@
 
 class FunctionInvocationTypeSignatureIRStrategy {
 public:
-    IRType* generate(FunctionInvocationTypeSignature* functionInvocationTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRType* generate(std::shared_ptr<FunctionInvocationTypeSignature> functionInvocationTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_FUNCTION_INVOCATION_TYPE_SIGNATURE_IR_STRATEGY_H

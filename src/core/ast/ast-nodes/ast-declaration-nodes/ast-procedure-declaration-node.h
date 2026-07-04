@@ -23,7 +23,7 @@ private:
     std::shared_ptr<ASTProcedureDefinitionNode> _procedureDefinition;
     std::shared_ptr<ASTFunctionBlockNode> _block;
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    ProcedureTypeSignature* _typeSignature = new ProcedureTypeSignature();
+    std::shared_ptr<ProcedureTypeSignature> _typeSignature = std::make_shared<ProcedureTypeSignature>();
 public:
     explicit ASTProcedureDeclarationNode(std::shared_ptr<ASTProcedureDefinitionNode> _procedureDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
@@ -32,8 +32,9 @@ public:
     std::shared_ptr<ASTProcedureDefinitionNode> getDefinition();
     unsigned long numParameters();
     bool isExportable() override;
-    void setTypeSignature(ProcedureTypeSignature* typeSignature);
-    ProcedureTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ProcedureTypeSignature> typeSignature);
+    std::shared_ptr<ProcedureTypeSignature> getProcedureTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

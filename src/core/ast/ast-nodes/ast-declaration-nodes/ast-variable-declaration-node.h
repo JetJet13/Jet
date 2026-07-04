@@ -17,7 +17,7 @@ class ASTVariableDeclarationNode : public ASTDeclarationNode {
 private:
     std::shared_ptr<ASTVariableInitNode> _varInit;
     std::shared_ptr<ASTExpressionNode> _initializer;
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     unsigned long _captureCount = 0;
 public:
@@ -29,8 +29,8 @@ public:
     bool isConst();
     bool isExportable() override;
     bool isCaptured();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

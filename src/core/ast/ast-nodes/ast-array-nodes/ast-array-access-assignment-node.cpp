@@ -17,7 +17,7 @@ std::shared_ptr<ASTArrayAccessExpressionNode> ASTArrayAccessAssignmentNode::getA
     return _arrayAccessExpression;
 }
 
-TypeSignature* ASTArrayAccessAssignmentNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTArrayAccessAssignmentNode::getTypeSignature() {
     return _arrayAccessExpression->getTypeSignature();
 }
 

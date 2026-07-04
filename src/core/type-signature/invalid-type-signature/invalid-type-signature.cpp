@@ -17,7 +17,7 @@ TypeSource InvalidTypeSignature::getTypeSource() {
     return INVALID_TYPE_SOURCE;
 }
 
-bool InvalidTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool InvalidTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getTypeSource() == otherType->getTypeSource();
 }
 

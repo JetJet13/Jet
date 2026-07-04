@@ -550,22 +550,22 @@ void TypeSignatureStrategyProvider::assignPostInitialTypeSignatureFor(std::share
     }
 }
 
-ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds) {
+std::shared_ptr<ParameterListItemTypeSignature> TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds) {
     return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(capturedVariableIds);
 }
 
-ParameterListItemTypeSignature* TypeSignatureStrategyProvider::generateClassScopeParameter(ClassTypeSignature* classTypeSignature) {
+std::shared_ptr<ParameterListItemTypeSignature> TypeSignatureStrategyProvider::generateClassScopeParameter(std::shared_ptr<ClassTypeSignature> classTypeSignature) {
     return this->_typeSignatureStrategyMap->getClassScopeParameterTypeSignatureStrategy()->create(classTypeSignature);
 }
 
-std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType) {
+std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findArrayPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType) {
     return _arrayPrototypeSignatureMap.find(id, elementType);
 }
 
-std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findStringPrototypeTypeSignature(std::string id) {
+std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findStringPrototypeTypeSignature(std::string id) {
     return _stringPrototypeSignatureMap.find(id);
 }
 
-std::optional<FunctionTypeSignature*> TypeSignatureStrategyProvider::findRefPrototypeTypeSignature(std::string id, TypeSignature* refType) {
+std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findRefPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> refType) {
     return _refPrototypeSignatureMap.find(id, refType);
 }

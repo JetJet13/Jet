@@ -4,8 +4,8 @@
 
 #include "char-literal-type-signature.h"
 
-LiteralTypeSignature* CharLiteralTypeSignature::clone() {
-    return new CharLiteralTypeSignature();
+std::shared_ptr<LiteralTypeSignature> CharLiteralTypeSignature::clone() {
+    return std::make_shared<CharLiteralTypeSignature>();
 }
 
 std::string CharLiteralTypeSignature::toDetailString() {
@@ -20,6 +20,6 @@ TypeSource CharLiteralTypeSignature::getTypeSource() {
     return CHAR_LITERAL_TYPE_SOURCE;
 }
 
-bool CharLiteralTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool CharLiteralTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return this->isEqualTo(otherType);
 }

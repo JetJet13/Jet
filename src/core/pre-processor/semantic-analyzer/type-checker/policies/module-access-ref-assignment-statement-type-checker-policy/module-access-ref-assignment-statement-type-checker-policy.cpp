@@ -43,7 +43,7 @@ namespace ModuleAccessRefAssignmentStatementTypeCheckerPolicy {
         if (!moduleAccessRefAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = (RefTypeSignature*)moduleAccessRefAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature();
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(moduleAccessRefAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ModuleAccessRefValueAssignmentTypeMismatch(moduleAccessRefAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
                 ->enforce(

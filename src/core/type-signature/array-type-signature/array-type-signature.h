@@ -10,16 +10,16 @@
 
 class ArrayTypeSignature : public TypeSignature {
 private:
-    TypeSignature* _elementType;
+    std::shared_ptr<TypeSignature> _elementType;
 public:
     ArrayTypeSignature();
-    ArrayTypeSignature(TypeSignature* elementType);
-    TypeSignature* getElementType();
-    void setElementType(TypeSignature* elementType);
+    ArrayTypeSignature(std::shared_ptr<TypeSignature> elementType);
+    std::shared_ptr<TypeSignature> getElementType();
+    void setElementType(std::shared_ptr<TypeSignature> elementType);
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

@@ -19,7 +19,7 @@ private:
 public:
     IRLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRLiteralNode* irValue, IRType* irType);
     IRType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     llvm::Constant* getValue() override;

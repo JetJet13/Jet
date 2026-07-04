@@ -6,14 +6,14 @@
 #include "../../../shared/utils/logger/logger.h"
 
 ArgumentListTypeSignature::ArgumentListTypeSignature() {
-    _argumentTypes = std::vector<TypeSignature*>();
+    _argumentTypes = std::vector<std::shared_ptr<TypeSignature>>();
 }
 
-ArgumentListTypeSignature::ArgumentListTypeSignature(std::vector<TypeSignature*> argumentTypes) {
+ArgumentListTypeSignature::ArgumentListTypeSignature(std::vector<std::shared_ptr<TypeSignature>> argumentTypes) {
     _argumentTypes = argumentTypes;
 }
 
-std::vector<TypeSignature*>* ArgumentListTypeSignature::getArgumentTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* ArgumentListTypeSignature::getArgumentTypes() {
     return &_argumentTypes;
 }
 
@@ -37,12 +37,12 @@ TypeSource ArgumentListTypeSignature::getTypeSource() {
     return ARGUMENT_LIST_TYPE_SOURCE;
 }
 
-bool ArgumentListTypeSignature::isEqualTo(TypeSignature *otherType) {
+bool ArgumentListTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ArgumentListTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ArgumentListTypeSignature>(otherType);
     auto otherArgumentTypes = other->getArgumentTypes();
     if (this->numParameters() != other->numParameters()) {
         return false;

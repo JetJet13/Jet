@@ -10,54 +10,54 @@
 #include "class-instance-type-signature/class-instance-type-signature.h"
 
 ClassTypeSignature::ClassTypeSignature() {
-    _constructors = TypeSignatureMap<ClassConstructorTypeSignature>();
-    _staticProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
-    _instanceProperties = TypeSignatureMap<ClassPropertyTypeSignature>();
-    _staticMethods = TypeSignatureMap<ClassMethodTypeSignature>();
-    _instanceMethods = TypeSignatureMap<ClassMethodTypeSignature>();
-    _implements = TypeSignatureMap<TypeSignature>();
-    _interface = TypeSignatureMap<TypeSignature>();
+    _constructors = TypeSignatureMap<std::shared_ptr<ClassConstructorTypeSignature>>();
+    _staticProperties = TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>();
+    _instanceProperties = TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>();
+    _staticMethods = TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>();
+    _instanceMethods = TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>();
+    _implements = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
+    _interface = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
     _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
 }
 
-ParameterListItemTypeSignature* ClassTypeSignature::getClassScopeParameter() {
+std::shared_ptr<ParameterListItemTypeSignature> ClassTypeSignature::getClassScopeParameter() {
     return _classScopeParameter;
 }
 
-TypeSignatureMap<ClassConstructorTypeSignature>* ClassTypeSignature::getConstructors() {
+TypeSignatureMap<std::shared_ptr<ClassConstructorTypeSignature>>* ClassTypeSignature::getConstructors() {
     return &_constructors;
 }
 
-TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getStaticProperties() {
+TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>* ClassTypeSignature::getStaticProperties() {
     return &_staticProperties;
 }
 
-TypeSignatureMap<ClassPropertyTypeSignature>* ClassTypeSignature::getInstanceProperties() {
+TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>* ClassTypeSignature::getInstanceProperties() {
     return &_instanceProperties;
 }
 
-TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getStaticMethods() {
+TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>* ClassTypeSignature::getStaticMethods() {
     return &_staticMethods;
 }
 
-TypeSignatureMap<ClassMethodTypeSignature>* ClassTypeSignature::getInstanceMethods() {
+TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>* ClassTypeSignature::getInstanceMethods() {
     return &_instanceMethods;
 }
 
-TypeSignatureMap<TypeSignature>* ClassTypeSignature::getImplements() {
+TypeSignatureMap<std::shared_ptr<TypeSignature>>* ClassTypeSignature::getImplements() {
     return &_implements;
 }
 
-TypeSignatureMap<TypeSignature>* ClassTypeSignature::getInterface() {
+TypeSignatureMap<std::shared_ptr<TypeSignature>>* ClassTypeSignature::getInterface() {
     return &_interface;
 }
 
-ClassTypeSignature* ClassTypeSignature::addConstructor(std::string key, ClassConstructorTypeSignature* classConstructorTypeSignature) {
+std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addConstructor(std::string key, std::shared_ptr<ClassConstructorTypeSignature> classConstructorTypeSignature) {
     _constructors.insert(key, classConstructorTypeSignature);
-    return this;
+    return std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this());
 }
 
-ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassPropertyTypeSignature* classPropertyTypeSignature) {
+std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addProperty(std::string key, std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature) {
     if (classPropertyTypeSignature->isStatic()) {
         _staticProperties.insert(key, classPropertyTypeSignature);
     } else {
@@ -67,10 +67,10 @@ ClassTypeSignature* ClassTypeSignature::addProperty(std::string key, ClassProper
         auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classPropertyTypeSignature->convertToVariableTypeSignature());
     }
-    return this;
+    return std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this());
 }
 
-ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTypeSignature* classMethodTypeSignature) {
+std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addMethod(std::string key, std::shared_ptr<ClassMethodTypeSignature> classMethodTypeSignature) {
     if (classMethodTypeSignature->isStatic()) {
         _staticMethods.insert(key, classMethodTypeSignature);
     } else {
@@ -80,28 +80,28 @@ ClassTypeSignature* ClassTypeSignature::addMethod(std::string key, ClassMethodTy
         auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classMethodTypeSignature->convertToVariableTypeSignature());
     }
-    return this;
+    return std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this());
 }
 
-ClassTypeSignature* ClassTypeSignature::addImplementsInterface(std::string key, TypeSignature* interfaceTypeSignature) {
+std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addImplementsInterface(std::string key, std::shared_ptr<TypeSignature> interfaceTypeSignature) {
     _implements.insert(key, interfaceTypeSignature);
-    return this;
+    return std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this());
 }
 
-void ClassTypeSignature::setClassScopeParameter(ParameterListItemTypeSignature* classScopeParameter) {
+void ClassTypeSignature::setClassScopeParameter(std::shared_ptr<ParameterListItemTypeSignature> classScopeParameter) {
     _classScopeParameter = classScopeParameter;
 }
 
 bool ClassTypeSignature::isClassScopeParameterNecessary() {
-    auto classScopeTypeSignature = (PointerTypeSignature*)_classScopeParameter->getTypeSignature();
-    auto classScopeUnderlyingTypeSignature = (StructTypeSignature*)classScopeTypeSignature->getUnderlyingType();
+    auto classScopeTypeSignature = std::dynamic_pointer_cast<PointerTypeSignature>(_classScopeParameter->getTypeSignature());
+    auto classScopeUnderlyingTypeSignature = std::dynamic_pointer_cast<StructTypeSignature>(classScopeTypeSignature->getUnderlyingType());
     return !classScopeUnderlyingTypeSignature->isEmpty();
 }
 
 bool ClassTypeSignature::satisfiesImplementInterfaces() {
     for (auto interface : _implements.getValues()) {
         if (interface->typeSourceIs(INTERFACE_TYPE_SOURCE)) {
-            auto interfaceTypeSignature = (InterfaceTypeSignature*)interface;
+            auto interfaceTypeSignature = std::dynamic_pointer_cast<InterfaceTypeSignature>(interface);
             if (!interfaceTypeSignature->getKeyValuePairs()->isSatisfiedBy(&_interface)) {
                 return false;
             }
@@ -116,7 +116,7 @@ std::string ClassTypeSignature::getPreConstructorName() {
     return this->getId() + ".pre.constructor";
 }
 
-std::optional<std::pair<std::string, ClassConstructorTypeSignature*>> ClassTypeSignature::findConstructorForArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {
+std::optional<std::pair<std::string, std::shared_ptr<ClassConstructorTypeSignature>>> ClassTypeSignature::findConstructorForArguments(std::vector<std::shared_ptr<TypeSignature>>* argumentTypeSignatures) {
     for (auto constructor : _constructors.getKeyValues()) {
         if (constructor.second->matchArguments(argumentTypeSignatures)) {
             return std::pair(constructor.first, constructor.second);
@@ -134,8 +134,8 @@ std::string ClassTypeSignature::addClassNameToKey(std::string key) {
     return this->getId() + "." + key;
 }
 
-TypeSignature* ClassTypeSignature::convertToVariableTypeSignature() {
-    auto classInstance = new ClassInstanceTypeSignature(this);
+std::shared_ptr<TypeSignature> ClassTypeSignature::convertToVariableTypeSignature() {
+    auto classInstance = std::make_shared<ClassInstanceTypeSignature>(std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this()));
     classInstance->setModuleId(this->getModuleId());
     classInstance->setId(this->getId());
     classInstance->setKeyId(this->getKeyId());
@@ -154,12 +154,12 @@ TypeSource ClassTypeSignature::getTypeSource() {
     return CLASS_TYPE_SOURCE;
 }
 
-bool ClassTypeSignature::hasCircularReferenceWith(ClassTypeSignature* other) {
+bool ClassTypeSignature::hasCircularReferenceWith(std::shared_ptr<ClassTypeSignature> other) {
     if (this->isEqualTo(other)) return false;
 
     auto otherClassReferenceThisClass = false;
     for (auto otherPropertyTypeSignature : other->getInstanceProperties()->getValues()) {
-        if (otherPropertyTypeSignature->getType()->isEquivalentTo(this)) {
+        if (otherPropertyTypeSignature->getType()->isEquivalentTo(std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this()))) {
             otherClassReferenceThisClass = true;
             break;
         }
@@ -175,25 +175,25 @@ bool ClassTypeSignature::hasCircularReferenceWith(ClassTypeSignature* other) {
     return otherClassReferenceThisClass && thisClassReferenceOtherClass;
 }
 
-bool ClassTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool ClassTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getId() == otherType->getId()) return true;
     if (otherType->typeSourceIs(NEW_CLASS_INSTANCE_TYPE_SOURCE)){
-        auto classInstanceTypeSignature = (NewClassInstanceTypeSignature*)otherType;
+        auto classInstanceTypeSignature = std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(otherType);
         return this->isEqualTo(classInstanceTypeSignature->getClassTypeSignature());
     }
     return this->isEqualTo(otherType);
 }
 
-bool ClassTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ClassTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getId() == otherType->getId()) return true;
     return false;
 }
 
-void ClassTypeSignature::copyFrom(TypeSignature* otherType) {
+void ClassTypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return;
     }
-    auto other = (ClassTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ClassTypeSignature>(otherType);
     _instanceProperties = *other->getInstanceProperties();
     _staticProperties = *other->getStaticProperties();
     _constructors = *other->getConstructors();

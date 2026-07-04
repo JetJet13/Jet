@@ -33,7 +33,7 @@ namespace ArrayAccessInvocationExpressionTypeCheckerPolicy {
             return;
         }
 
-        auto invocableTypeSignature = (InvocableTypeSignature*)arrayAccessInvocationExpression->getArrayAccess()->getTypeSignature();
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(arrayAccessInvocationExpression->getArrayAccess()->getTypeSignature());
         auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(arrayAccessInvocationExpression);
         auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(arrayAccessInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()

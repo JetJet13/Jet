@@ -7,9 +7,9 @@
 void RefExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTRefExpressionNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), context, scope);
     if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
-        node->setTypeSignature(new RefTypeSignature());
+        node->setTypeSignature(std::make_shared<RefTypeSignature>());
         return;
     }
 
-    node->setTypeSignature(new RefTypeSignature(node->getExpressionNode()->getTypeSignature()->convertToVariableTypeSignature()));
+    node->setTypeSignature(std::make_shared<RefTypeSignature>(node->getExpressionNode()->getTypeSignature()->convertToVariableTypeSignature()));
 }

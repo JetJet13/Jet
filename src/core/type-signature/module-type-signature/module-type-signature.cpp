@@ -7,34 +7,34 @@
 #include "../unknown-type-signature/unknown-type-signature.h"
 
 ModuleTypeSignature::ModuleTypeSignature() {
-    _keyValuePairs = TypeSignatureMap<TypeSignature>();
+    _keyValuePairs = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
 }
 
-ModuleTypeSignature::ModuleTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs) {
+ModuleTypeSignature::ModuleTypeSignature(TypeSignatureMap<std::shared_ptr<TypeSignature>> keyValuePairs) {
     _keyValuePairs = keyValuePairs;
 }
 
-TypeSignatureMap<TypeSignature>* ModuleTypeSignature::getKeyValuePairs() {
+TypeSignatureMap<std::shared_ptr<TypeSignature>>* ModuleTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }
 
-TypeSignature* ModuleTypeSignature::getTypeSignatureForKey(std::string key) {
+std::shared_ptr<TypeSignature> ModuleTypeSignature::getTypeSignatureForKey(std::string key) {
     auto result = _keyValuePairs.find(key);
     if (result) {
         return result.value();
     }
-    return new UnknownTypeSignature();
+    return std::make_shared<UnknownTypeSignature>();
 }
 
-TypeSignature* ModuleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> ModuleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
     if (index >= _keyValuePairs.size()) {
-        return new UnknownTypeSignature();
+        return std::make_shared<UnknownTypeSignature>();
     }
 
     return _keyValuePairs.find(_keyValuePairs.findKeyByIndex(index)).value();
 }
 
-void ModuleTypeSignature::addKeyValuePair(std::string key, TypeSignature* typeSignature) {
+void ModuleTypeSignature::addKeyValuePair(std::string key, std::shared_ptr<TypeSignature> typeSignature) {
     _keyValuePairs.insert(key, typeSignature);
 }
 
@@ -50,12 +50,12 @@ TypeSource ModuleTypeSignature::getTypeSource() {
     return MODULE_TYPE_SOURCE;
 }
 
-bool ModuleTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ModuleTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ModuleTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ModuleTypeSignature>(otherType);
     return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
 }
 

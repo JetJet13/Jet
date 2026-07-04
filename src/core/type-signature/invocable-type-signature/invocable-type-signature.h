@@ -11,15 +11,15 @@
 class InvocableTypeSignature : public TypeSignature {
 public:
     bool isInvocable() override;
-    bool isEquivalentTo(TypeSignature* otherType) override;
-    TypeSignature* convertToVariableTypeSignature() override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
+    std::shared_ptr<TypeSignature> convertToVariableTypeSignature() override;
     bool isArgumentVarArg(int argumentIndex);
     virtual bool hasScopeArgument();
     virtual bool hasVariableLengthParameters();
     virtual unsigned long getVariableLengthParametersStartIndex();
-    virtual std::vector<TypeSignature*>* getParameterTypes() = 0;
-    virtual bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) = 0;
-    virtual TypeSignature* getReturnType() = 0;
+    virtual std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes() = 0;
+    virtual bool doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) = 0;
+    virtual std::shared_ptr<TypeSignature> getReturnType() = 0;
 };
 
 #endif //JETLANG_INVOCABLE_TYPE_SIGNATURE_H

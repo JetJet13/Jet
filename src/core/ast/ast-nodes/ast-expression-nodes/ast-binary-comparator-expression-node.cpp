@@ -24,19 +24,19 @@ std::shared_ptr<ASTExpressionNode> ASTBinaryComparatorExpressionNode::getRightNo
     return _rightNode;
 }
 
-void ASTBinaryComparatorExpressionNode::setLeftTypeSignature(TypeSignature* typeSignature) {
+void ASTBinaryComparatorExpressionNode::setLeftTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _leftTypeSignature = typeSignature;
 }
 
-void ASTBinaryComparatorExpressionNode::setRightTypeSignature(TypeSignature* typeSignature) {
+void ASTBinaryComparatorExpressionNode::setRightTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _rightTypeSignature = typeSignature;
 }
 
-TypeSignature* ASTBinaryComparatorExpressionNode::getLeftTypeSignature() {
+std::shared_ptr<TypeSignature> ASTBinaryComparatorExpressionNode::getLeftTypeSignature() {
     return _leftTypeSignature;
 }
 
-TypeSignature* ASTBinaryComparatorExpressionNode::getRightTypeSignature() {
+std::shared_ptr<TypeSignature> ASTBinaryComparatorExpressionNode::getRightTypeSignature() {
     return _rightTypeSignature;
 }
 

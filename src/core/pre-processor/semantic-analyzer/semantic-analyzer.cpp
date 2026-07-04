@@ -32,7 +32,7 @@ void SemanticAnalyzer::generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileN
             if (declarationNode->getTypeSignature()->isInvocable()) {
                 scope->insertGlobalInvocable(
                     declarationNode->getId(),
-                    (InvocableTypeSignature*)declarationNode->getTypeSignature()
+                    std::dynamic_pointer_cast<InvocableTypeSignature>(declarationNode->getTypeSignature())
                 );
             } else {
                 scope->insertGlobal(

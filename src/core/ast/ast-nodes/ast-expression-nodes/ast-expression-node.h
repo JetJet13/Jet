@@ -12,12 +12,12 @@
 
 class ASTExpressionNode : public ASTNode {
 protected:
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
     std::shared_ptr<ASTNode> baseTransformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode);
 public:
-    virtual void setTypeSignature(TypeSignature* typeSignature);
+    virtual void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
     virtual std::string getModuleId();
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
     bool isExpression() override;
     ASTNodeType getNodeType() override;

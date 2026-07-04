@@ -5,9 +5,9 @@
 #include "argument-list-type-signature-strategy.h"
 
 void ArgumentListTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionArgumentListNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto argumentTypes = std::vector<TypeSignature*>();
+    auto argumentTypes = std::vector<std::shared_ptr<TypeSignature>>();
     if (context->getTypeSignatures() && context->getTypeSignatures().value()->size() != node->numArguments()) {
-        node->setTypeSignature(new ArgumentListTypeSignature(argumentTypes));
+        node->setTypeSignature(std::make_shared<ArgumentListTypeSignature>(argumentTypes));
         return;
     }
     for (int i = 0; i < node->numArguments(); ++i) {
@@ -20,5 +20,5 @@ void ArgumentListTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionArgume
         argumentTypes.push_back(argument->getArgument()->getTypeSignature()->convertToVariableTypeSignature());
     }
 
-    node->setTypeSignature(new ArgumentListTypeSignature(argumentTypes));
+    node->setTypeSignature(std::make_shared<ArgumentListTypeSignature>(argumentTypes));
 }

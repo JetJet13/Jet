@@ -42,7 +42,7 @@ IRLambdaType* IRLambdaWithBlockExpressionNode::getIRType() {
     return _type;
 }
 
-LambdaExpressionTypeSignature* IRLambdaWithBlockExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRLambdaWithBlockExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

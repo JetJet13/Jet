@@ -11,12 +11,12 @@
 class ASTControlFlowConditionNode : public ASTNode {
 private:
     std::shared_ptr<ASTExpressionNode> _condition;
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     ASTControlFlowConditionNode(std::shared_ptr<ASTExpressionNode> condition);
     std::shared_ptr<ASTExpressionNode> getCondition();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

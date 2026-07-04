@@ -15,11 +15,11 @@ std::shared_ptr<ASTTypeBaseNode> ASTTypeNode::getType() {
     return _type;
 }
 
-void ASTTypeNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTTypeNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _type->setTypeSignature(typeSignature);
 }
 
-TypeSignature* ASTTypeNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTTypeNode::getTypeSignature() {
     return _type->getTypeSignature();
 }
 

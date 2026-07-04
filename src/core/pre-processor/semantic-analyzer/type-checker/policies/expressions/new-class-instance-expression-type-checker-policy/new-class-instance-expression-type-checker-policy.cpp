@@ -25,7 +25,7 @@ namespace NewClassInstanceExpressionTypeCheckerPolicy {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNotClassType(newClassInstanceExpression)());
         }
 
-        if (!newClassInstanceExpression->getTypeSignature()->hasConstructorInfo()) {
+        if (!newClassInstanceExpression->getClassInstanceTypeSignature()->hasConstructorInfo()) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNoMatchingConstructor(newClassInstanceExpression)());
         }
 

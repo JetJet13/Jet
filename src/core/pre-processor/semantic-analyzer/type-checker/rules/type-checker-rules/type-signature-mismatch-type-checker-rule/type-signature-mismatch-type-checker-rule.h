@@ -14,7 +14,7 @@
 class TypeSignatureMismatchTypeCheckerRule : public TypeCheckerRule {
 public:
     void enforce(std::optional<std::shared_ptr<ASTNode>> node, std::optional<std::shared_ptr<ASTNode>> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
-    void enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<TypeSignature> otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

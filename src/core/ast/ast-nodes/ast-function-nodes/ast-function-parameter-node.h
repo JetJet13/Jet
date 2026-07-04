@@ -20,7 +20,7 @@ private:
     std::shared_ptr<ASTIdentifierExpressionNode> _identifier;
     std::shared_ptr<ASTTypeColonNode> _colon;
     std::shared_ptr<ASTTypeNode> _type;
-    ParameterListItemTypeSignature* _typeSignature = new ParameterListItemTypeSignature("_", new UnknownTypeSignature());
+    std::shared_ptr<ParameterListItemTypeSignature> _typeSignature = std::make_shared<ParameterListItemTypeSignature>("_", std::make_shared<UnknownTypeSignature>());
     unsigned long _captureCount = 0;
 public:
     ASTFunctionParameterNode(std::shared_ptr<ASTIdentifierExpressionNode> identifier, std::shared_ptr<ASTTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type);
@@ -29,8 +29,9 @@ public:
     void markAsCaptured();
     unsigned long getCaptureCount();
     bool isCaptured();
-    void setTypeSignature(ParameterListItemTypeSignature* typeSignature);
-    ParameterListItemTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
+    std::shared_ptr<ParameterListItemTypeSignature> getParameterTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

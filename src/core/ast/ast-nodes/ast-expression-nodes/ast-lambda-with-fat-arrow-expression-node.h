@@ -19,7 +19,7 @@ private:
     std::shared_ptr<ASTLambdaReturnExpressionNode> _returnExpression;
     std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
     std::optional<std::shared_ptr<ASTTypeNode>> _returnType;
-    LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
+    std::shared_ptr<LambdaExpressionTypeSignature> _typeSignature = std::make_shared<LambdaExpressionTypeSignature>();
     std::set<std::string> _capturedVariableIds;
 public:
     ASTLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTLambdaReturnExpressionNode> returnExpression);
@@ -29,8 +29,9 @@ public:
     std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();
     std::set<std::string>* getCapturedVariableIds();
     void addCapturedValueId(std::string valueId);
-    void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
-    LambdaExpressionTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature);
+    std::shared_ptr<LambdaExpressionTypeSignature> getLambdaTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

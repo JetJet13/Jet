@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 ClassConstructorTypeSignature::ClassConstructorTypeSignature() {
-    _parameterList = new ParameterListTypeSignature();
+    _parameterList = std::make_shared<ParameterListTypeSignature>();
 }
 
-ClassConstructorTypeSignature::ClassConstructorTypeSignature(ParameterListTypeSignature* parameterList) {
+ClassConstructorTypeSignature::ClassConstructorTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList) {
     _parameterList = parameterList;
 }
 
-ParameterListTypeSignature* ClassConstructorTypeSignature::getParameterList() {
+std::shared_ptr<ParameterListTypeSignature> ClassConstructorTypeSignature::getParameterList() {
     return _parameterList;
 }
 
@@ -29,7 +29,7 @@ TypeSource ClassConstructorTypeSignature::getTypeSource() {
     return CLASS_CONSTRUCTOR_TYPE_SOURCE;
 }
 
-bool ClassConstructorTypeSignature::matchArguments(std::vector<TypeSignature*>* argumentTypeSignatures) {
+bool ClassConstructorTypeSignature::matchArguments(std::vector<std::shared_ptr<TypeSignature>>* argumentTypeSignatures) {
     if (_parameterList->numParameters() != argumentTypeSignatures->size()) {
         return false;
     }
@@ -43,24 +43,24 @@ bool ClassConstructorTypeSignature::matchArguments(std::vector<TypeSignature*>* 
     return true;
 }
 
-bool ClassConstructorTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool ClassConstructorTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
 }
 
-std::vector<TypeSignature*>* ClassConstructorTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* ClassConstructorTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
-TypeSignature* ClassConstructorTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> ClassConstructorTypeSignature::getReturnType() {
     return _returnTypeSignature;
 }
 
-bool ClassConstructorTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ClassConstructorTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ClassConstructorTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ClassConstructorTypeSignature>(otherType);
     return this->getParameterList()->isEqualTo(other->getParameterList());
 }
 

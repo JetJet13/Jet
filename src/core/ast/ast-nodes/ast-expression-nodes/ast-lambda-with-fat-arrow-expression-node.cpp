@@ -48,11 +48,15 @@ void ASTLambdaWithFatArrowExpressionNode::addCapturedValueId(std::string valueId
     _capturedVariableIds.insert(valueId);
 }
 
-void ASTLambdaWithFatArrowExpressionNode::setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature) {
+void ASTLambdaWithFatArrowExpressionNode::setTypeSignature(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature) {
     _typeSignature = lambdaExpressionTypeSignature;
 }
 
-LambdaExpressionTypeSignature* ASTLambdaWithFatArrowExpressionNode::getTypeSignature() {
+std::shared_ptr<LambdaExpressionTypeSignature> ASTLambdaWithFatArrowExpressionNode::getLambdaTypeSignature() {
+    return std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTLambdaWithFatArrowExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 

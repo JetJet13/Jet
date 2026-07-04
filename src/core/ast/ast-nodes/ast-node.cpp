@@ -59,7 +59,7 @@ std::string ASTNode::toSourceCode() {
     throw std::logic_error("toSourceCode not implemented: " + this->toString());
 }
 
-TypeSignature* ASTNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTNode::getTypeSignature() {
     throw std::logic_error("get type-signature not implemented: " + this->toString());
 }
 

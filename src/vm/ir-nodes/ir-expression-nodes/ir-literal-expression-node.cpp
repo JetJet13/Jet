@@ -14,7 +14,7 @@ IRType* IRLiteralExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRLiteralExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRLiteralExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

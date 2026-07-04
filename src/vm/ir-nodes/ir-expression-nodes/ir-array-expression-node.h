@@ -29,7 +29,7 @@ public:
     IRInstructionNode* getSourceAggregateAllocation();
     IRInstructionNode* getAggregatePointerAllocation();
     IRArrayPointerType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     unsigned long size();

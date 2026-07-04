@@ -13,16 +13,16 @@ private:
     std::shared_ptr<ASTExpressionNode> _leftNode;
     std::shared_ptr<ASTExpressionNode> _rightNode;
     std::shared_ptr<ASTBinaryArithmeticOperatorNode> _binaryOperator;
-    TypeSignature* _leftTypeSignature = new UnknownTypeSignature();
-    TypeSignature* _rightTypeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _leftTypeSignature = std::make_shared<UnknownTypeSignature>();
+    std::shared_ptr<TypeSignature> _rightTypeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     ASTBinaryArithmeticExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperator, std::shared_ptr<ASTExpressionNode> rightNode);
     std::shared_ptr<ASTExpressionNode> getLeftNode();
     std::shared_ptr<ASTExpressionNode> getRightNode();
-    void setLeftTypeSignature(TypeSignature* typeSignature);
-    void setRightTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getLeftTypeSignature();
-    TypeSignature* getRightTypeSignature();
+    void setLeftTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    void setRightTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getLeftTypeSignature();
+    std::shared_ptr<TypeSignature> getRightTypeSignature();
     std::shared_ptr<ASTBinaryArithmeticOperatorNode> getBinaryOperator();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

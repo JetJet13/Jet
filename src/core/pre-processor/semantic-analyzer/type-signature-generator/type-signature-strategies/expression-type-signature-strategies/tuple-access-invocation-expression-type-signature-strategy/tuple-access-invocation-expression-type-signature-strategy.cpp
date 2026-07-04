@@ -13,18 +13,18 @@ void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_pt
 
     auto sourceTypeSignature = tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
     if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = ((RefTypeSignature*)sourceTypeSignature)->getUnderlyingType();
+        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeSourceIs(TUPLE_TYPE_SOURCE)) {
         strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getObjectAccess(), context, scope);
-        auto tupleSource = (TupleTypeSignature*)sourceTypeSignature;
-        auto functionTypeSignature = (InvocableTypeSignature*)tupleSource->getTypeSignatureAtIndex(
+        auto tupleSource = std::dynamic_pointer_cast<TupleTypeSignature>(sourceTypeSignature);
+        auto functionTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(tupleSource->getTypeSignatureAtIndex(
                 tupleAccessInvocationExpression->getIndex()->getIndexValue()
-        );
+        ));
         tupleAccessInvocationExpression->getObjectAccess()->setTypeSignature(functionTypeSignature);
         tupleAccessInvocationExpression->setTypeSignature(functionTypeSignature->getReturnType());
         return;
     }
-    tupleAccessInvocationExpression->setTypeSignature(new InvalidTypeSignature());
+    tupleAccessInvocationExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

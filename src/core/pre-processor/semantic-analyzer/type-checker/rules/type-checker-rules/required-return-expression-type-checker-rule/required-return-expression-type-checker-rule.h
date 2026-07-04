@@ -17,13 +17,13 @@
 
 class RequiredReturnExpressionTypeCheckerRule : public TypeCheckerRule {
 private:
-    void checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
+    void checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
 public:
-    void enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
-    void enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
-    void enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
-    void enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
-    void enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

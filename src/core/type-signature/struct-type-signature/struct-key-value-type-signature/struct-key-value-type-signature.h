@@ -11,15 +11,15 @@
 class StructKeyValueTypeSignature : public TypeSignature {
 private:
     std::string _key;
-    TypeSignature* _value;
+    std::shared_ptr<TypeSignature> _value;
 public:
-    StructKeyValueTypeSignature(std::string key, TypeSignature* value);
+    StructKeyValueTypeSignature(std::string key, std::shared_ptr<TypeSignature> value);
     std::string getKey();
-    TypeSignature* getValue();
+    std::shared_ptr<TypeSignature> getValue();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature* otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

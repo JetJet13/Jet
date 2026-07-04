@@ -32,7 +32,7 @@ IRPointerType* IRIdentifierExpressionNode::getIRType() {
     return _irType;
 }
 
-TypeSignature* IRIdentifierExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRIdentifierExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

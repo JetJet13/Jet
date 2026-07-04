@@ -42,11 +42,15 @@ std::shared_ptr<ASTTupleExpressionNode> ASTTupleExpressionNode::addComma(std::sh
     return std::dynamic_pointer_cast<ASTTupleExpressionNode>(shared_from_this());
 }
 
-TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTTupleExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTTupleExpressionNode::setTypeSignature(TupleTypeSignature* tupleTypeSignature) {
+std::shared_ptr<TupleTypeSignature> ASTTupleExpressionNode::getTupleTypeSignature() {
+    return std::dynamic_pointer_cast<TupleTypeSignature>(_typeSignature);
+}
+
+void ASTTupleExpressionNode::setTypeSignature(std::shared_ptr<TupleTypeSignature> tupleTypeSignature) {
     _typeSignature = tupleTypeSignature;
 }
 

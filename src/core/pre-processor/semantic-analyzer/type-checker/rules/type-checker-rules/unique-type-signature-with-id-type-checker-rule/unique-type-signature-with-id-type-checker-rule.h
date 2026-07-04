@@ -13,7 +13,7 @@
 
 class UniqueTypeSignatureWithIdTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::vector<std::pair<std::string, TypeSignature*>>* pairs, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>* pairs, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

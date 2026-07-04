@@ -14,7 +14,7 @@ namespace ArrayExpressionTypeCheckerPolicy {
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
         ->enforce(
-            arrayExpression->getTypeSignature()->getElementType(),
+            arrayExpression->getArrayTypeSignature()->getElementType(),
             unknownMessage,
             invalidMessage,
             voidMessage,
@@ -25,7 +25,7 @@ namespace ArrayExpressionTypeCheckerPolicy {
             auto mismatchMessage = TypeCheckerErrorMessageTable::ArrayElementTypeMismatch(element);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                arrayExpression->getTypeSignature()->getElementType(),
+                arrayExpression->getArrayTypeSignature()->getElementType(),
                 element->getTypeSignature(),
                 mismatchMessage,
                 typeCheckerResult

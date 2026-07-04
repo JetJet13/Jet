@@ -8,7 +8,7 @@
 IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(std::shared_ptr<ASTEnumDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structValues = std::vector<llvm::Constant*>();
 
-    if (node->getTypeSignature()->getType()->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
+    if (node->getEnumTypeSignature()->getType()->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
         for (unsigned long i = 0; i < node->getValues()->numParameters(); ++i) {
             auto keyValuePair = node->getValues()->getParameters()[i];
@@ -46,7 +46,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(std::shared_ptr<ASTEn
         }
     }
 
-    auto enumType = irGenerator->generateTypeFor(node->getTypeSignature(), structValues, scope, irContext);
+    auto enumType = irGenerator->generateTypeFor(node->getEnumTypeSignature(), structValues, scope, irContext);
     auto structType = enumType->getType();
     auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
     auto globalVariable = new llvm::GlobalVariable(

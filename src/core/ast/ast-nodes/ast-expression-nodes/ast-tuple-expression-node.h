@@ -20,7 +20,7 @@ private:
     std::shared_ptr<ASTTupleListEndNode> _tupleListEnd;
     std::vector<std::shared_ptr<ASTCommaNode>> _commas;
     std::vector<std::shared_ptr<ASTTupleItemNode>> _items;
-    TupleTypeSignature* _typeSignature = new TupleTypeSignature();
+    std::shared_ptr<TupleTypeSignature> _typeSignature = std::make_shared<TupleTypeSignature>();
 public:
     ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
     ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::vector<std::shared_ptr<ASTTupleItemNode>> items, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
@@ -28,8 +28,9 @@ public:
     unsigned long numItems();
     std::shared_ptr<ASTTupleExpressionNode> addItem(std::shared_ptr<ASTTupleItemNode> item);
     std::shared_ptr<ASTTupleExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    TupleTypeSignature* getTypeSignature() override;
-    void setTypeSignature(TupleTypeSignature* tupleTypeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    std::shared_ptr<TupleTypeSignature> getTupleTypeSignature();
+    void setTypeSignature(std::shared_ptr<TupleTypeSignature> tupleTypeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

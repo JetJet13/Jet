@@ -7,30 +7,30 @@
 #include "../../../void-type-signature/void-type-signature.h"
 
 LambdaExpressionTypeSignature::LambdaExpressionTypeSignature() {
-    _parameterList = new ParameterListTypeSignature();
+    _parameterList = std::make_shared<ParameterListTypeSignature>();
     _scopeParameter = ParameterListItemTypeSignature::createScopeParameter();
-    _returnType = new VoidTypeSignature();
+    _returnType = std::make_shared<VoidTypeSignature>();
 }
 
-LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, ParameterListItemTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType) {
+LambdaExpressionTypeSignature::LambdaExpressionTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList, std::shared_ptr<ParameterListItemTypeSignature> scopeParameter, std::optional<std::shared_ptr<TypeSignature>> returnType) {
     _parameterList = parameterList;
     _scopeParameter = scopeParameter;
     if (returnType) {
         _returnType = returnType.value();
     } else {
-        _returnType = new VoidTypeSignature();
+        _returnType = std::make_shared<VoidTypeSignature>();
     }
 }
 
-ParameterListItemTypeSignature* LambdaExpressionTypeSignature::getScopeParameter() {
+std::shared_ptr<ParameterListItemTypeSignature> LambdaExpressionTypeSignature::getScopeParameter() {
     return _scopeParameter;
 }
 
 bool LambdaExpressionTypeSignature::isScopeParameterNecessary() {
-    return !((LambdaScopeTypeSignature*)_scopeParameter->getTypeSignature())->isEmpty();
+    return !(std::dynamic_pointer_cast<LambdaScopeTypeSignature>(_scopeParameter->getTypeSignature())->isEmpty());
 }
 
-ParameterListTypeSignature* LambdaExpressionTypeSignature::getParameterList() {
+std::shared_ptr<ParameterListTypeSignature> LambdaExpressionTypeSignature::getParameterList() {
     return _parameterList;
 }
 
@@ -38,15 +38,15 @@ bool LambdaExpressionTypeSignature::hasScopeArgument() {
     return true;
 }
 
-std::vector<TypeSignature*>* LambdaExpressionTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* LambdaExpressionTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
-bool LambdaExpressionTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool LambdaExpressionTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
 }
 
-TypeSignature* LambdaExpressionTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> LambdaExpressionTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -62,12 +62,12 @@ TypeSource LambdaExpressionTypeSignature::getTypeSource() {
     return LAMBDA_EXPRESSION_TYPE_SOURCE;
 }
 
-bool LambdaExpressionTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool LambdaExpressionTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (LambdaExpressionTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(otherType);
     return this->getParameterList()->isEqualTo(other->getParameterList()) &&
            this->getScopeParameter()->isEqualTo(other->getScopeParameter()) &&
            this->getReturnType()->isEqualTo(other->getReturnType());

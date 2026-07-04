@@ -10,6 +10,6 @@ void FunctionReturnExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTFu
         strategyMap->assignTypeSignatureFor(functionReturnExpression->getExpression().value(), context, scope);
         functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression().value()->getTypeSignature());
     } else {
-        functionReturnExpression->setTypeSignature(new VoidTypeSignature());
+        functionReturnExpression->setTypeSignature(std::make_shared<VoidTypeSignature>());
     }
 }

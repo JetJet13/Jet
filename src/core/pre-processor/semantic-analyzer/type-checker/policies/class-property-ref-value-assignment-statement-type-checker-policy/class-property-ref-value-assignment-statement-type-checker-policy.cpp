@@ -43,7 +43,7 @@ namespace ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy {
         if (!classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = (RefTypeSignature*)classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature();
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyRefValueAssignmentTypeMismatch(classPropertyRefValueAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
         ->enforce(

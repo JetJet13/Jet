@@ -21,14 +21,15 @@ class ASTFunctionInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
     std::shared_ptr<ASTExpressionNode> _function;
     std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
-    FunctionInvocationTypeSignature* _typeSignature = new FunctionInvocationTypeSignature();
+    std::shared_ptr<FunctionInvocationTypeSignature> _typeSignature = std::make_shared<FunctionInvocationTypeSignature>();
 public:
     explicit ASTFunctionInvocationExpressionNode(std::shared_ptr<ASTExpressionNode> function, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
     std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
     std::shared_ptr<ASTExpressionNode> getFunction();
     unsigned long numArguments();
-    void setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature);
-    FunctionInvocationTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<FunctionInvocationTypeSignature> functionInvocationTypeSignature);
+    std::shared_ptr<FunctionInvocationTypeSignature> getInvocationTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

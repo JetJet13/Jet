@@ -31,7 +31,7 @@ public:
     IRBlockNode* getBlock() override;
     llvm::Value* getValue() override;
     IRLambdaType* getIRType() override;
-    LambdaExpressionTypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     IRNodeType getNodeType() override;

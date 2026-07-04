@@ -5,7 +5,7 @@
 #include "iterable-type-signature-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void IterableTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
+void IterableTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     if (!typeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
         typeCheckerResult->addError(message());
     }

@@ -20,7 +20,7 @@ private:
     std::shared_ptr<ASTStructEndNode> _structEndNode;
     std::vector<std::shared_ptr<ASTStructKeyValueNode>> _keyValuePairs;
     std::vector<std::shared_ptr<ASTCommaNode>> _commas;
-    StructTypeSignature* _typeSignature = new StructTypeSignature();
+    std::shared_ptr<StructTypeSignature> _typeSignature = std::make_shared<StructTypeSignature>();
 public:
     ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::shared_ptr<ASTStructEndNode> structEndNode);
     ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::vector<std::shared_ptr<ASTStructKeyValueNode>> keyValuePairs, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructEndNode> structEndNode);
@@ -28,8 +28,9 @@ public:
     std::shared_ptr<ASTStructKeyValueNode> getKeyValuePairAt(unsigned long index);
     std::shared_ptr<ASTStructExpressionNode> addKeyValuePair(std::shared_ptr<ASTStructKeyValueNode> keyValuePair);
     std::shared_ptr<ASTStructExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    StructTypeSignature* getTypeSignature() override;
-    void setTypeSignature(StructTypeSignature* structTypeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    std::shared_ptr<StructTypeSignature> getStructTypeSignature();
+    void setTypeSignature(std::shared_ptr<StructTypeSignature> structTypeSignature);
     unsigned long size();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

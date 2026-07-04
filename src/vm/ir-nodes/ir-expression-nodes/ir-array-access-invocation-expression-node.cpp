@@ -41,7 +41,7 @@ IRType* IRArrayAccessInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRArrayAccessInvocationExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRArrayAccessInvocationExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

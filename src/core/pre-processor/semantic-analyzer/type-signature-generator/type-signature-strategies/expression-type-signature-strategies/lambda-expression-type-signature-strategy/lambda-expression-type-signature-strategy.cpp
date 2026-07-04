@@ -10,11 +10,11 @@ void LambdaExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTLambdaExpr
     scope->inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {
         strategyMap->assignTypeSignatureFor(parameter, context, scope);
-        scope->insert(parameter->getTypeSignature()->getName(), parameter->getTypeSignature()->getTypeSignature());
+        scope->insert(parameter->getParameterTypeSignature()->getName(), parameter->getParameterTypeSignature()->getTypeSignature());
     }
     strategyMap->assignTypeSignatureFor(lambdaExpression->getParameters(), context, scope);
     strategyMap->assignTypeSignatureFor(lambdaExpression->getBlock(), context, scope);
-    auto returnType = std::optional<TypeSignature*>();
+    auto returnType = std::optional<std::shared_ptr<TypeSignature>>();
     if (lambdaExpression->getReturnType()) {
         strategyMap->assignTypeSignatureFor(lambdaExpression->getReturnType().value(), context, scope);
         returnType = lambdaExpression->getReturnType().value()->getTypeSignature()->convertToVariableTypeSignature();
@@ -26,8 +26,8 @@ void LambdaExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTLambdaExpr
         }
     }
 
-    lambdaExpression->setTypeSignature(new LambdaExpressionTypeSignature(
-        lambdaExpression->getParameters()->getTypeSignature(),
+    lambdaExpression->setTypeSignature(std::make_shared<LambdaExpressionTypeSignature>(
+        lambdaExpression->getParameters()->getParameterListTypeSignature(),
         strategyMap->generateLambdaExpressionScopeParameter(lambdaExpression->getCapturedValueIds()),
         returnType
     ));

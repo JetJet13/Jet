@@ -37,12 +37,12 @@ TypeSource LambdaScopeTypeSignature::getTypeSource() {
     return LAMBDA_SCOPE_TYPE_SOURCE;
 }
 
-bool LambdaScopeTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool LambdaScopeTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (LambdaScopeTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<LambdaScopeTypeSignature>(otherType);
     auto otherCapturedVariableIds = other->getCapturedVariableIds();
     if (otherCapturedVariableIds->size() != _capturedVariableIds.size()) {
         return false;

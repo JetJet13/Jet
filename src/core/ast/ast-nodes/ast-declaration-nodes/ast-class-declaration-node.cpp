@@ -39,7 +39,7 @@ std::shared_ptr<ASTClassNameNode> ASTClassDeclarationNode::getName() {
     return _name;
 }
 
-void ASTClassDeclarationNode::setTypeSignature(ClassTypeSignature* typeSignature) {
+void ASTClassDeclarationNode::setTypeSignature(std::shared_ptr<ClassTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
@@ -47,7 +47,11 @@ std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>>* ASTClassDeclarat
     return &_implementsInterfaceList;
 }
 
-ClassTypeSignature* ASTClassDeclarationNode::getTypeSignature() {
+std::shared_ptr<ClassTypeSignature> ASTClassDeclarationNode::getClassTypeSignature() {
+    return std::dynamic_pointer_cast<ClassTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTClassDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

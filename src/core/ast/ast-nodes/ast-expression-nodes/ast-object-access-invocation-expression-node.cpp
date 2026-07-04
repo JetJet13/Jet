@@ -30,8 +30,8 @@ std::shared_ptr<ASTObjectAccessTargetNode> ASTObjectAccessInvocationExpressionNo
     return _objectAccess->getTarget();
 }
 
-InvocableTypeSignature* ASTObjectAccessInvocationExpressionNode::getInvocableTypeSignature() {
-    return (InvocableTypeSignature*)_objectAccess->getTypeSignature();
+std::shared_ptr<InvocableTypeSignature> ASTObjectAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return std::dynamic_pointer_cast<InvocableTypeSignature>(_objectAccess->getTypeSignature());
 }
 
 std::string ASTObjectAccessInvocationExpressionNode::getName() {
@@ -45,7 +45,7 @@ unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
 bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
     auto sourceTypeSignature = this->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
         sourceTypeSignature = refTypeSignature->getUnderlyingType();
     }
     return sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)
@@ -55,7 +55,7 @@ bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
 bool ASTObjectAccessInvocationExpressionNode::isStringPrototypeInvocation() {
     auto sourceTypeSignature = this->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
         sourceTypeSignature = refTypeSignature->getUnderlyingType();
     }
     return sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)

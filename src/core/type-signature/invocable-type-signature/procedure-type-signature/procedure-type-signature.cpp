@@ -7,27 +7,27 @@
 #include "../../struct-type-signature/struct-type-signature.h"
 
 ProcedureTypeSignature::ProcedureTypeSignature() {
-    _parameterList = new ParameterListTypeSignature();
+    _parameterList = std::make_shared<ParameterListTypeSignature>();
 }
 
-ProcedureTypeSignature::ProcedureTypeSignature(ParameterListTypeSignature* parameterList) {
+ProcedureTypeSignature::ProcedureTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList) {
     _parameterList = parameterList;
 }
 
-ParameterListTypeSignature* ProcedureTypeSignature::getParameterList() {
+std::shared_ptr<ParameterListTypeSignature> ProcedureTypeSignature::getParameterList() {
     return _parameterList;
 }
 
 
-std::vector<TypeSignature*>* ProcedureTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* ProcedureTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
-bool ProcedureTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool ProcedureTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
 }
 
-TypeSignature* ProcedureTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> ProcedureTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -43,24 +43,24 @@ TypeSource ProcedureTypeSignature::getTypeSource() {
     return PROCEDURE_TYPE_SOURCE;
 }
 
-TypeSignature* ProcedureTypeSignature::getTargetTypeSignature() {
+std::shared_ptr<TypeSignature> ProcedureTypeSignature::getTargetTypeSignature() {
     return _returnType;
 }
 
-bool ProcedureTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ProcedureTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ProcedureTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ProcedureTypeSignature>(otherType);
     return this->getParameterList()->isEqualTo(other->getParameterList());
 }
 
-void ProcedureTypeSignature::copyFrom(TypeSignature* otherType) {
+void ProcedureTypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return;
     }
-    auto other = (ProcedureTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ProcedureTypeSignature>(otherType);
     _parameterList = other->getParameterList();
 }
 

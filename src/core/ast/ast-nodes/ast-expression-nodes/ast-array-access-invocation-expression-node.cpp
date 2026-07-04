@@ -30,8 +30,8 @@ std::shared_ptr<ASTArrayAccessNode> ASTArrayAccessInvocationExpressionNode::getI
     return _arrayAccess->getIndex();
 }
 
-InvocableTypeSignature* ASTArrayAccessInvocationExpressionNode::getInvocableTypeSignature() {
-    return (InvocableTypeSignature*)_arrayAccess->getTypeSignature();
+std::shared_ptr<InvocableTypeSignature> ASTArrayAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return std::dynamic_pointer_cast<InvocableTypeSignature>(_arrayAccess->getTypeSignature());
 }
 
 unsigned long ASTArrayAccessInvocationExpressionNode::numArguments() {

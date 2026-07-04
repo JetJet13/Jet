@@ -10,10 +10,10 @@
 
 class ASTTypeDeclarationNode : public ASTNode {
 protected:
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
-    virtual void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    virtual void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
 };
 
 #endif //JETLANG_AST_TYPE_DECLARATION_NODE_H

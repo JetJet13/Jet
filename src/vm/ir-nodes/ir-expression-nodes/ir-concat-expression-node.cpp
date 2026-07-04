@@ -34,7 +34,7 @@ IRArrayPointerType* IRConcatExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRConcatExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRConcatExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

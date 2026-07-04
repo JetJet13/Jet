@@ -29,8 +29,8 @@ std::shared_ptr<ASTTupleAccessNode> ASTTupleAccessInvocationExpressionNode::getI
     return _tupleAccess->getIndex();
 }
 
-InvocableTypeSignature* ASTTupleAccessInvocationExpressionNode::getInvocableTypeSignature() {
-    return (InvocableTypeSignature*)_tupleAccess->getTypeSignature();
+std::shared_ptr<InvocableTypeSignature> ASTTupleAccessInvocationExpressionNode::getInvocableTypeSignature() {
+    return std::dynamic_pointer_cast<InvocableTypeSignature>(_tupleAccess->getTypeSignature());
 }
 
 unsigned long ASTTupleAccessInvocationExpressionNode::numArguments() {

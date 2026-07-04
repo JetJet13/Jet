@@ -6,5 +6,5 @@
 
 void InterfacePropertyTypeSignatureStrategy::assign(std::shared_ptr<ASTInterfacePropertyNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getType(), context, scope);
-    node->setTypeSignature(new InterfacePropertyTypeSignature(node->getName()->getId(), node->getType()->getTypeSignature()));
+    node->setTypeSignature(std::make_shared<InterfacePropertyTypeSignature>(node->getName()->getId(), node->getType()->getTypeSignature()));
 }

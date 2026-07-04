@@ -43,7 +43,7 @@ namespace TupleAccessRefAssignmentStatementTypeCheckerPolicy {
         if (!tupleAccessRefAssignmentStatementNode->getTupleAccessAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = (RefTypeSignature*)tupleAccessRefAssignmentStatementNode->getTupleAccessAssignment()->getTypeSignature();
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(tupleAccessRefAssignmentStatementNode->getTupleAccessAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::TupleAccessRefValueAssignmentTypeMismatch(tupleAccessRefAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
                 ->enforce(

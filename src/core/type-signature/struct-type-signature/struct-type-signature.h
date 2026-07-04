@@ -10,20 +10,20 @@
 
 class StructTypeSignature : public AggregateTypeSignature<TypeSignature> {
 private:
-    TypeSignatureMap<TypeSignature> _keyValuePairs;
+    TypeSignatureMap<std::shared_ptr<TypeSignature>> _keyValuePairs;
 public:
     StructTypeSignature();
-    StructTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs);
+    StructTypeSignature(TypeSignatureMap<std::shared_ptr<TypeSignature>> keyValuePairs);
     bool isEmpty();
-    TypeSignatureMap<TypeSignature>* getKeyValuePairs() override;
-    TypeSignature* getTypeSignatureForKey(std::string key) override;
-    TypeSignature* getTypeSignatureAtIndex(unsigned long index) override;
-    void addKeyValuePair(std::string key, TypeSignature* typeSignature);
+    TypeSignatureMap<std::shared_ptr<TypeSignature>>* getKeyValuePairs() override;
+    std::shared_ptr<TypeSignature> getTypeSignatureForKey(std::string key) override;
+    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
+    void addKeyValuePair(std::string key, std::shared_ptr<TypeSignature> typeSignature);
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    bool isEquivalentTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

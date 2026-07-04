@@ -9,7 +9,7 @@ void ProcedureTypeSignatureStrategy::assign(std::shared_ptr<ASTProcedureDeclarat
     auto procedureScope = std::make_shared<TypeSignatureLookupTable>();
     procedureScope->inheritGlobalScope(scope);
     for (auto parameter : procedureDeclaration->getParameters()->getParameters()) {
-        procedureScope->insert(parameter->getIdentifier()->getId(), parameter->getTypeSignature()->getTypeSignature());
+        procedureScope->insert(parameter->getIdentifier()->getId(), parameter->getParameterTypeSignature()->getTypeSignature());
     }
     strategyMap->assignTypeSignatureFor(procedureDeclaration->getBlock(), context, procedureScope);
 }
@@ -18,7 +18,7 @@ void ProcedureTypeSignatureStrategy::assignInitial(std::shared_ptr<ASTProcedureD
     auto procedureScope = std::make_shared<TypeSignatureLookupTable>();
     procedureScope->inheritGlobalScope(scope);
     strategyMap->assignTypeSignatureFor(procedureDeclaration->getParameters(), context, procedureScope);
-    procedureDeclaration->setTypeSignature(new ProcedureTypeSignature(
-        procedureDeclaration->getParameters()->getTypeSignature()
+    procedureDeclaration->setTypeSignature(std::make_shared<ProcedureTypeSignature>(
+        procedureDeclaration->getParameters()->getParameterListTypeSignature()
     ));
 }

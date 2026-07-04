@@ -13,11 +13,11 @@
 
 class LiteralTypeSignatureLookupTable {
 public:
-    IntLiteralTypeSignature* getIntLiteralTypeSignature();
-    FloatLiteralTypeSignature* getFloatLiteralTypeSignature();
-    CharLiteralTypeSignature* getCharLiteralTypeSignature();
-    StringLiteralTypeSignature* getStringLiteralTypeSignature();
-    BoolLiteralTypeSignature* getBoolLiteralTypeSignature();
+    std::shared_ptr<IntLiteralTypeSignature> getIntLiteralTypeSignature();
+    std::shared_ptr<FloatLiteralTypeSignature> getFloatLiteralTypeSignature();
+    std::shared_ptr<CharLiteralTypeSignature> getCharLiteralTypeSignature();
+    std::shared_ptr<StringLiteralTypeSignature> getStringLiteralTypeSignature();
+    std::shared_ptr<BoolLiteralTypeSignature> getBoolLiteralTypeSignature();
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_LOOKUP_TABLE_H

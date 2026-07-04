@@ -4,7 +4,7 @@
 
 #include "new-class-instance-type-signature-ir-strategy.h"
 
-IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(NewClassInstanceTypeSignature* newClassInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<NewClassInstanceTypeSignature> newClassInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();

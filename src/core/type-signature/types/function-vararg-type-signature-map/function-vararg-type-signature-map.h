@@ -12,13 +12,13 @@
 class FunctionVarArgTypeSignatureMap {
 private:
     std::string _functionName;
-    std::unordered_map<std::string, InvocableTypeSignature*> _typeSignatureMap;
+    std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>> _typeSignatureMap;
     std::vector<std::string> _typeSignatureKeyList;
 public:
     FunctionVarArgTypeSignatureMap(std::string functionName);
     std::string getFunctionName();
-    void addFunctionVarArgTypeSignature(std::string key, InvocableTypeSignature* typeSignature);
-    std::optional<std::pair<std::string, InvocableTypeSignature*>> findMatchFor(ArgumentListTypeSignature* argumentListTypeSignature);
+    void addFunctionVarArgTypeSignature(std::string key, std::shared_ptr<InvocableTypeSignature> typeSignature);
+    std::optional<std::pair<std::string, std::shared_ptr<InvocableTypeSignature>>> findMatchFor(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature);
     std::string toString();
 };
 

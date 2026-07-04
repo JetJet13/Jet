@@ -22,7 +22,7 @@ namespace CurryExpressionTypeCheckerPolicy {
 
         auto callableTypeSignature = curryExpression->getCallableExpression()->getTypeSignature();
         if (callableTypeSignature->typeTargetIs(FUNCTION_TYPE_SOURCE)) {
-            auto parameterList = ((FunctionTypeSignature*)callableTypeSignature)->getParameterList();
+            auto parameterList = (std::dynamic_pointer_cast<FunctionTypeSignature>(callableTypeSignature))->getParameterList();
             auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression);
             auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression);
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
@@ -45,7 +45,7 @@ namespace CurryExpressionTypeCheckerPolicy {
             );
 
         } else if (callableTypeSignature->typeTargetIs(CLASS_METHOD_TYPE_SOURCE)) {
-            auto parameterList = ((ClassMethodTypeSignature*)callableTypeSignature)->getParameters();
+            auto parameterList = (std::dynamic_pointer_cast<ClassMethodTypeSignature>(callableTypeSignature)->getParameters());
             auto notEnoughArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallNotEnoughArguments(curryExpression);
             auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::CurryCallTooManyArguments(curryExpression);
             TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()

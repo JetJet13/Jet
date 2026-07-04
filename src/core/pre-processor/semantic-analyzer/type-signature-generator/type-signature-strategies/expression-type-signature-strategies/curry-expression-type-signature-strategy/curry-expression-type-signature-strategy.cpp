@@ -14,10 +14,10 @@ void CurryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTCurryExpres
     }
 
     if (curryExpression->getCallableExpression()->getTypeSignature()->typeSourceIs(FUNCTION_INVOCATION_TYPE_SOURCE)) {
-        auto functionInvocationTypeSignature = (FunctionInvocationTypeSignature*)curryExpression->getCallableExpression()->getTypeSignature();
+        auto functionInvocationTypeSignature = std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(curryExpression->getCallableExpression()->getTypeSignature());
         curryExpression->setTypeSignature(functionInvocationTypeSignature->getReturnType()->getTargetTypeSignature());
         return;
     }
 
-    curryExpression->setTypeSignature(new InvalidTypeSignature());
+    curryExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

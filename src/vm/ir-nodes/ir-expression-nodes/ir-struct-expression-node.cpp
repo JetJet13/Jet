@@ -23,7 +23,7 @@ IRStructRefType* IRStructExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRStructExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRStructExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

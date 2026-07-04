@@ -14,7 +14,7 @@ std::shared_ptr<Symbol> BinaryExpressionTypeCombination::getOperator() {
     return _operatorSymbol;
 }
 
-std::optional<TypeSignature*> BinaryExpressionTypeCombination::match(TypeSignature* leftTypeSignature, TypeSignature* rightTypeSignature) {
+std::optional<std::shared_ptr<TypeSignature>> BinaryExpressionTypeCombination::match(std::shared_ptr<TypeSignature> leftTypeSignature, std::shared_ptr<TypeSignature> rightTypeSignature) {
     for (auto binaryResultType: _binaryResultTypes) {
         if ((leftTypeSignature->typeTargetIs(binaryResultType.leftType) &&
              rightTypeSignature->typeTargetIs(binaryResultType.rightType)) ||

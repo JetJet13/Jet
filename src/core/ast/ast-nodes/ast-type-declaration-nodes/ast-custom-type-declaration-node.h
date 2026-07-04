@@ -21,7 +21,7 @@ private:
     std::shared_ptr<ASTTypeAssignmentOperatorNode> _assignmentOperator;
     std::shared_ptr<ASTTypeNode> _type;
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     explicit ASTCustomTypeDeclarationNode(std::shared_ptr<ASTTypeKeywordNode> typeKeyword, std::shared_ptr<ASTTypeNameNode> typeName, std::shared_ptr<ASTTypeAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTTypeNode> type, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTTypeNode> getType();

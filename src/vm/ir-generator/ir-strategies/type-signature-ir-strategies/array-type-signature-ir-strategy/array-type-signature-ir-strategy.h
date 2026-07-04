@@ -12,7 +12,7 @@
 
 class ArrayTypeSignatureIRStrategy {
 public:
-    IRArrayPointerType* generate(ArrayTypeSignature* arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRArrayPointerType* generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 

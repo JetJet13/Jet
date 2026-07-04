@@ -7,10 +7,10 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTClassMethodInvocationExpressionNode> classMethodInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
-    auto classTypeSignature = (ClassTypeSignature*)scope->find(classMethodInvocationExpression->getClassAccess()->getThis()->getId());
+    auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(scope->find(classMethodInvocationExpression->getClassAccess()->getThis()->getId()));
     auto classMethodTypeSignature = classTypeSignature->getInstanceMethods()->find(classMethodInvocationExpression->getName()->getId());
     if (!classMethodTypeSignature) {
-        classMethodInvocationExpression->setTypeSignature(new InvalidTypeSignature());
+        classMethodInvocationExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
         return;
     }
 

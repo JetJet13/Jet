@@ -13,23 +13,23 @@
 
 class LambdaExpressionTypeSignature : public InvocableTypeSignature {
 private:
-    ParameterListTypeSignature* _parameterList;
-    ParameterListItemTypeSignature* _scopeParameter;
-    TypeSignature* _returnType;
+    std::shared_ptr<ParameterListTypeSignature> _parameterList;
+    std::shared_ptr<ParameterListItemTypeSignature> _scopeParameter;
+    std::shared_ptr<TypeSignature> _returnType;
 public:
     LambdaExpressionTypeSignature();
-    LambdaExpressionTypeSignature(ParameterListTypeSignature* parameterList, ParameterListItemTypeSignature* scopeParameter, std::optional<TypeSignature*> returnType = {});
-    ParameterListItemTypeSignature* getScopeParameter();
+    LambdaExpressionTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList, std::shared_ptr<ParameterListItemTypeSignature> scopeParameter, std::optional<std::shared_ptr<TypeSignature>> returnType = {});
+    std::shared_ptr<ParameterListItemTypeSignature> getScopeParameter();
     bool isScopeParameterNecessary();
-    ParameterListTypeSignature* getParameterList();
+    std::shared_ptr<ParameterListTypeSignature> getParameterList();
     bool hasScopeArgument() override;
-    std::vector<TypeSignature*>* getParameterTypes() override;
-    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
-    TypeSignature* getReturnType() override;
+    std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) override;
+    std::shared_ptr<TypeSignature> getReturnType() override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

@@ -8,14 +8,14 @@
 
 
 PointerTypeSignature::PointerTypeSignature() {
-    _underlyingType = new UnknownTypeSignature();
+    _underlyingType = std::make_shared<UnknownTypeSignature>();
 }
 
-PointerTypeSignature::PointerTypeSignature(TypeSignature* underlyingType) {
+PointerTypeSignature::PointerTypeSignature(std::shared_ptr<TypeSignature> underlyingType) {
     _underlyingType = underlyingType;
 }
 
-TypeSignature* PointerTypeSignature::getUnderlyingType() {
+std::shared_ptr<TypeSignature> PointerTypeSignature::getUnderlyingType() {
     return _underlyingType;
 }
 
@@ -35,19 +35,19 @@ TypeSource PointerTypeSignature::getTypeTarget() {
     return this->_underlyingType->getTypeTarget();
 }
 
-bool PointerTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool PointerTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (PointerTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<PointerTypeSignature>(otherType);
     return this->_underlyingType->isEqualTo(other->getUnderlyingType());
 }
 
-bool PointerTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool PointerTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (PointerTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<PointerTypeSignature>(otherType);
     return this->_underlyingType->isEquivalentTo(other->getUnderlyingType());
 }
 

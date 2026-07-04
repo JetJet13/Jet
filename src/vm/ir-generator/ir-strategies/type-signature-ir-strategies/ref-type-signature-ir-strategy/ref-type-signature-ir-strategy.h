@@ -11,7 +11,7 @@
 
 class RefTypeSignatureIRStrategy {
 public:
-    IRRefType* generate(RefTypeSignature* refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRRefType* generate(std::shared_ptr<RefTypeSignature> refTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 

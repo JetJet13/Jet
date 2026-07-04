@@ -7,18 +7,18 @@
 #include "../unknown-type-signature/unknown-type-signature.h"
 
 ArrayTypeSignature::ArrayTypeSignature() {
-    _elementType = new UnknownTypeSignature();
+    _elementType = std::make_shared<UnknownTypeSignature>();
 }
 
-ArrayTypeSignature::ArrayTypeSignature(TypeSignature* elementType) {
+ArrayTypeSignature::ArrayTypeSignature(std::shared_ptr<TypeSignature> elementType) {
     _elementType = elementType;
 }
 
-TypeSignature* ArrayTypeSignature::getElementType() {
+std::shared_ptr<TypeSignature> ArrayTypeSignature::getElementType() {
     return _elementType;
 }
 
-void ArrayTypeSignature::setElementType(TypeSignature* elementType) {
+void ArrayTypeSignature::setElementType(std::shared_ptr<TypeSignature> elementType) {
     _elementType = elementType;
 }
 
@@ -34,12 +34,12 @@ TypeSource ArrayTypeSignature::getTypeSource() {
     return ARRAY_TYPE_SOURCE;
 }
 
-bool ArrayTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool ArrayTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ArrayTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ArrayTypeSignature>(otherType);
     return this->getElementType()->isEqualTo(other->getElementType());
 }
 

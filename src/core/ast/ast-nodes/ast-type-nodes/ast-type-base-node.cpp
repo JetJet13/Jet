@@ -5,10 +5,10 @@
 #include "ast-type-base-node.h"
 
 
-void ASTTypeBaseNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTTypeBaseNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTTypeBaseNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTTypeBaseNode::getTypeSignature() {
     return _typeSignature;
 }

@@ -16,19 +16,19 @@ std::string TypeSignature::getKeyId() {
     return _keyId;
 }
 
-TypeSignature* TypeSignature::markAsBuiltIn(BuiltInTypeSource builtInTypeSource) {
+std::shared_ptr<TypeSignature> TypeSignature::markAsBuiltIn(BuiltInTypeSource builtInTypeSource) {
     _builtInTypeSource = builtInTypeSource;
-    return this;
+    return shared_from_this();
 }
 
-TypeSignature* TypeSignature::markAsDebug() {
+std::shared_ptr<TypeSignature> TypeSignature::markAsDebug() {
     _isDebug = true;
-    return this;
+    return shared_from_this();
 }
 
-TypeSignature* TypeSignature::markAsGeneric() {
+std::shared_ptr<TypeSignature> TypeSignature::markAsGeneric() {
     _isGeneric = true;
-    return this;
+    return shared_from_this();
 }
 
 bool TypeSignature::isBuiltIn() {
@@ -53,28 +53,28 @@ bool TypeSignature::isOneOfBuiltInTypeSources(std::vector<BuiltInTypeSource> bui
             _builtInTypeSource.value()) != builtInTypeSources.end();
 }
 
-TypeSignature* TypeSignature::markAsPrototype() {
+std::shared_ptr<TypeSignature> TypeSignature::markAsPrototype() {
     _isPrototype = true;
-    return this;
+    return shared_from_this();
 }
 
 bool TypeSignature::isPrototype() {
     return _isPrototype;
 }
 
-TypeSignature* TypeSignature::setModuleId(std::string id) {
+std::shared_ptr<TypeSignature> TypeSignature::setModuleId(std::string id) {
     _moduleId = id;
-    return this;
+    return shared_from_this();
 }
 
-TypeSignature* TypeSignature::setId(std::string id) {
+std::shared_ptr<TypeSignature> TypeSignature::setId(std::string id) {
     _id = id;
-    return this;
+    return shared_from_this();
 }
 
-TypeSignature* TypeSignature::setKeyId(std::string id) {
+std::shared_ptr<TypeSignature> TypeSignature::setKeyId(std::string id) {
     _keyId = id;
-    return this;
+    return shared_from_this();
 }
 
 bool TypeSignature::typeTargetIs(TypeSource other) {
@@ -118,20 +118,20 @@ bool TypeSignature::isInvocable() {
     return false;
 }
 
-void TypeSignature::copyFrom(TypeSignature* otherType) {}
+void TypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {}
 
 TypeSource TypeSignature::getTypeTarget() {
     return this->getTypeSource();
 }
 
-TypeSignature* TypeSignature::getTargetTypeSignature() {
-    return this;
+std::shared_ptr<TypeSignature> TypeSignature::getTargetTypeSignature() {
+    return shared_from_this();
 }
 
-bool TypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool TypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return this->isEqualTo(otherType);
 }
 
-TypeSignature* TypeSignature::convertToVariableTypeSignature() {
-    return this;
+std::shared_ptr<TypeSignature> TypeSignature::convertToVariableTypeSignature() {
+    return shared_from_this();
 }

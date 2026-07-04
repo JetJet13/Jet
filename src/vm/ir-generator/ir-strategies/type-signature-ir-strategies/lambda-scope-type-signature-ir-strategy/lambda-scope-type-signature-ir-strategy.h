@@ -10,7 +10,7 @@
 
 class LambdaScopeTypeSignatureIRStrategy {
 public:
-    IRStructType* generate(LambdaScopeTypeSignature* lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStructType* generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
     IRTypeValueInstructionNode* generateTypeValue(IRCapturedVariableType* irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 

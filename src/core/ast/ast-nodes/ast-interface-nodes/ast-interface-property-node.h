@@ -20,13 +20,14 @@ private:
     std::shared_ptr<ASTInterfacePropertyNameNode> _name;
     std::shared_ptr<ASTInterfaceColonNode> _colon;
     std::shared_ptr<ASTTypeNode> _type;
-    InterfacePropertyTypeSignature* _typeSignature = new InterfacePropertyTypeSignature("_", new UnknownTypeSignature());
+    std::shared_ptr<InterfacePropertyTypeSignature> _typeSignature = std::make_shared<InterfacePropertyTypeSignature>("_", std::make_shared<UnknownTypeSignature>());
 public:
     ASTInterfacePropertyNode(std::shared_ptr<ASTInterfacePropertyNameNode> name, std::shared_ptr<ASTInterfaceColonNode> colon, std::shared_ptr<ASTTypeNode> type);
     std::shared_ptr<ASTInterfacePropertyNameNode> getName();
     std::shared_ptr<ASTTypeNode> getType();
-    void setTypeSignature(InterfacePropertyTypeSignature* typeSignature);
-    InterfacePropertyTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<InterfacePropertyTypeSignature> typeSignature);
+    std::shared_ptr<InterfacePropertyTypeSignature> getPropertyTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

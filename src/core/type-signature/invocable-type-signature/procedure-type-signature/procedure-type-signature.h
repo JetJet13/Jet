@@ -13,21 +13,21 @@
 
 class ProcedureTypeSignature : public InvocableTypeSignature {
 private:
-    ParameterListTypeSignature* _parameterList;
-    VoidTypeSignature* _returnType = new VoidTypeSignature();
+    std::shared_ptr<ParameterListTypeSignature> _parameterList;
+    std::shared_ptr<VoidTypeSignature> _returnType = std::make_shared<VoidTypeSignature>();
 public:
     ProcedureTypeSignature();
-    explicit ProcedureTypeSignature(ParameterListTypeSignature* parameterList);
-    ParameterListTypeSignature* getParameterList();
-    std::vector<TypeSignature*>* getParameterTypes() override;
-    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
-    TypeSignature* getReturnType() override;
+    explicit ProcedureTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList);
+    std::shared_ptr<ParameterListTypeSignature> getParameterList();
+    std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) override;
+    std::shared_ptr<TypeSignature> getReturnType() override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    TypeSignature* getTargetTypeSignature() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    void copyFrom(TypeSignature* otherType) override;
+    std::shared_ptr<TypeSignature> getTargetTypeSignature() override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
+    void copyFrom(std::shared_ptr<TypeSignature> otherType) override;
     bool hasVariableLengthParameters() override;
     unsigned long getVariableLengthParametersStartIndex() override;
     void print() override;

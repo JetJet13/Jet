@@ -12,12 +12,12 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<A
     // if the name refers to a lambda
     auto lambdaTypeSignature = typeSignatureLookupTable->find(functionInvocationExpression->getFunction()->getModuleId(), id);
     if (lambdaTypeSignature->isInvocable()) {
-        auto invocableTypeSignature = (InvocableTypeSignature*)lambdaTypeSignature;
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(lambdaTypeSignature);
         strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
         functionInvocationExpression->getFunction()->setId(id);
         functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);
         functionInvocationExpression->setTypeSignature(
-            new FunctionInvocationTypeSignature(invocableTypeSignature)
+            std::make_shared<FunctionInvocationTypeSignature>(invocableTypeSignature)
         );
         return;
     }
@@ -29,11 +29,11 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<A
         for (auto keyValue : *functionTypeSignatureMap.value()) {
             auto invocableTypeSignature = keyValue.second;
             strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(invocableTypeSignature->getParameterTypes()), typeSignatureLookupTable);
-            if (invocableTypeSignature->doArgumentsMatchParameters(functionInvocationExpression->getArguments()->getTypeSignature())) {
+            if (invocableTypeSignature->doArgumentsMatchParameters(functionInvocationExpression->getArguments()->getArgumentListTypeSignature())) {
                 functionInvocationExpression->getFunction()->setId(id);
                 functionInvocationExpression->getFunction()->setTypeSignature(invocableTypeSignature);
                 functionInvocationExpression->setTypeSignature(
-                    new FunctionInvocationTypeSignature(invocableTypeSignature)
+                    std::make_shared<FunctionInvocationTypeSignature>(invocableTypeSignature)
                 );
                 return;
             }
@@ -43,16 +43,16 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<A
     auto functionOverride = typeSignatureLookupTable->findGlobalFunctionOverride(id);
     if (functionOverride) {
         strategyMap->assignTypeSignatureFor(functionInvocationExpression->getArguments(), context, typeSignatureLookupTable);
-        auto matchedTypeSignature = functionOverride.value()->findMatchFor(functionInvocationExpression->getArguments()->getTypeSignature());
+        auto matchedTypeSignature = functionOverride.value()->findMatchFor(functionInvocationExpression->getArguments()->getArgumentListTypeSignature());
         if (matchedTypeSignature) {
             functionInvocationExpression->getFunction()->setId(matchedTypeSignature.value().first);
             functionInvocationExpression->getFunction()->setTypeSignature(matchedTypeSignature.value().second);
             functionInvocationExpression->setTypeSignature(
-                new FunctionInvocationTypeSignature(matchedTypeSignature.value().second)
+                std::make_shared<FunctionInvocationTypeSignature>(matchedTypeSignature.value().second)
             );
             return;
         }
     }
     Logger::log("UH OH!!", functionInvocationExpression->getFunction()->getId());
-    functionInvocationExpression->setTypeSignature(new FunctionInvocationTypeSignature());
+    functionInvocationExpression->setTypeSignature(std::make_shared<FunctionInvocationTypeSignature>());
 }

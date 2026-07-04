@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void ClassPropertyTypeSignatureStrategy::assign(std::shared_ptr<ASTClassPropertyDeclarationNode> classPropertyDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {;
-    TypeSignature* classPropertyType = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> classPropertyType = std::make_shared<UnknownTypeSignature>();
     if (classPropertyDeclaration->getInitializer()) {
         strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getInitializer().value(), context, scope);
         classPropertyType = classPropertyDeclaration->getInitializer().value()->getTypeSignature()->convertToVariableTypeSignature();
@@ -16,8 +16,8 @@ void ClassPropertyTypeSignatureStrategy::assign(std::shared_ptr<ASTClassProperty
     }
 
     strategyMap->assignTypeSignatureFor(classPropertyDeclaration->getAccessModifier(), context);
-    classPropertyDeclaration->setTypeSignature(new ClassPropertyTypeSignature(
-        classPropertyDeclaration->getAccessModifier()->getTypeSignature(),
+    classPropertyDeclaration->setTypeSignature(std::make_shared<ClassPropertyTypeSignature>(
+        classPropertyDeclaration->getAccessModifier()->getAccessModifierTypeSignature(),
         classPropertyType->convertToVariableTypeSignature(),
         classPropertyDeclaration->isStatic(),
         classPropertyDeclaration->isConstant()

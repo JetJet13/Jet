@@ -10,7 +10,7 @@
 
 class ArrayPrototypeTypeSignatureMap {
 public:
-    std::optional<FunctionTypeSignature*> find(std::string id, TypeSignature* elementType);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> find(std::string id, std::shared_ptr<TypeSignature> elementType);
 };
 
 #endif //JETLANG_ARRAY_PROTOTYPE_TYPE_SIGNATURE_MAP_H

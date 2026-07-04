@@ -46,12 +46,16 @@ unsigned long ASTNewClassInstanceExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-NewClassInstanceTypeSignature* ASTNewClassInstanceExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTNewClassInstanceExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTNewClassInstanceExpressionNode::setTypeSignature(NewClassInstanceTypeSignature* typeSignature) {
+void ASTNewClassInstanceExpressionNode::setTypeSignature(std::shared_ptr<NewClassInstanceTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
+}
+
+std::shared_ptr<NewClassInstanceTypeSignature> ASTNewClassInstanceExpressionNode::getClassInstanceTypeSignature() {
+    return std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(_typeSignature);
 }
 
 Position* ASTNewClassInstanceExpressionNode::getStartPosition() {

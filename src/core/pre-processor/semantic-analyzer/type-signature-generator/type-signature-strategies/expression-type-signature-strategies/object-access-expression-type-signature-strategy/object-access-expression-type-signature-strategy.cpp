@@ -14,36 +14,36 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), context, scope);
     auto sourceTypeSignature = objectAccessExpression->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = ((RefTypeSignature*)sourceTypeSignature)->getUnderlyingType();
+        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeTargetIs(STRUCT_TYPE_SOURCE)) {
-        auto structSource = (StructTypeSignature*)sourceTypeSignature;
+        auto structSource = std::dynamic_pointer_cast<StructTypeSignature>(sourceTypeSignature);
         objectAccessExpression->setTypeSignature(structSource->getTypeSignatureForKey(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;
     } else if (sourceTypeSignature->typeTargetIs(ENUM_TYPE_SOURCE)) {
-        auto enumSource = (EnumTypeSignature*)sourceTypeSignature;
-        objectAccessExpression->setTypeSignature(new EnumAccessTypeSignature(
+        auto enumSource = std::dynamic_pointer_cast<EnumTypeSignature>(sourceTypeSignature);
+        objectAccessExpression->setTypeSignature(std::make_shared<EnumAccessTypeSignature>(
             enumSource,
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()
         ));
         return;
     } else if (sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-        auto arraySource = (ArrayTypeSignature*)sourceTypeSignature;
+        auto arraySource = std::dynamic_pointer_cast<ArrayTypeSignature>(sourceTypeSignature);
         objectAccessExpression->setTypeSignature(strategyMap->findArrayPrototypeTypeSignature(
             objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
-            arraySource->getElementType()).value_or(new FunctionTypeSignature())
+            arraySource->getElementType()).value_or(std::make_shared<FunctionTypeSignature>())
         );
         return;
     } else if (sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)) {
         objectAccessExpression->setTypeSignature(strategyMap->findStringPrototypeTypeSignature(
-            objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()).value_or(new FunctionTypeSignature())
+            objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId()).value_or(std::make_shared<FunctionTypeSignature>())
         );
         return;
     } else if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto classInstanceSource = (ClassInstanceTypeSignature*)sourceTypeSignature;
+        auto classInstanceSource = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(sourceTypeSignature);
         auto id = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto classProperty = classInstanceSource->getKeyValuePairs()->find(id);
         if (classProperty) {
@@ -51,7 +51,7 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
             return;
         }
     } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
-        auto classSource = (ClassTypeSignature*)sourceTypeSignature;
+        auto classSource = std::dynamic_pointer_cast<ClassTypeSignature>(sourceTypeSignature);
         auto id = classSource->addClassNameToKey(objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId());
         auto classStaticProperty = classSource->getStaticProperties()->find(id);
         if (classStaticProperty) {
@@ -59,7 +59,7 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
             return;
         }
     } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
-        auto refSource = (RefTypeSignature*)objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        auto refSource = std::dynamic_pointer_cast<RefTypeSignature>(objectAccessExpression->getSource()->getSource()->getTypeSignature());
         auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(
                 objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
                 refSource->getUnderlyingType());
@@ -68,5 +68,5 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
         }
         return;
     }
-    objectAccessExpression->setTypeSignature(new InvalidTypeSignature());
+    objectAccessExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

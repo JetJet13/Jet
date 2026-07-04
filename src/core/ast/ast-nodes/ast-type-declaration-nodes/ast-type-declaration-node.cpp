@@ -4,10 +4,10 @@
 
 #include "ast-type-declaration-node.h"
 
-void ASTTypeDeclarationNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTTypeDeclarationNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTTypeDeclarationNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTTypeDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }

@@ -47,7 +47,7 @@ IRLambdaType* IRLambdaWithFatArrowExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRLambdaWithFatArrowExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRLambdaWithFatArrowExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

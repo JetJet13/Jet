@@ -8,24 +8,24 @@
 void UnaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTUnaryExpressionNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), context, scope);
     if (node->getExpressionNode()->getTypeSignature()->isUnknownOrInvalidOrVoid()) {
-        node->setTypeSignature(new InvalidTypeSignature());
+        node->setTypeSignature(std::make_shared<InvalidTypeSignature>());
         return;
     }
 
     auto unaryOperatorSymbol = node->getUnaryOperatorNode()->getLexeme()->getToken()->getSymbol();
     if (unaryOperatorSymbol->isBang()) {
-        node->setTypeSignature(new BoolLiteralTypeSignature());
+        node->setTypeSignature(std::make_shared<BoolLiteralTypeSignature>());
         return;
     } else if (unaryOperatorSymbol->isPlus() || unaryOperatorSymbol->isMinus()) {
         if (node->getExpressionNode()->getTypeSignature()->typeTargetIs(INT_LITERAL_TYPE_SOURCE)) {
-            node->setTypeSignature(new IntLiteralTypeSignature());
+            node->setTypeSignature(std::make_shared<IntLiteralTypeSignature>());
             return;
         } else if (node->getExpressionNode()->getTypeSignature()->typeTargetIs(FLOAT_LITERAL_TYPE_SOURCE)) {
-            node->setTypeSignature(new FloatLiteralTypeSignature());
+            node->setTypeSignature(std::make_shared<FloatLiteralTypeSignature>());
             return;
         }
 
     }
 
-    node->setTypeSignature(new InvalidTypeSignature());
+    node->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

@@ -8,9 +8,9 @@
 void DrefExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTDrefExpressionNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getExpressionNode(), context, scope);
     if (node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = (RefTypeSignature*)node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature();
+        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(node->getExpressionNode()->getTypeSignature()->getTargetTypeSignature());
         node->setTypeSignature(refTypeSignature->getUnderlyingType());
     } else {
-        node->setTypeSignature(new UnknownTypeSignature());
+        node->setTypeSignature(std::make_shared<UnknownTypeSignature>());
     }
 }

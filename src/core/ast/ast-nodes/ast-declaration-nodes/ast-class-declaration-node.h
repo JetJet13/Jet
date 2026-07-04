@@ -22,15 +22,16 @@ private:
     std::shared_ptr<ASTClassBlockNode> _block;
     std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>> _implementsInterfaceList = {};
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    ClassTypeSignature* _typeSignature = new ClassTypeSignature();
+    std::shared_ptr<ClassTypeSignature> _typeSignature = std::make_shared<ClassTypeSignature>();
 public:
     explicit ASTClassDeclarationNode(std::shared_ptr<ASTClassNode> classKeyword, std::shared_ptr<ASTClassNameNode> name, std::shared_ptr<ASTClassBlockNode> block, std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>> implementsInterfaceList = {});
     explicit ASTClassDeclarationNode(std::shared_ptr<ASTClassNode> classKeyword, std::shared_ptr<ASTClassNameNode> name, std::shared_ptr<ASTClassBlockNode> block, std::shared_ptr<ASTExportNode> exportKeyword);
     std::shared_ptr<ASTClassBlockNode> getBlock();
     std::shared_ptr<ASTClassNameNode> getName();
-    void setTypeSignature(ClassTypeSignature* typeSignature);
+    void setTypeSignature(std::shared_ptr<ClassTypeSignature> typeSignature);
     std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>>* getImplementsInterfaceList();
-    ClassTypeSignature* getTypeSignature() override;
+    std::shared_ptr<ClassTypeSignature> getClassTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     bool isExportable() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

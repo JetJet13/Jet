@@ -13,19 +13,19 @@
 class ParameterListItemTypeSignature : public TypeSignature {
 private:
     std::string _name;
-    TypeSignature* _type;
+    std::shared_ptr<TypeSignature> _type;
 public:
-    static ParameterListItemTypeSignature* createScopeParameter(std::optional<LambdaScopeTypeSignature*> scopeTypeSignature = {});
-    static ParameterListItemTypeSignature* createClassScopeParameter(std::optional<PointerTypeSignature*> scopeTypeSignature = {});
-    ParameterListItemTypeSignature(std::string name, TypeSignature* type);
+    static std::shared_ptr<ParameterListItemTypeSignature> createScopeParameter(std::optional<std::shared_ptr<LambdaScopeTypeSignature>> scopeTypeSignature = {});
+    static std::shared_ptr<ParameterListItemTypeSignature> createClassScopeParameter(std::optional<std::shared_ptr<PointerTypeSignature>> scopeTypeSignature = {});
+    ParameterListItemTypeSignature(std::string name, std::shared_ptr<TypeSignature> type);
     std::string getName();
-    TypeSignature* getTypeSignature();
-    void setType(TypeSignature* typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature();
+    void setType(std::shared_ptr<TypeSignature> typeSignature);
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
-    bool isEquivalentTo(TypeSignature* otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
+    bool isEquivalentTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

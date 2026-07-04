@@ -36,7 +36,7 @@ public:
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
     virtual llvm::Value* getValue() = 0;
     virtual IRType* getIRType() = 0;
-    virtual TypeSignature* getTypeSignature() = 0;
+    virtual std::shared_ptr<TypeSignature> getTypeSignature() = 0;
     virtual Position* getStartPosition() = 0;
     virtual Position* getEndPosition() = 0;
     bool isExpression() override;

@@ -43,7 +43,7 @@ IRStructRefType* IRTupleExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRTupleExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRTupleExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

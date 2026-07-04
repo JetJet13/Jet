@@ -15,11 +15,11 @@ std::shared_ptr<ASTExpressionNode> ASTControlFlowConditionNode::getCondition() {
     return _condition;
 }
 
-void ASTControlFlowConditionNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTControlFlowConditionNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTControlFlowConditionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTControlFlowConditionNode::getTypeSignature() {
     return _typeSignature;
 }
 

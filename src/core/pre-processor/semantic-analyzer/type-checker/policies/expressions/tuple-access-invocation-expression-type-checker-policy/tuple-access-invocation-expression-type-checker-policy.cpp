@@ -32,7 +32,7 @@ namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
         if (!tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature()->isInvocable()) {
             return;
         }
-        auto invocableTypeSignature = (InvocableTypeSignature*)tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature();
+        auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(tupleAccessInvocationExpression->getObjectAccess()->getTypeSignature());
         auto notEnoughArguments = TypeCheckerErrorMessageTable::FunctionCallNotEnoughArguments(tupleAccessInvocationExpression);
         auto tooManyArguments = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(tupleAccessInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()

@@ -14,24 +14,24 @@
 
 class ClassMethodTypeSignature : public InvocableTypeSignature {
 private:
-    AccessModifierTypeSignature* _accessModifier;
+    std::shared_ptr<AccessModifierTypeSignature> _accessModifier;
     bool _isStatic;
-    ParameterListTypeSignature* _parameterList;
-    TypeSignature* _returnType;
+    std::shared_ptr<ParameterListTypeSignature> _parameterList;
+    std::shared_ptr<TypeSignature> _returnType;
 public:
     ClassMethodTypeSignature();
-    ClassMethodTypeSignature(AccessModifierTypeSignature* accessModifier, ParameterListTypeSignature* parameterList, bool isStatic, std::optional<TypeSignature*> returnType = {});
+    ClassMethodTypeSignature(std::shared_ptr<AccessModifierTypeSignature> accessModifier, std::shared_ptr<ParameterListTypeSignature> parameterList, bool isStatic, std::optional<std::shared_ptr<TypeSignature>> returnType = {});
     bool isStatic();
-    AccessModifierTypeSignature* getAccessModifier();
-    ParameterListTypeSignature* getParameters();
-    std::vector<TypeSignature*>* getParameterTypes() override;
-    bool doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) override;
-    TypeSignature* getReturnType() override;
-    void setReturnType(TypeSignature* returnType);
+    std::shared_ptr<AccessModifierTypeSignature> getAccessModifier();
+    std::shared_ptr<ParameterListTypeSignature> getParameters();
+    std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes() override;
+    bool doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) override;
+    std::shared_ptr<TypeSignature> getReturnType() override;
+    void setReturnType(std::shared_ptr<TypeSignature> returnType);
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;
-    bool isEqualTo(TypeSignature *otherType) override;
+    bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void print() override;
 };
 

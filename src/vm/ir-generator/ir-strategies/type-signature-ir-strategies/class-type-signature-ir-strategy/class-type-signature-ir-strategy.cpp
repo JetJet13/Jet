@@ -5,7 +5,7 @@
 #include "class-type-signature-ir-strategy.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRClassType* ClassTypeSignatureIRStrategy::generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getModuleId(), classTypeSignature->getId()).value();
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
@@ -67,7 +67,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generate(ClassTypeSignature* classTyp
     return irClassType;
 }
 
-IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRClassType* ClassTypeSignatureIRStrategy::generateInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = new IRClassType(
             classTypeSignature->getId(),
             irGenerator->generateIRStructRefType(),
@@ -81,7 +81,7 @@ IRClassType* ClassTypeSignatureIRStrategy::generateInitial(ClassTypeSignature* c
     return irClassType;
 }
 
-IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(ClassTypeSignature* classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRClassType* ClassTypeSignatureIRStrategy::generatePostInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = (IRClassType*)scope->findGlobalType(classTypeSignature->getId()).value();
     auto constructorReturnType = irGenerator->getVoidType();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {

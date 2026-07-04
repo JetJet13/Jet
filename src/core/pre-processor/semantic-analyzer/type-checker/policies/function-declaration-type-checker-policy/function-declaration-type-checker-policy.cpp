@@ -8,7 +8,7 @@
 
 namespace FunctionDeclarationTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-        auto functionTypeSignature = functionDeclarationNode->getTypeSignature();
+        auto functionTypeSignature = functionDeclarationNode->getFunctionTypeSignature();
 
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);

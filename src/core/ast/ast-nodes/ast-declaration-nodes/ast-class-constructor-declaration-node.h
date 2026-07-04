@@ -19,15 +19,16 @@ private:
     std::shared_ptr<ASTConstructorNode> _constructor;
     std::shared_ptr<ASTFunctionParameterListNode> _parameters;
     std::shared_ptr<ASTFunctionBlockNode> _block;
-    ClassConstructorTypeSignature* _typeSignature = new ClassConstructorTypeSignature();
+    std::shared_ptr<ClassConstructorTypeSignature> _typeSignature = std::make_shared<ClassConstructorTypeSignature>();
 public:
     explicit ASTClassConstructorDeclarationNode(std::shared_ptr<ASTConstructorNode> constructor, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content);
     std::shared_ptr<ASTConstructorNode> getConstructor();
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     unsigned long numParameters();
-    void setTypeSignature(ClassConstructorTypeSignature* typeSignature);
-    ClassConstructorTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ClassConstructorTypeSignature> typeSignature);
+    std::shared_ptr<ClassConstructorTypeSignature> getConstructorTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

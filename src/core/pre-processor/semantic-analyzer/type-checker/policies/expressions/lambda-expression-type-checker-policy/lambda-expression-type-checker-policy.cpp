@@ -22,7 +22,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
         TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
-        if (lambdaExpression->getTypeSignature()->getReturnType()->isVoid()) {
+        if (lambdaExpression->getLambdaTypeSignature()->getReturnType()->isVoid()) {
             auto notAllPathsReturn = TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression);
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
                     lambdaExpression->getBlock(),
@@ -34,7 +34,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             auto returnTypeInvalid = TypeCheckerErrorMessageTable::LambdaExpressionReturnTypeInvalid(lambdaExpression);
             TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
             ->enforce(
-                lambdaExpression->getTypeSignature()->getReturnType(),
+                lambdaExpression->getLambdaTypeSignature()->getReturnType(),
                 returnTypeUnknown,
                 returnTypeInvalid,
                 typeCheckerResult
@@ -42,7 +42,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
             ->enforce(
                 lambdaExpression->getBlock(),
-                lambdaExpression->getTypeSignature()->getReturnType(),
+                lambdaExpression->getLambdaTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
             auto notAllPathsReturn = TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression);

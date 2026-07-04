@@ -22,11 +22,15 @@ std::shared_ptr<ASTRefNode> ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 
-RefTypeSignature* ASTRefExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTRefExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTRefExpressionNode::setTypeSignature(RefTypeSignature* typeSignature) {
+std::shared_ptr<RefTypeSignature> ASTRefExpressionNode::getRefTypeSignature() {
+    return std::dynamic_pointer_cast<RefTypeSignature>(_typeSignature);
+}
+
+void ASTRefExpressionNode::setTypeSignature(std::shared_ptr<RefTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 

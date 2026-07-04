@@ -22,7 +22,7 @@ public:
     void markAsGlobal() override;
     std::shared_ptr<ASTModuleAccessExpressionNode> getNode();
     IRType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     llvm::Value* getValue() override;

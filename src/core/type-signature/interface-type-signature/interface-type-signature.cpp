@@ -10,10 +10,10 @@
 #include "../class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 InterfaceTypeSignature::InterfaceTypeSignature() {
-    _properties = TypeSignatureMap<TypeSignature>();
+    _properties = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
 }
 
-InterfaceTypeSignature::InterfaceTypeSignature(TypeSignatureMap<TypeSignature> keyValuePairs) {
+InterfaceTypeSignature::InterfaceTypeSignature(TypeSignatureMap<std::shared_ptr<TypeSignature>> keyValuePairs) {
     _properties = keyValuePairs;
 }
 
@@ -21,27 +21,27 @@ bool InterfaceTypeSignature::isEmpty() {
     return _properties.size() == 0;
 }
 
-TypeSignatureMap<TypeSignature>* InterfaceTypeSignature::getKeyValuePairs() {
+TypeSignatureMap<std::shared_ptr<TypeSignature>>* InterfaceTypeSignature::getKeyValuePairs() {
     return &_properties;
 }
 
-TypeSignature* InterfaceTypeSignature::getTypeSignatureForKey(std::string key) {
+std::shared_ptr<TypeSignature> InterfaceTypeSignature::getTypeSignatureForKey(std::string key) {
     auto result = _properties.find(key);
     if (result) {
         return result.value();
     }
-    return new UnknownTypeSignature();
+    return std::make_shared<UnknownTypeSignature>();
 }
 
-TypeSignature* InterfaceTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> InterfaceTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
     if (index >= _properties.size()) {
-        return new UnknownTypeSignature();
+        return std::make_shared<UnknownTypeSignature>();
     }
 
     return _properties.find(_properties.findKeyByIndex(index)).value();
 }
 
-void InterfaceTypeSignature::addProperty(std::string key, TypeSignature* typeSignature) {
+void InterfaceTypeSignature::addProperty(std::string key, std::shared_ptr<TypeSignature> typeSignature) {
     _properties.insert(key, typeSignature);
 }
 
@@ -57,27 +57,27 @@ TypeSource InterfaceTypeSignature::getTypeSource() {
     return INTERFACE_TYPE_SOURCE;
 }
 
-bool InterfaceTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool InterfaceTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (InterfaceTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<InterfaceTypeSignature>(otherType);
     return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
 }
 
-bool InterfaceTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+bool InterfaceTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (otherType->typeSourceIs(STRUCT_TYPE_SOURCE)){
-        auto structTypeSignature = (StructTypeSignature*)otherType;
+        auto structTypeSignature = std::dynamic_pointer_cast<StructTypeSignature>(otherType);
         return this->getKeyValuePairs()->isSatisfiedBy(structTypeSignature->getKeyValuePairs());
     } else if (otherType->typeSourceIs(NEW_CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto newClassInstanceTypeSignature = (NewClassInstanceTypeSignature*)otherType;
+        auto newClassInstanceTypeSignature = std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(otherType);
         return this->getKeyValuePairs()->isSatisfiedBy(newClassInstanceTypeSignature->getClassInterface());
     } else if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto classInstanceTypeSignature = (ClassInstanceTypeSignature*)otherType;
+        auto classInstanceTypeSignature = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(otherType);
         return this->getKeyValuePairs()->isSatisfiedBy(classInstanceTypeSignature->getKeyValuePairs());
     } else if (otherType->typeSourceIs(CLASS_TYPE_SOURCE)) {
-        auto classTypeSignature = (ClassTypeSignature*)otherType;
+        auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(otherType);
         return this->getKeyValuePairs()->isSatisfiedBy(classTypeSignature->getInterface());
     }
     return this->isEqualTo(otherType);

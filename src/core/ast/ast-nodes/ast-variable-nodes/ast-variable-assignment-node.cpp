@@ -17,11 +17,11 @@ std::shared_ptr<ASTIdentifierNode> ASTVariableAssignmentNode::getIdentifierNode(
     return _identifier;
 }
 
-void ASTVariableAssignmentNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTVariableAssignmentNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTVariableAssignmentNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTVariableAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 

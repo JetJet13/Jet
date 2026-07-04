@@ -20,7 +20,7 @@ private:
     std::shared_ptr<ASTFunctionArgumentListEndNode> _functionArgumentListEndNode;
     std::vector<std::shared_ptr<ASTCommaNode>> _commas;
     std::vector<std::shared_ptr<ASTFunctionArgumentNode>> _arguments;
-    ArgumentListTypeSignature* _typeSignature;
+    std::shared_ptr<ArgumentListTypeSignature> _typeSignature;
 public:
     ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
     ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::vector<std::shared_ptr<ASTFunctionArgumentNode>> arguments, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
@@ -28,8 +28,9 @@ public:
     unsigned long numArguments();
     std::shared_ptr<ASTFunctionArgumentListNode> addArgument(std::shared_ptr<ASTFunctionArgumentNode> argument);
     std::shared_ptr<ASTFunctionArgumentListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    ArgumentListTypeSignature* getTypeSignature() override;
-    void setTypeSignature(ArgumentListTypeSignature* typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ArgumentListTypeSignature> typeSignature);
+    std::shared_ptr<ArgumentListTypeSignature> getArgumentListTypeSignature();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

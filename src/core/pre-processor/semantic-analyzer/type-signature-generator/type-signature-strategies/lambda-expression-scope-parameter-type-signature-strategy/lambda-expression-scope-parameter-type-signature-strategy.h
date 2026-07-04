@@ -12,7 +12,7 @@
 
 class LambdaExpressionScopeParameterTypeSignatureStrategy {
 public:
-    ParameterListItemTypeSignature* create(std::set<std::string>* captureVariableIds);
+    std::shared_ptr<ParameterListItemTypeSignature> create(std::set<std::string>* captureVariableIds);
 };
 
 

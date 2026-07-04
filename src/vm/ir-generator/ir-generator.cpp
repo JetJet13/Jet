@@ -336,7 +336,7 @@ IRExpressionNode* IRGenerator::generateFor(std::shared_ptr<ASTExpressionNode> no
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-IRFunctionArgumentNode* IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature) {
+IRFunctionArgumentNode* IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     auto irExpression = this->generateFor(node->getArgument(), scope, irContext, irOperation);
     auto operation = invocableTypeSignature->isArgumentVarArg(index)
                      || invocableTypeSignature->getParameterTypes()->at(index)->isGeneric()
@@ -379,19 +379,19 @@ IRClassInstanceType* IRGenerator::getGenericClassInstanceIRType() {
     return _genericClassInstanceIRType;
 }
 
-IRType* IRGenerator::generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRType* IRGenerator::generateInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
-            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial((ClassTypeSignature*)typeSignature, this, scope, irContext);
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
         default:
             return this->generateTypeFor(typeSignature, scope, irContext);
     }
 }
 
-IRType* IRGenerator::generatePostInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRType* IRGenerator::generatePostInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
-            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial((ClassTypeSignature*)typeSignature, this, scope, irContext);
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
         default:
             return this->generateTypeFor(typeSignature, scope, irContext);
     }
@@ -401,7 +401,7 @@ IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
     return new IRType(constant->getType());
 }
 
-IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRType* IRGenerator::generateTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     auto existingIRType = scope->findType(typeSignature->getId());
     if (existingIRType) {
         return existingIRType.value()->clone();
@@ -410,72 +410,69 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
         case VOID_TYPE_SOURCE:
             return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
         case ARRAY_TYPE_SOURCE:
-            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate((ArrayTypeSignature*) typeSignature,
-                                                                              this, scope, irContext);
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ArrayTypeSignature>(typeSignature), this, scope, irContext);
         case CLASS_TYPE_SOURCE:
-            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate((ClassTypeSignature*) typeSignature,
-                                                                              this, scope, irContext);
+            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate((EnumTypeSignature*) typeSignature, this, scope, irContext);
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<EnumTypeSignature>(typeSignature), this, scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
             return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
-                    (EnumAccessTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<EnumAccessTypeSignature>(typeSignature), this, scope, irContext);
         case FUNCTION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate(
-                    (FunctionTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<FunctionTypeSignature>(typeSignature), this, scope, irContext);
         case PROCEDURE_TYPE_SOURCE:
             return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate(
-                    (ProcedureTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<ProcedureTypeSignature>(typeSignature), this, scope, irContext);
         case LAMBDA_EXPRESSION_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (LambdaExpressionTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(typeSignature), this, scope, irContext);
         case LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    (LambdaTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaTypeSignature>(typeSignature), this, scope, irContext);
         case INTERFACE_TYPE_SOURCE:
             return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(
-                    (InterfaceTypeSignature*)typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<InterfaceTypeSignature>(typeSignature), this, scope, irContext);
         case STRUCT_TYPE_SOURCE:
-            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate((StructTypeSignature*) typeSignature,
+            return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<StructTypeSignature>(typeSignature),
                                                                                this, scope, irContext);
         case TUPLE_TYPE_SOURCE:
-            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate((TupleTypeSignature*) typeSignature,
+            return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<TupleTypeSignature>(typeSignature),
                                                                               this, scope, irContext);
         case MODULE_TYPE_SOURCE:
-            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate((ModuleTypeSignature*) typeSignature,
+            return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ModuleTypeSignature>(typeSignature),
                                                                                this, scope, irContext);
         case POINTER_TYPE_SOURCE:
-            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate((PointerTypeSignature*) typeSignature,
+            return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<PointerTypeSignature>(typeSignature),
                                                                                 this, scope, irContext);
         case REF_TYPE_SOURCE:
-            return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate((RefTypeSignature*)typeSignature,
+            return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<RefTypeSignature>(typeSignature),
                                                                                 this, scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
-                    (FunctionInvocationTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(typeSignature), this, scope, irContext);
         case CLASS_METHOD_TYPE_SOURCE:
             return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate(
-                    (ClassMethodTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassMethodTypeSignature>(typeSignature), this, scope, irContext);
         case CLASS_PROPERTY_TYPE_SOURCE:
             return _irStrategyMap.getClassPropertyTypeSignatureIRStrategy()->generate(
-                    (ClassPropertyTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassPropertyTypeSignature>(typeSignature), this, scope, irContext);
         case NEW_CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getNewClassInstanceTypeSignatureIRStrategy()->generate(
-                    (NewClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(typeSignature), this, scope, irContext);
         case CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
-                    (ClassInstanceTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassInstanceTypeSignature>(typeSignature), this, scope, irContext);
         case LAMBDA_SCOPE_TYPE_SOURCE:
             return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(
-                    (LambdaScopeTypeSignature*) typeSignature, this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaScopeTypeSignature>(typeSignature), this, scope, irContext);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
         case STRING_LITERAL_TYPE_SOURCE:
         case BOOL_LITERAL_TYPE_SOURCE:
         case LITERAL_TYPE_SOURCE:
-            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate((LiteralTypeSignature*) typeSignature,
-                                                                                this, scope, irContext);
+            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<LiteralTypeSignature>(typeSignature), this, scope, irContext);
         default:
             Logger::log("UH OH");
             typeSignature->print();
@@ -483,44 +480,44 @@ IRType* IRGenerator::generateTypeFor(TypeSignature* typeSignature, IRLookupTable
     }
 }
 
-IRArrayPointerType* IRGenerator::generateTypeFor(ArrayTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRArrayPointerType* IRGenerator::generateTypeFor(std::shared_ptr<ArrayTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IREnumType* IRGenerator::generateTypeFor(EnumTypeSignature* typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext) {
+IREnumType* IRGenerator::generateTypeFor(std::shared_ptr<EnumTypeSignature> typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(InterfaceTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructType* IRGenerator::generateTypeFor(std::shared_ptr<InterfaceTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructRefType* IRGenerator::generateTypeFor(StructTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* IRGenerator::generateTypeFor(std::shared_ptr<StructTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructRefType* IRGenerator::generateTypeFor(TupleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructRefType* IRGenerator::generateTypeFor(std::shared_ptr<TupleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(LambdaScopeTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRStructType* IRGenerator::generateTypeFor(std::shared_ptr<LambdaScopeTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRModuleType* IRGenerator::generateTypeFor(ModuleTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRModuleType* IRGenerator::generateTypeFor(std::shared_ptr<ModuleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRClassType* IRGenerator::generateTypeFor(ClassTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRClassType* IRGenerator::generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
 
-IRPointerType* IRGenerator::generateTypeFor(PointerTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRPointerType* IRGenerator::generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRRefType* IRGenerator::generateTypeFor(RefTypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext) {
+IRRefType* IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
@@ -683,7 +680,7 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocab
     return argList;
 }
 
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderListForFunction(InvocableTypeSignature* invocableTypeSignature, std::vector<IRFunctionArgumentNode*>* irArguments, IRLookupTable* scope, IRContext* irContext) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderListForFunction(std::shared_ptr<InvocableTypeSignature> invocableTypeSignature, std::vector<IRFunctionArgumentNode*>* irArguments, IRLookupTable* scope, IRContext* irContext) {
     auto parameterIrTypes = this->generateIRTypes(invocableTypeSignature->getParameterTypes(), scope, irContext);
     auto argList = std::vector<llvm::Value*>();
 
@@ -799,15 +796,15 @@ llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, IRTyp
     return new llvm::LoadInst(irType->getType(), pointer, "", false, irType->getAlignment());
 }
 
-IRParameterListType* IRGenerator::generateParameterList(ParameterListTypeSignature* parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<ParameterListItemTypeSignature*> scopeParameter) {
+IRParameterListType* IRGenerator::generateParameterList(std::shared_ptr<ParameterListTypeSignature> parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
     return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, this, scope, irContext, scopeParameter);
 }
 
-IRParameterType* IRGenerator::generateParameterType(ParameterListItemTypeSignature* parameter, IRLookupTable* scope, IRContext* irContext) {
+IRParameterType* IRGenerator::generateParameterType(std::shared_ptr<ParameterListItemTypeSignature> parameter, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, this, scope, irContext);
 }
 
-std::vector<IRType*> IRGenerator::generateIRTypes(std::vector<TypeSignature*>* parameters, IRLookupTable* scope, IRContext* irContext) {
+std::vector<IRType*> IRGenerator::generateIRTypes(std::vector<std::shared_ptr<TypeSignature>>* parameters, IRLookupTable* scope, IRContext* irContext) {
     auto parameterIRTypes = std::vector<IRType*>();
     for (int i = 0; i < parameters->size(); ++i) {
         parameterIRTypes.push_back(this->generateTypeFor(parameters->at(i), scope, irContext));

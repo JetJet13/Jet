@@ -43,7 +43,7 @@ namespace RefValueAssignmentStatementTypeCheckerPolicy {
         if (!refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = (RefTypeSignature*)refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature();
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::RefValueAssignmentTypeMismatch(refValueAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
         ->enforce(

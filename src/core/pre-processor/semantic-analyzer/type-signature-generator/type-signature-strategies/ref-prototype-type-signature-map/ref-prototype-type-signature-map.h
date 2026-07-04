@@ -10,7 +10,7 @@
 
 class RefPrototypeTypeSignatureMap {
 public:
-    std::optional<FunctionTypeSignature*> find(std::string id, TypeSignature* refType);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> find(std::string id, std::shared_ptr<TypeSignature> refType);
 };
 
 #endif //JETLANG_REF_PROTOTYPE_TYPE_SIGNATURE_MAP_H

@@ -13,7 +13,7 @@ void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclaratio
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
-    if (!classDeclarationNode->getTypeSignature()->satisfiesImplementInterfaces()) {
+    if (!classDeclarationNode->getClassTypeSignature()->satisfiesImplementInterfaces()) {
         typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode)());
     }
 }
@@ -25,21 +25,21 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(std::shared_ptr
 
 void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
-        if (classProperty->getTypeSignature()->getType()->isInvocable()) {
+        if (classProperty->getPropertyTypeSignature()->getType()->isInvocable()) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty)());
         }
 
         auto selfReferenceErrorMessage = TypeCheckerErrorMessageTable::ClassPropertySelfReference(classProperty);
-        TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule()->enforce(classDeclarationNode->getTypeSignature(), classProperty->getTypeSignature(), selfReferenceErrorMessage, typeCheckerResult);
+        TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule()->enforce(classDeclarationNode->getClassTypeSignature(), classProperty->getPropertyTypeSignature(), selfReferenceErrorMessage, typeCheckerResult);
 
         auto circularReferenceErrorMessage = TypeCheckerErrorMessageTable::ClassPropertyCircularReference(classProperty);
-        TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule()->enforce(classDeclarationNode->getTypeSignature(), classProperty->getTypeSignature(), circularReferenceErrorMessage, typeCheckerResult);
+        TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule()->enforce(classDeclarationNode->getClassTypeSignature(), classProperty->getPropertyTypeSignature(), circularReferenceErrorMessage, typeCheckerResult);
 
         if (classProperty->getInitializer()) {
             auto mismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyInitializerTypeMismatch(classProperty);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                classProperty->getTypeSignature()->getType(),
+                classProperty->getPropertyTypeSignature()->getType(),
                 classProperty->getInitializer().value()->getTypeSignature(),
                 mismatchMessage,
                 typeCheckerResult
@@ -65,13 +65,13 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<AS
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
         TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult);
-        if (!classMethod->getTypeSignature()->getReturnType()->isVoid()) {
+        if (!classMethod->getMethodTypeSignature()->getReturnType()->isVoid()) {
             auto unknownMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(classMethod);
             auto invalidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(classMethod);
             auto voidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeVoid(classMethod);
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
-                classMethod->getTypeSignature()->getReturnType(),
+                classMethod->getMethodTypeSignature()->getReturnType(),
                 unknownMessage,
                 invalidMessage,
                 voidMessage,
@@ -80,7 +80,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<AS
             TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule()
             ->enforce(
                 classMethod->getBlock(),
-                classMethod->getTypeSignature()->getReturnType(),
+                classMethod->getMethodTypeSignature()->getReturnType(),
                 typeCheckerResult
             );
             auto notAllPathsReturnMessage = TypeCheckerErrorMessageTable::ClassMethodNotAllPathsReturn(classMethod);
@@ -101,7 +101,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<AS
 }
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-    auto classMethodNameAndTypeSignatureList = std::vector<std::pair<std::string, TypeSignature*>>();
+    auto classMethodNameAndTypeSignatureList = std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>();
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
         classMethodNameAndTypeSignatureList.emplace_back(
             std::pair(
@@ -136,7 +136,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(std::shared_p
 }
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-    auto classConstructorTypeSignatures = std::vector<TypeSignature*>();
+    auto classConstructorTypeSignatures = std::vector<std::shared_ptr<TypeSignature>>();
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
         classConstructorTypeSignatures.push_back(classConstructor->getTypeSignature());
     }

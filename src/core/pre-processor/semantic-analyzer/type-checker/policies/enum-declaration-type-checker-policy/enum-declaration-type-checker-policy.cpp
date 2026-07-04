@@ -12,7 +12,7 @@ namespace EnumDeclarationTypeCheckerPolicy {
             auto mismatchMessage = TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch(enumDeclarationNode);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
             ->enforce(
-                enumDeclarationNode->getTypeSignature()->getType(),
+                enumDeclarationNode->getEnumTypeSignature()->getType(),
                 enumKeyValue->getTypeSignature(),
                 mismatchMessage,
                 typeCheckerResult

@@ -33,7 +33,8 @@ public:
     llvm::Value* getFunctionValue();
     IRType* getFunctionIRType();
     IRType* getIRType() override;
-    FunctionInvocationTypeSignature* getTypeSignature() override;
+    std::shared_ptr<FunctionInvocationTypeSignature> getInvocationTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     IRNodeType getNodeType() override;

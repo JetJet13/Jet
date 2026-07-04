@@ -23,19 +23,19 @@ std::shared_ptr<ASTExpressionNode> ASTBinaryArithmeticExpressionNode::getRightNo
     return _rightNode;
 }
 
-void ASTBinaryArithmeticExpressionNode::setLeftTypeSignature(TypeSignature* typeSignature) {
+void ASTBinaryArithmeticExpressionNode::setLeftTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _leftTypeSignature = typeSignature;
 }
 
-void ASTBinaryArithmeticExpressionNode::setRightTypeSignature(TypeSignature* typeSignature) {
+void ASTBinaryArithmeticExpressionNode::setRightTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _rightTypeSignature = typeSignature;
 }
 
-TypeSignature* ASTBinaryArithmeticExpressionNode::getLeftTypeSignature() {
+std::shared_ptr<TypeSignature> ASTBinaryArithmeticExpressionNode::getLeftTypeSignature() {
     return _leftTypeSignature;
 }
 
-TypeSignature* ASTBinaryArithmeticExpressionNode::getRightTypeSignature() {
+std::shared_ptr<TypeSignature> ASTBinaryArithmeticExpressionNode::getRightTypeSignature() {
     return _rightTypeSignature;
 }
 

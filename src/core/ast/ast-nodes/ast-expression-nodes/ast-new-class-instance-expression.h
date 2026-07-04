@@ -25,7 +25,7 @@ private:
     std::optional<std::shared_ptr<ASTClassNameNode>> _className;
     std::optional<std::shared_ptr<ASTModuleAccessExpressionNode>> _moduleAccessExpression;
     std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
-    NewClassInstanceTypeSignature* _typeSignature = new NewClassInstanceTypeSignature();
+    std::shared_ptr<NewClassInstanceTypeSignature> _typeSignature = std::make_shared<NewClassInstanceTypeSignature>();
 public:
     explicit ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTClassNameNode> className, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
     explicit ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpressionNode, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
@@ -33,8 +33,9 @@ public:
     std::string getClassName();
     std::optional<std::string> getModuleName();
     unsigned long numArguments();
-    NewClassInstanceTypeSignature* getTypeSignature() override;
-    void setTypeSignature(NewClassInstanceTypeSignature* typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<NewClassInstanceTypeSignature> typeSignature);
+    std::shared_ptr<NewClassInstanceTypeSignature> getClassInstanceTypeSignature();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

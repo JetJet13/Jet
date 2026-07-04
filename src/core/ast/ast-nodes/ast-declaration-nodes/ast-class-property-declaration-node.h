@@ -21,7 +21,7 @@ private:
     std::shared_ptr<ASTClassPropertyInitNode> _propertyInit;
     std::optional<std::shared_ptr<ASTExpressionNode>> _initializer;
     std::string _normalizedPropertyName;
-    ClassPropertyTypeSignature* _typeSignature = new ClassPropertyTypeSignature();
+    std::shared_ptr<ClassPropertyTypeSignature> _typeSignature = std::make_shared<ClassPropertyTypeSignature>();
 public:
     explicit ASTClassPropertyDeclarationNode(std::shared_ptr<ASTClassPropertyInitNode> propertyInit, std::optional<std::shared_ptr<ASTExpressionNode>> initializer = {});
     std::shared_ptr<ASTClassPropertyInitNode> getPropertyInit();
@@ -34,8 +34,9 @@ public:
     bool isPrivate();
     bool isStatic();
     bool isConstant();
-    void setTypeSignature(ClassPropertyTypeSignature* typeSignature);
-    ClassPropertyTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ClassPropertyTypeSignature> typeSignature);
+    std::shared_ptr<ClassPropertyTypeSignature> getPropertyTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

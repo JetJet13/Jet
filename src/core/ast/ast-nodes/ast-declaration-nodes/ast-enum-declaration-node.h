@@ -21,13 +21,14 @@ private:
     std::shared_ptr<ASTEnumNameNode> _name;
     std::shared_ptr<ASTEnumKeyValueListNode> _values;
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    EnumTypeSignature* _typeSignature = new EnumTypeSignature();
+    std::shared_ptr<EnumTypeSignature> _typeSignature = std::make_shared<EnumTypeSignature>();
 public:
     explicit ASTEnumDeclarationNode(std::shared_ptr<ASTEnumNode> enumKeyword, std::shared_ptr<ASTEnumNameNode> name, std::shared_ptr<ASTEnumKeyValueListNode> values, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTEnumKeyValueListNode> getValues();
     std::shared_ptr<ASTEnumNameNode> getName();
-    void setTypeSignature(EnumTypeSignature* typeSignature);
-    EnumTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<EnumTypeSignature> typeSignature);
+    std::shared_ptr<EnumTypeSignature> getEnumTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     bool isExportable() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

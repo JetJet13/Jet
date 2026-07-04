@@ -30,61 +30,61 @@ std::string JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignatureK
     return "assertDebugLambdaRefCount";
 }
 
-FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignature() {
-    auto assertDebugRefCountTypeSignature = new FunctionTypeSignature(
-        new ParameterListTypeSignature({
-            new ParameterListItemTypeSignature("refValue", (new RefTypeSignature(new VoidTypeSignature()))->markAsGeneric()),
-            new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignature() {
+    auto assertDebugRefCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+        std::make_shared<ParameterListTypeSignature>(std::vector {
+            std::make_shared<ParameterListItemTypeSignature>("refValue", (std::make_shared<RefTypeSignature>(std::make_shared<VoidTypeSignature>()))->markAsGeneric()),
+            std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
         }),
-        new VoidTypeSignature()
+        std::make_shared<VoidTypeSignature>()
     );
     assertDebugRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugRefCountTypeSignature;
 }
 
-FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignature() {
-    auto assertDebugStructRefCountTypeSignature = new FunctionTypeSignature(
-        new ParameterListTypeSignature({
-            new ParameterListItemTypeSignature("structValue", (new StructTypeSignature())->markAsGeneric()),
-            new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugStructRefCountTypeSignature() {
+    auto assertDebugStructRefCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+        std::make_shared<ParameterListTypeSignature>(std::vector {
+            std::make_shared<ParameterListItemTypeSignature>("structValue", (std::make_shared<StructTypeSignature>())->markAsGeneric()),
+            std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
         }),
-        new VoidTypeSignature()
+        std::make_shared<VoidTypeSignature>()
     );
     assertDebugStructRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_STRUCT_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugStructRefCountTypeSignature;
 }
 
-FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignature() {
-    auto assertDebugTupleRefCountTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("tupleValue", (new TupleTypeSignature())->markAsGeneric()),
-               new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugTupleRefCountTypeSignature() {
+    auto assertDebugTupleRefCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+               std::make_shared<ParameterListItemTypeSignature>("tupleValue", (std::make_shared<TupleTypeSignature>())->markAsGeneric()),
+               std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
             }),
-            new VoidTypeSignature()
+            std::make_shared<VoidTypeSignature>()
     );
     assertDebugTupleRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_TUPLE_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugTupleRefCountTypeSignature;
 }
 
-FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignature() {
-    auto assertDebugTupleRefCountTypeSignature = new FunctionTypeSignature(
-            new ParameterListTypeSignature({
-               new ParameterListItemTypeSignature("classInstance", (new ClassInstanceTypeSignature())->markAsGeneric()),
-               new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugClassRefCountTypeSignature() {
+    auto assertDebugTupleRefCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+            std::make_shared<ParameterListTypeSignature>(std::vector {
+               std::make_shared<ParameterListItemTypeSignature>("classInstance", (std::make_shared<ClassInstanceTypeSignature>())->markAsGeneric()),
+               std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
             }),
-            new VoidTypeSignature()
+            std::make_shared<VoidTypeSignature>()
     );
     assertDebugTupleRefCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_CLASS_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugTupleRefCountTypeSignature;
 }
 
-FunctionTypeSignature* JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignature() {
-    auto assertDebugLambdaCountTypeSignature = new FunctionTypeSignature(
-        new ParameterListTypeSignature({
-            new ParameterListItemTypeSignature("lambdaValue", (new LambdaTypeSignature())->markAsGeneric()),
-            new ParameterListItemTypeSignature("expectedRefCount", new IntLiteralTypeSignature()),
+std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignature() {
+    auto assertDebugLambdaCountTypeSignature = std::make_shared<FunctionTypeSignature>(
+        std::make_shared<ParameterListTypeSignature>(std::vector {
+            std::make_shared<ParameterListItemTypeSignature>("lambdaValue", (std::make_shared<LambdaTypeSignature>())->markAsGeneric()),
+            std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
         }),
-        new VoidTypeSignature()
+        std::make_shared<VoidTypeSignature>()
     );
     assertDebugLambdaCountTypeSignature->markAsBuiltIn(BI_ASSERT_DEBUG_LAMBDA_REF_COUNT_TYPE_SOURCE)->markAsDebug();
     return assertDebugLambdaCountTypeSignature;

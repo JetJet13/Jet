@@ -15,12 +15,12 @@ class ASTVariableAssignmentNode : public ASTNode {
 private:
     std::shared_ptr<ASTIdentifierNode> _identifier;
     std::shared_ptr<ASTAssignmentOperatorNode> _assignmentOperator;
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     explicit ASTVariableAssignmentNode(std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator);
     std::shared_ptr<ASTIdentifierNode> getIdentifierNode();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

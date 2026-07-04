@@ -11,7 +11,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto functionTypeSignature = irExpression->getTypeSignature()->getFunctionType();
+    auto functionTypeSignature = irExpression->getInvocationTypeSignature()->getFunctionType();
     auto arguments = std::vector<llvm::Value*>();
     for (unsigned long i = 0; i < irExpression->getIRArguments()->size(); ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -27,7 +27,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     // this is only here because of the built-in print function
     // the front-end does not currently support variadic functions/lambdas
     if (irExpression->getVarArgsTypeValueArgument()) {
-        auto startIndex = irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
+        auto startIndex = irExpression->getInvocationTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
         auto typeValueType = (IRTypeValueType*)irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value()->getIRType()->getUnderlyingType();
         auto arrayPointerType = (IRArrayPointerType*)irExpression->getVarArgsTypeValueArgument().value()->getIRType()->getUnderlyingType();
         auto varArgsArrayAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value(), irBlock);
@@ -52,7 +52,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
                 varArgsArrayPointerAllocation,
                 { zeroIndex, numElementsIndex }
         );
-        auto numElements = irBlock->getBuilder()->get()->getInt64(irExpression->getIRArguments()->size() - irExpression->getTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex());
+        auto numElements = irBlock->getBuilder()->get()->getInt64(irExpression->getIRArguments()->size() - irExpression->getInvocationTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex());
         InstructionIRInjectorHelper::injectStore(numElements, pointerToNumElements, irBlock);
 
         auto pointerToDepth = irBlock->getBuilder()->get()->CreateInBoundsGEP(

@@ -7,5 +7,5 @@
 
 void ArrayTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTArrayTypeNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getElementType(), context, scope);
-    node->setTypeSignature(new ArrayTypeSignature(node->getElementType()->getTypeSignature()));
+    node->setTypeSignature(std::make_shared<ArrayTypeSignature>(node->getElementType()->getTypeSignature()));
 }

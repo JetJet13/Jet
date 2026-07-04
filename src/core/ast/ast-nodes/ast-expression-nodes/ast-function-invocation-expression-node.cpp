@@ -25,11 +25,15 @@ unsigned long ASTFunctionInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-void ASTFunctionInvocationExpressionNode::setTypeSignature(FunctionInvocationTypeSignature* functionInvocationTypeSignature) {
+void ASTFunctionInvocationExpressionNode::setTypeSignature(std::shared_ptr<FunctionInvocationTypeSignature> functionInvocationTypeSignature) {
     _typeSignature = functionInvocationTypeSignature;
 }
 
-FunctionInvocationTypeSignature* ASTFunctionInvocationExpressionNode::getTypeSignature() {
+std::shared_ptr<FunctionInvocationTypeSignature> ASTFunctionInvocationExpressionNode::getInvocationTypeSignature() {
+    return std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTFunctionInvocationExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 

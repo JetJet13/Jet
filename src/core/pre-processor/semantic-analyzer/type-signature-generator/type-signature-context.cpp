@@ -9,18 +9,18 @@ TypeSignatureContext::TypeSignatureContext() {
     _typeSignatures = {};
 }
 
-TypeSignatureContext::TypeSignatureContext(std::optional<TypeSignature*> typeSignature) {
+TypeSignatureContext::TypeSignatureContext(std::optional<std::shared_ptr<TypeSignature>> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignatureContext::TypeSignatureContext(std::optional<std::vector<TypeSignature*>*> typeSignatures) {
+TypeSignatureContext::TypeSignatureContext(std::optional<std::vector<std::shared_ptr<TypeSignature>>*> typeSignatures) {
     _typeSignatures = typeSignatures;
 }
 
-std::optional<TypeSignature*> TypeSignatureContext::getTypeSignature() {
+std::optional<std::shared_ptr<TypeSignature>> TypeSignatureContext::getTypeSignature() {
     return _typeSignature;
 }
 
-std::optional<std::vector<TypeSignature*>*> TypeSignatureContext::getTypeSignatures() {
+std::optional<std::vector<std::shared_ptr<TypeSignature>>*> TypeSignatureContext::getTypeSignatures() {
     return _typeSignatures;
 }

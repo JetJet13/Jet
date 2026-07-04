@@ -7,7 +7,7 @@
 
 FunctionVarArgTypeSignatureMap::FunctionVarArgTypeSignatureMap(std::string functionName) {
     _functionName = functionName;
-    _typeSignatureMap = std::unordered_map<std::string, InvocableTypeSignature*>();
+    _typeSignatureMap = std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>();
     _typeSignatureKeyList = std::vector<std::string>();
 }
 
@@ -15,12 +15,12 @@ std::string FunctionVarArgTypeSignatureMap::getFunctionName() {
     return _functionName;
 }
 
-void FunctionVarArgTypeSignatureMap::addFunctionVarArgTypeSignature(std::string key, InvocableTypeSignature* typeSignature) {
+void FunctionVarArgTypeSignatureMap::addFunctionVarArgTypeSignature(std::string key, std::shared_ptr<InvocableTypeSignature> typeSignature) {
     _typeSignatureKeyList.push_back(key);
     _typeSignatureMap.insert(std::pair(key, typeSignature));
 }
 
-std::optional<std::pair<std::string, InvocableTypeSignature*>> FunctionVarArgTypeSignatureMap::findMatchFor(ArgumentListTypeSignature* argumentListTypeSignature) {
+std::optional<std::pair<std::string, std::shared_ptr<InvocableTypeSignature>>> FunctionVarArgTypeSignatureMap::findMatchFor(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     for (const auto& key : _typeSignatureKeyList) {
         auto keyValue = _typeSignatureMap.find(key);
         if (keyValue->second->doArgumentsMatchParameters(argumentListTypeSignature)) {

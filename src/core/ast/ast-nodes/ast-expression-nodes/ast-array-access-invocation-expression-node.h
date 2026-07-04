@@ -20,7 +20,7 @@ public:
     std::shared_ptr<ASTArrayAccessExpressionNode> getArrayAccess();
     std::shared_ptr<ASTExpressionNode> getSource();
     std::shared_ptr<ASTArrayAccessNode> getIndex();
-    InvocableTypeSignature* getInvocableTypeSignature();
+    std::shared_ptr<InvocableTypeSignature> getInvocableTypeSignature();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

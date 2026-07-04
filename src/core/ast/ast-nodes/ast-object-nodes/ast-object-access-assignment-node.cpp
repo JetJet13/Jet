@@ -17,7 +17,7 @@ std::shared_ptr<ASTObjectAccessExpressionNode> ASTObjectAccessAssignmentNode::ge
     return _objectAccessExpression;
 }
 
-TypeSignature* ASTObjectAccessAssignmentNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTObjectAccessAssignmentNode::getTypeSignature() {
     return _objectAccessExpression->getTypeSignature();
 }
 

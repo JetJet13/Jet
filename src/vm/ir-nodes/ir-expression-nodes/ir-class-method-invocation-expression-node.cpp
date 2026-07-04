@@ -46,8 +46,8 @@ IRType* IRClassMethodInvocationExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRClassMethodInvocationExpressionNode::getTypeSignature() {
-    return _node->getName()->getTypeSignature()->getReturnType();
+std::shared_ptr<TypeSignature> IRClassMethodInvocationExpressionNode::getTypeSignature() {
+    return _node->getName()->getMethodTypeSignature()->getReturnType();
 }
 
 Position* IRClassMethodInvocationExpressionNode::getStartPosition() {

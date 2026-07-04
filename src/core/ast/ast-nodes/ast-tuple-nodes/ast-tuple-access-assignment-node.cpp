@@ -17,7 +17,7 @@ std::shared_ptr<ASTTupleAccessExpressionNode> ASTTupleAccessAssignmentNode::getT
     return _tupleAccessExpression;
 }
 
-TypeSignature* ASTTupleAccessAssignmentNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTTupleAccessAssignmentNode::getTypeSignature() {
     return _tupleAccessExpression->getTypeSignature();
 }
 

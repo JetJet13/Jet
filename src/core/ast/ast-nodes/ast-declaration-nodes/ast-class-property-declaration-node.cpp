@@ -43,11 +43,11 @@ std::optional<std::shared_ptr<ASTExpressionNode>> ASTClassPropertyDeclarationNod
 }
 
 bool ASTClassPropertyDeclarationNode::isPublic() {
-    return _propertyInit->getAccessModifier()->getTypeSignature()->isPublic();
+    return _propertyInit->getAccessModifier()->getAccessModifierTypeSignature()->isPublic();
 }
 
 bool ASTClassPropertyDeclarationNode::isPrivate() {
-    return _propertyInit->getAccessModifier()->getTypeSignature()->isPrivate();
+    return _propertyInit->getAccessModifier()->getAccessModifierTypeSignature()->isPrivate();
 }
 
 bool ASTClassPropertyDeclarationNode::isStatic() {
@@ -58,11 +58,15 @@ bool ASTClassPropertyDeclarationNode::isConstant() {
     return _propertyInit->isConstant();
 }
 
-void ASTClassPropertyDeclarationNode::setTypeSignature(ClassPropertyTypeSignature* typeSignature) {
+void ASTClassPropertyDeclarationNode::setTypeSignature(std::shared_ptr<ClassPropertyTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ClassPropertyTypeSignature* ASTClassPropertyDeclarationNode::getTypeSignature() {
+std::shared_ptr<ClassPropertyTypeSignature> ASTClassPropertyDeclarationNode::getPropertyTypeSignature() {
+    return std::dynamic_pointer_cast<ClassPropertyTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTClassPropertyDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

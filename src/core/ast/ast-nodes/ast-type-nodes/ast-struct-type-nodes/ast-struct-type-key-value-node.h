@@ -17,13 +17,13 @@ private:
     std::shared_ptr<ASTStructTypeKeyNode> _name;
     std::shared_ptr<ASTStructTypeColonNode> _colon;
     std::shared_ptr<ASTTypeNode> _type;
-    TypeSignature* _typeSignature = new UnknownTypeSignature();
+    std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
 public:
     ASTStructTypeKeyValueNode(std::shared_ptr<ASTStructTypeKeyNode> name, std::shared_ptr<ASTStructTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type);
     std::shared_ptr<ASTStructTypeKeyNode> getName();
     std::shared_ptr<ASTTypeNode> getType();
-    void setTypeSignature(TypeSignature* typeSignature);
-    TypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

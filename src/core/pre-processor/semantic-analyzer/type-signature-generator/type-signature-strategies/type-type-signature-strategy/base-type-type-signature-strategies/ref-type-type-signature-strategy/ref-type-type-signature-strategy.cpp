@@ -7,5 +7,5 @@
 
 void RefTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTRefTypeNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getRefType(), context, scope);
-    node->setTypeSignature(new RefTypeSignature(node->getRefType()->getTypeSignature()->convertToVariableTypeSignature()));
+    node->setTypeSignature(std::make_shared<RefTypeSignature>(node->getRefType()->getTypeSignature()->convertToVariableTypeSignature()));
 }

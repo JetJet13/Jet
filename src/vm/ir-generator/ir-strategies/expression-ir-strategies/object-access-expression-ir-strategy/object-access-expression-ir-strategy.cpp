@@ -10,7 +10,7 @@
 
 IRExpressionNode* ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
-        auto classTypeSignature = (ClassTypeSignature*)node->getSource()->getSource()->getTypeSignature();
+        auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(node->getSource()->getSource()->getTypeSignature());
         auto targetKey = classTypeSignature->addClassNameToKey(node->getTarget()->getTarget()->getIdentifierNode()->getId());
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto classStaticProperty = scope->findGlobalVariable(targetKey);

@@ -4,8 +4,8 @@
 
 #include "int-literal-type-signature.h"
 
-LiteralTypeSignature* IntLiteralTypeSignature::clone() {
-    return new IntLiteralTypeSignature();
+std::shared_ptr<LiteralTypeSignature> IntLiteralTypeSignature::clone() {
+    return std::make_shared<IntLiteralTypeSignature>();
 }
 
 std::string IntLiteralTypeSignature::toDetailString() {
@@ -20,6 +20,6 @@ TypeSource IntLiteralTypeSignature::getTypeSource() {
     return INT_LITERAL_TYPE_SOURCE;
 }
 
-bool IntLiteralTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool IntLiteralTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return this->isEqualTo(otherType);
 }

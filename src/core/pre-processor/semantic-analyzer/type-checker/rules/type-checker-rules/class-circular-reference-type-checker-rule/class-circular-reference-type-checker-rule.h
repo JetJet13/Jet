@@ -13,7 +13,7 @@
 
 class ClassCircularReferenceTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(ClassTypeSignature* classTypeSignature, ClassPropertyTypeSignature* classPropertyTypeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ClassTypeSignature> classTypeSignature, std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

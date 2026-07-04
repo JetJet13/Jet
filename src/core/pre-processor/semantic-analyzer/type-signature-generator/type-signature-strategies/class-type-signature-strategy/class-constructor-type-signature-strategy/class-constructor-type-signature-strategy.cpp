@@ -6,7 +6,7 @@
 
 void ClassConstructorTypeSignatureStrategy::assign(std::shared_ptr<ASTClassConstructorDeclarationNode> classConstructorDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(classConstructorDeclaration->getParameters(), context, scope);
-    classConstructorDeclaration->setTypeSignature(new ClassConstructorTypeSignature(
-        classConstructorDeclaration->getParameters()->getTypeSignature()
+    classConstructorDeclaration->setTypeSignature(std::make_shared<ClassConstructorTypeSignature>(
+        classConstructorDeclaration->getParameters()->getParameterListTypeSignature()
     ));
 }

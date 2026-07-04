@@ -23,7 +23,7 @@ private:
     std::shared_ptr<ASTFunctionDefinitionNode> _functionDefinition;
     std::shared_ptr<ASTFunctionBlockNode> _block;
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    FunctionTypeSignature* _typeSignature = new FunctionTypeSignature();
+    std::shared_ptr<FunctionTypeSignature> _typeSignature = std::make_shared<FunctionTypeSignature>();
 public:
     explicit ASTFunctionDeclarationNode(std::shared_ptr<ASTFunctionDefinitionNode> functionDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
@@ -33,8 +33,9 @@ public:
     std::shared_ptr<ASTFunctionDefinitionNode> getDefinition();
     unsigned long numParameters();
     bool isExportable() override;
-    void setTypeSignature(FunctionTypeSignature* typeSignature);
-    FunctionTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<FunctionTypeSignature> typeSignature);
+    std::shared_ptr<FunctionTypeSignature> getFunctionTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

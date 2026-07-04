@@ -27,11 +27,15 @@ std::shared_ptr<ASTEnumNameNode> ASTEnumDeclarationNode::getName() {
     return _name;
 }
 
-void ASTEnumDeclarationNode::setTypeSignature(EnumTypeSignature* typeSignature) {
+void ASTEnumDeclarationNode::setTypeSignature(std::shared_ptr<EnumTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-EnumTypeSignature* ASTEnumDeclarationNode::getTypeSignature() {
+std::shared_ptr<EnumTypeSignature> ASTEnumDeclarationNode::getEnumTypeSignature() {
+    return std::dynamic_pointer_cast<EnumTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTEnumDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

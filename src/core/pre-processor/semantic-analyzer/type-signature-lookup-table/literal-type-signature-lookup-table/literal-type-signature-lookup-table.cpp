@@ -4,22 +4,22 @@
 
 #include "literal-type-signature-lookup-table.h"
 
-IntLiteralTypeSignature* LiteralTypeSignatureLookupTable::getIntLiteralTypeSignature() {
-    return new IntLiteralTypeSignature();
+std::shared_ptr<IntLiteralTypeSignature> LiteralTypeSignatureLookupTable::getIntLiteralTypeSignature() {
+    return std::make_shared<IntLiteralTypeSignature>();
 }
 
-FloatLiteralTypeSignature* LiteralTypeSignatureLookupTable::getFloatLiteralTypeSignature() {
-    return new FloatLiteralTypeSignature();
+std::shared_ptr<FloatLiteralTypeSignature> LiteralTypeSignatureLookupTable::getFloatLiteralTypeSignature() {
+    return std::make_shared<FloatLiteralTypeSignature>();
 }
 
-CharLiteralTypeSignature* LiteralTypeSignatureLookupTable::getCharLiteralTypeSignature() {
-    return new CharLiteralTypeSignature();
+std::shared_ptr<CharLiteralTypeSignature> LiteralTypeSignatureLookupTable::getCharLiteralTypeSignature() {
+    return std::make_shared<CharLiteralTypeSignature>();
 }
 
-StringLiteralTypeSignature* LiteralTypeSignatureLookupTable::getStringLiteralTypeSignature() {
-    return new StringLiteralTypeSignature();
+std::shared_ptr<StringLiteralTypeSignature> LiteralTypeSignatureLookupTable::getStringLiteralTypeSignature() {
+    return std::make_shared<StringLiteralTypeSignature>();
 }
 
-BoolLiteralTypeSignature* LiteralTypeSignatureLookupTable::getBoolLiteralTypeSignature() {
-    return new BoolLiteralTypeSignature();
+std::shared_ptr<BoolLiteralTypeSignature> LiteralTypeSignatureLookupTable::getBoolLiteralTypeSignature() {
+    return std::make_shared<BoolLiteralTypeSignature>();
 }

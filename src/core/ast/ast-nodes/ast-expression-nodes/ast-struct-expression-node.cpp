@@ -46,11 +46,15 @@ std::shared_ptr<ASTStructExpressionNode> ASTStructExpressionNode::addComma(std::
     return std::dynamic_pointer_cast<ASTStructExpressionNode>(shared_from_this());
 }
 
-StructTypeSignature* ASTStructExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTStructExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTStructExpressionNode::setTypeSignature(StructTypeSignature* structTypeSignature) {
+std::shared_ptr<StructTypeSignature> ASTStructExpressionNode::getStructTypeSignature() {
+    return std::dynamic_pointer_cast<StructTypeSignature>(_typeSignature);
+}
+
+void ASTStructExpressionNode::setTypeSignature(std::shared_ptr<StructTypeSignature> structTypeSignature) {
     _typeSignature = structTypeSignature;
 }
 

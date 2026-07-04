@@ -7,51 +7,51 @@
 #include "enum-access-type-signature/enum-access-type-signature.h"
 
 EnumTypeSignature::EnumTypeSignature() {
-    _type = new LiteralTypeSignature();
-    _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
+    _type = std::make_shared<LiteralTypeSignature>();
+    _keyValuePairs = TypeSignatureMap<std::shared_ptr<LiteralTypeSignature>>();
 }
 
-EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type) {
+EnumTypeSignature::EnumTypeSignature(std::shared_ptr<LiteralTypeSignature> type) {
     _type = type;
-    _keyValuePairs = TypeSignatureMap<LiteralTypeSignature>();
+    _keyValuePairs = TypeSignatureMap<std::shared_ptr<LiteralTypeSignature>>();
 }
 
-EnumTypeSignature::EnumTypeSignature(LiteralTypeSignature* type, TypeSignatureMap<LiteralTypeSignature> keyValuePairs) {
+EnumTypeSignature::EnumTypeSignature(std::shared_ptr<LiteralTypeSignature> type, TypeSignatureMap<std::shared_ptr<LiteralTypeSignature>> keyValuePairs) {
     _type = type;
     _keyValuePairs = keyValuePairs;
 }
 
-EnumTypeSignature* EnumTypeSignature::setKeyId(std::string id) {
+std::shared_ptr<TypeSignature> EnumTypeSignature::setKeyId(std::string id) {
     _type->setKeyId(id);
     _keyId = id;
-    return this;
+    return shared_from_this();
 }
 
-TypeSignatureMap<LiteralTypeSignature>* EnumTypeSignature::getKeyValuePairs() {
+TypeSignatureMap<std::shared_ptr<LiteralTypeSignature>>* EnumTypeSignature::getKeyValuePairs() {
     return &_keyValuePairs;
 }
 
-LiteralTypeSignature* EnumTypeSignature::getTypeSignatureForKey(std::string key) {
+std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getTypeSignatureForKey(std::string key) {
     auto result = _keyValuePairs.find(key);
     if (result) {
         return _type;
     }
-    return new LiteralTypeSignature();
+    return std::make_shared<LiteralTypeSignature>();
 }
 
-LiteralTypeSignature* EnumTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
     if (index >= _keyValuePairs.size()) {
-        return new LiteralTypeSignature();
+        return std::make_shared<LiteralTypeSignature>();
     }
 
     return _type;
 }
 
-LiteralTypeSignature* EnumTypeSignature::getType() {
+std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getType() {
     return _type;
 }
 
-void EnumTypeSignature::setType(LiteralTypeSignature* type) {
+void EnumTypeSignature::setType(std::shared_ptr<LiteralTypeSignature> type) {
     _type = type;
 }
 
@@ -80,28 +80,28 @@ TypeSource EnumTypeSignature::getTypeSource() {
     return ENUM_TYPE_SOURCE;
 }
 
-bool EnumTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool EnumTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (otherType->typeSourceIs(ENUM_ACCESS_TYPE_SOURCE)){
-        auto enumAccessTypeSignature = (EnumAccessTypeSignature*)otherType;
+        auto enumAccessTypeSignature = std::dynamic_pointer_cast<EnumAccessTypeSignature>(otherType);
         return this->isEqualTo(enumAccessTypeSignature->getEnum());
     }
     return this->isEqualTo(otherType);
 }
 
-bool EnumTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool EnumTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (EnumTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<EnumTypeSignature>(otherType);
     return this->getKeyValuePairs()->isEqualTo(other->getKeyValuePairs());
 }
 
-void EnumTypeSignature::copyFrom(TypeSignature* otherType) {
+void EnumTypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return;
     }
-    auto other = (EnumTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<EnumTypeSignature>(otherType);
     _type = other->getType();
     _keyValuePairs = *other->getKeyValuePairs();
 }

@@ -18,7 +18,7 @@ private:
 public:
     explicit ASTObjectAccessAssignmentNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator);
     std::shared_ptr<ASTObjectAccessExpressionNode> getObjectAccess();
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

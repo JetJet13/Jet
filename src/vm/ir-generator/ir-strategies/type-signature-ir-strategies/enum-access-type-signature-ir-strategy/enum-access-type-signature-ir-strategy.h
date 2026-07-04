@@ -13,7 +13,7 @@
 
 class EnumAccessTypeSignatureIRStrategy {
 public:
-    IRType* generate(EnumAccessTypeSignature* enumAccessTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRType* generate(std::shared_ptr<EnumAccessTypeSignature> enumAccessTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_ENUM_ACCESS_TYPE_SIGNATURE_IR_STRATEGY_H

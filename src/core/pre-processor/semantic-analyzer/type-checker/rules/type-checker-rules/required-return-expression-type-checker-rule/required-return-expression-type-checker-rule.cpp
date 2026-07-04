@@ -6,11 +6,11 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../types/type-checker-error-message-table.h"
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(functionBlockNode->getContents(), returnType, typeCheckerResult);
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(ifStatementNode->getIfBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
@@ -23,7 +23,7 @@ void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTIfState
 
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(tryStatementNode->getTryBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
     this->checkNode(tryStatementNode->getCatchBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
 
@@ -33,11 +33,11 @@ void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTTryStat
 
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(forStatementNode->getBlock()->getContents(), returnType, typeCheckerResult);
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(whileStatementNode->getBlock()->getContents(), returnType, typeCheckerResult);
 }
 
@@ -57,7 +57,7 @@ void RequiredReturnExpressionTypeCheckerRule::print() {
     Logger::log("------", this->toString(), "------");
 }
 
-void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, std::shared_ptr<TypeSignature> returnType, TypeCheckerResult* typeCheckerResult) {
     for (auto statement : *nodes) {
         if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE) &&
             !returnType->getTargetTypeSignature()->isEquivalentTo(statement->getTypeSignature()->getTargetTypeSignature())) {

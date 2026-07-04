@@ -16,15 +16,16 @@ private:
     std::shared_ptr<ASTInterfaceDefinitionNode> _interfaceDefinition;
     std::shared_ptr<ASTInterfacePropertyListNode> _propertyList;
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    InterfaceTypeSignature* _typeSignature = new InterfaceTypeSignature();
+    std::shared_ptr<InterfaceTypeSignature> _typeSignature = std::make_shared<InterfaceTypeSignature>();
 public:
     explicit ASTInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceDefinitionNode> interfaceDefinition, std::shared_ptr<ASTInterfacePropertyListNode> propertyList, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTInterfacePropertyListNode> getProperties();
     std::shared_ptr<ASTInterfaceNameNode> getName();
     unsigned long numProperties();
     bool isExportable() override;
-    void setTypeSignature(InterfaceTypeSignature* typeSignature);
-    InterfaceTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<InterfaceTypeSignature> typeSignature);
+    std::shared_ptr<InterfaceTypeSignature> getInterfaceTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

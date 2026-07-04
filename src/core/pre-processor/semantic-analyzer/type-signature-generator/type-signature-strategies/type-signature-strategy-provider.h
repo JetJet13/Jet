@@ -46,11 +46,11 @@ public:
     void assignTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::optional<std::shared_ptr<TypeSignatureLookupTable>> scope = {});
     void assignInitialTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope);
     void assignPostInitialTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::optional<std::shared_ptr<TypeSignatureLookupTable>> scope = {});
-    ParameterListItemTypeSignature* generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
-    ParameterListItemTypeSignature* generateClassScopeParameter(ClassTypeSignature* classTypeSignature);
-    std::optional<FunctionTypeSignature*> findArrayPrototypeTypeSignature(std::string id, TypeSignature* elementType);
-    std::optional<FunctionTypeSignature*> findStringPrototypeTypeSignature(std::string id);
-    std::optional<FunctionTypeSignature*> findRefPrototypeTypeSignature(std::string id, TypeSignature* elementType);
+    std::shared_ptr<ParameterListItemTypeSignature> generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds);
+    std::shared_ptr<ParameterListItemTypeSignature> generateClassScopeParameter(std::shared_ptr<ClassTypeSignature> classTypeSignature);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> findArrayPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> findStringPrototypeTypeSignature(std::string id);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> findRefPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

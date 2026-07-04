@@ -8,7 +8,7 @@
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    auto irClassType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto irClassType = irGenerator->generateTypeFor(node->getClassTypeSignature(), scope, irContext);
 
     for (auto method : *node->getBlock()->getInstanceMethods()) {
         this->declareMethod(method, node->isExportable(), irGenerator, scope, irContext, irClassType);
@@ -96,7 +96,7 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
             irExpression->markAsAssigned();
             initialPropertyIRExpressions->push_back(std::pair { propertyIndex, irExpression });
         } else {
-            auto irType = irGenerator->generateTypeFor(property->getTypeSignature()->getType(), scope, irContext);
+            auto irType = irGenerator->generateTypeFor(property->getPropertyTypeSignature()->getType(), scope, irContext);
             initialPropertyConstants->push_back(std::pair { propertyIndex, irGenerator->generateInitialValueForIRType(irType) });
         }
     }

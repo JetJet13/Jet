@@ -14,11 +14,11 @@ std::shared_ptr<ASTExpressionNode> ASTForInSourceNode::getSource() {
     return _source;
 }
 
-void ASTForInSourceNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTForInSourceNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-TypeSignature* ASTForInSourceNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTForInSourceNode::getTypeSignature() {
     return _typeSignature;
 }
 

@@ -17,7 +17,7 @@ void DefinedTypeSignatureTypeCheckerRule::enforce(std::optional<std::shared_ptr<
     }
 }
 
-void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, ErrorMessageLambda& voidMessage, TypeCheckerResult* typeCheckerResult) {
+void DefinedTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, ErrorMessageLambda& voidMessage, TypeCheckerResult* typeCheckerResult) {
     if (typeSignature->isUnknown()) {
         typeCheckerResult->addError(unknownMessage());
     } else if (typeSignature->isInvalid()) {
@@ -27,7 +27,7 @@ void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, 
     }
 }
 
-void DefinedTypeSignatureTypeCheckerRule::enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void DefinedTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (typeSignature->isUnknown()) {
         typeCheckerResult->addError(unknownMessage());
     } else if (typeSignature->isInvalid()) {

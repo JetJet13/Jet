@@ -33,11 +33,15 @@ bool ASTInterfaceTypeDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
-void ASTInterfaceTypeDeclarationNode::setTypeSignature(InterfaceTypeSignature* typeSignature) {
+void ASTInterfaceTypeDeclarationNode::setTypeSignature(std::shared_ptr<InterfaceTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-InterfaceTypeSignature* ASTInterfaceTypeDeclarationNode::getTypeSignature() {
+std::shared_ptr<InterfaceTypeSignature> ASTInterfaceTypeDeclarationNode::getInterfaceTypeSignature() {
+    return std::dynamic_pointer_cast<InterfaceTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTInterfaceTypeDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

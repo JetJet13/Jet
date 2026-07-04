@@ -7,13 +7,13 @@
 #include "../../unknown-type-signature/unknown-type-signature.h"
 
 ClassPropertyTypeSignature::ClassPropertyTypeSignature() {
-    _accessModifier = new AccessModifierTypeSignature();
+    _accessModifier = std::make_shared<AccessModifierTypeSignature>();
     _isStatic = false;
     _isConst = false;
-    _type = new UnknownTypeSignature();
+    _type = std::make_shared<UnknownTypeSignature>();
 }
 
-ClassPropertyTypeSignature::ClassPropertyTypeSignature(AccessModifierTypeSignature* accessModifier, TypeSignature* type, bool isStatic, bool isConst) {
+ClassPropertyTypeSignature::ClassPropertyTypeSignature(std::shared_ptr<AccessModifierTypeSignature> accessModifier, std::shared_ptr<TypeSignature> type, bool isStatic, bool isConst) {
     _accessModifier = accessModifier;
     _isStatic = isStatic;
     _isConst = isConst;
@@ -28,16 +28,16 @@ bool ClassPropertyTypeSignature::isConst() {
     return _isConst;
 }
 
-AccessModifierTypeSignature* ClassPropertyTypeSignature::getAccessModifier() {
+std::shared_ptr<AccessModifierTypeSignature> ClassPropertyTypeSignature::getAccessModifier() {
     return _accessModifier;
 }
 
 
-TypeSignature* ClassPropertyTypeSignature::getType() {
+std::shared_ptr<TypeSignature> ClassPropertyTypeSignature::getType() {
     return _type;
 }
 
-void ClassPropertyTypeSignature::setType(TypeSignature* typeSignature) {
+void ClassPropertyTypeSignature::setType(std::shared_ptr<TypeSignature> typeSignature) {
     _type = typeSignature;
 }
 
@@ -57,12 +57,12 @@ TypeSource ClassPropertyTypeSignature::getTypeTarget() {
     return _type->getTypeSource();
 }
 
-bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
+bool ClassPropertyTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (ClassPropertyTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<ClassPropertyTypeSignature>(otherType);
     return this->getAccessModifier()->isEqualTo(other->getAccessModifier()) &&
            this->getType()->isEqualTo(other->getType()) &&
            this->isStatic() == other->isStatic() &&
@@ -70,11 +70,11 @@ bool ClassPropertyTypeSignature::isEqualTo(TypeSignature *otherType) {
 
 }
 
-bool ClassPropertyTypeSignature::isEquivalentTo(TypeSignature *otherType) {
+bool ClassPropertyTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     return this->getType()->isEquivalentTo(otherType);
 }
 
-TypeSignature* ClassPropertyTypeSignature::convertToVariableTypeSignature() {
+std::shared_ptr<TypeSignature> ClassPropertyTypeSignature::convertToVariableTypeSignature() {
     return this->getType();
 }
 

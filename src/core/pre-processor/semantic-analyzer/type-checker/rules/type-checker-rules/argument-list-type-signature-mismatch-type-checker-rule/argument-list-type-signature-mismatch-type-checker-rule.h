@@ -16,7 +16,7 @@
 
 class ArgumentListTypeSignatureMismatchTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::vector<TypeSignature*>* parameterList, std::shared_ptr<ASTFunctionArgumentListNode> argumentList,  ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<TypeSignature>>* parameterList, std::shared_ptr<ASTFunctionArgumentListNode> argumentList,  ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

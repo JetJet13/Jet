@@ -13,7 +13,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()
         ->enforce(
-            functionInvocationExpression->getTypeSignature()->getReturnType(),
+            functionInvocationExpression->getInvocationTypeSignature()->getReturnType(),
             unknownMessage,
             invalidMessage,
             typeCheckerResult
@@ -23,9 +23,9 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::FunctionCallTooManyArguments(functionInvocationExpression);
         auto argumentListCountResultOk = TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
-            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes()->size(),
+            functionInvocationExpression->getInvocationTypeSignature()->getFunctionType()->getParameterTypes()->size(),
             functionInvocationExpression->getArguments()->numArguments(),
-            functionInvocationExpression->getTypeSignature()->getFunctionType()->hasVariableLengthParameters(),
+            functionInvocationExpression->getInvocationTypeSignature()->getFunctionType()->hasVariableLengthParameters(),
             notEnoughArgumentsMessage,
             tooManyArgumentsMessage,
             typeCheckerResult
@@ -37,7 +37,7 @@ namespace FunctionInvocationExpressionTypeCheckerPolicy {
         auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::FunctionCallArgumentTypeMismatch(functionInvocationExpression);
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
-            functionInvocationExpression->getTypeSignature()->getFunctionType()->getParameterTypes(),
+            functionInvocationExpression->getInvocationTypeSignature()->getFunctionType()->getParameterTypes(),
             functionInvocationExpression->getArguments(),
             argumentTypeMismatchMessage,
             typeCheckerResult

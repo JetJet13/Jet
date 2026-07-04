@@ -43,7 +43,7 @@ IRArrayPointerType* IRArrayExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRArrayExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRArrayExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

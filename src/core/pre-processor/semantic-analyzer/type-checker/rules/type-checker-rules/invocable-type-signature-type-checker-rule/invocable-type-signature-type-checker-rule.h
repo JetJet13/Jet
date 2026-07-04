@@ -13,7 +13,7 @@
 
 class InvocableTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(TypeSignature* typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

@@ -8,14 +8,14 @@
 
 
 RefTypeSignature::RefTypeSignature() {
-    _underlyingType = new UnknownTypeSignature();
+    _underlyingType = std::make_shared<UnknownTypeSignature>();
 }
 
-RefTypeSignature::RefTypeSignature(TypeSignature* underlyingType) {
+RefTypeSignature::RefTypeSignature(std::shared_ptr<TypeSignature> underlyingType) {
     _underlyingType = underlyingType;
 }
 
-TypeSignature* RefTypeSignature::getUnderlyingType() {
+std::shared_ptr<TypeSignature> RefTypeSignature::getUnderlyingType() {
     return _underlyingType;
 }
 
@@ -31,23 +31,23 @@ TypeSource RefTypeSignature::getTypeSource() {
     return REF_TYPE_SOURCE;
 }
 
-bool RefTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool RefTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
         return true;
     } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (RefTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<RefTypeSignature>(otherType);
     return this->_underlyingType->isEqualTo(other->getUnderlyingType());
 }
 
-bool RefTypeSignature::isEquivalentTo(TypeSignature* otherType) {
+bool RefTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType) {
     if (_isGeneric && this->getTypeSource() == otherType->getTypeSource()) {
         return true;
     } else if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
-    auto other = (RefTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<RefTypeSignature>(otherType);
     return this->_underlyingType->isEquivalentTo(other->getUnderlyingType());
 }
 

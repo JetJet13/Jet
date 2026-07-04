@@ -26,7 +26,7 @@ public:
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
     IRRefType* getIRType() override;
-    TypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;

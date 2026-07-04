@@ -23,7 +23,7 @@ public:
     std::shared_ptr<ASTTupleAccessExpressionNode> getObjectAccess();
     std::shared_ptr<ASTObjectAccessSourceNode> getSource();
     std::shared_ptr<ASTTupleAccessNode> getIndex();
-    InvocableTypeSignature* getInvocableTypeSignature();
+    std::shared_ptr<InvocableTypeSignature> getInvocableTypeSignature();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

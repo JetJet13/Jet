@@ -7,7 +7,7 @@
 #include "../ast-tuple-nodes/ast-tuple-item-node.h"
 
 
-void ASTExpressionNode::setTypeSignature(TypeSignature* typeSignature) {
+void ASTExpressionNode::setTypeSignature(std::shared_ptr<TypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
@@ -15,7 +15,7 @@ std::string ASTExpressionNode::getModuleId() {
     return "";
 }
 
-TypeSignature* ASTExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 

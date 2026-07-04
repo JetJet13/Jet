@@ -22,9 +22,9 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         auto tooManyArgumentsMessage = TypeCheckerErrorMessageTable::ClassMethodCallTooManyArguments(classMethodInvocationExpression->getArguments());
         TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule()
         ->enforce(
-                classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->numParameters(),
+                classMethodInvocationExpression->getName()->getMethodTypeSignature()->getParameters()->numParameters(),
                 classMethodInvocationExpression->getArguments()->numArguments(),
-                classMethodInvocationExpression->getName()->getTypeSignature()->getParameters()->isVariableLength(),
+                classMethodInvocationExpression->getName()->getMethodTypeSignature()->getParameters()->isVariableLength(),
                 notEnoughArgumentsMessage,
                 tooManyArgumentsMessage,
                 typeCheckerResult
@@ -33,7 +33,7 @@ namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
         auto argumentTypeMismatchMessage = TypeCheckerErrorMessageTable::ClassMethodCallArgumentTypeMismatch(classMethodInvocationExpression->getArguments());
         TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule()
         ->enforce(
-            classMethodInvocationExpression->getName()->getTypeSignature()->getParameterTypes(),
+            classMethodInvocationExpression->getName()->getMethodTypeSignature()->getParameterTypes(),
             classMethodInvocationExpression->getArguments(),
             argumentTypeMismatchMessage,
             typeCheckerResult

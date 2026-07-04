@@ -19,7 +19,7 @@ private:
     std::shared_ptr<ASTFunctionParameterListEndNode> _functionParameterListEndNode;
     std::vector<std::shared_ptr<ASTCommaNode>> _commas;
     std::vector<std::shared_ptr<ASTFunctionParameterNode>> _parameters;
-    ParameterListTypeSignature* _typeSignature = new ParameterListTypeSignature();
+    std::shared_ptr<ParameterListTypeSignature> _typeSignature = std::make_shared<ParameterListTypeSignature>();
 public:
     ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode);
     ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::vector<std::shared_ptr<ASTFunctionParameterNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode);
@@ -27,8 +27,9 @@ public:
     unsigned long numParameters();
     std::shared_ptr<ASTFunctionParameterListNode> addParameter(std::shared_ptr<ASTFunctionParameterNode> parameter);
     std::shared_ptr<ASTFunctionParameterListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    void setTypeSignature(ParameterListTypeSignature* typeSignature);
-    ParameterListTypeSignature* getTypeSignature() override;
+    void setTypeSignature(std::shared_ptr<ParameterListTypeSignature> typeSignature);
+    std::shared_ptr<ParameterListTypeSignature> getParameterListTypeSignature();
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

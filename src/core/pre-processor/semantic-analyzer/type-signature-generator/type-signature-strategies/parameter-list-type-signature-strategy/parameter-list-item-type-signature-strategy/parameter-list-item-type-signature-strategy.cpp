@@ -7,7 +7,7 @@
 
 void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(std::shared_ptr<ASTFunctionParameterNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getType(), context, scope);
-    node->setTypeSignature(new ParameterListItemTypeSignature(
+    node->setTypeSignature(std::make_shared<ParameterListItemTypeSignature>(
         node->getIdentifier()->getIdentifierNode()->getId(),
         node->getType()->getTypeSignature()->convertToVariableTypeSignature()
     ));

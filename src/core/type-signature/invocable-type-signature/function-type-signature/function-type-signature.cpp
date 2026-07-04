@@ -7,28 +7,28 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 FunctionTypeSignature::FunctionTypeSignature() {
-    _parameterList = new ParameterListTypeSignature();
-    _returnType = new UnknownTypeSignature();
+    _parameterList = std::make_shared<ParameterListTypeSignature>();
+    _returnType = std::make_shared<UnknownTypeSignature>();
 }
 
-FunctionTypeSignature::FunctionTypeSignature(ParameterListTypeSignature* parameterList, TypeSignature* returnType) {
+FunctionTypeSignature::FunctionTypeSignature(std::shared_ptr<ParameterListTypeSignature> parameterList, std::shared_ptr<TypeSignature> returnType) {
     _parameterList = parameterList;
     _returnType = returnType;
 }
 
-ParameterListTypeSignature* FunctionTypeSignature::getParameterList() {
+std::shared_ptr<ParameterListTypeSignature> FunctionTypeSignature::getParameterList() {
     return _parameterList;
 }
 
-std::vector<TypeSignature*>* FunctionTypeSignature::getParameterTypes() {
+std::vector<std::shared_ptr<TypeSignature>>* FunctionTypeSignature::getParameterTypes() {
     return _parameterList->getParameterTypes();
 }
 
-bool FunctionTypeSignature::doArgumentsMatchParameters(ArgumentListTypeSignature* argumentListTypeSignature) {
+bool FunctionTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) {
     return _parameterList->matchesWithArgumentList(argumentListTypeSignature);
 }
 
-TypeSignature* FunctionTypeSignature::getReturnType() {
+std::shared_ptr<TypeSignature> FunctionTypeSignature::getReturnType() {
     return _returnType;
 }
 
@@ -44,25 +44,25 @@ TypeSource FunctionTypeSignature::getTypeSource() {
     return FUNCTION_TYPE_SOURCE;
 }
 
-TypeSignature* FunctionTypeSignature::getTargetTypeSignature() {
+std::shared_ptr<TypeSignature> FunctionTypeSignature::getTargetTypeSignature() {
     return _returnType;
 }
 
-bool FunctionTypeSignature::isEqualTo(TypeSignature* otherType) {
+bool FunctionTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return false;
     }
 
-    auto other = (FunctionTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<FunctionTypeSignature>(otherType);
     return this->getParameterList()->isEqualTo(other->getParameterList()) &&
            this->getReturnType()->isEqualTo(other->getReturnType());
 }
 
-void FunctionTypeSignature::copyFrom(TypeSignature* otherType) {
+void FunctionTypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {
     if (this->getTypeSource() != otherType->getTypeSource()) {
         return;
     }
-    auto other = (FunctionTypeSignature*)otherType;
+    auto other = std::dynamic_pointer_cast<FunctionTypeSignature>(otherType);
     _returnType = other->getReturnType();
     _parameterList = other->getParameterList();
 }

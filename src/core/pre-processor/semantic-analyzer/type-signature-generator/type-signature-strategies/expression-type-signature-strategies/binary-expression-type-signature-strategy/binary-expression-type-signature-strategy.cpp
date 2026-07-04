@@ -21,11 +21,11 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryArit
     }
 
     auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                    ? ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType()
+                                    ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
                                     : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
 
     auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                    ? ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType()
+                                    ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
                                     : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
 
 
@@ -34,7 +34,7 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryArit
             rightNodeTypeSignature
     );
     if (!resultTypeSignature) {
-        binaryExpression->setTypeSignature(new InvalidTypeSignature());
+        binaryExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
         return;
     }
     binaryExpression->setLeftTypeSignature(leftNodeTypeSignature);
@@ -51,11 +51,11 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryComp
     }
 
     auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                 ? ((RefTypeSignature*)binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType()
+                                 ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
                                  : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
 
     auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                  ? ((RefTypeSignature*)binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType()
+                                  ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
                                   : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
 
 
@@ -64,7 +64,7 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryComp
             rightNodeTypeSignature
     );
     if (!resultTypeSignature) {
-        binaryExpression->setTypeSignature(new InvalidTypeSignature());
+        binaryExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
         return;
     }
     binaryExpression->setLeftTypeSignature(leftNodeTypeSignature);
@@ -93,92 +93,92 @@ std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStr
 void BinaryExpressionTypeSignatureStrategy::initCombinations() {
     _arithmeticCombinations = std::vector<BinaryExpressionTypeCombination*>({
         new BinaryExpressionTypeCombination(SymbolFactory::createPlusSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
+                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createMinusSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
+                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createStarSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
+                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createSlashSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
-                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new FloatLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
+                { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
         new BinaryExpressionTypeCombination(SymbolFactory::createModuloSymbol(), {
-                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new IntLiteralTypeSignature() },
+                { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
         }),
     });
 
     _comparatorCombinations = std::vector<BinaryExpressionTypeCombination*>({
             new BinaryExpressionTypeCombination(SymbolFactory::createEqualEqualSymbol(), {
-                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
-                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
-                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      std::make_shared<BoolLiteralTypeSignature>() },
+                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
+                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
+                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
+                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
+                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                std::make_shared<BoolLiteralTypeSignature>() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
             }),
             new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
-                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      new BoolLiteralTypeSignature() },
-                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       new BoolLiteralTypeSignature() },
-                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              new BoolLiteralTypeSignature() },
-                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                new BoolLiteralTypeSignature() },
-                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     new BoolLiteralTypeSignature() },
-                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  new BoolLiteralTypeSignature() },
-                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             new BoolLiteralTypeSignature() },
-                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
-                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        new BoolLiteralTypeSignature() },
-                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               new BoolLiteralTypeSignature() },
+                    {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      std::make_shared<BoolLiteralTypeSignature>() },
+                    {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
+                    {STRING_LITERAL_TYPE_SOURCE,     STRING_LITERAL_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {BOOL_LITERAL_TYPE_SOURCE,       BOOL_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
+                    {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
+                    {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
+                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                std::make_shared<BoolLiteralTypeSignature>() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    {NEW_CLASS_INSTANCE_TYPE_SOURCE, CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_EXPRESSION_TYPE_SOURCE,  std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_TYPE_SOURCE,             LAMBDA_EXPRESSION_TYPE_SOURCE,  std::make_shared<BoolLiteralTypeSignature>() },
+                    {LAMBDA_EXPRESSION_TYPE_SOURCE,  LAMBDA_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_TYPE_SOURCE,               ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_TYPE_SOURCE,               ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
+                    {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
             }),
             new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
-                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
             new BinaryExpressionTypeCombination(SymbolFactory::createLessThanSymbol(), {
-                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
             new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanOrEqualSymbol(), {
-                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
             new BinaryExpressionTypeCombination(SymbolFactory::createLessThanOrEqualSymbol(), {
-                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
-                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, new BoolLiteralTypeSignature() },
+                    { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
+                    { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
     });
 }

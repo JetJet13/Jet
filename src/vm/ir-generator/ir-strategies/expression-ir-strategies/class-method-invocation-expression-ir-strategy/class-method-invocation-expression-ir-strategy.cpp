@@ -15,13 +15,13 @@ IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy
                 scope,
                 irContext,
                 new IROperation(IR_FUNCTION_ARGUMENT_OP),
-                node->getName()->getTypeSignature()
+                node->getName()->getMethodTypeSignature()
             )
         );
     }
 
     auto irFunctionType = (IRFunctionType*)irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext);
-    auto irReturnType = irGenerator->generateTypeFor(node->getName()->getTypeSignature()->getReturnType(), scope, irContext);
+    auto irReturnType = irGenerator->generateTypeFor(node->getName()->getMethodTypeSignature()->getReturnType(), scope, irContext);
     auto function = irContext->getModule()->getFunction(node->getName()->getId());
     auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
 

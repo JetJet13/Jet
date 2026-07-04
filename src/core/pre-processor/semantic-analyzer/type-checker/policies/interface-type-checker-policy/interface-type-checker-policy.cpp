@@ -16,7 +16,7 @@ namespace InterfaceTypeDeclarationTypeCheckerPolicy {
             auto voidMessage = TypeCheckerErrorMessageTable::InterfacePropertyTypeVoid(property);
             TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
             ->enforce(
-                property->getTypeSignature()->getTypeSignature(),
+                property->getPropertyTypeSignature()->getTypeSignature(),
                 unknownMessage,
                 invalidMessage,
                 voidMessage,

@@ -14,7 +14,7 @@ namespace ForInStatementTypeCheckerPolicy {
 
         auto sourceTypeSignature = forStatementNode->getSource()->getTypeSignature();
         if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-            auto refTypeSignature = (RefTypeSignature*)sourceTypeSignature;
+            auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature);
             sourceTypeSignature = refTypeSignature->getUnderlyingType();
         }
         TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule()

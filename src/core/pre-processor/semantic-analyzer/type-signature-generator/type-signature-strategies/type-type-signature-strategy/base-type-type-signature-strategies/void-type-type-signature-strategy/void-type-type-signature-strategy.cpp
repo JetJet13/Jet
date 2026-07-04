@@ -5,5 +5,5 @@
 #include "void-type-type-signature-strategy.h"
 
 void VoidTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTVoidTypeNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
-    node->setTypeSignature(new VoidTypeSignature());
+    node->setTypeSignature(std::make_shared<VoidTypeSignature>());
 }

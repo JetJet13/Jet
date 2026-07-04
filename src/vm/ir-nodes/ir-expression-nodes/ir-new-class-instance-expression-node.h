@@ -34,7 +34,7 @@ public:
     IRFunctionType* getConstructorIRType();
     std::string getConstructorId();
     IRNewClassInstanceType* getIRType() override;
-    NewClassInstanceTypeSignature* getTypeSignature() override;
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     IRNodeType getNodeType() override;

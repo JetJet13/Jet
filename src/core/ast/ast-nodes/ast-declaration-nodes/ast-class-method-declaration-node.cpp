@@ -54,11 +54,15 @@ unsigned long ASTClassMethodDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 
-void ASTClassMethodDeclarationNode::setTypeSignature(ClassMethodTypeSignature* typeSignature) {
+void ASTClassMethodDeclarationNode::setTypeSignature(std::shared_ptr<ClassMethodTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-ClassMethodTypeSignature* ASTClassMethodDeclarationNode::getTypeSignature() {
+std::shared_ptr<ClassMethodTypeSignature> ASTClassMethodDeclarationNode::getMethodTypeSignature() {
+    return std::dynamic_pointer_cast<ClassMethodTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTClassMethodDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 

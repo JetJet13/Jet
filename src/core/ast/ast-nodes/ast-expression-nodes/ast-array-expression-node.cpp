@@ -24,11 +24,15 @@ std::shared_ptr<ASTArrayExpressionNode> ASTArrayExpressionNode::addElement(std::
     return std::dynamic_pointer_cast<ASTArrayExpressionNode>(shared_from_this());
 }
 
-ArrayTypeSignature* ASTArrayExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> ASTArrayExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-void ASTArrayExpressionNode::setTypeSignature(ArrayTypeSignature* arrayTypeSignature) {
+std::shared_ptr<ArrayTypeSignature> ASTArrayExpressionNode::getArrayTypeSignature() {
+    return std::dynamic_pointer_cast<ArrayTypeSignature>(_typeSignature);
+}
+
+void ASTArrayExpressionNode::setTypeSignature(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature) {
     _typeSignature = arrayTypeSignature;
 }
 

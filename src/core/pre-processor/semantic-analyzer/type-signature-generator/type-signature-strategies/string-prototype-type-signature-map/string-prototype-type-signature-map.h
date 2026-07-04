@@ -10,7 +10,7 @@
 
 class StringPrototypeTypeSignatureMap {
 public:
-    std::optional<FunctionTypeSignature*> find(std::string id);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> find(std::string id);
 };
 
 #endif //JETLANG_STRING_PROTOTYPE_TYPE_SIGNATURE_MAP_H

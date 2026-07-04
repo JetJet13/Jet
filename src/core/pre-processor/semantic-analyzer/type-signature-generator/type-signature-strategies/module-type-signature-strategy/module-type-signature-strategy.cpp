@@ -7,6 +7,6 @@
 void ModuleTypeSignatureStrategy::assign(std::shared_ptr<ASTModuleDeclarationNode> moduleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     moduleDeclarationNode->getTypeSignature()->setId(moduleDeclarationNode->getId());
     for (auto exportedNode : *moduleDeclarationNode->getExports()) {
-        moduleDeclarationNode->getTypeSignature()->addKeyValuePair(exportedNode->getId(), scope->find(exportedNode->getId()));
+        moduleDeclarationNode->getModuleTypeSignature()->addKeyValuePair(exportedNode->getId(), scope->find(exportedNode->getId()));
     }
 }

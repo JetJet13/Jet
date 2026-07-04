@@ -15,14 +15,15 @@
 class ASTArrayExpressionNode : public ASTExpressionNode {
 private:
     std::shared_ptr<ASTArrayNode> _array;
-    ArrayTypeSignature* _typeSignature = new ArrayTypeSignature();
+    std::shared_ptr<ArrayTypeSignature> _typeSignature = std::make_shared<ArrayTypeSignature>();
 public:
     explicit ASTArrayExpressionNode(std::shared_ptr<ASTArrayNode> array);
     std::shared_ptr<ASTArrayNode> getArray();
     std::vector<std::shared_ptr<ASTExpressionNode>>* getElements();
     std::shared_ptr<ASTArrayExpressionNode> addElement(std::shared_ptr<ASTExpressionNode> element);
-    ArrayTypeSignature* getTypeSignature() override;
-    void setTypeSignature(ArrayTypeSignature* arrayTypeSignature);
+    std::shared_ptr<TypeSignature> getTypeSignature() override;
+    std::shared_ptr<ArrayTypeSignature> getArrayTypeSignature();
+    void setTypeSignature(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature);
     unsigned long size();
     Position* getStartPosition() override;
     Position* getEndPosition() override;

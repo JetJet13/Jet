@@ -23,11 +23,15 @@ std::shared_ptr<ASTTypeNode> ASTInterfacePropertyNode::getType() {
     return _type;
 }
 
-void ASTInterfacePropertyNode::setTypeSignature(InterfacePropertyTypeSignature* typeSignature) {
+void ASTInterfacePropertyNode::setTypeSignature(std::shared_ptr<InterfacePropertyTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-InterfacePropertyTypeSignature* ASTInterfacePropertyNode::getTypeSignature() {
+std::shared_ptr<InterfacePropertyTypeSignature> ASTInterfacePropertyNode::getPropertyTypeSignature() {
+    return std::dynamic_pointer_cast<InterfacePropertyTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTInterfacePropertyNode::getTypeSignature() {
     return _typeSignature;
 }
 

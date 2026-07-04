@@ -22,7 +22,7 @@ IRType* IRLogicalExpressionNode::getIRType() {
     return _type;
 }
 
-TypeSignature* IRLogicalExpressionNode::getTypeSignature() {
+std::shared_ptr<TypeSignature> IRLogicalExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 

@@ -30,11 +30,15 @@ std::optional<std::shared_ptr<ASTLiteralNode>> ASTEnumKeyValueNode::getValue() {
     return _value;
 }
 
-void ASTEnumKeyValueNode::setTypeSignature(LiteralTypeSignature* typeSignature) {
+void ASTEnumKeyValueNode::setTypeSignature(std::shared_ptr<LiteralTypeSignature> typeSignature) {
     _typeSignature = typeSignature;
 }
 
-LiteralTypeSignature* ASTEnumKeyValueNode::getTypeSignature() {
+std::shared_ptr<LiteralTypeSignature> ASTEnumKeyValueNode::getLiteralTypeSignature() {
+    return std::dynamic_pointer_cast<LiteralTypeSignature>(_typeSignature);
+}
+
+std::shared_ptr<TypeSignature> ASTEnumKeyValueNode::getTypeSignature() {
     return _typeSignature;
 }
 
