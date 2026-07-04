@@ -14,15 +14,15 @@
 
 class ASTModuleListItemNode : public ASTNode {
 private:
-    ASTModuleListBaseItemNode* _item;
+    std::shared_ptr<ASTModuleListBaseItemNode> _item;
 public:
-    ASTModuleListItemNode(ASTModuleListBaseItemNode* item);
-    ASTModuleListBaseItemNode* getItem();
+    ASTModuleListItemNode(std::shared_ptr<ASTModuleListBaseItemNode> item);
+    std::shared_ptr<ASTModuleListBaseItemNode> getItem();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

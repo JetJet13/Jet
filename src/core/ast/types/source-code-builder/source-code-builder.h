@@ -13,10 +13,10 @@ class ASTNode;
 class SourceCodeBuilder {
 private:
     std::string _sourceCode;
-    std::optional<ASTNode*> _lastNode = {};
+    std::optional<std::shared_ptr<ASTNode>> _lastNode = {};
 public:
     SourceCodeBuilder();
-    SourceCodeBuilder* add(ASTNode* node);
+    SourceCodeBuilder* add(std::shared_ptr<ASTNode> node);
     std::string build();
 };
 #endif //JETLANG_SOURCE_CODE_BUILDER_H

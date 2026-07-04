@@ -6,7 +6,7 @@
 #include "../../type-checker.h"
 
 namespace WhileStatementTypeCheckerPolicy {
-    void apply(ASTWhileStatementNode* whileStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(whileStatementNode->getCondition(), typeCheckerResult);
         TypeChecker::applyPolicyTo(whileStatementNode->getBlock(), typeCheckerResult);
     }

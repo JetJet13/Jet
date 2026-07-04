@@ -37,11 +37,11 @@ std::string ASTLiteralNode::toString() {
 }
 
 
-bool ASTLiteralNode::isSameAs(ASTNode* other) {
+bool ASTLiteralNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLiteralNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLiteralNode>(other);
     return this->getLiteral()->hasSameSymbolTypeAs(otherNode->getLiteral());
 }
 

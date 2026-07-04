@@ -11,14 +11,14 @@
 
 class Handle {
 private:
-    std::deque<ASTNode*> _handle;
-    std::optional<ASTNode*> _lastReducedNode;
-    std::optional<ASTNode*> _peekNode;
+    std::deque<std::shared_ptr<ASTNode>> _handle;
+    std::optional<std::shared_ptr<ASTNode>> _lastReducedNode;
+    std::optional<std::shared_ptr<ASTNode>> _peekNode;
 public:
     Handle();
-    std::optional<ASTNode*> at(int index);
-    std::optional<ASTNode*> first();
-    std::optional<ASTNode*> last();
+    std::optional<std::shared_ptr<ASTNode>> at(int index);
+    std::optional<std::shared_ptr<ASTNode>> first();
+    std::optional<std::shared_ptr<ASTNode>> last();
     bool isNodeTypeAt(int index, ASTNodeType astNodeType);
     bool isEmpty();
     bool isTerminatorOnlyNode();
@@ -41,21 +41,21 @@ public:
     void clear();
     void reset();
     unsigned long size();
-    std::vector<ASTNode*> getFirstNodes(int numNodesToGet);
+    std::vector<std::shared_ptr<ASTNode>> getFirstNodes(int numNodesToGet);
     void removeFirstNodes(int numNodesToRemove);
     void removeFirstNode();
     void removeLastNode();
-    void append(ASTNode* node);
-    void prepend(ASTNode* node);
-    void replace(int index, ASTNode* newNode);
-    std::optional<ASTNode*> getLastReducedNode();
-    void setLastReducedNode(std::optional<ASTNode*> peekNode);
+    void append(std::shared_ptr<ASTNode> node);
+    void prepend(std::shared_ptr<ASTNode> node);
+    void replace(int index, std::shared_ptr<ASTNode> newNode);
+    std::optional<std::shared_ptr<ASTNode>> getLastReducedNode();
+    void setLastReducedNode(std::optional<std::shared_ptr<ASTNode>> peekNode);
     void clearLastReducedNode();
-    std::optional<ASTNode*> getPeekNode();
-    void setPeekNode(std::optional<ASTNode*> peekNode);
+    std::optional<std::shared_ptr<ASTNode>> getPeekNode();
+    void setPeekNode(std::optional<std::shared_ptr<ASTNode>> peekNode);
     void clearPeekNode();
-    std::optional<ASTNode*> getPrevNodeFor(int index);
-    std::optional<ASTNode*> getNextNodeFor(int index);
+    std::optional<std::shared_ptr<ASTNode>> getPrevNodeFor(int index);
+    std::optional<std::shared_ptr<ASTNode>> getNextNodeFor(int index);
     void print();
 };
 

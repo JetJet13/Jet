@@ -9,13 +9,13 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace FunctionBlockTypeCheckerPolicy {
-    void apply(ASTFunctionBlockNode* functionBlockNode, TypeCheckerResult* typeCheckerResult) {
-        auto scopedVariableDeclarationNames = std::vector<ASTIdentifierNode*>();
+    void apply(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeCheckerResult* typeCheckerResult) {
+        auto scopedVariableDeclarationNames = std::vector<std::shared_ptr<ASTIdentifierNode>>();
         for (auto statement : *functionBlockNode->getContents()) {
             TypeChecker::applyPolicyTo(statement, typeCheckerResult);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
                 scopedVariableDeclarationNames.push_back(
-                    ((ASTVariableDeclarationNode*)statement)
+                    (std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement))
                     ->getVarInitNode()
                     ->getIdentifierNode()
                 );

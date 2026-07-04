@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTObjectAccessTargetNode* property) {
+ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessSourceNode> source, std::shared_ptr<ASTPeriodNode> period, std::shared_ptr<ASTObjectAccessTargetNode> property) {
     _source = source;
     _period = period;
     _target = property;
@@ -14,11 +14,11 @@ ASTObjectAccessExpressionNode::ASTObjectAccessExpressionNode(ASTObjectAccessSour
     _children.push_back(_target);
 }
 
-ASTObjectAccessSourceNode* ASTObjectAccessExpressionNode::getSource() {
+std::shared_ptr<ASTObjectAccessSourceNode> ASTObjectAccessExpressionNode::getSource() {
     return _source;
 }
 
-ASTObjectAccessTargetNode* ASTObjectAccessExpressionNode::getTarget() {
+std::shared_ptr<ASTObjectAccessTargetNode> ASTObjectAccessExpressionNode::getTarget() {
     return _target;
 }
 
@@ -38,11 +38,11 @@ std::string ASTObjectAccessExpressionNode::toString() {
     return "OBJECT_ACCESS_EXPRESSION";
 }
 
-bool ASTObjectAccessExpressionNode::isSameAs(ASTNode* other) {
+bool ASTObjectAccessExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTObjectAccessExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource()) &&
             this->getTarget()->isSameAs(otherNode->getTarget());
 }

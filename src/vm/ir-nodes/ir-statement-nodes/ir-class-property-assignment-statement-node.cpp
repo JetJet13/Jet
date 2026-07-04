@@ -4,7 +4,7 @@
 
 #include "ir-class-property-assignment-statement-node.h"
 
-IRClassPropertyAssignmentStatementNode::IRClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentStatementNode* node, IRExpressionNode* irExpression, std::string propertyName, unsigned long propertyIndex) {
+IRClassPropertyAssignmentStatementNode::IRClassPropertyAssignmentStatementNode(std::shared_ptr<ASTClassPropertyAssignmentStatementNode> node, IRExpressionNode* irExpression, std::string propertyName, unsigned long propertyIndex) {
     _node = node;
     _irExpression = irExpression;
     _propertyName = propertyName;

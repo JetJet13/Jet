@@ -11,9 +11,9 @@
 
 class IfStatementIRStrategy {
 private:
-    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 public:
-    IRStatementNode* generate(ASTIfStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generate(std::shared_ptr<ASTIfStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_IF_STATEMENT_IR_STRATEGY_H

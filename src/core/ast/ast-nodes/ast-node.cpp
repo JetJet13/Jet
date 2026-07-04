@@ -11,16 +11,16 @@ std::string ASTNode::getId() {
     return _id;
 }
 
-ASTNode* ASTNode::setId(std::string id) {
+std::shared_ptr<ASTNode> ASTNode::setId(std::string id) {
     _id = id;
-    return this;
+    return shared_from_this();
 }
 
-std::optional<ASTNode*> ASTNode::getParentNode() {
+std::optional<std::shared_ptr<ASTNode>> ASTNode::getParentNode() {
     return _parentNode;
 }
 
-void ASTNode::setParentNode(ASTNode* parentNode) {
+void ASTNode::setParentNode(std::shared_ptr<ASTNode> parentNode) {
     _parentNode = parentNode;
 }
 
@@ -47,7 +47,7 @@ bool ASTNode::isOneOf(std::vector<ASTNodeType> astNodeTypes) {
             this->getNodeType()) != astNodeTypes.end();
 }
 
-bool ASTNode::isSameNodeTypeAs(ASTNode* other) {
+bool ASTNode::isSameNodeTypeAs(std::shared_ptr<ASTNode> other) {
     return this->getNodeType() == other->getNodeType();
 }
 
@@ -63,7 +63,7 @@ TypeSignature* ASTNode::getTypeSignature() {
     throw std::logic_error("get type-signature not implemented: " + this->toString());
 }
 
-std::vector<ASTNode*> ASTNode::getChildren() {
+std::vector<std::shared_ptr<ASTNode>> ASTNode::getChildren() {
     return _children;
 }
 
@@ -79,11 +79,11 @@ unsigned int ASTNode::getPriority() {
     return _priority;
 }
 
-bool ASTNode::isHigherPriorityThan(ASTNode* other) {
+bool ASTNode::isHigherPriorityThan(std::shared_ptr<ASTNode> other) {
     return this->getPriority() < other->getPriority();
 }
 
-bool ASTNode::isLowerPriorityThan(ASTNode* other) {
+bool ASTNode::isLowerPriorityThan(std::shared_ptr<ASTNode> other) {
     return this->getPriority() > other->getPriority();
 }
 
@@ -101,7 +101,7 @@ std::string ASTNode::getLineColumn() {
     + ToStringUtil::toString(this->getStartPosition()->getColumn());
 }
 
-bool ASTNode::isSameAs(ASTNode* other) {
+bool ASTNode::isSameAs(std::shared_ptr<ASTNode> other) {
     return this->getNodeType() == other->getNodeType();
 }
 
@@ -113,6 +113,6 @@ bool ASTNode::isScopedBlockNode() {
     return false;
 }
 
-ASTNode* ASTNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
-    return this;
+std::shared_ptr<ASTNode> ASTNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
+    return shared_from_this();
 }

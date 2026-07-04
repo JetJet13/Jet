@@ -4,7 +4,7 @@
 
 #include "import-type-signature-strategy.h"
 
-void ImportTypeSignatureStrategy::assignAndAddToScope(ASTImportSingleModuleDeclarationNode* importSingleModuleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ImportTypeSignatureStrategy::assignAndAddToScope(std::shared_ptr<ASTImportSingleModuleDeclarationNode> importSingleModuleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
 
 
 }

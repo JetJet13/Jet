@@ -13,16 +13,16 @@ ASTStarBaseNode::ASTStarBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTStarBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTStarBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_MODULE_ACCESS_NODE)) {
-        return new ASTImportWildcardNode(_lexeme);
+        return std::make_shared<ASTImportWildcardNode>(_lexeme);
     }
 
     if (mode == SA_IMPORT_MODULE_LIST_MODE) {
-        return new ASTImportModuleListWildcardItemNode(_lexeme);
+        return std::make_shared<ASTImportModuleListWildcardItemNode>(_lexeme);
     }
 
-    return new ASTBinaryArithmeticOperatorNode(_lexeme);
+    return std::make_shared<ASTBinaryArithmeticOperatorNode>(_lexeme);
 }
 
 ASTNodeType ASTStarBaseNode::getNodeType() {

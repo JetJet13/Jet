@@ -11,18 +11,18 @@
 
 class ASTLambdaTypeNode : public ASTTypeBaseNode {
 private:
-    ASTLambdaTypeParameterListNode* _parameterList;
-    ASTLambdaTypeFatArrowNode* _fatArrowNode;
-    ASTTypeNode* _returnType;
+    std::shared_ptr<ASTLambdaTypeParameterListNode> _parameterList;
+    std::shared_ptr<ASTLambdaTypeFatArrowNode> _fatArrowNode;
+    std::shared_ptr<ASTTypeNode> _returnType;
 public:
-    ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, ASTLambdaTypeFatArrowNode* fatArrowNode, ASTTypeNode* returnType);
-    ASTLambdaTypeParameterListNode* getParameterList();
-    ASTTypeNode* getReturnType();
+    ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaTypeFatArrowNode> fatArrowNode, std::shared_ptr<ASTTypeNode> returnType);
+    std::shared_ptr<ASTLambdaTypeParameterListNode> getParameterList();
+    std::shared_ptr<ASTTypeNode> getReturnType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -5,11 +5,11 @@
 #include "ast-period-node.h"
 #include "ast-class-nodes/ast-this-access-node.h"
 
-ASTNode* ASTPeriodNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTPeriodNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_THIS_NODE)) {
-        return new ASTThisAccessNode(_lexeme);
+        return std::make_shared<ASTThisAccessNode>(_lexeme);
     }
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTPeriodNode::getNodeType() {

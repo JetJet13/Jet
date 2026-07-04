@@ -15,17 +15,17 @@
 
 class ASTClassPropertyAssignmentStatementNode : public ASTStatementNode {
 private:
-    ASTClassPropertyAssignmentNode* _propertyAssignment;
-    ASTExpressionNode* _expression;
+    std::shared_ptr<ASTClassPropertyAssignmentNode> _propertyAssignment;
+    std::shared_ptr<ASTExpressionNode> _expression;
 public:
-    ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression);
-    ASTClassPropertyAssignmentNode* getPropertyAssignment();
-    ASTExpressionNode* getExpression();
+    ASTClassPropertyAssignmentStatementNode(std::shared_ptr<ASTClassPropertyAssignmentNode> propertyAssignment, std::shared_ptr<ASTExpressionNode> expression);
+    std::shared_ptr<ASTClassPropertyAssignmentNode> getPropertyAssignment();
+    std::shared_ptr<ASTExpressionNode> getExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

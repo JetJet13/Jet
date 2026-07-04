@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTRefTypeNode::ASTRefTypeNode(ASTRefTypeKeywordNode* refNode, ASTTypeParameterListNode* typeParameterList) {
+ASTRefTypeNode::ASTRefTypeNode(std::shared_ptr<ASTRefTypeKeywordNode> refNode, std::shared_ptr<ASTTypeParameterListNode> typeParameterList) {
     _ref = refNode;
     _typeParameterList = typeParameterList;
     _children.push_back(_ref);
     _children.push_back(_typeParameterList);
 }
 
-ASTTypeNode* ASTRefTypeNode::getRefType() {
+std::shared_ptr<ASTTypeNode> ASTRefTypeNode::getRefType() {
     return _typeParameterList->getParameters()[0];
 }
 
@@ -33,12 +33,12 @@ std::string ASTRefTypeNode::toString() {
     return "REF_TYPE";
 }
 
-bool ASTRefTypeNode::isSameAs(ASTNode* other) {
+bool ASTRefTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
 
-    auto otherNode = (ASTRefTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTRefTypeNode>(other);
     return this->getRefType()->isSameAs(otherNode->getRefType());
 }
 

@@ -6,28 +6,28 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
+ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode) {
     _functionArgumentListStartNode = functionArgumentListStartNode;
     _functionArgumentListEndNode = functionArgumentListEndNode;
     _children.push_back(_functionArgumentListStartNode);
     _children.push_back(_functionArgumentListEndNode);
-    _commas = std::vector<ASTCommaNode*>();
-    _arguments = std::vector<ASTFunctionArgumentNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _arguments = std::vector<std::shared_ptr<ASTFunctionArgumentNode>>();
 }
 
-ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, std::vector<ASTCommaNode*> commas, ASTFunctionArgumentListEndNode* functionArgumentListEndNode) {
+ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::vector<std::shared_ptr<ASTFunctionArgumentNode>> arguments, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode) {
     _functionArgumentListStartNode = functionArgumentListStartNode;
     _functionArgumentListEndNode = functionArgumentListEndNode;
     _children.push_back(_functionArgumentListStartNode);
     _commas = commas;
-    _arguments = std::vector<ASTFunctionArgumentNode*>();
+    _arguments = std::vector<std::shared_ptr<ASTFunctionArgumentNode>>();
     for (auto argument: arguments) {
         this->addArgument(argument);
     }
     _children.push_back(_functionArgumentListEndNode);
 }
 
-std::vector<ASTFunctionArgumentNode*>* ASTFunctionArgumentListNode::getArguments() {
+std::vector<std::shared_ptr<ASTFunctionArgumentNode>>* ASTFunctionArgumentListNode::getArguments() {
     return &_arguments;
 }
 
@@ -35,15 +35,15 @@ unsigned long ASTFunctionArgumentListNode::numArguments() {
     return _arguments.size();
 }
 
-ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addArgument(ASTFunctionArgumentNode* argument) {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTFunctionArgumentListNode::addArgument(std::shared_ptr<ASTFunctionArgumentNode> argument) {
     _arguments.push_back(argument);
     _children.insert(_children.end() - 1, argument);
-    return this;
+    return std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(shared_from_this());
 }
 
-ASTFunctionArgumentListNode* ASTFunctionArgumentListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTFunctionArgumentListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(shared_from_this());
 }
 
 ArgumentListTypeSignature* ASTFunctionArgumentListNode::getTypeSignature() {
@@ -70,11 +70,11 @@ std::string ASTFunctionArgumentListNode::toString() {
     return "FUNCTION_ARGUMENT_LIST";
 }
 
-bool ASTFunctionArgumentListNode::isSameAs(ASTNode* other) {
+bool ASTFunctionArgumentListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionArgumentListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(other);
     auto otherNodeElements = otherNode->getArguments();
     if (this->numArguments() != otherNode->numArguments()) {
         return false;

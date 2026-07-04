@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h"
 
 namespace CurryExpressionTypeCheckerPolicy {
-    void apply(ASTCurryExpressionNode* curryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTCurryExpressionNode> curryExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 

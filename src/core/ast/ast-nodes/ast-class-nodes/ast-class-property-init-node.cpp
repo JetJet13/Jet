@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword, std::optional<ASTAssignmentOperatorNode*> assignmentOperator, std::optional<ASTTypeColonNode*> colon, std::optional<ASTTypeNode*> type) {
+ASTClassPropertyInitNode::ASTClassPropertyInitNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassPropertyNameNode> propertyName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword, std::optional<std::shared_ptr<ASTConstNode>> constKeyword, std::optional<std::shared_ptr<ASTAssignmentOperatorNode>> assignmentOperator, std::optional<std::shared_ptr<ASTTypeColonNode>> colon, std::optional<std::shared_ptr<ASTTypeNode>> type) {
     _accessModifier = accessModifier;
     _propertyName = propertyName;
     _assignmentOperator = assignmentOperator;
@@ -22,15 +22,15 @@ ASTClassPropertyInitNode::ASTClassPropertyInitNode(ASTAccessModifierNode* access
     }
 }
 
-ASTAccessModifierNode* ASTClassPropertyInitNode::getAccessModifier() {
+std::shared_ptr<ASTAccessModifierNode> ASTClassPropertyInitNode::getAccessModifier() {
     return _accessModifier;
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyInitNode::getPropertyName() {
+std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyInitNode::getPropertyName() {
     return _propertyName;
 }
 
-std::optional<ASTTypeNode*> ASTClassPropertyInitNode::getType() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTClassPropertyInitNode::getType() {
     return _type;
 }
 
@@ -61,12 +61,12 @@ std::string ASTClassPropertyInitNode::toString() {
     return "CLASS_PROPERTY_INIT";
 }
 
-bool ASTClassPropertyInitNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyInitNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassPropertyInitNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyInitNode>(other);
 
     if (!_type.has_value() && otherNode->getType().has_value() ||
         _type.has_value() && !otherNode->getType().has_value()) {

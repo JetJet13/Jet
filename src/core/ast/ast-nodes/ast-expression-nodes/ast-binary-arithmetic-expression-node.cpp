@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTBinaryArithmeticExpressionNode::ASTBinaryArithmeticExpressionNode(ASTExpressionNode* leftNode, ASTBinaryArithmeticOperatorNode* binaryOperator, ASTExpressionNode* rightNode) {
+ASTBinaryArithmeticExpressionNode::ASTBinaryArithmeticExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperator, std::shared_ptr<ASTExpressionNode> rightNode) {
     _leftNode = leftNode;
     _binaryOperator = binaryOperator;
     _rightNode = rightNode;
@@ -15,11 +15,11 @@ ASTBinaryArithmeticExpressionNode::ASTBinaryArithmeticExpressionNode(ASTExpressi
     _children.push_back(_rightNode);
 }
 
-ASTExpressionNode* ASTBinaryArithmeticExpressionNode::getLeftNode() {
+std::shared_ptr<ASTExpressionNode> ASTBinaryArithmeticExpressionNode::getLeftNode() {
     return _leftNode;
 }
 
-ASTExpressionNode* ASTBinaryArithmeticExpressionNode::getRightNode() {
+std::shared_ptr<ASTExpressionNode> ASTBinaryArithmeticExpressionNode::getRightNode() {
     return _rightNode;
 }
 
@@ -39,7 +39,7 @@ TypeSignature* ASTBinaryArithmeticExpressionNode::getRightTypeSignature() {
     return _rightTypeSignature;
 }
 
-ASTBinaryArithmeticOperatorNode* ASTBinaryArithmeticExpressionNode::getBinaryOperator() {
+std::shared_ptr<ASTBinaryArithmeticOperatorNode> ASTBinaryArithmeticExpressionNode::getBinaryOperator() {
     return _binaryOperator;
 }
 
@@ -59,11 +59,11 @@ std::string ASTBinaryArithmeticExpressionNode::toString() {
     return "BINARY_ARITHMETIC_EXPRESSION";
 }
 
-bool ASTBinaryArithmeticExpressionNode::isSameAs(ASTNode* other) {
+bool ASTBinaryArithmeticExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTBinaryArithmeticExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(other);
     return this->getBinaryOperator()->isSameAs(otherNode->getBinaryOperator()) &&
            this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
            this->getRightNode()->isSameAs(otherNode->getRightNode());

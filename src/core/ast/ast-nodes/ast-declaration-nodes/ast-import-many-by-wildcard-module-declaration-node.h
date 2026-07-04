@@ -13,19 +13,19 @@
 
 class ASTImportManyByWildcardModuleDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTImportNode* _importKeyword;
-    ASTImportModuleListByWildcardItemNode* _importModuleListByWildcardItemNode;
-    ASTFromNode* _fromKeyword;
-    ASTImportPathNode* _path;
+    std::shared_ptr<ASTImportNode> _importKeyword;
+    std::shared_ptr<ASTImportModuleListByWildcardItemNode> _importModuleListByWildcardItemNode;
+    std::shared_ptr<ASTFromNode> _fromKeyword;
+    std::shared_ptr<ASTImportPathNode> _path;
 public:
-    ASTImportManyByWildcardModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByWildcardItemNode* importModuleListByWildcardItemNode, ASTFromNode* fromKeyword, ASTImportPathNode* path);
-    ASTImportModuleListByWildcardItemNode* getImportModuleListByWildcardItemNode();
-    ASTImportPathNode* getPath();
+    ASTImportManyByWildcardModuleDeclarationNode(std::shared_ptr<ASTImportNode> importKeyword, std::shared_ptr<ASTImportModuleListByWildcardItemNode> importModuleListByWildcardItemNode, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path);
+    std::shared_ptr<ASTImportModuleListByWildcardItemNode> getImportModuleListByWildcardItemNode();
+    std::shared_ptr<ASTImportPathNode> getPath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

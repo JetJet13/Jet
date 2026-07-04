@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportModuleListNode* importModuleList) {
+ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTModuleAccessNode> moduleAccessNode, std::shared_ptr<ASTImportModuleListNode> importModuleList) {
     _moduleName = moduleName;
     _moduleAccessNode = moduleAccessNode;
     _importModuleList = importModuleList;
@@ -14,11 +14,11 @@ ASTImportModuleListByGroupItemNode::ASTImportModuleListByGroupItemNode(ASTImport
     _children.push_back(_importModuleList);
 }
 
-ASTImportModuleNameNode* ASTImportModuleListByGroupItemNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTImportModuleListByGroupItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTImportModuleListNode* ASTImportModuleListByGroupItemNode::getModuleList() {
+std::shared_ptr<ASTImportModuleListNode> ASTImportModuleListByGroupItemNode::getModuleList() {
     return _importModuleList;
 }
 
@@ -38,11 +38,11 @@ std::string ASTImportModuleListByGroupItemNode::toString() {
     return "IMPORT_MODULE_LIST_BY_GROUP_ITEM";
 }
 
-bool ASTImportModuleListByGroupItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListByGroupItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImportModuleListByGroupItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListByGroupItemNode>(other);
 
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
            this->getModuleList()->isSameAs(otherNode->getModuleList());

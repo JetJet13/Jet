@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 
 namespace ForInStatementTypeCheckerPolicy {
-    void apply(ASTForInStatementNode* forStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_FOR_IN_STATEMENT_TYPE_CHECKER_POLICY_H

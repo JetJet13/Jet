@@ -5,12 +5,12 @@
 #include "ast-module-list-item-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleListItemNode::ASTModuleListItemNode(ASTModuleListBaseItemNode* item) {
+ASTModuleListItemNode::ASTModuleListItemNode(std::shared_ptr<ASTModuleListBaseItemNode> item) {
     _item = item;
     _children.push_back(_item);
 }
 
-ASTModuleListBaseItemNode* ASTModuleListItemNode::getItem() {
+std::shared_ptr<ASTModuleListBaseItemNode> ASTModuleListItemNode::getItem() {
     return _item;
 }
 
@@ -30,11 +30,11 @@ std::string ASTModuleListItemNode::toString() {
     return "MODULE_LIST_ITEM";
 }
 
-bool ASTModuleListItemNode::isSameAs(ASTNode* other) {
+bool ASTModuleListItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleListItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleListItemNode>(other);
     return _item->isSameAs(otherNode->getItem());
 }
 

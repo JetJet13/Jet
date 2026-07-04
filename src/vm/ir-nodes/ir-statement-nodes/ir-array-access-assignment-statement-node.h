@@ -12,11 +12,11 @@
 
 class IRArrayAccessAssignmentStatementNode : public IRStatementNode {
 private:
-    ASTArrayAccessAssignmentStatementNode* _node;
+    std::shared_ptr<ASTArrayAccessAssignmentStatementNode> _node;
     IRArrayAccessExpressionNode* _irArrayAccessExpression;
     IRExpressionNode* _irExpression;
 public:
-    IRArrayAccessAssignmentStatementNode(ASTArrayAccessAssignmentStatementNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression);
+    IRArrayAccessAssignmentStatementNode(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression);
     IRArrayAccessExpressionNode* getIRArrayAccessExpression();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;

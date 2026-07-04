@@ -13,12 +13,12 @@
 
 class IRModuleDeclarationNode : public IRDeclarationNode {
 private:
-    ASTModuleDeclarationNode* _node;
+    std::shared_ptr<ASTModuleDeclarationNode> _node;
     IRInstructionNode* _allocation;
     IRModuleType* _type;
     std::vector<IRDeclarationNode*> _exports;
 public:
-    IRModuleDeclarationNode(ASTModuleDeclarationNode* node, IRInstructionNode* allocation, IRModuleType* type, std::vector<IRDeclarationNode*> exports);
+    IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, IRModuleType* type, std::vector<IRDeclarationNode*> exports);
     IRInstructionNode* getAllocation();
     IRModuleType* getIRType();
     std::vector<IRDeclarationNode*>* getExports();

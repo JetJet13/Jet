@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key) {
+ASTEnumKeyValueNode::ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key) {
     _key = key;
     _children.push_back(_key);
 }
 
-ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTAssignmentOperatorNode* assignmentOperator, ASTLiteralNode* value) {
+ASTEnumKeyValueNode::ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTLiteralNode> value) {
     _key = key;
     _assignmentOperator = assignmentOperator;
     _value = value;
@@ -22,11 +22,11 @@ ASTEnumKeyValueNode::ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTAssignmentOpera
 
 }
 
-ASTEnumKeyNode* ASTEnumKeyValueNode::getKey() {
+std::shared_ptr<ASTEnumKeyNode> ASTEnumKeyValueNode::getKey() {
     return _key;
 }
 
-std::optional<ASTLiteralNode*> ASTEnumKeyValueNode::getValue() {
+std::optional<std::shared_ptr<ASTLiteralNode>> ASTEnumKeyValueNode::getValue() {
     return _value;
 }
 
@@ -57,11 +57,11 @@ std::string ASTEnumKeyValueNode::toString() {
     return "ENUM_KEY_VALUE";
 }
 
-bool ASTEnumKeyValueNode::isSameAs(ASTNode* other) {
+bool ASTEnumKeyValueNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTEnumKeyValueNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTEnumKeyValueNode>(other);
     auto isKeySame = _key->isSameAs(otherNode->getKey());
     if (!isKeySame) {
         return false;

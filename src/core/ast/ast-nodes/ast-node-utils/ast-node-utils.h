@@ -8,7 +8,7 @@
 #include "../ast-node.h"
 
 namespace ASTNodeUtils {
-    static bool isDeclarableNode(ASTNode* node) {
+    static bool isDeclarableNode(std::shared_ptr<ASTNode> node) {
         switch (node->getNodeType()) {
             case AST_FUNCTION_DECLARATION_NODE:
             case AST_PROCEDURE_DECLARATION_NODE:
@@ -22,7 +22,7 @@ namespace ASTNodeUtils {
         }
     }
 
-    static bool isTypeDeclarationNode(ASTNode* node) {
+    static bool isTypeDeclarationNode(std::shared_ptr<ASTNode> node) {
         switch (node->getNodeType()) {
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
             case AST_CUSTOM_TYPE_DECLARATION_NODE:
@@ -32,7 +32,7 @@ namespace ASTNodeUtils {
         }
     }
 
-    static bool isDeclarationNode(ASTNode* node) {
+    static bool isDeclarationNode(std::shared_ptr<ASTNode> node) {
         switch (node->getNodeType()) {
             case AST_VARIABLE_DECLARATION_NODE:
             case AST_FUNCTION_DECLARATION_NODE:
@@ -57,13 +57,12 @@ namespace ASTNodeUtils {
         }
     }
 
-    static bool isStatementNode(ASTNode* node) {
+    static bool isStatementNode(std::shared_ptr<ASTNode> node) {
         if (ASTNodeUtils::isDeclarationNode(node)) {
             return true;
         }
 
         switch (node->getNodeType()) {
-            case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
             case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
@@ -90,7 +89,14 @@ namespace ASTNodeUtils {
         }
     }
 
-    static bool isExpressionNode(ASTNode* node) {
+    static bool isStatementOrReturnExpressionNode(std::shared_ptr<ASTNode> node) {
+        if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+            return true;
+        }
+        return ASTNodeUtils::isStatementNode(node);
+    }
+
+    static bool isExpressionNode(std::shared_ptr<ASTNode> node) {
         switch (node->getNodeType()) {
             case AST_IDENTIFIER_EXPRESSION_NODE:
             case AST_LITERAL_EXPRESSION_NODE:

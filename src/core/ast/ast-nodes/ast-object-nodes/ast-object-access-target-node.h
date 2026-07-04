@@ -9,15 +9,15 @@
 
 class ASTObjectAccessTargetNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _target;
+    std::shared_ptr<ASTIdentifierExpressionNode> _target;
 public:
-    ASTObjectAccessTargetNode(ASTIdentifierExpressionNode* target);
-    ASTIdentifierExpressionNode* getTarget();
+    ASTObjectAccessTargetNode(std::shared_ptr<ASTIdentifierExpressionNode> target);
+    std::shared_ptr<ASTIdentifierExpressionNode> getTarget();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -5,7 +5,7 @@
 #include "ir-this-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRThisExpressionNode::IRThisExpressionNode(ASTThisExpressionNode* node, IRInstructionNode* irValue) {
+IRThisExpressionNode::IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
     _irType = (IRPointerType*)irValue->getIRType()->getSourceType();

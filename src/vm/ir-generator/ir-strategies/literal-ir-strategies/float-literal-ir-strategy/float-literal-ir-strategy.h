@@ -16,7 +16,7 @@
 
 class FloatLiteralIRStrategy {
 public:
-    IRFloatLiteralNode* generate(ASTFloatLiteralNode* node, IRGenerator* irGenerator,  IRContext* irContext);
+    IRFloatLiteralNode* generate(std::shared_ptr<ASTFloatLiteralNode> node, IRGenerator* irGenerator,  IRContext* irContext);
 };
 
 #endif //JETLANG_FLOAT_LITERAL_IR_STRATEGY_H

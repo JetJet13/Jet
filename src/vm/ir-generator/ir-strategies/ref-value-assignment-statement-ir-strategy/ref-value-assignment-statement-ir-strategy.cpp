@@ -6,7 +6,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-ref-value-assignment-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRStatementNode* RefValueAssignmentStatementIRStrategy::generate(ASTRefValueAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRStatementNode* RefValueAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto isGlobal = scope->findGlobalVariable(node->getVariableAssignment()->getIdentifierNode()->getId()).has_value();
     auto irOperation = new IROperation(IR_COPY_ASSIGNMENT_OP);
     if (isGlobal) {

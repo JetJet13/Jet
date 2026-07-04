@@ -11,7 +11,7 @@
 
 class RefExpressionReducerStrategy : public ReducerStrategy {
 public:
-    ASTNode* execute(std::vector<ASTNode*> nodes) override;
+    std::shared_ptr<ASTNode> execute(std::vector<std::shared_ptr<ASTNode>> nodes) override;
 };
 
 #endif //JETLANG_REF_EXPRESSION_REDUCER_STRATEGY_H

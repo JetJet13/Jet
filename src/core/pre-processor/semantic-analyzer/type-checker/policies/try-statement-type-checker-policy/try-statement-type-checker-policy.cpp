@@ -6,7 +6,7 @@
 #include "../../type-checker.h"
 
 namespace TryStatementTypeCheckerPolicy {
-    void apply(ASTTryStatementNode* tryStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(tryStatementNode->getTryBlock()->getBlock(), typeCheckerResult);
         TypeChecker::applyPolicyTo(tryStatementNode->getCatchBlock()->getBlock(), typeCheckerResult);
 

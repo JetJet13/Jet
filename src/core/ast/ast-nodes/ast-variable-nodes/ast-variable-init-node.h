@@ -15,22 +15,22 @@
 #include "../ast-type-nodes/ast-type-colon-node.h"
 
 class ASTVariableInitNode : public ASTNode {
-    ASTVariableTypeNode* _assignmentTypeQualifier;
-    ASTIdentifierNode* _identifier;
-    std::optional<ASTTypeColonNode*> _colon;
-    std::optional<ASTTypeNode*> _type;
-    ASTAssignmentOperatorNode* _assignmentOperator;
+    std::shared_ptr<ASTVariableTypeNode> _assignmentTypeQualifier;
+    std::shared_ptr<ASTIdentifierNode> _identifier;
+    std::optional<std::shared_ptr<ASTTypeColonNode>> _colon;
+    std::optional<std::shared_ptr<ASTTypeNode>> _type;
+    std::shared_ptr<ASTAssignmentOperatorNode> _assignmentOperator;
 public:
-    explicit ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTTypeColonNode*> colon = {}, std::optional<ASTTypeNode*> type = {});
-    ASTVariableTypeNode* getVarTypeNode();
-    ASTIdentifierNode* getIdentifierNode();
-    std::optional<ASTTypeNode*> getTypeNode();
+    explicit ASTVariableInitNode(std::shared_ptr<ASTVariableTypeNode> assignmentTypeQualifier, std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator, std::optional<std::shared_ptr<ASTTypeColonNode>> colon = {}, std::optional<std::shared_ptr<ASTTypeNode>> type = {});
+    std::shared_ptr<ASTVariableTypeNode> getVarTypeNode();
+    std::shared_ptr<ASTIdentifierNode> getIdentifierNode();
+    std::optional<std::shared_ptr<ASTTypeNode>> getTypeNode();
     bool isConst();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

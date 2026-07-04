@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void FunctionInvocationExpressionTypeSignatureStrategy::assign(ASTFunctionInvocationExpressionNode* functionInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void FunctionInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionInvocationExpressionNode> functionInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
 
     auto id = functionInvocationExpression->getFunction()->getId();
     // if the name refers to a lambda

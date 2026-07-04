@@ -13,14 +13,14 @@
 
 class IRTupleAccessExpressionNode : public IRExpressionNode {
 private:
-    ASTTupleAccessExpressionNode* _node;
+    std::shared_ptr<ASTTupleAccessExpressionNode> _node;
     IRExpressionNode* _irSource;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
     IRType* _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRTupleAccessExpressionNode(ASTTupleAccessExpressionNode* node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     void markAsGlobal() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     std::optional<IRInstructionNode*> getArc() override;

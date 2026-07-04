@@ -17,13 +17,13 @@ private:
 public:
     explicit ASTTupleAccessNode(Lexeme* lexeme);
     Lexeme* getLexeme();
-    ASTTupleAccessNode* setIndexValue(std::string index);
+    std::shared_ptr<ASTTupleAccessNode> setIndexValue(std::string index);
     int64_t getIndexValue();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

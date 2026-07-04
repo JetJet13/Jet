@@ -12,13 +12,13 @@
 
 class IRLogicalExpressionNode : public IRExpressionNode {
 private:
-    ASTLogicalExpressionNode* _node;
+    std::shared_ptr<ASTLogicalExpressionNode> _node;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRType* _type;
 public:
-    IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
+    IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
     void markAsGlobal() override;
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;

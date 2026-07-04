@@ -7,18 +7,18 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTRefExpressionNode::ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode) {
+ASTRefExpressionNode::ASTRefExpressionNode(std::shared_ptr<ASTRefNode> refNode, std::shared_ptr<ASTExpressionNode> astExpressionNode) {
     _refNode = refNode;
     _expression = astExpressionNode;
     _children.push_back(_refNode);
     _children.push_back(_expression);
 }
 
-ASTExpressionNode* ASTRefExpressionNode::getExpressionNode() {
+std::shared_ptr<ASTExpressionNode> ASTRefExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-ASTRefNode* ASTRefExpressionNode::getRefNode() {
+std::shared_ptr<ASTRefNode> ASTRefExpressionNode::getRefNode() {
     return _refNode;
 }
 
@@ -46,11 +46,11 @@ std::string ASTRefExpressionNode::toString() {
     return "REF_EXPRESSION";
 }
 
-bool ASTRefExpressionNode::isSameAs(ASTNode* other) {
+bool ASTRefExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTRefExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTRefExpressionNode>(other);
     return this->getExpressionNode()->isSameAs(otherNode->getExpressionNode());
 }
 

@@ -5,7 +5,7 @@
 #include "function-return-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void FunctionReturnExpressionTypeSignatureStrategy::assign(ASTFunctionReturnExpressionNode* functionReturnExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void FunctionReturnExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionReturnExpressionNode> functionReturnExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     if (functionReturnExpression->getExpression()) {
         strategyMap->assignTypeSignatureFor(functionReturnExpression->getExpression().value(), context, scope);
         functionReturnExpression->setTypeSignature(functionReturnExpression->getExpression().value()->getTypeSignature());

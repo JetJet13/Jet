@@ -12,10 +12,10 @@
 
 class IRExpressionStatementNode : public IRStatementNode {
 private:
-    ASTExpressionStatementNode* _node;
+    std::shared_ptr<ASTExpressionStatementNode> _node;
     IRExpressionNode* _irExpression;
 public:
-    IRExpressionStatementNode(ASTExpressionStatementNode* node, IRExpressionNode* irExpression);
+    IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, IRExpressionNode* irExpression);
     IRExpressionNode* getExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;

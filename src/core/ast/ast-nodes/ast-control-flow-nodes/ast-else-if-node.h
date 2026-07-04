@@ -14,17 +14,17 @@
 
 class ASTElseIfNode : public ASTNode {
 private:
-    ASTElseNode* _else;
-    ASTIfNode* _if;
+    std::shared_ptr<ASTElseNode> _else;
+    std::shared_ptr<ASTIfNode> _if;
 public:
-    ASTElseIfNode(ASTElseNode* elseKeyword, ASTIfNode* ifKeyword);
-    ASTElseNode* getElse();
-    ASTIfNode* getIf();
+    ASTElseIfNode(std::shared_ptr<ASTElseNode> elseKeyword, std::shared_ptr<ASTIfNode> ifKeyword);
+    std::shared_ptr<ASTElseNode> getElse();
+    std::shared_ptr<ASTIfNode> getIf();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

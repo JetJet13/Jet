@@ -14,17 +14,17 @@
 
 class ASTArrayTypeNode : public ASTTypeBaseNode {
 private:
-    ASTArrayTypeStartNode* _arrayStart;
-    ASTTypeNode* _elementType;
-    ASTArrayTypeEndNode* _arrayEnd;
+    std::shared_ptr<ASTArrayTypeStartNode> _arrayStart;
+    std::shared_ptr<ASTTypeNode> _elementType;
+    std::shared_ptr<ASTArrayTypeEndNode> _arrayEnd;
 public:
-    ASTArrayTypeNode(ASTArrayTypeStartNode* arrayStart, ASTTypeNode* elementType, ASTArrayTypeEndNode* arrayEnd);
-    ASTTypeNode* getElementType();
+    ASTArrayTypeNode(std::shared_ptr<ASTArrayTypeStartNode> arrayStart, std::shared_ptr<ASTTypeNode> elementType, std::shared_ptr<ASTArrayTypeEndNode> arrayEnd);
+    std::shared_ptr<ASTTypeNode> getElementType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

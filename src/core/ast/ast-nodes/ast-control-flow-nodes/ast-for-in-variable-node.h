@@ -10,22 +10,22 @@
 
 class ASTForInVariableNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _variable;
+    std::shared_ptr<ASTIdentifierExpressionNode> _variable;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
     unsigned long _captureCount = 0;
 public:
-    ASTForInVariableNode(ASTIdentifierExpressionNode* variable);
+    ASTForInVariableNode(std::shared_ptr<ASTIdentifierExpressionNode> variable);
     void markAsCaptured();
     unsigned long getCaptureCount();
     bool isCaptured();
-    ASTIdentifierExpressionNode* getVariable();
+    std::shared_ptr<ASTIdentifierExpressionNode> getVariable();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -11,15 +11,15 @@
 
 class ASTThisExpressionNode : public ASTExpressionNode {
 private:
-    ASTThisNode* _this;
+    std::shared_ptr<ASTThisNode> _this;
 public:
-    ASTThisExpressionNode(ASTThisNode* thisNode);
-    ASTThisNode* getThisNode();
+    ASTThisExpressionNode(std::shared_ptr<ASTThisNode> thisNode);
+    std::shared_ptr<ASTThisNode> getThisNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -5,12 +5,12 @@
 #include "array-access-ref-assignment-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-array-nodes/ast-array-access-ref-assignment-node.h"
 
-ASTNode* ArrayAccessRefAssignmentReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ArrayAccessRefAssignmentReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 2) {
         throw std::invalid_argument("unable to reduce to array access ref assignment since nodes list is not 2");
     }
-    return new ASTArrayAccessRefAssignmentNode(
-            (ASTArrayAccessExpressionNode*)nodes[0],
-            (ASTRefValueAssignmentOperatorNode*)nodes[1]
+    return std::make_shared<ASTArrayAccessRefAssignmentNode>(
+            std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTRefValueAssignmentOperatorNode>(nodes[1])
     );
 }

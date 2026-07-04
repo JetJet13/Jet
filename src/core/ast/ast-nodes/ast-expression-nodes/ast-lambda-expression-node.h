@@ -16,19 +16,19 @@
 class ASTLambdaExpressionNode : public ASTExpressionNode {
 private:
     Lexeme* _lexeme;
-    ASTFunctionParameterListNode* _parameters;
-    ASTFunctionBlockNode* _block;
-    std::optional<ASTTypeColonNode*> _typeColon;
-    std::optional<ASTTypeNode*> _returnType;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
+    std::shared_ptr<ASTFunctionBlockNode> _block;
+    std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
+    std::optional<std::shared_ptr<ASTTypeNode>> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
     std::set<std::string> _capturedValueIds;
 public:
-    explicit ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block);
-    explicit ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
+    explicit ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block);
+    explicit ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
     Lexeme* getLexeme();
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionBlockNode* getBlock();
-    std::optional<ASTTypeNode*> getReturnType();
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionBlockNode> getBlock();
+    std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();
     std::set<std::string>* getCapturedValueIds();
     void addCapturedValueId(std::string id);
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
@@ -37,7 +37,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

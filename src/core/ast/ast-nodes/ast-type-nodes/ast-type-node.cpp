@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTypeNode::ASTTypeNode(ASTTypeBaseNode* type) {
+ASTTypeNode::ASTTypeNode(std::shared_ptr<ASTTypeBaseNode> type) {
     _type = type;
     _children.push_back(_type);
 }
 
-ASTTypeBaseNode* ASTTypeNode::getType() {
+std::shared_ptr<ASTTypeBaseNode> ASTTypeNode::getType() {
     return _type;
 }
 
@@ -39,11 +39,11 @@ std::string ASTTypeNode::toString() {
     return "TYPE";
 }
 
-bool ASTTypeNode::isSameAs(ASTNode* other) {
+bool ASTTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTypeNode>(other);
     return _type->isSameAs(otherNode->getType());
 }
 

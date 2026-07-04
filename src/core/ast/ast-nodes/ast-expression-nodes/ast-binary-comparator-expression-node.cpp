@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTBinaryComparatorExpressionNode::ASTBinaryComparatorExpressionNode(ASTExpressionNode* leftNode, ASTBinaryComparatorOperatorNode* binaryOperator, ASTExpressionNode* rightNode) {
+ASTBinaryComparatorExpressionNode::ASTBinaryComparatorExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTBinaryComparatorOperatorNode> binaryOperator, std::shared_ptr<ASTExpressionNode> rightNode) {
     _leftNode = leftNode;
     _binaryOperator = binaryOperator;
     _rightNode = rightNode;
@@ -16,11 +16,11 @@ ASTBinaryComparatorExpressionNode::ASTBinaryComparatorExpressionNode(ASTExpressi
     _children.push_back(_rightNode);
 }
 
-ASTExpressionNode* ASTBinaryComparatorExpressionNode::getLeftNode() {
+std::shared_ptr<ASTExpressionNode> ASTBinaryComparatorExpressionNode::getLeftNode() {
     return _leftNode;
 }
 
-ASTExpressionNode* ASTBinaryComparatorExpressionNode::getRightNode() {
+std::shared_ptr<ASTExpressionNode> ASTBinaryComparatorExpressionNode::getRightNode() {
     return _rightNode;
 }
 
@@ -40,7 +40,7 @@ TypeSignature* ASTBinaryComparatorExpressionNode::getRightTypeSignature() {
     return _rightTypeSignature;
 }
 
-ASTBinaryComparatorOperatorNode* ASTBinaryComparatorExpressionNode::getBinaryOperator() {
+std::shared_ptr<ASTBinaryComparatorOperatorNode> ASTBinaryComparatorExpressionNode::getBinaryOperator() {
     return _binaryOperator;
 }
 
@@ -60,11 +60,11 @@ std::string ASTBinaryComparatorExpressionNode::toString() {
     return "BINARY_COMPARATOR_EXPRESSION";
 }
 
-bool ASTBinaryComparatorExpressionNode::isSameAs(ASTNode* other) {
+bool ASTBinaryComparatorExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTBinaryComparatorExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(other);
     return this->getBinaryOperator()->isSameAs(otherNode->getBinaryOperator()) &&
            this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
            this->getRightNode()->isSameAs(otherNode->getRightNode());

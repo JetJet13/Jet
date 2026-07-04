@@ -7,7 +7,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRExpressionNode* IdentifierExpressionIRStrategy::generate(ASTIdentifierExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRExpressionNode* IdentifierExpressionIRStrategy::generate(std::shared_ptr<ASTIdentifierExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto allocation = scope->findAcrossScopes(node->getIdentifierNode()->getId());
     if (!allocation && node->getTypeSignature()->isInvocable()) {
         auto invocableTypeSignature = (InvocableTypeSignature*)node->getTypeSignature();

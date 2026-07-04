@@ -5,6 +5,6 @@
 #include <llvm/IR/Constants.h>
 #include "char-literal-ir-strategy.h"
 
-IRCharLiteralNode* CharLiteralIRStrategy::generate(ASTCharLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext) {
+IRCharLiteralNode* CharLiteralIRStrategy::generate(std::shared_ptr<ASTCharLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext) {
     return new IRCharLiteralNode(node, irGenerator->generateChar(node->getValue()));
 }

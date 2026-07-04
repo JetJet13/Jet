@@ -15,13 +15,13 @@
 
 class IRArrayExpressionNode : public IRExpressionNode {
 private:
-    ASTArrayExpressionNode* _node;
+    std::shared_ptr<ASTArrayExpressionNode> _node;
     IRInstructionNode* _irValue;
     IRInstructionNode* _arrayPointerSourceAllocation;
     std::vector<IRExpressionNode*> _irValues;
     IRArrayPointerType* _type;
 public:
-    IRArrayExpressionNode(ASTArrayExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
+    IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();

@@ -5,7 +5,7 @@
 #include "ast-left-bracket-node.h"
 #include "../ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.h"
 
-ASTNode* ASTLeftBracketNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTLeftBracketNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_TYPE_PARAMETER_LIST_MODE ||
         mode == SA_FUNCTION_PARAMETER_LIST_MODE ||
         (prevNode &&
@@ -19,9 +19,9 @@ ASTNode* ASTLeftBracketNode::transformIfNecessary(std::optional<ASTNode*> prevNo
              AST_ARRAY_TYPE_START_NODE
          })
         )) {
-        return new ASTArrayTypeStartNode(this->getLexeme());
+        return std::make_shared<ASTArrayTypeStartNode>(this->getLexeme());
     }
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTLeftBracketNode::getNodeType() {

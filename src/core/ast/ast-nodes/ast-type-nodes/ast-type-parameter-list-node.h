@@ -14,22 +14,22 @@
 
 class ASTTypeParameterListNode : public ASTNode {
 protected:
-    ASTTypeParameterListStartNode* _typeParameterListStartNode;
-    ASTTypeParameterListEndNode* _typeParameterListEndNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTTypeNode*> _parameters;
+    std::shared_ptr<ASTTypeParameterListStartNode> _typeParameterListStartNode;
+    std::shared_ptr<ASTTypeParameterListEndNode> _typeParameterListEndNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTTypeNode>> _parameters;
 public:
-    ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, ASTTypeParameterListEndNode* typeParameterListEndNode);
-    ASTTypeParameterListNode(ASTTypeParameterListStartNode* typeParameterListStartNode, std::vector<ASTTypeNode*> parameters, std::vector<ASTCommaNode*> commas, ASTTypeParameterListEndNode* typeParameterListEndNode);
-    std::vector<ASTTypeNode*> getParameters();
+    ASTTypeParameterListNode(std::shared_ptr<ASTTypeParameterListStartNode> typeParameterListStartNode, std::shared_ptr<ASTTypeParameterListEndNode> typeParameterListEndNode);
+    ASTTypeParameterListNode(std::shared_ptr<ASTTypeParameterListStartNode> typeParameterListStartNode, std::vector<std::shared_ptr<ASTTypeNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTypeParameterListEndNode> typeParameterListEndNode);
+    std::vector<std::shared_ptr<ASTTypeNode>> getParameters();
     unsigned long numParameters();
-    ASTTypeParameterListNode* addParameter(ASTTypeNode* parameter);
-    ASTTypeParameterListNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTTypeParameterListNode> addParameter(std::shared_ptr<ASTTypeNode> parameter);
+    std::shared_ptr<ASTTypeParameterListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

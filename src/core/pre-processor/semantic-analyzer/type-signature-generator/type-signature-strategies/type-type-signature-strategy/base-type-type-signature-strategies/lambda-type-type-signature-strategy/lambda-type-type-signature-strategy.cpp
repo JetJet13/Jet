@@ -5,7 +5,7 @@
 #include "lambda-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
-void LambdaTypeTypeSignatureStrategy::assign(ASTLambdaTypeNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTLambdaTypeNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = std::vector<TypeSignature*>();
     for (auto type : node->getParameterList()->getParameters()) {
         strategyMap->assignTypeSignatureFor(type, context, scope);

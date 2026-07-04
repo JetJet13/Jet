@@ -10,7 +10,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 
 namespace NewClassInstanceExpressionTypeCheckerPolicy {
-    void apply(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTNewClassInstanceExpressionNode> newClassInstanceExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_NEW_CLASS_INSTANCE_EXPRESSION_TYPE_CHECKER_POLICY_H

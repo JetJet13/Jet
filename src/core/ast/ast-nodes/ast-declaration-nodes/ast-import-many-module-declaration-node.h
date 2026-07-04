@@ -14,20 +14,20 @@
 
 class ASTImportManyModuleDeclarationNode : public ASTDeclarationNode {
 protected:
-    ASTImportNode* _importKeyword;
-    ASTImportModuleListByGroupItemNode* _importModuleListByGroupItem;
-    ASTFromNode* _fromKeyword;
-    ASTImportPathNode* _path;
+    std::shared_ptr<ASTImportNode> _importKeyword;
+    std::shared_ptr<ASTImportModuleListByGroupItemNode> _importModuleListByGroupItem;
+    std::shared_ptr<ASTFromNode> _fromKeyword;
+    std::shared_ptr<ASTImportPathNode> _path;
 public:
-    explicit ASTImportManyModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path);
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportModuleListNode* getModuleList();
-    ASTImportPathNode* getPath();
+    explicit ASTImportManyModuleDeclarationNode(std::shared_ptr<ASTImportNode> importKeyword, std::shared_ptr<ASTImportModuleListByGroupItemNode> importModuleListByGroupItem, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportModuleListNode> getModuleList();
+    std::shared_ptr<ASTImportPathNode> getPath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

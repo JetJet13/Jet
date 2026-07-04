@@ -12,6 +12,6 @@
 
 class ReducerStrategy {
 public:
-    virtual ASTNode* execute(std::vector<ASTNode*> nodes) = 0;
+    virtual std::shared_ptr<ASTNode> execute(std::vector<std::shared_ptr<ASTNode>> nodes) = 0;
 };
 #endif //JETLANG_REDUCER_STRATEGY_H

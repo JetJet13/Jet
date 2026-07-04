@@ -6,7 +6,7 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTClassMethodInvocationExpressionNode> classMethodInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = (ClassTypeSignature*)scope->find(classMethodInvocationExpression->getClassAccess()->getThis()->getId());
     auto classMethodTypeSignature = classTypeSignature->getInstanceMethods()->find(classMethodInvocationExpression->getName()->getId());
     if (!classMethodTypeSignature) {

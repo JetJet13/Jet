@@ -17,15 +17,15 @@
 
 class ASTFunctionParameterNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _identifier;
-    ASTTypeColonNode* _colon;
-    ASTTypeNode* _type;
+    std::shared_ptr<ASTIdentifierExpressionNode> _identifier;
+    std::shared_ptr<ASTTypeColonNode> _colon;
+    std::shared_ptr<ASTTypeNode> _type;
     ParameterListItemTypeSignature* _typeSignature = new ParameterListItemTypeSignature("_", new UnknownTypeSignature());
     unsigned long _captureCount = 0;
 public:
-    ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type);
-    ASTIdentifierExpressionNode* getIdentifier();
-    ASTTypeNode* getType();
+    ASTFunctionParameterNode(std::shared_ptr<ASTIdentifierExpressionNode> identifier, std::shared_ptr<ASTTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type);
+    std::shared_ptr<ASTIdentifierExpressionNode> getIdentifier();
+    std::shared_ptr<ASTTypeNode> getType();
     void markAsCaptured();
     unsigned long getCaptureCount();
     bool isCaptured();
@@ -35,7 +35,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

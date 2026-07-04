@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.h"
 
 namespace ThisExpressionTypeCheckerPolicy {
-    void apply(ASTThisExpressionNode* thisExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTThisExpressionNode> thisExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_THIS_EXPRESSION_TYPE_CHECKER_POLICY_H

@@ -13,14 +13,14 @@
 
 class ASTInterfaceTypeDeclarationNode : public ASTTypeDeclarationNode {
 private:
-    ASTInterfaceDefinitionNode* _interfaceDefinition;
-    ASTInterfacePropertyListNode* _propertyList;
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::shared_ptr<ASTInterfaceDefinitionNode> _interfaceDefinition;
+    std::shared_ptr<ASTInterfacePropertyListNode> _propertyList;
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     InterfaceTypeSignature* _typeSignature = new InterfaceTypeSignature();
 public:
-    explicit ASTInterfaceTypeDeclarationNode(ASTInterfaceDefinitionNode* interfaceDefinition, ASTInterfacePropertyListNode* propertyList, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTInterfacePropertyListNode* getProperties();
-    ASTInterfaceNameNode* getName();
+    explicit ASTInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceDefinitionNode> interfaceDefinition, std::shared_ptr<ASTInterfacePropertyListNode> propertyList, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTInterfacePropertyListNode> getProperties();
+    std::shared_ptr<ASTInterfaceNameNode> getName();
     unsigned long numProperties();
     bool isExportable() override;
     void setTypeSignature(InterfaceTypeSignature* typeSignature);
@@ -29,7 +29,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

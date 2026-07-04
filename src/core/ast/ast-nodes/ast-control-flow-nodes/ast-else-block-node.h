@@ -14,17 +14,17 @@
 
 class ASTElseBlockNode : public ASTScopedBlockNode {
 private:
-    ASTElseNode* _elseKeyword;
-    ASTControlFlowBlockNode* _block;
+    std::shared_ptr<ASTElseNode> _elseKeyword;
+    std::shared_ptr<ASTControlFlowBlockNode> _block;
 public:
-    explicit ASTElseBlockNode(ASTElseNode* elseKeyword, ASTControlFlowBlockNode* block);
-    ASTControlFlowBlockNode* getBlock();
-    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
+    explicit ASTElseBlockNode(std::shared_ptr<ASTElseNode> elseKeyword, std::shared_ptr<ASTControlFlowBlockNode> block);
+    std::shared_ptr<ASTControlFlowBlockNode> getBlock();
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

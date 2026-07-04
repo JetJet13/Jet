@@ -14,22 +14,22 @@
 
 class ASTStructTypeNode : public ASTTypeBaseNode {
 protected:
-    ASTStructTypeStartNode* _structTypeStartNode;
-    ASTStructTypeEndNode* _structTypeEndNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTStructTypeKeyValueNode*> _keyValueTypes;
+    std::shared_ptr<ASTStructTypeStartNode> _structTypeStartNode;
+    std::shared_ptr<ASTStructTypeEndNode> _structTypeEndNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> _keyValueTypes;
 public:
-    ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, ASTStructTypeEndNode* structTypeEndNode);
-    ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, std::vector<ASTStructTypeKeyValueNode*> keyValueTypes, std::vector<ASTCommaNode*> commas, ASTStructTypeEndNode* structTypeEndNode);
-    std::vector<ASTStructTypeKeyValueNode*> getKeyValueTypes();
+    ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode);
+    ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> keyValueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode);
+    std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> getKeyValueTypes();
     unsigned long numKeyValueTypes();
-    ASTStructTypeNode* addKeyValueType(ASTStructTypeKeyValueNode* keyValueType);
-    ASTStructTypeNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTStructTypeNode> addKeyValueType(std::shared_ptr<ASTStructTypeKeyValueNode> keyValueType);
+    std::shared_ptr<ASTStructTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

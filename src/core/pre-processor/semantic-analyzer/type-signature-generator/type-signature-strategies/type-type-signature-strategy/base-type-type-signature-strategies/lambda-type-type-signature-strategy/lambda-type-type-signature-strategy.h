@@ -11,7 +11,7 @@
 
 class LambdaTypeTypeSignatureStrategy {
 public:
-    void assign(ASTLambdaTypeNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTLambdaTypeNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_TYPE_TYPE_SIGNATURE_STRATEGY_H

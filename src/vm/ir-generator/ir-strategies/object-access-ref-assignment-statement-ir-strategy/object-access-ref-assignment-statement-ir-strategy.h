@@ -11,7 +11,7 @@
 
 class ObjectAccessRefAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(ASTObjectAccessRefAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generate(std::shared_ptr<ASTObjectAccessRefAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

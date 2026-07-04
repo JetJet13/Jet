@@ -5,7 +5,7 @@
 #include "ir-ref-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRRefPrototypeInvocationExpressionNode::IRRefPrototypeInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irRef) {
+IRRefPrototypeInvocationExpressionNode::IRRefPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irRef) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;

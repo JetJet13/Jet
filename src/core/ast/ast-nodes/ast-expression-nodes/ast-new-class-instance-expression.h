@@ -21,15 +21,15 @@
 
 class ASTNewClassInstanceExpressionNode : public ASTCallableExpressionNode {
 private:
-    ASTNewNode* _new;
-    std::optional<ASTClassNameNode*> _className;
-    std::optional<ASTModuleAccessExpressionNode*> _moduleAccessExpression;
-    ASTFunctionArgumentListNode* _arguments;
+    std::shared_ptr<ASTNewNode> _new;
+    std::optional<std::shared_ptr<ASTClassNameNode>> _className;
+    std::optional<std::shared_ptr<ASTModuleAccessExpressionNode>> _moduleAccessExpression;
+    std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
     NewClassInstanceTypeSignature* _typeSignature = new NewClassInstanceTypeSignature();
 public:
-    explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments);
-    explicit ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTModuleAccessExpressionNode* moduleAccessExpressionNode, ASTFunctionArgumentListNode* arguments);
-    ASTFunctionArgumentListNode* getArguments();
+    explicit ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTClassNameNode> className, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    explicit ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpressionNode, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
     std::string getClassName();
     std::optional<std::string> getModuleName();
     unsigned long numArguments();
@@ -39,7 +39,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

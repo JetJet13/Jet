@@ -6,12 +6,12 @@
 #include "../ast-type-nodes/ast-type-node-factory.h"
 #include "../ast-expression-nodes/ast-this-expression-node.h"
 
-ASTNode* ASTThisNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTThisNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_PARAMETER_LIST_NODE })) {
-        return ASTTypeNodeFactory::createThisTypeNode(this);
+        return ASTTypeNodeFactory::createThisTypeNode(std::dynamic_pointer_cast<ASTThisNode>(shared_from_this()));
     }
 
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTThisNode::getNodeType() {

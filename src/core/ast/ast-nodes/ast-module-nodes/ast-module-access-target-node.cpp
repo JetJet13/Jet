@@ -5,12 +5,12 @@
 #include "ast-module-access-target-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleAccessTargetNode::ASTModuleAccessTargetNode(ASTIdentifierExpressionNode* target) {
+ASTModuleAccessTargetNode::ASTModuleAccessTargetNode(std::shared_ptr<ASTIdentifierExpressionNode> target) {
     _target = target;
     _children.push_back(_target);
 }
 
-ASTIdentifierExpressionNode* ASTModuleAccessTargetNode::getTarget() {
+std::shared_ptr<ASTIdentifierExpressionNode> ASTModuleAccessTargetNode::getTarget() {
     return _target;
 }
 
@@ -30,11 +30,11 @@ std::string ASTModuleAccessTargetNode::toString() {
     return "MODULE_ACCESS_TARGET";
 }
 
-bool ASTModuleAccessTargetNode::isSameAs(ASTNode* other) {
+bool ASTModuleAccessTargetNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleAccessTargetNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleAccessTargetNode>(other);
     return this->getTarget()->isSameAs(otherNode->getTarget());
 }
 

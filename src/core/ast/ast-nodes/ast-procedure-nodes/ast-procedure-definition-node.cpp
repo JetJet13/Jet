@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTProcedureDefinitionNode::ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters) {
+ASTProcedureDefinitionNode::ASTProcedureDefinitionNode(std::shared_ptr<ASTProcedureNode> functionKeyword, std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters) {
     _procedureKeyword = functionKeyword;
     _name = name;
     _parameters = parameters;
@@ -15,11 +15,11 @@ ASTProcedureDefinitionNode::ASTProcedureDefinitionNode(ASTProcedureNode* functio
     _children.push_back(_parameters);
 }
 
-ASTFunctionParameterListNode* ASTProcedureDefinitionNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTProcedureDefinitionNode::getParameters() {
     return _parameters;
 }
 
-ASTFunctionNameNode* ASTProcedureDefinitionNode::getName() {
+std::shared_ptr<ASTFunctionNameNode> ASTProcedureDefinitionNode::getName() {
     return _name;
 }
 
@@ -43,11 +43,11 @@ std::string ASTProcedureDefinitionNode::toString() {
     return "PROCEDURE_DEFINITION";
 }
 
-bool ASTProcedureDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTProcedureDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTProcedureDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTProcedureDefinitionNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters());

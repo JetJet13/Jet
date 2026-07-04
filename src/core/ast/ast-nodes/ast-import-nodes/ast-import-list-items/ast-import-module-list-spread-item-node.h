@@ -12,16 +12,16 @@
 #include "../ast-import-spread-node.h"
 
 class ASTImportModuleListSpreadItemNode : public ASTImportModuleListBaseItemNode {
-    ASTImportSpreadNode* _spread;
-    ASTImportModuleNameNode* _moduleName;
+    std::shared_ptr<ASTImportSpreadNode> _spread;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
 public:
-    explicit ASTImportModuleListSpreadItemNode(ASTImportSpreadNode* spread, ASTImportModuleNameNode* moduleName);
-    ASTImportModuleNameNode* getModuleName();
+    explicit ASTImportModuleListSpreadItemNode(std::shared_ptr<ASTImportSpreadNode> spread, std::shared_ptr<ASTImportModuleNameNode> moduleName);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -12,17 +12,17 @@
 
 class IRArrayAccessExpressionNode : public IRExpressionNode {
 protected:
-    ASTArrayAccessExpressionNode* _node;
+    std::shared_ptr<ASTArrayAccessExpressionNode> _node;
     IRExpressionNode* _irSource;
     IRExpressionNode* _irIndex;
     IRType* _type;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation);
+    IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation);
     void markAsGlobal() override;
     IRExpressionNode* getSourceExpression();
     IRExpressionNode* getIndexExpression();
-    ASTArrayAccessExpressionNode* getNode();
+    std::shared_ptr<ASTArrayAccessExpressionNode> getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     llvm::Value* getValue() override;
     IRType* getIRType() override;

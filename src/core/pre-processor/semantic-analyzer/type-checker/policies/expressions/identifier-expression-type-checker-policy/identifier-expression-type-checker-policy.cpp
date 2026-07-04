@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace IdentifierExpressionTypeCheckerPolicy {
-    void apply(ASTIdentifierExpressionNode* identifierExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTIdentifierExpressionNode> identifierExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(identifierExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(identifierExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(identifierExpression);

@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.h"
 
 namespace IfStatementTypeCheckerPolicy {
-    void apply(ASTIfStatementNode* ifStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTIfStatementNode> ifStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_IF_STATEMENT_TYPE_CHECKER_POLICY_H

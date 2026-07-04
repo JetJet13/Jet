@@ -20,17 +20,17 @@
 
 class ASTFunctionDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTFunctionDefinitionNode* _functionDefinition;
-    ASTFunctionBlockNode* _block;
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::shared_ptr<ASTFunctionDefinitionNode> _functionDefinition;
+    std::shared_ptr<ASTFunctionBlockNode> _block;
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     FunctionTypeSignature* _typeSignature = new FunctionTypeSignature();
 public:
-    explicit ASTFunctionDeclarationNode(ASTFunctionDefinitionNode* functionDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionNameNode* getName();
-    ASTTypeNode* getReturnType();
-    ASTFunctionBlockNode* getBlock();
-    ASTFunctionDefinitionNode* getDefinition();
+    explicit ASTFunctionDeclarationNode(std::shared_ptr<ASTFunctionDefinitionNode> functionDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionNameNode> getName();
+    std::shared_ptr<ASTTypeNode> getReturnType();
+    std::shared_ptr<ASTFunctionBlockNode> getBlock();
+    std::shared_ptr<ASTFunctionDefinitionNode> getDefinition();
     unsigned long numParameters();
     bool isExportable() override;
     void setTypeSignature(FunctionTypeSignature* typeSignature);
@@ -39,7 +39,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

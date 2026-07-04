@@ -14,22 +14,22 @@
 
 class ASTInterfacePropertyListNode : public ASTNode {
 private:
-    ASTInterfaceStartNode* _startNode;
-    ASTInterfaceEndNode* _endNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTInterfacePropertyNode*> _properties;
+    std::shared_ptr<ASTInterfaceStartNode> _startNode;
+    std::shared_ptr<ASTInterfaceEndNode> _endNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTInterfacePropertyNode>> _properties;
 public:
-    ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, ASTInterfaceEndNode* endNode);
-    ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, std::vector<ASTInterfacePropertyNode*> properties, std::vector<ASTCommaNode*> commas, ASTInterfaceEndNode* endNode);
-    std::vector<ASTInterfacePropertyNode*> getProperties();
+    ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::shared_ptr<ASTInterfaceEndNode> endNode);
+    ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::vector<std::shared_ptr<ASTInterfacePropertyNode>> properties, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTInterfaceEndNode> endNode);
+    std::vector<std::shared_ptr<ASTInterfacePropertyNode>> getProperties();
     unsigned long numProperties();
-    ASTInterfacePropertyListNode* addProperty(ASTInterfacePropertyNode* property);
-    ASTInterfacePropertyListNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTInterfacePropertyListNode> addProperty(std::shared_ptr<ASTInterfacePropertyNode> property);
+    std::shared_ptr<ASTInterfacePropertyListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

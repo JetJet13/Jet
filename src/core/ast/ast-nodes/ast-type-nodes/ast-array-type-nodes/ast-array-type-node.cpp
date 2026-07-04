@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayTypeNode::ASTArrayTypeNode(ASTArrayTypeStartNode* arrayStart, ASTTypeNode* elementType, ASTArrayTypeEndNode* arrayEnd) {
+ASTArrayTypeNode::ASTArrayTypeNode(std::shared_ptr<ASTArrayTypeStartNode> arrayStart, std::shared_ptr<ASTTypeNode> elementType, std::shared_ptr<ASTArrayTypeEndNode> arrayEnd) {
     _arrayStart = arrayStart;
     _elementType = elementType;
     _arrayEnd = arrayEnd;
@@ -15,7 +15,7 @@ ASTArrayTypeNode::ASTArrayTypeNode(ASTArrayTypeStartNode* arrayStart, ASTTypeNod
     _children.push_back(_arrayEnd);
 }
 
-ASTTypeNode* ASTArrayTypeNode::getElementType() {
+std::shared_ptr<ASTTypeNode> ASTArrayTypeNode::getElementType() {
     return _elementType;
 }
 
@@ -35,12 +35,12 @@ std::string ASTArrayTypeNode::toString() {
     return "ARRAY_TYPE";
 }
 
-bool ASTArrayTypeNode::isSameAs(ASTNode* other) {
+bool ASTArrayTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
 
-    auto otherNode = (ASTArrayTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTArrayTypeNode>(other);
     return this->getElementType()->isSameAs(otherNode->getElementType());
 }
 

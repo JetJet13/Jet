@@ -12,14 +12,14 @@
 
 class ASTVoidTypeNode : public ASTTypeBaseNode {
 private:
-    ASTVoidNode* _void;
+    std::shared_ptr<ASTVoidNode> _void;
 public:
-    ASTVoidTypeNode(ASTVoidNode* voidNode);
+    ASTVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

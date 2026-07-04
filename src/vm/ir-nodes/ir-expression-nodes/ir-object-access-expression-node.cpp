@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -22,7 +22,7 @@ void IRObjectAccessExpressionNode::markAsGlobal() {
     _irSource->markAsGlobal();
 }
 
-ASTObjectAccessExpressionNode* IRObjectAccessExpressionNode::getNode() {
+std::shared_ptr<ASTObjectAccessExpressionNode> IRObjectAccessExpressionNode::getNode() {
     return _node;
 }
 

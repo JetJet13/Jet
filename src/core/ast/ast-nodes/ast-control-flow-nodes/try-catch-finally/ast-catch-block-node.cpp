@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTCatchBlockNode::ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable) {
+ASTCatchBlockNode::ASTCatchBlockNode(std::shared_ptr<ASTCatchNode> catchKeyword, std::shared_ptr<ASTControlFlowBlockNode> block, std::optional<std::shared_ptr<ASTCatchErrorVariableNode>> errorVariable) {
     _catchKeyword = catchKeyword;
     _block = block;
     _errorVariable = errorVariable;
@@ -17,15 +17,15 @@ ASTCatchBlockNode::ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowB
     }
 }
 
-ASTControlFlowBlockNode* ASTCatchBlockNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTCatchBlockNode::getBlock() {
     return _block;
 }
 
-std::optional<ASTCatchErrorVariableNode*> ASTCatchBlockNode::getErrorVariable() {
+std::optional<std::shared_ptr<ASTCatchErrorVariableNode>> ASTCatchBlockNode::getErrorVariable() {
     return _errorVariable;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTCatchBlockNode::getReturnStatements() {
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTCatchBlockNode::getReturnStatements() {
     return _block->getReturnStatements();
 }
 
@@ -45,11 +45,11 @@ std::string ASTCatchBlockNode::toString() {
     return "CATCH_BLOCK";
 }
 
-bool ASTCatchBlockNode::isSameAs(ASTNode* other) {
+bool ASTCatchBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTCatchBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTCatchBlockNode>(other);
 
     if (!_errorVariable.has_value() && otherNode->getErrorVariable().has_value() ||
         _errorVariable.has_value() && !otherNode->getErrorVariable().has_value()) {

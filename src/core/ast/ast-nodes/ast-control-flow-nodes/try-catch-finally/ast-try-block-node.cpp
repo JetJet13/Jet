@@ -6,18 +6,18 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTTryBlockNode::ASTTryBlockNode(ASTTryNode* tryKeyword, ASTControlFlowBlockNode* block) {
+ASTTryBlockNode::ASTTryBlockNode(std::shared_ptr<ASTTryNode> tryKeyword, std::shared_ptr<ASTControlFlowBlockNode> block) {
     _tryKeyword = tryKeyword;
     _block = block;
     _children.push_back(_tryKeyword);
     _children.push_back(_block);
 }
 
-ASTControlFlowBlockNode* ASTTryBlockNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTTryBlockNode::getBlock() {
     return _block;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTTryBlockNode::getReturnStatements() {
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTTryBlockNode::getReturnStatements() {
     return _block->getReturnStatements();
 }
 
@@ -37,11 +37,11 @@ std::string ASTTryBlockNode::toString() {
     return "TRY_BLOCK";
 }
 
-bool ASTTryBlockNode::isSameAs(ASTNode* other) {
+bool ASTTryBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTryBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTryBlockNode>(other);
 
     return this->getBlock()->isSameAs(otherNode->getBlock());
 }

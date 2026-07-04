@@ -13,17 +13,17 @@
 
 class ASTVariableAssignmentStatementNode : public ASTStatementNode {
 private:
-    ASTVariableAssignmentNode* _variableAssignment;
-    ASTExpressionNode* _expression;
+    std::shared_ptr<ASTVariableAssignmentNode> _variableAssignment;
+    std::shared_ptr<ASTExpressionNode> _expression;
 public:
-    ASTVariableAssignmentStatementNode(ASTVariableAssignmentNode* variable, ASTExpressionNode* expression);
-    ASTVariableAssignmentNode* getVariableAssignment();
-    ASTExpressionNode* getExpression();
+    ASTVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentNode> variable, std::shared_ptr<ASTExpressionNode> expression);
+    std::shared_ptr<ASTVariableAssignmentNode> getVariableAssignment();
+    std::shared_ptr<ASTExpressionNode> getExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

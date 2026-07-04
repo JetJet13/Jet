@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace StructExpressionTypeCheckerPolicy {
-    void apply(ASTStructExpressionNode* structExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTStructExpressionNode> structExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(structExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(structExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(structExpression);

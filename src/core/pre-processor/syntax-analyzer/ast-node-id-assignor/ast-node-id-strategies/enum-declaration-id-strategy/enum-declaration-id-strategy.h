@@ -11,7 +11,7 @@
 class EnumDeclarationIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 #endif //JETLANG_ENUM_DECLARATION_ID_STRATEGY_H

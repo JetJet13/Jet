@@ -5,12 +5,12 @@
 #include "ast-literal-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTLiteralExpressionNode::ASTLiteralExpressionNode(ASTLiteralNode* literalNode) {
+ASTLiteralExpressionNode::ASTLiteralExpressionNode(std::shared_ptr<ASTLiteralNode> literalNode) {
     _literalNode = literalNode;
     _children.push_back(_literalNode);
 }
 
-ASTLiteralNode* ASTLiteralExpressionNode::getLiteralNode() {
+std::shared_ptr<ASTLiteralNode> ASTLiteralExpressionNode::getLiteralNode() {
     return _literalNode;
 }
 
@@ -30,11 +30,11 @@ std::string ASTLiteralExpressionNode::toString() {
     return "LITERAL_EXPRESSION";
 }
 
-bool ASTLiteralExpressionNode::isSameAs(ASTNode* other) {
+bool ASTLiteralExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLiteralExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLiteralExpressionNode>(other);
     return this->getLiteralNode()->isSameAs(otherNode->getLiteralNode());
 }
 

@@ -8,10 +8,10 @@ AST::AST() {
     _children = {};
 }
 
-void AST::addChild(ASTNode* node) {
+void AST::addChild(std::shared_ptr<ASTNode> node) {
     _children.push_back(node);
 }
 
-std::vector<ASTNode*> AST::getChildren() {
+std::vector<std::shared_ptr<ASTNode>> AST::getChildren() {
     return _children;
 }

@@ -9,7 +9,7 @@
 #include "../../../type-checker.h"
 
 namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(tupleAccessInvocationExpression->getArguments(), typeCheckerResult);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessInvocationExpression);

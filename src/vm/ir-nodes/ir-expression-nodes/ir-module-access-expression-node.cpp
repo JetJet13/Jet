@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRModuleAccessExpressionNode::IRModuleAccessExpressionNode(ASTModuleAccessExpressionNode* node, llvm::Value* irValue, IRType* irType) {
+IRModuleAccessExpressionNode::IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, IRType* irType) {
     _node = node;
     _irValue = irValue;
     _irType = irType;
@@ -17,7 +17,7 @@ void IRModuleAccessExpressionNode::markAsGlobal() {
     _isGlobal = true;
 }
 
-ASTModuleAccessExpressionNode* IRModuleAccessExpressionNode::getNode() {
+std::shared_ptr<ASTModuleAccessExpressionNode> IRModuleAccessExpressionNode::getNode() {
     return _node;
 }
 

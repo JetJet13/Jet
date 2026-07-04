@@ -5,7 +5,7 @@
 #include "tuple-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRTupleExpressionNode* TupleExpressionIRStrategy::generate(ASTTupleExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRTupleExpressionNode* TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto tupleValues = std::vector<IRExpressionNode*>();
     for (unsigned long i = 0; i < node->numItems(); ++i) {
@@ -42,6 +42,6 @@ IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructTy
 }
 
 
-IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(ASTTupleExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

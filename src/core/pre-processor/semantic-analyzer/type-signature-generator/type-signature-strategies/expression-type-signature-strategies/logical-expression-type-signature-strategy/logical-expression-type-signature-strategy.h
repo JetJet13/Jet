@@ -11,7 +11,7 @@
 
 class LogicalExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTLogicalExpressionNode* logicalExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTLogicalExpressionNode> logicalExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LOGICAL_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

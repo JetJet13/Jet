@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ArrayAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTArrayAccessRefAssignmentStatementNode* arrayAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> arrayAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
         auto statementUnknownMessage = TypeCheckerErrorMessageTable::ArrayElementTypeUnknown(arrayAccessRefAssignmentStatementNode);
         auto statementInvalidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeInvalid(arrayAccessRefAssignmentStatementNode);
         auto statementVoidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeVoid(arrayAccessRefAssignmentStatementNode);

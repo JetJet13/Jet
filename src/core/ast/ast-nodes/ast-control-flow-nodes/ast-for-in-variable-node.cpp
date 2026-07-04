@@ -5,10 +5,10 @@
 #include "ast-for-in-variable-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTForInVariableNode::ASTForInVariableNode(ASTIdentifierExpressionNode* variable) {
+ASTForInVariableNode::ASTForInVariableNode(std::shared_ptr<ASTIdentifierExpressionNode> variable) {
     _variable = variable;
     _children.push_back(_variable);
-    this->setId(_variable->getId());
+    _id = _variable->getId();
 }
 
 void ASTForInVariableNode::markAsCaptured() {
@@ -23,7 +23,7 @@ bool ASTForInVariableNode::isCaptured() {
     return _captureCount > 0;
 }
 
-ASTIdentifierExpressionNode* ASTForInVariableNode::getVariable() {
+std::shared_ptr<ASTIdentifierExpressionNode> ASTForInVariableNode::getVariable() {
     return _variable;
 }
 
@@ -51,11 +51,11 @@ std::string ASTForInVariableNode::toString() {
     return "FOR_IN_VARIABLE";
 }
 
-bool ASTForInVariableNode::isSameAs(ASTNode* other) {
+bool ASTForInVariableNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTForInVariableNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTForInVariableNode>(other);
     return this->getVariable()->isSameAs(otherNode->getVariable());
 }
 

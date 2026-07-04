@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.h"
 
 namespace VariableAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTVariableAssignmentStatementNode* variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTVariableAssignmentStatementNode> variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_VARIABLE_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

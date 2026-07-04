@@ -7,26 +7,26 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 #include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-ASTObjectAccessInvocationExpressionNode::ASTObjectAccessInvocationExpressionNode(ASTObjectAccessExpressionNode* objectAccess, ASTFunctionArgumentListNode* arguments) {
+ASTObjectAccessInvocationExpressionNode::ASTObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _objectAccess = objectAccess;
     _arguments = arguments;
     _children.push_back(_objectAccess);
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTObjectAccessInvocationExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTObjectAccessInvocationExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTObjectAccessExpressionNode* ASTObjectAccessInvocationExpressionNode::getObjectAccess() {
+std::shared_ptr<ASTObjectAccessExpressionNode> ASTObjectAccessInvocationExpressionNode::getObjectAccess() {
     return _objectAccess;
 }
 
-ASTObjectAccessSourceNode* ASTObjectAccessInvocationExpressionNode::getSource() {
+std::shared_ptr<ASTObjectAccessSourceNode> ASTObjectAccessInvocationExpressionNode::getSource() {
     return _objectAccess->getSource();
 }
 
-ASTObjectAccessTargetNode* ASTObjectAccessInvocationExpressionNode::getTarget() {
+std::shared_ptr<ASTObjectAccessTargetNode> ASTObjectAccessInvocationExpressionNode::getTarget() {
     return _objectAccess->getTarget();
 }
 
@@ -83,11 +83,11 @@ std::string ASTObjectAccessInvocationExpressionNode::toString() {
     return "AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTObjectAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
+bool ASTObjectAccessInvocationExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTObjectAccessInvocationExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(other);
 
     return this->getObjectAccess()->isSameAs(otherNode->getObjectAccess()) &&
            this->getArguments()->isSameAs(otherNode->getArguments());

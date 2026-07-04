@@ -12,15 +12,15 @@
 
 class ASTModuleAliasNameNode : public ASTNode {
 private:
-    ASTIdentifierNode* _identifier;
+    std::shared_ptr<ASTIdentifierNode> _identifier;
 public:
-    ASTModuleAliasNameNode(ASTIdentifierNode* identifier);
-    ASTIdentifierNode* getIdentifier();
+    ASTModuleAliasNameNode(std::shared_ptr<ASTIdentifierNode> identifier);
+    std::shared_ptr<ASTIdentifierNode> getIdentifier();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

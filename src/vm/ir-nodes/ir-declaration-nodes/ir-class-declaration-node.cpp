@@ -6,7 +6,7 @@
 
 #include <utility>
 
-IRClassDeclarationNode::IRClassDeclarationNode(ASTClassDeclarationNode* node, IRInstructionNode* irValue, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
+IRClassDeclarationNode::IRClassDeclarationNode(std::shared_ptr<ASTClassDeclarationNode> node, IRInstructionNode* irValue, IRClassType* type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
     _node = node;
     _type = type;
     _irValue = irValue;

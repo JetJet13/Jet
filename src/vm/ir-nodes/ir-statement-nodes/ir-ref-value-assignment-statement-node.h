@@ -12,10 +12,10 @@
 
 class IRRefValueAssignmentStatementNode : public IRStatementNode {
 private:
-    ASTRefValueAssignmentStatementNode* _node;
+    std::shared_ptr<ASTRefValueAssignmentStatementNode> _node;
     IRExpressionNode* _irExpression;
 public:
-    IRRefValueAssignmentStatementNode(ASTRefValueAssignmentStatementNode* node, IRExpressionNode* irExpression);
+    IRRefValueAssignmentStatementNode(std::shared_ptr<ASTRefValueAssignmentStatementNode> node, IRExpressionNode* irExpression);
     std::string getVariableName();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;

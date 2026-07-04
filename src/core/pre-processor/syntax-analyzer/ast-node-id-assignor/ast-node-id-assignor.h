@@ -19,7 +19,7 @@ private:
     void addStrategy(ASTNodeType astNodeType, std::shared_ptr<ASTNodeIdStrategy> reducerStrategy);
 public:
     ASTNodeIdAssignor(std::shared_ptr<TokenTable> tokenTable);
-    void assignIdIfNecessary(ASTNode* node);
+    void assignIdIfNecessary(std::shared_ptr<ASTNode> node);
 };
 
 #endif //JETLANG_AST_NODE_ID_ASSIGNOR_H

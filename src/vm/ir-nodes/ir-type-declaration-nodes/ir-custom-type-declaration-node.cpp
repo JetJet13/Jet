@@ -4,7 +4,7 @@
 
 #include "ir-custom-type-declaration-node.h"
 
-IRCustomTypeDeclarationNode::IRCustomTypeDeclarationNode(ASTCustomTypeDeclarationNode* node, IRType* irType) {
+IRCustomTypeDeclarationNode::IRCustomTypeDeclarationNode(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRType* irType) {
     _node = node;
     _irType = irType;
 }

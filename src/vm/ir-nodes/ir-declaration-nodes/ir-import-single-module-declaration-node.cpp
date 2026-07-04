@@ -4,7 +4,7 @@
 
 #include "ir-import-single-module-declaration-node.h"
 
-IRImportSingleModuleDeclarationNode::IRImportSingleModuleDeclarationNode(ASTImportSingleModuleDeclarationNode* node) {
+IRImportSingleModuleDeclarationNode::IRImportSingleModuleDeclarationNode(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node) {
     _node = node;
 }
 

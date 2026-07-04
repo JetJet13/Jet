@@ -6,9 +6,9 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 
-void ClassMethodDeclarationIdStrategy::assign(ASTNode* node) {
-    auto classMethodDeclarationNode = (ASTClassMethodDeclarationNode*)node;
-    auto classDeclarationNode = (ASTClassDeclarationNode*)classMethodDeclarationNode->getParentNode().value();
+void ClassMethodDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto classMethodDeclarationNode = std::dynamic_pointer_cast<ASTClassMethodDeclarationNode>(node);
+    auto classDeclarationNode = std::dynamic_pointer_cast<ASTClassDeclarationNode>(classMethodDeclarationNode->getParentNode().value());
     auto className = _tokenTable->getIdentifier(
             classDeclarationNode
                     ->getName()

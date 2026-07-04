@@ -14,19 +14,19 @@
 
 class ASTCatchBlockNode : public ASTScopedBlockNode {
 private:
-    ASTCatchNode* _catchKeyword;
-    ASTControlFlowBlockNode* _block;
-    std::optional<ASTCatchErrorVariableNode*> _errorVariable;
+    std::shared_ptr<ASTCatchNode> _catchKeyword;
+    std::shared_ptr<ASTControlFlowBlockNode> _block;
+    std::optional<std::shared_ptr<ASTCatchErrorVariableNode>> _errorVariable;
 public:
-    explicit ASTCatchBlockNode(ASTCatchNode* catchKeyword, ASTControlFlowBlockNode* block, std::optional<ASTCatchErrorVariableNode*> errorVariable = {});
-    ASTControlFlowBlockNode* getBlock();
-    std::optional<ASTCatchErrorVariableNode*> getErrorVariable();
-    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
+    explicit ASTCatchBlockNode(std::shared_ptr<ASTCatchNode> catchKeyword, std::shared_ptr<ASTControlFlowBlockNode> block, std::optional<std::shared_ptr<ASTCatchErrorVariableNode>> errorVariable = {});
+    std::shared_ptr<ASTControlFlowBlockNode> getBlock();
+    std::optional<std::shared_ptr<ASTCatchErrorVariableNode>> getErrorVariable();
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

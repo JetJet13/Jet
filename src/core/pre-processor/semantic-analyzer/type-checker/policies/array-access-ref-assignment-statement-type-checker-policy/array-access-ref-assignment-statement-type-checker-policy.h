@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-array-access-ref-assignment-statement-node.h"
 
 namespace ArrayAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTArrayAccessRefAssignmentStatementNode* arrayAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> arrayAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 }
 
 #endif //JETLANG_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

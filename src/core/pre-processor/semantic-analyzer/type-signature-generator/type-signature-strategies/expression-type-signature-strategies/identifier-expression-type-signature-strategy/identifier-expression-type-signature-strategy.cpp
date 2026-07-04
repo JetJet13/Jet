@@ -5,7 +5,7 @@
 #include "identifier-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void IdentifierExpressionTypeSignatureStrategy::assign(ASTIdentifierExpressionNode* identifierExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable) {
+void IdentifierExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTIdentifierExpressionNode> identifierExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable) {
     auto id = identifierExpression->getId();
     auto typeSignature = typeSignatureLookupTable->find(id);
     if (typeSignature->isUnknown() && context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {

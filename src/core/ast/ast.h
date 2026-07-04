@@ -11,11 +11,11 @@
 
 class AST {
 private:
-    std::vector<ASTNode*> _children;
+    std::vector<std::shared_ptr<ASTNode>> _children;
 public:
     AST();
-    void addChild(ASTNode* node);
-    std::vector<ASTNode*> getChildren();
+    void addChild(std::shared_ptr<ASTNode> node);
+    std::vector<std::shared_ptr<ASTNode>> getChildren();
 };
 
 #endif //JETLANG_AST_H

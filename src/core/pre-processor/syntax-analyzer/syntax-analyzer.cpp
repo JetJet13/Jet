@@ -18,7 +18,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shar
     _lexemeTransformer = LexemeTransformer();
     _modeStack = std::stack<SyntaxAnalyzerMode>();
     _scopeStack = std::stack<Scope>();
-    _recognizeStack = std::stack<std::stack<ASTNode*>>();
+    _recognizeStack = std::stack<std::stack<std::shared_ptr<ASTNode>>>();
     _lexicalAnalyzer = lexicalAnalyzer;
     _shiftDisabled = false;
     _syntaxErrorList = std::vector<std::string>();
@@ -26,7 +26,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shar
 
 std::shared_ptr<SyntaxAnalyzerResult> SyntaxAnalyzer::analyze(std::string &filePath) {
     auto fileScope = std::make_shared<FileScope>();
-    _recognizeStack.push(std::stack<ASTNode*>());
+    _recognizeStack.push(std::stack<std::shared_ptr<ASTNode>>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
     _shiftDisabled = false;
@@ -86,19 +86,19 @@ void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerRe
     _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
         Logger::log("pushing new Scope to scope stack and creating new recognize stack");
-        _scopeStack.push(Scope((ASTBlockStartNode*)reducedNode));
-        _recognizeStack.push(std::stack<ASTNode*>());
+        _scopeStack.push(Scope(std::dynamic_pointer_cast<ASTBlockStartNode>(reducedNode)));
+        _recognizeStack.push(std::stack<std::shared_ptr<ASTNode>>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
         auto scope = _scopeStack.top();
         _scopeStack.pop();
         _recognizeStack.pop();
-        _recognizeStack.top().push(scope.convertToBlockNode((ASTBlockEndNode*)reducedNode));
+        _recognizeStack.top().push(scope.convertToBlockNode(std::dynamic_pointer_cast<ASTBlockEndNode>(reducedNode)));
         _modeStack.pop();
     } else if (reducedNode->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
-        fileScope->addImport((ASTImportSingleModuleDeclarationNode*)reducedNode);
+        fileScope->addImport(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(reducedNode));
     } else if (reducedNode->is(AST_MODULE_DECLARATION_NODE)) {
-        fileScope->setModule((ASTModuleDeclarationNode*)reducedNode);
-    } else if (ASTNodeUtils::isStatementNode(reducedNode)) {
+        fileScope->setModule(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(reducedNode));
+    } else if (ASTNodeUtils::isStatementOrReturnExpressionNode(reducedNode)) {
         if (_scopeStack.empty()) {
             Logger::log("pushing node to file scope:", reducedNode->toString());
             fileScope->addToScope(reducedNode);
@@ -113,7 +113,7 @@ void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerRe
     }
 
     _handle.removeFirstNodes(recognizerResult->getNumReducedNodes());
-    if (ASTNodeUtils::isStatementNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
+    if (ASTNodeUtils::isStatementOrReturnExpressionNode(reducedNode) && _handle.isTerminatorOnlyNode()) {
         _handle.clear();
     }
 }
@@ -293,7 +293,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
 }
 
 void SyntaxAnalyzer::handleSyntaxErrors() {
-    auto recognizeNodes = std::vector<ASTNode*>();
+    auto recognizeNodes = std::vector<std::shared_ptr<ASTNode>>();
     auto numNodesInRecognizeStack = _recognizeStack.top().size();
     for (unsigned long i = 0; i < numNodesInRecognizeStack; ++i) {
         recognizeNodes.insert(recognizeNodes.begin(), _recognizeStack.top().top());
@@ -305,7 +305,7 @@ void SyntaxAnalyzer::handleSyntaxErrors() {
     _handle.reset();
 
     auto sourceCodeBuilder = SourceCodeBuilder();
-    std::optional<ASTNode*> startNode = {};
+    std::optional<std::shared_ptr<ASTNode>> startNode = {};
     auto size = recognizeNodes.size();
     for (unsigned long i = 0; i < size; ++i) {
         auto node = recognizeNodes[i];

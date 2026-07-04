@@ -15,15 +15,15 @@
 
 class ASTVariableDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTVariableInitNode* _varInit;
-    ASTExpressionNode* _initializer;
+    std::shared_ptr<ASTVariableInitNode> _varInit;
+    std::shared_ptr<ASTExpressionNode> _initializer;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     unsigned long _captureCount = 0;
 public:
-    explicit ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTVariableInitNode* getVarInitNode();
-    ASTExpressionNode* getInitializerNode();
+    explicit ASTVariableDeclarationNode(std::shared_ptr<ASTVariableInitNode> varInit, std::shared_ptr<ASTExpressionNode> initializer, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTVariableInitNode> getVarInitNode();
+    std::shared_ptr<ASTExpressionNode> getInitializerNode();
     void markAsCaptured();
     unsigned long getCaptureCount();
     bool isConst();
@@ -35,7 +35,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

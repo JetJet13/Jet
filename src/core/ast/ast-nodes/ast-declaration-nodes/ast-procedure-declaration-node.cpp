@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTProcedureDefinitionNode* procedureDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword) {
+ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(std::shared_ptr<ASTProcedureDefinitionNode> procedureDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _procedureDefinition = procedureDefinition;
     _block = content;
     _exportKeyword = exportKeyword;
@@ -19,19 +19,19 @@ ASTProcedureDeclarationNode::ASTProcedureDeclarationNode(ASTProcedureDefinitionN
 
 }
 
-ASTFunctionParameterListNode* ASTProcedureDeclarationNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTProcedureDeclarationNode::getParameters() {
     return _procedureDefinition->getParameters();
 }
 
-ASTFunctionNameNode* ASTProcedureDeclarationNode::getName() {
+std::shared_ptr<ASTFunctionNameNode> ASTProcedureDeclarationNode::getName() {
     return _procedureDefinition->getName();
 }
 
-ASTFunctionBlockNode* ASTProcedureDeclarationNode::getBlock() {
+std::shared_ptr<ASTFunctionBlockNode> ASTProcedureDeclarationNode::getBlock() {
     return _block;
 }
 
-ASTProcedureDefinitionNode* ASTProcedureDeclarationNode::getDefinition() {
+std::shared_ptr<ASTProcedureDefinitionNode> ASTProcedureDeclarationNode::getDefinition() {
     return _procedureDefinition;
 }
 
@@ -67,11 +67,11 @@ std::string ASTProcedureDeclarationNode::toString() {
     return "PROCEDURE_DECLARATION";
 }
 
-bool ASTProcedureDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTProcedureDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTProcedureDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&

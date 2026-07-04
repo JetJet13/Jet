@@ -10,18 +10,18 @@
 #include "ast-type-parameter-list-node.h"
 #include "../ast-tuple-nodes/ast-tuple-node.h"
 
-class ASTTupleTypeNodeDep : public ASTTypeBaseNode {
+class ASTTupleTypeNode : public ASTTypeBaseNode {
 private:
-    ASTTupleNode* _tupleNode;
-    ASTTypeParameterListNode* _typeParameterList;
+    std::shared_ptr<ASTTupleNode> _tupleNode;
+    std::shared_ptr<ASTTypeParameterListNode> _typeParameterList;
 public:
-    explicit ASTTupleTypeNodeDep(ASTTupleNode* tupleNode, ASTTypeParameterListNode* tupleTypeParameterList);
-    ASTTypeParameterListNode* getParameterList();
+    explicit ASTTupleTypeNode(std::shared_ptr<ASTTupleNode> tupleNode, std::shared_ptr<ASTTypeParameterListNode> tupleTypeParameterList);
+    std::shared_ptr<ASTTypeParameterListNode> getParameterList();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

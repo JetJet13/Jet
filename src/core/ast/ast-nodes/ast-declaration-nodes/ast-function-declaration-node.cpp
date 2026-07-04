@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionDefinitionNode* functionDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword) {
+ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(std::shared_ptr<ASTFunctionDefinitionNode> functionDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _functionDefinition = functionDefinition;
     _block = content;
     _exportKeyword = exportKeyword;
@@ -17,23 +17,23 @@ ASTFunctionDeclarationNode::ASTFunctionDeclarationNode(ASTFunctionDefinitionNode
     }
 }
 
-ASTFunctionParameterListNode* ASTFunctionDeclarationNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTFunctionDeclarationNode::getParameters() {
     return _functionDefinition->getParameters();
 }
 
-ASTFunctionNameNode* ASTFunctionDeclarationNode::getName() {
+std::shared_ptr<ASTFunctionNameNode> ASTFunctionDeclarationNode::getName() {
     return _functionDefinition->getName();
 }
 
-ASTTypeNode* ASTFunctionDeclarationNode::getReturnType() {
+std::shared_ptr<ASTTypeNode> ASTFunctionDeclarationNode::getReturnType() {
     return _functionDefinition->getReturnType();
 }
 
-ASTFunctionBlockNode* ASTFunctionDeclarationNode::getBlock() {
+std::shared_ptr<ASTFunctionBlockNode> ASTFunctionDeclarationNode::getBlock() {
     return _block;
 }
 
-ASTFunctionDefinitionNode* ASTFunctionDeclarationNode::getDefinition() {
+std::shared_ptr<ASTFunctionDefinitionNode> ASTFunctionDeclarationNode::getDefinition() {
     return _functionDefinition;
 }
 
@@ -69,11 +69,11 @@ std::string ASTFunctionDeclarationNode::toString() {
     return "FUNCTION_DECLARATION";
 }
 
-bool ASTFunctionDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTFunctionDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&

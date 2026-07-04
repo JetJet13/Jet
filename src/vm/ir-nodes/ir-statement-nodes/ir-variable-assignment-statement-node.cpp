@@ -4,7 +4,7 @@
 
 #include "ir-variable-assignment-statement-node.h"
 
-IRVariableAssignmentStatementNode::IRVariableAssignmentStatementNode(ASTVariableAssignmentStatementNode* node, IRExpressionNode* irExpression) {
+IRVariableAssignmentStatementNode::IRVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentStatementNode> node, IRExpressionNode* irExpression) {
     _node = node;
     _irExpression = irExpression;
 }

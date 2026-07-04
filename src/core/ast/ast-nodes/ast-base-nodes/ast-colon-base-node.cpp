@@ -8,25 +8,25 @@
 #include "../ast-interface-nodes/ast-interface-colon-node.h"
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.h"
 
-ASTNode* ASTColonBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTColonBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE ||
         mode == SA_GROUP_MODE ||
         (prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_DEFINITION_NODE, AST_CLASS_PROPERTY_DEFINITION_NODE, AST_FUNCTION_PARAMETER_LIST_NODE }))) {
-        return new ASTTypeColonNode(_lexeme);
+        return std::make_shared<ASTTypeColonNode>(_lexeme);
     }
 
     if (mode == SA_STRUCT_MODE) {
-        return new ASTStructColonNode(_lexeme);
+        return std::make_shared<ASTStructColonNode>(_lexeme);
     }
 
     if (mode == SA_INTERFACE_MODE) {
-        return new ASTInterfaceColonNode(_lexeme);
+        return std::make_shared<ASTInterfaceColonNode>(_lexeme);
     }
 
     if (mode == SA_STRUCT_TYPE_MODE || mode == SA_TUPLE_TYPE_MODE) {
-        return new ASTStructTypeColonNode(_lexeme);
+        return std::make_shared<ASTStructTypeColonNode>(_lexeme);
     }
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTColonBaseNode::getNodeType() {

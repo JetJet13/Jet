@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTElseIfBlockNode::ASTElseIfBlockNode(ASTElseIfNode* elseIfKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+ASTElseIfBlockNode::ASTElseIfBlockNode(std::shared_ptr<ASTElseIfNode> elseIfKeyword, std::shared_ptr<ASTControlFlowConditionNode> condition, std::shared_ptr<ASTControlFlowBlockNode> block) {
     _elseIfKeyword = elseIfKeyword;
     _condition = condition;
     _block = block;
@@ -14,15 +14,15 @@ ASTElseIfBlockNode::ASTElseIfBlockNode(ASTElseIfNode* elseIfKeyword, ASTControlF
     _children.push_back(_block);
 }
 
-ASTControlFlowBlockNode* ASTElseIfBlockNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTElseIfBlockNode::getBlock() {
     return _block;
 }
 
-ASTControlFlowConditionNode* ASTElseIfBlockNode::getCondition() {
+std::shared_ptr<ASTControlFlowConditionNode> ASTElseIfBlockNode::getCondition() {
     return _condition;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTElseIfBlockNode::getReturnStatements() {
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTElseIfBlockNode::getReturnStatements() {
     return _block->getReturnStatements();
 }
 
@@ -42,11 +42,11 @@ std::string ASTElseIfBlockNode::toString() {
     return "ELSE_IF_BLOCK";
 }
 
-bool ASTElseIfBlockNode::isSameAs(ASTNode* other) {
+bool ASTElseIfBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTElseIfBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTElseIfBlockNode>(other);
 
     return  this->getCondition()->isSameAs(otherNode->getCondition()) &&
             this->getBlock()->isSameAs(otherNode->getBlock());

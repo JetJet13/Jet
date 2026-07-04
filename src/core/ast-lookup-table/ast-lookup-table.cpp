@@ -7,13 +7,13 @@
 #include "../../shared/utils/logger/logger.h"
 
 ASTLookupTable::ASTLookupTable(std::optional<ASTLookupTable*> outerScope) {
-    _globalScope = std::unordered_map<std::string, ASTDeclarationNode*>();
-    _scope = std::unordered_map<std::string, ASTNode*>();
+    _globalScope = std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>>();
+    _scope = std::unordered_map<std::string, std::shared_ptr<ASTNode>>();
     _childScopes = std::unordered_map<std::string, ASTLookupTable*>();
     _outerScope = outerScope;
 }
 
-std::unordered_map<std::string, ASTDeclarationNode*> ASTLookupTable::getGlobalScope() {
+std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>> ASTLookupTable::getGlobalScope() {
     return _globalScope;
 }
 
@@ -21,12 +21,12 @@ void ASTLookupTable::inherit(ASTLookupTable* otherScope) {
     _globalScope = otherScope->getGlobalScope();
 }
 
-ASTLookupTable* ASTLookupTable::insert(std::string key, ASTNode* value) {
+ASTLookupTable* ASTLookupTable::insert(std::string key, std::shared_ptr<ASTNode> value) {
     _scope[key] = value;
     return this;
 }
 
-ASTLookupTable* ASTLookupTable::capture(ASTNode* node) {
+ASTLookupTable* ASTLookupTable::capture(std::shared_ptr<ASTNode> node) {
     if (_lambda) {
         _lambda.value()->addCapturedValueId(node->getId());
     }
@@ -41,7 +41,7 @@ ASTLookupTable* ASTLookupTable::capture(ASTNode* node) {
     return this;
 }
 
-void ASTLookupTable::bindLambda(ASTLambdaExpressionNode* lambdaExpressionNode) {
+void ASTLookupTable::bindLambda(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpressionNode) {
     _lambda = lambdaExpressionNode;
 }
 
@@ -49,11 +49,11 @@ bool ASTLookupTable::isLambdaScope() {
     return _lambda.has_value() || _lambdaFatArrow.has_value();
 }
 
-void ASTLookupTable::bindLambdaFatArrow(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpressionNode) {
+void ASTLookupTable::bindLambdaFatArrow(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaWithFatArrowExpressionNode) {
     _lambdaFatArrow = lambdaWithFatArrowExpressionNode;
 }
 
-std::optional<ASTNode*> ASTLookupTable::find(std::string key) {
+std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::find(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         if (_outerScope) {
@@ -65,7 +65,7 @@ std::optional<ASTNode*> ASTLookupTable::find(std::string key) {
     }
 }
 
-std::optional<ASTNode*> ASTLookupTable::findWithin(std::string key) {
+std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findWithin(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         return {};
@@ -73,14 +73,14 @@ std::optional<ASTNode*> ASTLookupTable::findWithin(std::string key) {
         return result->second;
     }
 }
-std::optional<ASTNode*> ASTLookupTable::findInOuterScope(std::string key) {
+std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findInOuterScope(std::string key) {
     if (!_outerScope) {
         return {};
     }
     return _outerScope.value()->find(key);
 }
 
-std::optional<ASTNode*> ASTLookupTable::findAcrossScopes(std::string key) {
+std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findAcrossScopes(std::string key) {
     auto result = this->find(key);
     if (result) {
         return result;
@@ -88,7 +88,7 @@ std::optional<ASTNode*> ASTLookupTable::findAcrossScopes(std::string key) {
     return this->findGlobalVariable(key);
 }
 
-ASTLookupTable* ASTLookupTable::insertGlobalVariable(std::string key, ASTDeclarationNode* value) {
+ASTLookupTable* ASTLookupTable::insertGlobalVariable(std::string key, std::shared_ptr<ASTDeclarationNode> value) {
     _globalScope[key] = value;
     return this;
 }
@@ -98,7 +98,7 @@ ASTLookupTable* ASTLookupTable::insertChildScope(std::string key, ASTLookupTable
     return this;
 }
 
-std::optional<ASTNode*> ASTLookupTable::findGlobalVariable(std::string key) {
+std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findGlobalVariable(std::string key) {
     auto result = _globalScope.find(key);
     if (result == _globalScope.end()) {
         if (_outerScope) {

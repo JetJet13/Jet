@@ -6,24 +6,24 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd) {
+ASTTupleExpressionNode::ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::shared_ptr<ASTTupleListEndNode> tupleListEnd) {
     _tupleListStart = tupleListStart;
     _tupleListEnd = tupleListEnd;
-    _commas = std::vector<ASTCommaNode*>();
-    _items = std::vector<ASTTupleItemNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _items = std::vector<std::shared_ptr<ASTTupleItemNode>>();
 }
 
-ASTTupleExpressionNode::ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, std::vector<ASTCommaNode*> commas, ASTTupleListEndNode* tupleListEnd) {
+ASTTupleExpressionNode::ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::vector<std::shared_ptr<ASTTupleItemNode>> items, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleListEndNode> tupleListEnd) {
     _tupleListStart = tupleListStart;
     _tupleListEnd = tupleListEnd;
     _commas = commas;
-    _items = std::vector<ASTTupleItemNode*>();
+    _items = std::vector<std::shared_ptr<ASTTupleItemNode>>();
     for (auto item: items) {
         this->addItem(item);
     }
 }
 
-std::vector<ASTTupleItemNode*>* ASTTupleExpressionNode::getItems() {
+std::vector<std::shared_ptr<ASTTupleItemNode>>* ASTTupleExpressionNode::getItems() {
     return &_items;
 }
 
@@ -31,15 +31,15 @@ unsigned long ASTTupleExpressionNode::numItems() {
     return _items.size();
 }
 
-ASTTupleExpressionNode* ASTTupleExpressionNode::addItem(ASTTupleItemNode* item) {
+std::shared_ptr<ASTTupleExpressionNode> ASTTupleExpressionNode::addItem(std::shared_ptr<ASTTupleItemNode> item) {
     _items.push_back(item);
     _children.push_back(item);
-    return this;
+    return std::dynamic_pointer_cast<ASTTupleExpressionNode>(shared_from_this());
 }
 
-ASTTupleExpressionNode* ASTTupleExpressionNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTTupleExpressionNode> ASTTupleExpressionNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTTupleExpressionNode>(shared_from_this());
 }
 
 TupleTypeSignature* ASTTupleExpressionNode::getTypeSignature() {
@@ -66,11 +66,11 @@ std::string ASTTupleExpressionNode::toString() {
     return "TUPLE_EXPRESSION";
 }
 
-bool ASTTupleExpressionNode::isSameAs(ASTNode* other) {
+bool ASTTupleExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTupleExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleExpressionNode>(other);
     if (this->numItems() != otherNode->numItems()) {
         return false;
     }

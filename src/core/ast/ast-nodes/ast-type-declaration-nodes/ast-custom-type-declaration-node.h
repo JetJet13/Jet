@@ -16,22 +16,22 @@
 
 class ASTCustomTypeDeclarationNode : public ASTTypeDeclarationNode {
 private:
-    ASTTypeKeywordNode* _typeKeyword;
-    ASTTypeNameNode* _typeName;
-    ASTTypeAssignmentOperatorNode* _assignmentOperator;
-    ASTTypeNode* _type;
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::shared_ptr<ASTTypeKeywordNode> _typeKeyword;
+    std::shared_ptr<ASTTypeNameNode> _typeName;
+    std::shared_ptr<ASTTypeAssignmentOperatorNode> _assignmentOperator;
+    std::shared_ptr<ASTTypeNode> _type;
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    explicit ASTCustomTypeDeclarationNode(ASTTypeKeywordNode* typeKeyword, ASTTypeNameNode* typeName, ASTTypeAssignmentOperatorNode* assignmentOperator, ASTTypeNode* type, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTTypeNode* getType();
-    ASTTypeNameNode* getName();
+    explicit ASTCustomTypeDeclarationNode(std::shared_ptr<ASTTypeKeywordNode> typeKeyword, std::shared_ptr<ASTTypeNameNode> typeName, std::shared_ptr<ASTTypeAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTTypeNode> type, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTTypeNode> getType();
+    std::shared_ptr<ASTTypeNameNode> getName();
     bool isExportable() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

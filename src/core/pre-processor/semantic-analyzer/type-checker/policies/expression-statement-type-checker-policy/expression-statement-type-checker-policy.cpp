@@ -6,7 +6,7 @@
 #include "../../type-checker.h"
 
 namespace ExpressionStatementTypeCheckerPolicy {
-    void apply(ASTExpressionStatementNode* expressionStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTExpressionStatementNode> expressionStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(expressionStatementNode->getExpression(), typeCheckerResult);
     }
 }

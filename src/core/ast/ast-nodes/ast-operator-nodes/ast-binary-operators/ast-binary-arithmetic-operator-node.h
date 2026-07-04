@@ -17,7 +17,7 @@ public:
     explicit ASTBinaryArithmeticOperatorNode(Lexeme* lexeme);
     Lexeme* getOperator();
     unsigned int getPriority() const;
-    bool isHigherOrEqualPriorityThan(ASTBinaryArithmeticOperatorNode* other) const;
+    bool isHigherOrEqualPriorityThan(std::shared_ptr<ASTBinaryArithmeticOperatorNode> other) const;
     bool isPlus();
     bool isMinus();
     bool isMultiply();
@@ -27,7 +27,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

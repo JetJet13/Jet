@@ -11,18 +11,18 @@
 
 class ASTCurryExpressionNode : public ASTCallableExpressionNode {
 private:
-    ASTCallableExpressionNode* _callableExpression;
-    ASTFunctionArgumentListNode* _arguments;
+    std::shared_ptr<ASTCallableExpressionNode> _callableExpression;
+    std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
 public:
-    explicit ASTCurryExpressionNode(ASTCallableExpressionNode* callableExpression, ASTFunctionArgumentListNode* arguments);
-    ASTFunctionArgumentListNode* getArguments();
-    ASTCallableExpressionNode* getCallableExpression();
+    explicit ASTCurryExpressionNode(std::shared_ptr<ASTCallableExpressionNode> callableExpression, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
+    std::shared_ptr<ASTCallableExpressionNode> getCallableExpression();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

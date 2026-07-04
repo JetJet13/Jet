@@ -14,19 +14,19 @@
 
 class ASTRefValueAssignmentNode : public ASTNode {
 private:
-    ASTIdentifierNode* _identifier;
-    ASTRefValueAssignmentOperatorNode* _assignmentOperator;
+    std::shared_ptr<ASTIdentifierNode> _identifier;
+    std::shared_ptr<ASTRefValueAssignmentOperatorNode> _assignmentOperator;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    explicit ASTRefValueAssignmentNode(ASTIdentifierNode* astIdentifierNode, ASTRefValueAssignmentOperatorNode* assignmentOperator);
-    ASTIdentifierNode* getIdentifierNode();
+    explicit ASTRefValueAssignmentNode(std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator);
+    std::shared_ptr<ASTIdentifierNode> getIdentifierNode();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

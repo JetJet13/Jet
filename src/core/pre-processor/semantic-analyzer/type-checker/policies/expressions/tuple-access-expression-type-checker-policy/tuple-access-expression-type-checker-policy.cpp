@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace TupleAccessExpressionTypeCheckerPolicy {
-    void apply(ASTTupleAccessExpressionNode* tupleAccessExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleAccessExpression);

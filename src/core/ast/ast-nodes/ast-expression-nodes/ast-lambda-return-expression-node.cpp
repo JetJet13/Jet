@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* expressionNode) {
+ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(std::shared_ptr<ASTLambdaExpressionFatArrowNode> fatArrowNode, std::shared_ptr<ASTExpressionNode> expressionNode) {
     _fatArrowNode = fatArrowNode;
     _returnExpression = expressionNode;
     _children.push_back(_fatArrowNode);
     _children.push_back(_returnExpression);
 }
 
-ASTLambdaExpressionFatArrowNode* ASTLambdaReturnExpressionNode::getFatArrowNode() {
+std::shared_ptr<ASTLambdaExpressionFatArrowNode> ASTLambdaReturnExpressionNode::getFatArrowNode() {
     return _fatArrowNode;
 }
 
-ASTExpressionNode* ASTLambdaReturnExpressionNode::getExpression() {
+std::shared_ptr<ASTExpressionNode> ASTLambdaReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTLambdaReturnExpressionNode::toString() {
     return "LAMBDA_RETURN_EXPRESSION";
 }
 
-bool ASTLambdaReturnExpressionNode::isSameAs(ASTNode* other) {
+bool ASTLambdaReturnExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaReturnExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLambdaReturnExpressionNode>(other);
     return this->getExpression()->isSameAs(otherNode->getExpression());
 }
 

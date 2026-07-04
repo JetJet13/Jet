@@ -5,7 +5,7 @@
 #include "while-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 
-IRStatementNode* WhileStatementIRStrategy::generate(ASTWhileStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRStatementNode* WhileStatementIRStrategy::generate(std::shared_ptr<ASTWhileStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto whileConditionIRExpression = irGenerator->generateFor(node->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto whileConditionBlock = irGenerator->generateWhileConditionBlock(irContext, scope);
     auto whileBodyBlock = irGenerator->generateWhileBodyBlock(irContext, scope);
@@ -14,7 +14,7 @@ IRStatementNode* WhileStatementIRStrategy::generate(ASTWhileStatementNode* node,
     return new IRWhileStatementNode(node, whileConditionIRExpression, whileConditionBlock, whileBodyBlock, endBlock);
 }
 
-IRBlockNode* WhileStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRBlockNode* WhileStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     for (auto statement : *node->getContents()) {
         irBlockNode->insert(irGenerator->generateFor(statement, irBlockNode->getScope(), irContext));
     }

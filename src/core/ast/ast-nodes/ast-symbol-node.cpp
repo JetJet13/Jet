@@ -11,7 +11,7 @@ ASTSymbolNode::ASTSymbolNode(Lexeme *lexeme) {
 
 ASTSymbolNode::ASTSymbolNode(Lexeme *lexeme, std::string id) {
     _lexeme = lexeme;
-    this->setId(id);
+    _id = id;
 }
 
 Lexeme* ASTSymbolNode::getLexeme() {
@@ -26,11 +26,11 @@ Position* ASTSymbolNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 
-bool ASTSymbolNode::isSameAs(ASTNode* other) {
+bool ASTSymbolNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTSymbolNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTSymbolNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-tuple-access-ref-assignment-statement-node.h"
 
 namespace TupleAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> tupleAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 }
 
 #endif //JETLANG_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

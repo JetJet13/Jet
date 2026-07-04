@@ -6,22 +6,22 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTArrayExpressionNode::ASTArrayExpressionNode(ASTArrayNode* array) {
+ASTArrayExpressionNode::ASTArrayExpressionNode(std::shared_ptr<ASTArrayNode> array) {
     _array = array;
     _children.push_back(_array);
 }
 
-ASTArrayNode* ASTArrayExpressionNode::getArray() {
+std::shared_ptr<ASTArrayNode> ASTArrayExpressionNode::getArray() {
     return _array;
 }
 
-std::vector<ASTExpressionNode*>* ASTArrayExpressionNode::getElements() {
+std::vector<std::shared_ptr<ASTExpressionNode>>* ASTArrayExpressionNode::getElements() {
     return _array->getElements();
 }
 
-ASTArrayExpressionNode* ASTArrayExpressionNode::addElement(ASTExpressionNode* element) {
+std::shared_ptr<ASTArrayExpressionNode> ASTArrayExpressionNode::addElement(std::shared_ptr<ASTExpressionNode> element) {
     _array->getElements()->push_back(element);
-    return this;
+    return std::dynamic_pointer_cast<ASTArrayExpressionNode>(shared_from_this());
 }
 
 ArrayTypeSignature* ASTArrayExpressionNode::getTypeSignature() {
@@ -52,11 +52,11 @@ std::string ASTArrayExpressionNode::toString() {
     return "ARRAY_EXPRESSION";
 }
 
-bool ASTArrayExpressionNode::isSameAs(ASTNode* other) {
+bool ASTArrayExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTArrayExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTArrayExpressionNode>(other);
     if (this->size() != otherNode->size()) {
         return false;
     }

@@ -13,7 +13,7 @@ protected:
     std::shared_ptr<TokenTable> _tokenTable;
 public:
     ASTNodeIdStrategy(std::shared_ptr<TokenTable> tokenTable);
-    virtual void assign(ASTNode* node) = 0;
+    virtual void assign(std::shared_ptr<ASTNode> node) = 0;
 };
 
 #endif //JETLANG_AST_NODE_ID_STRATEGY_H

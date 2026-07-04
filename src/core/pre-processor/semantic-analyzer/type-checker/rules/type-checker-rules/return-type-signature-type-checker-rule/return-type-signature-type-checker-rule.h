@@ -13,7 +13,7 @@
 
 class ReturnTypeSignatureTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::optional<ASTNode*> node, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::optional<std::shared_ptr<ASTNode>> node, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
     void enforce(TypeSignature* typeSignature, ErrorMessageLambda& unknownMessage, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;

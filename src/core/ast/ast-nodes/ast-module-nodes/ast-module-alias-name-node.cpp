@@ -5,12 +5,12 @@
 #include "ast-module-alias-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleAliasNameNode::ASTModuleAliasNameNode(ASTIdentifierNode* identifier) {
+ASTModuleAliasNameNode::ASTModuleAliasNameNode(std::shared_ptr<ASTIdentifierNode> identifier) {
     _identifier = identifier;
     _children.push_back(_identifier);
 }
 
-ASTIdentifierNode* ASTModuleAliasNameNode::getIdentifier() {
+std::shared_ptr<ASTIdentifierNode> ASTModuleAliasNameNode::getIdentifier() {
     return _identifier;
 }
 
@@ -30,11 +30,11 @@ std::string ASTModuleAliasNameNode::toString() {
     return "MODULE_ALIAS_NAME";
 }
 
-bool ASTModuleAliasNameNode::isSameAs(ASTNode* other) {
+bool ASTModuleAliasNameNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTModuleAliasNameNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleAliasNameNode>(other);
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 

@@ -6,24 +6,24 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleTypeNode::ASTTupleTypeNode(ASTTupleTypeStartNode* tupleTypeStartNode, ASTTupleTypeEndNode* tupleTypeEndNode) {
+ASTTupleTypeNode::ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode) {
     _tupleTypeStartNode = tupleTypeStartNode;
     _tupleTypeEndNode = tupleTypeEndNode;
-    _commas = std::vector<ASTCommaNode*>();
-    _types = std::vector<ASTTypeNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _types = std::vector<std::shared_ptr<ASTTypeNode>>();
 }
 
-ASTTupleTypeNode::ASTTupleTypeNode(ASTTupleTypeStartNode* tupleTypeStartNode, std::vector<ASTTypeNode*> valueTypes, std::vector<ASTCommaNode*> commas, ASTTupleTypeEndNode* tupleTypeEndNode) {
+ASTTupleTypeNode::ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::vector<std::shared_ptr<ASTTypeNode>> valueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode) {
     _tupleTypeStartNode = tupleTypeStartNode;
     _tupleTypeEndNode = tupleTypeEndNode;
     _commas = commas;
-    _types = std::vector<ASTTypeNode*>();
+    _types = std::vector<std::shared_ptr<ASTTypeNode>>();
     for (auto keyValueType: valueTypes) {
         this->addValueType(keyValueType);
     }
 }
 
-std::vector<ASTTypeNode*> ASTTupleTypeNode::getValueTypes() {
+std::vector<std::shared_ptr<ASTTypeNode>> ASTTupleTypeNode::getValueTypes() {
     return _types;
 }
 
@@ -31,15 +31,15 @@ unsigned long ASTTupleTypeNode::numValueTypes() {
     return _types.size();
 }
 
-ASTTupleTypeNode* ASTTupleTypeNode::addValueType(ASTTypeNode* type) {
+std::shared_ptr<ASTTupleTypeNode> ASTTupleTypeNode::addValueType(std::shared_ptr<ASTTypeNode> type) {
     _types.push_back(type);
     _children.push_back(type);
-    return this;
+    return std::dynamic_pointer_cast<ASTTupleTypeNode>(shared_from_this());
 }
 
-ASTTupleTypeNode* ASTTupleTypeNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTTupleTypeNode> ASTTupleTypeNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTTupleTypeNode>(shared_from_this());
 }
 
 Position* ASTTupleTypeNode::getStartPosition() {
@@ -58,11 +58,11 @@ std::string ASTTupleTypeNode::toString() {
     return "TUPLE_TYPE";
 }
 
-bool ASTTupleTypeNode::isSameAs(ASTNode* other) {
+bool ASTTupleTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTupleTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleTypeNode>(other);
     auto otherNodeElements = otherNode->getValueTypes();
     if (this->numValueTypes() != otherNode->numValueTypes()) {
         return false;

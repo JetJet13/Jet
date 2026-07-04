@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.h"
 
 namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTTupleAccessInvocationExpressionNode* tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 

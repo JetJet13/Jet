@@ -14,19 +14,19 @@
 
 class ASTProcedureDefinitionNode : public ASTNode {
 private:
-    ASTProcedureNode* _procedureKeyword;
-    ASTFunctionNameNode* _name;
-    ASTFunctionParameterListNode* _parameters;
+    std::shared_ptr<ASTProcedureNode> _procedureKeyword;
+    std::shared_ptr<ASTFunctionNameNode> _name;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
 public:
-    explicit ASTProcedureDefinitionNode(ASTProcedureNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters);
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionNameNode* getName();
+    explicit ASTProcedureDefinitionNode(std::shared_ptr<ASTProcedureNode> functionKeyword, std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters);
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionNameNode> getName();
     unsigned long numParameters();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -12,17 +12,17 @@
 #include "../ast-type-nodes/ast-type-node.h"
 
 class ASTVariableDefinitionNode : public ASTNode {
-    ASTVariableTypeNode* _assignmentTypeQualifier;
-    ASTIdentifierNode* _identifier;
+    std::shared_ptr<ASTVariableTypeNode> _assignmentTypeQualifier;
+    std::shared_ptr<ASTIdentifierNode> _identifier;
 public:
-    explicit ASTVariableDefinitionNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode);
-    ASTVariableTypeNode* getVarTypeNode();
-    ASTIdentifierNode* getIdentifierNode();
+    explicit ASTVariableDefinitionNode(std::shared_ptr<ASTVariableTypeNode> assignmentTypeQualifier, std::shared_ptr<ASTIdentifierNode> astIdentifierNode);
+    std::shared_ptr<ASTVariableTypeNode> getVarTypeNode();
+    std::shared_ptr<ASTIdentifierNode> getIdentifierNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

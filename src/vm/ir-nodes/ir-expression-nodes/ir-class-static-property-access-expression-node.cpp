@@ -5,13 +5,13 @@
 #include "ir-class-static-property-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRClassStaticPropertyAccessExpressionNode::IRClassStaticPropertyAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRInstructionNode* irStaticProperty, IRType* irType) {
+IRClassStaticPropertyAccessExpressionNode::IRClassStaticPropertyAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRInstructionNode* irStaticProperty, IRType* irType) {
     _node = node;
     _irStaticProperty = irStaticProperty;
     _irType = irType;
 }
 
-ASTObjectAccessExpressionNode* IRClassStaticPropertyAccessExpressionNode::getNode() {
+std::shared_ptr<ASTObjectAccessExpressionNode> IRClassStaticPropertyAccessExpressionNode::getNode() {
     return _node;
 }
 

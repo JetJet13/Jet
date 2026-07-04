@@ -11,18 +11,18 @@
 
 class ASTForInSourceNode : public ASTNode {
 private:
-    ASTExpressionNode* _source;
+    std::shared_ptr<ASTExpressionNode> _source;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    explicit ASTForInSourceNode(ASTExpressionNode* source);
-    ASTExpressionNode* getSource();
+    explicit ASTForInSourceNode(std::shared_ptr<ASTExpressionNode> source);
+    std::shared_ptr<ASTExpressionNode> getSource();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

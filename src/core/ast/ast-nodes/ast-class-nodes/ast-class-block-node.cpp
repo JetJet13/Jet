@@ -6,50 +6,50 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> nodes, ASTBlockEndNode* blockEndNode) {
+ASTClassBlockNode::ASTClassBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> nodes, std::shared_ptr<ASTBlockEndNode> blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
-    _properties = std::vector<ASTClassPropertyDeclarationNode*>();
-    _instanceProperties = std::vector<ASTClassPropertyDeclarationNode*>();
-    _staticProperties = std::vector<ASTClassPropertyDeclarationNode*>();
-    _methods = std::vector<ASTClassMethodDeclarationNode*>();
-    _staticMethods = std::vector<ASTClassMethodDeclarationNode*>();
-    _instanceMethods = std::vector<ASTClassMethodDeclarationNode*>();
-    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
+    _properties = std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>();
+    _instanceProperties = std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>();
+    _staticProperties = std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>();
+    _methods = std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>();
+    _staticMethods = std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>();
+    _instanceMethods = std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>();
+    _constructors = std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>();
     for (auto node : nodes) {
         if (node->is(AST_CLASS_PROPERTY_DECLARATION_NODE)) {
-            this->addProperty((ASTClassPropertyDeclarationNode*)node);
+            this->addProperty(std::dynamic_pointer_cast<ASTClassPropertyDeclarationNode>(node));
         }
         if (node->is(AST_CLASS_METHOD_DECLARATION_NODE)) {
-            this->addMethod((ASTClassMethodDeclarationNode*)node);
+            this->addMethod(std::dynamic_pointer_cast<ASTClassMethodDeclarationNode>(node));
         }
         if (node->is(AST_CLASS_CONSTRUCTOR_DECLARATION_NODE)) {
-            this->addConstructor((ASTClassConstructorDeclarationNode*)node);
+            this->addConstructor(std::dynamic_pointer_cast<ASTClassConstructorDeclarationNode>(node));
         }
     }
 }
 
-ASTClassBlockNode::ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors, ASTBlockEndNode* blockEndNode) {
+ASTClassBlockNode::ASTClassBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> properties, std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> methods, std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>> constructors, std::shared_ptr<ASTBlockEndNode> blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
 
-    _instanceProperties = std::vector<ASTClassPropertyDeclarationNode*>();
-    _staticProperties = std::vector<ASTClassPropertyDeclarationNode*>();
+    _instanceProperties = std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>();
+    _staticProperties = std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>();
     for (auto property: properties) {
         this->addProperty(property);
     }
 
-    _methods = std::vector<ASTClassMethodDeclarationNode*>();
+    _methods = std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>();
     for (auto method: methods) {
         this->addMethod(method);
     }
 
-    _constructors = std::vector<ASTClassConstructorDeclarationNode*>();
+    _constructors = std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>();
     for (auto constructor: constructors) {
         this->addConstructor(constructor);
     }
 }
-void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
+void ASTClassBlockNode::addProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> property) {
     _properties.push_back(property);
     if (property->isStatic()) {
         _staticProperties.push_back(property);
@@ -59,7 +59,7 @@ void ASTClassBlockNode::addProperty(ASTClassPropertyDeclarationNode* property) {
     _children.push_back(property);
 }
 
-void ASTClassBlockNode::addMethod(ASTClassMethodDeclarationNode* method) {
+void ASTClassBlockNode::addMethod(std::shared_ptr<ASTClassMethodDeclarationNode> method) {
     _methods.push_back(method);
     if (method->isStatic()) {
         _staticMethods.push_back(method);
@@ -69,36 +69,36 @@ void ASTClassBlockNode::addMethod(ASTClassMethodDeclarationNode* method) {
     _children.push_back(method);
 }
 
-void ASTClassBlockNode::addConstructor(ASTClassConstructorDeclarationNode* constructor) {
+void ASTClassBlockNode::addConstructor(std::shared_ptr<ASTClassConstructorDeclarationNode> constructor) {
     _constructors.push_back(constructor);
     _children.push_back(constructor);
 }
 
-std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getProperties() {
+std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* ASTClassBlockNode::getProperties() {
     return &_properties;
 }
 
-std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getStaticProperties() {
+std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* ASTClassBlockNode::getStaticProperties() {
     return &_staticProperties;
 }
 
-std::vector<ASTClassPropertyDeclarationNode*>* ASTClassBlockNode::getInstanceProperties() {
+std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* ASTClassBlockNode::getInstanceProperties() {
     return &_instanceProperties;
 }
 
-std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getMethods() {
+std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* ASTClassBlockNode::getMethods() {
     return &_methods;
 }
 
-std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getStaticMethods() {
+std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* ASTClassBlockNode::getStaticMethods() {
     return &_staticMethods;
 }
 
-std::vector<ASTClassMethodDeclarationNode*>* ASTClassBlockNode::getInstanceMethods() {
+std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* ASTClassBlockNode::getInstanceMethods() {
     return &_instanceMethods;
 }
 
-std::vector<ASTClassConstructorDeclarationNode*>* ASTClassBlockNode::getConstructors() {
+std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>* ASTClassBlockNode::getConstructors() {
     return &_constructors;
 }
 
@@ -118,11 +118,11 @@ std::string ASTClassBlockNode::toString() {
     return "CLASS_BLOCK";
 }
 
-bool ASTClassBlockNode::isSameAs(ASTNode* other) {
+bool ASTClassBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassBlockNode>(other);
     for (unsigned long i = 0; i < _instanceProperties.size(); ++i) {
         if (!_instanceProperties[i]->isSameAs(otherNode->getInstanceProperties()->at(i))) {
             return false;

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(std::shared_ptr<ASTConstructorNode> constructor, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content) {
     _constructor = constructor;
     _block = content;
     _parameters = parameters;
@@ -15,15 +15,15 @@ ASTClassConstructorDeclarationNode::ASTClassConstructorDeclarationNode(ASTConstr
     _children.push_back(_parameters);
 }
 
-ASTConstructorNode* ASTClassConstructorDeclarationNode::getConstructor() {
+std::shared_ptr<ASTConstructorNode> ASTClassConstructorDeclarationNode::getConstructor() {
     return _constructor;
 }
 
-ASTFunctionParameterListNode* ASTClassConstructorDeclarationNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTClassConstructorDeclarationNode::getParameters() {
     return _parameters;
 }
 
-ASTFunctionBlockNode* ASTClassConstructorDeclarationNode::getBlock() {
+std::shared_ptr<ASTFunctionBlockNode> ASTClassConstructorDeclarationNode::getBlock() {
     return _block;
 }
 
@@ -55,11 +55,11 @@ std::string ASTClassConstructorDeclarationNode::toString() {
     return "CLASS_CONSTRUCTOR_DECLARATION";
 }
 
-bool ASTClassConstructorDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTClassConstructorDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassConstructorDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassConstructorDeclarationNode>(other);
 
     return this->getParameters()->isSameAs(otherNode->getParameters()) &&
             this->getBlock()->isSameAs(otherNode->getBlock());

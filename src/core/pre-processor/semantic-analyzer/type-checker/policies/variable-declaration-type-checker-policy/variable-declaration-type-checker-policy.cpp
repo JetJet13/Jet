@@ -7,7 +7,7 @@
 #include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
-    void apply(ASTVariableDeclarationNode* variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTVariableDeclarationNode> variableDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto varTypeSignature = variableDeclarationNode->getTypeSignature();
         auto initializerTypeSignature = variableDeclarationNode->getInitializerNode()->getTypeSignature();
         auto unknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(variableDeclarationNode);

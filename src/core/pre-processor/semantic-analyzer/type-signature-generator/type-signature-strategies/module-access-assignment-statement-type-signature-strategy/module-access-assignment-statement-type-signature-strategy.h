@@ -11,7 +11,7 @@
 
 class ModuleAccessAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTModuleAccessAssignmentStatementNode* moduleAccessAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTModuleAccessAssignmentStatementNode> moduleAccessAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_MODULE_ACCESS_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

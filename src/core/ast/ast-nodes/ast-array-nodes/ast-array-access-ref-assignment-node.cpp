@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayAccessRefAssignmentNode::ASTArrayAccessRefAssignmentNode(ASTArrayAccessExpressionNode* arrayAccessExpression, ASTRefValueAssignmentOperatorNode* assignmentOperator) {
+ASTArrayAccessRefAssignmentNode::ASTArrayAccessRefAssignmentNode(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccessExpression, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator) {
     _arrayAccessExpression = arrayAccessExpression;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_arrayAccessExpression);
     _children.push_back(_assignmentOperator);
 }
 
-ASTArrayAccessExpressionNode* ASTArrayAccessRefAssignmentNode::getArrayAccess() {
+std::shared_ptr<ASTArrayAccessExpressionNode> ASTArrayAccessRefAssignmentNode::getArrayAccess() {
     return _arrayAccessExpression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTArrayAccessRefAssignmentNode::toString() {
     return "ARRAY_ACCESS_REF_ASSIGNMENT";
 }
 
-bool ASTArrayAccessRefAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTArrayAccessRefAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTArrayAccessRefAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentNode>(other);
     return this->getArrayAccess()->isSameAs(otherNode->getArrayAccess());
 }
 

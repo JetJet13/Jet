@@ -16,14 +16,14 @@
 
 class ASTObjectAccessInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
-    ASTObjectAccessExpressionNode* _objectAccess;
-    ASTFunctionArgumentListNode* _arguments;
+    std::shared_ptr<ASTObjectAccessExpressionNode> _objectAccess;
+    std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
 public:
-    explicit ASTObjectAccessInvocationExpressionNode(ASTObjectAccessExpressionNode* objectAccess, ASTFunctionArgumentListNode* arguments);
-    ASTFunctionArgumentListNode* getArguments();
-    ASTObjectAccessExpressionNode* getObjectAccess();
-    ASTObjectAccessSourceNode* getSource();
-    ASTObjectAccessTargetNode* getTarget();
+    explicit ASTObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
+    std::shared_ptr<ASTObjectAccessExpressionNode> getObjectAccess();
+    std::shared_ptr<ASTObjectAccessSourceNode> getSource();
+    std::shared_ptr<ASTObjectAccessTargetNode> getTarget();
     InvocableTypeSignature* getInvocableTypeSignature();
     std::string getName();
     unsigned long numArguments();
@@ -34,7 +34,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -4,7 +4,7 @@
 
 #include "access-modifier-type-signature-strategy.h"
 
-void AccessModifierTypeSignatureStrategy::assign(ASTAccessModifierNode* accessModifierNode) {
+void AccessModifierTypeSignatureStrategy::assign(std::shared_ptr<ASTAccessModifierNode> accessModifierNode) {
     switch (accessModifierNode->getNodeType()) {
         case AST_PUBLIC_NODE:
             accessModifierNode->setTypeSignature(new AccessModifierTypeSignature(PUBLIC_ACCESS_MODIFIER_TYPE));

@@ -14,11 +14,11 @@
 
 class ClassPropertyDefinitionReducerStrategy : public ReducerStrategy {
 private:
-    ASTClassPropertyNameNode* getPropertyName(std::vector<ASTNode*>* nodes);
-    std::optional<ASTStaticNode*> getStatic(std::vector<ASTNode*>* nodes);
-    std::optional<ASTConstNode*> getConstant(std::vector<ASTNode*>* nodes);
+    std::shared_ptr<ASTClassPropertyNameNode> getPropertyName(std::vector<std::shared_ptr<ASTNode>>* nodes);
+    std::optional<std::shared_ptr<ASTStaticNode>> getStatic(std::vector<std::shared_ptr<ASTNode>>* nodes);
+    std::optional<std::shared_ptr<ASTConstNode>> getConstant(std::vector<std::shared_ptr<ASTNode>>* nodes);
 public:
-    ASTNode* execute(std::vector<ASTNode*> nodes) override;
+    std::shared_ptr<ASTNode> execute(std::vector<std::shared_ptr<ASTNode>> nodes) override;
 };
 
 #endif //JETLANG_CLASS_PROPERTY_DEFINITION_REDUCER_STRATEGY_H

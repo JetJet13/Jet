@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTUseSingleModuleDeclarationNode::ASTUseSingleModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleNameNode* moduleName, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+ASTUseSingleModuleDeclarationNode::ASTUseSingleModuleDeclarationNode(std::shared_ptr<ASTUseNode> useKeyword, std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path) {
     _useKeyword = useKeyword;
     _moduleName = moduleName;
     _fromKeyword = fromKeyword;
@@ -15,11 +15,11 @@ ASTUseSingleModuleDeclarationNode::ASTUseSingleModuleDeclarationNode(ASTUseNode*
     _children.push_back(_path);
 }
 
-ASTImportModuleNameNode* ASTUseSingleModuleDeclarationNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTUseSingleModuleDeclarationNode::getModuleName() {
     return _moduleName;
 }
 
-ASTImportPathNode* ASTUseSingleModuleDeclarationNode::getPath() {
+std::shared_ptr<ASTImportPathNode> ASTUseSingleModuleDeclarationNode::getPath() {
     return _path;
 }
 
@@ -39,11 +39,11 @@ std::string ASTUseSingleModuleDeclarationNode::toString() {
     return "USE_SINGLE_MODULE_DECLARATION";
 }
 
-bool ASTUseSingleModuleDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTUseSingleModuleDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTUseSingleModuleDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTUseSingleModuleDeclarationNode>(other);
 
     return  this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
             this->getPath()->isSameAs(otherNode->getPath());

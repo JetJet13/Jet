@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace EnumDeclarationTypeCheckerPolicy {
-    void apply(ASTEnumDeclarationNode* enumDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTEnumDeclarationNode> enumDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         for (auto enumKeyValue : enumDeclarationNode->getValues()->getParameters()) {
             auto mismatchMessage = TypeCheckerErrorMessageTable::EnumKeyValueTypeMismatch(enumDeclarationNode);
             TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()

@@ -14,13 +14,13 @@
 
 class ASTArrayExpressionNode : public ASTExpressionNode {
 private:
-    ASTArrayNode* _array;
+    std::shared_ptr<ASTArrayNode> _array;
     ArrayTypeSignature* _typeSignature = new ArrayTypeSignature();
 public:
-    explicit ASTArrayExpressionNode(ASTArrayNode* array);
-    ASTArrayNode* getArray();
-    std::vector<ASTExpressionNode*>* getElements();
-    ASTArrayExpressionNode* addElement(ASTExpressionNode* element);
+    explicit ASTArrayExpressionNode(std::shared_ptr<ASTArrayNode> array);
+    std::shared_ptr<ASTArrayNode> getArray();
+    std::vector<std::shared_ptr<ASTExpressionNode>>* getElements();
+    std::shared_ptr<ASTArrayExpressionNode> addElement(std::shared_ptr<ASTExpressionNode> element);
     ArrayTypeSignature* getTypeSignature() override;
     void setTypeSignature(ArrayTypeSignature* arrayTypeSignature);
     unsigned long size();
@@ -28,7 +28,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

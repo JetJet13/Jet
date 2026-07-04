@@ -4,7 +4,7 @@
 
 #include "ir-unary-negate-expression-node.h"
 
-IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, IRExpressionNode* irExpression, IRType* type) {
+IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, IRExpressionNode* irExpression, IRType* type) {
     _node = node;
     _irExpression = irExpression;
     _type = type;

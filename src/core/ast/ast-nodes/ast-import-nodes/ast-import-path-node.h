@@ -12,15 +12,15 @@
 
 class ASTImportPathNode : public ASTNode {
 private:
-    ASTStringLiteralNode* _importPath;
+    std::shared_ptr<ASTStringLiteralNode> _importPath;
 public:
-    ASTImportPathNode(ASTStringLiteralNode* importPath);
-    ASTStringLiteralNode* getImportPath();
+    ASTImportPathNode(std::shared_ptr<ASTStringLiteralNode> importPath);
+    std::shared_ptr<ASTStringLiteralNode> getImportPath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

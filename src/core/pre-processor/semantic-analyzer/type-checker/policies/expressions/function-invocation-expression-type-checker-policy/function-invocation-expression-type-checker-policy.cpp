@@ -7,7 +7,7 @@
 #include "../../../type-checker.h"
 
 namespace FunctionInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTFunctionInvocationExpressionNode* functionInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionInvocationExpressionNode> functionInvocationExpression, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(functionInvocationExpression->getArguments(), typeCheckerResult);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionInvocationExpression);

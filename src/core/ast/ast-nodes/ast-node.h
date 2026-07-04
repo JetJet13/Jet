@@ -11,20 +11,20 @@
 #include "../../pre-processor/syntax-analyzer/types/syntax-analyzer-mode.h"
 #include "../../type-signature/type-signature.h"
 
-class ASTNode {
+class ASTNode : public std::enable_shared_from_this<ASTNode> {
 protected:
-    std::optional<ASTNode*> _parentNode;
+    std::optional<std::shared_ptr<ASTNode>> _parentNode;
     ASTNodeType _nodeType;
     unsigned int _priority = 1;
     std::string _id;
-    std::vector<ASTNode*> _children = {};
+    std::vector<std::shared_ptr<ASTNode>> _children = {};
     bool _isGlobal = false;
     bool _isGrouped = false;
 public:
     std::string getId();
-    ASTNode* setId(std::string id);
-    std::optional<ASTNode*> getParentNode();
-    void setParentNode(ASTNode* parentNode);
+    std::shared_ptr<ASTNode> setId(std::string id);
+    std::optional<std::shared_ptr<ASTNode>> getParentNode();
+    void setParentNode(std::shared_ptr<ASTNode> parentNode);
     void markAsGlobal();
     void markAsGrouped();
     virtual ASTNodeType getNodeType() = 0;
@@ -32,22 +32,22 @@ public:
     virtual Position* getStartPosition();
     virtual Position* getEndPosition();
     virtual std::string getLineColumn();
-    virtual bool isSameAs(ASTNode* other);
+    virtual bool isSameAs(std::shared_ptr<ASTNode> other);
     virtual bool isExpression();
     virtual bool isScopedBlockNode();
     virtual void print();
     virtual std::string toSourceCode();
     virtual TypeSignature* getTypeSignature();
-    virtual std::vector<ASTNode*> getChildren();
-    virtual ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
+    virtual std::vector<std::shared_ptr<ASTNode>> getChildren();
+    virtual std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode);
     virtual bool isExportable();
     virtual bool isGlobal();
     bool isGrouped();
     bool is(ASTNodeType astNodeType);
     bool isOneOf(std::vector<ASTNodeType> astNodeTypes);
-    bool isSameNodeTypeAs(ASTNode* other);
+    bool isSameNodeTypeAs(std::shared_ptr<ASTNode> other);
     unsigned int getPriority();
-    bool isHigherPriorityThan(ASTNode* other);
-    bool isLowerPriorityThan(ASTNode* other);
+    bool isHigherPriorityThan(std::shared_ptr<ASTNode> other);
+    bool isLowerPriorityThan(std::shared_ptr<ASTNode> other);
 };
 #endif //JETLANG_AST_NODE_H

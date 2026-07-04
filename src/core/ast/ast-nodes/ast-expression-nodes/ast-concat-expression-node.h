@@ -10,19 +10,19 @@
 
 class ASTConcatExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _leftNode;
-    ASTExpressionNode* _rightNode;
-    ASTConcatNode* _concatNode;
+    std::shared_ptr<ASTExpressionNode> _leftNode;
+    std::shared_ptr<ASTExpressionNode> _rightNode;
+    std::shared_ptr<ASTConcatNode> _concatNode;
 public:
-    ASTConcatExpressionNode(ASTExpressionNode* leftNode, ASTConcatNode* concatNode, ASTExpressionNode* rightNode);
-    ASTExpressionNode* getLeftNode();
-    ASTExpressionNode* getRightNode();
-    ASTConcatNode* getConcatNode();
+    ASTConcatExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTConcatNode> concatNode, std::shared_ptr<ASTExpressionNode> rightNode);
+    std::shared_ptr<ASTExpressionNode> getLeftNode();
+    std::shared_ptr<ASTExpressionNode> getRightNode();
+    std::shared_ptr<ASTConcatNode> getConcatNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -11,7 +11,7 @@ SourceCodeBuilder::SourceCodeBuilder() {
     _sourceCode = "";
 }
 
-SourceCodeBuilder* SourceCodeBuilder::add(ASTNode* node) {
+SourceCodeBuilder* SourceCodeBuilder::add(std::shared_ptr<ASTNode> node) {
     auto lastLine = _lastNode.has_value()
             ? _lastNode.value()->getEndPosition()->getLine()
             : node->getStartPosition()->getLine();

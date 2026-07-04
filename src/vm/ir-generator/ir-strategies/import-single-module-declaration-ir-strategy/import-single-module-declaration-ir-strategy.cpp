@@ -4,6 +4,6 @@
 
 #include "import-single-module-declaration-ir-strategy.h"
 
-IRImportSingleModuleDeclarationNode* ImportSingleModuleDeclarationIRStrategy::generate(ASTImportSingleModuleDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRImportSingleModuleDeclarationNode* ImportSingleModuleDeclarationIRStrategy::generate(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     return new IRImportSingleModuleDeclarationNode(node);
 }

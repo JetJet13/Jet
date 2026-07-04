@@ -15,21 +15,21 @@
 
 class ASTTupleAccessInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
-    ASTTupleAccessExpressionNode* _tupleAccess;
-    ASTFunctionArgumentListNode* _arguments;
+    std::shared_ptr<ASTTupleAccessExpressionNode> _tupleAccess;
+    std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
 public:
-    explicit ASTTupleAccessInvocationExpressionNode(ASTTupleAccessExpressionNode* tupleAccess, ASTFunctionArgumentListNode* arguments);
-    ASTFunctionArgumentListNode* getArguments();
-    ASTTupleAccessExpressionNode* getObjectAccess();
-    ASTObjectAccessSourceNode* getSource();
-    ASTTupleAccessNode* getIndex();
+    explicit ASTTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
+    std::shared_ptr<ASTTupleAccessExpressionNode> getObjectAccess();
+    std::shared_ptr<ASTObjectAccessSourceNode> getSource();
+    std::shared_ptr<ASTTupleAccessNode> getIndex();
     InvocableTypeSignature* getInvocableTypeSignature();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

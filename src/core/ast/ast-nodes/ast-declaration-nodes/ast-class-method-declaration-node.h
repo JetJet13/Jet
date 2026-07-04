@@ -20,19 +20,19 @@
 
 class ASTClassMethodDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTClassMethodDefinitionNode* _classMethodDefinition;
-    ASTFunctionParameterListNode* _parameters;
-    std::optional<ASTTypeColonNode*> _typeColon;
-    std::optional<ASTTypeNode*> _returnType;
-    ASTFunctionBlockNode* _block;
+    std::shared_ptr<ASTClassMethodDefinitionNode> _classMethodDefinition;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
+    std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
+    std::optional<std::shared_ptr<ASTTypeNode>> _returnType;
+    std::shared_ptr<ASTFunctionBlockNode> _block;
     ClassMethodTypeSignature* _typeSignature = new ClassMethodTypeSignature();
 public:
-    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
-    explicit ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
-    ASTClassMethodDefinitionNode* getClassMethodDefinition();
-    ASTFunctionParameterListNode* getParameters();
-    std::optional<ASTTypeNode*> getReturnType();
-    ASTFunctionBlockNode* getBlock();
+    explicit ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content);
+    explicit ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
+    std::shared_ptr<ASTClassMethodDefinitionNode> getClassMethodDefinition();
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();
+    std::shared_ptr<ASTFunctionBlockNode> getBlock();
     bool isStatic();
     unsigned long numParameters();
     void setTypeSignature(ClassMethodTypeSignature* typeSignature);
@@ -41,7 +41,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

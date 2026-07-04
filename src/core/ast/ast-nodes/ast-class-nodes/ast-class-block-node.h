@@ -12,32 +12,32 @@
 
 class ASTClassBlockNode : public ASTNode {
 private:
-    ASTBlockStartNode* _blockStartNode;
-    ASTBlockEndNode* _blockEndNode;
-    std::vector<ASTClassPropertyDeclarationNode*> _staticProperties;
-    std::vector<ASTClassPropertyDeclarationNode*> _instanceProperties;
-    std::vector<ASTClassPropertyDeclarationNode*> _properties;
-    std::vector<ASTClassMethodDeclarationNode*> _methods;
-    std::vector<ASTClassMethodDeclarationNode*> _staticMethods;
-    std::vector<ASTClassMethodDeclarationNode*> _instanceMethods;
-    std::vector<ASTClassConstructorDeclarationNode*> _constructors;
+    std::shared_ptr<ASTBlockStartNode> _blockStartNode;
+    std::shared_ptr<ASTBlockEndNode> _blockEndNode;
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> _staticProperties;
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> _instanceProperties;
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> _properties;
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> _methods;
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> _staticMethods;
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> _instanceMethods;
+    std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>> _constructors;
 public:
-    ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> nodes, ASTBlockEndNode* blockEndNode);
-    ASTClassBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors, ASTBlockEndNode* blockEndNode);
-    void addProperty(ASTClassPropertyDeclarationNode* property);
-    void addMethod(ASTClassMethodDeclarationNode* method);
-    void addConstructor(ASTClassConstructorDeclarationNode* constructor);
-    std::vector<ASTClassPropertyDeclarationNode*>* getProperties();
-    std::vector<ASTClassPropertyDeclarationNode*>* getStaticProperties();
-    std::vector<ASTClassPropertyDeclarationNode*>* getInstanceProperties();
-    std::vector<ASTClassMethodDeclarationNode*>* getMethods();
-    std::vector<ASTClassMethodDeclarationNode*>* getStaticMethods();
-    std::vector<ASTClassMethodDeclarationNode*>* getInstanceMethods();
-    std::vector<ASTClassConstructorDeclarationNode*>* getConstructors();
+    ASTClassBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> nodes, std::shared_ptr<ASTBlockEndNode> blockEndNode);
+    ASTClassBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> properties, std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> methods, std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>> constructors, std::shared_ptr<ASTBlockEndNode> blockEndNode);
+    void addProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> property);
+    void addMethod(std::shared_ptr<ASTClassMethodDeclarationNode> method);
+    void addConstructor(std::shared_ptr<ASTClassConstructorDeclarationNode> constructor);
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* getProperties();
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* getStaticProperties();
+    std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* getInstanceProperties();
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* getMethods();
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* getStaticMethods();
+    std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* getInstanceMethods();
+    std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>* getConstructors();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     std::string toString() override;
     void print() override;
     std::string toSourceCode() override;

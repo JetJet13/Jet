@@ -13,20 +13,20 @@
 
 class ASTModuleTypeNode : public ASTTypeBaseNode {
 private:
-    ASTModuleTypeSourceNode* _source;
-    ASTModuleAccessTypeNode* _moduleAccess;
-    ASTModuleTypeTargetNode* _target;
+    std::shared_ptr<ASTModuleTypeSourceNode> _source;
+    std::shared_ptr<ASTModuleAccessTypeNode> _moduleAccess;
+    std::shared_ptr<ASTModuleTypeTargetNode> _target;
 public:
-    ASTModuleTypeNode(ASTModuleTypeSourceNode* source, ASTModuleAccessTypeNode* moduleAccess, ASTModuleTypeTargetNode* target);
-    ASTModuleTypeSourceNode* getSource();
-    ASTModuleTypeTargetNode* getTarget();
+    ASTModuleTypeNode(std::shared_ptr<ASTModuleTypeSourceNode> source, std::shared_ptr<ASTModuleAccessTypeNode> moduleAccess, std::shared_ptr<ASTModuleTypeTargetNode> target);
+    std::shared_ptr<ASTModuleTypeSourceNode> getSource();
+    std::shared_ptr<ASTModuleTypeTargetNode> getTarget();
     std::string getModuleTargetName();
     std::string getModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

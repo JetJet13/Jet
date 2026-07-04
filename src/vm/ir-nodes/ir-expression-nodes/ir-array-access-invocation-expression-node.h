@@ -15,14 +15,14 @@
 
 class IRArrayAccessInvocationExpressionNode : public IRExpressionNode {
 private:
-    ASTArrayAccessInvocationExpressionNode* _node;
+    std::shared_ptr<ASTArrayAccessInvocationExpressionNode> _node;
     IRArrayAccessExpressionNode* _irArrayAccessExpression;
     llvm::CallInst* _irCallInstruction;
     IRType* _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
 public:
-    IRArrayAccessInvocationExpressionNode(ASTArrayAccessInvocationExpressionNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
+    IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
     void markAsGlobal() override;
     IRArrayAccessExpressionNode* getIRArrayAccessExpression();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();

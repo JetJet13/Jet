@@ -5,12 +5,12 @@
 #include "ast-package-path-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTPackagePathNode::ASTPackagePathNode(ASTStringLiteralNode* packagePath) {
+ASTPackagePathNode::ASTPackagePathNode(std::shared_ptr<ASTStringLiteralNode> packagePath) {
     _packagePath = packagePath;
     _children.push_back(_packagePath);
 }
 
-ASTStringLiteralNode* ASTPackagePathNode::getPackagePath() {
+std::shared_ptr<ASTStringLiteralNode> ASTPackagePathNode::getPackagePath() {
     return _packagePath;
 }
 
@@ -30,11 +30,11 @@ std::string ASTPackagePathNode::toString() {
     return "PACKAGE_PATH";
 }
 
-bool ASTPackagePathNode::isSameAs(ASTNode* other) {
+bool ASTPackagePathNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTPackagePathNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTPackagePathNode>(other);
     return this->getPackagePath()->isSameAs(otherNode->getPackagePath());
 }
 

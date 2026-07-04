@@ -5,12 +5,12 @@
 #include "ast-identifier-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode) {
+ASTIdentifierExpressionNode::ASTIdentifierExpressionNode(std::shared_ptr<ASTIdentifierNode> identifierNode) {
     _identifierNode = identifierNode;
     _children.push_back(_identifierNode);
 }
 
-ASTIdentifierNode* ASTIdentifierExpressionNode::getIdentifierNode() {
+std::shared_ptr<ASTIdentifierNode> ASTIdentifierExpressionNode::getIdentifierNode() {
     return _identifierNode;
 }
 
@@ -30,11 +30,11 @@ std::string ASTIdentifierExpressionNode::toString() {
     return "IDENTIFIER_EXPRESSION";
 }
 
-bool ASTIdentifierExpressionNode::isSameAs(ASTNode* other) {
+bool ASTIdentifierExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTIdentifierExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(other);
     return this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());
 }
 

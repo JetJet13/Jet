@@ -5,7 +5,7 @@
 #include "literal-type-signature-strategy.h"
 
 
-void LiteralTypeSignatureStrategy::assign(ASTLiteralNode* literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
+void LiteralTypeSignatureStrategy::assign(std::shared_ptr<ASTLiteralNode> literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
     auto literalSymbol = literalNode->getLiteral()->getToken()->getSymbol();
     if (literalSymbol->isInt()) {
         literalNode->setTypeSignature(literalTypeSignatureLookupTable->getIntLiteralTypeSignature());

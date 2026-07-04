@@ -6,7 +6,7 @@
 
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTVoidTypeNode::ASTVoidTypeNode(ASTVoidNode* voidNode) {
+ASTVoidTypeNode::ASTVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode) {
     _void = voidNode;
     _children.push_back(_void);
 }
@@ -27,7 +27,7 @@ std::string ASTVoidTypeNode::toString() {
     return "VOID_TYPE";
 }
 
-bool ASTVoidTypeNode::isSameAs(ASTNode* other) {
+bool ASTVoidTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }

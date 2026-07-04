@@ -6,16 +6,16 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTElseIfNode::ASTElseIfNode(ASTElseNode* elseKeyword, ASTIfNode* ifKeyword) {
+ASTElseIfNode::ASTElseIfNode(std::shared_ptr<ASTElseNode> elseKeyword, std::shared_ptr<ASTIfNode> ifKeyword) {
     _else = elseKeyword;
     _if = ifKeyword;
 }
 
-ASTElseNode* ASTElseIfNode::getElse() {
+std::shared_ptr<ASTElseNode> ASTElseIfNode::getElse() {
     return _else;
 }
 
-ASTIfNode* ASTElseIfNode::getIf() {
+std::shared_ptr<ASTIfNode> ASTElseIfNode::getIf() {
     return _if;
 }
 
@@ -35,11 +35,11 @@ std::string ASTElseIfNode::toString() {
     return "ELSE_IF";
 }
 
-bool ASTElseIfNode::isSameAs(ASTNode* other) {
+bool ASTElseIfNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTElseIfNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTElseIfNode>(other);
     return this->getElse()->isSameAs(otherNode->getElse()) &&
            this->getIf()->isSameAs(otherNode->getIf());
 }

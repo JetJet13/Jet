@@ -4,7 +4,7 @@
 
 #include "ir-char-literal-node.h"
 
-IRCharLiteralNode::IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::ConstantInt* irValue) {
+IRCharLiteralNode::IRCharLiteralNode(std::shared_ptr<ASTCharLiteralNode> astNode, llvm::ConstantInt* irValue) {
     _astNode = astNode;
     _irValue = irValue;
     _type = new IRType(_irValue->getType());

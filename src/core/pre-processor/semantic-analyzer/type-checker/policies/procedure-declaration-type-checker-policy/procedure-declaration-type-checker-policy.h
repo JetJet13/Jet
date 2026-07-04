@@ -10,7 +10,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
-    void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_PROCEDURE_DECLARATION_TYPE_CHECKER_POLICY_H

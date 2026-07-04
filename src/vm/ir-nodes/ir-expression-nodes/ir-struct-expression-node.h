@@ -14,13 +14,13 @@
 
 class IRStructExpressionNode : public IRExpressionNode {
 private:
-    ASTStructExpressionNode* _node;
+    std::shared_ptr<ASTStructExpressionNode> _node;
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
     std::vector<IRExpressionNode*> _irValues;
     IRStructRefType* _type;
 public:
-    IRStructExpressionNode(ASTStructExpressionNode* astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
     IRStructRefType* getIRType() override;
     TypeSignature* getTypeSignature() override;

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator, std::optional<ASTTypeColonNode*> colon, std::optional<ASTTypeNode*> type) {
+ASTVariableInitNode::ASTVariableInitNode(std::shared_ptr<ASTVariableTypeNode> assignmentTypeQualifier, std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator, std::optional<std::shared_ptr<ASTTypeColonNode>> colon, std::optional<std::shared_ptr<ASTTypeNode>> type) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
     _colon = colon;
@@ -19,15 +19,15 @@ ASTVariableInitNode::ASTVariableInitNode(ASTVariableTypeNode* assignmentTypeQual
     }
 }
 
-ASTVariableTypeNode* ASTVariableInitNode::getVarTypeNode() {
+std::shared_ptr<ASTVariableTypeNode> ASTVariableInitNode::getVarTypeNode() {
     return _assignmentTypeQualifier;
 }
 
-ASTIdentifierNode* ASTVariableInitNode::getIdentifierNode() {
+std::shared_ptr<ASTIdentifierNode> ASTVariableInitNode::getIdentifierNode() {
     return _identifier;
 }
 
-std::optional<ASTTypeNode*> ASTVariableInitNode::getTypeNode() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTVariableInitNode::getTypeNode() {
     return _type;
 }
 
@@ -51,11 +51,11 @@ std::string ASTVariableInitNode::toString() {
     return "VARIABLE_INIT";
 }
 
-bool ASTVariableInitNode::isSameAs(ASTNode* other) {
+bool ASTVariableInitNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTVariableInitNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTVariableInitNode>(other);
 
     if (!_type.has_value() && otherNode->getTypeNode().has_value() ||
             _type.has_value() && !otherNode->getTypeNode().has_value()) {

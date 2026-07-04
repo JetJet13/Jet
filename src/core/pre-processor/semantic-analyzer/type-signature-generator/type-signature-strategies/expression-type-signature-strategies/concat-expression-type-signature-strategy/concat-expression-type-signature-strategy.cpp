@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
 
-void ConcatExpressionTypeSignatureStrategy::assign(ASTConcatExpressionNode* concatExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ConcatExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTConcatExpressionNode> concatExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(concatExpression->getLeftNode(), context, scope);
     strategyMap->assignTypeSignatureFor(concatExpression->getRightNode(), context, scope);
     auto leftTypeSignature = concatExpression->getLeftNode()->getTypeSignature();

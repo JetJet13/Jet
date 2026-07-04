@@ -4,7 +4,7 @@
 
 #include "ir-concat-expression-node.h"
 
-IRConcatExpressionNode::IRConcatExpressionNode(ASTConcatExpressionNode* astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type) {
+IRConcatExpressionNode::IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;

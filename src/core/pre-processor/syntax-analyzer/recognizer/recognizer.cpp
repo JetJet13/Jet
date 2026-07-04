@@ -85,7 +85,7 @@ std::shared_ptr<RecognizerResult> Recognizer::recognize(Handle* handle) {
     dfa->reset();
     for (unsigned long i = 0; i < handle->size(); i++) {
         auto nodeType = handle->at(i).value()->getNodeType();
-        auto nextNodeType = handle->at(i+1).value_or(new ASTNullNode())->getNodeType();
+        auto nextNodeType = handle->at(i+1).value_or(std::make_shared<ASTNullNode>())->getNodeType();
         if (i == 0) {
             dfa->init(nodeType);
         } else {
@@ -116,7 +116,7 @@ RecognizerMode Recognizer::determineMode(Handle* handle) {
     return RM_NORMAL;
 }
 
-bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
+bool Recognizer::isBacktrackNode(std::optional<std::shared_ptr<ASTNode>> astNode) {
     return astNode.has_value() && astNode.value()->isOneOf({
            AST_TERMINATOR_NODE,
            AST_RIGHT_BRACKET_NODE,
@@ -153,7 +153,7 @@ bool Recognizer::isBacktrackNode(std::optional<ASTNode*> astNode) {
     });
 }
 
-bool Recognizer::isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode) {
+bool Recognizer::isEndNode(std::optional<std::shared_ptr<ASTNode>> lastReducedNode, std::optional<std::shared_ptr<ASTNode>> peekNode) {
     if (lastReducedNode &&
         lastReducedNode.value()->isOneOf({
              AST_BLOCK_NODE,

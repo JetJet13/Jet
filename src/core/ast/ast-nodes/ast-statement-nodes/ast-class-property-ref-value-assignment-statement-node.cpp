@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassPropertyRefValueAssignmentStatementNode::ASTClassPropertyRefValueAssignmentStatementNode(ASTClassPropertyRefValueAssignmentNode* propertyAssignment, ASTExpressionNode* expression) {
+ASTClassPropertyRefValueAssignmentStatementNode::ASTClassPropertyRefValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertyRefValueAssignmentNode> propertyAssignment, std::shared_ptr<ASTExpressionNode> expression) {
     _propertyAssignment = propertyAssignment;
     _expression = expression;
     _children.push_back(_propertyAssignment);
     _children.push_back(_expression);
 }
 
-ASTClassPropertyRefValueAssignmentNode* ASTClassPropertyRefValueAssignmentStatementNode::getPropertyAssignment() {
+std::shared_ptr<ASTClassPropertyRefValueAssignmentNode> ASTClassPropertyRefValueAssignmentStatementNode::getPropertyAssignment() {
     return _propertyAssignment;
 }
 
-ASTExpressionNode* ASTClassPropertyRefValueAssignmentStatementNode::getExpression() {
+std::shared_ptr<ASTExpressionNode> ASTClassPropertyRefValueAssignmentStatementNode::getExpression() {
     return _expression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTClassPropertyRefValueAssignmentStatementNode::toString() {
     return "CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT";
 }
 
-bool ASTClassPropertyRefValueAssignmentStatementNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyRefValueAssignmentStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassPropertyRefValueAssignmentStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(other);
     return this->getPropertyAssignment()->isSameAs(otherNode->getPropertyAssignment()) &&
            this->getExpression()->isSameAs(otherNode->getExpression());
 }

@@ -5,12 +5,12 @@
 #include "ast-this-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTThisTypeNode::ASTThisTypeNode(ASTThisNode* thisNode) {
+ASTThisTypeNode::ASTThisTypeNode(std::shared_ptr<ASTThisNode> thisNode) {
     _this = thisNode;
     _children.push_back(_this);
 }
 
-ASTThisNode* ASTThisTypeNode::getThis() {
+std::shared_ptr<ASTThisNode> ASTThisTypeNode::getThis() {
     return _this;
 }
 
@@ -30,11 +30,11 @@ std::string ASTThisTypeNode::toString() {
     return "THIS_TYPE";
 }
 
-bool ASTThisTypeNode::isSameAs(ASTNode* other) {
+bool ASTThisTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTThisTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTThisTypeNode>(other);
     return this->getThis()->isSameAs(otherNode->getThis());
 }
 

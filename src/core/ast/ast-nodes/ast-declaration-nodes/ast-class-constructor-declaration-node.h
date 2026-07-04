@@ -16,15 +16,15 @@
 
 class ASTClassConstructorDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTConstructorNode* _constructor;
-    ASTFunctionParameterListNode* _parameters;
-    ASTFunctionBlockNode* _block;
+    std::shared_ptr<ASTConstructorNode> _constructor;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
+    std::shared_ptr<ASTFunctionBlockNode> _block;
     ClassConstructorTypeSignature* _typeSignature = new ClassConstructorTypeSignature();
 public:
-    explicit ASTClassConstructorDeclarationNode(ASTConstructorNode* constructor, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content);
-    ASTConstructorNode* getConstructor();
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionBlockNode* getBlock();
+    explicit ASTClassConstructorDeclarationNode(std::shared_ptr<ASTConstructorNode> constructor, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content);
+    std::shared_ptr<ASTConstructorNode> getConstructor();
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionBlockNode> getBlock();
     unsigned long numParameters();
     void setTypeSignature(ClassConstructorTypeSignature* typeSignature);
     ClassConstructorTypeSignature* getTypeSignature() override;
@@ -32,7 +32,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

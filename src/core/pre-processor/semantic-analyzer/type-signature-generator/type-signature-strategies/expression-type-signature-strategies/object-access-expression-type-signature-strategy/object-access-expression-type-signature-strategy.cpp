@@ -10,7 +10,7 @@
 #include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ObjectAccessExpressionTypeSignatureStrategy::assign(ASTObjectAccessExpressionNode* objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), context, scope);
     auto sourceTypeSignature = objectAccessExpression->getSource()->getSource()->getTypeSignature();
     if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {

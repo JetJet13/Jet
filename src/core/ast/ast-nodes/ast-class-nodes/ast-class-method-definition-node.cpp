@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassMethodDefinitionNode::ASTClassMethodDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* methodName, std::optional<ASTStaticNode*> staticKeyword) {
+ASTClassMethodDefinitionNode::ASTClassMethodDefinitionNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassMethodNameNode> methodName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword) {
     _accessModifier = accessModifier;
     _methodName = methodName;
     _staticKeyword = staticKeyword;
@@ -17,11 +17,11 @@ ASTClassMethodDefinitionNode::ASTClassMethodDefinitionNode(ASTAccessModifierNode
     }
 }
 
-ASTAccessModifierNode* ASTClassMethodDefinitionNode::getAccessModifier() {
+std::shared_ptr<ASTAccessModifierNode> ASTClassMethodDefinitionNode::getAccessModifier() {
     return _accessModifier;
 }
 
-ASTClassMethodNameNode* ASTClassMethodDefinitionNode::getMethodName() {
+std::shared_ptr<ASTClassMethodNameNode> ASTClassMethodDefinitionNode::getMethodName() {
     return _methodName;
 }
 
@@ -45,12 +45,12 @@ std::string ASTClassMethodDefinitionNode::toString() {
     return "CLASS_METHOD_DEFINITION";
 }
 
-bool ASTClassMethodDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTClassMethodDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassMethodDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassMethodDefinitionNode>(other);
     return this->getAccessModifier()->isSameAs(otherNode->getAccessModifier()) &&
            this->getMethodName()->isSameAs(otherNode->getMethodName()) &&
            this->isStatic() == otherNode->isStatic();

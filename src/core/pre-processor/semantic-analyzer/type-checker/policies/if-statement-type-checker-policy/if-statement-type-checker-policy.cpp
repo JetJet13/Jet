@@ -6,7 +6,7 @@
 #include "../../type-checker.h"
 
 namespace IfStatementTypeCheckerPolicy {
-    void apply(ASTIfStatementNode* ifStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTIfStatementNode> ifStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(ifStatementNode->getIfBlock()->getCondition(), typeCheckerResult);
         TypeChecker::applyPolicyTo(ifStatementNode->getIfBlock()->getBlock(), typeCheckerResult);
 

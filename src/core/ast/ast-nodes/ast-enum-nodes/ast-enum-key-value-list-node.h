@@ -14,22 +14,22 @@
 
 class ASTEnumKeyValueListNode : public ASTNode {
 private:
-    ASTEnumKeyValueListStartNode* _enumKeyValueListStartNode;
-    ASTEnumKeyValueListEndNode* _enumKeyValueListEndNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTEnumKeyValueNode*> _enumKeyValues;
+    std::shared_ptr<ASTEnumKeyValueListStartNode> _enumKeyValueListStartNode;
+    std::shared_ptr<ASTEnumKeyValueListEndNode> _enumKeyValueListEndNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTEnumKeyValueNode>> _enumKeyValues;
 public:
-    ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode);
-    ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, std::vector<ASTCommaNode*> commas, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode);
-    std::vector<ASTEnumKeyValueNode*> getParameters();
+    ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode);
+    ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::vector<std::shared_ptr<ASTEnumKeyValueNode>> enumKeyValues, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode);
+    std::vector<std::shared_ptr<ASTEnumKeyValueNode>> getParameters();
     unsigned long numParameters();
-    ASTEnumKeyValueListNode* addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue);
-    ASTEnumKeyValueListNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTEnumKeyValueListNode> addEnumKeyValue(std::shared_ptr<ASTEnumKeyValueNode> enumKeyValue);
+    std::shared_ptr<ASTEnumKeyValueListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

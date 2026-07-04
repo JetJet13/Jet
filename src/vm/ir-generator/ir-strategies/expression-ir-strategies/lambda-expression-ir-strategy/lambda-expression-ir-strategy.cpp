@@ -10,7 +10,7 @@
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = irType->getFunctionType();
@@ -23,16 +23,18 @@ IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaE
     this->setupParameters(node->getTypeSignature(), irGenerator, lambdaBlock->getScope(), irFunction, functionParameterList, lambdaBlock, lambdaIrContext);
     for (auto statement : *node->getBlock()->getContents()) {
         if (ASTNodeUtils::isDeclarationNode(statement)) {
-            lambdaBlock->insert(irGenerator->generateFor((ASTDeclarationNode*)statement, lambdaBlock->getScope(), lambdaIrContext));
+            lambdaBlock->insert(irGenerator->generateFor(std::dynamic_pointer_cast<ASTDeclarationNode>(statement), lambdaBlock->getScope(), lambdaIrContext));
         } else if (ASTNodeUtils::isStatementNode(statement)) {
-            lambdaBlock->insert(irGenerator->generateFor((ASTStatementNode*)statement, lambdaBlock->getScope(), lambdaIrContext));
+            lambdaBlock->insert(irGenerator->generateFor(std::dynamic_pointer_cast<ASTStatementNode>(statement), lambdaBlock->getScope(), lambdaIrContext));
+        } else if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+            lambdaBlock->insert(irGenerator->generateFor(std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(statement), lambdaBlock->getScope(), lambdaIrContext));
         }
     }
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
     return new IRLambdaWithBlockExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction);
 }
 
-IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(ASTLambdaWithFatArrowExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
     auto functionType = irType->getFunctionType();

@@ -15,14 +15,14 @@ Lexeme* ASTLessThanBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTLessThanBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
-                                                    std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTLessThanBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode,
+                                                    std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
 
     if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE })) {
-        return new ASTTypeParameterListStartNode(this->getLexeme());
+        return std::make_shared<ASTTypeParameterListStartNode>(this->getLexeme());
     }
 
-    return new ASTBinaryComparatorOperatorNode(_lexeme);
+    return std::make_shared<ASTBinaryComparatorOperatorNode>(_lexeme);
 }
 
 ASTNodeType ASTLessThanBaseNode::getNodeType() {
@@ -33,11 +33,11 @@ std::string ASTLessThanBaseNode::toString() {
     return "LESS_THAN";
 }
 
-bool ASTLessThanBaseNode::isSameAs(ASTNode* other) {
+bool ASTLessThanBaseNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTLessThanBaseNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLessThanBaseNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

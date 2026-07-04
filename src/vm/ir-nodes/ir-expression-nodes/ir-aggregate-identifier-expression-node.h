@@ -15,7 +15,7 @@
 
 class IRAggregateIdentifierExpressionNode : public IRExpressionNode {
 private:
-    ASTIdentifierExpressionNode* _node;
+    std::shared_ptr<ASTIdentifierExpressionNode> _node;
     IRInstructionNode* _arrayAllocation;
     IRInstructionNode* _arrayPointerAllocation;
     llvm::GetElementPtrInst* _intPointer;
@@ -23,7 +23,7 @@ private:
     IRInstructionNode* _sourceAllocation;
     IRArrayPointerType* _type;
 public:
-    IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type);
+    IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type);
     llvm::GetElementPtrInst* getIntPointer();
     llvm::LoadInst* getLoadedNumElements();
     llvm::Value* getValue() override;

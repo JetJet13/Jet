@@ -8,53 +8,53 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode* rightBracket) {
+ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::shared_ptr<ASTRightBracketNode> rightBracket) {
     _leftBracket = leftBracket;
     _rightBracket = rightBracket;
     _children.push_back(_leftBracket);
     _children.push_back(_rightBracket);
-    _elements = new std::vector<ASTExpressionNode*>();
+    _elements = new std::vector<std::shared_ptr<ASTExpressionNode>>();
 }
 
-ASTArrayNode::ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, std::vector<ASTCommaNode*> commas, ASTRightBracketNode* rightBracket) {
+ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::vector<std::shared_ptr<ASTExpressionNode>> elements, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTRightBracketNode> rightBracket) {
     _leftBracket = leftBracket;
     _rightBracket = rightBracket;
     _children.push_back(_leftBracket);
     _children.push_back(_rightBracket);
     _commas = commas;
-    _elements = new std::vector<ASTExpressionNode*>();
+    _elements = new std::vector<std::shared_ptr<ASTExpressionNode>>();
     for (auto element: elements) {
         this->addElement(element);
     }
 }
 
-ASTArrayNode* ASTArrayNode::addElement(ASTExpressionNode* element) {
+std::shared_ptr<ASTArrayNode> ASTArrayNode::addElement(std::shared_ptr<ASTExpressionNode> element) {
     _elements->push_back(element);
     _children.push_back(element);
-    return this;
+    return std::dynamic_pointer_cast<ASTArrayNode>(shared_from_this());
 }
 
-ASTArrayNode* ASTArrayNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTArrayNode> ASTArrayNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTArrayNode>(shared_from_this());
 }
 
-ASTLeftBracketNode* ASTArrayNode::getLeftBracket() {
+std::shared_ptr<ASTLeftBracketNode> ASTArrayNode::getLeftBracket() {
     return _leftBracket;
 }
 
-ASTRightBracketNode* ASTArrayNode::getRightBracket() {
+std::shared_ptr<ASTRightBracketNode> ASTArrayNode::getRightBracket() {
     return _rightBracket;
 }
 
-std::optional<ASTExpressionNode*> ASTArrayNode::getFirstElement() {
+std::optional<std::shared_ptr<ASTExpressionNode>> ASTArrayNode::getFirstElement() {
     if (_elements->at(0)) {
         return _elements->at(0);
     }
     return {};
 }
 
-std::vector<ASTExpressionNode*>* ASTArrayNode::getElements() {
+std::vector<std::shared_ptr<ASTExpressionNode>>* ASTArrayNode::getElements() {
     return _elements;
 }
 

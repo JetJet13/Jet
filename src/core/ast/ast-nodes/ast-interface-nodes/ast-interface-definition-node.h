@@ -14,16 +14,16 @@
 
 class ASTInterfaceDefinitionNode : public ASTNode {
 private:
-    ASTInterfaceNode* _interfaceKeyword;
-    ASTInterfaceNameNode* _name;
+    std::shared_ptr<ASTInterfaceNode> _interfaceKeyword;
+    std::shared_ptr<ASTInterfaceNameNode> _name;
 public:
-    explicit ASTInterfaceDefinitionNode(ASTInterfaceNode* interfaceKeyword, ASTInterfaceNameNode* name);
-    ASTInterfaceNameNode* getName();
+    explicit ASTInterfaceDefinitionNode(std::shared_ptr<ASTInterfaceNode> interfaceKeyword, std::shared_ptr<ASTInterfaceNameNode> name);
+    std::shared_ptr<ASTInterfaceNameNode> getName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

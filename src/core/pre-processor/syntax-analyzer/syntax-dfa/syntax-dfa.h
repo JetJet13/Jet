@@ -32,7 +32,7 @@ private:
 public:
     SyntaxDfa();
     DFA* getDFA();
-    std::optional<std::shared_ptr<DFANode>> findStartNode(std::optional<ASTNode*> astNode);
+    std::optional<std::shared_ptr<DFANode>> findStartNode(std::optional<std::shared_ptr<ASTNode>> astNode);
 };
 
 #endif //JETLANG_SYNTAX_DFA_H

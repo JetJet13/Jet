@@ -5,7 +5,7 @@
 #include "struct-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void StructExpressionTypeSignatureStrategy::assign(ASTStructExpressionNode* structExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void StructExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTStructExpressionNode> structExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto structTypeSignature = new StructTypeSignature();
     for (auto keyValuePair : structExpression->getKeyValuePairs()) {
         strategyMap->assignTypeSignatureFor(keyValuePair->getValue(), context, scope);

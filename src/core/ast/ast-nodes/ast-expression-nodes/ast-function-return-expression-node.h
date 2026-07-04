@@ -10,19 +10,19 @@
 
 class ASTFunctionReturnExpressionNode : public ASTExpressionNode {
 private:
-    ASTFunctionReturnNode* _returnNode;
-    std::optional<ASTExpressionNode*> _returnExpression;
+    std::shared_ptr<ASTFunctionReturnNode> _returnNode;
+    std::optional<std::shared_ptr<ASTExpressionNode>> _returnExpression;
 public:
-    ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode);
-    ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* returnExpression);
-    ASTFunctionReturnNode* getReturnNode();
+    ASTFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnNode> returnNode);
+    ASTFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnNode> returnNode, std::shared_ptr<ASTExpressionNode> returnExpression);
+    std::shared_ptr<ASTFunctionReturnNode> getReturnNode();
     bool hasExpression();
-    std::optional<ASTExpressionNode*> getExpression();
+    std::optional<std::shared_ptr<ASTExpressionNode>> getExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

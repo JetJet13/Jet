@@ -13,15 +13,15 @@
 
 
 class ASTImportModuleListNormalItemNode : public ASTImportModuleListBaseItemNode {
-    ASTImportModuleNameNode* _moduleName;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
 public:
-    explicit ASTImportModuleListNormalItemNode(ASTImportModuleNameNode* moduleName);
-    ASTImportModuleNameNode* getModuleName();
+    explicit ASTImportModuleListNormalItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -19,9 +19,9 @@ private:
     std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>> _strategies;
     void initStrategies();
     void addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy);
-    ASTNode* generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes);
+    std::shared_ptr<ASTNode> generateASTNode(ASTNodeType targetAstNodeType, std::vector<std::shared_ptr<ASTNode>> nodes);
 public:
     Reducer();
-    ASTNode* reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult);
+    std::shared_ptr<ASTNode> reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult);
 };
 #endif //JETLANG_REDUCER_H

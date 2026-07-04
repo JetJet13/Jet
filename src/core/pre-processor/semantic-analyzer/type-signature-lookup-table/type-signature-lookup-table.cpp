@@ -32,13 +32,13 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::
 std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insert(std::string key, TypeSignature* typeSignature) {
     typeSignature->setModuleId(this->getModuleName());
     _typeSignatureLookupTable.insert(std::pair(key, typeSignature));
-    return shared_from_this();
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
 }
 
 std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobal(std::string key, TypeSignature* typeSignature) {
     typeSignature->setModuleId(this->getModuleName());
     _globalTypeSignatureLookupTable->insert_or_assign(key, typeSignature);
-    return shared_from_this();
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
 }
 
 std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobalInvocable(std::string name, InvocableTypeSignature* typeSignature) {
@@ -52,7 +52,7 @@ std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobal
     } else {
         existing->second->insert_or_assign(key, typeSignature);
     }
-    return shared_from_this();
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
 }
 
 std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobalFunctionOverride(FunctionVarArgTypeSignatureMap* functionOverrideTypeSignatureMap) {
@@ -60,7 +60,7 @@ std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobal
             functionOverrideTypeSignatureMap->getFunctionName(),
             functionOverrideTypeSignatureMap
     );
-    return shared_from_this();
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
 }
 
 std::string TypeSignatureLookupTable::getModuleName() {

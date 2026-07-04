@@ -7,14 +7,14 @@
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.h"
 
 
-ASTNode* ClassPropertyAssignmentReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ClassPropertyAssignmentReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 2) {
         throw std::invalid_argument("unable to reduce to class property assignment since nodes list is not 2");
     }
 
-    return new ASTClassPropertyAssignmentNode(
-            (ASTClassPropertyAccessNode*)nodes[0],
-            (ASTAssignmentOperatorNode*)nodes[1]
+    return std::make_shared<ASTClassPropertyAssignmentNode>(
+            std::dynamic_pointer_cast<ASTClassPropertyAccessNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTAssignmentOperatorNode>(nodes[1])
     );
 
 }

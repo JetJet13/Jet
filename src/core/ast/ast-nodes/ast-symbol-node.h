@@ -16,7 +16,7 @@ public:
     Lexeme* getLexeme();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

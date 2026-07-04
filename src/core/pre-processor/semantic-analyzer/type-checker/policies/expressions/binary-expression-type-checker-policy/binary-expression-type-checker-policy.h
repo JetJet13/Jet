@@ -10,8 +10,8 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h"
 
 namespace BinaryExpressionTypeCheckerPolicy {
-    void apply(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult);
-    void apply(ASTBinaryComparatorExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTBinaryArithmeticExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTBinaryComparatorExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_CHECKER_POLICY_H

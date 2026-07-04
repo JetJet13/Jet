@@ -9,7 +9,7 @@
 #include "../../types/type-checker-result/type-checker-result.h"
 
 namespace ParameterListTypeCheckerPolicy {
-    void apply(ASTFunctionParameterListNode* functionParameterList, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult);
 };
 
 

@@ -6,22 +6,22 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleDeclarationNode::ASTModuleDeclarationNode(ASTModuleNode* moduleKeyword, ASTModuleNameNode* name) {
+ASTModuleDeclarationNode::ASTModuleDeclarationNode(std::shared_ptr<ASTModuleNode> moduleKeyword, std::shared_ptr<ASTModuleNameNode> name) {
     _moduleKeyword = moduleKeyword;
     _name = name;
     _children.push_back(_name);
 }
 
 
-ASTModuleNameNode* ASTModuleDeclarationNode::getName() {
+std::shared_ptr<ASTModuleNameNode> ASTModuleDeclarationNode::getName() {
     return _name;
 }
 
-std::vector<ASTNode*>* ASTModuleDeclarationNode::getExports() {
+std::vector<std::shared_ptr<ASTNode>>* ASTModuleDeclarationNode::getExports() {
     return &_exportedDeclarations;
 }
 
-void ASTModuleDeclarationNode::addExportedDeclaration(ASTNode* declarationNode) {
+void ASTModuleDeclarationNode::addExportedDeclaration(std::shared_ptr<ASTNode> declarationNode) {
     _exportedDeclarations.push_back(declarationNode);
 }
 
@@ -49,11 +49,11 @@ std::string ASTModuleDeclarationNode::toString() {
     return "MODULE_DECLARATION";
 }
 
-bool ASTModuleDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTModuleDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleDeclarationNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName());
 }

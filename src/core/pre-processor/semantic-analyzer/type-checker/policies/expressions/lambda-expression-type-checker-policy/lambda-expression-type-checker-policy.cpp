@@ -9,7 +9,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace LambdaExpressionTypeCheckerPolicy {
-    void apply(ASTLambdaExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);
@@ -56,7 +56,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
         TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult);
     }
 
-    void apply(ASTLambdaWithFatArrowExpressionNode* lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);

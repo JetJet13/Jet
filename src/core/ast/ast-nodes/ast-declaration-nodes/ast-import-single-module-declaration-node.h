@@ -14,19 +14,19 @@
 
 class ASTImportSingleModuleDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTImportNode* _importKeyword;
-    ASTImportModuleNameNode* _moduleName;
-    ASTFromNode* _fromKeyword;
-    ASTImportPathNode* _path;
+    std::shared_ptr<ASTImportNode> _importKeyword;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
+    std::shared_ptr<ASTFromNode> _fromKeyword;
+    std::shared_ptr<ASTImportPathNode> _path;
 public:
-    explicit ASTImportSingleModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleNameNode* moduleName, ASTFromNode* fromKeyword, ASTImportPathNode* path);
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportPathNode* getPath();
+    explicit ASTImportSingleModuleDeclarationNode(std::shared_ptr<ASTImportNode> importKeyword, std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportPathNode> getPath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

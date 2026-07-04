@@ -12,11 +12,11 @@
 
 class IRModuleAccessRefAssignmentStatementNode : public IRStatementNode {
 private:
-    ASTModuleAccessRefAssignmentStatementNode* _node;
+    std::shared_ptr<ASTModuleAccessRefAssignmentStatementNode> _node;
     IRModuleAccessExpressionNode* _irModuleAccessExpression;
     IRExpressionNode* _irExpression;
 public:
-    IRModuleAccessRefAssignmentStatementNode(ASTModuleAccessRefAssignmentStatementNode* node, IRModuleAccessExpressionNode* irModuleAccessExpression, IRExpressionNode* irExpression);
+    IRModuleAccessRefAssignmentStatementNode(std::shared_ptr<ASTModuleAccessRefAssignmentStatementNode> node, IRModuleAccessExpressionNode* irModuleAccessExpression, IRExpressionNode* irExpression);
     IRModuleAccessExpressionNode* getIRModuleAccessExpression();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;

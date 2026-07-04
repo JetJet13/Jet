@@ -5,16 +5,16 @@
 #include "for-in-statement-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.h"
 
-ASTNode* ForInStatementReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ForInStatementReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 5) {
         throw std::invalid_argument("unable to reduce to for-in statement since nodes list is not 5");
     }
 
-    return new ASTForInStatementNode(
-            (ASTForNode*)nodes[0],
-            (ASTForInVariableNode*)nodes[1],
-            (ASTForInNode*)nodes[2],
-            (ASTForInSourceNode*)nodes[3],
-            (ASTControlFlowBlockNode*)nodes[4]
+    return std::make_shared<ASTForInStatementNode>(
+            std::dynamic_pointer_cast<ASTForNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTForInVariableNode>(nodes[1]),
+            std::dynamic_pointer_cast<ASTForInNode>(nodes[2]),
+            std::dynamic_pointer_cast<ASTForInSourceNode>(nodes[3]),
+            std::dynamic_pointer_cast<ASTControlFlowBlockNode>(nodes[4])
     );
 }

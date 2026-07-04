@@ -14,8 +14,8 @@ class Recognizer {
 private:
     SyntaxDfa _syntaxDfa;
     RecognizerMode determineMode(Handle* handle);
-    bool isBacktrackNode(std::optional<ASTNode*> astNode);
-    bool isEndNode(std::optional<ASTNode*> lastReducedNode, std::optional<ASTNode*> peekNode);
+    bool isBacktrackNode(std::optional<std::shared_ptr<ASTNode>> astNode);
+    bool isEndNode(std::optional<std::shared_ptr<ASTNode>> lastReducedNode, std::optional<std::shared_ptr<ASTNode>> peekNode);
 public:
     Recognizer();
     std::shared_ptr<RecognizerResult> recognize(Handle* handle);

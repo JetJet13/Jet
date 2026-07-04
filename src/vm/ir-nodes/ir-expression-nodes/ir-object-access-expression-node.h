@@ -13,7 +13,7 @@
 
 class IRObjectAccessExpressionNode : public IRExpressionNode {
 private:
-    ASTObjectAccessExpressionNode* _node;
+    std::shared_ptr<ASTObjectAccessExpressionNode> _node;
     IRExpressionNode* _irSource;
     std::string _targetKey;
     unsigned long _targetKeyIndex;
@@ -21,9 +21,9 @@ private:
     IRType* _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRObjectAccessExpressionNode(ASTObjectAccessExpressionNode* node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     void markAsGlobal() override;
-    ASTObjectAccessExpressionNode* getNode();
+    std::shared_ptr<ASTObjectAccessExpressionNode> getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     std::optional<IRInstructionNode*> getArc() override;
     IRExpressionNode* getSource();

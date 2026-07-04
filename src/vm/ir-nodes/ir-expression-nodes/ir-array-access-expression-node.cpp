@@ -5,7 +5,7 @@
 #include "ir-array-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(ASTArrayAccessExpressionNode* node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRExpressionNode* irSource, IRExpressionNode* irIndex, IRType* type, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
@@ -28,7 +28,7 @@ IRExpressionNode* IRArrayAccessExpressionNode::getIndexExpression() {
     return _irIndex;
 }
 
-ASTArrayAccessExpressionNode* IRArrayAccessExpressionNode::getNode() {
+std::shared_ptr<ASTArrayAccessExpressionNode> IRArrayAccessExpressionNode::getNode() {
     return _node;
 }
 

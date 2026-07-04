@@ -15,20 +15,20 @@
 
 class ASTClassPropertyAssignmentNode : public ASTNode {
 private:
-    ASTClassPropertyAccessNode* _classPropertyAccess;
-    ASTAssignmentOperatorNode* _assignmentOperator;
+    std::shared_ptr<ASTClassPropertyAccessNode> _classPropertyAccess;
+    std::shared_ptr<ASTAssignmentOperatorNode> _assignmentOperator;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    explicit ASTClassPropertyAssignmentNode(ASTClassPropertyAccessNode* classPropertyAccess, ASTAssignmentOperatorNode* assignmentOperator);
-    ASTClassAccessNode* getClassAccess();
-    ASTClassPropertyNameNode* getProperty();
+    explicit ASTClassPropertyAssignmentNode(std::shared_ptr<ASTClassPropertyAccessNode> classPropertyAccess, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator);
+    std::shared_ptr<ASTClassAccessNode> getClassAccess();
+    std::shared_ptr<ASTClassPropertyNameNode> getProperty();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

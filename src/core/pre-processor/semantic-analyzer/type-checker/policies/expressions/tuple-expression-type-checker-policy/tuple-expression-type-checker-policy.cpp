@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace TupleExpressionTypeCheckerPolicy {
-    void apply(ASTTupleExpressionNode* tupleExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTupleExpressionNode> tupleExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleExpression);

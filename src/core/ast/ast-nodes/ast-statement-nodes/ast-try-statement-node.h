@@ -12,20 +12,20 @@
 
 class ASTTryStatementNode : public ASTStatementNode {
 private:
-    ASTTryBlockNode* _tryBlock;
-    ASTCatchBlockNode* _catchBlock;
-    std::optional<ASTFinallyBlockNode*> _finallyBlock;
+    std::shared_ptr<ASTTryBlockNode> _tryBlock;
+    std::shared_ptr<ASTCatchBlockNode> _catchBlock;
+    std::optional<std::shared_ptr<ASTFinallyBlockNode>> _finallyBlock;
 public:
-    ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock);
-    ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock, ASTFinallyBlockNode* finallyBlock);
-    ASTTryBlockNode* getTryBlock();
-    ASTCatchBlockNode* getCatchBlock();
-    std::optional<ASTFinallyBlockNode*> getFinallyBlock();
+    ASTTryStatementNode(std::shared_ptr<ASTTryBlockNode> tryBlock, std::shared_ptr<ASTCatchBlockNode> catchBlock);
+    ASTTryStatementNode(std::shared_ptr<ASTTryBlockNode> tryBlock, std::shared_ptr<ASTCatchBlockNode> catchBlock, std::shared_ptr<ASTFinallyBlockNode> finallyBlock);
+    std::shared_ptr<ASTTryBlockNode> getTryBlock();
+    std::shared_ptr<ASTCatchBlockNode> getCatchBlock();
+    std::optional<std::shared_ptr<ASTFinallyBlockNode>> getFinallyBlock();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

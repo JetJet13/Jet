@@ -14,16 +14,16 @@
 
 class ASTTupleItemNode : public ASTNode {
 private:
-    ASTExpressionNode* _item;
+    std::shared_ptr<ASTExpressionNode> _item;
 public:
-    ASTTupleItemNode(ASTExpressionNode* item);
-    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
-    ASTExpressionNode* getItem();
+    ASTTupleItemNode(std::shared_ptr<ASTExpressionNode> item);
+    std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
+    std::shared_ptr<ASTExpressionNode> getItem();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -5,6 +5,6 @@
 #include "this-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-this-expression-node.h"
 
-IRExpressionNode* ThisExpressionIRStrategy::generate(ASTThisExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRExpressionNode* ThisExpressionIRStrategy::generate(std::shared_ptr<ASTThisExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     return new IRThisExpressionNode(node, scope->getClassScope().value());
 }

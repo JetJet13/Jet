@@ -5,13 +5,13 @@
 #include "ast-string-literal-node.h"
 #include "../ast-import-nodes/ast-import-path-node.h"
 
-ASTNode* ASTStringLiteralNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTStringLiteralNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
 
     if (prevNode && prevNode.value()->is(AST_FROM_NODE)) {
-        return new ASTImportPathNode(this);
+        return std::make_shared<ASTImportPathNode>(std::dynamic_pointer_cast<ASTStringLiteralNode>(shared_from_this()));
     }
 
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTStringLiteralNode::getNodeType() {

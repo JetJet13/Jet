@@ -11,7 +11,7 @@
 
 class ModuleAccessAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(ASTModuleAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generate(std::shared_ptr<ASTModuleAccessAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_MODULE_ACCESS_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

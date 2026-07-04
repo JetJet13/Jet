@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.h"
 
 namespace ConcatExpressionTypeCheckerPolicy {
-    void apply(ASTConcatExpressionNode* logicalExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTConcatExpressionNode> logicalExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_CONCAT_EXPRESSION_TYPE_CHECKER_POLICY_H

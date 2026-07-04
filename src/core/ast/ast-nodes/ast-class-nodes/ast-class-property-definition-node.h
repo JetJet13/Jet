@@ -17,23 +17,23 @@
 
 class ASTClassPropertyDefinitionNode : public ASTNode {
 protected:
-    ASTAccessModifierNode* _accessModifier;
-    ASTClassPropertyNameNode* _propertyName;
-    std::optional<ASTStaticNode*> _staticKeyword;
-    std::optional<ASTConstNode*> _constKeyword;
+    std::shared_ptr<ASTAccessModifierNode> _accessModifier;
+    std::shared_ptr<ASTClassPropertyNameNode> _propertyName;
+    std::optional<std::shared_ptr<ASTStaticNode>> _staticKeyword;
+    std::optional<std::shared_ptr<ASTConstNode>> _constKeyword;
 public:
-    explicit ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword = {}, std::optional<ASTConstNode*> constKeyword = {});
-    ASTAccessModifierNode* getAccessModifier();
-    ASTClassPropertyNameNode* getPropertyName();
-    std::optional<ASTStaticNode*> getStatic();
-    std::optional<ASTConstNode*> getConstant();
+    explicit ASTClassPropertyDefinitionNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassPropertyNameNode> propertyName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword = {}, std::optional<std::shared_ptr<ASTConstNode>> constKeyword = {});
+    std::shared_ptr<ASTAccessModifierNode> getAccessModifier();
+    std::shared_ptr<ASTClassPropertyNameNode> getPropertyName();
+    std::optional<std::shared_ptr<ASTStaticNode>> getStatic();
+    std::optional<std::shared_ptr<ASTConstNode>> getConstant();
     bool isStatic();
     bool isConstant();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
 };
 

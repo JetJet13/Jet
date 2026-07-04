@@ -13,17 +13,17 @@
 
 class ASTFinallyBlockNode : public ASTScopedBlockNode {
 private:
-    ASTFinallyNode* _finallyKeyword;
-    ASTControlFlowBlockNode* _block;
+    std::shared_ptr<ASTFinallyNode> _finallyKeyword;
+    std::shared_ptr<ASTControlFlowBlockNode> _block;
 public:
-    explicit ASTFinallyBlockNode(ASTFinallyNode* finallyKeyword, ASTControlFlowBlockNode* block);
-    ASTControlFlowBlockNode* getBlock();
-    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
+    explicit ASTFinallyBlockNode(std::shared_ptr<ASTFinallyNode> finallyKeyword, std::shared_ptr<ASTControlFlowBlockNode> block);
+    std::shared_ptr<ASTControlFlowBlockNode> getBlock();
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

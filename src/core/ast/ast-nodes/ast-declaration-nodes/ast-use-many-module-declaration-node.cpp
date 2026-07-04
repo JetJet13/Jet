@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(std::shared_ptr<ASTUseNode> useKeyword, std::shared_ptr<ASTImportModuleListByGroupItemNode> importModuleListByGroupItem, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path) {
     _useKeyword = useKeyword;
     _importModuleListByGroupItem = importModuleListByGroupItem;
     _fromKeyword = fromKeyword;
@@ -17,19 +17,19 @@ ASTUseManyModuleDeclarationNode::ASTUseManyModuleDeclarationNode(ASTUseNode* use
     _children.push_back(_path);
 }
 
-ASTImportModuleListByGroupItemNode* ASTUseManyModuleDeclarationNode::getImportModuleListByGroupItem() {
+std::shared_ptr<ASTImportModuleListByGroupItemNode> ASTUseManyModuleDeclarationNode::getImportModuleListByGroupItem() {
     return _importModuleListByGroupItem;
 }
 
-ASTImportModuleNameNode* ASTUseManyModuleDeclarationNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTUseManyModuleDeclarationNode::getModuleName() {
     return _importModuleListByGroupItem->getModuleName();
 }
 
-ASTImportModuleListNode* ASTUseManyModuleDeclarationNode::getModuleList() {
+std::shared_ptr<ASTImportModuleListNode> ASTUseManyModuleDeclarationNode::getModuleList() {
     return _importModuleListByGroupItem->getModuleList();
 }
 
-ASTImportPathNode* ASTUseManyModuleDeclarationNode::getPath() {
+std::shared_ptr<ASTImportPathNode> ASTUseManyModuleDeclarationNode::getPath() {
     return _path;
 }
 
@@ -49,11 +49,11 @@ std::string ASTUseManyModuleDeclarationNode::toString() {
     return "USE_MANY_MODULE_DECLARATION";
 }
 
-bool ASTUseManyModuleDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTUseManyModuleDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTUseManyModuleDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTUseManyModuleDeclarationNode>(other);
     return this->getImportModuleListByGroupItem()->isSameAs(otherNode->getImportModuleListByGroupItem()) &&
            this->getPath()->isSameAs(otherNode->getPath());
 }

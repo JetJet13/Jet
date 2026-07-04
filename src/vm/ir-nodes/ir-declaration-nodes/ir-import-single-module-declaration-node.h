@@ -11,9 +11,9 @@
 
 class IRImportSingleModuleDeclarationNode : public IRDeclarationNode {
 private:
-    ASTImportSingleModuleDeclarationNode* _node;
+    std::shared_ptr<ASTImportSingleModuleDeclarationNode> _node;
 public:
-    IRImportSingleModuleDeclarationNode(ASTImportSingleModuleDeclarationNode* node);
+    IRImportSingleModuleDeclarationNode(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node);
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

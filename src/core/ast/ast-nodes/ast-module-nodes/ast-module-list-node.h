@@ -13,20 +13,20 @@
 
 class ASTModuleListNode : public ASTNode {
 private:
-    ASTModuleListStartNode* _moduleListStartNode;
-    ASTModuleListEndNode* _moduleListEndNode;
-    std::vector<ASTModuleListItemNode*> _items;
+    std::shared_ptr<ASTModuleListStartNode> _moduleListStartNode;
+    std::shared_ptr<ASTModuleListEndNode> _moduleListEndNode;
+    std::vector<std::shared_ptr<ASTModuleListItemNode>> _items;
 public:
-    ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, ASTModuleListEndNode* moduleListEndNode);
-    ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, std::vector<ASTModuleListItemNode*> items, ASTModuleListEndNode* moduleListEndNode);
-    std::vector<ASTModuleListItemNode*> getItems();
+    ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode);
+    ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::vector<std::shared_ptr<ASTModuleListItemNode>> items, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode);
+    std::vector<std::shared_ptr<ASTModuleListItemNode>> getItems();
     unsigned long numItems();
-    ASTModuleListNode* addItem(ASTModuleListItemNode* item);
+    std::shared_ptr<ASTModuleListNode> addItem(std::shared_ptr<ASTModuleListItemNode> item);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

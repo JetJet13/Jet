@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTInterfaceDefinitionNode::ASTInterfaceDefinitionNode(ASTInterfaceNode* interfaceKeyword, ASTInterfaceNameNode* name) {
+ASTInterfaceDefinitionNode::ASTInterfaceDefinitionNode(std::shared_ptr<ASTInterfaceNode> interfaceKeyword, std::shared_ptr<ASTInterfaceNameNode> name) {
     _interfaceKeyword = interfaceKeyword;
     _name = name;
     _children.push_back(_interfaceKeyword);
@@ -14,7 +14,7 @@ ASTInterfaceDefinitionNode::ASTInterfaceDefinitionNode(ASTInterfaceNode* interfa
 }
 
 
-ASTInterfaceNameNode* ASTInterfaceDefinitionNode::getName() {
+std::shared_ptr<ASTInterfaceNameNode> ASTInterfaceDefinitionNode::getName() {
     return _name;
 }
 
@@ -34,11 +34,11 @@ std::string ASTInterfaceDefinitionNode::toString() {
     return "INTERFACE_DEFINITION";
 }
 
-bool ASTInterfaceDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTInterfaceDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTInterfaceDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTInterfaceDefinitionNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName());
 }

@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
 
 namespace TupleExpressionTypeCheckerPolicy {
-    void apply(ASTTupleExpressionNode* tupleExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleExpressionNode> tupleExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_TYPE_CHECKER_POLICY_H

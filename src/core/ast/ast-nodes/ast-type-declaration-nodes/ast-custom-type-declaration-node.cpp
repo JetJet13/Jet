@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTCustomTypeDeclarationNode::ASTCustomTypeDeclarationNode(ASTTypeKeywordNode* typeKeyword, ASTTypeNameNode* typeName, ASTTypeAssignmentOperatorNode* assignmentOperator, ASTTypeNode* type, std::optional<ASTExportNode*> exportKeyword) {
+ASTCustomTypeDeclarationNode::ASTCustomTypeDeclarationNode(std::shared_ptr<ASTTypeKeywordNode> typeKeyword, std::shared_ptr<ASTTypeNameNode> typeName, std::shared_ptr<ASTTypeAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTTypeNode> type, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _typeKeyword = typeKeyword;
     _typeName = typeName;
     _assignmentOperator = assignmentOperator;
@@ -21,11 +21,11 @@ ASTCustomTypeDeclarationNode::ASTCustomTypeDeclarationNode(ASTTypeKeywordNode* t
     }
 }
 
-ASTTypeNode* ASTCustomTypeDeclarationNode::getType() {
+std::shared_ptr<ASTTypeNode> ASTCustomTypeDeclarationNode::getType() {
     return _type;
 }
 
-ASTTypeNameNode* ASTCustomTypeDeclarationNode::getName() {
+std::shared_ptr<ASTTypeNameNode> ASTCustomTypeDeclarationNode::getName() {
     return _typeName;
 }
 
@@ -49,11 +49,11 @@ std::string ASTCustomTypeDeclarationNode::toString() {
     return "CUSTOM_TYPE_DECLARATION";
 }
 
-bool ASTCustomTypeDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTCustomTypeDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTCustomTypeDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(other);
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getType()->isSameAs(otherNode->getType());
 }

@@ -6,22 +6,22 @@
 #include "../../../../../ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h"
 #include "../../../../../ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.h"
 
-ASTNode* VariableInitReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> VariableInitReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() == 2) {
-        return new ASTVariableInitNode(
-                ((ASTVariableDefinitionNode*)nodes[0])->getVarTypeNode(),
-                ((ASTVariableDefinitionNode*)nodes[0])->getIdentifierNode(),
-                (ASTAssignmentOperatorNode*)nodes[1]
+        return std::make_shared<ASTVariableInitNode>(
+                (std::dynamic_pointer_cast<ASTVariableDefinitionNode>(nodes[0]))->getVarTypeNode(),
+                (std::dynamic_pointer_cast<ASTVariableDefinitionNode>(nodes[0]))->getIdentifierNode(),
+                std::dynamic_pointer_cast<ASTAssignmentOperatorNode>(nodes[1])
         );
     }
 
     if (nodes.size() == 4) {
-        return new ASTVariableInitNode(
-                ((ASTVariableDefinitionNode*)nodes[0])->getVarTypeNode(),
-                ((ASTVariableDefinitionNode*)nodes[0])->getIdentifierNode(),
-                (ASTAssignmentOperatorNode*)nodes[3],
-                (ASTTypeColonNode*)nodes[1],
-                (ASTTypeNode*)nodes[2]
+        return std::make_shared<ASTVariableInitNode>(
+                (std::dynamic_pointer_cast<ASTVariableDefinitionNode>(nodes[0]))->getVarTypeNode(),
+                (std::dynamic_pointer_cast<ASTVariableDefinitionNode>(nodes[0]))->getIdentifierNode(),
+                std::dynamic_pointer_cast<ASTAssignmentOperatorNode>(nodes[3]),
+                std::dynamic_pointer_cast<ASTTypeColonNode>(nodes[1]),
+                std::dynamic_pointer_cast<ASTTypeNode>(nodes[2])
         );
     }
 

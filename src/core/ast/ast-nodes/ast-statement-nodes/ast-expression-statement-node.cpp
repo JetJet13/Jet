@@ -5,12 +5,12 @@
 #include "ast-expression-statement-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTExpressionStatementNode::ASTExpressionStatementNode(ASTExpressionNode* expression) {
+ASTExpressionStatementNode::ASTExpressionStatementNode(std::shared_ptr<ASTExpressionNode> expression) {
     _expression = expression;
     _children.push_back(_expression);
 }
 
-ASTExpressionNode* ASTExpressionStatementNode::getExpression() {
+std::shared_ptr<ASTExpressionNode> ASTExpressionStatementNode::getExpression() {
     return _expression;
 }
 
@@ -30,11 +30,11 @@ std::string ASTExpressionStatementNode::toString() {
     return "EXPRESSION_STATEMENT";
 }
 
-bool ASTExpressionStatementNode::isSameAs(ASTNode* other) {
+bool ASTExpressionStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTExpressionStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTExpressionStatementNode>(other);
     return this->getExpression()->isSameAs(otherNode->getExpression());
 }
 

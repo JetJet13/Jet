@@ -17,21 +17,21 @@
 
 class ASTInterfacePropertyNode : public ASTNode {
 private:
-    ASTInterfacePropertyNameNode* _name;
-    ASTInterfaceColonNode* _colon;
-    ASTTypeNode* _type;
+    std::shared_ptr<ASTInterfacePropertyNameNode> _name;
+    std::shared_ptr<ASTInterfaceColonNode> _colon;
+    std::shared_ptr<ASTTypeNode> _type;
     InterfacePropertyTypeSignature* _typeSignature = new InterfacePropertyTypeSignature("_", new UnknownTypeSignature());
 public:
-    ASTInterfacePropertyNode(ASTInterfacePropertyNameNode* name, ASTInterfaceColonNode* colon, ASTTypeNode* type);
-    ASTInterfacePropertyNameNode* getName();
-    ASTTypeNode* getType();
+    ASTInterfacePropertyNode(std::shared_ptr<ASTInterfacePropertyNameNode> name, std::shared_ptr<ASTInterfaceColonNode> colon, std::shared_ptr<ASTTypeNode> type);
+    std::shared_ptr<ASTInterfacePropertyNameNode> getName();
+    std::shared_ptr<ASTTypeNode> getType();
     void setTypeSignature(InterfacePropertyTypeSignature* typeSignature);
     InterfacePropertyTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

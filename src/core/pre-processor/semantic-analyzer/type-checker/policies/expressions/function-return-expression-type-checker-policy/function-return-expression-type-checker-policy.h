@@ -9,7 +9,7 @@
 #include "../../../types/type-checker-result/type-checker-result.h"
 
 namespace FunctionReturnExpressionTypeCheckerPolicy {
-    void apply(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionReturnExpressionNode> functionReturnExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_EXPRESSION_TYPE_CHECKER_POLICY_H

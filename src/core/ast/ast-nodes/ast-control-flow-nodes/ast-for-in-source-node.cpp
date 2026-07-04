@@ -5,12 +5,12 @@
 #include "ast-for-in-source-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTForInSourceNode::ASTForInSourceNode(ASTExpressionNode* source) {
+ASTForInSourceNode::ASTForInSourceNode(std::shared_ptr<ASTExpressionNode> source) {
     _source = source;
     _children.push_back(_source);
 }
 
-ASTExpressionNode* ASTForInSourceNode::getSource() {
+std::shared_ptr<ASTExpressionNode> ASTForInSourceNode::getSource() {
     return _source;
 }
 
@@ -38,11 +38,11 @@ std::string ASTForInSourceNode::toString() {
     return "FOR_IN_SOURCE";
 }
 
-bool ASTForInSourceNode::isSameAs(ASTNode* other) {
+bool ASTForInSourceNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTForInSourceNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTForInSourceNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource());
 }
 

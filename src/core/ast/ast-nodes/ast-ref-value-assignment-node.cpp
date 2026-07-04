@@ -6,14 +6,14 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../types/source-code-builder/source-code-builder.h"
 
-ASTRefValueAssignmentNode::ASTRefValueAssignmentNode(ASTIdentifierNode* astIdentifierNode, ASTRefValueAssignmentOperatorNode* assignmentOperator) {
+ASTRefValueAssignmentNode::ASTRefValueAssignmentNode(std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator) {
     _identifier = astIdentifierNode;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_identifier);
     _children.push_back(_assignmentOperator);
 }
 
-ASTIdentifierNode* ASTRefValueAssignmentNode::getIdentifierNode() {
+std::shared_ptr<ASTIdentifierNode> ASTRefValueAssignmentNode::getIdentifierNode() {
     return _identifier;
 }
 
@@ -41,11 +41,11 @@ std::string ASTRefValueAssignmentNode::toString() {
     return "REF_VALUE_ASSIGNMENT";
 }
 
-bool ASTRefValueAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTRefValueAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTRefValueAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTRefValueAssignmentNode>(other);
     return this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());
 }
 

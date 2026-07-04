@@ -11,9 +11,9 @@
 
 class DrefExpressionIRStrategy {
 private:
-    IRInstructionNode* generateAllocation(ASTDrefExpressionNode* node, IRType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateAllocation(std::shared_ptr<ASTDrefExpressionNode> node, IRType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    IRExpressionNode* generate(ASTDrefExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRExpressionNode* generate(std::shared_ptr<ASTDrefExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_DREF_EXPRESSION_IR_STRATEGY_H

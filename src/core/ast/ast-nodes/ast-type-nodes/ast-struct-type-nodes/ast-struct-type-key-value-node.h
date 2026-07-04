@@ -14,21 +14,21 @@
 
 class ASTStructTypeKeyValueNode : public ASTNode {
 private:
-    ASTStructTypeKeyNode* _name;
-    ASTStructTypeColonNode* _colon;
-    ASTTypeNode* _type;
+    std::shared_ptr<ASTStructTypeKeyNode> _name;
+    std::shared_ptr<ASTStructTypeColonNode> _colon;
+    std::shared_ptr<ASTTypeNode> _type;
     TypeSignature* _typeSignature = new UnknownTypeSignature();
 public:
-    ASTStructTypeKeyValueNode(ASTStructTypeKeyNode* name, ASTStructTypeColonNode* colon, ASTTypeNode* type);
-    ASTStructTypeKeyNode* getName();
-    ASTTypeNode* getType();
+    ASTStructTypeKeyValueNode(std::shared_ptr<ASTStructTypeKeyNode> name, std::shared_ptr<ASTStructTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type);
+    std::shared_ptr<ASTStructTypeKeyNode> getName();
+    std::shared_ptr<ASTTypeNode> getType();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

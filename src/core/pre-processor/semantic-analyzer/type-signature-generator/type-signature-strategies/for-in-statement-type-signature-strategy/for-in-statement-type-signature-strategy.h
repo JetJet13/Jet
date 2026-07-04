@@ -11,7 +11,7 @@
 
 class ForInStatementTypeSignatureStrategy {
 public:
-    void assign(ASTForInStatementNode* forStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTForInStatementNode> forStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FOR_IN_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

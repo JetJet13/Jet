@@ -4,7 +4,7 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irArc) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irArc) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;

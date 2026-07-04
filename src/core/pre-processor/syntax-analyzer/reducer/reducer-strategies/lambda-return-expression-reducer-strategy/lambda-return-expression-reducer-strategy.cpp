@@ -5,6 +5,6 @@
 #include "lambda-return-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 
-ASTNode* LambdaReturnExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    return new ASTLambdaReturnExpressionNode((ASTLambdaExpressionFatArrowNode*)nodes[0], (ASTExpressionNode*)nodes[1]);
+std::shared_ptr<ASTNode> LambdaReturnExpressionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
+    return std::make_shared<ASTLambdaReturnExpressionNode>(std::dynamic_pointer_cast<ASTLambdaExpressionFatArrowNode>(nodes[0]), std::dynamic_pointer_cast<ASTExpressionNode>(nodes[1]));
 }

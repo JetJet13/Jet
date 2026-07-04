@@ -13,7 +13,7 @@
 
 class CharLiteralIRStrategy {
 public:
-    IRCharLiteralNode* generate(ASTCharLiteralNode* node, IRGenerator* irGenerator, IRContext* irContext);
+    IRCharLiteralNode* generate(std::shared_ptr<ASTCharLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_CHAR_LITERAL_IR_STRATEGY_H

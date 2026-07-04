@@ -12,18 +12,18 @@
 
 class ASTStructKeyValueNode : public ASTNode {
 private:
-    ASTIdentifierExpressionNode* _key;
-    ASTStructColonNode* _colon;
-    ASTExpressionNode* _value;
+    std::shared_ptr<ASTIdentifierExpressionNode> _key;
+    std::shared_ptr<ASTStructColonNode> _colon;
+    std::shared_ptr<ASTExpressionNode> _value;
 public:
-    ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTStructColonNode* colon, ASTExpressionNode* value);
-    ASTIdentifierExpressionNode* getKey();
-    ASTExpressionNode* getValue();
+    ASTStructKeyValueNode(std::shared_ptr<ASTIdentifierExpressionNode> key, std::shared_ptr<ASTStructColonNode> colon, std::shared_ptr<ASTExpressionNode> value);
+    std::shared_ptr<ASTIdentifierExpressionNode> getKey();
+    std::shared_ptr<ASTExpressionNode> getValue();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

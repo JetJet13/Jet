@@ -5,12 +5,12 @@
 #include "ast-object-access-source-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTObjectAccessSourceNode::ASTObjectAccessSourceNode(ASTExpressionNode* source) {
+ASTObjectAccessSourceNode::ASTObjectAccessSourceNode(std::shared_ptr<ASTExpressionNode> source) {
     _source = source;
     _children.push_back(_source);
 }
 
-ASTExpressionNode* ASTObjectAccessSourceNode::getSource() {
+std::shared_ptr<ASTExpressionNode> ASTObjectAccessSourceNode::getSource() {
     return _source;
 }
 
@@ -30,11 +30,11 @@ std::string ASTObjectAccessSourceNode::toString() {
     return "OBJECT_ACCESS_SOURCE";
 }
 
-bool ASTObjectAccessSourceNode::isSameAs(ASTNode* other) {
+bool ASTObjectAccessSourceNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTObjectAccessSourceNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTObjectAccessSourceNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource());
 }
 

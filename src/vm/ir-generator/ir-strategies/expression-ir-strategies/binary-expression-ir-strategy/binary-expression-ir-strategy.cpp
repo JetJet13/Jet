@@ -7,7 +7,7 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryArithmeticExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -31,7 +31,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryArithmetic
     return binaryArithmeticExpressionNode;
 }
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryComparatorExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -55,7 +55,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(ASTBinaryComparator
     return new IRBinaryComparisonExpressionNode(node, comparison, leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
-llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(ASTBinaryArithmeticOperatorNode* operatorNode, TypeSignature* typeSignature) {
+llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, TypeSignature* typeSignature) {
     if (operatorNode->isPlus()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FAdd
@@ -78,7 +78,7 @@ llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOper
     return llvm::Instruction::BinaryOps::BinaryOpsEnd;
 }
 
-llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(ASTBinaryComparatorOperatorNode* operatorNode, TypeSignature* typeSignature) {
+llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, TypeSignature* typeSignature) {
     if (operatorNode->isEqual()) {
         return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OEQ

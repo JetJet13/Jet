@@ -15,12 +15,12 @@ Lexeme* ASTFatArrowBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTFatArrowBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTFatArrowBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_LAMBDA_TYPE_PARAMETER_LIST_NODE)) {
-        return new ASTLambdaTypeFatArrowNode(this->getLexeme());
+        return std::make_shared<ASTLambdaTypeFatArrowNode>(this->getLexeme());
     }
 
-    return new ASTLambdaExpressionFatArrowNode(this->getLexeme());
+    return std::make_shared<ASTLambdaExpressionFatArrowNode>(this->getLexeme());
 }
 
 ASTNodeType ASTFatArrowBaseNode::getNodeType() {
@@ -31,11 +31,11 @@ std::string ASTFatArrowBaseNode::toString() {
     return "FAT_ARROW";
 }
 
-bool ASTFatArrowBaseNode::isSameAs(ASTNode* other) {
+bool ASTFatArrowBaseNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTFatArrowBaseNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFatArrowBaseNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

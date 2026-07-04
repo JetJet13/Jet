@@ -5,7 +5,7 @@
 #include "ir-dref-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRDrefExpressionNode::IRDrefExpressionNode(ASTDrefExpressionNode* node, IRExpressionNode* irExpression, IRType* irType, IRInstructionNode* irValue) {
+IRDrefExpressionNode::IRDrefExpressionNode(std::shared_ptr<ASTDrefExpressionNode> node, IRExpressionNode* irExpression, IRType* irType, IRInstructionNode* irValue) {
     _node = node;
     _irExpression = irExpression;
     _irType = irType;

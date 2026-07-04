@@ -5,14 +5,14 @@
 #include "class-method-invocation-expression-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h"
 
-ASTNode* ClassMethodInvocationExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ClassMethodInvocationExpressionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 3) {
         throw std::invalid_argument("unable to reduce to class method invocation expression since nodes list is not of size 3");
     }
 
-    return new ASTClassMethodInvocationExpressionNode(
-            (ASTClassAccessNode*)nodes[0],
-            (ASTClassMethodCallNode*)nodes[1],
-            (ASTFunctionArgumentListNode*)nodes[2]
+    return std::make_shared<ASTClassMethodInvocationExpressionNode>(
+            std::dynamic_pointer_cast<ASTClassAccessNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTClassMethodCallNode>(nodes[1]),
+            std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(nodes[2])
     );
 }

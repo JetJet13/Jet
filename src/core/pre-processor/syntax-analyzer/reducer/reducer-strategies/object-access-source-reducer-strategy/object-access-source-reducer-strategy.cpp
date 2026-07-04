@@ -5,12 +5,12 @@
 #include "object-access-source-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.h"
 
-ASTNode* ObjectAccessSourceReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ObjectAccessSourceReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 1) {
         throw std::invalid_argument("unable to reduce to object access source since nodes list is not 1");
     }
 
-    return new ASTObjectAccessSourceNode(
-            (ASTExpressionNode*)nodes[0]
+    return std::make_shared<ASTObjectAccessSourceNode>(
+            std::dynamic_pointer_cast<ASTExpressionNode>(nodes[0])
     );
 }

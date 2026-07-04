@@ -12,7 +12,7 @@
 
 class AccessModifierTypeSignatureStrategy {
 public:
-    void assign(ASTAccessModifierNode* accessModifierNode);
+    void assign(std::shared_ptr<ASTAccessModifierNode> accessModifierNode);
 };
 
 #endif //JETLANG_ACCESS_MODIFIER_TYPE_SIGNATURE_STRATEGY_H

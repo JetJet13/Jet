@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace ModuleAccessExpressionTypeCheckerPolicy {
-    void apply(ASTModuleAccessExpressionNode* moduleAccessExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(moduleAccessExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(moduleAccessExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(moduleAccessExpression);

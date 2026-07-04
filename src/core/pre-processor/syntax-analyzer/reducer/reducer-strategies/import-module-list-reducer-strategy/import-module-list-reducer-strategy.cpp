@@ -5,8 +5,8 @@
 #include "import-module-list-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.h"
 
-ASTNode* ImportModuleListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    auto importModuleListNode = new ASTImportModuleListNode((ASTImportModuleListStartNode*)nodes[0], (ASTImportModuleListEndNode*)nodes[nodes.size() - 1]);
+std::shared_ptr<ASTNode> ImportModuleListReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
+    auto importModuleListNode = std::make_shared<ASTImportModuleListNode>(std::dynamic_pointer_cast<ASTImportModuleListStartNode>(nodes[0]), std::dynamic_pointer_cast<ASTImportModuleListEndNode>(nodes[nodes.size() - 1]));
     for (auto node : nodes) {
         if (node->isOneOf({
             AST_IMPORT_MODULE_LIST_BY_WILDCARD_ITEM_NODE,
@@ -17,8 +17,8 @@ ASTNode* ImportModuleListReducerStrategy::execute(std::vector<ASTNode*> nodes) {
             AST_IMPORT_MODULE_LIST_SPREAD_ITEM_NODE
             })) {
             importModuleListNode->addItem(
-                new ASTImportModuleListItemNode(
-                        (ASTImportModuleListBaseItemNode*)node
+                std::make_shared<ASTImportModuleListItemNode>(
+                        std::dynamic_pointer_cast<ASTImportModuleListBaseItemNode>(node)
                 )
             );
         }

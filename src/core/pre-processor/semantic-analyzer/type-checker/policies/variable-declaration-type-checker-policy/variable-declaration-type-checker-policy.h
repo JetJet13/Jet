@@ -10,7 +10,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace VariableDeclarationTypeCheckerPolicy {
-    void apply(ASTVariableDeclarationNode* variableDeclarationNode,  TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTVariableDeclarationNode> variableDeclarationNode,  TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_TYPE_CHECKER_POLICY_H

@@ -11,7 +11,7 @@
 class UseManyModuleDeclarationIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 #endif //JETLANG_USE_MANY_MODULE_DECLARATION_ID_STRATEGY_H

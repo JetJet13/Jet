@@ -10,7 +10,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace FunctionDeclarationTypeCheckerPolicy {
-    void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_FUNCTION_DECLARATION_TYPE_CHECKER_POLICY_H

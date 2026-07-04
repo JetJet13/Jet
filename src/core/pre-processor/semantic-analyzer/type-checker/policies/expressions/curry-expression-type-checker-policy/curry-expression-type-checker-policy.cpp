@@ -9,7 +9,7 @@
 #include "../../../../../../type-signature/invocable-type-signature/function-type-signature/function-type-signature.h"
 
 namespace CurryExpressionTypeCheckerPolicy {
-    void apply(ASTCurryExpressionNode* curryExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTCurryExpressionNode> curryExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(curryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(curryExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()

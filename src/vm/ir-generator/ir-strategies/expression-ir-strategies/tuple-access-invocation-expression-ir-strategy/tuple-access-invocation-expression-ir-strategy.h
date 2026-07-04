@@ -12,7 +12,7 @@
 
 class TupleAccessInvocationExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTTupleAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRExpressionNode* generate(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_INVOCATION_EXPRESSION_IR_STRATEGY_H

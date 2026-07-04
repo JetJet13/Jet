@@ -7,7 +7,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 
 namespace ArrayAccessExpressionTypeCheckerPolicy {
-    void apply(ASTArrayAccessExpressionNode* arrayAccessExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccessExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayAccessExpression);

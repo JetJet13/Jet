@@ -13,7 +13,7 @@
 
 class IRForInStatementNode : public IRStatementNode {
 private:
-    ASTForInStatementNode* _node;
+    std::shared_ptr<ASTForInStatementNode> _node;
     IRInstructionNode* _index;
     IRInstructionNode* _variable;
     IRExpressionNode* _source;
@@ -23,7 +23,7 @@ private:
     IRBlockNode* _endBlock;
     std::optional<IRCapturedVariableNode*> _capturedVariable;
 public:
-    IRForInStatementNode(ASTForInStatementNode* node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable = {});
+    IRForInStatementNode(std::shared_ptr<ASTForInStatementNode> node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable = {});
     IRInstructionNode* getIndex();
     IRInstructionNode* getVariable();
     std::optional<IRCapturedVariableNode*> getCapturedVariable();

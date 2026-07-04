@@ -87,17 +87,17 @@ private:
     IRClassInstanceType* _genericClassInstanceIRType;
 public:
     explicit IRGenerator(IRInjector* irInjector);
-    IRNode* generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
-    void generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
-    void generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRNode* generateFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext);
+    void generateInitialTypeFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext);
+    void generatePostInitialTypeFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext);
     IRClassInstanceType* getGenericClassInstanceIRType();
-    IRStatementNode* generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext);
-    IRDeclarationNode* generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
-    IRTypeDeclarationNode* generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext);
-    IRFunctionParameterListNode* generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
-    IRExpressionNode* generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
-    IRFunctionArgumentNode* generateFor(ASTFunctionArgumentNode* node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature);
-    IRLiteralNode* generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generateFor(std::shared_ptr<ASTStatementNode> node, IRLookupTable* scope, IRContext* irContext);
+    IRDeclarationNode* generateFor(std::shared_ptr<ASTDeclarationNode> node, IRLookupTable* scope, IRContext* irContext);
+    IRTypeDeclarationNode* generateFor(std::shared_ptr<ASTTypeDeclarationNode> node, IRLookupTable* scope, IRContext* irContext);
+    IRFunctionParameterListNode* generateFor(std::shared_ptr<ASTFunctionParameterListNode> node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction);
+    IRExpressionNode* generateFor(std::shared_ptr<ASTExpressionNode> node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRFunctionArgumentNode* generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature);
+    IRLiteralNode* generateFor(std::shared_ptr<ASTLiteralNode> node, IRLookupTable* scope, IRContext* irContext);
     IRType* generateInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generatePostInitialTypeFor(TypeSignature* typeSignature, IRLookupTable* scope, IRContext* irContext);
     IRType* generateTypeFor(llvm::Constant* constant);
@@ -175,7 +175,7 @@ public:
     IRStructRefType* generateIRStructRefType();
     IRStructType* generateIRStructType();
     IRInstructionNode* generateFunctionParameterAllocation(IRType* irType);
-    IRInstructionNode* generateFunctionParameterAllocation(ASTFunctionParameterNode* functionParameter, IRParameterType* irParameterType, IRContext* irContext);
+    IRInstructionNode* generateFunctionParameterAllocation(std::shared_ptr<ASTFunctionParameterNode> functionParameter, IRParameterType* irParameterType, IRContext* irContext);
     IRType* generateIRCaptureCounterType();
     IRType* generateIRStructRefCounterType();
     IRType* generateIRArcType();

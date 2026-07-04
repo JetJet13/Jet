@@ -10,15 +10,15 @@
 
 class ASTIdentifierExpressionNode : public ASTExpressionNode {
 private:
-    ASTIdentifierNode* _identifierNode;
+    std::shared_ptr<ASTIdentifierNode> _identifierNode;
 public:
-    ASTIdentifierExpressionNode(ASTIdentifierNode* identifierNode);
-    ASTIdentifierNode* getIdentifierNode();
+    ASTIdentifierExpressionNode(std::shared_ptr<ASTIdentifierNode> identifierNode);
+    std::shared_ptr<ASTIdentifierNode> getIdentifierNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

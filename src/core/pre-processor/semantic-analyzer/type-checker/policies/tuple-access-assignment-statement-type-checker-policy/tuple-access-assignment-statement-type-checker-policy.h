@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-tuple-access-assignment-statement-node.h"
 
 namespace TupleAccessAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTTupleAccessAssignmentStatementNode* tupleAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleAccessAssignmentStatementNode> tupleAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 }
 
 

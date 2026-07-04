@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTWhileStatementNode::ASTWhileStatementNode(ASTWhileNode* whileKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block) {
+ASTWhileStatementNode::ASTWhileStatementNode(std::shared_ptr<ASTWhileNode> whileKeyword, std::shared_ptr<ASTControlFlowConditionNode> condition, std::shared_ptr<ASTControlFlowBlockNode> block) {
     _whileKeyword = whileKeyword;
     _condition = condition;
     _block = block;
@@ -15,11 +15,11 @@ ASTWhileStatementNode::ASTWhileStatementNode(ASTWhileNode* whileKeyword, ASTCont
     _children.push_back(_block);
 }
 
-ASTControlFlowBlockNode* ASTWhileStatementNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTWhileStatementNode::getBlock() {
     return _block;
 }
 
-ASTControlFlowConditionNode* ASTWhileStatementNode::getCondition() {
+std::shared_ptr<ASTControlFlowConditionNode> ASTWhileStatementNode::getCondition() {
     return _condition;
 }
 
@@ -39,11 +39,11 @@ std::string ASTWhileStatementNode::toString() {
     return "WHILE_STATEMENT";
 }
 
-bool ASTWhileStatementNode::isSameAs(ASTNode* other) {
+bool ASTWhileStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTWhileStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTWhileStatementNode>(other);
 
     return  this->getCondition()->isSameAs(otherNode->getCondition()) &&
             this->getBlock()->isSameAs(otherNode->getBlock());

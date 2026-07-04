@@ -6,19 +6,19 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 Handle::Handle() {
-    _handle = std::deque<ASTNode*>();
+    _handle = std::deque<std::shared_ptr<ASTNode>>();
     _lastReducedNode = std::nullopt;
     _peekNode = std::nullopt;
 }
 
-std::optional<ASTNode*> Handle::at(int index) {
+std::optional<std::shared_ptr<ASTNode>> Handle::at(int index) {
     if (_handle.empty() || _handle.size() < (index + 1) || index < 0) {
         return std::nullopt;
     }
     return _handle[index];
 }
 
-std::optional<ASTNode*> Handle::first() {
+std::optional<std::shared_ptr<ASTNode>> Handle::first() {
     if (this->isEmpty()) {
         return std::nullopt;
     }
@@ -27,7 +27,7 @@ std::optional<ASTNode*> Handle::first() {
 }
 
 
-std::optional<ASTNode*> Handle::last() {
+std::optional<std::shared_ptr<ASTNode>> Handle::last() {
     if (this->isEmpty()) {
         return {};
     }
@@ -176,8 +176,8 @@ unsigned long Handle::size() {
     return _handle.size();
 }
 
-std::vector<ASTNode*> Handle::getFirstNodes(int numNodesToGet) {
-    auto firstNodes = std::vector<ASTNode*>();
+std::vector<std::shared_ptr<ASTNode>> Handle::getFirstNodes(int numNodesToGet) {
+    auto firstNodes = std::vector<std::shared_ptr<ASTNode>>();
     if (numNodesToGet <= 0) {
         return firstNodes;
     }
@@ -205,26 +205,26 @@ void Handle::removeLastNode() {
     _handle.pop_back();
 }
 
-void Handle::append(ASTNode* node) {
+void Handle::append(std::shared_ptr<ASTNode> node) {
     _handle.push_back(node);
 }
 
-void Handle::prepend(ASTNode* node) {
+void Handle::prepend(std::shared_ptr<ASTNode> node) {
     _handle.push_front(node);
 }
 
-void Handle::replace(int index, ASTNode* newNode) {
+void Handle::replace(int index, std::shared_ptr<ASTNode> newNode) {
     if (_handle.size() < (index + 1) || index < 0) {
         throw std::invalid_argument("invalid index value for replace operation");
     }
     _handle[index] = newNode;
 }
 
-std::optional<ASTNode*> Handle::getLastReducedNode() {
+std::optional<std::shared_ptr<ASTNode>> Handle::getLastReducedNode() {
     return _lastReducedNode;
 }
 
-void Handle::setLastReducedNode(std::optional<ASTNode*> lastReducedNode) {
+void Handle::setLastReducedNode(std::optional<std::shared_ptr<ASTNode>> lastReducedNode) {
     _lastReducedNode = lastReducedNode;
 }
 
@@ -232,11 +232,11 @@ void Handle::clearLastReducedNode() {
     _lastReducedNode = {};
 }
 
-std::optional<ASTNode*> Handle::getPeekNode() {
+std::optional<std::shared_ptr<ASTNode>> Handle::getPeekNode() {
     return _peekNode;
 }
 
-void Handle::setPeekNode(std::optional<ASTNode*> peekNode) {
+void Handle::setPeekNode(std::optional<std::shared_ptr<ASTNode>> peekNode) {
     _peekNode = peekNode;
 }
 
@@ -244,7 +244,7 @@ void Handle::clearPeekNode() {
     _peekNode = {};
 }
 
-std::optional<ASTNode*> Handle::getPrevNodeFor(int index) {
+std::optional<std::shared_ptr<ASTNode>> Handle::getPrevNodeFor(int index) {
     if (index == 0) {
         return this->getLastReducedNode();
     }
@@ -252,7 +252,7 @@ std::optional<ASTNode*> Handle::getPrevNodeFor(int index) {
     return this->at(index - 1);
 }
 
-std::optional<ASTNode*> Handle::getNextNodeFor(int index) {
+std::optional<std::shared_ptr<ASTNode>> Handle::getNextNodeFor(int index) {
     if (index == _handle.size() - 1) {
         return this->getPeekNode();
     }

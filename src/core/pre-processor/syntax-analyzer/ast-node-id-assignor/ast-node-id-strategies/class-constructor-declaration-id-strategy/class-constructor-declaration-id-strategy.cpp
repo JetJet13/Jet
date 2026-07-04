@@ -7,9 +7,9 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 #include "../../../../../../shared/utils/to-string/to-string.h"
 
-void ClassConstructorDeclarationIdStrategy::assign(ASTNode* node) {
-    auto classConstructorDeclarationNode = (ASTClassConstructorDeclarationNode*)node;
-    auto classDeclarationNode = (ASTClassDeclarationNode*)classConstructorDeclarationNode->getParentNode().value();
+void ClassConstructorDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto classConstructorDeclarationNode = std::dynamic_pointer_cast<ASTClassConstructorDeclarationNode>(node);
+    auto classDeclarationNode = std::dynamic_pointer_cast<ASTClassDeclarationNode>(classConstructorDeclarationNode->getParentNode().value());
     auto className = _tokenTable->getIdentifier(
             classDeclarationNode->getName()
                     ->getLexeme()

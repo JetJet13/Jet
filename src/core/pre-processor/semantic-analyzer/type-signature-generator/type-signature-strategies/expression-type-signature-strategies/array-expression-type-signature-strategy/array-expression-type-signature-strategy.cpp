@@ -7,7 +7,7 @@
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void ArrayExpressionTypeSignatureStrategy::assign(ASTArrayExpressionNode* arrayExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ArrayExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTArrayExpressionNode> arrayExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     if (arrayExpression->size() == 0 &&
         arrayExpression->getParentNode() &&
         arrayExpression->getParentNode().value()->getTypeSignature()->typeSourceIs(ARRAY_TYPE_SOURCE)) {

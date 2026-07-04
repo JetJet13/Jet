@@ -11,7 +11,7 @@
 
 class ParameterListItemTypeSignatureStrategy {
 public:
-    void assignAndAddToScope(ASTFunctionParameterNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignAndAddToScope(std::shared_ptr<ASTFunctionParameterNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PARAMETER_LIST_ITEM_TYPE_SIGNATURE_STRATEGY_H

@@ -4,7 +4,7 @@
 
 #include "ir-literal-expression-node.h"
 
-IRLiteralExpressionNode::IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType) {
+IRLiteralExpressionNode::IRLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRLiteralNode* irValue, IRType* irType) {
     _node = node;
     _irValue = irValue;
     _irType = irType;

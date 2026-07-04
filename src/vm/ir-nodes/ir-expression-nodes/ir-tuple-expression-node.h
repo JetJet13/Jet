@@ -16,13 +16,13 @@
 
 class IRTupleExpressionNode : public IRExpressionNode {
 private:
-    ASTTupleExpressionNode* _node;
+    std::shared_ptr<ASTTupleExpressionNode> _node;
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
     std::vector<IRExpressionNode*> _irValues;
     IRStructRefType* _type;
 public:
-    IRTupleExpressionNode(ASTTupleExpressionNode* node, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     unsigned long size();

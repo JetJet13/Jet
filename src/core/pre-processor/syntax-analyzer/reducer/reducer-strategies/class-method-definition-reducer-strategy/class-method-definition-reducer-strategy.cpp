@@ -6,29 +6,29 @@
 #include "../../../../../ast/ast-nodes/ast-identifier-node.h"
 #include "../../../../../ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.h"
 
-ASTNode* ClassMethodDefinitionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ClassMethodDefinitionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() < 2 || nodes.size() > 3) {
         throw std::invalid_argument("unable to reduce to class method definition since nodes list size is < 2 or > 3");
     }
 
-    return new ASTClassMethodDefinitionNode(
-            (ASTAccessModifierNode*)nodes[0],
+    return std::make_shared<ASTClassMethodDefinitionNode>(
+            std::dynamic_pointer_cast<ASTAccessModifierNode>(nodes[0]),
             this->getMethodName(&nodes),
             this->getStatic(&nodes)
     );
 }
 
-ASTClassMethodNameNode* ClassMethodDefinitionReducerStrategy::getMethodName(std::vector<ASTNode*>* nodes) {
+std::shared_ptr<ASTClassMethodNameNode> ClassMethodDefinitionReducerStrategy::getMethodName(std::vector<std::shared_ptr<ASTNode>>* nodes) {
     if (nodes->size() == 3) {
-        return new ASTClassMethodNameNode(((ASTIdentifierNode*) nodes->at(2))->getLexeme());
+        return std::dynamic_pointer_cast<ASTClassMethodNameNode>(nodes->at(2));
     } else {
-        return new ASTClassMethodNameNode(((ASTIdentifierNode*) nodes->at(1))->getLexeme());
+        return std::dynamic_pointer_cast<ASTClassMethodNameNode>(nodes->at(1));
     }
 }
 
-std::optional<ASTStaticNode*> ClassMethodDefinitionReducerStrategy::getStatic(std::vector<ASTNode*>* nodes) {
+std::optional<std::shared_ptr<ASTStaticNode>> ClassMethodDefinitionReducerStrategy::getStatic(std::vector<std::shared_ptr<ASTNode>>* nodes) {
     if (nodes->at(1)->is(AST_STATIC_NODE)) {
-        return (ASTStaticNode*)nodes->at(1);
+        return std::dynamic_pointer_cast<ASTStaticNode>(nodes->at(1));
     }
     return {};
 }

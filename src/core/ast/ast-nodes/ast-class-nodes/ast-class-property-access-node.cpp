@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(ASTClassAccessNode* classAccess, ASTClassPropertyNameNode* property) {
+ASTClassPropertyAccessNode::ASTClassPropertyAccessNode(std::shared_ptr<ASTClassAccessNode> classAccess, std::shared_ptr<ASTClassPropertyNameNode> property) {
     _classAccess = classAccess;
     _property = property;
     _children.push_back(_classAccess);
     _children.push_back(_property);
 }
 
-ASTClassAccessNode* ASTClassPropertyAccessNode::getClassAccess() {
+std::shared_ptr<ASTClassAccessNode> ASTClassPropertyAccessNode::getClassAccess() {
     return _classAccess;
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyAccessNode::getPropertyName() {
+std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyAccessNode::getPropertyName() {
     return _property;
 }
 
@@ -37,11 +37,11 @@ std::string ASTClassPropertyAccessNode::toString() {
     return "CLASS_PROPERTY_ACCESS";
 }
 
-bool ASTClassPropertyAccessNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyAccessNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTClassPropertyAccessNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyAccessNode>(other);
     return this->getPropertyName()->isSameAs(otherNode->getPropertyName());
 }
 

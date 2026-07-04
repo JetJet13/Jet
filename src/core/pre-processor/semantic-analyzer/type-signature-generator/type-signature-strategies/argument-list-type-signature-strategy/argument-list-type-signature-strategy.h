@@ -10,7 +10,7 @@
 
 class ArgumentListTypeSignatureStrategy {
 public:
-    void assign(ASTFunctionArgumentListNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTFunctionArgumentListNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARGUMENT_LIST_TYPE_SIGNATURE_STRATEGY_H

@@ -5,11 +5,11 @@
 #include "ast-assignment-operator-node.h"
 #include "../ast-type-nodes/ast-type-assignment-operator-node.h"
 
-ASTNode* ASTAssignmentOperatorNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTAssignmentOperatorNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_NAME_NODE })) {
-        return new ASTTypeAssignmentOperatorNode(this->getLexeme());
+        return std::make_shared<ASTTypeAssignmentOperatorNode>(this->getLexeme());
     }
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTAssignmentOperatorNode::getNodeType() {

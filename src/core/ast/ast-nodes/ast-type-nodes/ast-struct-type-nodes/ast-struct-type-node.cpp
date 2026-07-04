@@ -6,24 +6,24 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTStructTypeNode::ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, ASTStructTypeEndNode* structTypeEndNode) {
+ASTStructTypeNode::ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode) {
     _structTypeStartNode = structTypeStartNode;
     _structTypeEndNode = structTypeEndNode;
-    _commas = std::vector<ASTCommaNode*>();
-    _keyValueTypes = std::vector<ASTStructTypeKeyValueNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _keyValueTypes = std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>>();
 }
 
-ASTStructTypeNode::ASTStructTypeNode(ASTStructTypeStartNode* structTypeStartNode, std::vector<ASTStructTypeKeyValueNode*> keyValueTypes, std::vector<ASTCommaNode*> commas, ASTStructTypeEndNode* structTypeEndNode) {
+ASTStructTypeNode::ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> keyValueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode) {
     _structTypeStartNode = structTypeStartNode;
     _structTypeEndNode = structTypeEndNode;
     _commas = commas;
-    _keyValueTypes = std::vector<ASTStructTypeKeyValueNode*>();
+    _keyValueTypes = std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>>();
     for (auto keyValueType: keyValueTypes) {
         this->addKeyValueType(keyValueType);
     }
 }
 
-std::vector<ASTStructTypeKeyValueNode*> ASTStructTypeNode::getKeyValueTypes() {
+std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> ASTStructTypeNode::getKeyValueTypes() {
     return _keyValueTypes;
 }
 
@@ -31,15 +31,15 @@ unsigned long ASTStructTypeNode::numKeyValueTypes() {
     return _keyValueTypes.size();
 }
 
-ASTStructTypeNode* ASTStructTypeNode::addKeyValueType(ASTStructTypeKeyValueNode* keyValueType) {
+std::shared_ptr<ASTStructTypeNode> ASTStructTypeNode::addKeyValueType(std::shared_ptr<ASTStructTypeKeyValueNode> keyValueType) {
     _keyValueTypes.push_back(keyValueType);
     _children.push_back(keyValueType);
-    return this;
+    return std::dynamic_pointer_cast<ASTStructTypeNode>(shared_from_this());
 }
 
-ASTStructTypeNode* ASTStructTypeNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTStructTypeNode> ASTStructTypeNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTStructTypeNode>(shared_from_this());
 }
 
 Position* ASTStructTypeNode::getStartPosition() {
@@ -58,11 +58,11 @@ std::string ASTStructTypeNode::toString() {
     return "STRUCT_TYPE";
 }
 
-bool ASTStructTypeNode::isSameAs(ASTNode* other) {
+bool ASTStructTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTStructTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTStructTypeNode>(other);
     auto otherNodeElements = otherNode->getKeyValueTypes();
     if (this->numKeyValueTypes() != otherNode->numKeyValueTypes()) {
         return false;

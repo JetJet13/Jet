@@ -4,6 +4,6 @@
 
 #include "expression-statement-type-signature-strategy.h"
 
-void ExpressionStatementTypeSignatureStrategy::assign(ASTExpressionStatementNode* expressionStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ExpressionStatementTypeSignatureStrategy::assign(std::shared_ptr<ASTExpressionStatementNode> expressionStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(expressionStatementNode->getExpression(), context, scope);
 }

@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace UnaryExpressionTypeCheckerPolicy {
-    void apply(ASTUnaryExpressionNode* unaryExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTUnaryExpressionNode> unaryExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(unaryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(unaryExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(unaryExpression);

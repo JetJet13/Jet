@@ -47,7 +47,7 @@ private:
     LexemeTransformer _lexemeTransformer;
     std::stack<SyntaxAnalyzerMode> _modeStack;
     std::stack<Scope> _scopeStack;
-    std::stack<std::stack<ASTNode*>> _recognizeStack;
+    std::stack<std::stack<std::shared_ptr<ASTNode>>> _recognizeStack;
     std::vector<std::string> _syntaxErrorList;
     bool _shiftDisabled;
     std::shared_ptr<RecognizerResult> recognizeHandle();

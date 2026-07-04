@@ -15,20 +15,20 @@
 
 class ASTClassMethodInvocationExpressionNode : public ASTCallableExpressionNode {
 private:
-    ASTClassAccessNode* _classAccess;
-    ASTClassMethodCallNode* _method;
-    ASTFunctionArgumentListNode* _arguments;
+    std::shared_ptr<ASTClassAccessNode> _classAccess;
+    std::shared_ptr<ASTClassMethodCallNode> _method;
+    std::shared_ptr<ASTFunctionArgumentListNode> _arguments;
 public:
-    explicit ASTClassMethodInvocationExpressionNode(ASTClassAccessNode* classAccess, ASTClassMethodCallNode* name, ASTFunctionArgumentListNode* arguments);
-    ASTFunctionArgumentListNode* getArguments();
-    ASTClassMethodCallNode* getName();
-    ASTClassAccessNode* getClassAccess();
+    explicit ASTClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassAccessNode> classAccess, std::shared_ptr<ASTClassMethodCallNode> name, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
+    std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
+    std::shared_ptr<ASTClassMethodCallNode> getName();
+    std::shared_ptr<ASTClassAccessNode> getClassAccess();
     unsigned long numArguments();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

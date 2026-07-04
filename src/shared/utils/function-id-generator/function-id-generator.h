@@ -15,11 +15,11 @@
 class FunctionIdGenerator {
 public:
     static std::string getNameFromId(std::string functionId);
-    static std::string generateFor(ASTClassMethodDeclarationNode* classMethodDeclarationNode);
-    static std::string generateFor(ASTFunctionDeclarationNode* functionDeclarationNode);
-    static std::string generateFor(ASTProcedureDeclarationNode* procedureDeclarationNode);
-    static std::string generateFor(ASTFunctionInvocationExpressionNode* functionInvocationExpressionNode);
-    static std::string generateFor(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpressionNode);
+    static std::string generateFor(std::shared_ptr<ASTClassMethodDeclarationNode> classMethodDeclarationNode);
+    static std::string generateFor(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode);
+    static std::string generateFor(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode);
+    static std::string generateFor(std::shared_ptr<ASTFunctionInvocationExpressionNode> functionInvocationExpressionNode);
+    static std::string generateFor(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpressionNode);
     static std::string generateFor(std::string name, InvocableTypeSignature* invocableTypeSignature);
     static std::string generateFor(std::string moduleId, std::string name, InvocableTypeSignature* invocableTypeSignature);
     static std::string generateFor(InvocableTypeSignature* invocableTypeSignature);

@@ -15,20 +15,20 @@
 
 class ASTArrayNode : public ASTNode {
 private:
-    ASTLeftBracketNode* _leftBracket;
-    ASTRightBracketNode* _rightBracket;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTExpressionNode*>* _elements;
+    std::shared_ptr<ASTLeftBracketNode> _leftBracket;
+    std::shared_ptr<ASTRightBracketNode> _rightBracket;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTExpressionNode>>* _elements;
 public:
-    explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, ASTRightBracketNode* rightBracket);
-    explicit ASTArrayNode(ASTLeftBracketNode* leftBracket, std::vector<ASTExpressionNode*> elements, std::vector<ASTCommaNode*> commas, ASTRightBracketNode* rightBracket);
-    ASTArrayNode* addElement(ASTExpressionNode* element);
-    ASTArrayNode* addComma(ASTCommaNode* comma);
+    explicit ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::shared_ptr<ASTRightBracketNode> rightBracket);
+    explicit ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::vector<std::shared_ptr<ASTExpressionNode>> elements, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTRightBracketNode> rightBracket);
+    std::shared_ptr<ASTArrayNode> addElement(std::shared_ptr<ASTExpressionNode> element);
+    std::shared_ptr<ASTArrayNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     void markElementsAsReferenced();
-    ASTLeftBracketNode* getLeftBracket();
-    ASTRightBracketNode* getRightBracket();
-    std::optional<ASTExpressionNode*> getFirstElement();
-    std::vector<ASTExpressionNode*>* getElements();
+    std::shared_ptr<ASTLeftBracketNode> getLeftBracket();
+    std::shared_ptr<ASTRightBracketNode> getRightBracket();
+    std::optional<std::shared_ptr<ASTExpressionNode>> getFirstElement();
+    std::vector<std::shared_ptr<ASTExpressionNode>>* getElements();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;

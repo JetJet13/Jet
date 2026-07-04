@@ -14,7 +14,7 @@
 
 class ImportTypeSignatureStrategy {
 public:
-    void assignAndAddToScope(ASTImportSingleModuleDeclarationNode* importSingleModuleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignAndAddToScope(std::shared_ptr<ASTImportSingleModuleDeclarationNode> importSingleModuleDeclarationNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_IMPORT_TYPE_SIGNATURE_STRATEGY_H

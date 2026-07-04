@@ -6,24 +6,24 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(ASTLambdaTypeParameterListStartNode* startNode, ASTLambdaTypeParameterListEndNode* endNode) {
+ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(std::shared_ptr<ASTLambdaTypeParameterListStartNode> startNode, std::shared_ptr<ASTLambdaTypeParameterListEndNode> endNode) {
     _startNode = startNode;
     _endNode = endNode;
-    _commas = std::vector<ASTCommaNode*>();
-    _parameters = std::vector<ASTTypeNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _parameters = std::vector<std::shared_ptr<ASTTypeNode>>();
 }
 
-ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(ASTLambdaTypeParameterListStartNode* startNode, std::vector<ASTTypeNode*> parameters, std::vector<ASTCommaNode*> commas, ASTLambdaTypeParameterListEndNode* endNode) {
+ASTLambdaTypeParameterListNode::ASTLambdaTypeParameterListNode(std::shared_ptr<ASTLambdaTypeParameterListStartNode> startNode, std::vector<std::shared_ptr<ASTTypeNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTLambdaTypeParameterListEndNode> endNode) {
     _startNode = startNode;
     _endNode = endNode;
     _commas = commas;
-    _parameters = std::vector<ASTTypeNode*>();
+    _parameters = std::vector<std::shared_ptr<ASTTypeNode>>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
     }
 }
 
-std::vector<ASTTypeNode*> ASTLambdaTypeParameterListNode::getParameters() {
+std::vector<std::shared_ptr<ASTTypeNode>> ASTLambdaTypeParameterListNode::getParameters() {
     return _parameters;
 }
 
@@ -31,15 +31,15 @@ unsigned long ASTLambdaTypeParameterListNode::numParameters() {
     return _parameters.size();
 }
 
-ASTLambdaTypeParameterListNode* ASTLambdaTypeParameterListNode::addParameter(ASTTypeNode* parameter) {
+std::shared_ptr<ASTLambdaTypeParameterListNode> ASTLambdaTypeParameterListNode::addParameter(std::shared_ptr<ASTTypeNode> parameter) {
     _parameters.push_back(parameter);
     _children.push_back(parameter);
-    return this;
+    return std::dynamic_pointer_cast<ASTLambdaTypeParameterListNode>(shared_from_this());
 }
 
-ASTLambdaTypeParameterListNode* ASTLambdaTypeParameterListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTLambdaTypeParameterListNode> ASTLambdaTypeParameterListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTLambdaTypeParameterListNode>(shared_from_this());
 }
 
 Position* ASTLambdaTypeParameterListNode::getStartPosition() {
@@ -58,11 +58,11 @@ std::string ASTLambdaTypeParameterListNode::toString() {
     return "LAMBDA_TYPE_PARAMETER_LIST";
 }
 
-bool ASTLambdaTypeParameterListNode::isSameAs(ASTNode* other) {
+bool ASTLambdaTypeParameterListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaTypeParameterListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLambdaTypeParameterListNode>(other);
     auto otherNodeElements = otherNode->getParameters();
     if (this->numParameters() != otherNode->numParameters()) {
         return false;

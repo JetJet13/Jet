@@ -4,7 +4,7 @@
 
 #include "ir-logical-expression-node.h"
 
-IRLogicalExpressionNode::IRLogicalExpressionNode(ASTLogicalExpressionNode* astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
+IRLogicalExpressionNode::IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, IRType* type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
     _node = astNode;
     _irValue = irValue;
     _type = type;

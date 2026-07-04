@@ -12,16 +12,16 @@
 
 class FileScope {
 private:
-    std::vector<ASTNode*> _scope = std::vector<ASTNode*>();
-    std::vector<ASTImportSingleModuleDeclarationNode*> _imports = std::vector<ASTImportSingleModuleDeclarationNode*>();
-    std::optional<ASTModuleDeclarationNode*> _module = {};
+    std::vector<std::shared_ptr<ASTNode>> _scope = std::vector<std::shared_ptr<ASTNode>>();
+    std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> _imports = std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>>();
+    std::optional<std::shared_ptr<ASTModuleDeclarationNode>> _module = {};
 public:
     FileScope();
-    void addToScope(ASTNode* node);
-    std::vector<ASTNode*> getScope();
-    void setModule(ASTModuleDeclarationNode* node);
-    std::optional<ASTModuleDeclarationNode*> getModule();
-    void addImport(ASTImportSingleModuleDeclarationNode* node);
-    std::vector<ASTImportSingleModuleDeclarationNode*> getImports();
+    void addToScope(std::shared_ptr<ASTNode> node);
+    std::vector<std::shared_ptr<ASTNode>> getScope();
+    void setModule(std::shared_ptr<ASTModuleDeclarationNode> node);
+    std::optional<std::shared_ptr<ASTModuleDeclarationNode>> getModule();
+    void addImport(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node);
+    std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> getImports();
 };
 #endif //JETLANG_FILE_SCOPE_H

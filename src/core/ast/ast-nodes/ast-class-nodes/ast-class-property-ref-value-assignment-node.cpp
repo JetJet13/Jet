@@ -7,18 +7,18 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 #include "ast-class-property-access-node.h"
 
-ASTClassPropertyRefValueAssignmentNode::ASTClassPropertyRefValueAssignmentNode(ASTClassPropertyAccessNode* classPropertyAccess, ASTRefValueAssignmentOperatorNode* assignmentOperator) {
+ASTClassPropertyRefValueAssignmentNode::ASTClassPropertyRefValueAssignmentNode(std::shared_ptr<ASTClassPropertyAccessNode> classPropertyAccess, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator) {
     _classPropertyAccess = classPropertyAccess;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_classPropertyAccess);
     _children.push_back(_assignmentOperator);
 }
 
-ASTClassAccessNode* ASTClassPropertyRefValueAssignmentNode::getClassAccess() {
+std::shared_ptr<ASTClassAccessNode> ASTClassPropertyRefValueAssignmentNode::getClassAccess() {
     return _classPropertyAccess->getClassAccess();
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyRefValueAssignmentNode::getProperty() {
+std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyRefValueAssignmentNode::getProperty() {
     return _classPropertyAccess->getPropertyName();
 }
 
@@ -46,11 +46,11 @@ std::string ASTClassPropertyRefValueAssignmentNode::toString() {
     return "CLASS_PROPERTY_REF_VALUE_ASSIGNMENT";
 }
 
-bool ASTClassPropertyRefValueAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyRefValueAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTClassPropertyRefValueAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentNode>(other);
     return this->getProperty()->isSameAs(otherNode->getProperty());
 }
 

@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, std::optional<ASTImplementsInterfaceListNode*> implementsInterfaceList) {
+ASTClassDeclarationNode::ASTClassDeclarationNode(std::shared_ptr<ASTClassNode> classKeyword, std::shared_ptr<ASTClassNameNode> name, std::shared_ptr<ASTClassBlockNode> block, std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>> implementsInterfaceList) {
     _classKeyword = classKeyword;
     _name = name;
     _block = block;
@@ -20,7 +20,7 @@ ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, AST
     _children.push_back(_block);
 }
 
-ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, ASTClassNameNode* name, ASTClassBlockNode* block, ASTExportNode* exportKeyword) {
+ASTClassDeclarationNode::ASTClassDeclarationNode(std::shared_ptr<ASTClassNode> classKeyword, std::shared_ptr<ASTClassNameNode> name, std::shared_ptr<ASTClassBlockNode> block, std::shared_ptr<ASTExportNode> exportKeyword) {
     _classKeyword = classKeyword;
     _name = name;
     _block = block;
@@ -31,11 +31,11 @@ ASTClassDeclarationNode::ASTClassDeclarationNode(ASTClassNode* classKeyword, AST
     _children.push_back(_block);
 }
 
-ASTClassBlockNode* ASTClassDeclarationNode::getBlock() {
+std::shared_ptr<ASTClassBlockNode> ASTClassDeclarationNode::getBlock() {
     return _block;
 }
 
-ASTClassNameNode* ASTClassDeclarationNode::getName() {
+std::shared_ptr<ASTClassNameNode> ASTClassDeclarationNode::getName() {
     return _name;
 }
 
@@ -43,7 +43,7 @@ void ASTClassDeclarationNode::setTypeSignature(ClassTypeSignature* typeSignature
     _typeSignature = typeSignature;
 }
 
-std::optional<ASTImplementsInterfaceListNode*>* ASTClassDeclarationNode::getImplementsInterfaceList() {
+std::optional<std::shared_ptr<ASTImplementsInterfaceListNode>>* ASTClassDeclarationNode::getImplementsInterfaceList() {
     return &_implementsInterfaceList;
 }
 
@@ -71,11 +71,11 @@ std::string ASTClassDeclarationNode::toString() {
     return "CLASS_DECLARATION";
 }
 
-bool ASTClassDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTClassDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassDeclarationNode>(other);
 
     if (!_implementsInterfaceList.has_value() && otherNode->getImplementsInterfaceList()->has_value() ||
         _implementsInterfaceList.has_value() && !otherNode->getImplementsInterfaceList()->has_value()) {

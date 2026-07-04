@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.h"
 
 namespace ArrayExpressionTypeCheckerPolicy {
-    void apply(ASTArrayExpressionNode* arrayExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayExpressionNode> arrayExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_ARRAY_EXPRESSION_TYPE_CHECKER_POLICY_H

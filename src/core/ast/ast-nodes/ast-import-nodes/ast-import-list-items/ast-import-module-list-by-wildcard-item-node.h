@@ -15,18 +15,18 @@
 
 
 class ASTImportModuleListByWildcardItemNode : public ASTImportModuleListBaseItemNode {
-    ASTImportModuleNameNode* _moduleName;
-    ASTModuleAccessNode* _moduleAccessNode;
-    ASTImportWildcardNode* _wildcard;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
+    std::shared_ptr<ASTModuleAccessNode> _moduleAccessNode;
+    std::shared_ptr<ASTImportWildcardNode> _wildcard;
 public:
-    explicit ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportWildcardNode* wildcard);
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportWildcardNode* getWildcard();
+    explicit ASTImportModuleListByWildcardItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTModuleAccessNode> moduleAccessNode, std::shared_ptr<ASTImportWildcardNode> wildcard);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportWildcardNode> getWildcard();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

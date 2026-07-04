@@ -11,7 +11,7 @@
 
 class ArrayAccessRefAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTArrayAccessRefAssignmentStatementNode* arrayAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> arrayAccessRefAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

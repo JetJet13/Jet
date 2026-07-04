@@ -10,17 +10,17 @@
 
 class ASTUnaryExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _expression;
-    ASTUnaryOperatorNode* _unaryOperator;
+    std::shared_ptr<ASTExpressionNode> _expression;
+    std::shared_ptr<ASTUnaryOperatorNode> _unaryOperator;
 public:
-    ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode);
-    ASTExpressionNode* getExpressionNode();
-    ASTUnaryOperatorNode* getUnaryOperatorNode();
+    ASTUnaryExpressionNode(std::shared_ptr<ASTUnaryOperatorNode> unaryOperator, std::shared_ptr<ASTExpressionNode> astExpressionNode);
+    std::shared_ptr<ASTExpressionNode> getExpressionNode();
+    std::shared_ptr<ASTUnaryOperatorNode> getUnaryOperatorNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

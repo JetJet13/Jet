@@ -17,14 +17,14 @@
 
 class IRClassStaticMethodInvocationExpressionNode : public IRExpressionNode {
 private:
-    ASTObjectAccessInvocationExpressionNode* _node;
+    std::shared_ptr<ASTObjectAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
     IRInstructionNode* _irFunction;
     IRType* _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
 public:
-    IRClassStaticMethodInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
+    IRClassStaticMethodInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
     void markAsGlobal() override;
     IRInstructionNode* getFunction();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();

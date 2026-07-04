@@ -13,11 +13,11 @@
 
 class IRLiteralExpressionNode : public IRExpressionNode {
 private:
-    ASTLiteralExpressionNode* _node;
+    std::shared_ptr<ASTLiteralExpressionNode> _node;
     IRLiteralNode* _irValue;
     IRType* _irType;
 public:
-    IRLiteralExpressionNode(ASTLiteralExpressionNode* node, IRLiteralNode* irValue, IRType* irType);
+    IRLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRLiteralNode* irValue, IRType* irType);
     IRType* getIRType() override;
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;

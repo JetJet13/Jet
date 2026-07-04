@@ -13,7 +13,7 @@
 
 class IRClassPropertyAccessExpressionNode : public IRExpressionNode {
 private:
-    ASTClassPropertyAccessExpressionNode* _node;
+    std::shared_ptr<ASTClassPropertyAccessExpressionNode> _node;
     IRInstructionNode* _irSource;
     std::string _targetKey;
     unsigned long _targetKeyIndex;
@@ -21,8 +21,8 @@ private:
     IRType* _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRClassPropertyAccessExpressionNode(ASTClassPropertyAccessExpressionNode* node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
-    ASTClassPropertyAccessExpressionNode* getNode();
+    IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    std::shared_ptr<ASTClassPropertyAccessExpressionNode> getNode();
     IRInstructionNode* getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();

@@ -6,28 +6,28 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
-    _commas = std::vector<ASTCommaNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
     _children.push_back(_functionParameterListStartNode);
     _children.push_back(_functionParameterListEndNode);
-    _parameters = std::vector<ASTFunctionParameterNode*>();
+    _parameters = std::vector<std::shared_ptr<ASTFunctionParameterNode>>();
 }
 
-ASTFunctionParameterListNode::ASTFunctionParameterListNode(ASTFunctionParameterListStartNode* functionParameterListStartNode, std::vector<ASTFunctionParameterNode*> parameters, std::vector<ASTCommaNode*> commas, ASTFunctionParameterListEndNode* functionParameterListEndNode) {
+ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::vector<std::shared_ptr<ASTFunctionParameterNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode) {
     _functionParameterListStartNode = functionParameterListStartNode;
     _functionParameterListEndNode = functionParameterListEndNode;
     _children.push_back(_functionParameterListStartNode);
     _commas = commas;
-    _parameters = std::vector<ASTFunctionParameterNode*>();
+    _parameters = std::vector<std::shared_ptr<ASTFunctionParameterNode>>();
     for (auto parameter: parameters) {
         this->addParameter(parameter);
     }
     _children.push_back(_functionParameterListEndNode);
 }
 
-std::vector<ASTFunctionParameterNode*> ASTFunctionParameterListNode::getParameters() {
+std::vector<std::shared_ptr<ASTFunctionParameterNode>> ASTFunctionParameterListNode::getParameters() {
     return _parameters;
 }
 
@@ -35,15 +35,15 @@ unsigned long ASTFunctionParameterListNode::numParameters() {
     return _parameters.size();
 }
 
-ASTFunctionParameterListNode* ASTFunctionParameterListNode::addParameter(ASTFunctionParameterNode* parameter) {
+std::shared_ptr<ASTFunctionParameterListNode> ASTFunctionParameterListNode::addParameter(std::shared_ptr<ASTFunctionParameterNode> parameter) {
     _parameters.push_back(parameter);
     _children.insert(_children.end() - 1, parameter);
-    return this;
+    return std::dynamic_pointer_cast<ASTFunctionParameterListNode>(shared_from_this());
 }
 
-ASTFunctionParameterListNode* ASTFunctionParameterListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTFunctionParameterListNode> ASTFunctionParameterListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTFunctionParameterListNode>(shared_from_this());
 }
 
 void ASTFunctionParameterListNode::setTypeSignature(ParameterListTypeSignature* typeSignature) {
@@ -70,11 +70,11 @@ std::string ASTFunctionParameterListNode::toString() {
     return "FUNCTION_PARAMETER_LIST";
 }
 
-bool ASTFunctionParameterListNode::isSameAs(ASTNode* other) {
+bool ASTFunctionParameterListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionParameterListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionParameterListNode>(other);
     auto otherNodeElements = otherNode->getParameters();
     if (this->numParameters() != otherNode->numParameters()) {
         return false;

@@ -4,7 +4,7 @@
 
 #include "ir-bool-literal-node.h"
 
-IRBoolLiteralNode::IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue) {
+IRBoolLiteralNode::IRBoolLiteralNode(std::shared_ptr<ASTBooleanLiteralNode> astNode, llvm::ConstantInt* irValue) {
     _astNode = astNode;
     _irValue = irValue;
     _type = new IRType(_irValue->getType());

@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
 
 namespace ClassPropertyAccessExpressionTypeCheckerPolicy {
-    void apply(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTClassPropertyAccessExpressionNode> classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 

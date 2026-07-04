@@ -52,7 +52,7 @@ void ASTNodeIdAssignor::addStrategy(ASTNodeType astNodeType, std::shared_ptr<AST
     _strategies.insert(std::pair(astNodeType, declarationIdStrategy));
 }
 
-void ASTNodeIdAssignor::assignIdIfNecessary(ASTNode* node) {
+void ASTNodeIdAssignor::assignIdIfNecessary(std::shared_ptr<ASTNode> node) {
     auto reducerStrategy = _strategies.find(node->getNodeType());
     if (reducerStrategy != _strategies.end()) {
         reducerStrategy->second->assign(node);

@@ -11,7 +11,7 @@
 
 class ExpressionStatementTypeSignatureStrategy {
 public:
-    void assign(ASTExpressionStatementNode* expressionStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTExpressionStatementNode> expressionStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRStructExpressionNode* StructExpressionIRStrategy::generate(ASTStructExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRStructExpressionNode* StructExpressionIRStrategy::generate(std::shared_ptr<ASTStructExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto structValues = std::vector<IRExpressionNode*>();
     auto structValueSourceAllocationMap = std::unordered_map<std::string, IRInstructionNode*>();
@@ -49,6 +49,6 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStruct
     );
 }
 
-IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(ASTStructExpressionNode* node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(std::shared_ptr<ASTStructExpressionNode> node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

@@ -15,7 +15,7 @@
 
 class IRTupleAccessInvocationExpressionNode : public IRExpressionNode {
 private:
-    ASTTupleAccessInvocationExpressionNode* _node;
+    std::shared_ptr<ASTTupleAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
     IRExpressionNode* _source;
     int64_t _targetIndex;
@@ -23,7 +23,7 @@ private:
     std::vector<IRFunctionArgumentNode*> _arguments;
     IRType* _type;
 public:
-    IRTupleAccessInvocationExpressionNode(ASTTupleAccessInvocationExpressionNode* node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
+    IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
     void markAsGlobal() override;
     IRExpressionNode* getSource();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();

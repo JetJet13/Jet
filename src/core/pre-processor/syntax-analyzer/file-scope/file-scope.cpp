@@ -6,26 +6,26 @@
 
 FileScope::FileScope() {}
 
-void FileScope::addToScope(ASTNode* node) {
+void FileScope::addToScope(std::shared_ptr<ASTNode> node) {
     _scope.push_back(node);
 }
 
-std::vector<ASTNode*> FileScope::getScope() {
+std::vector<std::shared_ptr<ASTNode>> FileScope::getScope() {
     return _scope;
 }
 
-void FileScope::setModule(ASTModuleDeclarationNode* node) {
+void FileScope::setModule(std::shared_ptr<ASTModuleDeclarationNode> node) {
     _module = node;
 }
 
-std::optional<ASTModuleDeclarationNode*> FileScope::getModule() {
+std::optional<std::shared_ptr<ASTModuleDeclarationNode>> FileScope::getModule() {
     return _module;
 }
 
-void FileScope::addImport(ASTImportSingleModuleDeclarationNode* node) {
+void FileScope::addImport(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node) {
     _imports.push_back(node);
 }
 
-std::vector<ASTImportSingleModuleDeclarationNode*> FileScope::getImports() {
+std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> FileScope::getImports() {
     return _imports;
 }

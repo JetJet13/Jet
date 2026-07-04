@@ -13,17 +13,17 @@
 
 class ASTClassAccessNode : public ASTNode {
 private:
-    ASTThisNode* _this;
-    ASTThisAccessNode* _thisAccess;
+    std::shared_ptr<ASTThisNode> _this;
+    std::shared_ptr<ASTThisAccessNode> _thisAccess;
 public:
-    ASTClassAccessNode(ASTThisNode* thisNode, ASTThisAccessNode* thisAccess);
-    ASTThisNode* getThis();
-    ASTThisAccessNode* getThisAccess();
+    ASTClassAccessNode(std::shared_ptr<ASTThisNode> thisNode, std::shared_ptr<ASTThisAccessNode> thisAccess);
+    std::shared_ptr<ASTThisNode> getThis();
+    std::shared_ptr<ASTThisAccessNode> getThisAccess();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

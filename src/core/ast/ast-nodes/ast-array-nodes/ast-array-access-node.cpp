@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTArrayAccessNode::ASTArrayAccessNode(ASTLeftBracketNode* leftBracket, ASTExpressionNode* index, ASTRightBracketNode* rightBracket) {
+ASTArrayAccessNode::ASTArrayAccessNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::shared_ptr<ASTExpressionNode> index, std::shared_ptr<ASTRightBracketNode> rightBracket) {
     _leftBracket = leftBracket;
     _rightBracket = rightBracket;
     _index = index;
@@ -15,7 +15,7 @@ ASTArrayAccessNode::ASTArrayAccessNode(ASTLeftBracketNode* leftBracket, ASTExpre
     _children.push_back(_index);
 }
 
-ASTExpressionNode* ASTArrayAccessNode::getIndex() {
+std::shared_ptr<ASTExpressionNode> ASTArrayAccessNode::getIndex() {
     return _index;
 }
 
@@ -35,11 +35,11 @@ std::string ASTArrayAccessNode::toString() {
     return "ARRAY_ACCESS";
 }
 
-bool ASTArrayAccessNode::isSameAs(ASTNode* other) {
+bool ASTArrayAccessNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTArrayAccessNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTArrayAccessNode>(other);
     return _index->isSameAs(otherNode->getIndex());
 
 }

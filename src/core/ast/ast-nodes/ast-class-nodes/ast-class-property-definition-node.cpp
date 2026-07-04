@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassPropertyNameNode* propertyName, std::optional<ASTStaticNode*> staticKeyword, std::optional<ASTConstNode*> constKeyword) {
+ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassPropertyNameNode> propertyName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword, std::optional<std::shared_ptr<ASTConstNode>> constKeyword) {
     _accessModifier = accessModifier;
     _propertyName = propertyName;
     _staticKeyword = staticKeyword;
@@ -21,19 +21,19 @@ ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(ASTAccessModifier
     }
 }
 
-ASTAccessModifierNode* ASTClassPropertyDefinitionNode::getAccessModifier() {
+std::shared_ptr<ASTAccessModifierNode> ASTClassPropertyDefinitionNode::getAccessModifier() {
     return _accessModifier;
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyDefinitionNode::getPropertyName() {
+std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyDefinitionNode::getPropertyName() {
     return _propertyName;
 }
 
-std::optional<ASTStaticNode*> ASTClassPropertyDefinitionNode::getStatic() {
+std::optional<std::shared_ptr<ASTStaticNode>> ASTClassPropertyDefinitionNode::getStatic() {
     return _staticKeyword;
 }
 
-std::optional<ASTConstNode*> ASTClassPropertyDefinitionNode::getConstant() {
+std::optional<std::shared_ptr<ASTConstNode>> ASTClassPropertyDefinitionNode::getConstant() {
     return _constKeyword;
 }
 
@@ -61,12 +61,12 @@ std::string ASTClassPropertyDefinitionNode::toString() {
     return "CLASS_PROPERTY_DEFINITION";
 }
 
-bool ASTClassPropertyDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassPropertyDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyDefinitionNode>(other);
 
     return this->getAccessModifier()->isSameAs(otherNode->getAccessModifier()) &&
            this->getPropertyName()->isSameAs(otherNode->getPropertyName()) &&

@@ -10,15 +10,15 @@
 
 class ClassDeclarationTypeCheckerPolicy {
 private:
-    static void verifyAllClassProperties(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyClassPropertiesWithInitializer(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyAllClassPropertyNamesAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyAllClassMethods(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyAllClassMethodsAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyAllClassConstructors(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
-    static void verifyAllClassConstructorsAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassProperties(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyClassPropertiesWithInitializer(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassPropertyNamesAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassMethods(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassMethodsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void verifyAllClassConstructorsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
 public:
-    static void apply(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static void apply(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_CLASS_DECLARATION_TYPE_CHECKER_POLICY_H

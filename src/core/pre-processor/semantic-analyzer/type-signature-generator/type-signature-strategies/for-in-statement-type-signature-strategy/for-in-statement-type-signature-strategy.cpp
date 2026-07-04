@@ -6,7 +6,7 @@
 #include "../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 
-void ForInStatementTypeSignatureStrategy::assign(ASTForInStatementNode* forStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ForInStatementTypeSignatureStrategy::assign(std::shared_ptr<ASTForInStatementNode> forStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(forStatementNode->getSource()->getSource(), context, scope);
     forStatementNode->getSource()->setTypeSignature(
             forStatementNode

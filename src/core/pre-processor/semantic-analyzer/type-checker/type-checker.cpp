@@ -62,186 +62,186 @@
 #include "policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.h"
 
 namespace TypeChecker {
-    void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult) {
+    void applyPolicyTo(std::shared_ptr<ASTNode> node, TypeCheckerResult* typeCheckerResult) {
         switch (node->getNodeType()) {
             case AST_VARIABLE_DECLARATION_NODE:
-                VariableDeclarationTypeCheckerPolicy::apply((ASTVariableDeclarationNode*) node, typeCheckerResult);
+                VariableDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_PROCEDURE_DECLARATION_NODE:
-                ProcedureDeclarationTypeCheckerPolicy::apply((ASTProcedureDeclarationNode*)node, typeCheckerResult);
+                ProcedureDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_ARGUMENT_LIST_NODE:
-                ArgumentListTypeCheckerPolicy::apply((ASTFunctionArgumentListNode*)node, typeCheckerResult);
+                ArgumentListTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_PARAMETER_LIST_NODE:
-                ParameterListTypeCheckerPolicy::apply((ASTFunctionParameterListNode*)node, typeCheckerResult);
+                ParameterListTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionParameterListNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_PARAMETER_NODE:
-                ParameterTypeCheckerPolicy::apply((ASTFunctionParameterNode*)node, typeCheckerResult);
+                ParameterTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionParameterNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_DECLARATION_NODE:
-                FunctionDeclarationTypeCheckerPolicy::apply((ASTFunctionDeclarationNode*)node, typeCheckerResult);
+                FunctionDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_BLOCK_NODE:
-                FunctionBlockTypeCheckerPolicy::apply((ASTFunctionBlockNode*)node, typeCheckerResult);
+                FunctionBlockTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionBlockNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_RETURN_EXPRESSION_NODE:
-                FunctionReturnExpressionTypeCheckerPolicy::apply((ASTFunctionReturnExpressionNode*)node, typeCheckerResult);
+                FunctionReturnExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
-                VariableAssignmentStatementTypeCheckerPolicy::apply((ASTVariableAssignmentStatementNode*)node, typeCheckerResult);
+                VariableAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
-                RefValueAssignmentStatementTypeCheckerPolicy::apply((ASTRefValueAssignmentStatementNode*)node, typeCheckerResult);
+                RefValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
-                ArrayAccessAssignmentStatementTypeCheckerPolicy::apply((ASTArrayAccessAssignmentStatementNode*)node, typeCheckerResult);
+                ArrayAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ArrayAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTArrayAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                ArrayAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
-                ObjectAccessAssignmentStatementTypeCheckerPolicy::apply((ASTObjectAccessAssignmentStatementNode*)node, typeCheckerResult);
+                ObjectAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ObjectAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTObjectAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                ObjectAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
-                TupleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessAssignmentStatementNode*)node, typeCheckerResult);
+                TupleAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                TupleAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTTupleAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                TupleAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
-                ModuleAccessAssignmentStatementTypeCheckerPolicy::apply((ASTModuleAccessAssignmentStatementNode*)node, typeCheckerResult);
+                ModuleAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ModuleAccessRefAssignmentStatementTypeCheckerPolicy::apply((ASTModuleAccessRefAssignmentStatementNode*)node, typeCheckerResult);
+                ModuleAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ENUM_DECLARATION_NODE:
-                EnumDeclarationTypeCheckerPolicy::apply((ASTEnumDeclarationNode*)node, typeCheckerResult);
+                EnumDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_CLASS_DECLARATION_NODE:
-                ClassDeclarationTypeCheckerPolicy::apply((ASTClassDeclarationNode*)node, typeCheckerResult);
+                ClassDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_INTERFACE_TYPE_DECLARATION_NODE:
-                InterfaceTypeDeclarationTypeCheckerPolicy::apply((ASTInterfaceTypeDeclarationNode*)node, typeCheckerResult);
+                InterfaceTypeDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_CUSTOM_TYPE_DECLARATION_NODE:
-                CustomTypeDeclarationTypeCheckerPolicy::apply((ASTCustomTypeDeclarationNode*)node, typeCheckerResult);
+                CustomTypeDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_IF_STATEMENT_NODE:
-                IfStatementTypeCheckerPolicy::apply((ASTIfStatementNode*)node, typeCheckerResult);
+                IfStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTIfStatementNode>(node), typeCheckerResult);
                 break;
             case AST_TRY_STATEMENT_NODE:
-                TryStatementTypeCheckerPolicy::apply((ASTTryStatementNode*)node, typeCheckerResult);
+                TryStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTryStatementNode>(node), typeCheckerResult);
                 break;
             case AST_FOR_IN_STATEMENT_NODE:
-                ForInStatementTypeCheckerPolicy::apply((ASTForInStatementNode*)node, typeCheckerResult);
+                ForInStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTForInStatementNode>(node), typeCheckerResult);
                 break;
             case AST_WHILE_STATEMENT_NODE:
-                WhileStatementTypeCheckerPolicy::apply((ASTWhileStatementNode*)node, typeCheckerResult);
+                WhileStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTWhileStatementNode>(node), typeCheckerResult);
                 break;
             case AST_CONTROL_FLOW_BLOCK_NODE:
-                ControlFlowBlockTypeCheckerPolicy::apply((ASTControlFlowBlockNode*)node, typeCheckerResult);
+                ControlFlowBlockTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTControlFlowBlockNode>(node), typeCheckerResult);
                 break;
             case AST_CONTROL_FLOW_CONDITION_NODE:
-                ControlFlowConditionTypeCheckerPolicy::apply((ASTControlFlowConditionNode*)node, typeCheckerResult);
+                ControlFlowConditionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTControlFlowConditionNode>(node), typeCheckerResult);
                 break;
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
-                ClassPropertyAssignmentStatementTypeCheckerPolicy::apply((ASTClassPropertyAssignmentStatementNode*)node, typeCheckerResult);
+                ClassPropertyAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
-                ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy::apply((ASTClassPropertyRefValueAssignmentStatementNode*)node, typeCheckerResult);
+                ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_EXPRESSION_STATEMENT_NODE:
-                ExpressionStatementTypeCheckerPolicy::apply((ASTExpressionStatementNode*)node, typeCheckerResult);
+                ExpressionStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_EXPRESSION_NODE:
-                ArrayAccessExpressionTypeCheckerPolicy::apply((ASTArrayAccessExpressionNode*)node, typeCheckerResult);
+                ArrayAccessExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE:
-                ArrayAccessInvocationExpressionTypeCheckerPolicy::apply((ASTArrayAccessInvocationExpressionNode*)node, typeCheckerResult);
+                ArrayAccessInvocationExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_EXPRESSION_NODE:
-                ArrayExpressionTypeCheckerPolicy::apply((ASTArrayExpressionNode*)node, typeCheckerResult);
+                ArrayExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_BINARY_ARITHMETIC_EXPRESSION_NODE:
-                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryArithmeticExpressionNode*)node, typeCheckerResult);
+                BinaryExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_BINARY_COMPARATOR_EXPRESSION_NODE:
-                BinaryExpressionTypeCheckerPolicy::apply((ASTBinaryComparatorExpressionNode*)node, typeCheckerResult);
+                BinaryExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_CONCAT_EXPRESSION_NODE:
-                ConcatExpressionTypeCheckerPolicy::apply((ASTConcatExpressionNode*)node, typeCheckerResult);
+                ConcatExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTConcatExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
-                ClassMethodInvocationExpressionTypeCheckerPolicy::apply((ASTClassMethodInvocationExpressionNode*)node, typeCheckerResult);
+                ClassMethodInvocationExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
-                ClassPropertyAccessExpressionTypeCheckerPolicy::apply((ASTClassPropertyAccessExpressionNode*)node, typeCheckerResult);
+                ClassPropertyAccessExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_CURRY_EXPRESSION_NODE:
-                CurryExpressionTypeCheckerPolicy::apply((ASTCurryExpressionNode*)node, typeCheckerResult);
+                CurryExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTCurryExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
-                FunctionInvocationExpressionTypeCheckerPolicy::apply((ASTFunctionInvocationExpressionNode*)node, typeCheckerResult);
+                FunctionInvocationExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_IDENTIFIER_EXPRESSION_NODE:
-                IdentifierExpressionTypeCheckerPolicy::apply((ASTIdentifierExpressionNode*)node, typeCheckerResult);
+                IdentifierExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_LAMBDA_EXPRESSION_NODE:
-                LambdaExpressionTypeCheckerPolicy::apply((ASTLambdaExpressionNode*)node, typeCheckerResult);
+                LambdaExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE:
-                LambdaExpressionTypeCheckerPolicy::apply((ASTLambdaWithFatArrowExpressionNode*)node, typeCheckerResult);
+                LambdaExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_LOGICAL_EXPRESSION_NODE:
-                LogicalExpressionTypeCheckerPolicy::apply((ASTLogicalExpressionNode*)node, typeCheckerResult);
+                LogicalExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTLogicalExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
-                NewClassInstanceExpressionTypeCheckerPolicy::apply((ASTNewClassInstanceExpressionNode*)node, typeCheckerResult);
+                NewClassInstanceExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_OBJECT_ACCESS_EXPRESSION_NODE:
-                ObjectAccessExpressionTypeCheckerPolicy::apply((ASTObjectAccessExpressionNode*)node, typeCheckerResult);
+                ObjectAccessExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE:
-                ObjectAccessInvocationExpressionTypeCheckerPolicy::apply((ASTObjectAccessInvocationExpressionNode*)node, typeCheckerResult);
+                ObjectAccessInvocationExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_STRUCT_EXPRESSION_NODE:
-                StructExpressionTypeCheckerPolicy::apply((ASTStructExpressionNode*)node, typeCheckerResult);
+                StructExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTStructExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_THIS_EXPRESSION_NODE:
-                ThisExpressionTypeCheckerPolicy::apply((ASTThisExpressionNode*)node, typeCheckerResult);
+                ThisExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTThisExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_EXPRESSION_NODE:
-                TupleAccessExpressionTypeCheckerPolicy::apply((ASTTupleAccessExpressionNode*)node, typeCheckerResult);
+                TupleAccessExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE:
-                TupleAccessInvocationExpressionTypeCheckerPolicy::apply((ASTTupleAccessInvocationExpressionNode*)node, typeCheckerResult);
+                TupleAccessInvocationExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_EXPRESSION_NODE:
-                TupleExpressionTypeCheckerPolicy::apply((ASTTupleExpressionNode*)node, typeCheckerResult);
+                TupleExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_UNARY_EXPRESSION_NODE:
-                UnaryExpressionTypeCheckerPolicy::apply((ASTUnaryExpressionNode*)node, typeCheckerResult);
+                UnaryExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_REF_EXPRESSION_NODE:
-                RefExpressionTypeCheckerPolicy::apply((ASTRefExpressionNode*)node, typeCheckerResult);
+                RefExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTRefExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_DREF_EXPRESSION_NODE:
-                DrefExpressionTypeCheckerPolicy::apply((ASTDrefExpressionNode*)node, typeCheckerResult);
+                DrefExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_MODULE_ACCESS_EXPRESSION_NODE:
-                ModuleAccessExpressionTypeCheckerPolicy::apply((ASTModuleAccessExpressionNode*)node, typeCheckerResult);
+                ModuleAccessExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_LITERAL_EXPRESSION_NODE:
                 break;
             case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
-                ImportSingleModuleTypeCheckerPolicy::apply((ASTImportSingleModuleDeclarationNode*)node, typeCheckerResult);
+                ImportSingleModuleTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(node), typeCheckerResult);
                 break;
             case AST_MODULE_DECLARATION_NODE:
-                ModuleDeclarationTypeCheckerPolicy::apply((ASTModuleDeclarationNode*)node, typeCheckerResult);
+                ModuleDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(node), typeCheckerResult);
                 break;
             default:
                 throw std::logic_error("no type-checker policy found for " + node->toString());

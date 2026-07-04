@@ -4,7 +4,7 @@
 
 #include "custom-type-declaration-ir-strategy.h"
 
-IRCustomTypeDeclarationNode* CustomTypeDeclarationIRStrategy::generate(ASTCustomTypeDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRCustomTypeDeclarationNode* CustomTypeDeclarationIRStrategy::generate(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irType->isStructType()) {
         auto structType = (IRStructType*)irType;

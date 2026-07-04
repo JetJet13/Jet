@@ -4,7 +4,7 @@
 
 #include "ir-expression-statement-node.h"
 
-IRExpressionStatementNode::IRExpressionStatementNode(ASTExpressionStatementNode* node, IRExpressionNode* irExpression) {
+IRExpressionStatementNode::IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, IRExpressionNode* irExpression) {
     _node = node;
     _irExpression = irExpression;
 }

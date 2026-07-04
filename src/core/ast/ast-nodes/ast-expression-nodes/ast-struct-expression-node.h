@@ -16,18 +16,18 @@
 
 class ASTStructExpressionNode : public ASTAggregateExpressionNode {
 private:
-    ASTStructStartNode* _structStartNode;
-    ASTStructEndNode* _structEndNode;
-    std::vector<ASTStructKeyValueNode*> _keyValuePairs;
-    std::vector<ASTCommaNode*> _commas;
+    std::shared_ptr<ASTStructStartNode> _structStartNode;
+    std::shared_ptr<ASTStructEndNode> _structEndNode;
+    std::vector<std::shared_ptr<ASTStructKeyValueNode>> _keyValuePairs;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
     StructTypeSignature* _typeSignature = new StructTypeSignature();
 public:
-    ASTStructExpressionNode(ASTStructStartNode* structStartNode, ASTStructEndNode* structEndNode);
-    ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, std::vector<ASTCommaNode*> commas, ASTStructEndNode* structEndNode);
-    std::vector<ASTStructKeyValueNode*> getKeyValuePairs();
-    ASTStructKeyValueNode* getKeyValuePairAt(unsigned long index);
-    ASTStructExpressionNode* addKeyValuePair(ASTStructKeyValueNode* keyValuePair);
-    ASTStructExpressionNode* addComma(ASTCommaNode* comma);
+    ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::shared_ptr<ASTStructEndNode> structEndNode);
+    ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::vector<std::shared_ptr<ASTStructKeyValueNode>> keyValuePairs, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructEndNode> structEndNode);
+    std::vector<std::shared_ptr<ASTStructKeyValueNode>> getKeyValuePairs();
+    std::shared_ptr<ASTStructKeyValueNode> getKeyValuePairAt(unsigned long index);
+    std::shared_ptr<ASTStructExpressionNode> addKeyValuePair(std::shared_ptr<ASTStructKeyValueNode> keyValuePair);
+    std::shared_ptr<ASTStructExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     StructTypeSignature* getTypeSignature() override;
     void setTypeSignature(StructTypeSignature* structTypeSignature);
     unsigned long size();
@@ -35,7 +35,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

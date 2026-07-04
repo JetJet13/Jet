@@ -11,7 +11,7 @@
 class ASTImplementsInterfaceNameLastNode : public ASTSymbolNode {
     using ASTSymbolNode::ASTSymbolNode;
 public:
-    ASTImplementsInterfaceNameNode* convertToInterfaceName();
+    std::shared_ptr<ASTImplementsInterfaceNameNode> convertToInterfaceName();
     ASTNodeType getNodeType() override;
     std::string toString() override;
     std::string toSourceCode() override;

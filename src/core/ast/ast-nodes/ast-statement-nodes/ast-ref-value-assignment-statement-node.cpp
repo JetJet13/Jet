@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTRefValueAssignmentStatementNode::ASTRefValueAssignmentStatementNode(ASTRefValueAssignmentNode* assignment, ASTExpressionNode* expression) {
+ASTRefValueAssignmentStatementNode::ASTRefValueAssignmentStatementNode(std::shared_ptr<ASTRefValueAssignmentNode> assignment, std::shared_ptr<ASTExpressionNode> expression) {
     _assignment = assignment;
     _expression = expression;
     _children.push_back(_assignment);
     _children.push_back(_expression);
 }
 
-ASTRefValueAssignmentNode* ASTRefValueAssignmentStatementNode::getVariableAssignment() {
+std::shared_ptr<ASTRefValueAssignmentNode> ASTRefValueAssignmentStatementNode::getVariableAssignment() {
     return _assignment;
 }
 
-ASTExpressionNode* ASTRefValueAssignmentStatementNode::getExpression() {
+std::shared_ptr<ASTExpressionNode> ASTRefValueAssignmentStatementNode::getExpression() {
     return _expression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTRefValueAssignmentStatementNode::toString() {
     return "REF_VALUE_ASSIGNMENT_STATEMENT";
 }
 
-bool ASTRefValueAssignmentStatementNode::isSameAs(ASTNode* other) {
+bool ASTRefValueAssignmentStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTRefValueAssignmentStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(other);
     return this->getVariableAssignment()->isSameAs(otherNode->getVariableAssignment()) &&
            this->getExpression()->isSameAs(otherNode->getExpression());
 }

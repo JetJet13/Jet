@@ -13,11 +13,11 @@
 
 class IRStringLiteralNode : public IRLiteralNode {
 private:
-    ASTStringLiteralNode* _astNode;
+    std::shared_ptr<ASTStringLiteralNode> _astNode;
     llvm::Constant* _irValue;
     IRArrayType* _type;
 public:
-    IRStringLiteralNode(ASTStringLiteralNode* astNode, llvm::Constant* irValue, IRArrayType* type);
+    IRStringLiteralNode(std::shared_ptr<ASTStringLiteralNode> astNode, llvm::Constant* irValue, IRArrayType* type);
     llvm::Constant* getConstantIRValue() override;
     IRArrayType* getIRType() override;
     IRNodeType getNodeType() override;

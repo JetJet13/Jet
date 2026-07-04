@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace RefExpressionTypeCheckerPolicy {
-    void apply(ASTRefExpressionNode* refExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTRefExpressionNode> refExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(refExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(refExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(refExpression);

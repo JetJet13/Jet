@@ -10,17 +10,17 @@
 
 class ASTDrefExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _expression;
-    ASTDrefNode* _drefNode;
+    std::shared_ptr<ASTExpressionNode> _expression;
+    std::shared_ptr<ASTDrefNode> _drefNode;
 public:
-    ASTDrefExpressionNode(ASTDrefNode* drefNode, ASTExpressionNode* astExpressionNode);
-    ASTExpressionNode* getExpressionNode();
-    ASTDrefNode* getDrefNode();
+    ASTDrefExpressionNode(std::shared_ptr<ASTDrefNode> drefNode, std::shared_ptr<ASTExpressionNode> astExpressionNode);
+    std::shared_ptr<ASTExpressionNode> getExpressionNode();
+    std::shared_ptr<ASTDrefNode> getDrefNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

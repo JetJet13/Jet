@@ -18,18 +18,18 @@
 
 class ASTClassPropertyDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTClassPropertyInitNode* _propertyInit;
-    std::optional<ASTExpressionNode*> _initializer;
+    std::shared_ptr<ASTClassPropertyInitNode> _propertyInit;
+    std::optional<std::shared_ptr<ASTExpressionNode>> _initializer;
     std::string _normalizedPropertyName;
     ClassPropertyTypeSignature* _typeSignature = new ClassPropertyTypeSignature();
 public:
-    explicit ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer = {});
-    ASTClassPropertyInitNode* getPropertyInit();
-    ASTAccessModifierNode* getAccessModifier();
-    ASTClassPropertyNameNode* getPropertyName();
+    explicit ASTClassPropertyDeclarationNode(std::shared_ptr<ASTClassPropertyInitNode> propertyInit, std::optional<std::shared_ptr<ASTExpressionNode>> initializer = {});
+    std::shared_ptr<ASTClassPropertyInitNode> getPropertyInit();
+    std::shared_ptr<ASTAccessModifierNode> getAccessModifier();
+    std::shared_ptr<ASTClassPropertyNameNode> getPropertyName();
     std::string getNormalizedPropertyName();
-    std::optional<ASTTypeNode*> getType();
-    std::optional<ASTExpressionNode*> getInitializer();
+    std::optional<std::shared_ptr<ASTTypeNode>> getType();
+    std::optional<std::shared_ptr<ASTExpressionNode>> getInitializer();
     bool isPublic();
     bool isPrivate();
     bool isStatic();
@@ -40,7 +40,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

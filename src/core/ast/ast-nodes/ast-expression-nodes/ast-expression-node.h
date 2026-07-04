@@ -13,16 +13,16 @@
 class ASTExpressionNode : public ASTNode {
 protected:
     TypeSignature* _typeSignature = new UnknownTypeSignature();
-    ASTNode* baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode);
+    std::shared_ptr<ASTNode> baseTransformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode);
 public:
     virtual void setTypeSignature(TypeSignature* typeSignature);
     virtual std::string getModuleId();
     TypeSignature* getTypeSignature() override;
-    ASTNode* transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) override;
+    std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
     bool isExpression() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
 };
 
 #endif //JETLANG_AST_EXPRESSION_NODE_H

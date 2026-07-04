@@ -10,15 +10,15 @@
 
 class ASTLiteralExpressionNode : public ASTExpressionNode {
 private:
-    ASTLiteralNode* _literalNode;
+    std::shared_ptr<ASTLiteralNode> _literalNode;
 public:
-    explicit ASTLiteralExpressionNode(ASTLiteralNode* literalNode);
-    ASTLiteralNode* getLiteralNode();
+    explicit ASTLiteralExpressionNode(std::shared_ptr<ASTLiteralNode> literalNode);
+    std::shared_ptr<ASTLiteralNode> getLiteralNode();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

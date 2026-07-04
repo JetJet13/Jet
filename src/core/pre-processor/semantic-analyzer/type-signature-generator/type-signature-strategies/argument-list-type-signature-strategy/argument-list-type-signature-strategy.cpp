@@ -4,7 +4,7 @@
 
 #include "argument-list-type-signature-strategy.h"
 
-void ArgumentListTypeSignatureStrategy::assign(ASTFunctionArgumentListNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ArgumentListTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionArgumentListNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto argumentTypes = std::vector<TypeSignature*>();
     if (context->getTypeSignatures() && context->getTypeSignatures().value()->size() != node->numArguments()) {
         node->setTypeSignature(new ArgumentListTypeSignature(argumentTypes));

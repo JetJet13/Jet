@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTAsNode* asNode, ASTModuleAliasNameNode* aliasModuleName) {
+ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(std::shared_ptr<ASTModuleNameNode> moduleName, std::shared_ptr<ASTAsNode> asNode, std::shared_ptr<ASTModuleAliasNameNode> aliasModuleName) {
     _moduleName = moduleName;
     _asNode = asNode;
     _aliasModuleName = aliasModuleName;
@@ -15,11 +15,11 @@ ASTModuleListAliasItemNode::ASTModuleListAliasItemNode(ASTModuleNameNode* module
     _children.push_back(_aliasModuleName);
 }
 
-ASTModuleNameNode* ASTModuleListAliasItemNode::getModuleName() {
+std::shared_ptr<ASTModuleNameNode> ASTModuleListAliasItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTModuleAliasNameNode* ASTModuleListAliasItemNode::getAliasModuleName() {
+std::shared_ptr<ASTModuleAliasNameNode> ASTModuleListAliasItemNode::getAliasModuleName() {
     return _aliasModuleName;
 }
 
@@ -39,11 +39,11 @@ std::string ASTModuleListAliasItemNode::toString() {
     return "MODULE_LIST_ALIAS_ITEM";
 }
 
-bool ASTModuleListAliasItemNode::isSameAs(ASTNode* other) {
+bool ASTModuleListAliasItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTModuleListAliasItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleListAliasItemNode>(other);
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
             this->getAliasModuleName()->isSameAs(otherNode->getAliasModuleName()) ;
 }

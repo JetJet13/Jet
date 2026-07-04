@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace LogicalExpressionTypeCheckerPolicy {
-    void apply(ASTLogicalExpressionNode* logicalExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTLogicalExpressionNode> logicalExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(logicalExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(logicalExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(logicalExpression);

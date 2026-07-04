@@ -15,22 +15,22 @@
 
 class ASTIfStatementNode : public ASTStatementNode {
 private:
-    ASTIfBlockNode* _ifBlock;
-    std::vector<ASTElseIfBlockNode*> _elseIfBlocks;
-    std::optional<ASTElseBlockNode*> _elseBlock;
+    std::shared_ptr<ASTIfBlockNode> _ifBlock;
+    std::vector<std::shared_ptr<ASTElseIfBlockNode>> _elseIfBlocks;
+    std::optional<std::shared_ptr<ASTElseBlockNode>> _elseBlock;
 public:
-    ASTIfStatementNode(ASTIfBlockNode* ifBlock);
-    ASTIfStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTElseIfBlockNode*> elseIfBlocks, std::optional<ASTElseBlockNode*> elseBlock = {});
-    ASTIfStatementNode* addElseIfBlock(ASTElseIfBlockNode* elseIfBlock);
-    ASTIfBlockNode* getIfBlock();
-    std::vector<ASTElseIfBlockNode*>* getElseIfBlocks();
-    std::optional<ASTElseBlockNode*> getElseBlock();
+    ASTIfStatementNode(std::shared_ptr<ASTIfBlockNode> ifBlock);
+    ASTIfStatementNode(std::shared_ptr<ASTIfBlockNode> ifBlock, std::vector<std::shared_ptr<ASTElseIfBlockNode>> elseIfBlocks, std::optional<std::shared_ptr<ASTElseBlockNode>> elseBlock = {});
+    std::shared_ptr<ASTIfStatementNode> addElseIfBlock(std::shared_ptr<ASTElseIfBlockNode> elseIfBlock);
+    std::shared_ptr<ASTIfBlockNode> getIfBlock();
+    std::vector<std::shared_ptr<ASTElseIfBlockNode>>* getElseIfBlocks();
+    std::optional<std::shared_ptr<ASTElseBlockNode>> getElseBlock();
     bool onlyHasIfBlock();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

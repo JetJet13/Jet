@@ -20,16 +20,16 @@
 
 class ASTProcedureDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTProcedureDefinitionNode* _procedureDefinition;
-    ASTFunctionBlockNode* _block;
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::shared_ptr<ASTProcedureDefinitionNode> _procedureDefinition;
+    std::shared_ptr<ASTFunctionBlockNode> _block;
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     ProcedureTypeSignature* _typeSignature = new ProcedureTypeSignature();
 public:
-    explicit ASTProcedureDeclarationNode(ASTProcedureDefinitionNode* _procedureDefinition, ASTFunctionBlockNode* content, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionNameNode* getName();
-    ASTFunctionBlockNode* getBlock();
-    ASTProcedureDefinitionNode* getDefinition();
+    explicit ASTProcedureDeclarationNode(std::shared_ptr<ASTProcedureDefinitionNode> _procedureDefinition, std::shared_ptr<ASTFunctionBlockNode> content, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionNameNode> getName();
+    std::shared_ptr<ASTFunctionBlockNode> getBlock();
+    std::shared_ptr<ASTProcedureDefinitionNode> getDefinition();
     unsigned long numParameters();
     bool isExportable() override;
     void setTypeSignature(ProcedureTypeSignature* typeSignature);
@@ -38,7 +38,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

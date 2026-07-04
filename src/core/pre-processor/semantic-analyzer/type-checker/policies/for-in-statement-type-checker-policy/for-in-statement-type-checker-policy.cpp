@@ -8,7 +8,7 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace ForInStatementTypeCheckerPolicy {
-    void apply(ASTForInStatementNode* forStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(forStatementNode->getBlock(), typeCheckerResult);
         auto notIterableMessage = TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource());
 

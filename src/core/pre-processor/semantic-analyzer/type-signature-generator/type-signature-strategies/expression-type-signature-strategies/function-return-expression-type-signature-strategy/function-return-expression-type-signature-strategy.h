@@ -11,7 +11,7 @@
 
 class FunctionReturnExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTFunctionReturnExpressionNode* functionReturnExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTFunctionReturnExpressionNode> functionReturnExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

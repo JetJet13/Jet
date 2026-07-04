@@ -6,14 +6,14 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleListSpreadItemNode::ASTModuleListSpreadItemNode(ASTModuleNameNode* moduleName, ASTModuleSpreadNode* spread) {
+ASTModuleListSpreadItemNode::ASTModuleListSpreadItemNode(std::shared_ptr<ASTModuleNameNode> moduleName, std::shared_ptr<ASTModuleSpreadNode> spread) {
     _moduleName = moduleName;
     _spread = spread;
     _children.push_back(_moduleName);
     _children.push_back(_spread);
 }
 
-ASTModuleNameNode* ASTModuleListSpreadItemNode::getModuleName() {
+std::shared_ptr<ASTModuleNameNode> ASTModuleListSpreadItemNode::getModuleName() {
     return _moduleName;
 }
 
@@ -33,11 +33,11 @@ std::string ASTModuleListSpreadItemNode::toString() {
     return "MODULE_LIST_SPREAD_ITEM";
 }
 
-bool ASTModuleListSpreadItemNode::isSameAs(ASTNode* other) {
+bool ASTModuleListSpreadItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTModuleListSpreadItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleListSpreadItemNode>(other);
     return this->getModuleName()->isSameAs(otherNode->getModuleName());
 }
 

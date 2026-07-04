@@ -5,7 +5,7 @@
 #include "lambda-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void LambdaExpressionTypeSignatureStrategy::assign(ASTLambdaExpressionNode* lambdaExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = std::make_shared<TypeSignatureLookupTable>(typeSignatureLookupTable);
     scope->inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaExpression->getParameters()->getParameters()) {

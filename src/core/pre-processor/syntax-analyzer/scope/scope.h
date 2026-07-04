@@ -11,14 +11,14 @@
 
 class Scope {
 private:
-    ASTBlockStartNode* _blockStartNode;
-    std::vector<ASTNode*> _block;
+    std::shared_ptr<ASTBlockStartNode> _blockStartNode;
+    std::vector<std::shared_ptr<ASTNode>> _block;
 public:
-    Scope(ASTBlockStartNode* blockStartNode);
-    void add(ASTNode* node);
-    std::vector<ASTNode*> getBlock();
-    ASTBlockNode* convertToBlockNode(ASTBlockEndNode* blockEndNode);
-    std::stack<ASTNode*> convertToStack();
+    Scope(std::shared_ptr<ASTBlockStartNode> blockStartNode);
+    void add(std::shared_ptr<ASTNode> node);
+    std::vector<std::shared_ptr<ASTNode>> getBlock();
+    std::shared_ptr<ASTBlockNode> convertToBlockNode(std::shared_ptr<ASTBlockEndNode> blockEndNode);
+    std::stack<std::shared_ptr<ASTNode>> convertToStack();
 };
 
 #endif //JETLANG_SCOPE_H

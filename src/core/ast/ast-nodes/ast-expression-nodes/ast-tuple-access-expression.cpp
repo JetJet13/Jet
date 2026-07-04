@@ -7,7 +7,7 @@
 #include "ast-tuple-expression-node.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTTupleAccessNode* index) {
+ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(std::shared_ptr<ASTObjectAccessSourceNode> source, std::shared_ptr<ASTPeriodNode> period, std::shared_ptr<ASTTupleAccessNode> index) {
     _source = source;
     _period = period;
     _index = index;
@@ -16,11 +16,11 @@ ASTTupleAccessExpressionNode::ASTTupleAccessExpressionNode(ASTObjectAccessSource
     _children.push_back(_index);
 }
 
-ASTObjectAccessSourceNode* ASTTupleAccessExpressionNode::getSource() {
+std::shared_ptr<ASTObjectAccessSourceNode> ASTTupleAccessExpressionNode::getSource() {
     return _source;
 }
 
-ASTTupleAccessNode* ASTTupleAccessExpressionNode::getIndex() {
+std::shared_ptr<ASTTupleAccessNode> ASTTupleAccessExpressionNode::getIndex() {
     return _index;
 }
 
@@ -40,11 +40,11 @@ std::string ASTTupleAccessExpressionNode::toString() {
     return "TUPLE_ACCESS_EXPRESSION";
 }
 
-bool ASTTupleAccessExpressionNode::isSameAs(ASTNode* other) {
+bool ASTTupleAccessExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTupleAccessExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource()) &&
            this->getIndex()->isSameAs(otherNode->getIndex());
 }

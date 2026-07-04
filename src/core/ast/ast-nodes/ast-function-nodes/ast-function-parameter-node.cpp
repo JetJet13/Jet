@@ -6,21 +6,21 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionParameterNode::ASTFunctionParameterNode(ASTIdentifierExpressionNode* identifier, ASTTypeColonNode* colon, ASTTypeNode* type) {
+ASTFunctionParameterNode::ASTFunctionParameterNode(std::shared_ptr<ASTIdentifierExpressionNode> identifier, std::shared_ptr<ASTTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type) {
     _identifier = identifier;
     _colon = colon;
     _type = type;
     _children.push_back(_identifier);
     _children.push_back(_colon);
     _children.push_back(_type);
-    this->setId(_identifier->getId());
+    _id = _identifier->getId();
 }
 
-ASTIdentifierExpressionNode* ASTFunctionParameterNode::getIdentifier() {
+std::shared_ptr<ASTIdentifierExpressionNode> ASTFunctionParameterNode::getIdentifier() {
     return _identifier;
 }
 
-ASTTypeNode* ASTFunctionParameterNode::getType() {
+std::shared_ptr<ASTTypeNode> ASTFunctionParameterNode::getType() {
     return _type;
 }
 
@@ -60,11 +60,11 @@ std::string ASTFunctionParameterNode::toString() {
     return "FUNCTION_PARAMETER";
 }
 
-bool ASTFunctionParameterNode::isSameAs(ASTNode* other) {
+bool ASTFunctionParameterNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTFunctionParameterNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionParameterNode>(other);
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier()) &&
            this->getType()->isSameAs(otherNode->getType());
 }

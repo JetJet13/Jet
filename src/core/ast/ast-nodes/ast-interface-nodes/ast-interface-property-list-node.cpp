@@ -6,28 +6,28 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, ASTInterfaceEndNode* endNode) {
+ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::shared_ptr<ASTInterfaceEndNode> endNode) {
     _startNode = startNode;
     _endNode = endNode;
     _children.push_back(_startNode);
     _children.push_back(_endNode);
-    _commas = std::vector<ASTCommaNode*>();
-    _properties = std::vector<ASTInterfacePropertyNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _properties = std::vector<std::shared_ptr<ASTInterfacePropertyNode>>();
 }
 
-ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(ASTInterfaceStartNode* startNode, std::vector<ASTInterfacePropertyNode*> properties, std::vector<ASTCommaNode*> commas, ASTInterfaceEndNode* endNode) {
+ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::vector<std::shared_ptr<ASTInterfacePropertyNode>> properties, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTInterfaceEndNode> endNode) {
     _startNode = startNode;
     _endNode = endNode;
     _children.push_back(_startNode);
     _children.push_back(_endNode);
     _commas = commas;
-    _properties = std::vector<ASTInterfacePropertyNode*>();
+    _properties = std::vector<std::shared_ptr<ASTInterfacePropertyNode>>();
     for (auto property: properties) {
         this->addProperty(property);
     }
 }
 
-std::vector<ASTInterfacePropertyNode*> ASTInterfacePropertyListNode::getProperties() {
+std::vector<std::shared_ptr<ASTInterfacePropertyNode>> ASTInterfacePropertyListNode::getProperties() {
     return _properties;
 }
 
@@ -35,15 +35,15 @@ unsigned long ASTInterfacePropertyListNode::numProperties() {
     return _properties.size();
 }
 
-ASTInterfacePropertyListNode* ASTInterfacePropertyListNode::addProperty(ASTInterfacePropertyNode* property) {
+std::shared_ptr<ASTInterfacePropertyListNode> ASTInterfacePropertyListNode::addProperty(std::shared_ptr<ASTInterfacePropertyNode> property) {
     _properties.push_back(property);
     _children.push_back(property);
-    return this;
+    return std::dynamic_pointer_cast<ASTInterfacePropertyListNode>(shared_from_this());
 }
 
-ASTInterfacePropertyListNode* ASTInterfacePropertyListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTInterfacePropertyListNode> ASTInterfacePropertyListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTInterfacePropertyListNode>(shared_from_this());
 }
 
 Position* ASTInterfacePropertyListNode::getStartPosition() {
@@ -62,11 +62,11 @@ std::string ASTInterfacePropertyListNode::toString() {
     return "INTERFACE_PROPERTY_LIST";
 }
 
-bool ASTInterfacePropertyListNode::isSameAs(ASTNode* other) {
+bool ASTInterfacePropertyListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTInterfacePropertyListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTInterfacePropertyListNode>(other);
     auto otherNodeElements = otherNode->getProperties();
     if (this->numProperties() != otherNode->numProperties()) {
         return false;

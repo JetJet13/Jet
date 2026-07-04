@@ -11,7 +11,7 @@
 
 class CurryExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTCurryExpressionNode* curryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTCurryExpressionNode> curryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_CURRY_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

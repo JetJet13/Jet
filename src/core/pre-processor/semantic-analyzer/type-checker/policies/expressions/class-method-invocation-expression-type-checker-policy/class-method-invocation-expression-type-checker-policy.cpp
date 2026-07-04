@@ -7,7 +7,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 
 namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTClassMethodInvocationExpressionNode> classMethodInvocationExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classMethodInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classMethodInvocationExpression);
         TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule()

@@ -14,7 +14,7 @@
 
 class ScopeAnalyzer {
 private:
-    void traverse(ASTNode* startNode, ASTLookupTable* startScope);
+    void traverse(std::shared_ptr<ASTNode> startNode, ASTLookupTable* startScope);
 public:
     void process(std::shared_ptr<ASTFileNode> fileNode);
 };

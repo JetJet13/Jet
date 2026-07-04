@@ -14,22 +14,22 @@
 
 class ASTFunctionDefinitionNode : public ASTNode {
 private:
-    ASTFunctionNode* _functionKeyword;
-    ASTFunctionNameNode* _name;
-    ASTFunctionParameterListNode* _parameters;
-    ASTTypeColonNode* _typeColon;
-    ASTTypeNode* _returnType;
+    std::shared_ptr<ASTFunctionNode> _functionKeyword;
+    std::shared_ptr<ASTFunctionNameNode> _name;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
+    std::shared_ptr<ASTTypeColonNode> _typeColon;
+    std::shared_ptr<ASTTypeNode> _returnType;
 public:
-    explicit ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
-    ASTFunctionParameterListNode* getParameters();
-    ASTFunctionNameNode* getName();
-    ASTTypeNode* getReturnType();
+    explicit ASTFunctionDefinitionNode(std::shared_ptr<ASTFunctionNode> functionKeyword, std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTFunctionNameNode> getName();
+    std::shared_ptr<ASTTypeNode> getReturnType();
     unsigned long numParameters();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

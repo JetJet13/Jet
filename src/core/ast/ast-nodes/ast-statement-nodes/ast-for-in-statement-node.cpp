@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTForInStatementNode::ASTForInStatementNode(ASTForNode* forKeyword, ASTForInVariableNode* variable, ASTForInNode* inKeyword, ASTForInSourceNode* source, ASTControlFlowBlockNode* block) {
+ASTForInStatementNode::ASTForInStatementNode(std::shared_ptr<ASTForNode> forKeyword, std::shared_ptr<ASTForInVariableNode> variable, std::shared_ptr<ASTForInNode> inKeyword, std::shared_ptr<ASTForInSourceNode> source, std::shared_ptr<ASTControlFlowBlockNode> block) {
     _forKeyword = forKeyword;
     _variable = variable;
     _inKeyword = inKeyword;
@@ -19,15 +19,15 @@ ASTForInStatementNode::ASTForInStatementNode(ASTForNode* forKeyword, ASTForInVar
     _children.push_back(_block);
 }
 
-ASTForInVariableNode* ASTForInStatementNode::getVariable() {
+std::shared_ptr<ASTForInVariableNode> ASTForInStatementNode::getVariable() {
     return _variable;
 }
 
-ASTForInSourceNode* ASTForInStatementNode::getSource() {
+std::shared_ptr<ASTForInSourceNode> ASTForInStatementNode::getSource() {
     return _source;
 }
 
-ASTControlFlowBlockNode* ASTForInStatementNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTForInStatementNode::getBlock() {
     return _block;
 }
 
@@ -47,11 +47,11 @@ std::string ASTForInStatementNode::toString() {
     return "FOR_IN_STATEMENT";
 }
 
-bool ASTForInStatementNode::isSameAs(ASTNode* other) {
+bool ASTForInStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTForInStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTForInStatementNode>(other);
 
     return  this->getVariable()->isSameAs(otherNode->getVariable()) &&
             this->getSource()->isSameAs(otherNode->getSource()) &&

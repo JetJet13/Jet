@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values, std::optional<ASTExportNode*> exportKeyword) {
+ASTEnumDeclarationNode::ASTEnumDeclarationNode(std::shared_ptr<ASTEnumNode> enumKeyword, std::shared_ptr<ASTEnumNameNode> name, std::shared_ptr<ASTEnumKeyValueListNode> values, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _enumKeyword = enumKeyword;
     _name = name;
     _values = values;
@@ -19,11 +19,11 @@ ASTEnumDeclarationNode::ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnum
     }
 }
 
-ASTEnumKeyValueListNode* ASTEnumDeclarationNode::getValues() {
+std::shared_ptr<ASTEnumKeyValueListNode> ASTEnumDeclarationNode::getValues() {
     return _values;
 }
 
-ASTEnumNameNode* ASTEnumDeclarationNode::getName() {
+std::shared_ptr<ASTEnumNameNode> ASTEnumDeclarationNode::getName() {
     return _name;
 }
 
@@ -55,11 +55,11 @@ std::string ASTEnumDeclarationNode::toString() {
     return "ENUM_DECLARATION";
 }
 
-bool ASTEnumDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTEnumDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTEnumDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTEnumDeclarationNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getValues()->isSameAs(otherNode->getValues());

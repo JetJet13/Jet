@@ -4,7 +4,7 @@
 
 #include "lambda-with-fat-arrow-expression-type-signature-strategy.h"
 
-void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(ASTLambdaWithFatArrowExpressionNode* lambdaWithFatArrowExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
+void LambdaWithFatArrowExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaWithFatArrowExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap) {
     auto scope = std::make_shared<TypeSignatureLookupTable>(typeSignatureLookupTable);
     scope->inheritGlobalScope(typeSignatureLookupTable);
     for (auto parameter : lambdaWithFatArrowExpression->getParameters()->getParameters()) {

@@ -16,21 +16,21 @@
 
 class ASTUseManyModuleDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTUseNode* _useKeyword;
-    ASTImportModuleListByGroupItemNode* _importModuleListByGroupItem;
-    ASTFromNode* _fromKeyword;
-    ASTImportPathNode* _path;
+    std::shared_ptr<ASTUseNode> _useKeyword;
+    std::shared_ptr<ASTImportModuleListByGroupItemNode> _importModuleListByGroupItem;
+    std::shared_ptr<ASTFromNode> _fromKeyword;
+    std::shared_ptr<ASTImportPathNode> _path;
 public:
-    explicit ASTUseManyModuleDeclarationNode(ASTUseNode* useKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path);
-    ASTImportModuleListByGroupItemNode* getImportModuleListByGroupItem();
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportModuleListNode* getModuleList();
-    ASTImportPathNode* getPath();
+    explicit ASTUseManyModuleDeclarationNode(std::shared_ptr<ASTUseNode> useKeyword, std::shared_ptr<ASTImportModuleListByGroupItemNode> importModuleListByGroupItem, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path);
+    std::shared_ptr<ASTImportModuleListByGroupItemNode> getImportModuleListByGroupItem();
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportModuleListNode> getModuleList();
+    std::shared_ptr<ASTImportPathNode> getPath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

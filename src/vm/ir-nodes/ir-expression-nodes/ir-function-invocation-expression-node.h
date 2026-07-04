@@ -15,7 +15,7 @@
 
 class IRFunctionInvocationExpressionNode : public IRExpressionNode {
 private:
-    ASTFunctionInvocationExpressionNode* _node;
+    std::shared_ptr<ASTFunctionInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
     IRInstructionNode* _irFunction;
     IRType* _irFunctionType;
@@ -23,11 +23,11 @@ private:
     IRType* _type;
     std::optional<IRInstructionNode*> _varArgsTypeValueArgument;
 public:
-    IRFunctionInvocationExpressionNode(ASTFunctionInvocationExpressionNode* node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
+    IRFunctionInvocationExpressionNode(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
     void markAsGlobal() override;
     std::optional<IRInstructionNode*> getVarArgsTypeValueArgument();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
-    ASTFunctionInvocationExpressionNode* getNode();
+    std::shared_ptr<ASTFunctionInvocationExpressionNode> getNode();
     llvm::CallInst* getValue() override;
     IRInstructionNode* getFunction();
     llvm::Value* getFunctionValue();

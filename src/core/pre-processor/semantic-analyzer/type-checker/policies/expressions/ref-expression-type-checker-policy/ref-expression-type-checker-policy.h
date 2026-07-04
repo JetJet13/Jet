@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 
 namespace RefExpressionTypeCheckerPolicy {
-    void apply(ASTRefExpressionNode* refExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTRefExpressionNode> refExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_REF_EXPRESSION_TYPE_CHECKER_POLICY_H

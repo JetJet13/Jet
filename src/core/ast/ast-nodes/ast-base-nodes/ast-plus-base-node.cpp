@@ -11,9 +11,9 @@ ASTPlusBaseNode::ASTPlusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTPlusBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (!prevNode && !nextNode) {
-        return this;
+        return shared_from_this();
     }
 
     std::vector<ASTNodeType> plusOperatorPrevNodes = {
@@ -36,10 +36,10 @@ ASTNode* ASTPlusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode,
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
         Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());
-        return new ASTBinaryArithmeticOperatorNode(_lexeme);
+        return std::make_shared<ASTBinaryArithmeticOperatorNode>(_lexeme);
     }
 
-    return new ASTUnaryOperatorNode(_lexeme);
+    return std::make_shared<ASTUnaryOperatorNode>(_lexeme);
 }
 
 ASTNodeType ASTPlusBaseNode::getNodeType() {

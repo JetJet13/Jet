@@ -17,13 +17,13 @@ Lexeme* ASTGreaterThanBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTGreaterThanBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTGreaterThanBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
 
     if (mode == SA_TYPE_PARAMETER_LIST_MODE) {
-        return new ASTTypeParameterListEndNode(this->getLexeme());
+        return std::make_shared<ASTTypeParameterListEndNode>(this->getLexeme());
     }
 
-    return new ASTBinaryComparatorOperatorNode(_lexeme);
+    return std::make_shared<ASTBinaryComparatorOperatorNode>(_lexeme);
 }
 
 ASTNodeType ASTGreaterThanBaseNode::getNodeType() {
@@ -34,11 +34,11 @@ std::string ASTGreaterThanBaseNode::toString() {
     return "GREATER_THAN";
 }
 
-bool ASTGreaterThanBaseNode::isSameAs(ASTNode* other) {
+bool ASTGreaterThanBaseNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTGreaterThanBaseNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTGreaterThanBaseNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

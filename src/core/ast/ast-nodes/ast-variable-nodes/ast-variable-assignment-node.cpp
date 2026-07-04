@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableAssignmentNode::ASTVariableAssignmentNode(ASTIdentifierNode* astIdentifierNode, ASTAssignmentOperatorNode* assignmentOperator) {
+ASTVariableAssignmentNode::ASTVariableAssignmentNode(std::shared_ptr<ASTIdentifierNode> astIdentifierNode, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator) {
     _identifier = astIdentifierNode;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_identifier);
     _children.push_back(_assignmentOperator);
 }
 
-ASTIdentifierNode* ASTVariableAssignmentNode::getIdentifierNode() {
+std::shared_ptr<ASTIdentifierNode> ASTVariableAssignmentNode::getIdentifierNode() {
     return _identifier;
 }
 
@@ -41,11 +41,11 @@ std::string ASTVariableAssignmentNode::toString() {
     return "VARIABLE_ASSIGNMENT";
 }
 
-bool ASTVariableAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTVariableAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTVariableAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTVariableAssignmentNode>(other);
     return this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());
 }
 

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTImportManyByWildcardModuleDeclarationNode::ASTImportManyByWildcardModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByWildcardItemNode* importModuleListByWildcardItemNode, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+ASTImportManyByWildcardModuleDeclarationNode::ASTImportManyByWildcardModuleDeclarationNode(std::shared_ptr<ASTImportNode> importKeyword, std::shared_ptr<ASTImportModuleListByWildcardItemNode> importModuleListByWildcardItemNode, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path) {
     _importKeyword = importKeyword;
     _importModuleListByWildcardItemNode = importModuleListByWildcardItemNode;
     _fromKeyword = fromKeyword;
@@ -17,11 +17,11 @@ ASTImportManyByWildcardModuleDeclarationNode::ASTImportManyByWildcardModuleDecla
     _children.push_back(_path);
 }
 
-ASTImportModuleListByWildcardItemNode* ASTImportManyByWildcardModuleDeclarationNode::getImportModuleListByWildcardItemNode() {
+std::shared_ptr<ASTImportModuleListByWildcardItemNode> ASTImportManyByWildcardModuleDeclarationNode::getImportModuleListByWildcardItemNode() {
     return _importModuleListByWildcardItemNode;
 }
 
-ASTImportPathNode* ASTImportManyByWildcardModuleDeclarationNode::getPath() {
+std::shared_ptr<ASTImportPathNode> ASTImportManyByWildcardModuleDeclarationNode::getPath() {
     return _path;
 }
 
@@ -41,11 +41,11 @@ std::string ASTImportManyByWildcardModuleDeclarationNode::toString() {
     return "IMPORT_MANY_BY_WILDCARD_MODULE_DECLARATION";
 }
 
-bool ASTImportManyByWildcardModuleDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTImportManyByWildcardModuleDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImportManyByWildcardModuleDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportManyByWildcardModuleDeclarationNode>(other);
 
     return this->getImportModuleListByWildcardItemNode()->isSameAs(otherNode->getImportModuleListByWildcardItemNode()) &&
            this->getPath()->isSameAs(otherNode->getPath());

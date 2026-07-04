@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleTypeNode::ASTModuleTypeNode(ASTModuleTypeSourceNode* source, ASTModuleAccessTypeNode* moduleAccess, ASTModuleTypeTargetNode* target) {
+ASTModuleTypeNode::ASTModuleTypeNode(std::shared_ptr<ASTModuleTypeSourceNode> source, std::shared_ptr<ASTModuleAccessTypeNode> moduleAccess, std::shared_ptr<ASTModuleTypeTargetNode> target) {
     _source = source;
     _moduleAccess = moduleAccess;
     _target = target;
@@ -15,11 +15,11 @@ ASTModuleTypeNode::ASTModuleTypeNode(ASTModuleTypeSourceNode* source, ASTModuleA
     _children.push_back(_target);
 }
 
-ASTModuleTypeSourceNode* ASTModuleTypeNode::getSource() {
+std::shared_ptr<ASTModuleTypeSourceNode> ASTModuleTypeNode::getSource() {
     return _source;
 }
 
-ASTModuleTypeTargetNode* ASTModuleTypeNode::getTarget() {
+std::shared_ptr<ASTModuleTypeTargetNode> ASTModuleTypeNode::getTarget() {
     return _target;
 }
 
@@ -47,11 +47,11 @@ std::string ASTModuleTypeNode::toString() {
     return "MODULE_TYPE";
 }
 
-bool ASTModuleTypeNode::isSameAs(ASTNode* other) {
+bool ASTModuleTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleTypeNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource()) &&
            this->getTarget()->isSameAs(otherNode->getTarget());
 }

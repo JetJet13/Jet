@@ -276,7 +276,7 @@ void Reducer::addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrat
     _strategies.insert(std::pair<ASTNodeType, ReducerStrategy*>(astNodeType, reducerStrategy));
 }
 
-ASTNode* Reducer::reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult) {
+std::shared_ptr<ASTNode> Reducer::reduce(Handle handle, std::shared_ptr<RecognizerResult> recognizerResult) {
     if (handle.isEmpty()) {
         throw std::invalid_argument("handle cannot be empty");
     }
@@ -290,7 +290,7 @@ ASTNode* Reducer::reduce(Handle handle, std::shared_ptr<RecognizerResult> recogn
     return this->generateASTNode(recognizerResult->getTargetAstNodeType(), nodesToReduce);
 }
 
-ASTNode* Reducer::generateASTNode(ASTNodeType targetAstNodeType, std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> Reducer::generateASTNode(ASTNodeType targetAstNodeType, std::vector<std::shared_ptr<ASTNode>> nodes) {
     auto reducerStrategy = _strategies.find(targetAstNodeType);
     if (reducerStrategy == _strategies.end()) {
         throw std::invalid_argument("unable to determine reduced AST Node Type for given list of nodes");

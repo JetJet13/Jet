@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaTypeNode::ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterList, ASTLambdaTypeFatArrowNode* fatArrowNode, ASTTypeNode* returnType) {
+ASTLambdaTypeNode::ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaTypeFatArrowNode> fatArrowNode, std::shared_ptr<ASTTypeNode> returnType) {
     _parameterList = parameterList;
     _fatArrowNode = fatArrowNode;
     _returnType = returnType;
@@ -15,11 +15,11 @@ ASTLambdaTypeNode::ASTLambdaTypeNode(ASTLambdaTypeParameterListNode* parameterLi
     _children.push_back(_returnType);
 }
 
-ASTLambdaTypeParameterListNode* ASTLambdaTypeNode::getParameterList() {
+std::shared_ptr<ASTLambdaTypeParameterListNode> ASTLambdaTypeNode::getParameterList() {
     return _parameterList;
 }
 
-ASTTypeNode* ASTLambdaTypeNode::getReturnType() {
+std::shared_ptr<ASTTypeNode> ASTLambdaTypeNode::getReturnType() {
     return _returnType;
 }
 
@@ -39,11 +39,11 @@ std::string ASTLambdaTypeNode::toString() {
     return "LAMBDA_TYPE";
 }
 
-bool ASTLambdaTypeNode::isSameAs(ASTNode* other) {
+bool ASTLambdaTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLambdaTypeNode>(other);
 
     return this->getParameterList()->isSameAs(otherNode->getParameterList()) &&
            this->getReturnType()->isSameAs(otherNode->getReturnType());

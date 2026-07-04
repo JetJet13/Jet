@@ -5,19 +5,19 @@
 #include "ast-tuple-item-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTTupleItemNode::ASTTupleItemNode(ASTExpressionNode* item) {
+ASTTupleItemNode::ASTTupleItemNode(std::shared_ptr<ASTExpressionNode> item) {
     _item = item;
     _children.push_back(_item);
 }
 
-ASTNode* ASTTupleItemNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTTupleItemNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE) {
         return this->getItem();
     }
-    return this;
+    return shared_from_this();
 }
 
-ASTExpressionNode* ASTTupleItemNode::getItem() {
+std::shared_ptr<ASTExpressionNode> ASTTupleItemNode::getItem() {
     return _item;
 }
 
@@ -37,11 +37,11 @@ std::string ASTTupleItemNode::toString() {
     return "TUPLE_ITEM";
 }
 
-bool ASTTupleItemNode::isSameAs(ASTNode* other) {
+bool ASTTupleItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTTupleItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleItemNode>(other);
     return this->getItem()->isSameAs(otherNode->getItem());
 }
 

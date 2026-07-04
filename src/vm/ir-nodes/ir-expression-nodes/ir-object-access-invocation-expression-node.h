@@ -17,7 +17,7 @@
 
 class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
-    ASTObjectAccessInvocationExpressionNode* _node;
+    std::shared_ptr<ASTObjectAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
     IRExpressionNode* _source;
     int64_t _targetIndex;
@@ -26,7 +26,7 @@ private:
     IRType* _type;
     std::optional<IRExpressionNode*> _scopeArgument;
 public:
-    IRObjectAccessInvocationExpressionNode(ASTObjectAccessInvocationExpressionNode* node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
+    IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument = {});
     void markAsGlobal() override;
     IRExpressionNode* getSource();
     std::optional<IRExpressionNode*> getScopeArgument();

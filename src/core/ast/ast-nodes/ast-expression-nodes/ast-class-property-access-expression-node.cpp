@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassPropertyAccessExpressionNode::ASTClassPropertyAccessExpressionNode(ASTClassPropertyAccessNode* propertyAccess) {
+ASTClassPropertyAccessExpressionNode::ASTClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessNode> propertyAccess) {
     _propertyAccess = propertyAccess;
     _children.push_back(_propertyAccess);
 }
 
-ASTClassPropertyAccessNode* ASTClassPropertyAccessExpressionNode::getPropertyAccess() {
+std::shared_ptr<ASTClassPropertyAccessNode> ASTClassPropertyAccessExpressionNode::getPropertyAccess() {
     return _propertyAccess;
 }
 
@@ -38,11 +38,11 @@ std::string ASTClassPropertyAccessExpressionNode::toString() {
     return "CLASS_PROPERTY_ACCESS_EXPRESSION";
 }
 
-bool ASTClassPropertyAccessExpressionNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyAccessExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassPropertyAccessExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(other);
     return this->getPropertyAccess()->isSameAs(otherNode->getPropertyAccess());
 }
 

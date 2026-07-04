@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, ASTLogicalOperatorNode* logicalOperator, ASTExpressionNode* rightNode) {
+ASTLogicalExpressionNode::ASTLogicalExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTLogicalOperatorNode> logicalOperator, std::shared_ptr<ASTExpressionNode> rightNode) {
     _leftNode = leftNode;
     _logicalOperator = logicalOperator;
     _rightNode = rightNode;
@@ -15,15 +15,15 @@ ASTLogicalExpressionNode::ASTLogicalExpressionNode(ASTExpressionNode* leftNode, 
     _children.push_back(_rightNode);
 }
 
-ASTExpressionNode* ASTLogicalExpressionNode::getLeftNode() {
+std::shared_ptr<ASTExpressionNode> ASTLogicalExpressionNode::getLeftNode() {
     return _leftNode;
 }
 
-ASTExpressionNode* ASTLogicalExpressionNode::getRightNode() {
+std::shared_ptr<ASTExpressionNode> ASTLogicalExpressionNode::getRightNode() {
     return _rightNode;
 }
 
-ASTLogicalOperatorNode* ASTLogicalExpressionNode::getLogicalOperator() {
+std::shared_ptr<ASTLogicalOperatorNode> ASTLogicalExpressionNode::getLogicalOperator() {
     return _logicalOperator;
 }
 
@@ -43,11 +43,11 @@ std::string ASTLogicalExpressionNode::toString() {
     return "LOGICAL_EXPRESSION";
 }
 
-bool ASTLogicalExpressionNode::isSameAs(ASTNode* other) {
+bool ASTLogicalExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLogicalExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLogicalExpressionNode>(other);
     return this->getLogicalOperator()->isSameAs(otherNode->getLogicalOperator()) &&
            this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
            this->getRightNode()->isSameAs(otherNode->getRightNode());

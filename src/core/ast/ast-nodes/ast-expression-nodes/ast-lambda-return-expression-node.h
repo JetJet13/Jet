@@ -10,17 +10,17 @@
 
 class ASTLambdaReturnExpressionNode : public ASTExpressionNode {
 private:
-    ASTLambdaExpressionFatArrowNode* _fatArrowNode;
-    ASTExpressionNode* _returnExpression;
+    std::shared_ptr<ASTLambdaExpressionFatArrowNode> _fatArrowNode;
+    std::shared_ptr<ASTExpressionNode> _returnExpression;
 public:
-    ASTLambdaReturnExpressionNode(ASTLambdaExpressionFatArrowNode* fatArrowNode, ASTExpressionNode* returnExpression);
-    ASTLambdaExpressionFatArrowNode* getFatArrowNode();
-    ASTExpressionNode* getExpression();
+    ASTLambdaReturnExpressionNode(std::shared_ptr<ASTLambdaExpressionFatArrowNode> fatArrowNode, std::shared_ptr<ASTExpressionNode> returnExpression);
+    std::shared_ptr<ASTLambdaExpressionFatArrowNode> getFatArrowNode();
+    std::shared_ptr<ASTExpressionNode> getExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

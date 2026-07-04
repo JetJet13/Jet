@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportWildcardNode* wildcard) {
+ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTModuleAccessNode> moduleAccessNode, std::shared_ptr<ASTImportWildcardNode> wildcard) {
     _moduleName = moduleName;
     _moduleAccessNode = moduleAccessNode;
     _wildcard = wildcard;
@@ -15,11 +15,11 @@ ASTImportModuleListByWildcardItemNode::ASTImportModuleListByWildcardItemNode(AST
     _children.push_back(_wildcard);
 }
 
-ASTImportModuleNameNode* ASTImportModuleListByWildcardItemNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTImportModuleListByWildcardItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTImportWildcardNode* ASTImportModuleListByWildcardItemNode::getWildcard() {
+std::shared_ptr<ASTImportWildcardNode> ASTImportModuleListByWildcardItemNode::getWildcard() {
     return _wildcard;
 }
 
@@ -39,11 +39,11 @@ std::string ASTImportModuleListByWildcardItemNode::toString() {
     return "IMPORT_MODULE_LIST_BY_WILDCARD_ITEM";
 }
 
-bool ASTImportModuleListByWildcardItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListByWildcardItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportModuleListByWildcardItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListByWildcardItemNode>(other);
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
            this->getWildcard()->isSameAs(otherNode->getWildcard());
 }

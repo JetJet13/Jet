@@ -18,7 +18,7 @@ unsigned int ASTBinaryArithmeticOperatorNode::getPriority() const {
     return _priority;
 }
 
-bool ASTBinaryArithmeticOperatorNode::isHigherOrEqualPriorityThan(ASTBinaryArithmeticOperatorNode* other) const {
+bool ASTBinaryArithmeticOperatorNode::isHigherOrEqualPriorityThan(std::shared_ptr<ASTBinaryArithmeticOperatorNode> other) const {
     return _priority <= other->getPriority();
 }
 
@@ -58,11 +58,11 @@ std::string ASTBinaryArithmeticOperatorNode::toString() {
     return "BINARY_ARITHMETIC_OPERATOR";
 }
 
-bool ASTBinaryArithmeticOperatorNode::isSameAs(ASTNode* other) {
+bool ASTBinaryArithmeticOperatorNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTBinaryArithmeticOperatorNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTBinaryArithmeticOperatorNode>(other);
     return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }
 

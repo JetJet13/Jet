@@ -72,156 +72,156 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
 
-std::optional<ASTNode*> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
+std::optional<std::shared_ptr<ASTNode>> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
     if (lexeme) {
         return LexemeTransformer::transform(lexeme.value());
     }
     return {};
 }
 
-ASTNode* LexemeTransformer::transform(Lexeme* lexeme) {
+std::shared_ptr<ASTNode> LexemeTransformer::transform(Lexeme* lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
     if (symbol->isIdentifier()) {
-        return new ASTIdentifierNode(lexeme);
+        return std::make_shared<ASTIdentifierNode>(lexeme);
     } else if (symbol->isLet()) {
-        return new ASTVariableTypeNode(lexeme);
+        return std::make_shared<ASTVariableTypeNode>(lexeme);
     } else if (symbol->isConst()) {
-        return new ASTConstNode(lexeme);
+        return std::make_shared<ASTConstNode>(lexeme);
     } else if (symbol->isEqual()) {
-        return new ASTAssignmentOperatorNode(lexeme);
+        return std::make_shared<ASTAssignmentOperatorNode>(lexeme);
     } else if (symbol->isColonEqual()) {
-        return new ASTRefValueAssignmentOperatorNode(lexeme);
+        return std::make_shared<ASTRefValueAssignmentOperatorNode>(lexeme);
     } else if (symbol->isInt()) {
-        return new ASTIntLiteralNode(lexeme);
+        return std::make_shared<ASTIntLiteralNode>(lexeme);
     } else if (symbol->isFloat()) {
-        return new ASTFloatLiteralNode(lexeme);
+        return std::make_shared<ASTFloatLiteralNode>(lexeme);
     } else if (symbol->isChar()) {
-        return new ASTCharLiteralNode(lexeme);
+        return std::make_shared<ASTCharLiteralNode>(lexeme);
     } else if (symbol->isString()) {
-        return new ASTStringLiteralNode(lexeme);
+        return std::make_shared<ASTStringLiteralNode>(lexeme);
     } else if (symbol->isBoolean()) {
-        return new ASTBooleanLiteralNode(lexeme);
+        return std::make_shared<ASTBooleanLiteralNode>(lexeme);
     } else if (symbol->isPlus()) {
-        return new ASTPlusBaseNode(lexeme);
+        return std::make_shared<ASTPlusBaseNode>(lexeme);
     } else if (symbol->isMinus()) {
-        return new ASTMinusBaseNode(lexeme);
+        return std::make_shared<ASTMinusBaseNode>(lexeme);
     } else if (symbol->isStar()) {
-        return new ASTStarBaseNode(lexeme);
+        return std::make_shared<ASTStarBaseNode>(lexeme);
     } else if (symbol->isSlash() || symbol->isModulo()) {
-        return new ASTBinaryArithmeticOperatorNode(lexeme);
+        return std::make_shared<ASTBinaryArithmeticOperatorNode>(lexeme);
     } else if (symbol->isEqualityOperator() ||
                symbol->isInequalityOperator() ||
                symbol->isGreaterThanOrEqual() ||
                symbol->isLessThanOrEqual()) {
-        return new ASTBinaryComparatorOperatorNode(lexeme);
+        return std::make_shared<ASTBinaryComparatorOperatorNode>(lexeme);
     } else if (symbol->isLogicalOperator()) {
-        return new ASTLogicalOperatorNode(lexeme);
+        return std::make_shared<ASTLogicalOperatorNode>(lexeme);
     } else if (symbol->isUnaryOperator()) {
-        return new ASTUnaryOperatorNode(lexeme);
+        return std::make_shared<ASTUnaryOperatorNode>(lexeme);
     } else if (symbol->isLeftParentheses()) {
-        return new ASTGroupStartNode(lexeme);
+        return std::make_shared<ASTGroupStartNode>(lexeme);
     } else if (symbol->isRightParentheses()) {
-        return new ASTGroupEndNode(lexeme);
+        return std::make_shared<ASTGroupEndNode>(lexeme);
     } else if (symbol->isSemicolon()) {
-        return new ASTTerminatorNode(lexeme);
+        return std::make_shared<ASTTerminatorNode>(lexeme);
     } else if (symbol->isLeftBracket()) {
-        return new ASTLeftBracketNode(lexeme);
+        return std::make_shared<ASTLeftBracketNode>(lexeme);
     } else if (symbol->isRightBracket()) {
-        return new ASTRightBracketNode(lexeme);
+        return std::make_shared<ASTRightBracketNode>(lexeme);
     } else if (symbol->isLeftBrace()) {
-        return new ASTBlockStartNode(lexeme);
+        return std::make_shared<ASTBlockStartNode>(lexeme);
     } else if (symbol->isRightBrace()) {
-        return new ASTBlockEndNode(lexeme);
+        return std::make_shared<ASTBlockEndNode>(lexeme);
     } else if (symbol->isComma()) {
-        return new ASTCommaNode(lexeme);
+        return std::make_shared<ASTCommaNode>(lexeme);
     } else if (symbol->isColon()) {
-        return new ASTColonBaseNode(lexeme);
+        return std::make_shared<ASTColonBaseNode>(lexeme);
     } else if (symbol->isPeriod()) {
-        return new ASTPeriodNode(lexeme);
+        return std::make_shared<ASTPeriodNode>(lexeme);
     }  else if (symbol->isFunction()) {
-        return new ASTFunctionNode(lexeme);
+        return std::make_shared<ASTFunctionNode>(lexeme);
     }  else if (symbol->isReturn()) {
-        return new ASTFunctionReturnNode(lexeme);
+        return std::make_shared<ASTFunctionReturnNode>(lexeme);
     } else if (symbol->isProcedure()) {
-        return new ASTProcedureNode(lexeme);
+        return std::make_shared<ASTProcedureNode>(lexeme);
     } else if (symbol->isEnum()) {
-        return new ASTEnumNode(lexeme);
+        return std::make_shared<ASTEnumNode>(lexeme);
     } else if (symbol->isTuple()) {
-        return new ASTTupleNode(lexeme);
+        return std::make_shared<ASTTupleNode>(lexeme);
     } else if (symbol->isIf()) {
-        return new ASTIfNode(lexeme);
+        return std::make_shared<ASTIfNode>(lexeme);
     } else if (symbol->isElse()) {
-        return new ASTElseNode(lexeme);
+        return std::make_shared<ASTElseNode>(lexeme);
     } else if (symbol->isFor()) {
-        return new ASTForNode(lexeme);
+        return std::make_shared<ASTForNode>(lexeme);
     } else if (symbol->isIn()) {
-        return new ASTForInNode(lexeme);
+        return std::make_shared<ASTForInNode>(lexeme);
     } else if (symbol->isWhile()) {
-        return new ASTWhileNode(lexeme);
+        return std::make_shared<ASTWhileNode>(lexeme);
     } else if (symbol->isBreak()) {
-        return new ASTBreakNode(lexeme);
+        return std::make_shared<ASTBreakNode>(lexeme);
     } else if (symbol->isSkip()) {
-        return new ASTSkipNode(lexeme);
+        return std::make_shared<ASTSkipNode>(lexeme);
     } else if (symbol->isType()) {
         return ASTTypeNodeFactory::createPrimitiveTypeNode(lexeme);
     } else if (symbol->isTry()) {
-        return new ASTTryNode(lexeme);
+        return std::make_shared<ASTTryNode>(lexeme);
     } else if (symbol->isCatch()) {
-        return new ASTCatchNode(lexeme);
+        return std::make_shared<ASTCatchNode>(lexeme);
     } else if (symbol->isFinally()) {
-        return new ASTFinallyNode(lexeme);
+        return std::make_shared<ASTFinallyNode>(lexeme);
     } else if (symbol->isFatArrow()) {
-        return new ASTFatArrowBaseNode(lexeme);
+        return std::make_shared<ASTFatArrowBaseNode>(lexeme);
     } else if (symbol->isLessThan()) {
-        return new ASTLessThanBaseNode(lexeme);
+        return std::make_shared<ASTLessThanBaseNode>(lexeme);
     } else if (symbol->isGreaterThan()) {
-        return new ASTGreaterThanBaseNode(lexeme);
+        return std::make_shared<ASTGreaterThanBaseNode>(lexeme);
     } else if (symbol->isModule()) {
-        return new ASTModuleNode(lexeme);
+        return std::make_shared<ASTModuleNode>(lexeme);
     } else if (symbol->isAsKeyword()) {
-        return new ASTAsNode(lexeme);
+        return std::make_shared<ASTAsNode>(lexeme);
     } else if (symbol->isDotDotDot()) {
-        return new ASTDotDotDotBaseNode(lexeme);
+        return std::make_shared<ASTDotDotDotBaseNode>(lexeme);
     } else if (symbol->isImport()) {
-        return new ASTImportNode(lexeme);
+        return std::make_shared<ASTImportNode>(lexeme);
     } else if (symbol->isUseKeyword()) {
-        return new ASTUseNode(lexeme);
+        return std::make_shared<ASTUseNode>(lexeme);
     } else if (symbol->isFromKeyword()) {
-        return new ASTFromNode(lexeme);
+        return std::make_shared<ASTFromNode>(lexeme);
     } else if (symbol->isColonColon()) {
-        return new ASTColonColonBaseNode(lexeme);
+        return std::make_shared<ASTColonColonBaseNode>(lexeme);
     } else if (symbol->isClass()) {
-        return new ASTClassNode(lexeme);
+        return std::make_shared<ASTClassNode>(lexeme);
     } else if (symbol->isPublic()) {
-        return new ASTPublicNode(lexeme);
+        return std::make_shared<ASTPublicNode>(lexeme);
     } else if (symbol->isProtected()) {
-        return new ASTProtectedNode(lexeme);
+        return std::make_shared<ASTProtectedNode>(lexeme);
     } else if (symbol->isPrivate()) {
-        return new ASTPrivateNode(lexeme);
+        return std::make_shared<ASTPrivateNode>(lexeme);
     } else if (symbol->isStatic()) {
-        return new ASTStaticNode(lexeme);
+        return std::make_shared<ASTStaticNode>(lexeme);
     } else if (symbol->isConstructor()) {
-        return new ASTConstructorNode(lexeme);
+        return std::make_shared<ASTConstructorNode>(lexeme);
     } else if (symbol->isNew()) {
-        return new ASTNewNode(lexeme);
+        return std::make_shared<ASTNewNode>(lexeme);
     } else if (symbol->isExport()) {
-        return new ASTExportNode(lexeme);
+        return std::make_shared<ASTExportNode>(lexeme);
     } else if (symbol->isRef()) {
-        return new ASTRefBaseNode(lexeme);
+        return std::make_shared<ASTRefBaseNode>(lexeme);
     } else if (symbol->isDref()) {
-        return new ASTDrefNode(lexeme);
+        return std::make_shared<ASTDrefNode>(lexeme);
     } else if (symbol->isConcat()) {
-        return new ASTConcatNode(lexeme);
+        return std::make_shared<ASTConcatNode>(lexeme);
     } else if (symbol->isInterface()) {
-        return new ASTInterfaceNode(lexeme);
+        return std::make_shared<ASTInterfaceNode>(lexeme);
     } else if (symbol->isImplements()) {
-        return new ASTImplementsNode(lexeme);
+        return std::make_shared<ASTImplementsNode>(lexeme);
     } else if (symbol->isTypeKeyword()) {
-        return new ASTTypeKeywordNode(lexeme);
+        return std::make_shared<ASTTypeKeywordNode>(lexeme);
     } else if (symbol->isVoid()) {
-        return ASTTypeNodeFactory::createVoidTypeNode(new ASTVoidNode(lexeme));
+        return ASTTypeNodeFactory::createVoidTypeNode(std::make_shared<ASTVoidNode>(lexeme));
     } else if (symbol->isThis()) {
-        return new ASTThisNode(lexeme);
+        return std::make_shared<ASTThisNode>(lexeme);
     } else {
         Logger::log(lexeme->toString());
         throw std::invalid_argument("failed to transform lexeme...unknown symbol");

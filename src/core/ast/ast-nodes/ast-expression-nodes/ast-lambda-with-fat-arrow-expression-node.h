@@ -15,18 +15,18 @@
 
 class ASTLambdaWithFatArrowExpressionNode : public ASTExpressionNode {
 private:
-    ASTFunctionParameterListNode* _parameters;
-    ASTLambdaReturnExpressionNode* _returnExpression;
-    std::optional<ASTTypeColonNode*> _typeColon;
-    std::optional<ASTTypeNode*> _returnType;
+    std::shared_ptr<ASTFunctionParameterListNode> _parameters;
+    std::shared_ptr<ASTLambdaReturnExpressionNode> _returnExpression;
+    std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
+    std::optional<std::shared_ptr<ASTTypeNode>> _returnType;
     LambdaExpressionTypeSignature* _typeSignature = new LambdaExpressionTypeSignature();
     std::set<std::string> _capturedVariableIds;
 public:
-    ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression);
-    ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, ASTTypeColonNode* typeColon, ASTTypeNode* returnType);
-    ASTFunctionParameterListNode* getParameters();
-    ASTLambdaReturnExpressionNode* getReturnExpression();
-    std::optional<ASTTypeNode*> getReturnType();
+    ASTLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTLambdaReturnExpressionNode> returnExpression);
+    ASTLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTLambdaReturnExpressionNode> returnExpression, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
+    std::shared_ptr<ASTFunctionParameterListNode> getParameters();
+    std::shared_ptr<ASTLambdaReturnExpressionNode> getReturnExpression();
+    std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();
     std::set<std::string>* getCapturedVariableIds();
     void addCapturedValueId(std::string valueId);
     void setTypeSignature(LambdaExpressionTypeSignature* lambdaExpressionTypeSignature);
@@ -35,7 +35,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -10,7 +10,7 @@
 
 
 namespace TypeChecker {
-    void applyPolicyTo(ASTNode* node, TypeCheckerResult* typeCheckerResult);
+    void applyPolicyTo(std::shared_ptr<ASTNode> node, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_TYPE_CHECKER_H

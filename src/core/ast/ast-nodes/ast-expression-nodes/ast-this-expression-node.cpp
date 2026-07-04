@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 
 
-ASTThisExpressionNode::ASTThisExpressionNode(ASTThisNode* thisNode) {
+ASTThisExpressionNode::ASTThisExpressionNode(std::shared_ptr<ASTThisNode> thisNode) {
     _this = thisNode;
     _children.push_back(_this);
 }
 
-ASTThisNode* ASTThisExpressionNode::getThisNode() {
+std::shared_ptr<ASTThisNode> ASTThisExpressionNode::getThisNode() {
     return _this;
 }
 
@@ -31,11 +31,11 @@ std::string ASTThisExpressionNode::toString() {
     return "THIS_EXPRESSION";
 }
 
-bool ASTThisExpressionNode::isSameAs(ASTNode* other) {
+bool ASTThisExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTThisExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTThisExpressionNode>(other);
     return this->getThisNode()->isSameAs(otherNode->getThisNode());
 }
 

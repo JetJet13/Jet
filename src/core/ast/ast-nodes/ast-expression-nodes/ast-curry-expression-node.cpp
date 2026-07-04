@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTCurryExpressionNode::ASTCurryExpressionNode(ASTCallableExpressionNode* callableExpression, ASTFunctionArgumentListNode* arguments) {
+ASTCurryExpressionNode::ASTCurryExpressionNode(std::shared_ptr<ASTCallableExpressionNode> callableExpression, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _callableExpression = callableExpression;
     _arguments = arguments;
     _children.push_back(_callableExpression);
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTCurryExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTCurryExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTCallableExpressionNode* ASTCurryExpressionNode::getCallableExpression() {
+std::shared_ptr<ASTCallableExpressionNode> ASTCurryExpressionNode::getCallableExpression() {
     return _callableExpression;
 }
 
@@ -41,11 +41,11 @@ std::string ASTCurryExpressionNode::toString() {
     return "CURRY_EXPRESSION";
 }
 
-bool ASTCurryExpressionNode::isSameAs(ASTNode* other) {
+bool ASTCurryExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTCurryExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTCurryExpressionNode>(other);
 
     return  this->getCallableExpression()->isSameAs(otherNode->getCallableExpression()) &&
             this->getArguments()->isSameAs(otherNode->getArguments());

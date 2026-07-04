@@ -6,11 +6,11 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-block-nodes/ast-block-start-node.h"
 
-ASTNode* ASTControlFlowStartNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTControlFlowStartNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode != SA_CONTROL_FLOW_MODE) {
-        return new ASTBlockStartNode(_lexeme);
+        return std::make_shared<ASTBlockStartNode>(_lexeme);
     }
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTControlFlowStartNode::getNodeType() {

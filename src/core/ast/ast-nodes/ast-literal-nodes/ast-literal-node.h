@@ -23,7 +23,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     virtual void setValue(std::shared_ptr<TokenTable> tokenTable) = 0;
     std::string toSourceCode() override;
 };

@@ -5,12 +5,12 @@
 #include "ast-module-access-source-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleAccessSourceNode::ASTModuleAccessSourceNode(ASTIdentifierExpressionNode* source) {
+ASTModuleAccessSourceNode::ASTModuleAccessSourceNode(std::shared_ptr<ASTIdentifierExpressionNode> source) {
     _source = source;
     _children.push_back(_source);
 }
 
-ASTIdentifierExpressionNode* ASTModuleAccessSourceNode::getSource() {
+std::shared_ptr<ASTIdentifierExpressionNode> ASTModuleAccessSourceNode::getSource() {
     return _source;
 }
 
@@ -30,11 +30,11 @@ std::string ASTModuleAccessSourceNode::toString() {
     return "MODULE_ACCESS_SOURCE";
 }
 
-bool ASTModuleAccessSourceNode::isSameAs(ASTNode* other) {
+bool ASTModuleAccessSourceNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleAccessSourceNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleAccessSourceNode>(other);
     return this->getSource()->isSameAs(otherNode->getSource());
 }
 

@@ -4,7 +4,7 @@
 
 #include "parameter-list-type-singature-strategy.h"
 
-void ParameterListTypeSignatureStrategy::assign(ASTFunctionParameterListNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ParameterListTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionParameterListNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto parameters = std::vector<ParameterListItemTypeSignature*>();
 
     for (auto parameterItem : node->getParameters()) {

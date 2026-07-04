@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTImportManyModuleDeclarationNode::ASTImportManyModuleDeclarationNode(ASTImportNode* importKeyword, ASTImportModuleListByGroupItemNode* importModuleListByGroupItem, ASTFromNode* fromKeyword, ASTImportPathNode* path) {
+ASTImportManyModuleDeclarationNode::ASTImportManyModuleDeclarationNode(std::shared_ptr<ASTImportNode> importKeyword, std::shared_ptr<ASTImportModuleListByGroupItemNode> importModuleListByGroupItem, std::shared_ptr<ASTFromNode> fromKeyword, std::shared_ptr<ASTImportPathNode> path) {
     _importKeyword = importKeyword;
     _importModuleListByGroupItem = importModuleListByGroupItem;
     _fromKeyword = fromKeyword;
@@ -17,15 +17,15 @@ ASTImportManyModuleDeclarationNode::ASTImportManyModuleDeclarationNode(ASTImport
     _children.push_back(_path);
 }
 
-ASTImportModuleNameNode* ASTImportManyModuleDeclarationNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTImportManyModuleDeclarationNode::getModuleName() {
     return _importModuleListByGroupItem->getModuleName();
 }
 
-ASTImportModuleListNode* ASTImportManyModuleDeclarationNode::getModuleList() {
+std::shared_ptr<ASTImportModuleListNode> ASTImportManyModuleDeclarationNode::getModuleList() {
     return _importModuleListByGroupItem->getModuleList();
 }
 
-ASTImportPathNode* ASTImportManyModuleDeclarationNode::getPath() {
+std::shared_ptr<ASTImportPathNode> ASTImportManyModuleDeclarationNode::getPath() {
     return _path;
 }
 
@@ -45,11 +45,11 @@ std::string ASTImportManyModuleDeclarationNode::toString() {
     return "IMPORT_MANY_MODULE_DECLARATION";
 }
 
-bool ASTImportManyModuleDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTImportManyModuleDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImportManyModuleDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportManyModuleDeclarationNode>(other);
 
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
            this->getModuleList()->isSameAs(otherNode->getModuleList()) &&

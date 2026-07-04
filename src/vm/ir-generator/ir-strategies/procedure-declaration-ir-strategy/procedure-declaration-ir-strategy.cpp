@@ -9,7 +9,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(ASTProcedureDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(std::shared_ptr<ASTProcedureDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto procedureScope = new IRLookupTable();
     procedureScope->inherit(scope);
     auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope, irContext);

@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode) {
+ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnNode> returnNode) {
     _returnNode = returnNode;
     _returnExpression = {};
 }
 
-ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(ASTFunctionReturnNode* returnNode, ASTExpressionNode* expressionNode) {
+ASTFunctionReturnExpressionNode::ASTFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnNode> returnNode, std::shared_ptr<ASTExpressionNode> expressionNode) {
     _returnNode = returnNode;
     _returnExpression = expressionNode;
     _children.push_back(_returnExpression.value());
 }
 
-ASTFunctionReturnNode* ASTFunctionReturnExpressionNode::getReturnNode() {
+std::shared_ptr<ASTFunctionReturnNode> ASTFunctionReturnExpressionNode::getReturnNode() {
     return _returnNode;
 }
 
@@ -25,7 +25,7 @@ bool ASTFunctionReturnExpressionNode::hasExpression() {
     return _returnExpression.has_value();
 }
 
-std::optional<ASTExpressionNode*> ASTFunctionReturnExpressionNode::getExpression() {
+std::optional<std::shared_ptr<ASTExpressionNode>> ASTFunctionReturnExpressionNode::getExpression() {
     return _returnExpression;
 }
 
@@ -48,11 +48,11 @@ std::string ASTFunctionReturnExpressionNode::toString() {
     return "FUNCTION_RETURN_EXPRESSION";
 }
 
-bool ASTFunctionReturnExpressionNode::isSameAs(ASTNode* other) {
+bool ASTFunctionReturnExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionReturnExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(other);
     if (this->getExpression() && otherNode->getExpression()) {
         return this->getExpression().value()->isSameAs(otherNode->getExpression().value());
     } else if (!this->getExpression() && !otherNode->getExpression()) {

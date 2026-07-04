@@ -10,9 +10,9 @@ ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
     _lexeme = lexeme;
 }
 
-ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTMinusBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (!prevNode && !nextNode) {
-        return this;
+        return shared_from_this();
     }
 
     std::vector<ASTNodeType> minusOperatorPrevNodes = {
@@ -34,10 +34,10 @@ ASTNode* ASTMinusBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode
             AST_CLASS_PROPERTY_ACCESS_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(minusOperatorPrevNodes)) {
-        return new ASTBinaryArithmeticOperatorNode(_lexeme);
+        return std::make_shared<ASTBinaryArithmeticOperatorNode>(_lexeme);
     }
 
-    return new ASTUnaryOperatorNode(_lexeme);
+    return std::make_shared<ASTUnaryOperatorNode>(_lexeme);
 }
 
 ASTNodeType ASTMinusBaseNode::getNodeType() {

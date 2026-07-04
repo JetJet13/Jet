@@ -11,11 +11,11 @@
 
 class IRBoolLiteralNode : public IRLiteralNode {
 private:
-    ASTBooleanLiteralNode* _astNode;
+    std::shared_ptr<ASTBooleanLiteralNode> _astNode;
     llvm::ConstantInt* _irValue;
     IRType* _type;
 public:
-    IRBoolLiteralNode(ASTBooleanLiteralNode* astNode, llvm::ConstantInt* irValue);
+    IRBoolLiteralNode(std::shared_ptr<ASTBooleanLiteralNode> astNode, llvm::ConstantInt* irValue);
     llvm::ConstantInt* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

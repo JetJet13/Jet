@@ -7,7 +7,7 @@
 
 ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme, std::string id) {
     _lexeme = lexeme;
-    this->setId(id);
+    _id = id;
 }
 
 Lexeme* ASTCustomTypeNode::getLexeme() {
@@ -30,11 +30,11 @@ std::string ASTCustomTypeNode::toString() {
     return "CUSTOM_TYPE";
 }
 
-bool ASTCustomTypeNode::isSameAs(ASTNode* other) {
+bool ASTCustomTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTCustomTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTCustomTypeNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

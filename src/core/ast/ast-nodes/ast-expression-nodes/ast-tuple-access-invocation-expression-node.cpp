@@ -6,26 +6,26 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleAccessInvocationExpressionNode::ASTTupleAccessInvocationExpressionNode(ASTTupleAccessExpressionNode* tupleAccess, ASTFunctionArgumentListNode* arguments) {
+ASTTupleAccessInvocationExpressionNode::ASTTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _tupleAccess = tupleAccess;
     _arguments = arguments;
     _children.push_back(_tupleAccess);
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTTupleAccessInvocationExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTTupleAccessInvocationExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTTupleAccessExpressionNode* ASTTupleAccessInvocationExpressionNode::getObjectAccess() {
+std::shared_ptr<ASTTupleAccessExpressionNode> ASTTupleAccessInvocationExpressionNode::getObjectAccess() {
     return _tupleAccess;
 }
 
-ASTObjectAccessSourceNode* ASTTupleAccessInvocationExpressionNode::getSource() {
+std::shared_ptr<ASTObjectAccessSourceNode> ASTTupleAccessInvocationExpressionNode::getSource() {
     return _tupleAccess->getSource();
 }
 
-ASTTupleAccessNode* ASTTupleAccessInvocationExpressionNode::getIndex() {
+std::shared_ptr<ASTTupleAccessNode> ASTTupleAccessInvocationExpressionNode::getIndex() {
     return _tupleAccess->getIndex();
 }
 
@@ -53,11 +53,11 @@ std::string ASTTupleAccessInvocationExpressionNode::toString() {
     return "AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTTupleAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
+bool ASTTupleAccessInvocationExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTupleAccessInvocationExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(other);
 
     return this->getObjectAccess()->isSameAs(otherNode->getObjectAccess()) &&
            this->getArguments()->isSameAs(otherNode->getArguments());

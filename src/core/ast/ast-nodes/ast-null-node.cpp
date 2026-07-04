@@ -21,7 +21,7 @@ Position* ASTNullNode::getEndPosition() {
     return new Position();
 }
 
-bool ASTNullNode::isSameAs(ASTNode* other) {
+bool ASTNullNode::isSameAs(std::shared_ptr<ASTNode> other) {
     return !other->is(this->getNodeType());
 }
 

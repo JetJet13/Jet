@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace CustomTypeDeclarationTypeCheckerPolicy {
-    void apply(ASTCustomTypeDeclarationNode* customTypeDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTCustomTypeDeclarationNode> customTypeDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ParameterTypeUnknown(customTypeDeclarationNode);
         auto invalidMessage = TypeCheckerErrorMessageTable::ParameterTypeInvalid(customTypeDeclarationNode);
         auto voidMessage = TypeCheckerErrorMessageTable::ParameterTypeVoid(customTypeDeclarationNode);

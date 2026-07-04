@@ -5,7 +5,7 @@
 #include "use-many-by-wildcard-module-declaration-id-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.h"
 
-void UseManyByWildcardModuleDeclarationIdStrategy::assign(ASTNode* node) {
-    auto useManyByWildcardModuleDeclarationNode = (ASTUseManyByWildcardModuleDeclarationNode*)node;
+void UseManyByWildcardModuleDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto useManyByWildcardModuleDeclarationNode = std::dynamic_pointer_cast<ASTUseManyByWildcardModuleDeclarationNode>(node);
 //    todo: implement once module resolution is implemented
 }

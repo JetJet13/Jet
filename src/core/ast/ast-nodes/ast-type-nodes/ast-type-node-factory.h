@@ -19,16 +19,16 @@
 #include "ast-module-type-nodes/ast-module-type-node.h"
 
 namespace ASTTypeNodeFactory {
-    ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id);
-    ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme);
-    ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode);
-    ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode);
-    ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode);
-    ASTTypeNode* createStructTypeNode(ASTStructTypeNode* structTypeNode);
-    ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode);
-    ASTTypeNode* createModuleTypeNode(ASTModuleTypeNode* moduleTypeNode);
-    ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode);
-    ASTTypeNode* createVoidTypeNode(ASTVoidNode* voidNode);
+    std::shared_ptr<ASTTypeNode> createCustomTypeNode(Lexeme* lexeme, std::string id);
+    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(Lexeme* lexeme);
+    std::shared_ptr<ASTTypeNode> createLambdaTypeNode(std::shared_ptr<ASTLambdaTypeNode> lambdaTypeNode);
+    std::shared_ptr<ASTTypeNode> createTupleTypeNode(std::shared_ptr<ASTTupleTypeNode> tupleTypeNode);
+    std::shared_ptr<ASTTypeNode> createArrayTypeNode(std::shared_ptr<ASTArrayTypeNode> arrayTypeNode);
+    std::shared_ptr<ASTTypeNode> createStructTypeNode(std::shared_ptr<ASTStructTypeNode> structTypeNode);
+    std::shared_ptr<ASTTypeNode> createRefTypeNode(std::shared_ptr<ASTRefTypeNode> refTypeNode);
+    std::shared_ptr<ASTTypeNode> createModuleTypeNode(std::shared_ptr<ASTModuleTypeNode> moduleTypeNode);
+    std::shared_ptr<ASTTypeNode> createThisTypeNode(std::shared_ptr<ASTThisNode> thisNode);
+    std::shared_ptr<ASTTypeNode> createVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode);
 }
 
 #endif //JETLANG_AST_TYPE_NODE_FACTORY_H

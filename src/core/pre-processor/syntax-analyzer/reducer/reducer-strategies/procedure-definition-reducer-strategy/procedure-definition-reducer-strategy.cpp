@@ -5,14 +5,14 @@
 #include "procedure-definition-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.h"
 
-ASTNode* ProcedureDefinitionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ProcedureDefinitionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 3) {
         throw std::invalid_argument("unable to reduce to procedure definition since nodes list is not of size 3");
     }
 
-    return new ASTProcedureDefinitionNode(
-            (ASTProcedureNode*)nodes[0],
-            (ASTFunctionNameNode*)nodes[1],
-            (ASTFunctionParameterListNode*)nodes[2]
+    return std::make_shared<ASTProcedureDefinitionNode>(
+            std::dynamic_pointer_cast<ASTProcedureNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTFunctionNameNode>(nodes[1]),
+            std::dynamic_pointer_cast<ASTFunctionParameterListNode>(nodes[2])
     );
 }

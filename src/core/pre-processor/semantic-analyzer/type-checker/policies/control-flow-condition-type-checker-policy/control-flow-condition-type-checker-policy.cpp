@@ -9,7 +9,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 
 namespace ControlFlowConditionTypeCheckerPolicy {
-    void apply(ASTControlFlowConditionNode* controlFlowConditionNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTControlFlowConditionNode> controlFlowConditionNode, TypeCheckerResult* typeCheckerResult) {
         auto mismatchMessage = TypeCheckerErrorMessageTable::ControlFlowConditionNotBool(controlFlowConditionNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
         ->enforce(

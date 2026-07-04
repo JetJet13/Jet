@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(ASTClassPropertyDefinitionNode* classPropertyDefinition, ASTTypeColonNode* colon, ASTTypeNode* type) {
+ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(std::shared_ptr<ASTClassPropertyDefinitionNode> classPropertyDefinition, std::shared_ptr<ASTTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type) {
     _classPropertyDefinition = classPropertyDefinition;
     _colon = colon;
     _type = type;
@@ -16,15 +16,15 @@ ASTClassPropertyDefinitionWithTypeNode::ASTClassPropertyDefinitionWithTypeNode(A
     _children.push_back(_type);
 }
 
-ASTClassPropertyDefinitionNode* ASTClassPropertyDefinitionWithTypeNode::getClassPropertyDefinition() {
+std::shared_ptr<ASTClassPropertyDefinitionNode> ASTClassPropertyDefinitionWithTypeNode::getClassPropertyDefinition() {
     return _classPropertyDefinition;
 }
 
-ASTTypeColonNode* ASTClassPropertyDefinitionWithTypeNode::getColon() {
+std::shared_ptr<ASTTypeColonNode> ASTClassPropertyDefinitionWithTypeNode::getColon() {
     return _colon;
 }
 
-ASTTypeNode* ASTClassPropertyDefinitionWithTypeNode::getType() {
+std::shared_ptr<ASTTypeNode> ASTClassPropertyDefinitionWithTypeNode::getType() {
     return _type;
 }
 
@@ -44,12 +44,12 @@ std::string ASTClassPropertyDefinitionWithTypeNode::toString() {
     return "CLASS_PROPERTY_DEFINITION_WITH_TYPE";
 }
 
-bool ASTClassPropertyDefinitionWithTypeNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyDefinitionWithTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassPropertyDefinitionWithTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyDefinitionWithTypeNode>(other);
     return this->getClassPropertyDefinition()->isSameAs(otherNode->getClassPropertyDefinition()) &&
            this->getType()->isSameAs(otherNode->getType());
 }

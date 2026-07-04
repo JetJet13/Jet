@@ -8,7 +8,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace BinaryExpressionTypeCheckerPolicy {
-    void apply(ASTBinaryArithmeticExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTBinaryArithmeticExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression);
@@ -31,7 +31,7 @@ namespace BinaryExpressionTypeCheckerPolicy {
         );
     }
 
-    void apply(ASTBinaryComparatorExpressionNode* binaryExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTBinaryComparatorExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(binaryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(binaryExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(binaryExpression);

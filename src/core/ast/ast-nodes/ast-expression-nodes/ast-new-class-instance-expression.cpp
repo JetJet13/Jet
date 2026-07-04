@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTClassNameNode* className, ASTFunctionArgumentListNode* arguments) {
+ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTClassNameNode> className, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _new = newKeywordNode;
     _className = className;
     _arguments = arguments;
@@ -15,7 +15,7 @@ ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode*
     _children.push_back(_arguments);
 }
 
-ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode* newKeywordNode, ASTModuleAccessExpressionNode* moduleAccessExpressionNode, ASTFunctionArgumentListNode* arguments) {
+ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(std::shared_ptr<ASTNewNode> newKeywordNode, std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpressionNode, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _new = newKeywordNode;
     _moduleAccessExpression = moduleAccessExpressionNode;
     _arguments = arguments;
@@ -24,7 +24,7 @@ ASTNewClassInstanceExpressionNode::ASTNewClassInstanceExpressionNode(ASTNewNode*
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTNewClassInstanceExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTNewClassInstanceExpressionNode::getArguments() {
     return _arguments;
 }
 
@@ -70,11 +70,11 @@ std::string ASTNewClassInstanceExpressionNode::toString() {
     return "NEW_CLASS_INSTANCE_EXPRESSION";
 }
 
-bool ASTNewClassInstanceExpressionNode::isSameAs(ASTNode* other) {
+bool ASTNewClassInstanceExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTNewClassInstanceExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(other);
 
     return this->getClassName() == otherNode->getClassName() &&
            this->getArguments()->isSameAs(otherNode->getArguments());

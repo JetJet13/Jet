@@ -5,7 +5,7 @@
 #include "type-signature-mismatch-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<ASTNode*> node, std::optional<ASTNode*> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
+void TypeSignatureMismatchTypeCheckerRule::enforce(std::optional<std::shared_ptr<ASTNode>> node, std::optional<std::shared_ptr<ASTNode>> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult) {
     if ((node && !otherNode) || (!node && otherNode)) {
         typeCheckerResult->addError(mismatchMessage());
         return;

@@ -4,8 +4,8 @@
 
 #include "ast-implements-interface-name-last-node.h"
 
-ASTImplementsInterfaceNameNode* ASTImplementsInterfaceNameLastNode::convertToInterfaceName() {
-    auto node = new ASTImplementsInterfaceNameNode(this->getLexeme());
+std::shared_ptr<ASTImplementsInterfaceNameNode> ASTImplementsInterfaceNameLastNode::convertToInterfaceName() {
+    auto node = std::make_shared<ASTImplementsInterfaceNameNode>(this->getLexeme());
     node->setId(this->getId());
     return node;
 }

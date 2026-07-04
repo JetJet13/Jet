@@ -11,7 +11,7 @@
 
 class LambdaExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTLambdaExpressionNode* lambdaExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

@@ -6,14 +6,14 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(ASTImportSpreadNode* spread, ASTImportModuleNameNode* moduleName) {
+ASTImportModuleListSpreadItemNode::ASTImportModuleListSpreadItemNode(std::shared_ptr<ASTImportSpreadNode> spread, std::shared_ptr<ASTImportModuleNameNode> moduleName) {
     _spread = spread;
     _moduleName = moduleName;
     _children.push_back(_spread);
     _children.push_back(_moduleName);
 }
 
-ASTImportModuleNameNode* ASTImportModuleListSpreadItemNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTImportModuleListSpreadItemNode::getModuleName() {
     return _moduleName;
 }
 
@@ -33,11 +33,11 @@ std::string ASTImportModuleListSpreadItemNode::toString() {
     return "IMPORT_MODULE_LIST_SPREAD_ITEM";
 }
 
-bool ASTImportModuleListSpreadItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListSpreadItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportModuleListSpreadItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListSpreadItemNode>(other);
     return this->getModuleName()->isSameAs(otherNode->getModuleName());
 }
 

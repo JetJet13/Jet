@@ -8,6 +8,6 @@
 
 
 namespace ImportSingleModuleTypeCheckerPolicy {
-    void apply(ASTImportSingleModuleDeclarationNode* importSingleModuleDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTImportSingleModuleDeclarationNode> importSingleModuleDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     }
 }

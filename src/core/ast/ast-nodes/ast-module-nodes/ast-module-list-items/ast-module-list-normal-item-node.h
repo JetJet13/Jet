@@ -12,15 +12,15 @@
 #include "../ast-module-name-node.h"
 
 class ASTModuleListNormalItemNode : public ASTModuleListBaseItemNode {
-    ASTModuleNameNode* _moduleName;
+    std::shared_ptr<ASTModuleNameNode> _moduleName;
 public:
-    explicit ASTModuleListNormalItemNode(ASTModuleNameNode* moduleName);
-    ASTModuleNameNode* getModuleName();
+    explicit ASTModuleListNormalItemNode(std::shared_ptr<ASTModuleNameNode> moduleName);
+    std::shared_ptr<ASTModuleNameNode> getModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

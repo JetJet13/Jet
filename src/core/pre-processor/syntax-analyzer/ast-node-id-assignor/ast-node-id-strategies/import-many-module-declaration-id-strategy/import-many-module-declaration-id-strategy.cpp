@@ -5,7 +5,7 @@
 #include "import-many-module-declaration-id-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.h"
 
-void ImportManyModuleDeclarationIdStrategy::assign(ASTNode* node) {
-    auto importManyModuleDeclarationNode = (ASTImportManyModuleDeclarationNode*)node;
+void ImportManyModuleDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto importManyModuleDeclarationNode = std::dynamic_pointer_cast<ASTImportManyModuleDeclarationNode>(node);
 //    todo: implement once module resolution is implemented
 }

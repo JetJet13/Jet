@@ -10,7 +10,7 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
 
 namespace ImportSingleModuleTypeCheckerPolicy {
-    void apply(ASTImportSingleModuleDeclarationNode* importSingleModuleDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTImportSingleModuleDeclarationNode> importSingleModuleDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_IMPORT_SINGLE_MODULE_TYPE_CHECKER_POLICY_H

@@ -13,19 +13,19 @@
 
 class ASTFunctionBlockNode : public ASTNode {
 private:
-    ASTBlockStartNode* _blockStartNode;
-    ASTBlockEndNode* _blockEndNode;
-    std::vector<ASTNode*> _contents;
-    std::vector<ASTFunctionReturnExpressionNode*> _returnStatements;
+    std::shared_ptr<ASTBlockStartNode> _blockStartNode;
+    std::shared_ptr<ASTBlockEndNode> _blockEndNode;
+    std::vector<std::shared_ptr<ASTNode>> _contents;
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>> _returnStatements;
 public:
-    explicit ASTFunctionBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode);
-    std::vector<ASTNode*>* getContents();
-    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements();
+    explicit ASTFunctionBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> contents, std::shared_ptr<ASTBlockEndNode> blockEndNode);
+    std::vector<std::shared_ptr<ASTNode>>* getContents();
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements();
     bool hasReturnExpression();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     std::string toString() override;
     void print() override;
     std::string toSourceCode() override;

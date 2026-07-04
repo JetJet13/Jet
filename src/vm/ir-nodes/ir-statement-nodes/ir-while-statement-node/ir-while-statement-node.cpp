@@ -4,7 +4,7 @@
 
 #include "ir-while-statement-node.h"
 
-IRWhileStatementNode::IRWhileStatementNode(ASTWhileStatementNode* node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock) {
+IRWhileStatementNode::IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock) {
     _condition = condition;
     _whileBlock = whileBlock;
     _bodyBlock = bodyBlock;

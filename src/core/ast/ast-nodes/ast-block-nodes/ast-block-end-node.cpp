@@ -12,41 +12,41 @@
 #include "../ast-type-nodes/ast-struct-type-nodes/ast-struct-type-end-node.h"
 #include "../ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.h"
 
-ASTNode* ASTBlockEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode,
+std::shared_ptr<ASTNode> ASTBlockEndNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode,
                                                 SyntaxAnalyzerMode mode) {
     if (mode == SA_STRUCT_MODE) {
-        return new ASTStructEndNode(_lexeme);
+        return std::make_shared<ASTStructEndNode>(_lexeme);
     }
 
     if (mode == SA_ENUM_KEY_VALUE_LIST_MODE) {
-        return new ASTEnumKeyValueListEndNode(_lexeme);
+        return std::make_shared<ASTEnumKeyValueListEndNode>(_lexeme);
     }
 
     if (mode == SA_STRUCT_TYPE_MODE) {
-        return new ASTStructTypeEndNode(_lexeme);
+        return std::make_shared<ASTStructTypeEndNode>(_lexeme);
     }
 
     if (mode == SA_TUPLE_TYPE_MODE) {
-        return new ASTTupleTypeEndNode(_lexeme);
+        return std::make_shared<ASTTupleTypeEndNode>(_lexeme);
     }
 
     if (mode == SA_TUPLE_LIST_MODE) {
-        return new ASTTupleListEndNode(_lexeme);
+        return std::make_shared<ASTTupleListEndNode>(_lexeme);
     }
 
     if (mode == SA_INTERFACE_MODE) {
-        return new ASTInterfaceEndNode(_lexeme);
+        return std::make_shared<ASTInterfaceEndNode>(_lexeme);
     }
 
     if (mode == SA_MODULE_LIST_MODE) {
-        return new ASTModuleListEndNode(_lexeme);
+        return std::make_shared<ASTModuleListEndNode>(_lexeme);
     }
 
     if (mode == SA_IMPORT_MODULE_LIST_MODE) {
-        return new ASTImportModuleListEndNode(_lexeme);
+        return std::make_shared<ASTImportModuleListEndNode>(_lexeme);
     }
-    
-    return this;
+
+    return shared_from_this();
 }
 
 ASTNodeType ASTBlockEndNode::getNodeType() {

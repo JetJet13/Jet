@@ -5,12 +5,12 @@
 #include "ast-function-argument-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTFunctionArgumentNode::ASTFunctionArgumentNode(ASTExpressionNode* argument) {
+ASTFunctionArgumentNode::ASTFunctionArgumentNode(std::shared_ptr<ASTExpressionNode> argument) {
     _argument = argument;
     _children.push_back(_argument);
 }
 
-ASTExpressionNode* ASTFunctionArgumentNode::getArgument() {
+std::shared_ptr<ASTExpressionNode> ASTFunctionArgumentNode::getArgument() {
     return _argument;
 }
 
@@ -30,11 +30,11 @@ std::string ASTFunctionArgumentNode::toString() {
     return "FUNCTION_ARGUMENT";
 }
 
-bool ASTFunctionArgumentNode::isSameAs(ASTNode* other) {
+bool ASTFunctionArgumentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTFunctionArgumentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionArgumentNode>(other);
     return this->getArgument()->isSameAs(otherNode->getArgument());
 }
 

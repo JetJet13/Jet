@@ -4,7 +4,7 @@
 
 #include "function-return-expression-ir-strategy.h"
 
-IRFunctionReturnExpressionNode* FunctionReturnExpressionIRStrategy::generate(ASTFunctionReturnExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRFunctionReturnExpressionNode* FunctionReturnExpressionIRStrategy::generate(std::shared_ptr<ASTFunctionReturnExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (node->getExpression()) {
         auto irExpressionNode = irGenerator->generateFor(node->getExpression().value(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
         irExpressionNode->markAsReturned();

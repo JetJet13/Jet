@@ -11,7 +11,7 @@
 
 class TupleAccessAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(ASTTupleAccessAssignmentStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRStatementNode* generate(std::shared_ptr<ASTTupleAccessAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

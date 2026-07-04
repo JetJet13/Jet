@@ -5,7 +5,7 @@
 #include "primitive-type-type-signature-strategy.h"
 #include "../../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 
-void PrimitiveTypeTypeSignatureStrategy::assign(ASTPrimitiveTypeNode* node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
+void PrimitiveTypeTypeSignatureStrategy::assign(std::shared_ptr<ASTPrimitiveTypeNode> node, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable) {
     auto symbol = node->getLexeme()->getToken()->getSymbol();
     if (symbol->isIntType()) {
         node->setTypeSignature(literalTypeSignatureLookupTable->getIntLiteralTypeSignature());

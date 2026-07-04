@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTupleAccessRefAssignmentNode::ASTTupleAccessRefAssignmentNode(ASTTupleAccessExpressionNode* tupleAccessExpression, ASTRefValueAssignmentOperatorNode* assignmentOperator) {
+ASTTupleAccessRefAssignmentNode::ASTTupleAccessRefAssignmentNode(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator) {
     _tupleAccessExpression = tupleAccessExpression;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_tupleAccessExpression);
     _children.push_back(_assignmentOperator);
 }
 
-ASTTupleAccessExpressionNode* ASTTupleAccessRefAssignmentNode::getTupleAccess() {
+std::shared_ptr<ASTTupleAccessExpressionNode> ASTTupleAccessRefAssignmentNode::getTupleAccess() {
     return _tupleAccessExpression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTTupleAccessRefAssignmentNode::toString() {
     return "TUPLE_ACCESS_REF_ASSIGNMENT";
 }
 
-bool ASTTupleAccessRefAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTTupleAccessRefAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTupleAccessRefAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentNode>(other);
     return this->getTupleAccess()->isSameAs(otherNode->getTupleAccess());
 }
 

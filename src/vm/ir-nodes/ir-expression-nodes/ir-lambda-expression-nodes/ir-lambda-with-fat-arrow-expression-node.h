@@ -15,7 +15,7 @@
 
 class IRLambdaWithFatArrowExpressionNode : public IRLambdaExpressionNode {
 private:
-    ASTLambdaWithFatArrowExpressionNode* _node;
+    std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> _node;
     llvm::Function* _irFunction;
     IRInstructionNode* _irValue;
     IRFunctionParameterListNode* _irParameterList;
@@ -24,7 +24,7 @@ private:
     llvm::Function* _irCleanupFunction;
     IRExpressionNode* _irReturnExpression;
 public:
-    IRLambdaWithFatArrowExpressionNode(ASTLambdaWithFatArrowExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
+    IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
     IRExpressionNode* getReturnExpression();
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;

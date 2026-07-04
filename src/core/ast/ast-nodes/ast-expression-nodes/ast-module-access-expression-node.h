@@ -14,13 +14,13 @@
 
 class ASTModuleAccessExpressionNode : public ASTAggregateExpressionNode {
 private:
-    ASTModuleAccessSourceNode* _source;
-    ASTModuleAccessNode* _moduleAccess;
-    ASTModuleAccessTargetNode* _target;
+    std::shared_ptr<ASTModuleAccessSourceNode> _source;
+    std::shared_ptr<ASTModuleAccessNode> _moduleAccess;
+    std::shared_ptr<ASTModuleAccessTargetNode> _target;
 public:
-    ASTModuleAccessExpressionNode(ASTModuleAccessSourceNode* source, ASTModuleAccessNode* moduleAccess, ASTModuleAccessTargetNode* target);
-    ASTModuleAccessSourceNode* getSource();
-    ASTModuleAccessTargetNode* getTarget();
+    ASTModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessSourceNode> source, std::shared_ptr<ASTModuleAccessNode> moduleAccess, std::shared_ptr<ASTModuleAccessTargetNode> target);
+    std::shared_ptr<ASTModuleAccessSourceNode> getSource();
+    std::shared_ptr<ASTModuleAccessTargetNode> getTarget();
     std::string getModuleTargetName();
     std::string getModuleName();
     std::string getModuleId() override;
@@ -28,7 +28,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

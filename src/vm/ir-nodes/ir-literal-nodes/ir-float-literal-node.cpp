@@ -4,7 +4,7 @@
 
 #include "ir-float-literal-node.h"
 
-IRFloatLiteralNode::IRFloatLiteralNode(ASTFloatLiteralNode* astNode, llvm::Constant* irValue) {
+IRFloatLiteralNode::IRFloatLiteralNode(std::shared_ptr<ASTFloatLiteralNode> astNode, llvm::Constant* irValue) {
     _astNode = astNode;
     _irValue = irValue;
     _type = new IRType(_irValue->getType());

@@ -6,19 +6,19 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTControlFlowBlockNode::ASTControlFlowBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode) {
+ASTControlFlowBlockNode::ASTControlFlowBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> contents, std::shared_ptr<ASTBlockEndNode> blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
-    _contents = std::vector<ASTNode*>();
-    _returnStatements = std::vector<ASTFunctionReturnExpressionNode*>();
+    _contents = std::vector<std::shared_ptr<ASTNode>>();
+    _returnStatements = std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>();
     _children.push_back(_blockStartNode);
     for (auto content: contents) {
         _contents.push_back(content);
         _children.push_back(content);
         if (content->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-            _returnStatements.push_back((ASTFunctionReturnExpressionNode*)content);
+            _returnStatements.push_back(std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(content));
         } else if (content->isScopedBlockNode()) {
-            auto scopeBlockNodeReturnStatements = ((ASTScopedBlockNode*)content)->getReturnStatements();
+            auto scopeBlockNodeReturnStatements = (std::dynamic_pointer_cast<ASTScopedBlockNode>(content))->getReturnStatements();
             _returnStatements.insert(
                     _returnStatements.end(),
                     scopeBlockNodeReturnStatements->begin(),
@@ -29,11 +29,11 @@ ASTControlFlowBlockNode::ASTControlFlowBlockNode(ASTBlockStartNode* blockStartNo
     _children.push_back(_blockEndNode);
 }
 
-std::vector<ASTNode*>* ASTControlFlowBlockNode::getContents() {
+std::vector<std::shared_ptr<ASTNode>>* ASTControlFlowBlockNode::getContents() {
     return &_contents;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTControlFlowBlockNode::getReturnStatements() {
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTControlFlowBlockNode::getReturnStatements() {
     return &_returnStatements;
 }
 
@@ -57,11 +57,11 @@ std::string ASTControlFlowBlockNode::toString() {
     return "CONTROL_FLOW_BLOCK";
 }
 
-bool ASTControlFlowBlockNode::isSameAs(ASTNode* other) {
+bool ASTControlFlowBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTControlFlowBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTControlFlowBlockNode>(other);
     for (unsigned long i = 0; i < _contents.size(); ++i) {
         if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;

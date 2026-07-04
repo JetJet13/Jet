@@ -14,22 +14,22 @@
 
 class ASTTupleTypeNode : public ASTTypeBaseNode {
 private:
-    ASTTupleTypeStartNode* _tupleTypeStartNode;
-    ASTTupleTypeEndNode* _tupleTypeEndNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTTypeNode*> _types;
+    std::shared_ptr<ASTTupleTypeStartNode> _tupleTypeStartNode;
+    std::shared_ptr<ASTTupleTypeEndNode> _tupleTypeEndNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTTypeNode>> _types;
 public:
-    ASTTupleTypeNode(ASTTupleTypeStartNode* tupleTypeStartNode, ASTTupleTypeEndNode* tupleTypeEndNode);
-    ASTTupleTypeNode(ASTTupleTypeStartNode* tupleTypeStartNode, std::vector<ASTTypeNode*> keyValueTypes, std::vector<ASTCommaNode*> commas, ASTTupleTypeEndNode* tupleTypeEndNode);
-    std::vector<ASTTypeNode*> getValueTypes();
+    ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode);
+    ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::vector<std::shared_ptr<ASTTypeNode>> keyValueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode);
+    std::vector<std::shared_ptr<ASTTypeNode>> getValueTypes();
     unsigned long numValueTypes();
-    ASTTupleTypeNode* addComma(ASTCommaNode* comma);
-    ASTTupleTypeNode* addValueType(ASTTypeNode* type);
+    std::shared_ptr<ASTTupleTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
+    std::shared_ptr<ASTTupleTypeNode> addValueType(std::shared_ptr<ASTTypeNode> type);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

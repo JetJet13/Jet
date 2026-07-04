@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock) {
+ASTIfStatementNode::ASTIfStatementNode(std::shared_ptr<ASTIfBlockNode> ifBlock) {
     _ifBlock = ifBlock;
-    _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
+    _elseIfBlocks = std::vector<std::shared_ptr<ASTElseIfBlockNode>>();
     _elseBlock = {};
     _children.push_back(_ifBlock);
 }
 
-ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTElseIfBlockNode*> elseIfBlocks, std::optional<ASTElseBlockNode*> elseBlock) {
+ASTIfStatementNode::ASTIfStatementNode(std::shared_ptr<ASTIfBlockNode> ifBlock, std::vector<std::shared_ptr<ASTElseIfBlockNode>> elseIfBlocks, std::optional<std::shared_ptr<ASTElseBlockNode>> elseBlock) {
     _ifBlock = ifBlock;
     _children.push_back(_ifBlock);
 
@@ -22,27 +22,27 @@ ASTIfStatementNode::ASTIfStatementNode(ASTIfBlockNode* ifBlock, std::vector<ASTE
         _children.push_back(_elseBlock.value());
     }
 
-    _elseIfBlocks = std::vector<ASTElseIfBlockNode*>();
+    _elseIfBlocks = std::vector<std::shared_ptr<ASTElseIfBlockNode>>();
     for (auto elseIfBlock: elseIfBlocks) {
         _elseIfBlocks.push_back(elseIfBlock);
         _children.push_back(elseIfBlock);
     }
 }
 
-ASTIfStatementNode* ASTIfStatementNode::addElseIfBlock(ASTElseIfBlockNode* elseIfBlock) {
+std::shared_ptr<ASTIfStatementNode> ASTIfStatementNode::addElseIfBlock(std::shared_ptr<ASTElseIfBlockNode> elseIfBlock) {
     _elseIfBlocks.push_back(elseIfBlock);
-    return this;
+    return std::dynamic_pointer_cast<ASTIfStatementNode>(shared_from_this());
 }
 
-ASTIfBlockNode* ASTIfStatementNode::getIfBlock() {
+std::shared_ptr<ASTIfBlockNode> ASTIfStatementNode::getIfBlock() {
     return _ifBlock;
 }
 
-std::vector<ASTElseIfBlockNode*>* ASTIfStatementNode::getElseIfBlocks() {
+std::vector<std::shared_ptr<ASTElseIfBlockNode>>* ASTIfStatementNode::getElseIfBlocks() {
     return &_elseIfBlocks;
 }
 
-std::optional<ASTElseBlockNode*> ASTIfStatementNode::getElseBlock() {
+std::optional<std::shared_ptr<ASTElseBlockNode>> ASTIfStatementNode::getElseBlock() {
     return _elseBlock;
 }
 
@@ -74,11 +74,11 @@ std::string ASTIfStatementNode::toString() {
     return "IF_STATEMENT";
 }
 
-bool ASTIfStatementNode::isSameAs(ASTNode* other) {
+bool ASTIfStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTIfStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTIfStatementNode>(other);
     if (!this->getIfBlock()->isSameAs(otherNode->getIfBlock())) {
         return false;
     }

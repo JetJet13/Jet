@@ -6,21 +6,21 @@
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 
 
-ASTNode* NewClassInstanceExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> NewClassInstanceExpressionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 3) {
         throw std::invalid_argument("unable to reduce to new class instance expression since nodes list is not of size 3");
     }
 
     if (nodes.at(1)->is(AST_CLASS_NAME_NODE)) {
-        return new ASTNewClassInstanceExpressionNode(
-                (ASTNewNode*)nodes[0],
-                (ASTClassNameNode*)nodes[1],
-                (ASTFunctionArgumentListNode*)nodes[2]
+        return std::make_shared<ASTNewClassInstanceExpressionNode>(
+                std::dynamic_pointer_cast<ASTNewNode>(nodes[0]),
+                std::dynamic_pointer_cast<ASTClassNameNode>(nodes[1]),
+                std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(nodes[2])
         );
     }
-    return new ASTNewClassInstanceExpressionNode(
-            (ASTNewNode*)nodes[0],
-            (ASTModuleAccessExpressionNode*)nodes[1],
-            (ASTFunctionArgumentListNode*)nodes[2]
+    return std::make_shared<ASTNewClassInstanceExpressionNode>(
+            std::dynamic_pointer_cast<ASTNewNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(nodes[1]),
+            std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(nodes[2])
     );
 }

@@ -4,7 +4,7 @@
 
 #include "ir-if-statement-node.h"
 
-IRIfStatementNode::IRIfStatementNode(ASTIfStatementNode* node, IRIfElseNode* ifElseNode, std::optional<IRBlockNode*> elseNode) {
+IRIfStatementNode::IRIfStatementNode(std::shared_ptr<ASTIfStatementNode> node, IRIfElseNode* ifElseNode, std::optional<IRBlockNode*> elseNode) {
     _node = node;
     _ifElseNode = ifElseNode;
     _elseNode = elseNode;

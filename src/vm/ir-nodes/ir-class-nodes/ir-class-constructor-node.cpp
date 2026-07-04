@@ -4,14 +4,14 @@
 
 #include "ir-class-constructor-node.h"
 
-IRClassConstructorNode::IRClassConstructorNode(ASTClassConstructorDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
+IRClassConstructorNode::IRClassConstructorNode(std::shared_ptr<ASTClassConstructorDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameters = irParameters;
     _irBlock = irBlock;
 }
 
-ASTClassConstructorDeclarationNode* IRClassConstructorNode::getNode() {
+std::shared_ptr<ASTClassConstructorDeclarationNode> IRClassConstructorNode::getNode() {
     return _node;
 }
 

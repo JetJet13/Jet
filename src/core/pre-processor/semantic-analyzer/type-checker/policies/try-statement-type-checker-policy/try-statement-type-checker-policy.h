@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
 
 namespace TryStatementTypeCheckerPolicy {
-    void apply(ASTTryStatementNode* tryStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_TRY_STATEMENT_TYPE_CHECKER_POLICY_H

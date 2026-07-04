@@ -7,12 +7,12 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varInit, ASTExpressionNode* initializer, std::optional<ASTExportNode*> exportKeyword) {
+ASTVariableDeclarationNode::ASTVariableDeclarationNode(std::shared_ptr<ASTVariableInitNode> varInit, std::shared_ptr<ASTExpressionNode> initializer, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _varInit = varInit;
     _initializer = initializer;
     _exportKeyword = exportKeyword;
-    _varInit->setParentNode(this);
-    _initializer->setParentNode(this);
+//    _varInit->setParentNode(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(shared_from_this()));
+//    _initializer->setParentNode(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(shared_from_this()));
     _children.push_back(_varInit);
     _children.push_back(_initializer);
     if (_exportKeyword) {
@@ -21,11 +21,11 @@ ASTVariableDeclarationNode::ASTVariableDeclarationNode(ASTVariableInitNode* varI
 
 }
 
-ASTVariableInitNode* ASTVariableDeclarationNode::getVarInitNode() {
+std::shared_ptr<ASTVariableInitNode> ASTVariableDeclarationNode::getVarInitNode() {
     return _varInit;
 }
 
-ASTExpressionNode* ASTVariableDeclarationNode::getInitializerNode() {
+std::shared_ptr<ASTExpressionNode> ASTVariableDeclarationNode::getInitializerNode() {
     return _initializer;
 }
 
@@ -73,12 +73,12 @@ std::string ASTVariableDeclarationNode::toString() {
     return "VARIABLE_DECLARATION";
 }
 
-bool ASTVariableDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTVariableDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTVariableDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTVariableDeclarationNode>(other);
     if (!this->isExportable() && otherNode->isExportable() || this->isExportable() && !otherNode->isExportable()) {
         return false;
     }

@@ -6,26 +6,26 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTModuleListNode::ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, ASTModuleListEndNode* moduleListEndNode) {
+ASTModuleListNode::ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode) {
     _moduleListStartNode = moduleListStartNode;
     _moduleListEndNode = moduleListEndNode;
     _children.push_back(_moduleListStartNode);
     _children.push_back(_moduleListEndNode);
-    _items = std::vector<ASTModuleListItemNode*>();
+    _items = std::vector<std::shared_ptr<ASTModuleListItemNode>>();
 }
 
-ASTModuleListNode::ASTModuleListNode(ASTModuleListStartNode* moduleListStartNode, std::vector<ASTModuleListItemNode*> items, ASTModuleListEndNode* moduleListEndNode) {
+ASTModuleListNode::ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::vector<std::shared_ptr<ASTModuleListItemNode>> items, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode) {
     _moduleListStartNode = moduleListStartNode;
     _moduleListEndNode = moduleListEndNode;
     _children.push_back(_moduleListStartNode);
     _children.push_back(_moduleListEndNode);
-    _items = std::vector<ASTModuleListItemNode*>();
+    _items = std::vector<std::shared_ptr<ASTModuleListItemNode>>();
     for (auto item: items) {
         this->addItem(item);
     }
 }
 
-std::vector<ASTModuleListItemNode*> ASTModuleListNode::getItems() {
+std::vector<std::shared_ptr<ASTModuleListItemNode>> ASTModuleListNode::getItems() {
     return _items;
 }
 
@@ -33,10 +33,10 @@ unsigned long ASTModuleListNode::numItems() {
     return _items.size();
 }
 
-ASTModuleListNode* ASTModuleListNode::addItem(ASTModuleListItemNode* item) {
+std::shared_ptr<ASTModuleListNode> ASTModuleListNode::addItem(std::shared_ptr<ASTModuleListItemNode> item) {
     _items.push_back(item);
     _children.push_back(item);
-    return this;
+    return std::dynamic_pointer_cast<ASTModuleListNode>(shared_from_this());
 }
 
 Position* ASTModuleListNode::getStartPosition() {
@@ -55,11 +55,11 @@ std::string ASTModuleListNode::toString() {
     return "MODULE_LIST";
 }
 
-bool ASTModuleListNode::isSameAs(ASTNode* other) {
+bool ASTModuleListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleListNode>(other);
     auto otherNodeElements = otherNode->getItems();
     if (this->numItems() != otherNode->numItems()) {
         return false;

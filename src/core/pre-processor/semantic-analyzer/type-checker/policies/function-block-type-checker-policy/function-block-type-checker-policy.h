@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-block-node.h"
 
 namespace FunctionBlockTypeCheckerPolicy {
-    void apply(ASTFunctionBlockNode* functionBlock, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionBlockNode> functionBlock, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_FUNCTION_BLOCK_TYPE_CHECKER_POLICY_H

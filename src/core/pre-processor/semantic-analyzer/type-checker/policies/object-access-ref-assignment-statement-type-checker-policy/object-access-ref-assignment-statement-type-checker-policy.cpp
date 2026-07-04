@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ObjectAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTObjectAccessRefAssignmentStatementNode* objectAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTObjectAccessRefAssignmentStatementNode> objectAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
         auto statementUnknownMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeUnknown(objectAccessRefAssignmentStatementNode);
         auto statementInvalidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeInvalid(objectAccessRefAssignmentStatementNode);
         auto statementVoidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeVoid(objectAccessRefAssignmentStatementNode);

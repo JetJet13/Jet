@@ -5,12 +5,12 @@
 #include "ast-import-path-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTImportPathNode::ASTImportPathNode(ASTStringLiteralNode* importPath) {
+ASTImportPathNode::ASTImportPathNode(std::shared_ptr<ASTStringLiteralNode> importPath) {
     _importPath = importPath;
     _children.push_back(_importPath);
 }
 
-ASTStringLiteralNode* ASTImportPathNode::getImportPath() {
+std::shared_ptr<ASTStringLiteralNode> ASTImportPathNode::getImportPath() {
     return _importPath;
 }
 
@@ -30,11 +30,11 @@ std::string ASTImportPathNode::toString() {
     return "IMPORT_PATH";
 }
 
-bool ASTImportPathNode::isSameAs(ASTNode* other) {
+bool ASTImportPathNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportPathNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportPathNode>(other);
     return this->getImportPath()->isSameAs(otherNode->getImportPath());
 }
 

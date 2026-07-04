@@ -11,7 +11,7 @@
 
 class TupleAccessAssignmentStatementTypeSignatureStrategy {
 public:
-    void assign(ASTTupleAccessAssignmentStatementNode* tupleAccessAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTTupleAccessAssignmentStatementNode> tupleAccessAssignmentStatement, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_TYPE_SIGNATURE_STRATEGY_H

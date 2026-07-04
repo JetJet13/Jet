@@ -4,7 +4,7 @@
 
 #include "ir-function-return-expression-node.h"
 
-IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(ASTFunctionReturnExpressionNode* node, std::optional<IRExpressionNode*> irExpression) {
+IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnExpressionNode> node, std::optional<IRExpressionNode*> irExpression) {
     _node = node;
     _irExpression = irExpression;
 }

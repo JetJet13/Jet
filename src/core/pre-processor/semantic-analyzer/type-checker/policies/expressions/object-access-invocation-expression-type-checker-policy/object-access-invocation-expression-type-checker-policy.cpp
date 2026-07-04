@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getSource()->getSource(), typeCheckerResult);
         TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult);
         objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->print();

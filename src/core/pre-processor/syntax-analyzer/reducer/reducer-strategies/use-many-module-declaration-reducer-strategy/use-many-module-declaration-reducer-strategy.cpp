@@ -8,15 +8,15 @@
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.h"
 #include "../../../../../ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h"
 
-ASTNode* UseManyModuleDeclarationReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> UseManyModuleDeclarationReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 4) {
         throw std::invalid_argument("unable to reduce to use many module declaration since nodes list is not 4");
     }
 
-    return new ASTUseManyModuleDeclarationNode(
-            (ASTUseNode*)nodes[0],
-            (ASTImportModuleListByGroupItemNode*)nodes[1],
-            (ASTFromNode*)nodes[2],
-            (ASTImportPathNode*)nodes[3]
+    return std::make_shared<ASTUseManyModuleDeclarationNode>(
+            std::dynamic_pointer_cast<ASTUseNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTImportModuleListByGroupItemNode>(nodes[1]),
+            std::dynamic_pointer_cast<ASTFromNode>(nodes[2]),
+            std::dynamic_pointer_cast<ASTImportPathNode>(nodes[3])
     );
 }

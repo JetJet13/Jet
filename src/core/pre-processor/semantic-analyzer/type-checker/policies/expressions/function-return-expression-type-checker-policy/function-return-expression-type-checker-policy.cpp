@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace FunctionReturnExpressionTypeCheckerPolicy {
-    void apply(ASTFunctionReturnExpressionNode* functionReturnExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionReturnExpressionNode> functionReturnExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(functionReturnExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(functionReturnExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

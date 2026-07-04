@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTClassPropertyRefValueAssignmentStatementNode* classPropertyRefValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> classPropertyRefValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown(classPropertyRefValueAssignmentStatementNode);
         auto invalidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid(classPropertyRefValueAssignmentStatementNode);
         auto voidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeVoid(classPropertyRefValueAssignmentStatementNode);

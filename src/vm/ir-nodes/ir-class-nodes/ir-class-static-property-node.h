@@ -11,12 +11,12 @@
 
 class IRClassStaticPropertyNode {
 private:
-    ASTClassPropertyDeclarationNode* _node;
+    std::shared_ptr<ASTClassPropertyDeclarationNode> _node;
     llvm::GlobalVariable* _irValue;
     IRExpressionNode* _initialIRValue;
     IRType* _irType;
 public:
-    IRClassStaticPropertyNode(ASTClassPropertyDeclarationNode* node, llvm::GlobalVariable* irValue, IRExpressionNode* initialIRValue, IRType* irType);
+    IRClassStaticPropertyNode(std::shared_ptr<ASTClassPropertyDeclarationNode> node, llvm::GlobalVariable* irValue, IRExpressionNode* initialIRValue, IRType* irType);
     llvm::GlobalVariable* getGlobalVariable();
     IRExpressionNode* getInitialIRValue();
     IRType* getIRType();

@@ -7,26 +7,26 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTArrayAccessInvocationExpressionNode::ASTArrayAccessInvocationExpressionNode(ASTArrayAccessExpressionNode* arrayAccess, ASTFunctionArgumentListNode* arguments) {
+ASTArrayAccessInvocationExpressionNode::ASTArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _arrayAccess = arrayAccess;
     _arguments = arguments;
     _children.push_back(_arrayAccess);
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTArrayAccessInvocationExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTArrayAccessInvocationExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTArrayAccessExpressionNode* ASTArrayAccessInvocationExpressionNode::getArrayAccess() {
+std::shared_ptr<ASTArrayAccessExpressionNode> ASTArrayAccessInvocationExpressionNode::getArrayAccess() {
     return _arrayAccess;
 }
 
-ASTExpressionNode* ASTArrayAccessInvocationExpressionNode::getSource() {
+std::shared_ptr<ASTExpressionNode> ASTArrayAccessInvocationExpressionNode::getSource() {
     return _arrayAccess->getSource();
 }
 
-ASTArrayAccessNode* ASTArrayAccessInvocationExpressionNode::getIndex() {
+std::shared_ptr<ASTArrayAccessNode> ASTArrayAccessInvocationExpressionNode::getIndex() {
     return _arrayAccess->getIndex();
 }
 
@@ -54,11 +54,11 @@ std::string ASTArrayAccessInvocationExpressionNode::toString() {
     return "AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE";
 }
 
-bool ASTArrayAccessInvocationExpressionNode::isSameAs(ASTNode* other) {
+bool ASTArrayAccessInvocationExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTArrayAccessInvocationExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(other);
 
     return this->getArrayAccess()->isSameAs(otherNode->getArrayAccess()) &&
            this->getArguments()->isSameAs(otherNode->getArguments());

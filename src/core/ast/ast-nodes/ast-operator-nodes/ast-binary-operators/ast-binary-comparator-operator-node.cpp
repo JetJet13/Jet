@@ -53,11 +53,11 @@ std::string ASTBinaryComparatorOperatorNode::toString() {
     return "BINARY_COMPARATOR_OPERATOR";
 }
 
-bool ASTBinaryComparatorOperatorNode::isSameAs(ASTNode* other) {
+bool ASTBinaryComparatorOperatorNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTBinaryComparatorOperatorNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTBinaryComparatorOperatorNode>(other);
     return this->getOperator()->hasSameSymbolTypeAs(otherNode->getOperator());
 }
 

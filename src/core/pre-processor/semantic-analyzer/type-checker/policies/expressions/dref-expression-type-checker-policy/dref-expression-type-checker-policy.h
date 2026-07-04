@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 
 namespace DrefExpressionTypeCheckerPolicy {
-    void apply(ASTDrefExpressionNode* drefExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTDrefExpressionNode> drefExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_DREF_EXPRESSION_TYPE_CHECKER_POLICY_H

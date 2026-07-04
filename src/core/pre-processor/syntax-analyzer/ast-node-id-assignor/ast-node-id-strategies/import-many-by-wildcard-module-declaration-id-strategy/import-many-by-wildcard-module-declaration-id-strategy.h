@@ -11,7 +11,7 @@
 class ImportManyByWildcardModuleDeclarationIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 

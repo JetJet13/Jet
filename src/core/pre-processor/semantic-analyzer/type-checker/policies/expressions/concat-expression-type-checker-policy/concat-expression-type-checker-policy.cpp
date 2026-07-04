@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace ConcatExpressionTypeCheckerPolicy {
-    void apply(ASTConcatExpressionNode* concatExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTConcatExpressionNode> concatExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(concatExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(concatExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(concatExpression);

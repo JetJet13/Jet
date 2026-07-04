@@ -5,13 +5,13 @@
 #include "else-block-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-control-flow-nodes/ast-else-block-node.h"
 
-ASTNode* ElseBlockReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ElseBlockReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 2) {
         throw std::invalid_argument("unable to reduce to else block since nodes list is not of size 2");
     }
 
-    return new ASTElseBlockNode(
-            (ASTElseNode*)nodes[0],
-            (ASTControlFlowBlockNode*)nodes[1]
+    return std::make_shared<ASTElseBlockNode>(
+            std::dynamic_pointer_cast<ASTElseNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTControlFlowBlockNode>(nodes[1])
     );
 }

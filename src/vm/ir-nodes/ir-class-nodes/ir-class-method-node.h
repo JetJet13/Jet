@@ -13,13 +13,13 @@
 
 class IRClassMethodNode {
 private:
-    ASTClassMethodDeclarationNode* _node;
+    std::shared_ptr<ASTClassMethodDeclarationNode> _node;
     llvm::Function* _irValue;
     IRBlockNode* _irBlock;
     IRFunctionParameterListNode* _irParameters;
 public:
-    IRClassMethodNode(ASTClassMethodDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock);
-    ASTClassMethodDeclarationNode* getNode();
+    IRClassMethodNode(std::shared_ptr<ASTClassMethodDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock);
+    std::shared_ptr<ASTClassMethodDeclarationNode> getNode();
     llvm::Function* getFunction();
     IRFunctionParameterListNode* getParameters();
     IRBlockNode* getBlock();

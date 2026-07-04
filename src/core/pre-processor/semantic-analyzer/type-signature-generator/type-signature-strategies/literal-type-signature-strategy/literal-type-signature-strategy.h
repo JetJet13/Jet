@@ -12,7 +12,7 @@
 
 class LiteralTypeSignatureStrategy {
 public:
-    void assign(ASTLiteralNode* literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable);
+    void assign(std::shared_ptr<ASTLiteralNode> literalNode, LiteralTypeSignatureLookupTable* literalTypeSignatureLookupTable);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_STRATEGY_H

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTInterfaceTypeDeclarationNode::ASTInterfaceTypeDeclarationNode(ASTInterfaceDefinitionNode* interfaceDefinition, ASTInterfacePropertyListNode* propertyList, std::optional<ASTExportNode*> exportKeyword) {
+ASTInterfaceTypeDeclarationNode::ASTInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceDefinitionNode> interfaceDefinition, std::shared_ptr<ASTInterfacePropertyListNode> propertyList, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword) {
     _interfaceDefinition = interfaceDefinition;
     _propertyList = propertyList;
     _exportKeyword = exportKeyword;
@@ -17,11 +17,11 @@ ASTInterfaceTypeDeclarationNode::ASTInterfaceTypeDeclarationNode(ASTInterfaceDef
     }
 }
 
-ASTInterfacePropertyListNode* ASTInterfaceTypeDeclarationNode::getProperties() {
+std::shared_ptr<ASTInterfacePropertyListNode> ASTInterfaceTypeDeclarationNode::getProperties() {
     return _propertyList;
 }
 
-ASTInterfaceNameNode* ASTInterfaceTypeDeclarationNode::getName() {
+std::shared_ptr<ASTInterfaceNameNode> ASTInterfaceTypeDeclarationNode::getName() {
     return _interfaceDefinition->getName();
 }
 
@@ -57,11 +57,11 @@ std::string ASTInterfaceTypeDeclarationNode::toString() {
     return "INTERFACE_TYPE_DECLARATION";
 }
 
-bool ASTInterfaceTypeDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTInterfaceTypeDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTInterfaceTypeDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(other);
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getProperties()->isSameAs(otherNode->getProperties());
 }

@@ -7,7 +7,7 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace InterfaceTypeDeclarationTypeCheckerPolicy {
-    void apply(ASTInterfaceTypeDeclarationNode* interfaceTypeDeclaration, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTInterfaceTypeDeclarationNode> interfaceTypeDeclaration, TypeCheckerResult* typeCheckerResult) {
         auto propertyNames = std::vector<std::string>();
         for (auto property : interfaceTypeDeclaration->getProperties()->getProperties()) {
             propertyNames.push_back(property->getName()->getId());

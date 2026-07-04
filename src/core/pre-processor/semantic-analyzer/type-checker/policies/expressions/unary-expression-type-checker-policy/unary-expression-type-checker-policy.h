@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.h"
 
 namespace UnaryExpressionTypeCheckerPolicy {
-    void apply(ASTUnaryExpressionNode* unaryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTUnaryExpressionNode> unaryExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_UNARY_EXPRESSION_TYPE_CHECKER_POLICY_H

@@ -12,16 +12,16 @@
 
 class ASTClassPropertyAccessExpressionNode : public ASTExpressionNode {
 private:
-    ASTClassPropertyAccessNode* _propertyAccess;
+    std::shared_ptr<ASTClassPropertyAccessNode> _propertyAccess;
 public:
-    ASTClassPropertyAccessExpressionNode(ASTClassPropertyAccessNode* propertyAccess);
-    ASTClassPropertyAccessNode* getPropertyAccess();
+    ASTClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessNode> propertyAccess);
+    std::shared_ptr<ASTClassPropertyAccessNode> getPropertyAccess();
     std::string getPropertyName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

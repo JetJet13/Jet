@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content) {
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content) {
     _classMethodDefinition = classMethodDefinition;
     _block = content;
     _typeColon = {};
@@ -17,7 +17,7 @@ ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefin
     _children.push_back(_block);
 }
 
-ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefinitionNode* classMethodDefinition, ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* content, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(std::shared_ptr<ASTClassMethodDefinitionNode> classMethodDefinition, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> content, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType) {
     _classMethodDefinition = classMethodDefinition;
     _block = content;
     _typeColon = typeColon;
@@ -30,19 +30,19 @@ ASTClassMethodDeclarationNode::ASTClassMethodDeclarationNode(ASTClassMethodDefin
     _children.push_back(_block);
 }
 
-ASTClassMethodDefinitionNode* ASTClassMethodDeclarationNode::getClassMethodDefinition() {
+std::shared_ptr<ASTClassMethodDefinitionNode> ASTClassMethodDeclarationNode::getClassMethodDefinition() {
     return _classMethodDefinition;
 }
 
-ASTFunctionParameterListNode* ASTClassMethodDeclarationNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTClassMethodDeclarationNode::getParameters() {
     return _parameters;
 }
 
-std::optional<ASTTypeNode*> ASTClassMethodDeclarationNode::getReturnType() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTClassMethodDeclarationNode::getReturnType() {
     return _returnType;
 }
 
-ASTFunctionBlockNode* ASTClassMethodDeclarationNode::getBlock() {
+std::shared_ptr<ASTFunctionBlockNode> ASTClassMethodDeclarationNode::getBlock() {
     return _block;
 }
 
@@ -78,11 +78,11 @@ std::string ASTClassMethodDeclarationNode::toString() {
     return "CLASS_METHOD_DECLARATION";
 }
 
-bool ASTClassMethodDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTClassMethodDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassMethodDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassMethodDeclarationNode>(other);
 
     if (!_returnType.has_value() && otherNode->getReturnType().has_value() ||
         _returnType.has_value() && !otherNode->getReturnType().has_value()) {

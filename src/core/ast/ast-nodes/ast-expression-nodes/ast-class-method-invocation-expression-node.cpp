@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(ASTClassAccessNode* classAccess, ASTClassMethodCallNode* method, ASTFunctionArgumentListNode* arguments) {
+ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassAccessNode> classAccess, std::shared_ptr<ASTClassMethodCallNode> method, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _classAccess = classAccess;
     _method = method;
     _arguments = arguments;
@@ -15,15 +15,15 @@ ASTClassMethodInvocationExpressionNode::ASTClassMethodInvocationExpressionNode(A
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTClassMethodInvocationExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTClassMethodInvocationExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTClassMethodCallNode* ASTClassMethodInvocationExpressionNode::getName() {
+std::shared_ptr<ASTClassMethodCallNode> ASTClassMethodInvocationExpressionNode::getName() {
     return _method;
 }
 
-ASTClassAccessNode* ASTClassMethodInvocationExpressionNode::getClassAccess() {
+std::shared_ptr<ASTClassAccessNode> ASTClassMethodInvocationExpressionNode::getClassAccess() {
     return _classAccess;
 }
 
@@ -47,11 +47,11 @@ std::string ASTClassMethodInvocationExpressionNode::toString() {
     return "CLASS_METHOD_INVOCATION_EXPRESSION";
 }
 
-bool ASTClassMethodInvocationExpressionNode::isSameAs(ASTNode* other) {
+bool ASTClassMethodInvocationExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassMethodInvocationExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(other);
 
     return this->getName()->isSameAs(otherNode->getName()) &&
            this->getArguments()->isSameAs(otherNode->getArguments());

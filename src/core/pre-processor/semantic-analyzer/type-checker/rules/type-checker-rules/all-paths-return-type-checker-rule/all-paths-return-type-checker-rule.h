@@ -16,12 +16,12 @@
 
 class AllPathsReturnTypeCheckerRule : public TypeCheckerRule {
 private:
-    bool verifyAllIfStatementPathsReturn(ASTIfStatementNode* ifStatementNode);
-    bool verifyAllTryStatementPathsReturn(ASTTryStatementNode* tryStatementNode);
-    bool verifyAllBlockPathsReturn(std::vector<ASTNode*>* blockContents);
+    bool verifyAllIfStatementPathsReturn(std::shared_ptr<ASTIfStatementNode> ifStatementNode);
+    bool verifyAllTryStatementPathsReturn(std::shared_ptr<ASTTryStatementNode> tryStatementNode);
+    bool verifyAllBlockPathsReturn(std::vector<std::shared_ptr<ASTNode>>* blockContents);
     bool verifyAllPathsReturn(std::vector<bool>* allPathsReturnResults);
 public:
-    void enforce(ASTFunctionBlockNode* functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

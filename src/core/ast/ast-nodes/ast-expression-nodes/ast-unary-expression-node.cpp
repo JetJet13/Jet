@@ -7,18 +7,18 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTUnaryExpressionNode::ASTUnaryExpressionNode(ASTUnaryOperatorNode* unaryOperator, ASTExpressionNode* astExpressionNode) {
+ASTUnaryExpressionNode::ASTUnaryExpressionNode(std::shared_ptr<ASTUnaryOperatorNode> unaryOperator, std::shared_ptr<ASTExpressionNode> astExpressionNode) {
     _unaryOperator = unaryOperator;
     _expression = astExpressionNode;
     _children.push_back(_unaryOperator);
     _children.push_back(_expression);
 }
 
-ASTExpressionNode* ASTUnaryExpressionNode::getExpressionNode() {
+std::shared_ptr<ASTExpressionNode> ASTUnaryExpressionNode::getExpressionNode() {
     return _expression;
 }
 
-ASTUnaryOperatorNode* ASTUnaryExpressionNode::getUnaryOperatorNode() {
+std::shared_ptr<ASTUnaryOperatorNode> ASTUnaryExpressionNode::getUnaryOperatorNode() {
     return _unaryOperator;
 }
 
@@ -38,11 +38,11 @@ std::string ASTUnaryExpressionNode::toString() {
     return "UNARY_EXPRESSION";
 }
 
-bool ASTUnaryExpressionNode::isSameAs(ASTNode* other) {
+bool ASTUnaryExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTUnaryExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTUnaryExpressionNode>(other);
     return this->getUnaryOperatorNode()->isSameAs(otherNode->getUnaryOperatorNode()) &&
            this->getExpressionNode()->isSameAs(otherNode->getExpressionNode());
 }

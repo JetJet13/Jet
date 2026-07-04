@@ -13,7 +13,7 @@
 
 class TypeSignatureMismatchTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::optional<ASTNode*> node, std::optional<ASTNode*> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::optional<std::shared_ptr<ASTNode>> node, std::optional<std::shared_ptr<ASTNode>> otherNode, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
     void enforce(TypeSignature* typeSignature, TypeSignature* otherTypeSignature, ErrorMessageLambda& mismatchMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;

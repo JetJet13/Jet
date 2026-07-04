@@ -6,7 +6,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto operation = this->determineOperationType(node);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irContext);
@@ -54,14 +54,14 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(ASTVariableDe
     return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGenerator->generateRawString(node->getId()), irGlobalVariable, irArc);
 }
 
-IROperation* VariableDeclarationIRStrategy::determineOperationType(ASTVariableDeclarationNode* node) {
+IROperation* VariableDeclarationIRStrategy::determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node) {
     if (node->isGlobal()) {
         return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? (new IROperation(IR_REF_ASSIGNMENT_OP))->markAsGlobal() : (new IROperation(IR_COPY_ASSIGNMENT_OP))->markAsGlobal();
     }
     return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? new IROperation(IR_REF_ASSIGNMENT_OP) : new IROperation(IR_COPY_ASSIGNMENT_OP);
 }
 
-IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext) {
+IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext) {
     if (node->isCaptured()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

@@ -12,10 +12,10 @@
 
 class VariableDeclarationIRStrategy {
 private:
-    IROperation* determineOperationType(ASTVariableDeclarationNode* node);
-    IRInstructionNode* generateVariableAllocation(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext);
+    IROperation* determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node);
+    IRInstructionNode* generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext);
 public:
-    IRVariableDeclarationNode* generate(ASTVariableDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRVariableDeclarationNode* generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_IR_STRATEGY_H

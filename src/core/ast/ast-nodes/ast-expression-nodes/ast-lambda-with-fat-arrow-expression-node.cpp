@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression) {
+ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTLambdaReturnExpressionNode> returnExpression) {
     _parameters = parameters;
     _returnExpression = returnExpression;
     _typeColon = {};
@@ -16,7 +16,7 @@ ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunc
     _children.push_back(_returnExpression);
 }
 
-ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunctionParameterListNode* parameters, ASTLambdaReturnExpressionNode* returnExpression, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTLambdaReturnExpressionNode> returnExpression, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType) {
     _parameters = parameters;
     _returnExpression = returnExpression;
     _typeColon = typeColon;
@@ -28,15 +28,15 @@ ASTLambdaWithFatArrowExpressionNode::ASTLambdaWithFatArrowExpressionNode(ASTFunc
     _children.push_back(_returnExpression);
 }
 
-ASTFunctionParameterListNode* ASTLambdaWithFatArrowExpressionNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTLambdaWithFatArrowExpressionNode::getParameters() {
     return _parameters;
 }
 
-ASTLambdaReturnExpressionNode* ASTLambdaWithFatArrowExpressionNode::getReturnExpression() {
+std::shared_ptr<ASTLambdaReturnExpressionNode> ASTLambdaWithFatArrowExpressionNode::getReturnExpression() {
     return _returnExpression;
 }
 
-std::optional<ASTTypeNode*> ASTLambdaWithFatArrowExpressionNode::getReturnType() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTLambdaWithFatArrowExpressionNode::getReturnType() {
     return _returnType;
 }
 
@@ -72,11 +72,11 @@ std::string ASTLambdaWithFatArrowExpressionNode::toString() {
     return "LAMBDA_WITH_FAT_ARROW_EXPRESSION";
 }
 
-bool ASTLambdaWithFatArrowExpressionNode::isSameAs(ASTNode* other) {
+bool ASTLambdaWithFatArrowExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaWithFatArrowExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(other);
 
     if (!_returnType.has_value() && otherNode->getReturnType().has_value() ||
         _returnType.has_value() && !otherNode->getReturnType().has_value()) {

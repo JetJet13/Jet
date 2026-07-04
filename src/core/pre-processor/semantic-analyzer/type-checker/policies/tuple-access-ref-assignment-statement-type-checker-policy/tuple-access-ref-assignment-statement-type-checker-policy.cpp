@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace TupleAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTTupleAccessRefAssignmentStatementNode* tupleAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> tupleAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
         auto statementUnknownMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeUnknown(tupleAccessRefAssignmentStatementNode);
         auto statementInvalidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeInvalid(tupleAccessRefAssignmentStatementNode);
         auto statementVoidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeVoid(tupleAccessRefAssignmentStatementNode);

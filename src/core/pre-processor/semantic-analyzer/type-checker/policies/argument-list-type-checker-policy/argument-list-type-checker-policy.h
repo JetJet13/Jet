@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.h"
 
 namespace ArgumentListTypeCheckerPolicy {
-    void apply(ASTFunctionArgumentListNode* functionArgumentList, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionArgumentListNode> functionArgumentList, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_ARGUMENT_LIST_TYPE_CHECKER_POLICY_H

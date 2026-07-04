@@ -11,7 +11,7 @@
 
 class IRBinaryComparisonExpressionNode : public IRBinaryExpressionNode {
 private:
-    ASTBinaryComparatorExpressionNode* _node;
+    std::shared_ptr<ASTBinaryComparatorExpressionNode> _node;
     llvm::CmpInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
@@ -19,7 +19,7 @@ private:
     IRType* _leftIrType;
     IRType* _rightIrType;
 public:
-    IRBinaryComparisonExpressionNode(ASTBinaryComparatorExpressionNode* astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
+    IRBinaryComparisonExpressionNode(std::shared_ptr<ASTBinaryComparatorExpressionNode> astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
     void markAsGlobal() override;
     llvm::CmpInst* getValue() override;
     bool isPredicateEqual();

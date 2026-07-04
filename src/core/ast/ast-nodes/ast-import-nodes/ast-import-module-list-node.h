@@ -13,20 +13,20 @@
 
 class ASTImportModuleListNode : public ASTNode {
 private:
-    ASTImportModuleListStartNode* _importModuleListStartNode;
-    ASTImportModuleListEndNode* _importModuleListEndNode;
-    std::vector<ASTImportModuleListItemNode*> _items;
+    std::shared_ptr<ASTImportModuleListStartNode> _importModuleListStartNode;
+    std::shared_ptr<ASTImportModuleListEndNode> _importModuleListEndNode;
+    std::vector<std::shared_ptr<ASTImportModuleListItemNode>> _items;
 public:
-    ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, ASTImportModuleListEndNode* importModuleListEndNode);
-    ASTImportModuleListNode(ASTImportModuleListStartNode* importModuleListStartNode, std::vector<ASTImportModuleListItemNode*> items, ASTImportModuleListEndNode* importModuleListEndNode);
-    std::vector<ASTImportModuleListItemNode*> getItems();
+    ASTImportModuleListNode(std::shared_ptr<ASTImportModuleListStartNode> importModuleListStartNode, std::shared_ptr<ASTImportModuleListEndNode> importModuleListEndNode);
+    ASTImportModuleListNode(std::shared_ptr<ASTImportModuleListStartNode> importModuleListStartNode, std::vector<std::shared_ptr<ASTImportModuleListItemNode>> items, std::shared_ptr<ASTImportModuleListEndNode> importModuleListEndNode);
+    std::vector<std::shared_ptr<ASTImportModuleListItemNode>> getItems();
     unsigned long numItems();
-    ASTImportModuleListNode* addItem(ASTImportModuleListItemNode* item);
+    std::shared_ptr<ASTImportModuleListNode> addItem(std::shared_ptr<ASTImportModuleListItemNode> item);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -6,12 +6,12 @@
 #include "../ast-type-nodes/ast-module-type-nodes/ast-module-access-type-node.h"
 #include "../ast-module-nodes/ast-module-access-node.h"
 
-ASTNode* ASTColonColonBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTColonColonBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_MODULE_TYPE_SOURCE_NODE)) {
-        return new ASTModuleAccessTypeNode(_lexeme);
+        return std::make_shared<ASTModuleAccessTypeNode>(_lexeme);
     }
 
-    return new ASTModuleAccessNode(_lexeme);
+    return std::make_shared<ASTModuleAccessNode>(_lexeme);
 }
 
 ASTNodeType ASTColonColonBaseNode::getNodeType() {

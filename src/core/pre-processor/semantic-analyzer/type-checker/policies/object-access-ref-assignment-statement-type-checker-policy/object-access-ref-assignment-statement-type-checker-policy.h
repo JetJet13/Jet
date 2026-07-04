@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-object-access-ref-assignment-statement-node.h"
 
 namespace ObjectAccessRefAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTObjectAccessRefAssignmentStatementNode* objectAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTObjectAccessRefAssignmentStatementNode> objectAccessRefAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 }
 
 #endif //JETLANG_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

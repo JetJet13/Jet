@@ -5,7 +5,7 @@
 #include "tuple-expression-type-signature-strategy.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-void TupleExpressionTypeSignatureStrategy::assign(ASTTupleExpressionNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void TupleExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = new std::vector<TypeSignature*>();
     for (unsigned long i = 0; i < node->numItems(); ++i) {
         auto tupleItem = node->getItems()->at(i);

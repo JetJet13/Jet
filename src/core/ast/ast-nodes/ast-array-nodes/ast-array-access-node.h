@@ -13,17 +13,17 @@
 
 class ASTArrayAccessNode : public ASTNode {
 private:
-    ASTLeftBracketNode* _leftBracket;
-    ASTRightBracketNode* _rightBracket;
-    ASTExpressionNode* _index;
+    std::shared_ptr<ASTLeftBracketNode> _leftBracket;
+    std::shared_ptr<ASTRightBracketNode> _rightBracket;
+    std::shared_ptr<ASTExpressionNode> _index;
 public:
-    explicit ASTArrayAccessNode(ASTLeftBracketNode* leftBracket, ASTExpressionNode* index, ASTRightBracketNode* rightBracket);
-    ASTExpressionNode* getIndex();
+    explicit ASTArrayAccessNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::shared_ptr<ASTExpressionNode> index, std::shared_ptr<ASTRightBracketNode> rightBracket);
+    std::shared_ptr<ASTExpressionNode> getIndex();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

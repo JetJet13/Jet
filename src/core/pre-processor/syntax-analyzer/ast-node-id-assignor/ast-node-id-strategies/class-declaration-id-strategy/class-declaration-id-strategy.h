@@ -16,13 +16,13 @@
 class ClassDeclarationIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 private:
-    std::string generateClassPropertyId(std::string className, ASTClassPropertyNameNode* classPropertyName);
-    std::string generateClassMethodId(std::string className, ASTClassMethodNameNode* classMethodName);
-    std::string generateClassMethodId(std::string className, ASTClassMethodCallNode* classMethodCall);
+    std::string generateClassPropertyId(std::string className, std::shared_ptr<ASTClassPropertyNameNode> classPropertyName);
+    std::string generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodNameNode> classMethodName);
+    std::string generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodCallNode> classMethodCall);
     std::string generateClassMethodId(std::string className, Lexeme* lexeme);
-    std::string generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, ASTClassConstructorDeclarationNode* constructorDeclaration);
+    std::string generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, std::shared_ptr<ASTClassConstructorDeclarationNode> constructorDeclaration);
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 #endif //JETLANG_CLASS_DECLARATION_ID_STRATEGY_H

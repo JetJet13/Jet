@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(ASTExpressionNode* function, ASTFunctionArgumentListNode* arguments) {
+ASTFunctionInvocationExpressionNode::ASTFunctionInvocationExpressionNode(std::shared_ptr<ASTExpressionNode> function, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _function = function;
     _arguments = arguments;
     _children.push_back(_function);
     _children.push_back(_arguments);
 }
 
-ASTFunctionArgumentListNode* ASTFunctionInvocationExpressionNode::getArguments() {
+std::shared_ptr<ASTFunctionArgumentListNode> ASTFunctionInvocationExpressionNode::getArguments() {
     return _arguments;
 }
 
-ASTExpressionNode* ASTFunctionInvocationExpressionNode::getFunction() {
+std::shared_ptr<ASTExpressionNode> ASTFunctionInvocationExpressionNode::getFunction() {
     return _function;
 }
 
@@ -49,11 +49,11 @@ std::string ASTFunctionInvocationExpressionNode::toString() {
     return "FUNCTION_INVOCATION_EXPRESSION";
 }
 
-bool ASTFunctionInvocationExpressionNode::isSameAs(ASTNode* other) {
+bool ASTFunctionInvocationExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionInvocationExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(other);
 
     return  this->getFunction()->isSameAs(otherNode->getFunction()) &&
             this->getArguments()->isSameAs(otherNode->getArguments());

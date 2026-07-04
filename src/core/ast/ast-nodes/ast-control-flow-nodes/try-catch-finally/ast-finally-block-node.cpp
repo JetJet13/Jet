@@ -6,18 +6,18 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTFinallyBlockNode::ASTFinallyBlockNode(ASTFinallyNode* finallyKeyword, ASTControlFlowBlockNode* block) {
+ASTFinallyBlockNode::ASTFinallyBlockNode(std::shared_ptr<ASTFinallyNode> finallyKeyword, std::shared_ptr<ASTControlFlowBlockNode> block) {
     _finallyKeyword = finallyKeyword;
     _block = block;
     _children.push_back(_finallyKeyword);
     _children.push_back(_block);
 }
 
-ASTControlFlowBlockNode* ASTFinallyBlockNode::getBlock() {
+std::shared_ptr<ASTControlFlowBlockNode> ASTFinallyBlockNode::getBlock() {
     return _block;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTFinallyBlockNode::getReturnStatements() {
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTFinallyBlockNode::getReturnStatements() {
     return _block->getReturnStatements();
 }
 
@@ -37,11 +37,11 @@ std::string ASTFinallyBlockNode::toString() {
     return "FINALLY_BLOCK";
 }
 
-bool ASTFinallyBlockNode::isSameAs(ASTNode* other) {
+bool ASTFinallyBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFinallyBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFinallyBlockNode>(other);
 
     return this->getBlock()->isSameAs(otherNode->getBlock());
 }

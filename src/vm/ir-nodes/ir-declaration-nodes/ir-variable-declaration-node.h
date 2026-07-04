@@ -13,14 +13,14 @@
 
 class IRVariableDeclarationNode : public IRDeclarationNode {
 private:
-    ASTVariableDeclarationNode* _node;
+    std::shared_ptr<ASTVariableDeclarationNode> _node;
     IRInstructionNode* _irValue;
     IRExpressionNode* _irExpression;
     std::optional<IRInstructionNode*> _irGlobalVariable;
     std::optional<IRInstructionNode*> _irArc;
     llvm::Value* _variableNameIRValue;
 public:
-    IRVariableDeclarationNode(ASTVariableDeclarationNode* astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irArc = {});
+    IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irArc = {});
     std::string getVariableName();
     llvm::Value* getVariableNameIRValue();
     llvm::Value* getValue() override;

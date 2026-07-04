@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTStructTypeKeyValueNode::ASTStructTypeKeyValueNode(ASTStructTypeKeyNode* name, ASTStructTypeColonNode* colon, ASTTypeNode* type) {
+ASTStructTypeKeyValueNode::ASTStructTypeKeyValueNode(std::shared_ptr<ASTStructTypeKeyNode> name, std::shared_ptr<ASTStructTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type) {
     _name = name;
     _colon = colon;
     _type = type;
@@ -15,11 +15,11 @@ ASTStructTypeKeyValueNode::ASTStructTypeKeyValueNode(ASTStructTypeKeyNode* name,
     _children.push_back(_type);
 }
 
-ASTStructTypeKeyNode* ASTStructTypeKeyValueNode::getName() {
+std::shared_ptr<ASTStructTypeKeyNode> ASTStructTypeKeyValueNode::getName() {
     return _name;
 }
 
-ASTTypeNode* ASTStructTypeKeyValueNode::getType() {
+std::shared_ptr<ASTTypeNode> ASTStructTypeKeyValueNode::getType() {
     return _type;
 }
 
@@ -47,11 +47,11 @@ std::string ASTStructTypeKeyValueNode::toString() {
     return "STRUCT_TYPE_KEY";
 }
 
-bool ASTStructTypeKeyValueNode::isSameAs(ASTNode* other) {
+bool ASTStructTypeKeyValueNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTStructTypeKeyValueNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTStructTypeKeyValueNode>(other);
     auto result = this->getName()->isSameAs(otherNode->getName()) &&
            this->getType()->isSameAs(otherNode->getType());
     return result;

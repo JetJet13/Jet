@@ -13,18 +13,18 @@
 #include "../ast-as-node.h"
 
 class ASTModuleListAliasItemNode : public ASTModuleListBaseItemNode {
-    ASTModuleNameNode* _moduleName;
-    ASTAsNode* _asNode;
-    ASTModuleAliasNameNode* _aliasModuleName;
+    std::shared_ptr<ASTModuleNameNode> _moduleName;
+    std::shared_ptr<ASTAsNode> _asNode;
+    std::shared_ptr<ASTModuleAliasNameNode> _aliasModuleName;
 public:
-    explicit ASTModuleListAliasItemNode(ASTModuleNameNode* moduleName, ASTAsNode* asNode, ASTModuleAliasNameNode* aliasModuleName);
-    ASTModuleNameNode* getModuleName();
-    ASTModuleAliasNameNode* getAliasModuleName();
+    explicit ASTModuleListAliasItemNode(std::shared_ptr<ASTModuleNameNode> moduleName, std::shared_ptr<ASTAsNode> asNode, std::shared_ptr<ASTModuleAliasNameNode> aliasModuleName);
+    std::shared_ptr<ASTModuleNameNode> getModuleName();
+    std::shared_ptr<ASTModuleAliasNameNode> getAliasModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

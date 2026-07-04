@@ -14,11 +14,11 @@
 
 class BinaryExpressionIRStrategy {
 private:
-    llvm::Instruction::BinaryOps determineArithmeticOperatorIR(ASTBinaryArithmeticOperatorNode* operatorNode, TypeSignature* typeSignature);
-    llvm::CmpInst::Predicate determineComparatorPredicate(ASTBinaryComparatorOperatorNode* operatorNode, TypeSignature* typeSignature);
+    llvm::Instruction::BinaryOps determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, TypeSignature* typeSignature);
+    llvm::CmpInst::Predicate determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, TypeSignature* typeSignature);
 public:
-    IRBinaryExpressionNode* generate(ASTBinaryArithmeticExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
-    IRBinaryExpressionNode* generate(ASTBinaryComparatorExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRBinaryExpressionNode* generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRBinaryExpressionNode* generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_IR_STRATEGY_H

@@ -12,7 +12,7 @@
 
 class IdentifierExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTIdentifierExpressionNode* identifierExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable);
+    void assign(std::shared_ptr<ASTIdentifierExpressionNode> identifierExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> typeSignatureLookupTable);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

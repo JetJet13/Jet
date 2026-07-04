@@ -16,21 +16,21 @@
 
 class ASTForInStatementNode : public ASTStatementNode {
 private:
-    ASTForNode* _forKeyword;
-    ASTForInVariableNode* _variable;
-    ASTForInNode* _inKeyword;
-    ASTForInSourceNode* _source;
-    ASTControlFlowBlockNode* _block;
+    std::shared_ptr<ASTForNode> _forKeyword;
+    std::shared_ptr<ASTForInVariableNode> _variable;
+    std::shared_ptr<ASTForInNode> _inKeyword;
+    std::shared_ptr<ASTForInSourceNode> _source;
+    std::shared_ptr<ASTControlFlowBlockNode> _block;
 public:
-    explicit ASTForInStatementNode(ASTForNode* forKeyword, ASTForInVariableNode* variable, ASTForInNode* inKeyword, ASTForInSourceNode* source, ASTControlFlowBlockNode* block);
-    ASTForInVariableNode* getVariable();
-    ASTForInSourceNode* getSource();
-    ASTControlFlowBlockNode* getBlock();
+    explicit ASTForInStatementNode(std::shared_ptr<ASTForNode> forKeyword, std::shared_ptr<ASTForInVariableNode> variable, std::shared_ptr<ASTForInNode> inKeyword, std::shared_ptr<ASTForInSourceNode> source, std::shared_ptr<ASTControlFlowBlockNode> block);
+    std::shared_ptr<ASTForInVariableNode> getVariable();
+    std::shared_ptr<ASTForInSourceNode> getSource();
+    std::shared_ptr<ASTControlFlowBlockNode> getBlock();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

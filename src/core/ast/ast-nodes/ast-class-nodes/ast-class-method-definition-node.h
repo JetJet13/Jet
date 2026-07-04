@@ -17,19 +17,19 @@
 
 class ASTClassMethodDefinitionNode : public ASTNode {
 protected:
-    ASTAccessModifierNode* _accessModifier;
-    ASTClassMethodNameNode* _methodName;
-    std::optional<ASTStaticNode*> _staticKeyword;
+    std::shared_ptr<ASTAccessModifierNode> _accessModifier;
+    std::shared_ptr<ASTClassMethodNameNode> _methodName;
+    std::optional<std::shared_ptr<ASTStaticNode>> _staticKeyword;
 public:
-    explicit ASTClassMethodDefinitionNode(ASTAccessModifierNode* accessModifier, ASTClassMethodNameNode* methodName, std::optional<ASTStaticNode*> staticKeyword = {});
-    ASTAccessModifierNode* getAccessModifier();
-    ASTClassMethodNameNode* getMethodName();
+    explicit ASTClassMethodDefinitionNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassMethodNameNode> methodName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword = {});
+    std::shared_ptr<ASTAccessModifierNode> getAccessModifier();
+    std::shared_ptr<ASTClassMethodNameNode> getMethodName();
     bool isStatic();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

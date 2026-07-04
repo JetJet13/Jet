@@ -11,34 +11,34 @@ std::string FunctionIdGenerator::getNameFromId(std::string functionId) {
     return functionId.substr(0, delimiterIndex);
 }
 
-std::string FunctionIdGenerator::generateFor(ASTClassMethodDeclarationNode* classMethodDeclarationNode) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTClassMethodDeclarationNode> classMethodDeclarationNode) {
     auto id = classMethodDeclarationNode->getId()
               + "."
               + MD5().operator()(classMethodDeclarationNode->getTypeSignature()->toDetailString());
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(ASTFunctionDeclarationNode* functionDeclarationNode) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode) {
     auto id = functionDeclarationNode->getId()
               + "."
               + MD5().operator()(functionDeclarationNode->getTypeSignature()->toDetailString());
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(ASTProcedureDeclarationNode* procedureDeclarationNode) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode) {
     auto id = procedureDeclarationNode->getId()
               + "."
               + MD5().operator()(procedureDeclarationNode->getTypeSignature()->toDetailString());
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(ASTFunctionInvocationExpressionNode* functionInvocationExpressionNode) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTFunctionInvocationExpressionNode> functionInvocationExpressionNode) {
     auto id = functionInvocationExpressionNode->getFunction()->getId() + "."
               + MD5().operator()(functionInvocationExpressionNode->getArguments()->getTypeSignature()->toDetailString());
     return id;
 }
 
-std::string FunctionIdGenerator::generateFor(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpressionNode) {
+std::string FunctionIdGenerator::generateFor(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpressionNode) {
     auto id = objectAccessInvocationExpressionNode->getName() + "."
               + MD5().operator()(objectAccessInvocationExpressionNode->getArguments()->getTypeSignature()->toDetailString());
     return id;

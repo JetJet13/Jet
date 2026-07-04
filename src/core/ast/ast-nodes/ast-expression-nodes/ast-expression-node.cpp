@@ -19,7 +19,7 @@ TypeSignature* ASTExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-ASTNode* ASTExpressionNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTExpressionNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     return this->baseTransformIfNecessary(prevNode, nextNode, mode);
 }
 
@@ -35,22 +35,22 @@ std::string ASTExpressionNode::toString() {
     return "EXPRESSION";
 }
 
-bool ASTExpressionNode::isSameAs(ASTNode* other) {
+bool ASTExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     return other->is(this->getNodeType());
 }
 
-ASTNode* ASTExpressionNode::baseTransformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTExpressionNode::baseTransformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({AST_COMMA_NODE, AST_FUNCTION_ARGUMENT_LIST_START_NODE }) &&
         nextNode && nextNode.value()->isOneOf({AST_COMMA_NODE, AST_FUNCTION_ARGUMENT_LIST_END_NODE }) &&
         mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
-        return new ASTFunctionArgumentNode(this);
+        return std::make_shared<ASTFunctionArgumentNode>(std::dynamic_pointer_cast<ASTExpressionNode>(shared_from_this()));
     }
 
     if (prevNode && prevNode.value()->isOneOf({AST_COMMA_NODE, AST_TUPLE_LIST_START_NODE }) &&
         nextNode && nextNode.value()->isOneOf({AST_COMMA_NODE, AST_TUPLE_LIST_END_NODE }) &&
         mode == SA_TUPLE_LIST_MODE) {
-        return new ASTTupleItemNode(this);
+        return std::make_shared<ASTTupleItemNode>(std::dynamic_pointer_cast<ASTExpressionNode>(shared_from_this()));
     }
 
-    return this;
+    return shared_from_this();
 }

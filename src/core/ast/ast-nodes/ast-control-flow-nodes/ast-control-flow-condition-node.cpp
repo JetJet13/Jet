@@ -6,12 +6,12 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTControlFlowConditionNode::ASTControlFlowConditionNode(ASTExpressionNode* condition) {
+ASTControlFlowConditionNode::ASTControlFlowConditionNode(std::shared_ptr<ASTExpressionNode> condition) {
     _condition = condition;
     _children.push_back(_condition);
 }
 
-ASTExpressionNode* ASTControlFlowConditionNode::getCondition() {
+std::shared_ptr<ASTExpressionNode> ASTControlFlowConditionNode::getCondition() {
     return _condition;
 }
 
@@ -39,11 +39,11 @@ std::string ASTControlFlowConditionNode::toString() {
     return "CONTROL_FLOW_CONDITION";
 }
 
-bool ASTControlFlowConditionNode::isSameAs(ASTNode* other) {
+bool ASTControlFlowConditionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTControlFlowConditionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTControlFlowConditionNode>(other);
     return this->getCondition()->isSameAs(otherNode->getCondition());
 }
 

@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.h"
 
 namespace ParameterTypeCheckerPolicy {
-    void apply(ASTFunctionParameterNode* functionParameter, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionParameterNode> functionParameter, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_PARAMETER_TYPE_CHECKER_POLICY_H

@@ -14,12 +14,12 @@ Lexeme* ASTDotDotDotBaseNode::getLexeme() {
     return _lexeme;
 }
 
-ASTNode* ASTDotDotDotBaseNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTDotDotDotBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_MODULE_LIST_MODE || mode == SA_IMPORT_MODULE_LIST_MODE) {
-        return new ASTModuleSpreadNode(_lexeme);
+        return std::make_shared<ASTModuleSpreadNode>(_lexeme);
     }
 
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTDotDotDotBaseNode::getNodeType() {
@@ -30,11 +30,11 @@ std::string ASTDotDotDotBaseNode::toString() {
     return "DOT_DOT_DOT_BASE";
 }
 
-bool ASTDotDotDotBaseNode::isSameAs(ASTNode* other) {
+bool ASTDotDotDotBaseNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTDotDotDotBaseNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTDotDotDotBaseNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

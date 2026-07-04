@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-ref-value-assignment-statement-node.h"
 
 namespace RefValueAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTRefValueAssignmentStatementNode* refValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTRefValueAssignmentStatementNode> refValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_REF_VALUE_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

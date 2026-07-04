@@ -13,18 +13,18 @@
 #include "../../ast-module-nodes/ast-as-node.h"
 
 class ASTImportModuleListAliasItemNode : public ASTImportModuleListBaseItemNode {
-    ASTImportModuleNameNode* _moduleName;
-    ASTAsNode* _asKeyword;
-    ASTImportModuleAliasNameNode* _aliasModuleName;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
+    std::shared_ptr<ASTAsNode> _asKeyword;
+    std::shared_ptr<ASTImportModuleAliasNameNode> _aliasModuleName;
 public:
-    explicit ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTAsNode* asKeyword, ASTImportModuleAliasNameNode* aliasModuleName);
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportModuleAliasNameNode* getAliasModuleName();
+    explicit ASTImportModuleListAliasItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTAsNode> asKeyword, std::shared_ptr<ASTImportModuleAliasNameNode> aliasModuleName);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportModuleAliasNameNode> getAliasModuleName();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

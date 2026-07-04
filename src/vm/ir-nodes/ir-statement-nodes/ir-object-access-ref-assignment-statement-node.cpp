@@ -4,7 +4,7 @@
 
 #include "ir-object-access-ref-assignment-statement-node.h"
 
-IRObjectAccessRefAssignmentStatementNode::IRObjectAccessRefAssignmentStatementNode(ASTObjectAccessRefAssignmentStatementNode* node, IRObjectAccessExpressionNode* irObjectAccessExpression, IRExpressionNode* irExpression) {
+IRObjectAccessRefAssignmentStatementNode::IRObjectAccessRefAssignmentStatementNode(std::shared_ptr<ASTObjectAccessRefAssignmentStatementNode> node, IRObjectAccessExpressionNode* irObjectAccessExpression, IRExpressionNode* irExpression) {
     _node = node;
     _irObjectAccessExpression = irObjectAccessExpression;
     _irExpression = irExpression;

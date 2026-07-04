@@ -9,7 +9,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
@@ -18,12 +18,12 @@ void ClassDeclarationTypeCheckerPolicy::apply(ASTClassDeclarationNode* classDecl
     }
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(classDeclarationNode, typeCheckerResult);
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     for (auto classProperty : *classDeclarationNode->getBlock()->getProperties()) {
         if (classProperty->getTypeSignature()->getType()->isInvocable()) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassPropertyInvocable(classProperty)());
@@ -48,8 +48,8 @@ void ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(AST
     }
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
-    auto classPropertyNames = std::vector<ASTIdentifierNode*>();
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    auto classPropertyNames = std::vector<std::shared_ptr<ASTIdentifierNode>>();
     auto namesNotUniqueErrorMessage = TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique(classDeclarationNode);
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
@@ -59,7 +59,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(AST
     );
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(classDeclarationNode, typeCheckerResult);
 
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
@@ -100,7 +100,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(ASTClassDeclaratio
     }
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     auto classMethodNameAndTypeSignatureList = std::vector<std::pair<std::string, TypeSignature*>>();
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
         classMethodNameAndTypeSignatureList.emplace_back(
@@ -120,7 +120,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(ASTClassD
     );
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(classDeclarationNode, typeCheckerResult);
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
         TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult);
@@ -135,7 +135,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(ASTClassDecla
 
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(ASTClassDeclarationNode* classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     auto classConstructorTypeSignatures = std::vector<TypeSignature*>();
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
         classConstructorTypeSignatures.push_back(classConstructor->getTypeSignature());

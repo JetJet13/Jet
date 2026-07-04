@@ -5,9 +5,9 @@
 #include "dref-expression-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 
-ASTNode* DrefExpressionReducerStrategy::execute(std::vector<ASTNode*> nodes) {
-    return new ASTDrefExpressionNode(
-            (ASTDrefNode*)nodes[0],
-            (ASTExpressionNode*)nodes[1]
+std::shared_ptr<ASTNode> DrefExpressionReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
+    return std::make_shared<ASTDrefExpressionNode>(
+            std::dynamic_pointer_cast<ASTDrefNode>(nodes[0]),
+            std::dynamic_pointer_cast<ASTExpressionNode>(nodes[1])
     );
 }

@@ -9,33 +9,34 @@
 #include "../ast-class-nodes/ast-class-block-node.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, ASTBlockEndNode* blockEndNode) {
+ASTBlockNode::ASTBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::shared_ptr<ASTBlockEndNode> blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
     _children.push_back(_blockStartNode);
     _children.push_back(_blockEndNode);
-    _contents = std::vector<ASTNode*>();
+    _contents = std::vector<std::shared_ptr<ASTNode>>();
 }
 
-ASTBlockNode::ASTBlockNode(ASTBlockStartNode* blockStartNode, std::vector<ASTNode*> contents, ASTBlockEndNode* blockEndNode) {
+ASTBlockNode::ASTBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> contents, std::shared_ptr<ASTBlockEndNode> blockEndNode) {
     _blockStartNode = blockStartNode;
     _blockEndNode = blockEndNode;
     _children.push_back(_blockStartNode);
     _children.push_back(_blockEndNode);
-    _contents = std::vector<ASTNode*>();
+    _contents = std::vector<std::shared_ptr<ASTNode>>();
     for (auto content: contents) {
-        this->addContent(content);
+        _contents.push_back(content);
+        _children.insert(_children.end() - 1, content);
     }
 }
 
-ASTBlockNode* ASTBlockNode::addContent(ASTNode* content) {
+std::shared_ptr<ASTBlockNode> ASTBlockNode::addContent(std::shared_ptr<ASTNode> content) {
     _contents.push_back(content);
     _children.insert(_children.end() - 1, content);
-    return this;
+    return std::dynamic_pointer_cast<ASTBlockNode>(shared_from_this());
 }
 
 void ASTBlockNode::hoistTypes(std::vector<ASTNodeType> astNodeTypes) {
-    auto newContent = std::vector<ASTNode*>();
+    auto newContent = std::vector<std::shared_ptr<ASTNode>>();
     for (auto content: _contents) {
         if (content->isOneOf(astNodeTypes)) {
             newContent.insert(newContent.begin(), content);
@@ -50,29 +51,28 @@ unsigned long ASTBlockNode::size() {
     return _contents.size();
 }
 
-std::vector<ASTNode*>* ASTBlockNode::getContents() {
+std::vector<std::shared_ptr<ASTNode>>* ASTBlockNode::getContents() {
     return &_contents;
 }
 
-std::vector<ASTFunctionReturnExpressionNode*>* ASTBlockNode::getReturnStatements() {
-    return new std::vector<ASTFunctionReturnExpressionNode*>();
+std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTBlockNode::getReturnStatements() {
+    return new std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>();
 }
 
-ASTNode* ASTBlockNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode,
-                                             SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTBlockNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({AST_TYPE_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_TYPE_PARAMETER_LIST_NODE })) {
-        return new ASTFunctionBlockNode(_blockStartNode, _contents, _blockEndNode);
+        return std::make_shared<ASTFunctionBlockNode>(_blockStartNode, _contents, _blockEndNode);
     }
 
     if (prevNode && prevNode.value()->isOneOf({AST_CONTROL_FLOW_CONDITION_NODE, AST_ELSE_NODE, AST_FOR_IN_SOURCE_NODE, AST_TRY_NODE, AST_CATCH_NODE, AST_CATCH_ERROR_VARIABLE_NODE, AST_FINALLY_NODE })) {
-        return new ASTControlFlowBlockNode(_blockStartNode, _contents, _blockEndNode);
+        return std::make_shared<ASTControlFlowBlockNode>(_blockStartNode, _contents, _blockEndNode);
     }
 
     if (prevNode && prevNode.value()->isOneOf({ AST_CLASS_NAME_NODE, AST_IMPLEMENTS_INTERFACE_LIST_NODE })) {
-        return new ASTClassBlockNode(_blockStartNode, _contents, _blockEndNode);
+        return std::make_shared<ASTClassBlockNode>(_blockStartNode, _contents, _blockEndNode);
     }
 
-    return this;
+    return shared_from_this();
 }
 
 Position* ASTBlockNode::getStartPosition() {
@@ -91,11 +91,11 @@ std::string ASTBlockNode::toString() {
     return "BLOCK";
 }
 
-bool ASTBlockNode::isSameAs(ASTNode* other) {
+bool ASTBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTBlockNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTBlockNode>(other);
     for (unsigned long i = 0; i < _contents.size(); ++i) {
         if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;

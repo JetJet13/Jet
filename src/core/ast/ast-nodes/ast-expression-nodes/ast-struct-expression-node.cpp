@@ -6,16 +6,16 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, ASTStructEndNode* structEndNode) {
+ASTStructExpressionNode::ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::shared_ptr<ASTStructEndNode> structEndNode) {
     _structStartNode = structStartNode;
     _structEndNode = structEndNode;
     _children.push_back(_structStartNode);
     _children.push_back(_structEndNode);
-    _keyValuePairs = std::vector<ASTStructKeyValueNode*>();
-    _commas = std::vector<ASTCommaNode*>();
+    _keyValuePairs = std::vector<std::shared_ptr<ASTStructKeyValueNode>>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
 }
 
-ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStartNode, std::vector<ASTStructKeyValueNode*> keyValuePairs, std::vector<ASTCommaNode*> commas, ASTStructEndNode* structEndNode) {
+ASTStructExpressionNode::ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::vector<std::shared_ptr<ASTStructKeyValueNode>> keyValuePairs, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructEndNode> structEndNode) {
     _structStartNode = structStartNode;
     _structEndNode = structEndNode;
     _children.push_back(_structStartNode);
@@ -27,23 +27,23 @@ ASTStructExpressionNode::ASTStructExpressionNode(ASTStructStartNode* structStart
     }
 }
 
-std::vector<ASTStructKeyValueNode*> ASTStructExpressionNode::getKeyValuePairs() {
+std::vector<std::shared_ptr<ASTStructKeyValueNode>> ASTStructExpressionNode::getKeyValuePairs() {
     return _keyValuePairs;
 }
 
-ASTStructKeyValueNode* ASTStructExpressionNode::getKeyValuePairAt(unsigned long index) {
+std::shared_ptr<ASTStructKeyValueNode> ASTStructExpressionNode::getKeyValuePairAt(unsigned long index) {
     return _keyValuePairs.at(index);
 }
 
-ASTStructExpressionNode* ASTStructExpressionNode::addKeyValuePair(ASTStructKeyValueNode* keyValuePair) {
+std::shared_ptr<ASTStructExpressionNode> ASTStructExpressionNode::addKeyValuePair(std::shared_ptr<ASTStructKeyValueNode> keyValuePair) {
     _keyValuePairs.push_back(keyValuePair);
     _children.push_back(keyValuePair);
-    return this;
+    return std::dynamic_pointer_cast<ASTStructExpressionNode>(shared_from_this());
 }
 
-ASTStructExpressionNode* ASTStructExpressionNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTStructExpressionNode> ASTStructExpressionNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTStructExpressionNode>(shared_from_this());
 }
 
 StructTypeSignature* ASTStructExpressionNode::getTypeSignature() {
@@ -74,11 +74,11 @@ unsigned long ASTStructExpressionNode::size() {
     return _keyValuePairs.size();
 }
 
-bool ASTStructExpressionNode::isSameAs(ASTNode* other) {
+bool ASTStructExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTStructExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTStructExpressionNode>(other);
     auto otherNodeElements = otherNode->getKeyValuePairs();
     if (this->size() != otherNode->size()) {
         return false;

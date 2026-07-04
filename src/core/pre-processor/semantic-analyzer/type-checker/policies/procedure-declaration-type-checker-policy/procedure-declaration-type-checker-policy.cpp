@@ -7,7 +7,7 @@
 #include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
-    void apply(ASTProcedureDeclarationNode* procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult);
         TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult);
         auto returnExpressionMessage = TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(procedureDeclarationNode);

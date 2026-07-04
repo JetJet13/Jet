@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTConcatExpressionNode::ASTConcatExpressionNode(ASTExpressionNode* leftNode, ASTConcatNode* concatNode, ASTExpressionNode* rightNode) {
+ASTConcatExpressionNode::ASTConcatExpressionNode(std::shared_ptr<ASTExpressionNode> leftNode, std::shared_ptr<ASTConcatNode> concatNode, std::shared_ptr<ASTExpressionNode> rightNode) {
     _leftNode = leftNode;
     _concatNode = concatNode;
     _rightNode = rightNode;
@@ -16,15 +16,15 @@ ASTConcatExpressionNode::ASTConcatExpressionNode(ASTExpressionNode* leftNode, AS
     _children.push_back(_rightNode);
 }
 
-ASTExpressionNode* ASTConcatExpressionNode::getLeftNode() {
+std::shared_ptr<ASTExpressionNode> ASTConcatExpressionNode::getLeftNode() {
     return _leftNode;
 }
 
-ASTExpressionNode* ASTConcatExpressionNode::getRightNode() {
+std::shared_ptr<ASTExpressionNode> ASTConcatExpressionNode::getRightNode() {
     return _rightNode;
 }
 
-ASTConcatNode* ASTConcatExpressionNode::getConcatNode() {
+std::shared_ptr<ASTConcatNode> ASTConcatExpressionNode::getConcatNode() {
     return _concatNode;
 }
 
@@ -44,11 +44,11 @@ std::string ASTConcatExpressionNode::toString() {
     return "CONCAT_EXPRESSION";
 }
 
-bool ASTConcatExpressionNode::isSameAs(ASTNode* other) {
+bool ASTConcatExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTConcatExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTConcatExpressionNode>(other);
     return this->getLeftNode()->isSameAs(otherNode->getLeftNode()) &&
            this->getRightNode()->isSameAs(otherNode->getRightNode());
 }

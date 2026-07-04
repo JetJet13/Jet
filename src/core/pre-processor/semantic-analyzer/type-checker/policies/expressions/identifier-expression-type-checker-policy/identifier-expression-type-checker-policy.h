@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.h"
 
 namespace IdentifierExpressionTypeCheckerPolicy {
-    void apply(ASTIdentifierExpressionNode* identifierExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTIdentifierExpressionNode> identifierExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_TYPE_CHECKER_POLICY_H

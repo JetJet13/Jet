@@ -12,7 +12,7 @@
 
 class FunctionDeclarationIRStrategy {
 public:
-    IRFunctionDeclarationNode* generate(ASTFunctionDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRFunctionDeclarationNode* generate(std::shared_ptr<ASTFunctionDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_FUNCTION_DECLARATION_IR_STRATEGY_H

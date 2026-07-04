@@ -17,15 +17,15 @@
 
 class ASTEnumDeclarationNode : public ASTDeclarationNode {
 private:
-    ASTEnumNode* _enumKeyword;
-    ASTEnumNameNode* _name;
-    ASTEnumKeyValueListNode* _values;
-    std::optional<ASTExportNode*> _exportKeyword = {};
+    std::shared_ptr<ASTEnumNode> _enumKeyword;
+    std::shared_ptr<ASTEnumNameNode> _name;
+    std::shared_ptr<ASTEnumKeyValueListNode> _values;
+    std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
     EnumTypeSignature* _typeSignature = new EnumTypeSignature();
 public:
-    explicit ASTEnumDeclarationNode(ASTEnumNode* enumKeyword, ASTEnumNameNode* name, ASTEnumKeyValueListNode* values, std::optional<ASTExportNode*> exportKeyword = {});
-    ASTEnumKeyValueListNode* getValues();
-    ASTEnumNameNode* getName();
+    explicit ASTEnumDeclarationNode(std::shared_ptr<ASTEnumNode> enumKeyword, std::shared_ptr<ASTEnumNameNode> name, std::shared_ptr<ASTEnumKeyValueListNode> values, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
+    std::shared_ptr<ASTEnumKeyValueListNode> getValues();
+    std::shared_ptr<ASTEnumNameNode> getName();
     void setTypeSignature(EnumTypeSignature* typeSignature);
     EnumTypeSignature* getTypeSignature() override;
     bool isExportable() override;
@@ -33,7 +33,7 @@ public:
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

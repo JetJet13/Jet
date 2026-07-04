@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTVariableDefinitionNode::ASTVariableDefinitionNode(ASTVariableTypeNode* assignmentTypeQualifier, ASTIdentifierNode* astIdentifierNode) {
+ASTVariableDefinitionNode::ASTVariableDefinitionNode(std::shared_ptr<ASTVariableTypeNode> assignmentTypeQualifier, std::shared_ptr<ASTIdentifierNode> astIdentifierNode) {
     _assignmentTypeQualifier = assignmentTypeQualifier;
     _identifier = astIdentifierNode;
     _children.push_back(_assignmentTypeQualifier);
     _children.push_back(_identifier);
 }
 
-ASTVariableTypeNode* ASTVariableDefinitionNode::getVarTypeNode() {
+std::shared_ptr<ASTVariableTypeNode> ASTVariableDefinitionNode::getVarTypeNode() {
     return _assignmentTypeQualifier;
 }
 
-ASTIdentifierNode* ASTVariableDefinitionNode::getIdentifierNode() {
+std::shared_ptr<ASTIdentifierNode> ASTVariableDefinitionNode::getIdentifierNode() {
     return _identifier;
 }
 
@@ -37,11 +37,11 @@ std::string ASTVariableDefinitionNode::toString() {
     return "VARIABLE_DEFINITION";
 }
 
-bool ASTVariableDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTVariableDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTVariableDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTVariableDefinitionNode>(other);
 
     return this->getVarTypeNode()->isSameAs(otherNode->getVarTypeNode()) &&
            this->getIdentifierNode()->isSameAs(otherNode->getIdentifierNode());

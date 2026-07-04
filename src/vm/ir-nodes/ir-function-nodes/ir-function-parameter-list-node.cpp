@@ -4,7 +4,7 @@
 
 #include "ir-function-parameter-list-node.h"
 
-IRFunctionParameterListNode::IRFunctionParameterListNode(ASTFunctionParameterListNode* node, std::vector<IRFunctionParameterNode*> parameters) {
+IRFunctionParameterListNode::IRFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListNode> node, std::vector<IRFunctionParameterNode*> parameters) {
     _node = node;
     _parameters = parameters;
     _scopeParameter = {};

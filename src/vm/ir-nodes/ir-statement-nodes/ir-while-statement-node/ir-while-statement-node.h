@@ -11,13 +11,13 @@
 
 class IRWhileStatementNode : public IRStatementNode {
 private:
-    ASTWhileStatementNode* _node;
+    std::shared_ptr<ASTWhileStatementNode> _node;
     IRExpressionNode* _condition;
     IRBlockNode* _whileBlock;
     IRBlockNode* _bodyBlock;
     IRBlockNode* _endBlock;
 public:
-    IRWhileStatementNode(ASTWhileStatementNode* node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock);
+    IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock);
     IRExpressionNode* getExpression();
     IRBlockNode* getWhileBlock();
     IRBlockNode* getBodyBlock();

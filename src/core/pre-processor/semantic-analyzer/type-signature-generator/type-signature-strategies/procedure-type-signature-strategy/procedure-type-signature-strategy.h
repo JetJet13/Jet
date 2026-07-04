@@ -11,8 +11,8 @@
 
 class ProcedureTypeSignatureStrategy {
 public:
-    void assign(ASTProcedureDeclarationNode* procedureDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
-    void assignInitial(ASTProcedureDeclarationNode* procedureDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignInitial(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_PROCEDURE_TYPE_SIGNATURE_STRATEGY_H

@@ -11,7 +11,7 @@
 
 class ImportModuleListAliasItemReducerStrategy : public ReducerStrategy {
 public:
-    ASTNode* execute(std::vector<ASTNode*> nodes) override;
+    std::shared_ptr<ASTNode> execute(std::vector<std::shared_ptr<ASTNode>> nodes) override;
 };
 
 #endif //JETLANG_IMPORT_MODULE_LIST_ALIAS_ITEM_REDUCER_STRATEGY_H

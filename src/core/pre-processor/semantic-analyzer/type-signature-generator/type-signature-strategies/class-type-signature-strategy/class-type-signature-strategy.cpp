@@ -6,7 +6,7 @@
 #include "../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
 
-void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assign(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getTypeSignature();
     auto classScope = std::make_shared<TypeSignatureLookupTable>();
     classScope->inheritGlobalScope(scope);
@@ -23,7 +23,7 @@ void ClassTypeSignatureStrategy::assign(ASTClassDeclarationNode* node, std::shar
     }
 }
 
-void ClassTypeSignatureStrategy::assignPostInitial(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignPostInitial(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getTypeSignature();
     auto classScope = std::make_shared<TypeSignatureLookupTable>();
     classScope->inheritGlobalScope(scope);
@@ -32,7 +32,7 @@ void ClassTypeSignatureStrategy::assignPostInitial(ASTClassDeclarationNode* node
     this->assignConstructorTypeSignatures(node, context, classScope, classTypeSignature, strategyMap);
 }
 
-void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatureContext = std::make_shared<TypeSignatureContext>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
         strategyMap->assignTypeSignatureFor(constructor, typeSignatureContext, scope);
@@ -43,7 +43,7 @@ void ClassTypeSignatureStrategy::assignConstructorTypeSignatures(ASTClassDeclara
     }
 }
 
-void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto property : *node->getBlock()->getProperties()) {
         strategyMap->assignTypeSignatureFor(property, context, scope);
         if (property->getPropertyInit()->getType() &&
@@ -52,7 +52,7 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclaratio
         }
 
         if (property->getInitializer() && property->getInitializer().value()->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
-            auto newClassInstanceExpression = (ASTNewClassInstanceExpressionNode*)property->getInitializer().value();
+            auto newClassInstanceExpression = std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(property->getInitializer().value());
             if (newClassInstanceExpression->getClassName() == node->getId()) {
                 property->getTypeSignature()->setType(classTypeSignature->convertToVariableTypeSignature());
             }
@@ -65,7 +65,7 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(ASTClassDeclaratio
     }
 }
 
-void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignMethodTypeSignatures(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
         strategyMap->assignTypeSignatureFor(method, context, scope);
         classTypeSignature->addMethod(
@@ -75,7 +75,7 @@ void ClassTypeSignatureStrategy::assignMethodTypeSignatures(ASTClassDeclarationN
     }
 }
 
-void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto constructor : *node->getBlock()->getConstructors()) {
         auto constructorScope = std::make_shared<TypeSignatureLookupTable>();
         constructorScope->inheritGlobalScope(scope);
@@ -88,7 +88,7 @@ void ClassTypeSignatureStrategy::assignConstructorBlocksTypeSignature(ASTClassDe
     }
 }
 
-void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(ASTClassDeclarationNode* node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
+void ClassTypeSignatureStrategy::assignMethodBlocksTypeSignature(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, ClassTypeSignature* classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
         auto methodScope = std::make_shared<TypeSignatureLookupTable>();
         methodScope->inheritGlobalScope(scope);

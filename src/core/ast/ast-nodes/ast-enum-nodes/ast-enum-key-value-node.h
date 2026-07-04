@@ -16,22 +16,22 @@
 
 class ASTEnumKeyValueNode : public ASTNode {
 private:
-    ASTEnumKeyNode* _key;
-    std::optional<ASTAssignmentOperatorNode*> _assignmentOperator = {};
-    std::optional<ASTLiteralNode*> _value = {};
+    std::shared_ptr<ASTEnumKeyNode> _key;
+    std::optional<std::shared_ptr<ASTAssignmentOperatorNode>> _assignmentOperator = {};
+    std::optional<std::shared_ptr<ASTLiteralNode>> _value = {};
     LiteralTypeSignature* _typeSignature = new LiteralTypeSignature();
 public:
-    ASTEnumKeyValueNode(ASTEnumKeyNode* key);
-    ASTEnumKeyValueNode(ASTEnumKeyNode* key, ASTAssignmentOperatorNode* assignmentOperator, ASTLiteralNode* value);
-    ASTEnumKeyNode* getKey();
-    std::optional<ASTLiteralNode*> getValue();
+    ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key);
+    ASTEnumKeyValueNode(std::shared_ptr<ASTEnumKeyNode> key, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator, std::shared_ptr<ASTLiteralNode> value);
+    std::shared_ptr<ASTEnumKeyNode> getKey();
+    std::optional<std::shared_ptr<ASTLiteralNode>> getValue();
     void setTypeSignature(LiteralTypeSignature* typeSignature);
     LiteralTypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

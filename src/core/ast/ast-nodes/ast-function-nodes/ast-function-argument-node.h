@@ -14,15 +14,15 @@
 
 class ASTFunctionArgumentNode : public ASTNode {
 private:
-    ASTExpressionNode* _argument;
+    std::shared_ptr<ASTExpressionNode> _argument;
 public:
-    explicit ASTFunctionArgumentNode(ASTExpressionNode* identifier);
-    ASTExpressionNode* getArgument();
+    explicit ASTFunctionArgumentNode(std::shared_ptr<ASTExpressionNode> identifier);
+    std::shared_ptr<ASTExpressionNode> getArgument();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

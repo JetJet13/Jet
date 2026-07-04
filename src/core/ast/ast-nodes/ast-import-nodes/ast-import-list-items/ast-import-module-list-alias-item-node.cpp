@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModuleNameNode* moduleName, ASTAsNode* asKeyword, ASTImportModuleAliasNameNode* aliasModuleName) {
+ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTAsNode> asKeyword, std::shared_ptr<ASTImportModuleAliasNameNode> aliasModuleName) {
     _moduleName = moduleName;
     _asKeyword = asKeyword;
     _aliasModuleName = aliasModuleName;
@@ -15,11 +15,11 @@ ASTImportModuleListAliasItemNode::ASTImportModuleListAliasItemNode(ASTImportModu
     _children.push_back(_aliasModuleName);
 }
 
-ASTImportModuleNameNode* ASTImportModuleListAliasItemNode::getModuleName() {
+std::shared_ptr<ASTImportModuleNameNode> ASTImportModuleListAliasItemNode::getModuleName() {
     return _moduleName;
 }
 
-ASTImportModuleAliasNameNode* ASTImportModuleListAliasItemNode::getAliasModuleName() {
+std::shared_ptr<ASTImportModuleAliasNameNode> ASTImportModuleListAliasItemNode::getAliasModuleName() {
     return _aliasModuleName;
 }
 
@@ -39,11 +39,11 @@ std::string ASTImportModuleListAliasItemNode::toString() {
     return "IMPORT_MODULE_LIST_ALIAS_ITEM";
 }
 
-bool ASTImportModuleListAliasItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListAliasItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportModuleListAliasItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListAliasItemNode>(other);
     return this->getModuleName()->isSameAs(otherNode->getModuleName()) &&
             this->getAliasModuleName()->isSameAs(otherNode->getAliasModuleName()) ;
 }

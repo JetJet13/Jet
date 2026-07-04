@@ -29,11 +29,11 @@ std::string ASTPrimitiveTypeNode::toString() {
     return "PRIMITIVE_TYPE";
 }
 
-bool ASTPrimitiveTypeNode::isSameAs(ASTNode* other) {
+bool ASTPrimitiveTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTPrimitiveTypeNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTPrimitiveTypeNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

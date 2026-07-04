@@ -7,7 +7,7 @@
 #include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
 
 namespace FunctionDeclarationTypeCheckerPolicy {
-    void apply(ASTFunctionDeclarationNode* functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
         auto functionTypeSignature = functionDeclarationNode->getTypeSignature();
 
         TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);

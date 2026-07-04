@@ -16,25 +16,25 @@
 
 class ASTFunctionArgumentListNode : public ASTNode {
 private:
-    ASTFunctionArgumentListStartNode* _functionArgumentListStartNode;
-    ASTFunctionArgumentListEndNode* _functionArgumentListEndNode;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTFunctionArgumentNode*> _arguments;
+    std::shared_ptr<ASTFunctionArgumentListStartNode> _functionArgumentListStartNode;
+    std::shared_ptr<ASTFunctionArgumentListEndNode> _functionArgumentListEndNode;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTFunctionArgumentNode>> _arguments;
     ArgumentListTypeSignature* _typeSignature;
 public:
-    ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, ASTFunctionArgumentListEndNode* functionArgumentListEndNode);
-    ASTFunctionArgumentListNode(ASTFunctionArgumentListStartNode* functionArgumentListStartNode, std::vector<ASTFunctionArgumentNode*> arguments, std::vector<ASTCommaNode*> commas, ASTFunctionArgumentListEndNode* functionArgumentListEndNode);
-    std::vector<ASTFunctionArgumentNode*>* getArguments();
+    ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
+    ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::vector<std::shared_ptr<ASTFunctionArgumentNode>> arguments, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
+    std::vector<std::shared_ptr<ASTFunctionArgumentNode>>* getArguments();
     unsigned long numArguments();
-    ASTFunctionArgumentListNode* addArgument(ASTFunctionArgumentNode* argument);
-    ASTFunctionArgumentListNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTFunctionArgumentListNode> addArgument(std::shared_ptr<ASTFunctionArgumentNode> argument);
+    std::shared_ptr<ASTFunctionArgumentListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     ArgumentListTypeSignature* getTypeSignature() override;
     void setTypeSignature(ArgumentListTypeSignature* typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

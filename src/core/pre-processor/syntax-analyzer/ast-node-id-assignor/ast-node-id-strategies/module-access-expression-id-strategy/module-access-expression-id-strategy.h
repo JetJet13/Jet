@@ -11,7 +11,7 @@
 class ModuleAccessExpressionIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 #endif //JETLANG_MODULE_ACCESS_EXPRESSION_ID_STRATEGY_H

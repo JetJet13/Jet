@@ -12,11 +12,11 @@
 
 class IRTupleAccessRefAssignmentStatementNode : public IRStatementNode {
 private:
-    ASTTupleAccessRefAssignmentStatementNode* _node;
+    std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> _node;
     IRTupleAccessExpressionNode* _irTupleAccessExpression;
     IRExpressionNode* _irExpression;
 public:
-    IRTupleAccessRefAssignmentStatementNode(ASTTupleAccessRefAssignmentStatementNode* node, IRTupleAccessExpressionNode* irTupleAccessExpression, IRExpressionNode* irExpression);
+    IRTupleAccessRefAssignmentStatementNode(std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> node, IRTupleAccessExpressionNode* irTupleAccessExpression, IRExpressionNode* irExpression);
     IRTupleAccessExpressionNode* getIRTupleAccessExpression();
     IRExpressionNode* getIRExpression();
     IRNodeType getNodeType() override;

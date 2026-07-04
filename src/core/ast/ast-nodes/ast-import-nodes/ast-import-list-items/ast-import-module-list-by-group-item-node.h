@@ -15,18 +15,18 @@
 
 
 class ASTImportModuleListByGroupItemNode : public ASTImportModuleListBaseItemNode {
-    ASTImportModuleNameNode* _moduleName;
-    ASTModuleAccessNode* _moduleAccessNode;
-    ASTImportModuleListNode* _importModuleList;
+    std::shared_ptr<ASTImportModuleNameNode> _moduleName;
+    std::shared_ptr<ASTModuleAccessNode> _moduleAccessNode;
+    std::shared_ptr<ASTImportModuleListNode> _importModuleList;
 public:
-    explicit ASTImportModuleListByGroupItemNode(ASTImportModuleNameNode* moduleName, ASTModuleAccessNode* moduleAccessNode, ASTImportModuleListNode* importModuleList);
-    ASTImportModuleNameNode* getModuleName();
-    ASTImportModuleListNode* getModuleList();
+    explicit ASTImportModuleListByGroupItemNode(std::shared_ptr<ASTImportModuleNameNode> moduleName, std::shared_ptr<ASTModuleAccessNode> moduleAccessNode, std::shared_ptr<ASTImportModuleListNode> importModuleList);
+    std::shared_ptr<ASTImportModuleNameNode> getModuleName();
+    std::shared_ptr<ASTImportModuleListNode> getModuleList();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

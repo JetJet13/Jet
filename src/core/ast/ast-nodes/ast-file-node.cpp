@@ -7,14 +7,14 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "ast-declaration-nodes/ast-variable-declaration-node.h"
 
-ASTFileNode::ASTFileNode(std::vector<ASTNode*> body, std::string path, std::vector<ASTImportSingleModuleDeclarationNode*> imports, std::optional<ASTModuleDeclarationNode*> module) {
+ASTFileNode::ASTFileNode(std::vector<std::shared_ptr<ASTNode>> body, std::string path, std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> imports, std::optional<std::shared_ptr<ASTModuleDeclarationNode>> module) {
     _body = body;
     _path = std::filesystem::path(path);
     _imports = imports;
     _module = module;
 }
 
-void ASTFileNode::append(ASTNode* node) {
+void ASTFileNode::append(std::shared_ptr<ASTNode> node) {
     _body.push_back(node);
 }
 
@@ -29,13 +29,13 @@ std::string ASTFileNode::getPathDirectory() {
 void ASTFileNode::markGlobalVariables() {
     for (auto content: _body) {
         if (content->is(AST_VARIABLE_DECLARATION_NODE)) {
-            ((ASTVariableDeclarationNode*)content)->markAsGlobal();
+            (std::dynamic_pointer_cast<ASTVariableDeclarationNode>(content))->markAsGlobal();
         }
     }
 }
 
 void ASTFileNode::hoistTypes(const std::vector<ASTNodeType> astNodeTypes) {
-    auto newContent = std::vector<ASTNode*>();
+    auto newContent = std::vector<std::shared_ptr<ASTNode>>();
     for (auto content: _body) {
         if (content->isOneOf(astNodeTypes)) {
             newContent.insert(newContent.begin(), content);
@@ -57,7 +57,7 @@ void ASTFileNode::setupModuleIfNecessary() {
     }
 }
 
-std::optional<ASTModuleDeclarationNode*> ASTFileNode::getModule() {
+std::optional<std::shared_ptr<ASTModuleDeclarationNode>> ASTFileNode::getModule() {
     return _module;
 }
 
@@ -68,11 +68,11 @@ std::string ASTFileNode::getModuleName() {
     return "";
 }
 
-std::vector<ASTImportSingleModuleDeclarationNode*>* ASTFileNode::getImports() {
+std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>>* ASTFileNode::getImports() {
     return &_imports;
 }
 
-std::vector<ASTNode*>* ASTFileNode::getBody() {
+std::vector<std::shared_ptr<ASTNode>>* ASTFileNode::getBody() {
     return &_body;
 }
 
@@ -98,11 +98,11 @@ std::string ASTFileNode::toString() {
     return "FILE";
 }
 
-bool ASTFileNode::isSameAs(ASTNode* other) {
+bool ASTFileNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFileNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFileNode>(other);
     for (unsigned long i = 0; i < _body.size(); ++i) {
         if (!_body[i]->isSameAs(otherNode->getBody()->at(i))) {
             return false;

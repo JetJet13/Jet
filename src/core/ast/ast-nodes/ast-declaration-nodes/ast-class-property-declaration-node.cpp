@@ -7,7 +7,7 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(ASTClassPropertyInitNode* propertyInit, std::optional<ASTExpressionNode*> initializer) {
+ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(std::shared_ptr<ASTClassPropertyInitNode> propertyInit, std::optional<std::shared_ptr<ASTExpressionNode>> initializer) {
     _propertyInit = propertyInit;
     _initializer = initializer;
     _children.push_back(_propertyInit);
@@ -16,15 +16,15 @@ ASTClassPropertyDeclarationNode::ASTClassPropertyDeclarationNode(ASTClassPropert
     }
 }
 
-ASTClassPropertyInitNode* ASTClassPropertyDeclarationNode::getPropertyInit() {
+std::shared_ptr<ASTClassPropertyInitNode> ASTClassPropertyDeclarationNode::getPropertyInit() {
     return _propertyInit;
 }
 
-ASTAccessModifierNode* ASTClassPropertyDeclarationNode::getAccessModifier() {
+std::shared_ptr<ASTAccessModifierNode> ASTClassPropertyDeclarationNode::getAccessModifier() {
     return _propertyInit->getAccessModifier();
 }
 
-ASTClassPropertyNameNode* ASTClassPropertyDeclarationNode::getPropertyName() {
+std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyDeclarationNode::getPropertyName() {
     return _propertyInit->getPropertyName();
 }
 
@@ -34,11 +34,11 @@ std::string ASTClassPropertyDeclarationNode::getNormalizedPropertyName() {
     return propertyId.substr(delimiterIndex + 1);
 }
 
-std::optional<ASTTypeNode*> ASTClassPropertyDeclarationNode::getType() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTClassPropertyDeclarationNode::getType() {
     return _propertyInit->getType();
 }
 
-std::optional<ASTExpressionNode*> ASTClassPropertyDeclarationNode::getInitializer() {
+std::optional<std::shared_ptr<ASTExpressionNode>> ASTClassPropertyDeclarationNode::getInitializer() {
     return _initializer;
 }
 
@@ -85,12 +85,12 @@ std::string ASTClassPropertyDeclarationNode::toString() {
     return "CLASS_PROPERTY_DECLARATION";
 }
 
-bool ASTClassPropertyDeclarationNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
 
-    auto otherNode = (ASTClassPropertyDeclarationNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyDeclarationNode>(other);
 
     if (!_initializer.has_value() && otherNode->getInitializer().has_value() ||
         _initializer.has_value() && !otherNode->getInitializer().has_value()) {

@@ -8,7 +8,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace ArrayExpressionTypeCheckerPolicy {
-    void apply(ASTArrayExpressionNode* arrayExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTArrayExpressionNode> arrayExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression);

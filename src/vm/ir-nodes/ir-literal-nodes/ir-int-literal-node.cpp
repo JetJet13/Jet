@@ -4,7 +4,7 @@
 
 #include "ir-int-literal-node.h"
 
-IRIntLiteralNode::IRIntLiteralNode(ASTIntLiteralNode* astNode, llvm::ConstantInt* irValue) {
+IRIntLiteralNode::IRIntLiteralNode(std::shared_ptr<ASTIntLiteralNode> astNode, llvm::ConstantInt* irValue) {
     _astNode = astNode;
     _irValue = irValue;
     _type = new IRType(_irValue->getType());

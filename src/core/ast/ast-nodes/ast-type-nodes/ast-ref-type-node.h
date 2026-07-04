@@ -13,16 +13,16 @@
 
 class ASTRefTypeNode : public ASTTypeBaseNode {
 private:
-    ASTRefTypeKeywordNode* _ref;
-    ASTTypeParameterListNode* _typeParameterList;
+    std::shared_ptr<ASTRefTypeKeywordNode> _ref;
+    std::shared_ptr<ASTTypeParameterListNode> _typeParameterList;
 public:
-    ASTRefTypeNode(ASTRefTypeKeywordNode* refNode, ASTTypeParameterListNode* typeParameterList);
-    ASTTypeNode* getRefType();
+    ASTRefTypeNode(std::shared_ptr<ASTRefTypeKeywordNode> refNode, std::shared_ptr<ASTTypeParameterListNode> typeParameterList);
+    std::shared_ptr<ASTTypeNode> getRefType();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

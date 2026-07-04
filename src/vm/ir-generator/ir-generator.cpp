@@ -196,146 +196,147 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
     );
 }
 
-IRNode* IRGenerator::generateFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
+IRNode* IRGenerator::generateFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext) {
     if (ASTNodeUtils::isTypeDeclarationNode(node)) {
-        return this->generateFor((ASTTypeDeclarationNode*)node, scope, irContext);
+        return this->generateFor(std::dynamic_pointer_cast<ASTTypeDeclarationNode>(node), scope, irContext);
     } else if (ASTNodeUtils::isDeclarationNode(node)) {
-        return this->generateFor((ASTDeclarationNode*)node, scope, irContext);
+        return this->generateFor(std::dynamic_pointer_cast<ASTDeclarationNode>(node), scope, irContext);
     } else if (ASTNodeUtils::isStatementNode(node)) {
-        return this->generateFor((ASTStatementNode*)node, scope, irContext);
+        return this->generateFor(std::dynamic_pointer_cast<ASTStatementNode>(node), scope, irContext);
+    } else if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getFunctionReturnExpressionIRStrategy()->generate(
+                std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(node), this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for node " + node->toString());
 }
 
-IRStatementNode* IRGenerator::generateFor(ASTStatementNode* node, IRLookupTable* scope, IRContext* irContext) {
-    if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getFunctionReturnExpressionIRStrategy()->generate((ASTFunctionReturnExpressionNode*)node,  this, scope, irContext);
-    } else if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate((ASTExpressionStatementNode*)node,  this, scope, irContext);
+IRStatementNode* IRGenerator::generateFor(std::shared_ptr<ASTStatementNode> node, IRLookupTable* scope, IRContext* irContext) {
+    if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate((ASTClassPropertyAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate((ASTClassPropertyRefValueAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate((ASTRefValueAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate((ASTVariableAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate((ASTArrayAccessAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getArrayAccessRefAssignmentStatementIRStrategy()->generate((ASTArrayAccessRefAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getArrayAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate((ASTObjectAccessAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getObjectAccessRefAssignmentStatementIRStrategy()->generate((ASTObjectAccessRefAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getObjectAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate((ASTTupleAccessAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getTupleAccessRefAssignmentStatementIRStrategy()->generate((ASTTupleAccessRefAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getTupleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getModuleAccessAssignmentStatementIRStrategy()->generate((ASTModuleAccessAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getModuleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getModuleAccessRefAssignmentStatementIRStrategy()->generate((ASTModuleAccessRefAssignmentStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getModuleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_IF_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getIfStatementIRStrategy()->generate((ASTIfStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getIfStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTIfStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_WHILE_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getWhileStatementIRStrategy()->generate((ASTWhileStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getWhileStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTWhileStatementNode>(node),  this, scope, irContext);
     } else if (node->is(AST_FOR_IN_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getForInStatementIRStrategy()->generate((ASTForInStatementNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getForInStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTForInStatementNode>(node),  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
 
-IRDeclarationNode* IRGenerator::generateFor(ASTDeclarationNode* node, IRLookupTable* scope, IRContext* irContext) {
+IRDeclarationNode* IRGenerator::generateFor(std::shared_ptr<ASTDeclarationNode> node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate((ASTVariableDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_FUNCTION_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getFunctionDeclarationIRStrategy()->generate((ASTFunctionDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getFunctionDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_PROCEDURE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getProcedureDeclarationIRStrategy()->generate((ASTProcedureDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getProcedureDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_ENUM_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getEnumDeclarationIRStrategy()->generate((ASTEnumDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getEnumDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_MODULE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate((ASTModuleDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate((ASTImportSingleModuleDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_CLASS_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate((ASTClassDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node),  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
-IRTypeDeclarationNode* IRGenerator::generateFor(ASTTypeDeclarationNode* node, IRLookupTable* scope, IRContext* irContext) {
+IRTypeDeclarationNode* IRGenerator::generateFor(std::shared_ptr<ASTTypeDeclarationNode> node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_INTERFACE_TYPE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate((ASTInterfaceTypeDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(node),  this, scope, irContext);
     } else if (node->is(AST_CUSTOM_TYPE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getCustomTypeDeclarationIRStrategy()->generate((ASTCustomTypeDeclarationNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getCustomTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node),  this, scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for type declaration " + node->toString());
 }
 
-IRFunctionParameterListNode* IRGenerator::generateFor(ASTFunctionParameterListNode* node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction) {
+IRFunctionParameterListNode* IRGenerator::generateFor(std::shared_ptr<ASTFunctionParameterListNode> node, IRLookupTable* scope, IRContext* irContext, llvm::Function* irFunction) {
     return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node,  this, scope, irContext, irFunction);
 }
 
-IRExpressionNode* IRGenerator::generateFor(ASTExpressionNode* node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRExpressionNode* IRGenerator::generateFor(std::shared_ptr<ASTExpressionNode> node, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate((ASTLiteralExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLiteralExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryArithmeticExpressionNode*)node, this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(node), this, scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_COMPARATOR_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate((ASTBinaryComparatorExpressionNode*)node, this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(node), this, scope, irContext, irOperation);
     } else if (node->is(AST_CONCAT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate((ASTConcatExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTConcatExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate((ASTLogicalExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLogicalExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate((ASTArrayExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate((ASTArrayAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessInvocationExpressionIRStrategy()->generate((ASTArrayAccessInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate((ASTStructExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTStructExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate((ASTUnaryExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate((ASTTupleExpressionNode*) node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_THIS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getThisExpressionIRStrategy()->generate((ASTThisExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getThisExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTThisExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate((ASTIdentifierExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate((ASTObjectAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate((ASTObjectAccessInvocationExpressionNode*)node, this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(node), this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate((ASTTupleAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate((ASTTupleAccessInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate((ASTFunctionInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaExpressionNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node),  this, scope, irContext);
     } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate((ASTLambdaWithFatArrowExpressionNode*)node,  this, scope, irContext);
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node),  this, scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate((ASTClassPropertyAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate((ASTClassMethodInvocationExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate((ASTNewClassInstanceExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_REF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate((ASTRefExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate((ASTDrefExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_MODULE_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate((ASTModuleAccessExpressionNode*)node,  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node),  this, scope, irContext, irOperation);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-IRFunctionArgumentNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature) {
+IRFunctionArgumentNode* IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation, InvocableTypeSignature* invocableTypeSignature) {
     auto irExpression = this->generateFor(node->getArgument(), scope, irContext, irOperation);
     auto operation = invocableTypeSignature->isArgumentVarArg(index)
                      || invocableTypeSignature->getParameterTypes()->at(index)->isGeneric()
@@ -345,30 +346,30 @@ IRFunctionArgumentNode* IRGenerator::generateFor(ASTFunctionArgumentNode* node, 
     return new IRFunctionArgumentNode(irExpression, operation);
 }
 
-IRLiteralNode* IRGenerator::generateFor(ASTLiteralNode* node, IRLookupTable* scope, IRContext* irContext) {
+IRLiteralNode* IRGenerator::generateFor(std::shared_ptr<ASTLiteralNode> node, IRLookupTable* scope, IRContext* irContext) {
     switch (node->getNodeType()) {
         case AST_INT_LITERAL_NODE:
-            return _irStrategyMap.getIntLiteralIRStrategy()->generate((ASTIntLiteralNode*) node, irContext);
+            return _irStrategyMap.getIntLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTIntLiteralNode>(node), irContext);
         case AST_FLOAT_LITERAL_NODE:
-            return _irStrategyMap.getFloatLiteralIRStrategy()->generate((ASTFloatLiteralNode*) node, this, irContext);
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTFloatLiteralNode>(node), this, irContext);
         case AST_CHAR_LITERAL_NODE:
-            return _irStrategyMap.getCharLiteralIRStrategy()->generate((ASTCharLiteralNode*) node, this, irContext);
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTCharLiteralNode>(node), this, irContext);
         case AST_STRING_LITERAL_NODE:
-            return _irStrategyMap.getStringLiteralIRStrategy()->generate((ASTStringLiteralNode*) node, this, irContext);
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTStringLiteralNode>(node), this, irContext);
         case AST_BOOLEAN_LITERAL_NODE:
-            return _irStrategyMap.getBoolLiteralIRStrategy()->generate((ASTBooleanLiteralNode*) node, irContext);
+            return _irStrategyMap.getBoolLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTBooleanLiteralNode>(node), irContext);
         default:
             throw std::logic_error("unknown literal node");
     }
 }
 
-void IRGenerator::generateInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
+void IRGenerator::generateInitialTypeFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_CLASS_DECLARATION_NODE)) {
         this->generateInitialTypeFor(node->getTypeSignature(), scope, irContext);
     }
 }
 
-void IRGenerator::generatePostInitialTypeFor(ASTNode* node, IRLookupTable* scope, IRContext* irContext) {
+void IRGenerator::generatePostInitialTypeFor(std::shared_ptr<ASTNode> node, IRLookupTable* scope, IRContext* irContext) {
     if (node->is(AST_CLASS_DECLARATION_NODE)) {
         this->generatePostInitialTypeFor(node->getTypeSignature(), scope, irContext);
     }
@@ -932,7 +933,7 @@ IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irTy
             ), this->generateIrPointerType(irType));
 }
 
-IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(ASTFunctionParameterNode* functionParameter, IRParameterType* irParameterType, IRContext* irContext) {
+IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(std::shared_ptr<ASTFunctionParameterNode> functionParameter, IRParameterType* irParameterType, IRContext* irContext) {
     auto irType = irParameterType->getIRType();
     if (functionParameter->isCaptured()) {
         return new IRInstructionNode(

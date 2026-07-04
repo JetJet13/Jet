@@ -5,12 +5,12 @@
 #include "ast-import-module-list-item-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListItemNode::ASTImportModuleListItemNode(ASTImportModuleListBaseItemNode* item) {
+ASTImportModuleListItemNode::ASTImportModuleListItemNode(std::shared_ptr<ASTImportModuleListBaseItemNode> item) {
     _item = item;
     _children.push_back(_item);
 }
 
-ASTImportModuleListBaseItemNode* ASTImportModuleListItemNode::getItem() {
+std::shared_ptr<ASTImportModuleListBaseItemNode> ASTImportModuleListItemNode::getItem() {
     return _item;
 }
 
@@ -30,11 +30,11 @@ std::string ASTImportModuleListItemNode::toString() {
     return "IMPORT_MODULE_LIST_ITEM";
 }
 
-bool ASTImportModuleListItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImportModuleListItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListItemNode>(other);
     return _item->isSameAs(otherNode->getItem());
 }
 

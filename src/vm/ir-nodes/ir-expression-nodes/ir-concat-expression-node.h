@@ -12,13 +12,13 @@
 
 class IRConcatExpressionNode : public IRExpressionNode {
 private:
-    ASTConcatExpressionNode* _node;
+    std::shared_ptr<ASTConcatExpressionNode> _node;
     llvm::CallInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRArrayPointerType* _type;
 public:
-    IRConcatExpressionNode(ASTConcatExpressionNode* astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type);
+    IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type);
     void markAsGlobal() override;
     llvm::CallInst* getValue() override;
     IRExpressionNode* getLeftNode();

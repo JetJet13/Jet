@@ -7,28 +7,28 @@
 #include "../../types/source-code-builder/source-code-builder.h"
 
 
-ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
+ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode) {
     _enumKeyValueListStartNode = enumKeyValueListStartNode;
     _enumKeyValueListEndNode = enumKeyValueListEndNode;
     _children.push_back(_enumKeyValueListStartNode);
     _children.push_back(_enumKeyValueListEndNode);
-    _commas = std::vector<ASTCommaNode*>();
-    _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _enumKeyValues = std::vector<std::shared_ptr<ASTEnumKeyValueNode>>();
 }
 
-ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(ASTEnumKeyValueListStartNode* enumKeyValueListStartNode, std::vector<ASTEnumKeyValueNode*> enumKeyValues, std::vector<ASTCommaNode*> commas, ASTEnumKeyValueListEndNode* enumKeyValueListEndNode) {
+ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::vector<std::shared_ptr<ASTEnumKeyValueNode>> enumKeyValues, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode) {
     _enumKeyValueListStartNode = enumKeyValueListStartNode;
     _enumKeyValueListEndNode = enumKeyValueListEndNode;
     _children.push_back(_enumKeyValueListStartNode);
     _children.push_back(_enumKeyValueListEndNode);
     _commas = commas;
-    _enumKeyValues = std::vector<ASTEnumKeyValueNode*>();
+    _enumKeyValues = std::vector<std::shared_ptr<ASTEnumKeyValueNode>>();
     for (auto enumKeyValue: enumKeyValues) {
         this->addEnumKeyValue(enumKeyValue);
     }
 }
 
-std::vector<ASTEnumKeyValueNode*> ASTEnumKeyValueListNode::getParameters() {
+std::vector<std::shared_ptr<ASTEnumKeyValueNode>> ASTEnumKeyValueListNode::getParameters() {
     return _enumKeyValues;
 }
 
@@ -36,15 +36,15 @@ unsigned long ASTEnumKeyValueListNode::numParameters() {
     return _enumKeyValues.size();
 }
 
-ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addEnumKeyValue(ASTEnumKeyValueNode* enumKeyValue) {
+std::shared_ptr<ASTEnumKeyValueListNode> ASTEnumKeyValueListNode::addEnumKeyValue(std::shared_ptr<ASTEnumKeyValueNode> enumKeyValue) {
     _enumKeyValues.push_back(enumKeyValue);
     _children.push_back(enumKeyValue);
-    return this;
+    return std::dynamic_pointer_cast<ASTEnumKeyValueListNode>(shared_from_this());
 }
 
-ASTEnumKeyValueListNode* ASTEnumKeyValueListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTEnumKeyValueListNode> ASTEnumKeyValueListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTEnumKeyValueListNode>(shared_from_this());
 }
 
 Position* ASTEnumKeyValueListNode::getStartPosition() {
@@ -63,11 +63,11 @@ std::string ASTEnumKeyValueListNode::toString() {
     return "ENUM_KEY_VALUE_LIST";
 }
 
-bool ASTEnumKeyValueListNode::isSameAs(ASTNode* other) {
+bool ASTEnumKeyValueListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTEnumKeyValueListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTEnumKeyValueListNode>(other);
     auto otherNodeElements = otherNode->getParameters();
     if (this->numParameters() != otherNode->numParameters()) {
         return false;

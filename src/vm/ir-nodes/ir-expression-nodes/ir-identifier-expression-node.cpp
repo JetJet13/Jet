@@ -5,7 +5,7 @@
 #include "ir-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc) {
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc) {
     _node = node;
     _irValue = irValue;
     _irArc = irArc;

@@ -12,12 +12,12 @@
 
 class IRUnaryArithmeticExpressionNode : public IRUnaryExpressionNode {
 private:
-    ASTUnaryExpressionNode* _node;
+    std::shared_ptr<ASTUnaryExpressionNode> _node;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irExpression;
     IRType* _type;
 public:
-    IRUnaryArithmeticExpressionNode(ASTUnaryExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
+    IRUnaryArithmeticExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type);
     IRExpressionNode* getIRValue();
     void markAsGlobal() override;
     llvm::BinaryOperator* getValue() override;

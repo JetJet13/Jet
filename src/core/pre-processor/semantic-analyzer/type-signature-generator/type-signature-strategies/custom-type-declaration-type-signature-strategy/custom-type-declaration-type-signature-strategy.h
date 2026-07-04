@@ -10,7 +10,7 @@
 
 class CustomTypeDeclarationTypeSignatureStrategy {
 public:
-    void assignAndAddToScope(ASTCustomTypeDeclarationNode* customTypeDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignAndAddToScope(std::shared_ptr<ASTCustomTypeDeclarationNode> customTypeDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 

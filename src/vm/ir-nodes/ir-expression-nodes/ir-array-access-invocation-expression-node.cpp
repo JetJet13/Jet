@@ -5,7 +5,7 @@
 #include "ir-array-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(ASTArrayAccessInvocationExpressionNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
+IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irArrayAccessExpression = irArrayAccessExpression;

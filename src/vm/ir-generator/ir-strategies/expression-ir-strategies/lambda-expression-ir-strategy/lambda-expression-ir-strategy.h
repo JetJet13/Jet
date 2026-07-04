@@ -17,8 +17,8 @@ private:
     void setupParameters(LambdaExpressionTypeSignature* typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext);
     llvm::Function* generateLambdaCleanupFunction(IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    IRLambdaWithBlockExpressionNode* generate(ASTLambdaExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRLambdaWithFatArrowExpressionNode* generate(ASTLambdaWithFatArrowExpressionNode* node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRLambdaWithBlockExpressionNode* generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRLambdaWithFatArrowExpressionNode* generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_IR_STRATEGY_H

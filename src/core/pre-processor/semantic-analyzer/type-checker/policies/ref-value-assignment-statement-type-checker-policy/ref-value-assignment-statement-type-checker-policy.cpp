@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace RefValueAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTRefValueAssignmentStatementNode* refValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTRefValueAssignmentStatementNode> refValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(refValueAssignmentStatementNode);
         auto invalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(refValueAssignmentStatementNode);
         auto voidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(refValueAssignmentStatementNode);

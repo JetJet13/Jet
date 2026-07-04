@@ -12,7 +12,7 @@
 
 class ObjectAccessInvocationExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTObjectAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRExpressionNode* generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_INVOCATION_EXPRESSION_IR_STRATEGY_H

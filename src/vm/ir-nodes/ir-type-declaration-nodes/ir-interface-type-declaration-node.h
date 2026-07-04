@@ -13,10 +13,10 @@
 
 class IRInterfaceTypeDeclarationNode : public IRTypeDeclarationNode {
 private:
-    ASTInterfaceTypeDeclarationNode* _node;
+    std::shared_ptr<ASTInterfaceTypeDeclarationNode> _node;
     IRStructType* _irInterfaceType;
 public:
-    IRInterfaceTypeDeclarationNode(ASTInterfaceTypeDeclarationNode* node, IRStructType* irInterfaceType);
+    IRInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRStructType* irInterfaceType);
     std::string getName();
     IRStructType* getIRType();
     IRNodeType getNodeType() override;

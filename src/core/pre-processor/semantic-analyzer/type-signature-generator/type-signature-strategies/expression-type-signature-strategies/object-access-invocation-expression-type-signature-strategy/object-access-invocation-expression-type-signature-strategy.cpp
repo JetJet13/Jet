@@ -9,7 +9,7 @@
 #include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(ASTObjectAccessInvocationExpressionNode* objectAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), context, scope);
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
 

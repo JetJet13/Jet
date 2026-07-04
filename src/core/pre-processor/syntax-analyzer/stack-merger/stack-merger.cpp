@@ -51,17 +51,17 @@ template<class T>
 std::stack<T>* StackMerger<T>::merge(std::vector<T> firstVector, std::stack<T>* otherStack) {
     auto newStack = new std::stack<T>();
     for (auto item : firstVector) {
-        Logger::log("StackMerger :: pushing vector item to stack", ((ASTNode*)item)->toString());
+        Logger::log("StackMerger :: pushing vector item to stack", (std::dynamic_pointer_cast<ASTNode>(item))->toString());
         newStack->push(item);
     }
 
     while (!otherStack->empty()) {
         auto firstStackItem = otherStack->top();
         otherStack->pop();
-        Logger::log("StackMerger :: pushing stack item to stack", ((ASTNode*)firstStackItem)->toString());
+        Logger::log("StackMerger :: pushing stack item to stack", (std::dynamic_pointer_cast<ASTNode>(firstStackItem))->toString());
         newStack->push(firstStackItem);
     }
     return newStack;
 }
 
-template class StackMerger<ASTNode*>;
+template class StackMerger<std::shared_ptr<ASTNode>>;

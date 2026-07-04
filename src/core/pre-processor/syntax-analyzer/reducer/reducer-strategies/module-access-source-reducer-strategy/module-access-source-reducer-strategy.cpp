@@ -5,12 +5,12 @@
 #include "module-access-source-reducer-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.h"
 
-ASTNode* ModuleAccessSourceReducerStrategy::execute(std::vector<ASTNode*> nodes) {
+std::shared_ptr<ASTNode> ModuleAccessSourceReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     if (nodes.size() != 1) {
         throw std::invalid_argument("unable to reduce to module access source since nodes list is not 1");
     }
 
-    return new ASTModuleAccessSourceNode(
-            (ASTIdentifierExpressionNode*)nodes[0]
+    return std::make_shared<ASTModuleAccessSourceNode>(
+            std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(nodes[0])
     );
 }

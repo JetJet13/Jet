@@ -4,7 +4,7 @@
 
 #include "ir-interface-type-declaration-node.h"
 
-IRInterfaceTypeDeclarationNode::IRInterfaceTypeDeclarationNode(ASTInterfaceTypeDeclarationNode* node, IRStructType* irInterfaceType) {
+IRInterfaceTypeDeclarationNode::IRInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRStructType* irInterfaceType) {
     _node = node;
     _irInterfaceType = irInterfaceType;
 }

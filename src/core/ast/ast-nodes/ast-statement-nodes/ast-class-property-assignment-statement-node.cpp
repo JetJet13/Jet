@@ -6,18 +6,18 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(ASTClassPropertyAssignmentNode* propertyAssignment, ASTExpressionNode* expression) {
+ASTClassPropertyAssignmentStatementNode::ASTClassPropertyAssignmentStatementNode(std::shared_ptr<ASTClassPropertyAssignmentNode> propertyAssignment, std::shared_ptr<ASTExpressionNode> expression) {
     _propertyAssignment = propertyAssignment;
     _expression = expression;
     _children.push_back(_propertyAssignment);
     _children.push_back(_expression);
 }
 
-ASTClassPropertyAssignmentNode* ASTClassPropertyAssignmentStatementNode::getPropertyAssignment() {
+std::shared_ptr<ASTClassPropertyAssignmentNode> ASTClassPropertyAssignmentStatementNode::getPropertyAssignment() {
     return _propertyAssignment;
 }
 
-ASTExpressionNode* ASTClassPropertyAssignmentStatementNode::getExpression() {
+std::shared_ptr<ASTExpressionNode> ASTClassPropertyAssignmentStatementNode::getExpression() {
     return _expression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTClassPropertyAssignmentStatementNode::toString() {
     return "CLASS_PROPERTY_ASSIGNMENT_STATEMENT";
 }
 
-bool ASTClassPropertyAssignmentStatementNode::isSameAs(ASTNode* other) {
+bool ASTClassPropertyAssignmentStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTClassPropertyAssignmentStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(other);
     return this->getPropertyAssignment()->isSameAs(otherNode->getPropertyAssignment()) &&
            this->getExpression()->isSameAs(otherNode->getExpression());
 }

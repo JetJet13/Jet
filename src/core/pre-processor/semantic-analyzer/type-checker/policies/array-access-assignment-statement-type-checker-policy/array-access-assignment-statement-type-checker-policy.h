@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.h"
 
 namespace ArrayAccessAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTArrayAccessAssignmentStatementNode* arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 

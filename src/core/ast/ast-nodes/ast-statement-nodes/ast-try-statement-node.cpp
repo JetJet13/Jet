@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock) {
+ASTTryStatementNode::ASTTryStatementNode(std::shared_ptr<ASTTryBlockNode> tryBlock, std::shared_ptr<ASTCatchBlockNode> catchBlock) {
     _tryBlock = tryBlock;
     _catchBlock = catchBlock;
     _finallyBlock = {};
@@ -14,7 +14,7 @@ ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBloc
     _children.push_back(_catchBlock);
 }
 
-ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBlockNode* catchBlock, ASTFinallyBlockNode* finallyBlock) {
+ASTTryStatementNode::ASTTryStatementNode(std::shared_ptr<ASTTryBlockNode> tryBlock, std::shared_ptr<ASTCatchBlockNode> catchBlock, std::shared_ptr<ASTFinallyBlockNode> finallyBlock) {
     _tryBlock = tryBlock;
     _catchBlock = catchBlock;
     _finallyBlock = finallyBlock;
@@ -24,15 +24,15 @@ ASTTryStatementNode::ASTTryStatementNode(ASTTryBlockNode* tryBlock, ASTCatchBloc
 
 }
 
-ASTTryBlockNode* ASTTryStatementNode::getTryBlock() {
+std::shared_ptr<ASTTryBlockNode> ASTTryStatementNode::getTryBlock() {
     return _tryBlock;
 }
 
-ASTCatchBlockNode* ASTTryStatementNode::getCatchBlock() {
+std::shared_ptr<ASTCatchBlockNode> ASTTryStatementNode::getCatchBlock() {
     return _catchBlock;
 }
 
-std::optional<ASTFinallyBlockNode*> ASTTryStatementNode::getFinallyBlock() {
+std::optional<std::shared_ptr<ASTFinallyBlockNode>> ASTTryStatementNode::getFinallyBlock() {
     return _finallyBlock;
 }
 
@@ -55,11 +55,11 @@ std::string ASTTryStatementNode::toString() {
     return "TRY_STATEMENT";
 }
 
-bool ASTTryStatementNode::isSameAs(ASTNode* other) {
+bool ASTTryStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTTryStatementNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTryStatementNode>(other);
     if (!this->getTryBlock()->isSameAs(otherNode->getTryBlock())) {
         return false;
     }

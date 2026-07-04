@@ -12,8 +12,8 @@
 
 class LexemeTransformer {
 public:
-    std::optional<ASTNode*> transform(std::optional<Lexeme*> lexeme);
-    ASTNode* transform(Lexeme* lexeme);
+    std::optional<std::shared_ptr<ASTNode>> transform(std::optional<Lexeme*> lexeme);
+    std::shared_ptr<ASTNode> transform(Lexeme* lexeme);
 };
 
 #endif //JETLANG_LEXEME_TRANSFORMER_H

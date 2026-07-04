@@ -14,7 +14,7 @@
 
 class UniqueScopedNamesTypeCheckerRule : public TypeCheckerRule {
 public:
-    void enforce(std::vector<ASTIdentifierNode*>* names, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTIdentifierNode>>* names, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

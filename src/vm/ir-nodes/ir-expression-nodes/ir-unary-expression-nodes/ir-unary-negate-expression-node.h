@@ -12,11 +12,11 @@
 
 class IRUnaryNegateExpressionNode : public IRUnaryExpressionNode {
 private:
-    ASTUnaryExpressionNode* _node;
+    std::shared_ptr<ASTUnaryExpressionNode> _node;
     IRExpressionNode* _irExpression;
     IRType* _type;
 public:
-    IRUnaryNegateExpressionNode(ASTUnaryExpressionNode* node, IRExpressionNode* irExpression, IRType* type);
+    IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, IRExpressionNode* irExpression, IRType* type);
     IRExpressionNode* getIRExpression();
     void markAsGlobal() override;
     llvm::Value* getValue() override;

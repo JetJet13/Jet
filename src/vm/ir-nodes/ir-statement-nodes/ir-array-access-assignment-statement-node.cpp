@@ -4,7 +4,7 @@
 
 #include "ir-array-access-assignment-statement-node.h"
 
-IRArrayAccessAssignmentStatementNode::IRArrayAccessAssignmentStatementNode(ASTArrayAccessAssignmentStatementNode* node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression) {
+IRArrayAccessAssignmentStatementNode::IRArrayAccessAssignmentStatementNode(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression) {
     _node = node;
     _irArrayAccessExpression = irArrayAccessExpression;
     _irExpression = irExpression;

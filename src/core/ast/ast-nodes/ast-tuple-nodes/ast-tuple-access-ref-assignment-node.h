@@ -13,17 +13,17 @@
 
 class ASTTupleAccessRefAssignmentNode : public ASTNode {
 private:
-    ASTTupleAccessExpressionNode* _tupleAccessExpression;
-    ASTRefValueAssignmentOperatorNode* _assignmentOperator;
+    std::shared_ptr<ASTTupleAccessExpressionNode> _tupleAccessExpression;
+    std::shared_ptr<ASTRefValueAssignmentOperatorNode> _assignmentOperator;
 public:
-    explicit ASTTupleAccessRefAssignmentNode(ASTTupleAccessExpressionNode* tupleAccessExpression, ASTRefValueAssignmentOperatorNode* assignmentOperator);
-    ASTTupleAccessExpressionNode* getTupleAccess();
+    explicit ASTTupleAccessRefAssignmentNode(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator);
+    std::shared_ptr<ASTTupleAccessExpressionNode> getTupleAccess();
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -12,7 +12,7 @@
 
 class EnumTypeSignatureStrategy {
 public:
-    void assign(ASTEnumDeclarationNode* enumDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTEnumDeclarationNode> enumDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ENUM_TYPE_SIGNATURE_STRATEGY_H

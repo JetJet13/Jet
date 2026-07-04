@@ -10,7 +10,7 @@
 
 
 namespace ControlFlowConditionTypeCheckerPolicy {
-    void apply(ASTControlFlowConditionNode* controlFlowConditionNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTControlFlowConditionNode> controlFlowConditionNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_CONTROL_FLOW_CONDITION_TYPE_CHECKER_POLICY_H

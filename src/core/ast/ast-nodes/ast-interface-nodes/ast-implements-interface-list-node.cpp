@@ -6,24 +6,24 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword) {
+ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword) {
     _implements = implementsKeyword;
     _children.push_back(_implements);
-    _commas = std::vector<ASTCommaNode*>();
-    _interfaceNames = std::vector<ASTImplementsInterfaceNameNode*>();
+    _commas = std::vector<std::shared_ptr<ASTCommaNode>>();
+    _interfaceNames = std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>>();
 }
 
-ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames, std::vector<ASTCommaNode*> commas) {
+ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword, std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> interfaceNames, std::vector<std::shared_ptr<ASTCommaNode>> commas) {
     _implements = implementsKeyword;
     _children.push_back(_implements);
     _commas = commas;
-    _interfaceNames = std::vector<ASTImplementsInterfaceNameNode*>();
+    _interfaceNames = std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>>();
     for (auto interfaceName: interfaceNames) {
         this->addInterface(interfaceName);
     }
 }
 
-std::vector<ASTImplementsInterfaceNameNode*> ASTImplementsInterfaceListNode::getInterfaceNames() {
+std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> ASTImplementsInterfaceListNode::getInterfaceNames() {
     return _interfaceNames;
 }
 
@@ -31,15 +31,15 @@ unsigned long ASTImplementsInterfaceListNode::numInterfaces() {
     return _interfaceNames.size();
 }
 
-ASTImplementsInterfaceListNode* ASTImplementsInterfaceListNode::addInterface(ASTImplementsInterfaceNameNode* interfaceName) {
+std::shared_ptr<ASTImplementsInterfaceListNode> ASTImplementsInterfaceListNode::addInterface(std::shared_ptr<ASTImplementsInterfaceNameNode> interfaceName) {
     _interfaceNames.push_back(interfaceName);
     _children.push_back(interfaceName);
-    return this;
+    return std::dynamic_pointer_cast<ASTImplementsInterfaceListNode>(shared_from_this());
 }
 
-ASTImplementsInterfaceListNode* ASTImplementsInterfaceListNode::addComma(ASTCommaNode* comma) {
+std::shared_ptr<ASTImplementsInterfaceListNode> ASTImplementsInterfaceListNode::addComma(std::shared_ptr<ASTCommaNode> comma) {
     _commas.push_back(comma);
-    return this;
+    return std::dynamic_pointer_cast<ASTImplementsInterfaceListNode>(shared_from_this());
 }
 
 Position* ASTImplementsInterfaceListNode::getStartPosition() {
@@ -58,11 +58,11 @@ std::string ASTImplementsInterfaceListNode::toString() {
     return "IMPLEMENTS_INTERFACE_LIST";
 }
 
-bool ASTImplementsInterfaceListNode::isSameAs(ASTNode* other) {
+bool ASTImplementsInterfaceListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTImplementsInterfaceListNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImplementsInterfaceListNode>(other);
     auto otherNodeElements = otherNode->getInterfaceNames();
     if (this->numInterfaces() != otherNode->numInterfaces()) {
         return false;

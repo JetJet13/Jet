@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
 
 namespace EnumDeclarationTypeCheckerPolicy {
-    void apply(ASTEnumDeclarationNode* enumDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTEnumDeclarationNode> enumDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_ENUM_DECLARATION_TYPE_CHECKER_POLICY_H

@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, ASTStructColonNode* colon, ASTExpressionNode* value) {
+ASTStructKeyValueNode::ASTStructKeyValueNode(std::shared_ptr<ASTIdentifierExpressionNode> key, std::shared_ptr<ASTStructColonNode> colon, std::shared_ptr<ASTExpressionNode> value) {
     _key = key;
     _colon = colon;
     _value = value;
@@ -15,11 +15,11 @@ ASTStructKeyValueNode::ASTStructKeyValueNode(ASTIdentifierExpressionNode* key, A
     _children.push_back(_value);
 }
 
-ASTIdentifierExpressionNode* ASTStructKeyValueNode::getKey() {
+std::shared_ptr<ASTIdentifierExpressionNode> ASTStructKeyValueNode::getKey() {
     return _key;
 }
 
-ASTExpressionNode* ASTStructKeyValueNode::getValue() {
+std::shared_ptr<ASTExpressionNode> ASTStructKeyValueNode::getValue() {
     return _value;
 }
 
@@ -39,11 +39,11 @@ std::string ASTStructKeyValueNode::toString() {
     return "STRUCT_KEY_VALUE";
 }
 
-bool ASTStructKeyValueNode::isSameAs(ASTNode* other) {
+bool ASTStructKeyValueNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTStructKeyValueNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTStructKeyValueNode>(other);
     return _key->isSameAs(otherNode->getKey()) && _value->isSameAs(otherNode->getValue());
 }
 

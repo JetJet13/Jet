@@ -9,7 +9,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.h"
 
 namespace ObjectAccessExpressionTypeCheckerPolicy {
-    void apply(ASTObjectAccessExpressionNode* objectAccessExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_EXPRESSION_TYPE_CHECKER_POLICY_H

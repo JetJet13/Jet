@@ -11,8 +11,8 @@
 
 class FunctionTypeSignatureStrategy {
 public:
-    void assign(ASTFunctionDeclarationNode* functionDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
-    void assignInitial(ASTFunctionDeclarationNode* functionDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assignInitial(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_FUNCTION_TYPE_SIGNATURE_STRATEGY_H

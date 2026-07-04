@@ -4,8 +4,8 @@
 
 #include "variable-declaration-id-strategy.h"
 
-void VariableDeclarationIdStrategy::assign(ASTNode* node) {
-    auto varDeclarationNode = (ASTVariableDeclarationNode*)node;
+void VariableDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto varDeclarationNode = std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node);
     varDeclarationNode->setId(
             _tokenTable->getIdentifier(
                     varDeclarationNode->getVarInitNode()

@@ -11,20 +11,20 @@
 
 class ASTRefExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _expression;
-    ASTRefNode* _refNode;
+    std::shared_ptr<ASTExpressionNode> _expression;
+    std::shared_ptr<ASTRefNode> _refNode;
     RefTypeSignature* _typeSignature = new RefTypeSignature();
 public:
-    ASTRefExpressionNode(ASTRefNode* refNode, ASTExpressionNode* astExpressionNode);
-    ASTExpressionNode* getExpressionNode();
-    ASTRefNode* getRefNode();
+    ASTRefExpressionNode(std::shared_ptr<ASTRefNode> refNode, std::shared_ptr<ASTExpressionNode> astExpressionNode);
+    std::shared_ptr<ASTExpressionNode> getExpressionNode();
+    std::shared_ptr<ASTRefNode> getRefNode();
     RefTypeSignature* getTypeSignature() override;
     void setTypeSignature(RefTypeSignature* typeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

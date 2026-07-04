@@ -15,13 +15,13 @@
 
 class IRRefExpressionNode : public IRExpressionNode {
 private:
-    ASTRefExpressionNode* _node;
+    std::shared_ptr<ASTRefExpressionNode> _node;
     IRExpressionNode* _irExpression;
     IRRefType* _irType;
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
 public:
-    IRRefExpressionNode(ASTRefExpressionNode* node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
+    IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();

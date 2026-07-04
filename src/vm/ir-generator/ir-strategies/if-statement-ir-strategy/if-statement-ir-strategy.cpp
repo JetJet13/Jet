@@ -6,7 +6,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h"
 
-IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRStatementNode* IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto ifConditionBlock = irGenerator->generateIfBlock(irContext, scope);
     auto thenBlock = irGenerator->generateIfThenBlock(irContext, scope);
@@ -41,7 +41,7 @@ IRStatementNode* IfStatementIRStrategy::generate(ASTIfStatementNode* node, IRGen
     return new IRIfStatementNode(node, ifNode);
 }
 
-IRBlockNode* IfStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, ASTControlFlowBlockNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IRBlockNode* IfStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     for (auto statement : *node->getContents()) {
         irBlockNode->insert(irGenerator->generateFor(statement, irBlockNode->getScope(), irContext));
     }

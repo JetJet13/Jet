@@ -5,7 +5,7 @@
 #include "ir-procedure-declaration-node.h"
 #include "../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRProcedureDeclarationNode::IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable) {
+IRProcedureDeclarationNode::IRProcedureDeclarationNode(std::shared_ptr<ASTProcedureDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;

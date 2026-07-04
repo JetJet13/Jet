@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTObjectAccessAssignmentNode::ASTObjectAccessAssignmentNode(ASTObjectAccessExpressionNode* objectAccessExpression, ASTAssignmentOperatorNode* assignmentOperator) {
+ASTObjectAccessAssignmentNode::ASTObjectAccessAssignmentNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<ASTAssignmentOperatorNode> assignmentOperator) {
     _objectAccessExpression = objectAccessExpression;
     _assignmentOperator = assignmentOperator;
     _children.push_back(_objectAccessExpression);
     _children.push_back(_assignmentOperator);
 }
 
-ASTObjectAccessExpressionNode* ASTObjectAccessAssignmentNode::getObjectAccess() {
+std::shared_ptr<ASTObjectAccessExpressionNode> ASTObjectAccessAssignmentNode::getObjectAccess() {
     return _objectAccessExpression;
 }
 
@@ -37,11 +37,11 @@ std::string ASTObjectAccessAssignmentNode::toString() {
     return "OBJECT_ACCESS_ASSIGNMENT";
 }
 
-bool ASTObjectAccessAssignmentNode::isSameAs(ASTNode* other) {
+bool ASTObjectAccessAssignmentNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTObjectAccessAssignmentNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTObjectAccessAssignmentNode>(other);
     return this->getObjectAccess()->isSameAs(otherNode->getObjectAccess());
 }
 

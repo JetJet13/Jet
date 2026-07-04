@@ -14,17 +14,17 @@
 
 class ASTArrayAccessRefAssignmentNode : public ASTNode {
 private:
-    ASTArrayAccessExpressionNode* _arrayAccessExpression;
-    ASTRefValueAssignmentOperatorNode* _assignmentOperator;
+    std::shared_ptr<ASTArrayAccessExpressionNode> _arrayAccessExpression;
+    std::shared_ptr<ASTRefValueAssignmentOperatorNode> _assignmentOperator;
 public:
-    explicit ASTArrayAccessRefAssignmentNode(ASTArrayAccessExpressionNode* arrayAccessExpression, ASTRefValueAssignmentOperatorNode* assignmentOperator);
-    ASTArrayAccessExpressionNode* getArrayAccess();
+    explicit ASTArrayAccessRefAssignmentNode(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccessExpression, std::shared_ptr<ASTRefValueAssignmentOperatorNode> assignmentOperator);
+    std::shared_ptr<ASTArrayAccessExpressionNode> getArrayAccess();
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

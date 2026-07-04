@@ -12,15 +12,15 @@
 
 class ASTPackagePathNode : public ASTNode {
 private:
-    ASTStringLiteralNode* _packagePath;
+    std::shared_ptr<ASTStringLiteralNode> _packagePath;
 public:
-    ASTPackagePathNode(ASTStringLiteralNode* packagePath);
-    ASTStringLiteralNode* getPackagePath();
+    ASTPackagePathNode(std::shared_ptr<ASTStringLiteralNode> packagePath);
+    std::shared_ptr<ASTStringLiteralNode> getPackagePath();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 
 namespace ModuleDeclarationTypeCheckerPolicy {
-    void apply(ASTModuleDeclarationNode* moduleDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTModuleDeclarationNode> moduleDeclarationNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_MODULE_DECLARATION_TYPE_CHECKER_POLICY_H

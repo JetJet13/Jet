@@ -7,7 +7,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 
 
-void AllPathsReturnTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
+void AllPathsReturnTypeCheckerRule::enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     if (functionBlockNode->hasReturnExpression()) {
         return;
     }
@@ -33,7 +33,7 @@ void AllPathsReturnTypeCheckerRule::print() {
     Logger::log("------", this->toString(), "------");
 }
 
-bool AllPathsReturnTypeCheckerRule::verifyAllIfStatementPathsReturn(ASTIfStatementNode* ifStatementNode) {
+bool AllPathsReturnTypeCheckerRule::verifyAllIfStatementPathsReturn(std::shared_ptr<ASTIfStatementNode> ifStatementNode) {
     if (!ifStatementNode->getElseBlock()) {
         return false;
     }
@@ -60,7 +60,7 @@ bool AllPathsReturnTypeCheckerRule::verifyAllIfStatementPathsReturn(ASTIfStateme
     return true;
 }
 
-bool AllPathsReturnTypeCheckerRule::verifyAllTryStatementPathsReturn(ASTTryStatementNode* tryStatementNode) {
+bool AllPathsReturnTypeCheckerRule::verifyAllTryStatementPathsReturn(std::shared_ptr<ASTTryStatementNode> tryStatementNode) {
     auto tryBlockDoesNotReturn = !tryStatementNode->getTryBlock()->getBlock()->hasReturnExpression() &&
                                  !this->verifyAllBlockPathsReturn(tryStatementNode->getTryBlock()->getBlock()->getContents());
 
@@ -83,12 +83,12 @@ bool AllPathsReturnTypeCheckerRule::verifyAllTryStatementPathsReturn(ASTTryState
     return true;
 }
 
-bool AllPathsReturnTypeCheckerRule::verifyAllBlockPathsReturn(std::vector<ASTNode*>* blockContents) {
+bool AllPathsReturnTypeCheckerRule::verifyAllBlockPathsReturn(std::vector<std::shared_ptr<ASTNode>>* blockContents) {
     auto pathsReturnResults = std::vector<bool>();
     for (auto node : *blockContents) {
 
         if (node->is(AST_IF_STATEMENT_NODE)) {
-            auto ifStatementNode = (ASTIfStatementNode*)node;
+            auto ifStatementNode = std::dynamic_pointer_cast<ASTIfStatementNode>(node);
             if (ifStatementNode->getElseBlock()) {
                 pathsReturnResults.push_back(
                         this->verifyAllIfStatementPathsReturn(ifStatementNode)
@@ -98,7 +98,7 @@ bool AllPathsReturnTypeCheckerRule::verifyAllBlockPathsReturn(std::vector<ASTNod
 
         if (node->is(AST_TRY_STATEMENT_NODE)) {
             pathsReturnResults.push_back(
-                    this->verifyAllTryStatementPathsReturn((ASTTryStatementNode*) node)
+                    this->verifyAllTryStatementPathsReturn(std::dynamic_pointer_cast<ASTTryStatementNode>(node))
             );
         }
     }

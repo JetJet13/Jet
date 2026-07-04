@@ -15,7 +15,7 @@
 
 class IRLambdaWithBlockExpressionNode : public IRLambdaExpressionNode {
 private:
-    ASTLambdaExpressionNode* _node;
+    std::shared_ptr<ASTLambdaExpressionNode> _node;
     llvm::Function* _irFunction;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
@@ -23,7 +23,7 @@ private:
     llvm::Function* _irCleanupFunction;
     IRInstructionNode* _irValue;
 public:
-    IRLambdaWithBlockExpressionNode(ASTLambdaExpressionNode* node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction);
+    IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction);
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;

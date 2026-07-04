@@ -11,7 +11,7 @@
 
 class ArrayAccessExpressionTypeSignatureStrategy {
 public:
-    void assign(ASTArrayAccessExpressionNode* arrayAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
+    void assign(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_EXPRESSION_TYPE_SIGNATURE_STRATEGY_H

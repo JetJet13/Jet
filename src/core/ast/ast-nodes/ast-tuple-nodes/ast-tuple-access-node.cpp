@@ -29,11 +29,11 @@ std::string ASTTupleAccessNode::toString() {
     return "TUPLE_ACCESS";
 }
 
-bool ASTTupleAccessNode::isSameAs(ASTNode* other) {
+bool ASTTupleAccessNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTTupleAccessNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTTupleAccessNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 
@@ -45,9 +45,9 @@ std::string ASTTupleAccessNode::toSourceCode() {
     return _lexeme->getToken()->getRawValue();
 }
 
-ASTTupleAccessNode* ASTTupleAccessNode::setIndexValue(std::string index) {
+std::shared_ptr<ASTTupleAccessNode> ASTTupleAccessNode::setIndexValue(std::string index) {
     _index = std::stoll(index);
-    return this;
+    return std::dynamic_pointer_cast<ASTTupleAccessNode>(shared_from_this());
 }
 
 int64_t ASTTupleAccessNode::getIndexValue() {

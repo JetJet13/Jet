@@ -9,7 +9,7 @@
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-module-access-assignment-statement-node.h"
 
 namespace ModuleAccessAssignmentStatementTypeCheckerPolicy {
-    void apply(ASTModuleAccessAssignmentStatementNode* moduleAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTModuleAccessAssignmentStatementNode> moduleAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
 };
 
 #endif //JETLANG_MODULE_ACCESS_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

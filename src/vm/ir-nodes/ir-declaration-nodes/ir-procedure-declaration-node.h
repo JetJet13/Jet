@@ -14,13 +14,13 @@
 
 class IRProcedureDeclarationNode : public IRDeclarationNode {
 private:
-    ASTProcedureDeclarationNode* _node;
+    std::shared_ptr<ASTProcedureDeclarationNode> _node;
     llvm::Function* _irValue;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
     IRInstructionNode* _globalVariable;
 public:
-    IRProcedureDeclarationNode(ASTProcedureDeclarationNode* node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable);
+    IRProcedureDeclarationNode(std::shared_ptr<ASTProcedureDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable);
     std::string getName();
     std::string getNormalizedName();
     IRFunctionParameterListNode* getParameters();

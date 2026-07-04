@@ -11,11 +11,11 @@
 
 class IRCharLiteralNode : public IRLiteralNode {
 private:
-    ASTCharLiteralNode* _astNode;
+    std::shared_ptr<ASTCharLiteralNode> _astNode;
     llvm::ConstantInt* _irValue;
     IRType* _type;
 public:
-    IRCharLiteralNode(ASTCharLiteralNode* astNode, llvm::ConstantInt* irValue);
+    IRCharLiteralNode(std::shared_ptr<ASTCharLiteralNode> astNode, llvm::ConstantInt* irValue);
     llvm::ConstantInt* getConstantIRValue() override;
     IRType* getIRType() override;
     IRNodeType getNodeType() override;

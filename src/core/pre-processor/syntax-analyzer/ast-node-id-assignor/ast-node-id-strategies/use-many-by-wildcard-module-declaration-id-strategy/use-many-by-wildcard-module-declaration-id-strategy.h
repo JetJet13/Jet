@@ -11,7 +11,7 @@
 class UseManyByWildcardModuleDeclarationIdStrategy : public ASTNodeIdStrategy {
     using ASTNodeIdStrategy::ASTNodeIdStrategy;
 public:
-    void assign(ASTNode* node) override;
+    void assign(std::shared_ptr<ASTNode> node) override;
 };
 
 #endif //JETLANG_USE_MANY_BY_WILDCARD_MODULE_DECLARATION_ID_STRATEGY_H

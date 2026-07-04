@@ -10,7 +10,7 @@
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.h"
 
 namespace ClassMethodInvocationExpressionTypeCheckerPolicy {
-    void apply(ASTClassMethodInvocationExpressionNode* classMethodInvocationExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTClassMethodInvocationExpressionNode> classMethodInvocationExpression, TypeCheckerResult* typeCheckerResult);
 };
 
 

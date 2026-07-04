@@ -16,13 +16,13 @@
 
 class NoReturnExpressionTypeCheckerRule : public TypeCheckerRule {
 private:
-    void checkNode(std::vector<ASTNode*>* nodes, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
 public:
-    void enforce(ASTFunctionBlockNode* functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTIfStatementNode* ifStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTTryStatementNode* tryStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTForInStatementNode* forStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
-    void enforce(ASTWhileStatementNode* whileStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

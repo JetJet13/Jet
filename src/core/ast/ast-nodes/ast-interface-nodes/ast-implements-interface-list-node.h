@@ -16,21 +16,21 @@
 
 class ASTImplementsInterfaceListNode : public ASTNode {
 private:
-    ASTImplementsNode* _implements;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTImplementsInterfaceNameNode*> _interfaceNames;
+    std::shared_ptr<ASTImplementsNode> _implements;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> _interfaceNames;
 public:
-    ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword);
-    ASTImplementsInterfaceListNode(ASTImplementsNode* implementsKeyword, std::vector<ASTImplementsInterfaceNameNode*> interfaceNames, std::vector<ASTCommaNode*> commas);
-    std::vector<ASTImplementsInterfaceNameNode*> getInterfaceNames();
+    ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword);
+    ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword, std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> interfaceNames, std::vector<std::shared_ptr<ASTCommaNode>> commas);
+    std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> getInterfaceNames();
     unsigned long numInterfaces();
-    ASTImplementsInterfaceListNode* addInterface(ASTImplementsInterfaceNameNode* interfaceName);
-    ASTImplementsInterfaceListNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTImplementsInterfaceListNode> addInterface(std::shared_ptr<ASTImplementsInterfaceNameNode> interfaceName);
+    std::shared_ptr<ASTImplementsInterfaceListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

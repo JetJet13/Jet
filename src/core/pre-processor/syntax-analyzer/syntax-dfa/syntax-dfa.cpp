@@ -15,7 +15,7 @@ DFA* SyntaxDfa::getDFA() {
     return &_dfa;
 }
 
-std::optional<std::shared_ptr<DFANode>> SyntaxDfa::findStartNode(std::optional<ASTNode*> astNode) {
+std::optional<std::shared_ptr<DFANode>> SyntaxDfa::findStartNode(std::optional<std::shared_ptr<ASTNode>> astNode) {
     if (astNode.has_value()) {
         return _dfa.findStartNode(astNode.value()->getNodeType());
     }

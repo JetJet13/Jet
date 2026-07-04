@@ -7,24 +7,24 @@
 #include "../ast-function-nodes/ast-function-argument-list-end-node.h"
 #include "../ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.h"
 
-ASTNode* ASTGroupEndNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTGroupEndNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE) {
-        return new ASTLambdaTypeParameterListEndNode(this->getLexeme());
+        return std::make_shared<ASTLambdaTypeParameterListEndNode>(this->getLexeme());
     }
 
     if (mode == SA_FUNCTION_PARAMETER_LIST_MODE) {
-        return new ASTFunctionParameterListEndNode(this->getLexeme());
+        return std::make_shared<ASTFunctionParameterListEndNode>(this->getLexeme());
     }
 
     if (mode == SA_FUNCTION_ARGUMENT_LIST_MODE) {
-        return new ASTFunctionArgumentListEndNode(this->getLexeme());
+        return std::make_shared<ASTFunctionArgumentListEndNode>(this->getLexeme());
     }
 
     if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
-        return new ASTFunctionParameterListEndNode(this->getLexeme());
+        return std::make_shared<ASTFunctionParameterListEndNode>(this->getLexeme());
     }
 
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTGroupEndNode::getNodeType() {

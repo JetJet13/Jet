@@ -5,8 +5,8 @@
 #include "use-single-module-declaration-id-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.h"
 
-void UseSingleModuleDeclarationIdStrategy::assign(ASTNode* node) {
-    auto useSingleModuleDeclarationNode = (ASTUseSingleModuleDeclarationNode*)node;
+void UseSingleModuleDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto useSingleModuleDeclarationNode = std::dynamic_pointer_cast<ASTUseSingleModuleDeclarationNode>(node);
     useSingleModuleDeclarationNode->setId(
             _tokenTable->getIdentifier(
                     useSingleModuleDeclarationNode

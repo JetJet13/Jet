@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace DrefExpressionTypeCheckerPolicy {
-    void apply(ASTDrefExpressionNode* drefExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTDrefExpressionNode> drefExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression);

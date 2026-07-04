@@ -5,13 +5,13 @@
 #include "ast-literal-node-value-assignor.h"
 #include <any>
 
-void ASTLiteralNodeValueAssignor::assignValue(ASTNode* node, std::shared_ptr<TokenTable> tokenTable) {
+void ASTLiteralNodeValueAssignor::assignValue(std::shared_ptr<ASTNode> node, std::shared_ptr<TokenTable> tokenTable) {
     if (node->isOneOf({
         AST_INT_LITERAL_NODE,
         AST_FLOAT_LITERAL_NODE,
         AST_CHAR_LITERAL_NODE,
         AST_STRING_LITERAL_NODE,
         AST_BOOLEAN_LITERAL_NODE })) {
-        ((ASTLiteralNode*)node)->setValue(tokenTable);
+        (std::dynamic_pointer_cast<ASTLiteralNode>(node))->setValue(tokenTable);
     }
 }

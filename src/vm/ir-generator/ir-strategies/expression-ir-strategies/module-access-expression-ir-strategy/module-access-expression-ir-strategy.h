@@ -12,7 +12,7 @@
 
 class ModuleAccessExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(ASTModuleAccessExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    IRExpressionNode* generate(std::shared_ptr<ASTModuleAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_MODULE_ACCESS_EXPRESSION_IR_STRATEGY_H

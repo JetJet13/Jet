@@ -5,7 +5,7 @@
 #include "enum-declaration-ir-strategy.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(ASTEnumDeclarationNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(std::shared_ptr<ASTEnumDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structValues = std::vector<llvm::Constant*>();
 
     if (node->getTypeSignature()->getType()->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {

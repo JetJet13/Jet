@@ -12,17 +12,17 @@
 
 class ASTTypeNode : public ASTNode {
 private:
-    ASTTypeBaseNode* _type;
+    std::shared_ptr<ASTTypeBaseNode> _type;
 public:
-    explicit ASTTypeNode(ASTTypeBaseNode* type);
-    ASTTypeBaseNode* getType();
+    explicit ASTTypeNode(std::shared_ptr<ASTTypeBaseNode> type);
+    std::shared_ptr<ASTTypeBaseNode> getType();
     void setTypeSignature(TypeSignature* typeSignature);
     TypeSignature* getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

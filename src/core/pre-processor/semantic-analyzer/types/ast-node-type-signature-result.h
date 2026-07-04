@@ -9,7 +9,7 @@
 #include "../../../ast/ast-nodes/ast-node.h"
 
 struct ASTNodeTypeSignatureResult {
-    ASTNode* node;
+    std::shared_ptr<ASTNode> node;
     TypeSignature* typeSignature;
 };
 

@@ -12,13 +12,13 @@
 
 class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
-    ASTBinaryArithmeticExpressionNode* _node;
+    std::shared_ptr<ASTBinaryArithmeticExpressionNode> _node;
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
     IRType* _type;
 public:
-    IRBinaryArithmeticExpressionNode(ASTBinaryArithmeticExpressionNode* astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
     std::vector<IRExpressionNode*> getListOfOperands();
     std::vector<IRBinaryOperatorNode*> getListOfOperations();
     void markAsGlobal() override;

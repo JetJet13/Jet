@@ -7,7 +7,7 @@
 #include "../../../types/type-checker-error-message-table.h"
 
 namespace ClassPropertyAccessExpressionTypeCheckerPolicy {
-    void apply(ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTClassPropertyAccessExpressionNode> classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(classPropertyAccessExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(classPropertyAccessExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(classPropertyAccessExpression);

@@ -5,12 +5,12 @@
 #include "ast-int-literal-node.h"
 #include "../ast-tuple-nodes/ast-tuple-access-node.h"
 
-ASTNode* ASTIntLiteralNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTIntLiteralNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->is(AST_PERIOD_NODE)) {
-        return (new ASTTupleAccessNode(_lexeme))->setIndexValue(this->getValue());
+        return (std::make_shared<ASTTupleAccessNode>(_lexeme))->setIndexValue(this->getValue());
     }
 
-    return this;
+    return shared_from_this();
 }
 
 ASTNodeType ASTIntLiteralNode::getNodeType() {

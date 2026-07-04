@@ -5,7 +5,7 @@
 #include "array-access-invocation-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.h"
 
-IRExpressionNode* ArrayAccessInvocationExpressionIRStrategy::generate(ASTArrayAccessInvocationExpressionNode* node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+IRExpressionNode* ArrayAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<IRFunctionArgumentNode*>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);

@@ -17,7 +17,7 @@
 
 class IRNewClassInstanceExpressionNode : public IRExpressionNode {
 private:
-    ASTNewClassInstanceExpressionNode* _node;
+    std::shared_ptr<ASTNewClassInstanceExpressionNode> _node;
     std::string _constructorId;
     IRFunctionType* _irConstructorType;
     std::vector<IRFunctionArgumentNode*> _arguments;
@@ -25,7 +25,7 @@ private:
     IRInstructionNode* _classInstanceAllocation;
     IRInstructionNode* _irArc;
 public:
-    IRNewClassInstanceExpressionNode(ASTNewClassInstanceExpressionNode* node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
+    IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
     void markAsGlobal() override;
     IRInstructionNode* getClassInstanceAllocation();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();

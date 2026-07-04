@@ -5,12 +5,12 @@
 #include "ast-module-name-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTModuleNameNode::ASTModuleNameNode(ASTIdentifierNode* identifier) {
+ASTModuleNameNode::ASTModuleNameNode(std::shared_ptr<ASTIdentifierNode> identifier) {
     _identifier = identifier;
     _children.push_back(_identifier);
 }
 
-ASTIdentifierNode* ASTModuleNameNode::getIdentifier() {
+std::shared_ptr<ASTIdentifierNode> ASTModuleNameNode::getIdentifier() {
     return _identifier;
 }
 
@@ -30,11 +30,11 @@ std::string ASTModuleNameNode::toString() {
     return "MODULE_NAME";
 }
 
-bool ASTModuleNameNode::isSameAs(ASTNode* other) {
+bool ASTModuleNameNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTModuleNameNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTModuleNameNode>(other);
     return this->getIdentifier()->isSameAs(otherNode->getIdentifier());
 }
 

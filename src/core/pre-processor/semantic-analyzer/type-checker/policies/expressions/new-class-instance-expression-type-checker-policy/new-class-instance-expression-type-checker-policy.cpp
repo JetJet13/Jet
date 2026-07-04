@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace NewClassInstanceExpressionTypeCheckerPolicy {
-    void apply(ASTNewClassInstanceExpressionNode* newClassInstanceExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTNewClassInstanceExpressionNode> newClassInstanceExpression, TypeCheckerResult* typeCheckerResult) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(newClassInstanceExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(newClassInstanceExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(newClassInstanceExpression);

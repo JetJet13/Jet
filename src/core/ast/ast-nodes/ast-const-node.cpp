@@ -5,11 +5,11 @@
 #include "ast-const-node.h"
 #include "ast-variable-nodes/ast-variable-type-node.h"
 
-ASTNode* ASTConstNode::transformIfNecessary(std::optional<ASTNode*> prevNode, std::optional<ASTNode*> nextNode, SyntaxAnalyzerMode mode) {
+std::shared_ptr<ASTNode> ASTConstNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
     if (prevNode && prevNode.value()->isOneOf({ AST_STATIC_NODE, AST_PUBLIC_NODE, AST_PROTECTED_NODE, AST_PRIVATE_NODE })) {
-        return this;
+        return shared_from_this();
     }
-    return new ASTVariableTypeNode(_lexeme);
+    return std::make_shared<ASTVariableTypeNode>(_lexeme);
 }
 
 ASTNodeType ASTConstNode::getNodeType() {

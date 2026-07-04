@@ -6,11 +6,11 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 #include "../../../types/type-checker-error-message-table.h"
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTFunctionBlockNode* functionBlockNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(functionBlockNode->getContents(), returnType, typeCheckerResult);
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTIfStatementNode* ifStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTIfStatementNode> ifStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(ifStatementNode->getIfBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
 
     for (auto elseIfBlock : *ifStatementNode->getElseIfBlocks()) {
@@ -23,7 +23,7 @@ void RequiredReturnExpressionTypeCheckerRule::enforce(ASTIfStatementNode* ifStat
 
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* tryStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(tryStatementNode->getTryBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
     this->checkNode(tryStatementNode->getCatchBlock()->getBlock()->getContents(), returnType, typeCheckerResult);
 
@@ -33,11 +33,11 @@ void RequiredReturnExpressionTypeCheckerRule::enforce(ASTTryStatementNode* trySt
 
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTForInStatementNode* forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(forStatementNode->getBlock()->getContents(), returnType, typeCheckerResult);
 }
 
-void RequiredReturnExpressionTypeCheckerRule::enforce(ASTWhileStatementNode* whileStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::enforce(std::shared_ptr<ASTWhileStatementNode> whileStatementNode, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     this->checkNode(whileStatementNode->getBlock()->getContents(), returnType, typeCheckerResult);
 }
 
@@ -57,19 +57,19 @@ void RequiredReturnExpressionTypeCheckerRule::print() {
     Logger::log("------", this->toString(), "------");
 }
 
-void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<ASTNode*>* nodes, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
+void RequiredReturnExpressionTypeCheckerRule::checkNode(std::vector<std::shared_ptr<ASTNode>>* nodes, TypeSignature* returnType, TypeCheckerResult* typeCheckerResult) {
     for (auto statement : *nodes) {
         if (statement->is(AST_FUNCTION_RETURN_EXPRESSION_NODE) &&
             !returnType->getTargetTypeSignature()->isEquivalentTo(statement->getTypeSignature()->getTargetTypeSignature())) {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::FunctionReturnExpressionMismatch(statement)());
         } else if (statement->is(AST_IF_STATEMENT_NODE)) {
-            this->enforce((ASTIfStatementNode*)statement, returnType, typeCheckerResult);
+            this->enforce(std::dynamic_pointer_cast<ASTIfStatementNode>(statement), returnType, typeCheckerResult);
         } else if (statement->is(AST_TRY_STATEMENT_NODE)) {
-            this->enforce((ASTTryStatementNode*)statement, returnType, typeCheckerResult);
+            this->enforce(std::dynamic_pointer_cast<ASTTryStatementNode>(statement), returnType, typeCheckerResult);
         } else if (statement->is(AST_FOR_IN_STATEMENT_NODE)) {
-            this->enforce((ASTForInStatementNode*)statement, returnType, typeCheckerResult);
+            this->enforce(std::dynamic_pointer_cast<ASTForInStatementNode>(statement), returnType, typeCheckerResult);
         } else if (statement->is(AST_WHILE_STATEMENT_NODE)) {
-            this->enforce((ASTWhileStatementNode*)statement, returnType, typeCheckerResult);
+            this->enforce(std::dynamic_pointer_cast<ASTWhileStatementNode>(statement), returnType, typeCheckerResult);
         }
     }
 }

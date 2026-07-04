@@ -6,7 +6,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void VariableTypeSignatureStrategy::assignAndAddToScope(ASTVariableDeclarationNode* variableDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void VariableTypeSignatureStrategy::assignAndAddToScope(std::shared_ptr<ASTVariableDeclarationNode> variableDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     if (variableDeclaration->getVarInitNode()->getTypeNode()) {
         strategyMap->assignTypeSignatureFor(variableDeclaration->getVarInitNode()->getTypeNode().value(), context, scope);
         variableDeclaration->setTypeSignature(variableDeclaration->getVarInitNode()->getTypeNode().value()->getTypeSignature()->convertToVariableTypeSignature());

@@ -29,11 +29,11 @@ std::string ASTImportModuleListWildcardItemNode::toString() {
     return "IMPORT_MODULE_LIST_WILDCARD_ITEM";
 }
 
-bool ASTImportModuleListWildcardItemNode::isSameAs(ASTNode* other) {
+bool ASTImportModuleListWildcardItemNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())){
         return false;
     }
-    auto otherNode = (ASTImportModuleListWildcardItemNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTImportModuleListWildcardItemNode>(other);
     return this->getLexeme()->hasSameSymbolTypeAs(otherNode->getLexeme());
 }
 

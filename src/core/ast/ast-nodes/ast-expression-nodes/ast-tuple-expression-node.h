@@ -16,25 +16,25 @@
 
 class ASTTupleExpressionNode : public ASTAggregateExpressionNode {
 private:
-    ASTTupleListStartNode* _tupleListStart;
-    ASTTupleListEndNode* _tupleListEnd;
-    std::vector<ASTCommaNode*> _commas;
-    std::vector<ASTTupleItemNode*> _items;
+    std::shared_ptr<ASTTupleListStartNode> _tupleListStart;
+    std::shared_ptr<ASTTupleListEndNode> _tupleListEnd;
+    std::vector<std::shared_ptr<ASTCommaNode>> _commas;
+    std::vector<std::shared_ptr<ASTTupleItemNode>> _items;
     TupleTypeSignature* _typeSignature = new TupleTypeSignature();
 public:
-    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, ASTTupleListEndNode* tupleListEnd);
-    ASTTupleExpressionNode(ASTTupleListStartNode* tupleListStart, std::vector<ASTTupleItemNode*> items, std::vector<ASTCommaNode*> commas, ASTTupleListEndNode* tupleListEnd);
-    std::vector<ASTTupleItemNode*>* getItems();
+    ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
+    ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::vector<std::shared_ptr<ASTTupleItemNode>> items, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
+    std::vector<std::shared_ptr<ASTTupleItemNode>>* getItems();
     unsigned long numItems();
-    ASTTupleExpressionNode* addItem(ASTTupleItemNode* item);
-    ASTTupleExpressionNode* addComma(ASTCommaNode* comma);
+    std::shared_ptr<ASTTupleExpressionNode> addItem(std::shared_ptr<ASTTupleItemNode> item);
+    std::shared_ptr<ASTTupleExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     TupleTypeSignature* getTypeSignature() override;
     void setTypeSignature(TupleTypeSignature* tupleTypeSignature);
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

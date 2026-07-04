@@ -8,8 +8,8 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../ast-traverser/ast-traverser.h"
 
-void ClassDeclarationIdStrategy::assign(ASTNode* node) {
-    auto classDeclarationNode = (ASTClassDeclarationNode*)node;
+void ClassDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto classDeclarationNode = std::dynamic_pointer_cast<ASTClassDeclarationNode>(node);
     auto className = classDeclarationNode->getName()->getId();
     classDeclarationNode->setId(className);
     for (auto classPropertyDeclaration : *classDeclarationNode->getBlock()->getProperties()) {
@@ -33,7 +33,7 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
             astNode.value()->setId(classDeclarationNode->getId());
         } else if (astNode.value()->is(AST_CUSTOM_TYPE_NODE)) {
             auto customTypeName = _tokenTable->getIdentifier(
-                    ((ASTCustomTypeNode*) astNode.value())
+                    std::dynamic_pointer_cast<ASTCustomTypeNode>(astNode.value())
                             ->getLexeme()
                             ->getToken()
                             ->getValueId().value()
@@ -43,7 +43,7 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
             }
         } else if (astNode.value()->is(AST_CLASS_NAME_NODE)) {
             auto nodeClassName = _tokenTable->getIdentifier(
-                    ((ASTClassNameNode*)astNode.value())
+                    (std::dynamic_pointer_cast<ASTClassNameNode>(astNode.value()))
                             ->getLexeme()
                             ->getToken()
                             ->getValueId().value()
@@ -55,21 +55,21 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
             astNode.value()->setId(
                 this->generateClassPropertyId(
                     className,
-                    (ASTClassPropertyNameNode*)astNode.value()
+                    std::dynamic_pointer_cast<ASTClassPropertyNameNode>(astNode.value())
                 )
             );
         } else if (astNode.value()->is(AST_CLASS_METHOD_NAME_NODE)) {
             astNode.value()->setId(
                 this->generateClassMethodId(
                     className,
-                    (ASTClassMethodNameNode*)astNode.value()
+                    std::dynamic_pointer_cast<ASTClassMethodNameNode>(astNode.value())
                 )
             );
         } else if (astNode.value()->is(AST_CLASS_METHOD_CALL_NODE)) {
             astNode.value()->setId(
                 this->generateClassMethodId(
                         className,
-                        (ASTClassMethodCallNode*)astNode.value()
+                        std::dynamic_pointer_cast<ASTClassMethodCallNode>(astNode.value())
                 )
             );
         }
@@ -77,7 +77,7 @@ void ClassDeclarationIdStrategy::assign(ASTNode* node) {
     }
 }
 
-std::string ClassDeclarationIdStrategy::generateClassPropertyId(std::string className, ASTClassPropertyNameNode* classPropertyName) {
+std::string ClassDeclarationIdStrategy::generateClassPropertyId(std::string className, std::shared_ptr<ASTClassPropertyNameNode> classPropertyName) {
     return className +
             "." +
             _tokenTable->getIdentifier(
@@ -89,11 +89,11 @@ std::string ClassDeclarationIdStrategy::generateClassPropertyId(std::string clas
             );
 }
 
-std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, ASTClassMethodNameNode* classMethodName) {
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodNameNode> classMethodName) {
     return this->generateClassMethodId(className, classMethodName->getLexeme());
 }
 
-std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, ASTClassMethodCallNode* classMethodCall) {
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodCallNode> classMethodCall) {
     return this->generateClassMethodId(className, classMethodCall->getLexeme());
 }
 
@@ -107,6 +107,6 @@ std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string classN
            );
 }
 
-std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, ASTClassConstructorDeclarationNode* constructorDeclaration) {
+std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, std::shared_ptr<ASTClassConstructorDeclarationNode> constructorDeclaration) {
     return className + "_constructor_" + ToStringUtil::toString(constructorIndex);
 }

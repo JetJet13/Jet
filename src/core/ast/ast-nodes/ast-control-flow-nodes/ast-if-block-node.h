@@ -13,19 +13,19 @@
 
 class ASTIfBlockNode : public ASTScopedBlockNode {
 private:
-    ASTIfNode* _ifKeyword;
-    ASTControlFlowConditionNode* _condition;
-    ASTControlFlowBlockNode* _block;
+    std::shared_ptr<ASTIfNode> _ifKeyword;
+    std::shared_ptr<ASTControlFlowConditionNode> _condition;
+    std::shared_ptr<ASTControlFlowBlockNode> _block;
 public:
-    explicit ASTIfBlockNode(ASTIfNode* ifKeyword, ASTControlFlowConditionNode* condition, ASTControlFlowBlockNode* block);
-    ASTControlFlowBlockNode* getBlock();
-    std::vector<ASTFunctionReturnExpressionNode*>* getReturnStatements() override;
-    ASTControlFlowConditionNode* getCondition();
+    explicit ASTIfBlockNode(std::shared_ptr<ASTIfNode> ifKeyword, std::shared_ptr<ASTControlFlowConditionNode> condition, std::shared_ptr<ASTControlFlowBlockNode> block);
+    std::shared_ptr<ASTControlFlowBlockNode> getBlock();
+    std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
+    std::shared_ptr<ASTControlFlowConditionNode> getCondition();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

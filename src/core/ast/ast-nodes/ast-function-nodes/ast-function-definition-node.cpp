@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTFunctionDefinitionNode::ASTFunctionDefinitionNode(ASTFunctionNode* functionKeyword, ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+ASTFunctionDefinitionNode::ASTFunctionDefinitionNode(std::shared_ptr<ASTFunctionNode> functionKeyword, std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType) {
     _functionKeyword = functionKeyword;
     _name = name;
     _typeColon = typeColon;
@@ -19,15 +19,15 @@ ASTFunctionDefinitionNode::ASTFunctionDefinitionNode(ASTFunctionNode* functionKe
     _children.push_back(_returnType);
 }
 
-ASTFunctionParameterListNode* ASTFunctionDefinitionNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTFunctionDefinitionNode::getParameters() {
     return _parameters;
 }
 
-ASTFunctionNameNode* ASTFunctionDefinitionNode::getName() {
+std::shared_ptr<ASTFunctionNameNode> ASTFunctionDefinitionNode::getName() {
     return _name;
 }
 
-ASTTypeNode* ASTFunctionDefinitionNode::getReturnType() {
+std::shared_ptr<ASTTypeNode> ASTFunctionDefinitionNode::getReturnType() {
     return _returnType;
 }
 
@@ -51,11 +51,11 @@ std::string ASTFunctionDefinitionNode::toString() {
     return "FUNCTION_DEFINITION";
 }
 
-bool ASTFunctionDefinitionNode::isSameAs(ASTNode* other) {
+bool ASTFunctionDefinitionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTFunctionDefinitionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTFunctionDefinitionNode>(other);
 
     return  this->getName()->isSameAs(otherNode->getName()) &&
             this->getParameters()->isSameAs(otherNode->getParameters()) &&

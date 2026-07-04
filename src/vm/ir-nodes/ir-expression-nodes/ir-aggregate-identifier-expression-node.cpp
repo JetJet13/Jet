@@ -4,7 +4,7 @@
 
 #include "ir-aggregate-identifier-expression-node.h"
 
-IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(ASTIdentifierExpressionNode* node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type) {
+IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type) {
     _node = node;
     _arrayAllocation = irAllocation;
     _arrayPointerAllocation = arrayPointerSourceAllocation;

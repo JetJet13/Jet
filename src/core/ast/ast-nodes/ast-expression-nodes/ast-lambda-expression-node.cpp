@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block) {
+ASTLambdaExpressionNode::ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block) {
     _parameters = parameters;
     _block = block;
     _typeColon = {};
@@ -16,7 +16,7 @@ ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* p
     _capturedValueIds = std::set<std::string>();
 }
 
-ASTLambdaExpressionNode::ASTLambdaExpressionNode(ASTFunctionParameterListNode* parameters, ASTFunctionBlockNode* block, ASTTypeColonNode* typeColon, ASTTypeNode* returnType) {
+ASTLambdaExpressionNode::ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType) {
     _parameters = parameters;
     _block = block;
     _typeColon = typeColon;
@@ -32,15 +32,15 @@ Lexeme* ASTLambdaExpressionNode::getLexeme() {
     return _lexeme;
 }
 
-ASTFunctionParameterListNode* ASTLambdaExpressionNode::getParameters() {
+std::shared_ptr<ASTFunctionParameterListNode> ASTLambdaExpressionNode::getParameters() {
     return _parameters;
 }
 
-ASTFunctionBlockNode* ASTLambdaExpressionNode::getBlock() {
+std::shared_ptr<ASTFunctionBlockNode> ASTLambdaExpressionNode::getBlock() {
     return _block;
 }
 
-std::optional<ASTTypeNode*> ASTLambdaExpressionNode::getReturnType() {
+std::optional<std::shared_ptr<ASTTypeNode>> ASTLambdaExpressionNode::getReturnType() {
     return _returnType;
 }
 
@@ -76,11 +76,11 @@ std::string ASTLambdaExpressionNode::toString() {
     return "LAMBDA_EXPRESSION";
 }
 
-bool ASTLambdaExpressionNode::isSameAs(ASTNode* other) {
+bool ASTLambdaExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (!other->is(this->getNodeType())) {
         return false;
     }
-    auto otherNode = (ASTLambdaExpressionNode*)other;
+    auto otherNode = std::dynamic_pointer_cast<ASTLambdaExpressionNode>(other);
 
     if (!_returnType.has_value() && otherNode->getReturnType().has_value() ||
         _returnType.has_value() && !otherNode->getReturnType().has_value()) {

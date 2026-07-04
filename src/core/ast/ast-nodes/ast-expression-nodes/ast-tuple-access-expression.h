@@ -12,18 +12,18 @@
 
 class ASTTupleAccessExpressionNode : public ASTAggregateExpressionNode {
 private:
-    ASTObjectAccessSourceNode* _source;
-    ASTPeriodNode* _period;
-    ASTTupleAccessNode* _index;
+    std::shared_ptr<ASTObjectAccessSourceNode> _source;
+    std::shared_ptr<ASTPeriodNode> _period;
+    std::shared_ptr<ASTTupleAccessNode> _index;
 public:
-    ASTTupleAccessExpressionNode(ASTObjectAccessSourceNode* source, ASTPeriodNode* period, ASTTupleAccessNode* index);
-    ASTObjectAccessSourceNode* getSource();
-    ASTTupleAccessNode* getIndex();
+    ASTTupleAccessExpressionNode(std::shared_ptr<ASTObjectAccessSourceNode> source, std::shared_ptr<ASTPeriodNode> period, std::shared_ptr<ASTTupleAccessNode> index);
+    std::shared_ptr<ASTObjectAccessSourceNode> getSource();
+    std::shared_ptr<ASTTupleAccessNode> getIndex();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

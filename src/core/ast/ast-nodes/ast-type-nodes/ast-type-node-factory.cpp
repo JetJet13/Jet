@@ -7,43 +7,43 @@
 
 namespace ASTTypeNodeFactory {
 
-    ASTTypeNode* createCustomTypeNode(Lexeme* lexeme, std::string id) {
-        return new ASTTypeNode(new ASTCustomTypeNode(lexeme, id));
+    std::shared_ptr<ASTTypeNode> createCustomTypeNode(Lexeme* lexeme, std::string id) {
+        return std::make_shared<ASTTypeNode>(std::make_shared<ASTCustomTypeNode>(lexeme, id));
     }
 
-    ASTTypeNode* createPrimitiveTypeNode(Lexeme* lexeme) {
-        return new ASTTypeNode(new ASTPrimitiveTypeNode(lexeme));
+    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(Lexeme* lexeme) {
+        return std::make_shared<ASTTypeNode>(std::make_shared<ASTPrimitiveTypeNode>(lexeme));
     }
 
-    ASTTypeNode* createLambdaTypeNode(ASTLambdaTypeNode* lambdaTypeNode) {
-        return new ASTTypeNode(lambdaTypeNode);
+    std::shared_ptr<ASTTypeNode> createLambdaTypeNode(std::shared_ptr<ASTLambdaTypeNode> lambdaTypeNode) {
+        return std::make_shared<ASTTypeNode>(lambdaTypeNode);
     }
 
-    ASTTypeNode* createTupleTypeNode(ASTTupleTypeNode* tupleTypeNode) {
-        return new ASTTypeNode(tupleTypeNode);
+    std::shared_ptr<ASTTypeNode> createTupleTypeNode(std::shared_ptr<ASTTupleTypeNode> tupleTypeNode) {
+        return std::make_shared<ASTTypeNode>(tupleTypeNode);
     }
 
-    ASTTypeNode* createArrayTypeNode(ASTArrayTypeNode* arrayTypeNode) {
-        return new ASTTypeNode(arrayTypeNode);
+    std::shared_ptr<ASTTypeNode> createArrayTypeNode(std::shared_ptr<ASTArrayTypeNode> arrayTypeNode) {
+        return std::make_shared<ASTTypeNode>(arrayTypeNode);
     }
 
-    ASTTypeNode* createStructTypeNode(ASTStructTypeNode* structTypeNode) {
-        return new ASTTypeNode(structTypeNode);
+    std::shared_ptr<ASTTypeNode> createStructTypeNode(std::shared_ptr<ASTStructTypeNode> structTypeNode) {
+        return std::make_shared<ASTTypeNode>(structTypeNode);
     }
 
-    ASTTypeNode* createRefTypeNode(ASTRefTypeNode* refTypeNode) {
-        return new ASTTypeNode(refTypeNode);
+    std::shared_ptr<ASTTypeNode> createRefTypeNode(std::shared_ptr<ASTRefTypeNode> refTypeNode) {
+        return std::make_shared<ASTTypeNode>(refTypeNode);
     }
 
-    ASTTypeNode* createModuleTypeNode(ASTModuleTypeNode* moduleTypeNode) {
-        return new ASTTypeNode(moduleTypeNode);
+    std::shared_ptr<ASTTypeNode> createModuleTypeNode(std::shared_ptr<ASTModuleTypeNode> moduleTypeNode) {
+        return std::make_shared<ASTTypeNode>(moduleTypeNode);
     }
 
-    ASTTypeNode* createThisTypeNode(ASTThisNode* thisNode) {
-        return new ASTTypeNode(new ASTThisTypeNode(thisNode));
+    std::shared_ptr<ASTTypeNode> createThisTypeNode(std::shared_ptr<ASTThisNode> thisNode) {
+        return std::make_shared<ASTTypeNode>(std::make_shared<ASTThisTypeNode>(thisNode));
     }
 
-    ASTTypeNode* createVoidTypeNode(ASTVoidNode* voidNode) {
-        return new ASTTypeNode(new ASTVoidTypeNode(voidNode));
+    std::shared_ptr<ASTTypeNode> createVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode) {
+        return std::make_shared<ASTTypeNode>(std::make_shared<ASTVoidTypeNode>(voidNode));
     }
 }

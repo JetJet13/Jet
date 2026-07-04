@@ -5,8 +5,8 @@
 #include "procedure-declaration-id-strategy.h"
 #include "../../../../../ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 
-void ProcedureDeclarationIdStrategy::assign(ASTNode* node) {
-    auto procedureDeclarationNode = (ASTProcedureDeclarationNode*)node;
+void ProcedureDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
+    auto procedureDeclarationNode = std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node);
     procedureDeclarationNode->setId(
             _tokenTable->getIdentifier(
                 procedureDeclarationNode

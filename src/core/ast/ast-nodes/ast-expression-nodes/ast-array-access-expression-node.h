@@ -11,17 +11,17 @@
 
 class ASTArrayAccessExpressionNode : public ASTExpressionNode {
 private:
-    ASTExpressionNode* _source;
-    ASTArrayAccessNode* _arrayAccess;
+    std::shared_ptr<ASTExpressionNode> _source;
+    std::shared_ptr<ASTArrayAccessNode> _arrayAccess;
 public:
-    ASTArrayAccessExpressionNode(ASTExpressionNode* source, ASTArrayAccessNode* arrayAccess);
-    ASTExpressionNode* getSource();
-    ASTArrayAccessNode* getIndex();
+    ASTArrayAccessExpressionNode(std::shared_ptr<ASTExpressionNode> source, std::shared_ptr<ASTArrayAccessNode> arrayAccess);
+    std::shared_ptr<ASTExpressionNode> getSource();
+    std::shared_ptr<ASTArrayAccessNode> getIndex();
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
-    bool isSameAs(ASTNode* other) override;
+    bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
     std::string toSourceCode() override;
 };

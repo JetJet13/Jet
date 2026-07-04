@@ -4,7 +4,7 @@
 
 #include "try-statement-type-signature-strategy.h"
 
-void TryStatementTypeSignatureStrategy::assign(ASTTryStatementNode* tryStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
+void TryStatementTypeSignatureStrategy::assign(std::shared_ptr<ASTTryStatementNode> tryStatementNode, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tryStatementNode->getTryBlock()->getBlock(), context, scope);
     strategyMap->assignTypeSignatureFor(tryStatementNode->getCatchBlock()->getBlock(), context, scope);
     if (tryStatementNode->getFinallyBlock()) {
