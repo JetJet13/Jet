@@ -11,8 +11,8 @@
 
 class PointerTypeSignatureIRStrategy {
 public:
-    IRPointerType* generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(IRPointerType* irType, IRGenerator* irGenerator);
+    std::shared_ptr<IRPointerType> generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRPointerType> irType, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_POINTER_TYPE_SIGNATURE_IR_STRATEGY_H

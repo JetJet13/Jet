@@ -11,40 +11,40 @@
 
 class IRClassType : public IRType {
 private:
-    IRStructRefType* _classProperties;
-    std::optional<IRParameterType*> _classScopeType;
-    std::unordered_map<std::string, IRFunctionType*> _classConstructors;
-    std::unordered_map<std::string, IRFunctionType*> _classMethods;
-    std::unordered_map<std::string, IRFunctionType*> _classStaticMethods;
-    std::unordered_map<std::string, IRType*> _classStaticProperties;
+    std::shared_ptr<IRStructRefType> _classProperties;
+    std::optional<std::shared_ptr<IRParameterType>> _classScopeType;
+    std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> _classConstructors;
+    std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> _classMethods;
+    std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> _classStaticMethods;
+    std::unordered_map<std::string, std::shared_ptr<IRType>> _classStaticProperties;
     std::string _preConstructorName;
     std::string _name;
 public:
-    IRClassType(std::string name, IRStructRefType* classProperties, std::string preConstructorName = "");
-    IRClassType(std::string name, IRStructRefType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName = "");
-    std::optional<IRParameterType*> getClassScopeParameterType();
-    std::optional<IRFunctionType*> getIRTypeForConstructor(std::string constructorId);
-    std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
-    std::optional<IRFunctionType*> getIRTypeForStaticMethod(std::string propertyName);
-    std::optional<IRType*> getIRTypeForStaticProperty(std::string propertyName);
+    IRClassType(std::string name, std::shared_ptr<IRStructRefType> classProperties, std::string preConstructorName = "");
+    IRClassType(std::string name, std::shared_ptr<IRStructRefType> classProperties, std::optional<std::shared_ptr<IRParameterType>> classScopeType, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classConstructors, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classMethods, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classStaticMethods, std::unordered_map<std::string, std::shared_ptr<IRType>> classStaticProperties, std::string preConstructorName = "");
+    std::optional<std::shared_ptr<IRParameterType>> getClassScopeParameterType();
+    std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForConstructor(std::string constructorId);
+    std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForMethod(std::string methodName);
+    std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForStaticMethod(std::string propertyName);
+    std::optional<std::shared_ptr<IRType>> getIRTypeForStaticProperty(std::string propertyName);
     std::string getIRMethodName(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
     llvm::Type* getValueType();
-    IRStructRefType* getClassProperties();
+    std::shared_ptr<IRStructRefType> getClassProperties();
     std::string getPreConstructorName();
     std::string getName();
-    void setProperties(IRStructRefType* classProperties);
-    void setClassScopeType(std::optional<IRParameterType*> classScopeType);
-    void addStaticProperty(std::string staticPropertyName, IRType* irType);
-    void addMethod(std::string methodName, IRFunctionType* irType);
-    void addStaticMethod(std::string methodName, IRFunctionType* irType);
-    void addConstructor(std::string constructorName, IRFunctionType* irType);
+    void setProperties(std::shared_ptr<IRStructRefType> classProperties);
+    void setClassScopeType(std::optional<std::shared_ptr<IRParameterType>> classScopeType);
+    void addStaticProperty(std::string staticPropertyName, std::shared_ptr<IRType> irType);
+    void addMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType);
+    void addStaticMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType);
+    void addConstructor(std::string constructorName, std::shared_ptr<IRFunctionType> irType);
     std::string stripClassNameFromKey(std::string key);
     llvm::Type* getType() override;
     bool isClassType() override;
     bool containsTypeThatRequiresFreeing() override;
     llvm::Align getAlignment() override;
-    IRClassType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

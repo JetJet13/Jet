@@ -4,7 +4,7 @@
 
 #include "ir-captured-variable-type.h"
 
-IRCapturedVariableType::IRCapturedVariableType(llvm::StructType* type, IRType* captureCounterIRType, IRType* variableIRType) : IRType(type) {
+IRCapturedVariableType::IRCapturedVariableType(llvm::StructType* type, std::shared_ptr<IRType> captureCounterIRType, std::shared_ptr<IRType> variableIRType) : IRType(type) {
     _type = type;
     _captureCounterIRType = captureCounterIRType;
     _variableIRType = variableIRType;
@@ -33,15 +33,15 @@ llvm::PointerType* IRCapturedVariableType::getCaptureCounterType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_captureCounterIndex));
 }
 
-IRType* IRCapturedVariableType::getCaptureCounterIRType() {
+std::shared_ptr<IRType> IRCapturedVariableType::getCaptureCounterIRType() {
     return _captureCounterIRType;
 }
 
-IRType* IRCapturedVariableType::getVariableIRType() {
+std::shared_ptr<IRType> IRCapturedVariableType::getVariableIRType() {
     return _variableIRType;
 }
 
-IRType* IRCapturedVariableType::getUnderlyingType() {
+std::shared_ptr<IRType> IRCapturedVariableType::getUnderlyingType() {
     return this->getVariableIRType();
 }
 
@@ -62,10 +62,10 @@ void IRCapturedVariableType::setAlignmentOverride(llvm::Align alignmentOverride)
     _captureCounterIRType->setAlignmentOverride(alignmentOverride);
 }
 
-IRCapturedVariableType* IRCapturedVariableType::clone() {
+std::shared_ptr<IRType> IRCapturedVariableType::clone() {
     auto captureCounterClone = _captureCounterIRType->clone();
     auto variableClone = _variableIRType->clone();
-    auto clone = new IRCapturedVariableType(_type, captureCounterClone, variableClone);
+    auto clone = std::make_shared<IRCapturedVariableType>(_type, captureCounterClone, variableClone);
     this->initClone(clone);
     return clone;
 }

@@ -7,36 +7,36 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-IRType* LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(irGenerator->generateIntType());
+        auto irType = std::make_shared<IRType>(irGenerator->generateIntType());
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(irGenerator->generateFloatType());
+        auto irType = std::make_shared<IRType>(irGenerator->generateFloatType());
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(CHAR_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 8));
+        auto irType = std::make_shared<IRType>(llvm::IntegerType::get(**irContext->getContext(), 8));
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(BOOL_LITERAL_TYPE_SOURCE)) {
-        auto irType = new IRType(llvm::IntegerType::get(**irContext->getContext(), 1));
+        auto irType = std::make_shared<IRType>(llvm::IntegerType::get(**irContext->getContext(), 1));
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else if (literalTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto charType = llvm::IntegerType::get(**irContext->getContext(), 8);
-        auto irCharType = new IRType(charType);
+        auto irCharType = std::make_shared<IRType>(charType);
         irCharType->setValue(this->generateTypeValue(irCharType, irGenerator, irContext));
         auto irType = irGenerator->generateIrArrayPointerType(irCharType);
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
         return irType;
     } else {
-        return new IRType(irGenerator->generateLiteralType());
+        return std::make_shared<IRType>(irGenerator->generateLiteralType());
     }
 }
 
-IRTypeValueInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator, irContext);
@@ -48,7 +48,7 @@ IRTypeValueInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(IR
     );
 }
 
-llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(IRType* irType, IRTypeValueType* irTypeValueType, IRGenerator* irGenerator, IRContext* irContext) {
+llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, IRContext* irContext) {
     auto pointerType = irGenerator->generatePointerType();
     if (irType->isIntegerType()) {
         return llvm::ConstantStruct::get(irTypeValueType->getType(), {

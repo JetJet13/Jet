@@ -27,7 +27,7 @@ void TupleAccessRefAssignmentIRInjectorStrategy::inject(IRTupleAccessRefAssignme
             }
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
-    auto irRefType = (IRRefType*)irTupleAccessRefAssignmentStatement->getIRTupleAccessExpression()->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irTupleAccessRefAssignmentStatement->getIRTupleAccessExpression()->getIRType()->getSourceType());
     auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(

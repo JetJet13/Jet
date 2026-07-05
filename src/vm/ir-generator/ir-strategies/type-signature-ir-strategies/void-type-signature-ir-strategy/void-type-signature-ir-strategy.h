@@ -11,8 +11,8 @@
 
 class VoidTypeSignatureIRStrategy {
 public:
-    IRType* generate(IRGenerator* irGenerator);
-    IRTypeValueInstructionNode* generateTypeValue(IRType* irType, IRGenerator* irGenerator);
+    std::shared_ptr<IRType> generate(IRGenerator* irGenerator);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator);
 };
 
 #endif //JETLANG_VOID_TYPE_SIGNATURE_IR_STRATEGY_H

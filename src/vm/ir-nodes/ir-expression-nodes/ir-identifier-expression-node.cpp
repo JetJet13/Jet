@@ -28,7 +28,7 @@ std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getArc() {
     return _irArc;
 }
 
-IRPointerType* IRIdentifierExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRIdentifierExpressionNode::getIRType() {
     return _irType;
 }
 

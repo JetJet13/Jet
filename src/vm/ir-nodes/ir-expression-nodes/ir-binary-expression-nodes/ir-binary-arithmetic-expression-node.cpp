@@ -5,7 +5,7 @@
 #include "ir-binary-arithmetic-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -91,7 +91,7 @@ IRExpressionNode* IRBinaryArithmeticExpressionNode::getRightNode() {
     return _irRightNode;
 }
 
-IRType* IRBinaryArithmeticExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRBinaryArithmeticExpressionNode::getIRType() {
     return _type;
 }
 

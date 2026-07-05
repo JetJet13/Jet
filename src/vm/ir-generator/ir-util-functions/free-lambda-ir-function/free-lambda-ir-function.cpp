@@ -18,7 +18,7 @@ void FreeLambdaIRFunction::declareFreeLambdaFunction(IRGenerator* irGenerator, s
 
 void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto pointerType = irGenerator->generateIrPointerType(new IRType(intType));
+    auto pointerType = irGenerator->generateIrPointerType(std::make_shared<IRType>(intType));
     auto irInvocableType = irGenerator->generateIRInvocableType();
 
     auto function = irModuleNode->getFreeLambdaFunction();

@@ -5,17 +5,17 @@
 #include "lambda-type-signature-ir-strategy.h"
 #include "../../../../../types/ir-type-id.h"
 
-IRInvocableType* LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaTypeSignature> lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRInvocableType> LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaTypeSignature> lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto returnType = irGenerator->generateTypeFor(lambdaTypeSignature->getReturnType(), scope, irContext);
     auto parameterTypes = this->generateParameterTypes(lambdaTypeSignature->getParameterTypes(), irGenerator, scope, irContext, irGenerator->generateIrPointerType());
-    auto irFunction = IRPointerType::create(new IRFunctionType(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
+    auto irFunction = IRPointerType::create(std::make_shared<IRFunctionType>(llvm::FunctionType::get(returnType->getType(), parameterTypes->getParameterTypes(), false)));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
-    auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
+    auto irInvocableType = std::make_shared<IRInvocableType>(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterTypes, returnType);
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
     return irInvocableType;
 }
 
-IRLambdaType* LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRLambdaType> LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto returnType = irGenerator->generateTypeFor(lambdaExpressionTypeSignature->getReturnType(), scope, irContext);
     auto lambdaScopeIrType = irGenerator->generateTypeFor(std::dynamic_pointer_cast<LambdaScopeTypeSignature>(lambdaExpressionTypeSignature->getScopeParameter()->getTypeSignature()), scope, irContext);
     auto parameterList = this->generateParameterTypes(
@@ -26,11 +26,11 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaExpr
         lambdaScopeIrType
     );
     auto functionType = llvm::FunctionType::get(returnType->getType(), parameterList->getParameterTypes(), false);
-    auto irFunction = IRPointerType::create(new IRFunctionType(functionType));
+    auto irFunction = IRPointerType::create(std::make_shared<IRFunctionType>(functionType));
     auto irFunctionCleanup = irGenerator->generateIRInvocableCleanupType();
-    auto irInvocableType = new IRInvocableType(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterList, returnType);
+    auto irInvocableType = std::make_shared<IRInvocableType>(irGenerator->getFunctionParameterType(), irFunction, irFunctionCleanup, parameterList, returnType);
     irInvocableType->setValue(this->generateTypeValue(irInvocableType, irGenerator, irContext));
-    auto irLambdaType = new IRLambdaType(
+    auto irLambdaType = std::make_shared<IRLambdaType>(
         functionType,
         irFunction,
         irInvocableType,
@@ -41,17 +41,17 @@ IRLambdaType* LambdaTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaExpr
     return irLambdaType;
 }
 
-IRInvocableParameterListType* LambdaTypeSignatureIRStrategy::generateParameterTypes(std::vector<std::shared_ptr<TypeSignature>>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter) {
-    auto parameterTypes = std::vector<IRType*>();
+std::shared_ptr<IRInvocableParameterListType> LambdaTypeSignatureIRStrategy::generateParameterTypes(std::vector<std::shared_ptr<TypeSignature>>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<IRType>> lambdaScopeParameter) {
+    auto parameterTypes = std::vector<std::shared_ptr<IRType>>();
     for (auto parameterType : *parameterTypeSignatures) {
         auto parameter = irGenerator->generateTypeFor(parameterType, scope, irContext);
         parameterTypes.push_back(parameter);
     }
 
-    return new IRInvocableParameterListType(parameterTypes, lambdaScopeParameter);
+    return std::make_shared<IRInvocableParameterListType>(parameterTypes, lambdaScopeParameter);
 }
 
-IRTypeValueInstructionNode* LambdaTypeSignatureIRStrategy::generateTypeValue(IRInvocableType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* LambdaTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRInvocableType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

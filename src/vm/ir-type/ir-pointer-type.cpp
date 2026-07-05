@@ -5,15 +5,15 @@
 #include "ir-pointer-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRPointerType* IRPointerType::create(llvm::GlobalVariable* globalVariable) {
-    return new IRPointerType(globalVariable->getType(), new IRType(globalVariable->getValueType()));
+std::shared_ptr<IRPointerType> IRPointerType::create(llvm::GlobalVariable* globalVariable) {
+    return std::make_shared<IRPointerType>(globalVariable->getType(), std::make_shared<IRType>(globalVariable->getValueType()));
 }
 
-IRPointerType* IRPointerType::create(IRType* type) {
-    return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
+std::shared_ptr<IRPointerType> IRPointerType::create(std::shared_ptr<IRType> type) {
+    return std::make_shared<IRPointerType>(llvm::PointerType::get(type->getType(), 0), type);
 }
 
-IRPointerType::IRPointerType(llvm::PointerType* type, IRType* sourceType) : IRType(type) {
+IRPointerType::IRPointerType(llvm::PointerType* type, std::shared_ptr<IRType> sourceType) : IRType(type) {
     _type = type;
     _sourceType = sourceType;
 }
@@ -41,18 +41,18 @@ void IRPointerType::setAlignmentOverride(llvm::Align alignmentOverride) {
     }
 }
 
-IRType* IRPointerType::getUnderlyingType() {
+std::shared_ptr<IRType> IRPointerType::getUnderlyingType() {
     return this->getSourceType()->getUnderlyingType();
 }
 
-IRType* IRPointerType::getSourceType() {
+std::shared_ptr<IRType> IRPointerType::getSourceType() {
     if (!_sourceType) {
         throw std::logic_error("ir pointer does not have source ir type set");
     }
     return _sourceType.value();
 }
 
-void IRPointerType::setSourceType(IRType* type) {
+void IRPointerType::setSourceType(std::shared_ptr<IRType> type) {
     _sourceType = type;
 }
 
@@ -67,13 +67,13 @@ bool IRPointerType::isPointerType() {
     return true;
 }
 
-IRPointerType* IRPointerType::clone() {
+std::shared_ptr<IRType> IRPointerType::clone() {
     if (_sourceType) {
-        auto clone = new IRPointerType(_type, _sourceType.value()->clone());
+        auto clone = std::make_shared<IRPointerType>(_type, _sourceType.value()->clone());
         this->initClone(clone);
         return clone;
     }
-    auto clone = new IRPointerType(_type);
+    auto clone = std::make_shared<IRPointerType>(_type);
     this->initClone(clone);
     return clone;
 }

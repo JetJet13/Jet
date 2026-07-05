@@ -21,9 +21,9 @@ private:
     llvm::GetElementPtrInst* _intPointer;
     llvm::LoadInst* _loadedNumElements;
     IRInstructionNode* _sourceAllocation;
-    IRArrayPointerType* _type;
+    std::shared_ptr<IRArrayPointerType> _type;
 public:
-    IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type);
+    IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type);
     llvm::GetElementPtrInst* getIntPointer();
     llvm::LoadInst* getLoadedNumElements();
     llvm::Value* getValue() override;
@@ -31,7 +31,7 @@ public:
     IRInstructionNode* getAggregateSourceAllocation();
     IRInstructionNode* getAggregateAllocation();
     IRInstructionNode* getAggregatePointerAllocation();
-    IRArrayPointerType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

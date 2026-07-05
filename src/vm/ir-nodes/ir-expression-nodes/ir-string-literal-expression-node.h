@@ -16,12 +16,13 @@ class IRStringLiteralExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTLiteralExpressionNode> _node;
     IRStringLiteralNode* _irValue;
-    IRArrayPointerType* _irArrayPointerType;
+    std::shared_ptr<IRArrayPointerType> _irArrayPointerType;
     IRInstructionNode* _sourceAllocation;
     IRInstructionNode* _arrayPointerSourceAllocation;
 public:
-    IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation);
-    IRArrayPointerType* getIRType() override;
+    IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRStringLiteralNode* irValue, std::shared_ptr<IRArrayPointerType> irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation);
+    std::shared_ptr<IRArrayPointerType> getIRArrayPointerType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

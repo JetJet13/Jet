@@ -7,17 +7,17 @@
 
 #include <utility>
 
-IRClassType::IRClassType(std::string name, IRStructRefType* classProperties, std::string preConstructorName): IRType(classProperties->getType()) {
+IRClassType::IRClassType(std::string name, std::shared_ptr<IRStructRefType> classProperties, std::string preConstructorName): IRType(classProperties->getType()) {
     _name = name;
     _classProperties = classProperties;
-    _classScopeType = std::optional<IRParameterType*>();
-    _classConstructors = std::unordered_map<std::string, IRFunctionType*>();
-    _classMethods = std::unordered_map<std::string, IRFunctionType*>();
-    _classStaticMethods = std::unordered_map<std::string, IRFunctionType*>();
+    _classScopeType = std::optional<std::shared_ptr<IRParameterType>>();
+    _classConstructors = std::unordered_map<std::string, std::shared_ptr<IRFunctionType>>();
+    _classMethods = std::unordered_map<std::string, std::shared_ptr<IRFunctionType>>();
+    _classStaticMethods = std::unordered_map<std::string, std::shared_ptr<IRFunctionType>>();
     _preConstructorName = std::move(preConstructorName);
 }
 
-IRClassType::IRClassType(std::string name, IRStructRefType* classProperties, std::optional<IRParameterType*> classScopeType, std::unordered_map<std::string, IRFunctionType*> classConstructors, std::unordered_map<std::string, IRFunctionType*> classMethods, std::unordered_map<std::string, IRFunctionType*> classStaticMethods, std::unordered_map<std::string, IRType*> classStaticProperties, std::string preConstructorName) : IRType(classProperties->getType()) {
+IRClassType::IRClassType(std::string name, std::shared_ptr<IRStructRefType> classProperties, std::optional<std::shared_ptr<IRParameterType>> classScopeType, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classConstructors, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classMethods, std::unordered_map<std::string, std::shared_ptr<IRFunctionType>> classStaticMethods, std::unordered_map<std::string, std::shared_ptr<IRType>> classStaticProperties, std::string preConstructorName) : IRType(classProperties->getType()) {
     _name = name;
     _classProperties = classProperties;
     _classScopeType = classScopeType;
@@ -28,11 +28,11 @@ IRClassType::IRClassType(std::string name, IRStructRefType* classProperties, std
     _preConstructorName = std::move(preConstructorName);
 }
 
-std::optional<IRParameterType*> IRClassType::getClassScopeParameterType() {
+std::optional<std::shared_ptr<IRParameterType>> IRClassType::getClassScopeParameterType() {
     return _classScopeType;
 }
 
-std::optional<IRFunctionType*> IRClassType::getIRTypeForConstructor(std::string constructorId) {
+std::optional<std::shared_ptr<IRFunctionType>> IRClassType::getIRTypeForConstructor(std::string constructorId) {
     auto result = _classConstructors.find(constructorId);
     if (result == _classConstructors.end()) {
         return {};
@@ -40,7 +40,7 @@ std::optional<IRFunctionType*> IRClassType::getIRTypeForConstructor(std::string 
     return result->second;
 }
 
-std::optional<IRFunctionType*> IRClassType::getIRTypeForMethod(std::string methodName) {
+std::optional<std::shared_ptr<IRFunctionType>> IRClassType::getIRTypeForMethod(std::string methodName) {
     auto result = _classMethods.find(methodName);
     if (result == _classMethods.end()) {
         return {};
@@ -48,7 +48,7 @@ std::optional<IRFunctionType*> IRClassType::getIRTypeForMethod(std::string metho
     return result->second;
 }
 
-std::optional<IRType*> IRClassType::getIRTypeForStaticProperty(std::string propertyName) {
+std::optional<std::shared_ptr<IRType>> IRClassType::getIRTypeForStaticProperty(std::string propertyName) {
     auto result = _classStaticProperties.find(propertyName);
     if (result == _classStaticProperties.end()) {
         return {};
@@ -56,7 +56,7 @@ std::optional<IRType*> IRClassType::getIRTypeForStaticProperty(std::string prope
     return result->second;
 }
 
-std::optional<IRFunctionType*> IRClassType::getIRTypeForStaticMethod(std::string methodName) {
+std::optional<std::shared_ptr<IRFunctionType>> IRClassType::getIRTypeForStaticMethod(std::string methodName) {
     auto result = _classStaticMethods.find(methodName);
     if (result == _classStaticMethods.end()) {
         return {};
@@ -77,7 +77,7 @@ llvm::Type* IRClassType::getValueType() {
     return this->getType()->getStructElementType(0);
 }
 
-IRStructRefType* IRClassType::getClassProperties() {
+std::shared_ptr<IRStructRefType> IRClassType::getClassProperties() {
     return _classProperties;
 }
 
@@ -90,27 +90,27 @@ std::string IRClassType::getName() {
 }
 
 
-void IRClassType::setProperties(IRStructRefType* classProperties) {
+void IRClassType::setProperties(std::shared_ptr<IRStructRefType> classProperties) {
     _classProperties = classProperties;
 }
 
-void IRClassType::setClassScopeType(std::optional<IRParameterType*> classScopeType) {
+void IRClassType::setClassScopeType(std::optional<std::shared_ptr<IRParameterType>> classScopeType) {
     _classScopeType = classScopeType;
 }
 
-void IRClassType::addStaticProperty(std::string staticPropertyName, IRType* irType) {
+void IRClassType::addStaticProperty(std::string staticPropertyName, std::shared_ptr<IRType> irType) {
     _classStaticProperties[staticPropertyName] = irType;
 }
 
-void IRClassType::addMethod(std::string methodName, IRFunctionType* irType) {
+void IRClassType::addMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType) {
     _classMethods[methodName] = irType;
 }
 
-void IRClassType::addStaticMethod(std::string methodName, IRFunctionType* irType) {
+void IRClassType::addStaticMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType) {
     _classStaticMethods[methodName] = irType;
 }
 
-void IRClassType::addConstructor(std::string constructorName, IRFunctionType* irType) {
+void IRClassType::addConstructor(std::string constructorName, std::shared_ptr<IRFunctionType> irType) {
     _classConstructors[constructorName] = irType;
 }
 
@@ -135,9 +135,9 @@ llvm::Align IRClassType::getAlignment() {
     return _classProperties->getAlignment();
 }
 
-IRClassType* IRClassType::clone() {
-    auto classPropertiesClone = _classProperties->clone();
-    auto clone = new IRClassType(_name, classPropertiesClone, _classScopeType, _classConstructors, _classMethods, _classStaticMethods, _classStaticProperties, _preConstructorName);
+std::shared_ptr<IRType> IRClassType::clone() {
+    auto classPropertiesClone = std::dynamic_pointer_cast<IRStructRefType>(_classProperties->clone());
+    auto clone = std::make_shared<IRClassType>(_name, classPropertiesClone, _classScopeType, _classConstructors, _classMethods, _classStaticMethods, _classStaticProperties, _preConstructorName);
     this->initClone(clone);
     return clone;
 }

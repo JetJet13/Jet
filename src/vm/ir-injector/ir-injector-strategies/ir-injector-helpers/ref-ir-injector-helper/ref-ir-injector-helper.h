@@ -13,8 +13,8 @@
 
 class RefIRInjectorHelper {
 public:
-    static void incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule);
-    static llvm::Value* injectForInvocationExpression(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation);
+    static void incrementRefCountForInvocationExpression(llvm::Value* value, std::shared_ptr<IRType> irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule);
+    static llvm::Value* injectForInvocationExpression(llvm::Value* value, std::shared_ptr<IRRefType> irRefType, IRBlockNode* irBlock, IROperation* irOperation);
 };
 
 #endif //JETLANG_REF_IR_INJECTOR_HELPER_H

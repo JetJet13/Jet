@@ -22,7 +22,7 @@ IRInstructionNode* IRLoadInstructionNode::getLoadedInstruction() {
     return _loadedInstruction;
 }
 
-IRType* IRLoadInstructionNode::getIRType() {
+std::shared_ptr<IRType> IRLoadInstructionNode::getIRType() {
     return _loadedInstruction->getIRType()->getSourceType();
 }
 

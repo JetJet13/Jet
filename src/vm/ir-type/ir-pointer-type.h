@@ -12,21 +12,21 @@
 class IRPointerType : public IRType {
 private:
     llvm::PointerType* _type;
-    std::optional<IRType*> _sourceType;
+    std::optional<std::shared_ptr<IRType>> _sourceType;
 public:
-    static IRPointerType* create(llvm::GlobalVariable* globalVariable);
-    static IRPointerType* create(IRType* type);
-    IRPointerType(llvm::PointerType* type, IRType* sourceType);
+    static std::shared_ptr<IRPointerType> create(llvm::GlobalVariable* globalVariable);
+    static std::shared_ptr<IRPointerType> create(std::shared_ptr<IRType> type);
+    IRPointerType(llvm::PointerType* type, std::shared_ptr<IRType> sourceType);
     explicit IRPointerType(llvm::PointerType* type);
     llvm::PointerType* getType() override;
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
-    IRType* getUnderlyingType() override;
-    IRType* getSourceType() override;
-    void setSourceType(IRType* type);
+    std::shared_ptr<IRType> getUnderlyingType() override;
+    std::shared_ptr<IRType> getSourceType() override;
+    void setSourceType(std::shared_ptr<IRType> type);
     bool containsTypeThatRequiresFreeing() override;
     bool isPointerType() override;
-    IRPointerType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     virtual void print() override;
 };
 

@@ -14,7 +14,7 @@
 
 class ModuleTypeSignatureIRStrategy {
 public:
-    IRModuleType* generate(std::shared_ptr<ModuleTypeSignature> moduleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRModuleType> generate(std::shared_ptr<ModuleTypeSignature> moduleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_MODULE_TYPE_SIGNATURE_IR_STRATEGY_H

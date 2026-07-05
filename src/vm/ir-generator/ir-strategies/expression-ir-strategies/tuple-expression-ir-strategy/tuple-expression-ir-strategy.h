@@ -12,8 +12,8 @@
 
 class TupleExpressionIRStrategy {
 private:
-    IRInstructionNode* generateTupleAllocation(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
-    IRInstructionNode* generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateTupleAllocation(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRInstructionNode* generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
     IRTupleExpressionNode* generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

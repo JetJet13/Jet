@@ -29,7 +29,7 @@ llvm::Type* IRVariableDeclarationNode::getAllocatedType() {
     return _irValue->getAllocatedType();
 }
 
-IRType* IRVariableDeclarationNode::getAllocatedIRType() {
+std::shared_ptr<IRType> IRVariableDeclarationNode::getAllocatedIRType() {
     return _irValue->getIRType()->getSourceType();
 }
 

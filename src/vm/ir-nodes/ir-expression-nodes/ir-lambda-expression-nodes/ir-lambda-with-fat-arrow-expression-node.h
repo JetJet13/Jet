@@ -20,11 +20,11 @@ private:
     IRInstructionNode* _irValue;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
-    IRLambdaType* _type;
+    std::shared_ptr<IRLambdaType> _type;
     llvm::Function* _irCleanupFunction;
     IRExpressionNode* _irReturnExpression;
 public:
-    IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
+    IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
     IRExpressionNode* getReturnExpression();
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;
@@ -32,7 +32,7 @@ public:
     IRBlockNode* getBlock() override;
     IRFunctionParameterListNode* getParameters() override;
     llvm::Value* getValue() override;
-    IRLambdaType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

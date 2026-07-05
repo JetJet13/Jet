@@ -10,7 +10,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
 
-IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
+IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, llvm::LoadInst* loadedNumElements, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getNumElementsIndex());
     InstructionIRInjectorHelper::injectStore(loadedNumElements, numElementsPointer, irBlock);
@@ -24,7 +24,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
             arrayPointerAllocation);
 }
 
-IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
+IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, unsigned long numElements, IRInstructionNode* arrayAllocation, IRInstructionNode* arrayPointerAllocation) {
     InstructionIRInjectorHelper::inject(arrayPointerAllocation, irBlock);
     auto intPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation->getValue(), arrayPointerType->getNumElementsIndex());
     InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(numElements), intPointer, irBlock);
@@ -39,12 +39,12 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
 }
 
 IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRInstructionNode* sourceArrayPointerAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
-    auto arrayPointerType = (IRArrayPointerType*)sourceArrayPointerAllocation->getIRType()->getUnderlyingType();
+    auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(sourceArrayPointerAllocation->getIRType()->getUnderlyingType());
 
     if (!sourceArrayPointerAllocation->getParentAllocation().value()->getChildAllocations()->empty()) {
         // initialize
         auto arrayAllocation = sourceArrayPointerAllocation->getParentAllocation().value();
-        auto arrayType = (IRArrayType*)arrayAllocation->getIRType()->getUnderlyingType();
+        auto arrayType = std::dynamic_pointer_cast<IRArrayType>(arrayAllocation->getIRType()->getUnderlyingType());
         auto numElements = arrayType->getType()->getNumElements();
         auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, irBlock->getBuilder()->get()->getInt64(numElements), irModule);
         InstructionIRInjectorHelper::inject(destinationAllocation, irBlock);
@@ -59,7 +59,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
                 InstructionIRInjectorHelper::injectStore(
                         StructIRInjectorHelper::injectStructRef(irBlock, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
             } else if (childAllocation->getIRType()->getSourceType()->isPointerType()) {
-                auto pointerType = (IRPointerType*)childAllocation->getIRType()->getSourceType();
+                auto pointerType = std::dynamic_pointer_cast<IRPointerType>(childAllocation->getIRType()->getSourceType());
                 InstructionIRInjectorHelper::injectStore(PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, childAllocation, irModule, irInjector), pointer, irBlock, childAllocation->getIRType());
             } else {
                 InstructionIRInjectorHelper::injectStore(ArrayIRInjectorHelper::injectArrayPointer(irBlock, childAllocation, irModule, irInjector)->getValue(), pointer, irBlock, arrayPointerType);
@@ -79,7 +79,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* ir
     return ArrayIRInjectorHelper::injectArrayPointer(irBlock, arrayPointerType, loadedNumElements, arrayPointerAllocation);
 }
 
-IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, IRType* elementType, std::shared_ptr<IRModuleNode> irModule, llvm::Value* sourceArray, IRInstructionNode* arrayPointerAllocation, IRInjector* irInjector) {
+IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRType> elementType, std::shared_ptr<IRModuleNode> irModule, llvm::Value* sourceArray, IRInstructionNode* arrayPointerAllocation, IRInjector* irInjector) {
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArray, arrayPointerType->getNumElementsIndex());
     auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getNumElementsType(), numElementsPointer, irBlock, arrayPointerType);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
@@ -95,7 +95,7 @@ IRLoadInstructionNode* ArrayIRInjectorHelper::injectArrayCopy(IRBlockNode* irBlo
     );
 }
 
-void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* numElements, llvm::Value* depth, llvm::Value* arrayPointerAllocation, llvm::Value* arrayAllocation) {
+void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, llvm::Value* numElements, llvm::Value* depth, llvm::Value* arrayPointerAllocation, llvm::Value* arrayAllocation) {
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getNumElementsIndex());
     InstructionIRInjectorHelper::injectStore(numElements, numElementsPointer, irBlock);
     auto depthPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), arrayPointerAllocation, arrayPointerType->getDepthIndex());
@@ -106,7 +106,7 @@ void ArrayIRInjectorHelper::injectArrayPointer(IRBlockNode* irBlock, IRArrayPoin
 
 llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(IRBlockNode* irBlock, IRArrayAccessExpressionNode* irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, IRLookupTable* scope) {
     auto sourceValue = irInjector->inject(irBlock, irAccessExpressionNode->getSourceExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto arrayPointerType = (IRArrayPointerType*)irAccessExpressionNode->getSourceExpression()->getUnderlyingIRType();
+    auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irAccessExpressionNode->getSourceExpression()->getUnderlyingIRType());
     auto indexValue = irInjector->inject(irBlock, irAccessExpressionNode->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getArrayAccessFunction(),
@@ -121,7 +121,7 @@ llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(IRBlockNode* irBl
     return irBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getElementType(), arrayAlloc, { indexValue });
 }
 
-IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
+IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
     auto elementTypeSize = irBlock->getBuilder()->get()->getInt64(arrayPointerType->getElementIRType()->getSizeInBytes());
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),
@@ -134,7 +134,7 @@ IRInstructionNode* ArrayIRInjectorHelper::injectArrayAllocation(IRBlockNode* irB
     );
 }
 
-IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNode* irBlock, IRArrayPointerType* arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
+IRInstructionNode* ArrayIRInjectorHelper::injectArrayPointerAllocation(IRBlockNode* irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, llvm::Value* loadedNumElements, std::shared_ptr<IRModuleNode> irModule) {
     auto arrayAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
     auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),

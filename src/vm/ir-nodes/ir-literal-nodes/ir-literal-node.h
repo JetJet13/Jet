@@ -11,7 +11,7 @@
 class IRLiteralNode : public IRNode {
 public:
     virtual llvm::Type* getType();
-    virtual IRType* getIRType() = 0;
+    virtual std::shared_ptr<IRType> getIRType() = 0;
     virtual llvm::Constant* getConstantIRValue() = 0;
 };
 

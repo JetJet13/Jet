@@ -12,7 +12,7 @@
 
 IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
-    auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext);
+    auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
@@ -36,7 +36,7 @@ IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(std::share
 
 IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
-    auto irType = (IRLambdaType*)irGenerator->generateTypeFor(node->getLambdaTypeSignature(), lambdaScope, irContext);
+    auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getLambdaTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
     auto irFunction = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, "", irContext->getModule());
     auto irCleanupFunction = this->generateLambdaCleanupFunction(irType, irGenerator, irContext);
@@ -66,7 +66,7 @@ void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressio
     functionParameterList->addLambdaScopeParameter(scopeParameter);
 
     if (typeSignature->isScopeParameterNecessary()) {
-        auto scopeParameterIrType = (IRStructType*)scopeParameter->getParameterType()->getIRType();
+        auto scopeParameterIrType = std::dynamic_pointer_cast<IRStructType>(scopeParameter->getParameterType()->getIRType());
         auto scopeParameterAllocation = scopeParameter->getAllocation();
         auto loadedScopeParameterArgument = irGenerator->generateLoadInstruction(irFunction->getArg(argument->getArgNo()), lambdaScopeParameterType->getIRType());
         auto storedScopeParameterArgument = irGenerator->generateStoreInstruction(loadedScopeParameterArgument, scopeParameterAllocation->getValue(), lambdaScopeParameterType->getIRType());
@@ -74,7 +74,7 @@ void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressio
         scopeParameterAllocation->insertDescendentValue(storedScopeParameterArgument);
         for (unsigned long index = 0; index < scopeParameterIrType->size(); ++index) {
             auto key = scopeParameterIrType->getKeyForIndex(index);
-            auto irType = (IRCapturedVariableType*)scopeParameterIrType->getIRTypeForKey(key);
+            auto irType = std::dynamic_pointer_cast<IRCapturedVariableType>(scopeParameterIrType->getIRTypeForKey(key));
             auto pointerToCapturedVariableValue = irGenerator->generateGEP(scopeParameterIrType, scopeParameterAllocation->getValue(), index);
             auto loadedCapturedVariableValue = irGenerator->generateLoadInstruction(pointerToCapturedVariableValue, irType);
             auto pointerToValue = irGenerator->generateExtractValue(loadedCapturedVariableValue, irType->getVariableIndex());
@@ -90,7 +90,7 @@ void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressio
 
 }
 
-llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(IRLambdaType* irLambdaType, IRGenerator* irGenerator, IRContext* irContext) {
+llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, IRGenerator* irGenerator, IRContext* irContext) {
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();

@@ -26,8 +26,8 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(std::share
     auto targetIndex = node->getObjectAccess()->getIndex()->getIndexValue();
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, irOperation);
     auto sourceType = sourceValue->getUnderlyingIRType();
-    auto irStructRefType = (IRStructRefType*)sourceType;
-    auto irInvocableType = (IRInvocableType*)irStructRefType->getStructIRType()->getIRTypeByIndex(targetIndex);
+    auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(sourceType);
+    auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irStructRefType->getStructIRType()->getIRTypeByIndex(targetIndex));
 
     auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), sourceValue->getValue(), argList);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

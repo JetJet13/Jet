@@ -5,16 +5,16 @@
 #include "ir-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRClassInstanceType::IRClassInstanceType(IRClassType* irClassType) : IRType(irClassType->getClassProperties()->getType()) {
+IRClassInstanceType::IRClassInstanceType(std::shared_ptr<IRClassType> irClassType) : IRType(irClassType->getClassProperties()->getType()) {
     _id = irClassType->getId();
     _irClassType = irClassType;
 }
 
-IRStructRefType* IRClassInstanceType::getIRClassPropertiesType() {
+std::shared_ptr<IRStructRefType> IRClassInstanceType::getIRClassPropertiesType() {
     return _irClassType->getClassProperties();
 }
 
-IRClassType* IRClassInstanceType::getIRClassType() {
+std::shared_ptr<IRClassType> IRClassInstanceType::getIRClassType() {
     return _irClassType;
 }
 
@@ -30,11 +30,11 @@ unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName)
     return this->getIRClassPropertiesType()->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 
-IRType* IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
+std::shared_ptr<IRType> IRClassInstanceType::getIRTypeForProperty(std::string propertyName) {
     return this->getIRClassPropertiesType()->getStructIRType()->getIRTypeForKey(this->getIRPropertyName(propertyName));
 }
 
-std::optional<IRFunctionType*> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
+std::optional<std::shared_ptr<IRFunctionType>> IRClassInstanceType::getIRTypeForMethod(std::string methodName) {
     return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
 }
 
@@ -65,8 +65,8 @@ llvm::Align IRClassInstanceType::getAlignment() {
     return this->getIRClassPropertiesType()->getAlignment();
 }
 
-IRClassInstanceType* IRClassInstanceType::clone() {
-    auto clone = new IRClassInstanceType(_irClassType);
+std::shared_ptr<IRType> IRClassInstanceType::clone() {
+    auto clone = std::make_shared<IRClassInstanceType>(_irClassType);
     this->initClone(clone);
     return clone;
 }

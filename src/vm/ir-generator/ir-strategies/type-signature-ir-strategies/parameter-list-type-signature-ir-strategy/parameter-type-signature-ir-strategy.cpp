@@ -4,6 +4,6 @@
 
 #include "parameter-type-signature-ir-strategy.h"
 
-IRParameterType* ParameterTypeSignatureIRStrategy::generate(std::shared_ptr<ParameterListItemTypeSignature> parameterListItemTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
-    return new IRParameterType(parameterListItemTypeSignature->getName(), irGenerator->generateTypeFor(parameterListItemTypeSignature->getTypeSignature()->convertToVariableTypeSignature(), scope, irContext));
+std::shared_ptr<IRParameterType> ParameterTypeSignatureIRStrategy::generate(std::shared_ptr<ParameterListItemTypeSignature> parameterListItemTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+    return std::make_shared<IRParameterType>(parameterListItemTypeSignature->getName(), irGenerator->generateTypeFor(parameterListItemTypeSignature->getTypeSignature()->convertToVariableTypeSignature(), scope, irContext));
 }

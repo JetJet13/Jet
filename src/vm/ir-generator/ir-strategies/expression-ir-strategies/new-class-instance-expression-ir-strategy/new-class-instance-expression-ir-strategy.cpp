@@ -21,7 +21,7 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
         );
     }
 
-    auto irType = (IRNewClassInstanceType*)irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto irType = std::dynamic_pointer_cast<IRNewClassInstanceType>(irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext));
     auto allocation = this->generateClassInstanceAllocation(irType, irGenerator, irContext);
     auto pointerAllocation = this->generateClassInstancePointerAllocation(node, irType, irGenerator, irContext, irOperation);
     pointerAllocation->setParentAllocation(allocation);
@@ -36,7 +36,7 @@ IRNewClassInstanceExpressionNode* NewClassInstanceExpressionIRStrategy::generate
     );
 }
 
-IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(IRNewClassInstanceType* irNewClassInstanceType, IRGenerator* irGenerator, IRContext* irContext) {
+IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, IRGenerator* irGenerator, IRContext* irContext) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -51,6 +51,6 @@ IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstanceAl
     );
 }
 
-IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, IRNewClassInstanceType* irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRNewClassInstanceType> irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType()));
 }

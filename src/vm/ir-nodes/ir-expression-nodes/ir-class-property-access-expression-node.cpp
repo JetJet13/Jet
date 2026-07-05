@@ -6,7 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-type/ir-struct-ref-type.h"
 
-IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -40,7 +40,7 @@ std::optional<IRInstructionNode*> IRClassPropertyAccessExpressionNode::getSource
     return _sourceAllocation;
 }
 
-IRType* IRClassPropertyAccessExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRClassPropertyAccessExpressionNode::getIRType() {
     return _irType;
 }
 
@@ -56,8 +56,8 @@ Position* IRClassPropertyAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-IRType* IRClassPropertyAccessExpressionNode::getTargetIRType() {
-    return ((IRStructRefType*)_irSource->getIRType()->getUnderlyingType())->getStructIRType()->getIRTypeForKey(_targetKey);
+std::shared_ptr<IRType> IRClassPropertyAccessExpressionNode::getTargetIRType() {
+    return std::dynamic_pointer_cast<IRStructRefType>(_irSource->getIRType()->getUnderlyingType())->getStructIRType()->getIRTypeForKey(_targetKey);
 }
 
 llvm::Value* IRClassPropertyAccessExpressionNode::getValue() {

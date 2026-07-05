@@ -10,7 +10,7 @@
 void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(IRClassPropertyRefValueAssignmentStatementNode* irClassPropertyRefValueAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto classScopeParameter = scope->getClassScope().value();
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
-    auto classInstanceIrType = (IRStructRefType*)classScopeParameter->getIRType()->getUnderlyingType();
+    auto classInstanceIrType = std::dynamic_pointer_cast<IRStructRefType>(classScopeParameter->getIRType()->getUnderlyingType());
     auto pointerToClassInstancePropertiesAlloc = irBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getType(), loadedPointer, classInstanceIrType->getStructIndex());
     auto classInstancePropertiesAlloc = InstructionIRInjectorHelper::injectLoad(classInstanceIrType->getStructType(), pointerToClassInstancePropertiesAlloc, irBlock);
 
@@ -19,7 +19,7 @@ void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(IRClassPropertyRe
             classInstancePropertiesAlloc,
             irClassPropertyRefValueAssignmentStatementNode->getPropertyIndex()
     );
-    auto irRefType = (IRRefType*)classInstanceIrType->getStructIRType()->getIRTypeByIndex(irClassPropertyRefValueAssignmentStatementNode->getPropertyIndex());
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(classInstanceIrType->getStructIRType()->getIRTypeByIndex(irClassPropertyRefValueAssignmentStatementNode->getPropertyIndex()));
     auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), pointer, irRefType->getRefValueIndex());
     auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(irRefType->getRefValueType(), pointerToRefValue, irBlock);
     if (irRefType->getUnderlyingType()->containsTypeThatRequiresFreeing()) {

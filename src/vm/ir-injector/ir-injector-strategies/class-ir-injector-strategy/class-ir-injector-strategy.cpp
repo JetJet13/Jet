@@ -28,12 +28,12 @@ void ClassIRInjectorStrategy::inject(IRClassDeclarationNode* irClassDeclarationN
     }
 }
 
-void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* irClassPreConstructorNode, IRClassType* irClassType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ClassIRInjectorStrategy::injectPreConstructor(IRClassPreConstructorNode* irClassPreConstructorNode, std::shared_ptr<IRClassType> irClassType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto preConstructorBlock = irClassPreConstructorNode->getBlock();
     auto preConstructorScope = irClassPreConstructorNode->getBlock()->getScope();
     irInjector->inject(irBlock, preConstructorBlock, irModule);
     auto classScopeParameterAllocation = irClassPreConstructorNode->getClassScopeParameter();
-    auto classInstanceIrType = (IRStructRefType*)irClassType->getClassScopeParameterType().value()->getIRType()->getSourceType();
+    auto classInstanceIrType = std::dynamic_pointer_cast<IRStructRefType>(irClassType->getClassScopeParameterType().value()->getIRType()->getSourceType());
     auto pointerType = irClassPreConstructorNode->getClassScopeParameter()->getIRType()->getType();
 
     auto classInstancePropertiesAlloc = InstructionIRInjectorHelper::injectLoad(classScopeParameterAllocation->getAllocatedType(), classScopeParameterAllocation->getValue(), preConstructorBlock);

@@ -8,10 +8,10 @@
 
 // todo - REMOVE THIS!
 llvm::Align DataAlignmentGenerator::generate(llvm::Type* type) {
-    return DataAlignmentGenerator::generate(new IRType(type));
+    return DataAlignmentGenerator::generate(std::make_shared<IRType>(type));
 }
 
-llvm::Align DataAlignmentGenerator::generate(IRType* type) {
+llvm::Align DataAlignmentGenerator::generate(std::shared_ptr<IRType> type) {
     if (type->isCharType() || type->isBoolType()) {
         return llvm::Align(1);
     }
@@ -25,13 +25,13 @@ llvm::Align DataAlignmentGenerator::generate(IRType* type) {
     }
 
     if (type->isArrayType()) {
-        return DataAlignmentGenerator::generate(new IRType(type->getType()->getArrayElementType()));
+        return DataAlignmentGenerator::generate(std::make_shared<IRType>(type->getType()->getArrayElementType()));
     }
 
     if (type->isStructType()) {
         unsigned long largestSize = 1;
         for (unsigned long i = 0; i < type->getType()->getStructNumElements(); i++) {
-            auto structElementSize = DataAlignmentGenerator::generate(((IRStructType *) type)->getIRTypeByIndex(i)).value();
+            auto structElementSize = DataAlignmentGenerator::generate(std::dynamic_pointer_cast<IRStructType>(type)->getIRTypeByIndex(i)).value();
             if (structElementSize > largestSize) {
                 largestSize = structElementSize;
             }

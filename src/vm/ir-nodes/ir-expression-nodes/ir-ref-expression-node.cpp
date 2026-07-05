@@ -4,7 +4,7 @@
 
 #include "ir-ref-expression-node.h"
 
-IRRefExpressionNode::IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc) {
+IRRefExpressionNode::IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRRefType> irType, IRInstructionNode* irValue, IRInstructionNode* irArc) {
     _node = node;
     _irExpression = irExpression;
     _irType = irType;
@@ -25,7 +25,11 @@ IRInstructionNode* IRRefExpressionNode::getIRValue() {
     return _irValue;
 }
 
-IRRefType* IRRefExpressionNode::getIRType() {
+std::shared_ptr<IRRefType> IRRefExpressionNode::getIRRefType() {
+    return _irType;
+}
+
+std::shared_ptr<IRType> IRRefExpressionNode::getIRType() {
     return _irType;
 }
 

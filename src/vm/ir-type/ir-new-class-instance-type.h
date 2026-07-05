@@ -11,25 +11,25 @@
 
 class IRNewClassInstanceType : public IRType {
 private:
-    IRStructRefType* _irClassInstancePropertiesType;
-    IRClassType* _irClassType;
+    std::shared_ptr<IRStructRefType> _irClassInstancePropertiesType;
+    std::shared_ptr<IRClassType> _irClassType;
     std::string _constructorId;
 public:
-    IRNewClassInstanceType(IRClassType* irClassType, std::string constructorId, IRStructRefType* irClassInstancePropertiesType);
-    IRStructRefType* getIRClassPropertiesType();
-    IRClassType* getIRClassType();
-    IRFunctionType* getIRConstructorType();
+    IRNewClassInstanceType(std::shared_ptr<IRClassType> irClassType, std::string constructorId, std::shared_ptr<IRStructRefType> irClassInstancePropertiesType);
+    std::shared_ptr<IRStructRefType> getIRClassPropertiesType();
+    std::shared_ptr<IRClassType> getIRClassType();
+    std::shared_ptr<IRFunctionType> getIRConstructorType();
     std::string getIRMethodName(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
     unsigned long getIndexForProperty(std::string propertyName);
-    IRType* getIRTypeForProperty(std::string propertyName);
-    std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
+    std::shared_ptr<IRType> getIRTypeForProperty(std::string propertyName);
+    std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForMethod(std::string methodName);
     uint64_t getSizeInBytes() override;
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isNewClassInstanceType() override;
     llvm::Align getAlignment() override;
-    IRNewClassInstanceType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

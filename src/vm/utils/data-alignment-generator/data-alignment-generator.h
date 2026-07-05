@@ -11,7 +11,7 @@
 class DataAlignmentGenerator {
 public:
     llvm::Align static generate(llvm::Type* type);
-    llvm::Align static generate(IRType* type);
+    llvm::Align static generate(std::shared_ptr<IRType> type);
 };
 
 #endif //JETLANG_DATA_ALIGNMENT_GENERATOR_H

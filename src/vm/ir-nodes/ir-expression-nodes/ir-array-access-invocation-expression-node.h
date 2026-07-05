@@ -18,17 +18,17 @@ private:
     std::shared_ptr<ASTArrayAccessInvocationExpressionNode> _node;
     IRArrayAccessExpressionNode* _irArrayAccessExpression;
     llvm::CallInst* _irCallInstruction;
-    IRType* _irFunctionType;
+    std::shared_ptr<IRType> _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
 public:
-    IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
+    IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type);
     void markAsGlobal() override;
     IRArrayAccessExpressionNode* getIRArrayAccessExpression();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
-    IRType* getFunctionIRType();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getFunctionIRType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

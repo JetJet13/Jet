@@ -4,7 +4,7 @@
 
 #include "ir-invocable-type.h"
 
-IRInvocableType::IRInvocableType(llvm::StructType* type, IRPointerType* irFunctionPointer, IRPointerType* irFunctionCleanupPointer, IRInvocableParameterListType* parameters, IRType* returnType) : IRType(type) {
+IRInvocableType::IRInvocableType(llvm::StructType* type, std::shared_ptr<IRPointerType> irFunctionPointer, std::shared_ptr<IRPointerType> irFunctionCleanupPointer, std::shared_ptr<IRInvocableParameterListType> parameters, std::shared_ptr<IRType> returnType) : IRType(type) {
     _type = type;
     _irFunctionPointer = irFunctionPointer;
     _irFunctionCleanupPointer = irFunctionCleanupPointer;
@@ -45,11 +45,11 @@ unsigned int IRInvocableType::getIsPerpetualIndex() const {
     return _isPerpetualIndex;
 }
 
-IRInvocableParameterListType* IRInvocableType::getParameters() {
+std::shared_ptr<IRInvocableParameterListType> IRInvocableType::getParameters() {
     return _parameters;
 }
 
-IRType* IRInvocableType::getReturnType() {
+std::shared_ptr<IRType> IRInvocableType::getReturnType() {
     return _returnType;
 }
 
@@ -74,11 +74,11 @@ llvm::FunctionType* IRInvocableType::getCleanupFunctionType() {
     return llvm::cast<llvm::FunctionType>(_irFunctionCleanupPointer->getSourceType()->getType());
 }
 
-IRFunctionType* IRInvocableType::getIRFunctionType() {
-    return (IRFunctionType*)_irFunctionPointer->getSourceType();
+std::shared_ptr<IRFunctionType> IRInvocableType::getIRFunctionType() {
+    return std::dynamic_pointer_cast<IRFunctionType>(_irFunctionPointer->getSourceType());
 }
 
-IRPointerType* IRInvocableType::getIRFunctionPointer() {
+std::shared_ptr<IRPointerType> IRInvocableType::getIRFunctionPointer() {
     return _irFunctionPointer;
 }
 
@@ -120,12 +120,12 @@ uint64_t IRInvocableType::getSizeInBytes() {
     return 40;
 }
 
-IRInvocableType* IRInvocableType::clone() {
-    auto irFunctionPointerClone = _irFunctionPointer->clone();
-    auto irFunctionCleanupPointerClone = _irFunctionCleanupPointer->clone();
+std::shared_ptr<IRType> IRInvocableType::clone() {
+    auto irFunctionPointerClone = std::dynamic_pointer_cast<IRPointerType>(_irFunctionPointer->clone());
+    auto irFunctionCleanupPointerClone = std::dynamic_pointer_cast<IRPointerType>(_irFunctionCleanupPointer->clone());
     auto parameters = _parameters->clone();
     auto returnTypeClone = _returnType->clone();
-    auto clone = new IRInvocableType(_type, irFunctionPointerClone, irFunctionCleanupPointerClone, parameters, returnTypeClone);
+    auto clone = std::make_shared<IRInvocableType>(_type, irFunctionPointerClone, irFunctionCleanupPointerClone, parameters, returnTypeClone);
     this->initClone(clone);
     return clone;
 }

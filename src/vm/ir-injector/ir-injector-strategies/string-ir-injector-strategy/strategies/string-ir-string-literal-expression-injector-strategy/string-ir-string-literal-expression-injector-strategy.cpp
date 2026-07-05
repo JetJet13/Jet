@@ -7,7 +7,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(IRStringLiteralExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irArrayPointerType = irExpression->getIRType();
+    auto irArrayPointerType = irExpression->getIRArrayPointerType();
     auto arrayAllocation = irExpression->getSourceAggregateAllocation()->getValue();
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getUnderlyingType());

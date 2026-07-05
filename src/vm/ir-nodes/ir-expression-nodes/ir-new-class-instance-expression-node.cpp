@@ -5,7 +5,7 @@
 #include "ir-new-class-instance-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, IRFunctionType* irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, IRNewClassInstanceType* type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
+IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, std::shared_ptr<IRFunctionType> irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRNewClassInstanceType> type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
     _node = node;
     _constructorId = constructorId;
     _irConstructorType = irConstructorType;
@@ -38,7 +38,7 @@ llvm::Value* IRNewClassInstanceExpressionNode::getValue() {
     return _classInstanceAllocation->getValue();
 }
 
-IRFunctionType* IRNewClassInstanceExpressionNode::getConstructorIRType() {
+std::shared_ptr<IRFunctionType> IRNewClassInstanceExpressionNode::getConstructorIRType() {
     return _irConstructorType;
 }
 
@@ -46,7 +46,11 @@ std::string IRNewClassInstanceExpressionNode::getConstructorId() {
     return _constructorId;
 }
 
-IRNewClassInstanceType* IRNewClassInstanceExpressionNode::getIRType() {
+std::shared_ptr<IRNewClassInstanceType> IRNewClassInstanceExpressionNode::getIRClassInstanceType() {
+    return _type;
+}
+
+std::shared_ptr<IRType> IRNewClassInstanceExpressionNode::getIRType() {
     return _type;
 }
 

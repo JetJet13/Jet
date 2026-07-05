@@ -4,7 +4,7 @@
 
 #include "ir-parameter-type.h"
 
-IRParameterType::IRParameterType(std::string name, IRType* type) {
+IRParameterType::IRParameterType(std::string name, std::shared_ptr<IRType> type) {
     _name = name;
     _type = type;
 }
@@ -13,7 +13,7 @@ std::string IRParameterType::getName() {
     return _name;
 }
 
-IRType* IRParameterType::getIRType() {
+std::shared_ptr<IRType> IRParameterType::getIRType() {
     return _type;
 }
 
@@ -21,7 +21,7 @@ llvm::Type* IRParameterType::getType() {
     return _type->getType();
 }
 
-IRParameterType* IRParameterType::clone() {
+std::shared_ptr<IRParameterType> IRParameterType::clone() {
     auto typeClone = _type->clone();
-    return new IRParameterType(_name, typeClone);
+    return std::make_shared<IRParameterType>(_name, typeClone);
 }

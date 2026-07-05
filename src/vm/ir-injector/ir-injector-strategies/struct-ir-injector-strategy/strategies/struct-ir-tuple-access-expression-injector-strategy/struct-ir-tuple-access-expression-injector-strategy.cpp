@@ -19,7 +19,7 @@ llvm::Value* StructIRTupleAccessExpressionInjectorStrategy::injectCopy(IRTupleAc
     auto loadedSourceAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType *) irExpression->getSource()->getIRType()->getSourceType(),
+            std::dynamic_pointer_cast<IRStructRefType>( irExpression->getSource()->getIRType()->getSourceType()),
             loadedSourceAllocation,
             irModule,
             irInjector

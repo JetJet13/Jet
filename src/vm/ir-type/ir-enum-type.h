@@ -13,7 +13,7 @@ public:
     llvm::Type* getValueType();
     bool containsTypeThatRequiresFreeing() override;
     bool isEnumType() override;
-    IREnumType* clone() override;
+    std::shared_ptr<IRType> clone() override;
 };
 
 #endif //JETLANG_IR_ENUM_TYPE_H

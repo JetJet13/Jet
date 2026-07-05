@@ -16,8 +16,8 @@
 class StructIRInjectorHelper {
 public:
     static llvm::Value* injectStructRef(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
-    static llvm::Value* injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
-    static llvm::Value* injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
+    static llvm::Value* injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
+    static llvm::Value* injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
 };
 
 #endif //JETLANG_STRUCT_IR_INJECTOR_HELPER_H

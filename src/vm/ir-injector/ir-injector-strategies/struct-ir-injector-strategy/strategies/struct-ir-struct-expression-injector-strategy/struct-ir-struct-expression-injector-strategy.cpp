@@ -11,20 +11,20 @@ llvm::Value* StructIRStructExpressionInjectorStrategy::inject(IRStructExpression
     auto numElements = irExpression->size();
     for (unsigned long i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
-        auto irTypeAtIndex = irExpression->getIRType()->getStructIRType()->getIRTypeByIndex(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getStructIRType()->getType(), structAllocation, i);
+        auto irTypeAtIndex = irExpression->getIRStructRefType()->getStructIRType()->getIRTypeByIndex(i);
+        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getStructIRType()->getType(), structAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irTypeAtIndex);
     }
 
-    auto pointerToStructPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), structRefAllocation, irExpression->getIRType()->getStructIndex());
+    auto pointerToStructPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getType(), structRefAllocation, irExpression->getIRStructRefType()->getStructIndex());
     InstructionIRInjectorHelper::injectStore(structAllocation, pointerToStructPointer, irBlock);
-    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), structRefAllocation, irExpression->getIRType()->getCounterIndex());
+    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getType(), structRefAllocation, irExpression->getIRStructRefType()->getCounterIndex());
     auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
     InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
 
     if (irOperation->isOperandPointer()) {
         return structRefAllocation;
     }
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), structRefAllocation, irBlock, irExpression->getIRType());
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRStructRefType()->getType(), structRefAllocation, irBlock, irExpression->getIRStructRefType());
 }

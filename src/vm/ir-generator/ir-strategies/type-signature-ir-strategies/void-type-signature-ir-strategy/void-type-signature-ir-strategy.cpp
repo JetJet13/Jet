@@ -6,13 +6,13 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRType* VoidTypeSignatureIRStrategy::generate(IRGenerator* irGenerator) {
-    auto irVoidType = new IRType(irGenerator->getVoidType());
+std::shared_ptr<IRType> VoidTypeSignatureIRStrategy::generate(IRGenerator* irGenerator) {
+    auto irVoidType = std::make_shared<IRType>(irGenerator->getVoidType());
     irVoidType->setValue(this->generateTypeValue(irVoidType, irGenerator));
     return irVoidType;
 }
 
-IRTypeValueInstructionNode* VoidTypeSignatureIRStrategy::generateTypeValue(IRType* irType, IRGenerator* irGenerator) {
+IRTypeValueInstructionNode* VoidTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

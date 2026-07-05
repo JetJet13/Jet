@@ -4,7 +4,7 @@
 
 #include "ir-interface-type-declaration-node.h"
 
-IRInterfaceTypeDeclarationNode::IRInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRStructType* irInterfaceType) {
+IRInterfaceTypeDeclarationNode::IRInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, std::shared_ptr<IRStructType> irInterfaceType) {
     _node = node;
     _irInterfaceType = irInterfaceType;
 }
@@ -13,7 +13,7 @@ std::string IRInterfaceTypeDeclarationNode::getName() {
     return _node->getName()->getId();
 }
 
-IRStructType* IRInterfaceTypeDeclarationNode::getIRType() {
+std::shared_ptr<IRStructType> IRInterfaceTypeDeclarationNode::getIRType() {
     return _irInterfaceType;
 }
 

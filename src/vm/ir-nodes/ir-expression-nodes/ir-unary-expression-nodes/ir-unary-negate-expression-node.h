@@ -14,13 +14,13 @@ class IRUnaryNegateExpressionNode : public IRUnaryExpressionNode {
 private:
     std::shared_ptr<ASTUnaryExpressionNode> _node;
     IRExpressionNode* _irExpression;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
 public:
-    IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, IRExpressionNode* irExpression, IRType* type);
+    IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRType> type);
     IRExpressionNode* getIRExpression();
     void markAsGlobal() override;
     llvm::Value* getValue() override;
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -16,14 +16,14 @@ private:
     llvm::CallInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
-    IRArrayPointerType* _type;
+    std::shared_ptr<IRArrayPointerType> _type;
 public:
-    IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRArrayPointerType* type);
+    IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRArrayPointerType> type);
     void markAsGlobal() override;
     llvm::CallInst* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();
-    IRArrayPointerType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

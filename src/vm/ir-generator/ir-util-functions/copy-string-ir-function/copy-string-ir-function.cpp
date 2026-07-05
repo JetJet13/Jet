@@ -14,7 +14,7 @@ std::string CopyStringIRFunction::getCopyStringIRFunctionName() {
 
 void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto charType = new IRType(irGenerator->generateCharType());
+    auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
 

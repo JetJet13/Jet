@@ -25,7 +25,7 @@ public:
     llvm::Value* getVariableNameIRValue();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();
-    IRType* getAllocatedIRType();
+    std::shared_ptr<IRType> getAllocatedIRType();
     IRInstructionNode* getIRValue();
     IRExpressionNode* getIRExpression();
     bool toBeFreedDirectly();

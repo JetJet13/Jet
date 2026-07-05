@@ -15,11 +15,12 @@ class IRStringLiteralNode : public IRLiteralNode {
 private:
     std::shared_ptr<ASTStringLiteralNode> _astNode;
     llvm::Constant* _irValue;
-    IRArrayType* _type;
+    std::shared_ptr<IRArrayType> _type;
 public:
-    IRStringLiteralNode(std::shared_ptr<ASTStringLiteralNode> astNode, llvm::Constant* irValue, IRArrayType* type);
+    IRStringLiteralNode(std::shared_ptr<ASTStringLiteralNode> astNode, llvm::Constant* irValue, std::shared_ptr<IRArrayType> type);
     llvm::Constant* getConstantIRValue() override;
-    IRArrayType* getIRType() override;
+    std::shared_ptr<IRArrayType> getIRArrayType();
+    std::shared_ptr<IRType> getIRType() override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

@@ -19,7 +19,7 @@ std::string RangeIRFunction::getRange3pIRFunctionName() {
 
 void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(intType));
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(std::make_shared<IRType>(intType));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule()->get());
@@ -63,7 +63,7 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
 
 void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(intType));
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(std::make_shared<IRType>(intType));
     auto functionType = llvm::FunctionType::get(arrayPointerType->getType(), { intType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule()->get());
@@ -155,7 +155,7 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
 
 void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
-    auto arrayPointerType = irGenerator->generateIrArrayPointerType(new IRType(irGenerator->generateIntType()));
+    auto arrayPointerType = irGenerator->generateIrArrayPointerType(std::make_shared<IRType>(irGenerator->generateIntType()));
     auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));
     auto sigTermCode = irGenerator->generateIntConstant(15); // graceful shutdown error code
     auto functionType = llvm::FunctionType::get(

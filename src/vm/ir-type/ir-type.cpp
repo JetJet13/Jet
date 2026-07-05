@@ -17,12 +17,12 @@ llvm::Type* IRType::getType() {
     return _type;
 }
 
-IRType* IRType::getUnderlyingType() {
-    return this;
+std::shared_ptr<IRType> IRType::getUnderlyingType() {
+    return shared_from_this();
 }
 
-IRType* IRType::getSourceType() {
-    return this;
+std::shared_ptr<IRType> IRType::getSourceType() {
+    return shared_from_this();
 }
 
 uint64_t IRType::getSizeInBytes() {
@@ -61,7 +61,7 @@ void IRType::setValue(IRTypeValueInstructionNode* value) {
     _value = value;
 }
 
-void IRType::initClone(IRType* irType) {
+void IRType::initClone(std::shared_ptr<IRType> irType) {
     irType->setId(_id);
     if (_alignmentOverride) {
         irType->setAlignmentOverride(_alignmentOverride.value());
@@ -76,8 +76,8 @@ void IRType::initClone(IRType* irType) {
     }
 }
 
-IRType* IRType::clone() {
-    auto clone = new IRType(_type);
+std::shared_ptr<IRType> IRType::clone() {
+    auto clone = std::make_shared<IRType>(_type);
     this->initClone(clone);
     return clone;
 }
@@ -225,7 +225,7 @@ bool IRType::requiresArc() {
     return false;
 }
 
-bool IRType::isEqual(IRType* otherValue) {
+bool IRType::isEqual(std::shared_ptr<IRType> otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() == otherValue->getType()->getIntegerBitWidth();
     }
@@ -235,8 +235,8 @@ bool IRType::isEqual(IRType* otherValue) {
     }
 
     if (this->isArrayType() && otherValue->isArrayType()) {
-        auto elementType = new IRType(this->getType()->getArrayElementType());
-        auto otherElementType = new IRType(otherValue->getType()->getArrayElementType());
+        auto elementType = std::make_shared<IRType>(this->getType()->getArrayElementType());
+        auto otherElementType = std::make_shared<IRType>(otherValue->getType()->getArrayElementType());
         return this->getType()->getArrayNumElements() == otherValue->getType()->getArrayNumElements() &&
                 elementType->isEqual(otherElementType);
     }
@@ -244,11 +244,11 @@ bool IRType::isEqual(IRType* otherValue) {
     return false;
 }
 
-bool IRType::isNotEqual(IRType* otherValue) {
+bool IRType::isNotEqual(std::shared_ptr<IRType> otherValue) {
     return !this->isEqual(otherValue);
 }
 
-bool IRType::isLessThan(IRType* otherValue) {
+bool IRType::isLessThan(std::shared_ptr<IRType> otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() < otherValue->getType()->getIntegerBitWidth();
     }
@@ -264,11 +264,11 @@ bool IRType::isLessThan(IRType* otherValue) {
     return false;
 }
 
-bool IRType::isLessThanOrEqual(IRType* otherValue) {
+bool IRType::isLessThanOrEqual(std::shared_ptr<IRType> otherValue) {
     return this->isEqual(otherValue) || this->isLessThan(otherValue);
 }
 
-bool IRType::isGreaterThan(IRType* otherValue) {
+bool IRType::isGreaterThan(std::shared_ptr<IRType> otherValue) {
     if (this->isIntegerType() && otherValue->isIntegerType()) {
         return this->getType()->getIntegerBitWidth() > otherValue->getType()->getIntegerBitWidth();
     }
@@ -284,7 +284,7 @@ bool IRType::isGreaterThan(IRType* otherValue) {
     return false;
 }
 
-bool IRType::isGreaterThanOrEqual(IRType* otherValue) {
+bool IRType::isGreaterThanOrEqual(std::shared_ptr<IRType> otherValue) {
     return this->isEqual(otherValue) || this->isGreaterThan(otherValue);
 }
 

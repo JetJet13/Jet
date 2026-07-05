@@ -13,8 +13,8 @@
 
 class ArrayExpressionIRStrategy {
 private:
-    IRInstructionNode* generateArrayAllocation(std::shared_ptr<ASTArrayExpressionNode> node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRType* arrayElementIrType, std::vector<IRInstructionNode*> childAllocations, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
-    IRInstructionNode* generateArrayPointerAllocation(std::shared_ptr<ASTArrayExpressionNode> node, IRArrayPointerType* irArrayPointerType, IRArrayType* irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateArrayAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, std::shared_ptr<IRType> arrayElementIrType, std::vector<IRInstructionNode*> childAllocations, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    IRInstructionNode* generateArrayPointerAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, IRInstructionNode* arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
     IRArrayExpressionNode* generate(std::shared_ptr<ASTArrayExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };

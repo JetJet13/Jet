@@ -58,7 +58,7 @@ bool IRExpressionNode::hasArc() {
     return this->getArc().has_value();
 }
 
-IRType* IRExpressionNode::getUnderlyingIRType() {
+std::shared_ptr<IRType> IRExpressionNode::getUnderlyingIRType() {
     return this->getIRType()->getUnderlyingType();
 }
 

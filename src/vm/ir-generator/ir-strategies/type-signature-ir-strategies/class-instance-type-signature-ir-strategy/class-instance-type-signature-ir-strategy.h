@@ -13,7 +13,7 @@
 
 class ClassInstanceTypeSignatureIRStrategy {
 public:
-    IRClassInstanceType* generate(std::shared_ptr<ClassInstanceTypeSignature> classInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRClassInstanceType> generate(std::shared_ptr<ClassInstanceTypeSignature> classInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_INSTANCE_TYPE_SIGNATURE_IR_STRATEGY_H

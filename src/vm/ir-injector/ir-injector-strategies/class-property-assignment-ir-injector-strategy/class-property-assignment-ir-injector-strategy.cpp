@@ -9,7 +9,7 @@
 void ClassPropertyAssignmentIRInjectorStrategy::inject(IRClassPropertyAssignmentStatementNode* irClassPropertyAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto classScopeParameter = scope->getClassScope().value();
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
-    auto classInstanceIrType = (IRStructRefType*)classScopeParameter->getIRType()->getUnderlyingType();
+    auto classInstanceIrType = std::dynamic_pointer_cast<IRStructRefType>(classScopeParameter->getIRType()->getUnderlyingType());
     auto irType = classInstanceIrType->getStructIRType()->getIRTypeByIndex(irClassPropertyAssignmentStatementNode->getPropertyIndex());
     auto pointerToClassInstancePropertiesAlloc = irBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getType(), loadedPointer, classInstanceIrType->getStructIndex());
     auto classInstancePropertiesAlloc = InstructionIRInjectorHelper::injectLoad(classInstanceIrType->getStructType(), pointerToClassInstancePropertiesAlloc, irBlock);

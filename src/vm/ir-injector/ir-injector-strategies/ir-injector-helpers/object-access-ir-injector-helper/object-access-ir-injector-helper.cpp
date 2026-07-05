@@ -10,12 +10,12 @@
 llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRObjectAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
     if (irType->isStructRefType()) {
-        auto irStructRefType = (IRStructRefType*)irType;
+        auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irType);
         auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), sourceValue, irStructRefType->getStructIndex());
         auto structAlloc = InstructionIRInjectorHelper::injectLoad(irStructRefType->getStructType(), pointerToStructAlloc, irBlock);
         return irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getStructIRType()->getType(), structAlloc, irExpression->getTargetKeyIndex());
     } else if (irType->isClassInstanceType()) {
-        auto irStructRefType = ((IRClassInstanceType*)irType)->getIRClassPropertiesType();
+        auto irStructRefType = (std::dynamic_pointer_cast<IRClassInstanceType>(irType)->getIRClassPropertiesType());
         auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), sourceValue, irStructRefType->getStructIndex());
         auto structAlloc = InstructionIRInjectorHelper::injectLoad(irStructRefType->getStructType(), pointerToStructAlloc, irBlock);
         return irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getStructIRType()->getType(), structAlloc, irExpression->getTargetKeyIndex());
@@ -26,7 +26,7 @@ llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlo
         auto pointer = llvm::GetElementPtrInst::Create(enumGlobal->getValueType(), enumGlobal, { zero, index });
         return irBlock->getBuilder()->get()->Insert(pointer);
     } else {
-        auto irStructType = (IRStructType*)irType;
+        auto irStructType = std::dynamic_pointer_cast<IRStructType>(irType);
         return irBlock->getBuilder()->get()->CreateStructGEP(irStructType->getType(), sourceValue, irExpression->getTargetKeyIndex());
     }
 }
@@ -34,12 +34,12 @@ llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlo
 llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRTupleAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
     if (irType->isStructRefType()) {
-        auto irStructRefType = (IRStructRefType*)irType;
+        auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irType);
         auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), sourceValue, irStructRefType->getStructIndex());
         auto structAlloc = InstructionIRInjectorHelper::injectLoad(irStructRefType->getStructType(), pointerToStructAlloc, irBlock);
         return irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getStructIRType()->getType(), structAlloc, irExpression->getTargetKeyIndex());
     } else {
-        auto irStructType = (IRStructType*)irType;
+        auto irStructType = std::dynamic_pointer_cast<IRStructType>(irType);
         return irBlock->getBuilder()->get()->CreateStructGEP(irStructType->getType(), sourceValue, irExpression->getTargetKeyIndex());
     }
 }

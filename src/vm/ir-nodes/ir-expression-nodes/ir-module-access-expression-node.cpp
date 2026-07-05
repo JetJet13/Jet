@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRModuleAccessExpressionNode::IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, IRType* irType) {
+IRModuleAccessExpressionNode::IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, std::shared_ptr<IRType> irType) {
     _node = node;
     _irValue = irValue;
     _irType = irType;
@@ -21,7 +21,7 @@ std::shared_ptr<ASTModuleAccessExpressionNode> IRModuleAccessExpressionNode::get
     return _node;
 }
 
-IRType* IRModuleAccessExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRModuleAccessExpressionNode::getIRType() {
     return _irType;
 }
 

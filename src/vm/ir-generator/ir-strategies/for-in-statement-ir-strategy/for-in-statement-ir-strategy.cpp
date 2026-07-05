@@ -9,7 +9,7 @@
 
 IRStatementNode* ForInStatementIRStrategy::generate(std::shared_ptr<ASTForInStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    auto index = IRInstructionNodeFactory::create(new IRType(irGenerator->generateIntType()));
+    auto index = IRInstructionNodeFactory::create(std::make_shared<IRType>(irGenerator->generateIntType()));
     auto variableIrType = irGenerator->generateTypeFor(node->getVariable()->getTypeSignature(), scope, irContext);
     auto variable = IRInstructionNodeFactory::create(variableIrType);
     auto capturedVariable = std::optional<IRCapturedVariableNode*>();

@@ -12,17 +12,17 @@
 class IRLambdaType : public IRType {
 private:
     llvm::FunctionType* _type;
-    IRPointerType* _irType;
-    IRInvocableType* _lambdaVariableType;
-    std::optional<IRStructType*> _lambdaScopeType;
-    IRInvocableParameterListType* _parameterList;
-    IRType* _returnType;
+    std::shared_ptr<IRPointerType> _irType;
+    std::shared_ptr<IRInvocableType> _lambdaVariableType;
+    std::optional<std::shared_ptr<IRStructType>> _lambdaScopeType;
+    std::shared_ptr<IRInvocableParameterListType> _parameterList;
+    std::shared_ptr<IRType> _returnType;
 public:
-    IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRInvocableType* lambdaVariableType, IRInvocableParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType = {});
+    IRLambdaType(llvm::FunctionType* type, std::shared_ptr<IRPointerType> irType, std::shared_ptr<IRInvocableType> lambdaVariableType, std::shared_ptr<IRInvocableParameterListType> parameterList, std::shared_ptr<IRType> returnType, std::optional<std::shared_ptr<IRStructType>> lambdaScopeType = {});
     bool isLambdaType() override;
     bool isFunctionType() override;
-    std::optional<IRStructType*> getLambdaScopeType();
-    IRInvocableType* getLambdaVariableType();
+    std::optional<std::shared_ptr<IRStructType>> getLambdaScopeType();
+    std::shared_ptr<IRInvocableType> getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
     llvm::FunctionType* getFunctionType();
     IRTypeValueInstructionNode* getValue() override;
@@ -31,7 +31,7 @@ public:
     llvm::Type* getType() override;
     llvm::Align getAlignment() override;
     uint64_t getSizeInBytes() override;
-    IRLambdaType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

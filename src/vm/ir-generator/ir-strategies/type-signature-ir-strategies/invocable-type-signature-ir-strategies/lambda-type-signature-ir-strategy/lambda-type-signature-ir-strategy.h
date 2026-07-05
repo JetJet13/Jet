@@ -15,11 +15,11 @@
 
 class LambdaTypeSignatureIRStrategy {
 private:
-    IRInvocableParameterListType* generateParameterTypes(std::vector<std::shared_ptr<TypeSignature>>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<IRType*> lambdaScopeParameter = {});
-    IRTypeValueInstructionNode* generateTypeValue(IRInvocableType* irInvocableType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRInvocableParameterListType> generateParameterTypes(std::vector<std::shared_ptr<TypeSignature>>* parameterTypeSignatures, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<IRType>> lambdaScopeParameter = {});
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRInvocableType> irInvocableType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    IRInvocableType* generate(std::shared_ptr<LambdaTypeSignature> lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRLambdaType* generate(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRInvocableType> generate(std::shared_ptr<LambdaTypeSignature> lambdaTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRLambdaType> generate(std::shared_ptr<LambdaExpressionTypeSignature> lambdaExpressionTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -50,7 +50,7 @@ unsigned long IRObjectAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
 }
 
-IRType* IRObjectAccessExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRObjectAccessExpressionNode::getIRType() {
     return _irType;
 }
 
@@ -66,13 +66,13 @@ Position* IRObjectAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-IRType* IRObjectAccessExpressionNode::getTargetIRType() {
+std::shared_ptr<IRType> IRObjectAccessExpressionNode::getTargetIRType() {
     if (_irSource->getUnderlyingIRType()->isClassInstanceType()) {
-        return ((IRClassInstanceType*)_irSource->getUnderlyingIRType())->getIRTypeForProperty(_targetKey);
+        return std::dynamic_pointer_cast<IRClassInstanceType>(_irSource->getUnderlyingIRType())->getIRTypeForProperty(_targetKey);
     } else if (_irSource->getUnderlyingIRType()->isStructRefType()) {
-        return ((IRStructRefType*)_irSource->getUnderlyingIRType())->getStructIRType()->getIRTypeForKey(_targetKey);
+        return std::dynamic_pointer_cast<IRStructRefType>(_irSource->getUnderlyingIRType())->getStructIRType()->getIRTypeForKey(_targetKey);
     }
-    return ((IRStructType*)_irSource->getUnderlyingIRType())->getIRTypeForKey(_targetKey);
+    return std::dynamic_pointer_cast<IRStructType>(_irSource->getUnderlyingIRType())->getIRTypeForKey(_targetKey);
 }
 
 llvm::Value* IRObjectAccessExpressionNode::getValue() {

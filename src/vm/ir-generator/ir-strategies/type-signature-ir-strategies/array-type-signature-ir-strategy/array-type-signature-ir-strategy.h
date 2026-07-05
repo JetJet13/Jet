@@ -12,8 +12,8 @@
 
 class ArrayTypeSignatureIRStrategy {
 public:
-    IRArrayPointerType* generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRArrayPointerType> generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRArrayPointerType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_ARRAY_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -10,7 +10,7 @@
 class AddressSpaceGenerator {
 public:
     unsigned int static generate(llvm::Type* type);
-    unsigned int static generate(IRType* type);
+    unsigned int static generate(std::shared_ptr<IRType> type);
 };
 
 #endif //JETLANG_ADDRESS_SPACE_GENERATOR_H

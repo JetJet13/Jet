@@ -18,11 +18,12 @@ private:
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
     std::vector<IRExpressionNode*> _irValues;
-    IRStructRefType* _type;
+    std::shared_ptr<IRStructRefType> _type;
 public:
-    IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
+    IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
-    IRStructRefType* getIRType() override;
+    std::shared_ptr<IRStructRefType> getIRStructRefType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -10,12 +10,12 @@
 
 class IRParameterListType {
 private:
-    std::vector<IRParameterType*> _parameters;
+    std::vector<std::shared_ptr<IRParameterType>> _parameters;
 public:
-    explicit IRParameterListType(std::vector<IRParameterType*> parameters);
-    std::vector<IRParameterType*>* getParameters();
+    explicit IRParameterListType(std::vector<std::shared_ptr<IRParameterType>> parameters);
+    std::vector<std::shared_ptr<IRParameterType>>* getParameters();
     std::vector<llvm::Type*> getParameterTypes();
-    IRParameterListType* clone();
+    std::shared_ptr<IRParameterListType> clone();
 };
 
 #endif //JETLANG_IR_PARAMETER_LIST_TYPE_H

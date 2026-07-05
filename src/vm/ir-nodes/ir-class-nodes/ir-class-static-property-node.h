@@ -14,12 +14,12 @@ private:
     std::shared_ptr<ASTClassPropertyDeclarationNode> _node;
     llvm::GlobalVariable* _irValue;
     IRExpressionNode* _initialIRValue;
-    IRType* _irType;
+    std::shared_ptr<IRType> _irType;
 public:
-    IRClassStaticPropertyNode(std::shared_ptr<ASTClassPropertyDeclarationNode> node, llvm::GlobalVariable* irValue, IRExpressionNode* initialIRValue, IRType* irType);
+    IRClassStaticPropertyNode(std::shared_ptr<ASTClassPropertyDeclarationNode> node, llvm::GlobalVariable* irValue, IRExpressionNode* initialIRValue, std::shared_ptr<IRType> irType);
     llvm::GlobalVariable* getGlobalVariable();
     IRExpressionNode* getInitialIRValue();
-    IRType* getIRType();
+    std::shared_ptr<IRType> getIRType();
 };
 
 #endif //JETLANG_IR_CLASS_STATIC_PROPERTY_NODE_H

@@ -4,11 +4,11 @@
 
 #include "new-class-instance-type-signature-ir-strategy.h"
 
-IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<NewClassInstanceTypeSignature> newClassInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRNewClassInstanceType> NewClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<NewClassInstanceTypeSignature> newClassInstanceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
-    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         auto index = newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->findKeyIndex(keyValue.first);
@@ -17,7 +17,7 @@ IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(std::s
         keyIdMap.insert(std::pair(index, newClassInstanceTypeSignature->getClassTypeSignature()->stripClassNameFromKey(keyValue.first)));
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
-    auto classInstanceProperties = new IRStructType(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
+    auto classInstanceProperties = std::make_shared<IRStructType>(llvm::StructType::get(**irContext->getContext(), classPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
     classInstanceProperties->setAlignmentAndSizeForIRTypes();
     classInstanceProperties->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstanceProperties->setValue(irGenerator->generateIRTypeValueFor(classInstanceProperties, irContext));
@@ -25,8 +25,8 @@ IRNewClassInstanceType* NewClassInstanceTypeSignatureIRStrategy::generate(std::s
     classInstancePropertiesPointerType->setId(newClassInstanceTypeSignature->getClassTypeSignature()->getId());
     classInstancePropertiesPointerType->setValue(irGenerator->generateIRTypeValueFor(classInstancePropertiesPointerType, irContext));
 
-    auto irClassType = (IRClassType*)scope->findGlobalType(newClassInstanceTypeSignature->getClassTypeSignature()->getModuleId(), newClassInstanceTypeSignature->getClassTypeSignature()->getId()).value();
-    auto irType = new IRNewClassInstanceType(
+    auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(newClassInstanceTypeSignature->getClassTypeSignature()->getModuleId(), newClassInstanceTypeSignature->getClassTypeSignature()->getId()).value());
+    auto irType = std::make_shared<IRNewClassInstanceType>(
         irClassType,
         newClassInstanceTypeSignature->getConstructorId(),
         classInstancePropertiesPointerType

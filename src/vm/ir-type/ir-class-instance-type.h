@@ -11,24 +11,24 @@
 
 class IRClassInstanceType : public IRType {
 private:
-    IRClassType* _irClassType;
+    std::shared_ptr<IRClassType> _irClassType;
 public:
-    IRClassInstanceType(IRClassType* irClassType);
-    IRStructRefType* getIRClassPropertiesType();
-    IRClassType* getIRClassType();
-    IRFunctionType* getIRConstructorType();
+    IRClassInstanceType(std::shared_ptr<IRClassType> irClassType);
+    std::shared_ptr<IRStructRefType> getIRClassPropertiesType();
+    std::shared_ptr<IRClassType> getIRClassType();
+    std::shared_ptr<IRFunctionType> getIRConstructorType();
     std::string getIRMethodName(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
     unsigned long getIndexForProperty(std::string propertyName);
-    IRType* getIRTypeForProperty(std::string propertyName);
-    std::optional<IRFunctionType*> getIRTypeForMethod(std::string methodName);
+    std::shared_ptr<IRType> getIRTypeForProperty(std::string propertyName);
+    std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForMethod(std::string methodName);
     bool requiresArc() override;
     uint64_t getSizeInBytes() override;
     llvm::StructType* getType() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isClassInstanceType() override;
     llvm::Align getAlignment() override;
-    IRClassInstanceType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

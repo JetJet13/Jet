@@ -15,13 +15,13 @@ llvm::Value* RefIRModuleAccessExpressionInjectorStrategy::inject(IRModuleAccessE
 }
 
 llvm::Value* RefIRModuleAccessExpressionInjectorStrategy::injectCopy(IRModuleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irExpression->getIRType()->getSourceType());
     irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { irExpression->getValue() });
     return InstructionIRInjectorHelper::injectLoad(irRefType->getType(), irExpression->getValue(), irBlock);
 }
 
 llvm::Value* RefIRModuleAccessExpressionInjectorStrategy::injectOperand(IRModuleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irRefType = (IRRefType*)irExpression->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irExpression->getIRType()->getSourceType());
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
         auto refValue = InstructionIRInjectorHelper::injectLoad(irRefType->getType(), irExpression->getValue(), irBlock);
         return irBlock->getBuilder()->get()->CreateExtractValue(refValue, irRefType->getRefValueIndex(), "NNN");

@@ -11,7 +11,7 @@
 
 class TupleTypeSignatureIRStrategy {
 public:
-    IRStructRefType* generate(std::shared_ptr<TupleTypeSignature> tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRStructRefType> generate(std::shared_ptr<TupleTypeSignature> tupleTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_TUPLE_TYPE_SIGNATURE_IR_STRATEGY_H

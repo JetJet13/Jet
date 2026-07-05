@@ -13,7 +13,7 @@ llvm::Value* StringIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcce
     if (irOperation->isOperandPointer()) {
         return pointer;
     } else if (irOperation->isOperandValue()) {
-        auto arrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
+        auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getUnderlyingIRType());
         return InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), pointer, irBlock, arrayPointerType);
     }
     irBlock->getBuilder()->get()->Insert(irExpression->getSourceAllocation().value()->getValue());

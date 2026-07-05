@@ -7,14 +7,14 @@
 IRBoolLiteralNode::IRBoolLiteralNode(std::shared_ptr<ASTBooleanLiteralNode> astNode, llvm::ConstantInt* irValue) {
     _astNode = astNode;
     _irValue = irValue;
-    _type = new IRType(_irValue->getType());
+    _type = std::make_shared<IRType>(_irValue->getType());
 }
 
 llvm::ConstantInt* IRBoolLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
-IRType* IRBoolLiteralNode::getIRType() {
+std::shared_ptr<IRType> IRBoolLiteralNode::getIRType() {
     return _type;
 }
 

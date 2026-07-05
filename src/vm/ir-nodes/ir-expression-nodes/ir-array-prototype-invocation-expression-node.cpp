@@ -5,7 +5,7 @@
 #include "ir-array-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayPrototypeInvocationExpressionNode::IRArrayPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irArray) {
+IRArrayPrototypeInvocationExpressionNode::IRArrayPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRExpressionNode* irArray) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -43,11 +43,11 @@ llvm::Value* IRArrayPrototypeInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 
-IRType* IRArrayPrototypeInvocationExpressionNode::getFunctionIRType() {
+std::shared_ptr<IRType> IRArrayPrototypeInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
 }
 
-IRType* IRArrayPrototypeInvocationExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRArrayPrototypeInvocationExpressionNode::getIRType() {
     return _type;
 }
 

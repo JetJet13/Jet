@@ -7,45 +7,45 @@
 #include "../../../ir-type/ir-type-value-type.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRType* irType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRType> irType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (irType->getValue()->isInserted()) {
         return this->inject(irType->clone(), irBlock, irInjector, irModule);
     } else if (irType->isArrayPointerType()) {
-        return this->inject((IRArrayPointerType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRArrayPointerType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isStructType()) {
-        return this->inject((IRStructType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRStructType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isStructRefType()) {
-        return this->inject((IRStructRefType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRStructRefType>(irType), irBlock, irInjector, irModule);
     }else if (irType->isPointerType()) {
-        return this->inject((IRPointerType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRPointerType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isRefType()) {
-        return this->inject((IRRefType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRRefType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isCapturedVariableType()) {
-        return this->inject((IRCapturedVariableType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRCapturedVariableType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isLambdaType()) {
-        return this->inject((IRLambdaType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRLambdaType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isInvocableType()) {
-        return this->inject((IRInvocableType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRInvocableType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isClassInstanceType()) {
-        return this->inject((IRClassInstanceType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRClassInstanceType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isNewClassInstanceType()) {
-        return this->inject((IRNewClassInstanceType*)irType, irBlock, irInjector, irModule);
+        return this->inject(std::dynamic_pointer_cast<IRNewClassInstanceType>(irType), irBlock, irInjector, irModule);
     } else {
         return InstructionIRInjectorHelper::inject(irType->getValue(), irBlock);
     }
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRArrayPointerType* irArrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRArrayPointerType> irArrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto irArrayTypeValue = InstructionIRInjectorHelper::inject(irArrayPointerType->getValue(), irBlock);
     auto elementTypeValue = this->inject(irArrayPointerType->getElementIRType(), irBlock, irInjector, irModule);
-    auto irTypeValueType = (IRTypeValueType*)irArrayPointerType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irArrayPointerType->getValue()->getIRType()->getSourceType());
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irArrayTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(elementTypeValue, allocPointer, irBlock);
     return irArrayTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructType* irStructType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
-    auto typeValueType = (IRTypeValueType*)irStructType->getValue()->getIRType()->getSourceType();
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRStructType> irStructType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    auto typeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irStructType->getValue()->getIRType()->getSourceType());
     auto irStructTypeValue = InstructionIRInjectorHelper::inject(irStructType->getValue(), irBlock);
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irStructType->getValue()->getIRType()->getType(), irBlock->getBuilder()->get()->getInt64(irStructType->size()));
     for (unsigned long i = 0; i < irStructType->size(); ++i) {
@@ -62,7 +62,7 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructType* irStructType, IRB
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(allocation->getAllocatedType(), allocation, { index });
         InstructionIRInjectorHelper::injectStore(irTypeAtIndexValue, pointer, irBlock);
     }
-    auto irTypeValueType = (IRTypeValueType*)irStructType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irStructType->getValue()->getIRType()->getSourceType());
 
     if (irStructType->hasId()) {
         auto pointerToValueId = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), irStructTypeValue, typeValueType->getValueIdIndex());
@@ -74,44 +74,44 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructType* irStructType, IRB
     return irStructTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRPointerType* irPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRPointerType> irPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto irPointerTypeValue = InstructionIRInjectorHelper::inject(irPointerType->getValue(), irBlock);
     auto elementTypeValue = this->inject(irPointerType->getSourceType(), irBlock, irInjector, irModule);
-    auto irTypeValueType = (IRTypeValueType*)irPointerType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irPointerType->getValue()->getIRType()->getSourceType());
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irPointerTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(elementTypeValue, allocPointer, irBlock, irPointerType);
     return irPointerTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRRefType* irRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRRefType> irRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto irRefTypeValue = InstructionIRInjectorHelper::inject(irRefType->getValue(), irBlock);
     auto refValueTypeValue = this->inject(irRefType->getRefValueIRType(), irBlock, irInjector, irModule);
-    auto irTypeValueType = (IRTypeValueType*)irRefType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irRefType->getValue()->getIRType()->getSourceType());
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irRefTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(refValueTypeValue, allocPointer, irBlock, irTypeValueType);
     return irRefTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRCapturedVariableType* irCapturedVariableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRCapturedVariableType> irCapturedVariableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto irCapturedVariableTypeValue = InstructionIRInjectorHelper::inject(irCapturedVariableType->getValue(), irBlock);
     auto capturedVariableTypeValue = this->inject(irCapturedVariableType->getVariableIRType()->getSourceType(), irBlock, irInjector, irModule);
-    auto irTypeValueType = (IRTypeValueType*)irCapturedVariableType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irCapturedVariableType->getValue()->getIRType()->getSourceType());
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irCapturedVariableTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(capturedVariableTypeValue, allocPointer, irBlock, irTypeValueType);
     return irCapturedVariableTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRStructRefType* irStructRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRStructRefType> irStructRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto irStructRefTypeValue = InstructionIRInjectorHelper::inject(irStructRefType->getValue(), irBlock);
     auto structRefTypeValue = this->inject(irStructRefType->getStructIRType(), irBlock, irInjector, irModule);
-    auto irTypeValueType = (IRTypeValueType*)irStructRefType->getValue()->getIRType()->getSourceType();
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irStructRefType->getValue()->getIRType()->getSourceType());
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irStructRefTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(structRefTypeValue, allocPointer, irBlock, irTypeValueType);
     return irStructRefTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRInvocableType* irInvocableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
-    auto typeValueType = (IRTypeValueType*)irInvocableType->getValue()->getIRType()->getSourceType();
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRInvocableType> irInvocableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    auto typeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irInvocableType->getValue()->getIRType()->getSourceType());
     auto irInvocableTypeValue = InstructionIRInjectorHelper::inject(irInvocableType->getValue(), irBlock);
     auto parameters = irInvocableType->getParameters()->getParameters();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
@@ -136,14 +136,14 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(IRInvocableType* irInvocableTyp
     return irInvocableTypeValue;
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
-    return this->inject((IRInvocableType*)irLambdaType->getLambdaVariableType(), irBlock, irInjector, irModule);
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRLambdaType> irLambdaType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    return this->inject(std::dynamic_pointer_cast<IRInvocableType>(irLambdaType->getLambdaVariableType()), irBlock, irInjector, irModule);
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
-    return this->inject((IRType*)irClassInstanceType->getIRClassPropertiesType(), irBlock, irInjector, irModule);
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRClassInstanceType> irClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    return this->inject(std::dynamic_pointer_cast<IRType>(irClassInstanceType->getIRClassPropertiesType()), irBlock, irInjector, irModule);
 }
 
-llvm::Value* TypeValueIRInjectorStrategy::inject(IRNewClassInstanceType* irNewClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
-    return this->inject((IRType*)irNewClassInstanceType->getIRClassPropertiesType(), irBlock, irInjector, irModule);
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    return this->inject(std::dynamic_pointer_cast<IRType>(irNewClassInstanceType->getIRClassPropertiesType()), irBlock, irInjector, irModule);
 }

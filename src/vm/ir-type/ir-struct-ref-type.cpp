@@ -4,7 +4,7 @@
 
 #include "ir-struct-ref-type.h"
 
-IRStructRefType::IRStructRefType(llvm::StructType* type, IRType* counterIRType, IRStructType* structIRType) : IRType(type) {
+IRStructRefType::IRStructRefType(llvm::StructType* type, std::shared_ptr<IRType> counterIRType, std::shared_ptr<IRStructType> structIRType) : IRType(type) {
     _type = type;
     _counterIRType = counterIRType;
     _structIRType = structIRType;
@@ -32,11 +32,11 @@ llvm::PointerType* IRStructRefType::getCounterType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_counterIndex));
 }
 
-IRType* IRStructRefType::getCounterIRType() {
+std::shared_ptr<IRType> IRStructRefType::getCounterIRType() {
     return _counterIRType;
 }
 
-IRStructType* IRStructRefType::getStructIRType() {
+std::shared_ptr<IRStructType> IRStructRefType::getStructIRType() {
     return _structIRType;
 }
 
@@ -65,10 +65,10 @@ bool IRStructRefType::containsTypeThatRequiresFreeing() {
     return true;
 }
 
-IRStructRefType* IRStructRefType::clone() {
+std::shared_ptr<IRType> IRStructRefType::clone() {
     auto counterClone = _counterIRType->clone();
-    auto variableClone = _structIRType->clone();
-    auto clone = new IRStructRefType(_type, counterClone, variableClone);
+    auto variableClone = std::dynamic_pointer_cast<IRStructType>(_structIRType->clone());
+    auto clone = std::make_shared<IRStructRefType>(_type, counterClone, variableClone);
     this->initClone(clone);
     return clone;
 }

@@ -4,7 +4,7 @@
 
 #include "ir-module-declaration-node.h"
 
-IRModuleDeclarationNode::IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, IRModuleType* type, std::vector<IRDeclarationNode*> exports) {
+IRModuleDeclarationNode::IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, std::shared_ptr<IRModuleType> type, std::vector<IRDeclarationNode*> exports) {
     _node = node;
     _allocation = allocation;
     _type = type;
@@ -15,7 +15,7 @@ IRInstructionNode* IRModuleDeclarationNode::getAllocation() {
     return _allocation;
 }
 
-IRModuleType* IRModuleDeclarationNode::getIRType() {
+std::shared_ptr<IRModuleType> IRModuleDeclarationNode::getIRType() {
     return _type;
 }
 

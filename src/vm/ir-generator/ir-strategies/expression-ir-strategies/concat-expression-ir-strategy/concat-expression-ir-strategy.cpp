@@ -9,7 +9,7 @@
 IRConcatExpressionNode* ConcatExpressionIRStrategy::generate(std::shared_ptr<ASTConcatExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, irOperation);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, irOperation);
-    auto irType = (IRArrayPointerType*)irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+    auto irType = std::dynamic_pointer_cast<IRArrayPointerType>(irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext));
     auto function = node->getTypeSignature()->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)
             ? irContext->getIRModule()->getStringConcatFunction()
             : irContext->getIRModule()->getArrayConcatFunction();

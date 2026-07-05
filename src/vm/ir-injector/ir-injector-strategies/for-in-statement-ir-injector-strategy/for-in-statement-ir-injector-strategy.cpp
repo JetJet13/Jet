@@ -22,8 +22,8 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     // setup
     DebugIRInjectorHelper::injectLog(setupBlock, "START", irInjector, irModule);
     auto arrayPointerType = sourceIrType->isRefType()
-            ? (IRArrayPointerType*)((IRRefType*)sourceIrType->getUnderlyingType())
-            : (IRArrayPointerType*)sourceIrType;
+            ? std::dynamic_pointer_cast<IRArrayPointerType>(std::dynamic_pointer_cast<IRRefType>(sourceIrType)->getUnderlyingType())
+            : std::dynamic_pointer_cast<IRArrayPointerType>(sourceIrType);
     auto sourceValue = this->getSourceValue(irForInStatement, arrayPointerType, setupBlock, irInjector, irModule);
     DebugIRInjectorHelper::injectLog(setupBlock, "END", irInjector, irModule);
     auto pointerToSourceArray = setupBlock->getBuilder()->get()->CreateStructGEP(
@@ -89,7 +89,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
 }
 
-llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNode* irForInStatement, IRArrayPointerType* arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNode* irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
     if (sourceIrType->isRefType()) {
         return irInjector->inject(irBlock, irForInStatement->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());

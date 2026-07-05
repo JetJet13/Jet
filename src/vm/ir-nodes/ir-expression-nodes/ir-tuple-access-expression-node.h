@@ -17,21 +17,21 @@ private:
     IRExpressionNode* _irSource;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
-    IRType* _irType;
+    std::shared_ptr<IRType> _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     void markAsGlobal() override;
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     std::optional<IRInstructionNode*> getArc() override;
     IRExpressionNode* getSource();
     llvm::Constant* getIRTargetKeyIndex();
     unsigned long getTargetKeyIndex();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
-    IRType* getTargetIRType();
+    std::shared_ptr<IRType> getTargetIRType();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

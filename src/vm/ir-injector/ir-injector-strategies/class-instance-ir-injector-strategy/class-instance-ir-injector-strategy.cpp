@@ -8,6 +8,7 @@
 #include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 #include "../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 #include "../ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h"
+#include "../../../ir-type/ir-class-instance-type.h"
 
 llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -42,7 +43,7 @@ llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpress
 
 llvm::Value* ClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isFunctionArgument() || irOperation->isCopy()) {
-        auto irType = (IRStructRefType*)irExpression->getIRType()->getSourceType();
+        auto irType = std::dynamic_pointer_cast<IRClassInstanceType>(irExpression->getIRType()->getSourceType());
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
         auto typeValue = irInjector->inject(irBlock, irType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);

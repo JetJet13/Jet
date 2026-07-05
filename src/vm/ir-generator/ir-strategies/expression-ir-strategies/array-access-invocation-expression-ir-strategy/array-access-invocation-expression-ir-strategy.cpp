@@ -22,7 +22,7 @@ IRExpressionNode* ArrayAccessInvocationExpressionIRStrategy::generate(std::share
     }
 
     auto irExpression = (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-    auto irFunctionType = (IRInvocableType*)irExpression->getIRType();
+    auto irFunctionType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getIRType());
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getFunctionType(), irExpression->getValue(), argList);

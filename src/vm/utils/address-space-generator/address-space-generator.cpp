@@ -8,6 +8,6 @@ unsigned int AddressSpaceGenerator::generate(llvm::Type* type) {
     return 0;
 }
 
-unsigned int AddressSpaceGenerator::generate(IRType* type) {
+unsigned int AddressSpaceGenerator::generate(std::shared_ptr<IRType> type) {
     return 0;
 }

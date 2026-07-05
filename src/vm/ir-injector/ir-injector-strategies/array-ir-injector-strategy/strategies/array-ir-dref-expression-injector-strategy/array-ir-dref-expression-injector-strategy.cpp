@@ -9,7 +9,7 @@
 
 llvm::Value* ArrayIRDrefExpressionInjectorStrategy::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto pointerValue = DrefIRInjectorHelper::inject(irExpression, irBlock, irInjector, new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
-    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    auto irArrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getIRType());
     auto typeValue = irInjector->inject(irBlock, irArrayPointerType, irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getValue()->getAllocatedType(), typeValue, irBlock);
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);

@@ -4,7 +4,7 @@
 
 #include "ir-unary-arithmetic-expression-node.h"
 
-IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, IRType* type) {
+IRUnaryArithmeticExpressionNode::IRUnaryArithmeticExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irExpression, std::shared_ptr<IRType> type) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
@@ -24,7 +24,7 @@ llvm::BinaryOperator* IRUnaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 
-IRType* IRUnaryArithmeticExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRUnaryArithmeticExpressionNode::getIRType() {
     return _type;
 }
 

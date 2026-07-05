@@ -61,7 +61,7 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(std::shared_p
     return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? new IROperation(IR_REF_ASSIGNMENT_OP) : new IROperation(IR_COPY_ASSIGNMENT_OP);
 }
 
-IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRType* irType, IRContext* irContext) {
+IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext) {
     if (node->isCaptured()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

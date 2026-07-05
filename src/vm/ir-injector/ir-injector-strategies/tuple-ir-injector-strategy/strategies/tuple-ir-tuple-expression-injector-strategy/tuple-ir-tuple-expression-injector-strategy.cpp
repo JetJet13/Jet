@@ -11,20 +11,20 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(IRTupleExpressionNod
     auto numElements = irExpression->size();
     for (unsigned long i = 0; i < numElements; ++i) {
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
-        auto irTypeAtIndex = irExpression->getIRType()->getStructIRType()->getIRTypeByIndex(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getStructIRType()->getType(), tupleAllocation, i);
+        auto irTypeAtIndex = irExpression->getIRStructRefType()->getStructIRType()->getIRTypeByIndex(i);
+        auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getStructIRType()->getType(), tupleAllocation, i);
         auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irTypeAtIndex);
     }
 
-    auto pointerToTuplePointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getStructIndex());
+    auto pointerToTuplePointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getType(), tupleRefAllocation, irExpression->getIRStructRefType()->getStructIndex());
     InstructionIRInjectorHelper::injectStore(tupleAllocation, pointerToTuplePointer, irBlock);
-    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRType()->getType(), tupleRefAllocation, irExpression->getIRType()->getCounterIndex());
+    auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getType(), tupleRefAllocation, irExpression->getIRStructRefType()->getCounterIndex());
     auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
     InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
 
     if (irOperation->isOperandPointer()) {
         return tupleRefAllocation;
     }
-    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), tupleRefAllocation, irBlock, irExpression->getIRType());
+    return InstructionIRInjectorHelper::injectLoad(irExpression->getIRStructRefType()->getType(), tupleRefAllocation, irBlock, irExpression->getIRStructRefType());
 }

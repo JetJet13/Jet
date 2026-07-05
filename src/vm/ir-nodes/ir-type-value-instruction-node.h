@@ -14,10 +14,10 @@ class IRPointerType;
 class IRTypeValueInstructionNode {
 private:
     llvm::AllocaInst* _alloc;
-    IRPointerType* _irType;
+    std::shared_ptr<IRPointerType> _irType;
     llvm::StoreInst* _initialValueStoreInstruction;
 public:
-    IRTypeValueInstructionNode(llvm::AllocaInst* alloc, IRPointerType* irType, llvm::StoreInst* initialValueStoreInstruction);
+    IRTypeValueInstructionNode(llvm::AllocaInst* alloc, std::shared_ptr<IRPointerType> irType, llvm::StoreInst* initialValueStoreInstruction);
     bool isInserted();
     llvm::AllocaInst* getValue();
     llvm::StoreInst* getInitialValueStoreInstruction();
@@ -25,7 +25,7 @@ public:
     llvm::Type* getAllocatedType();
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
-    IRPointerType* getIRType();
+    std::shared_ptr<IRPointerType> getIRType();
 };
 
 #endif //JETLANG_IR_TYPE_VALUE_INSTRUCTION_NODE_H

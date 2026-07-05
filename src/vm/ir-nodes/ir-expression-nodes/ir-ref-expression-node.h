@@ -17,15 +17,16 @@ class IRRefExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTRefExpressionNode> _node;
     IRExpressionNode* _irExpression;
-    IRRefType* _irType;
+    std::shared_ptr<IRRefType> _irType;
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
 public:
-    IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, IRRefType* irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
+    IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRRefType> irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
     void markAsGlobal() override;
     IRExpressionNode* getExpression();
     IRInstructionNode* getIRValue();
-    IRRefType* getIRType() override;
+    std::shared_ptr<IRRefType> getIRRefType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

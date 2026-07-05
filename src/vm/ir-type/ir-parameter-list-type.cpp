@@ -4,11 +4,11 @@
 
 #include "ir-parameter-list-type.h"
 
-IRParameterListType::IRParameterListType(std::vector<IRParameterType*> parameters) {
+IRParameterListType::IRParameterListType(std::vector<std::shared_ptr<IRParameterType>> parameters) {
     _parameters = parameters;
 }
 
-std::vector<IRParameterType*>* IRParameterListType::getParameters() {
+std::vector<std::shared_ptr<IRParameterType>>* IRParameterListType::getParameters() {
     return &_parameters;
 }
 
@@ -20,11 +20,11 @@ std::vector<llvm::Type*> IRParameterListType::getParameterTypes() {
     return argumentList;
 }
 
-IRParameterListType* IRParameterListType::clone() {
-    auto parameters = std::vector<IRParameterType*>();
+std::shared_ptr<IRParameterListType> IRParameterListType::clone() {
+    auto parameters = std::vector<std::shared_ptr<IRParameterType>>();
     for (auto parameter : _parameters) {
         parameters.push_back(parameter->clone());
     }
 
-    return new IRParameterListType(parameters);
+    return std::make_shared<IRParameterListType>(parameters);
 }

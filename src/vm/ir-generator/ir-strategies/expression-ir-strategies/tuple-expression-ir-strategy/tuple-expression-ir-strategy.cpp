@@ -26,7 +26,7 @@ IRTupleExpressionNode* TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTu
     );
 }
 
-IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -42,6 +42,6 @@ IRInstructionNode* TupleExpressionIRStrategy::generateTupleAllocation(IRStructTy
 }
 
 
-IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* TupleExpressionIRStrategy::generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

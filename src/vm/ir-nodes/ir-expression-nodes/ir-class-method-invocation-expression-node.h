@@ -18,19 +18,19 @@ private:
     std::shared_ptr<ASTClassMethodInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
-    IRType* _irFunctionType;
+    std::shared_ptr<IRType> _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
     IRInstructionNode* _classScopeArgument;
 public:
-    IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument);
+    IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRInstructionNode* classScopeArgument);
     void markAsGlobal() override;
     IRInstructionNode* getClassScopeArgument();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
     llvm::Value* getFunctionValue();
-    IRType* getFunctionIRType();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getFunctionIRType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

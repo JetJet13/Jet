@@ -13,14 +13,14 @@
 class IRFunctionParameterNode : public IRNode {
 private:
     llvm::Argument* _irValue;
-    IRParameterType* _parameterType;
+    std::shared_ptr<IRParameterType> _parameterType;
     std::optional<std::shared_ptr<ASTFunctionParameterNode>> _node;
     IRInstructionNode* _allocation;
     std::optional<IRInstructionNode*> _irArc;
 public:
-    IRFunctionParameterNode(llvm::Argument* irValue, IRParameterType* parameterType, IRInstructionNode* allocation, std::optional<std::shared_ptr<ASTFunctionParameterNode>> node = {}, std::optional<IRInstructionNode*> irArc = {});
+    IRFunctionParameterNode(llvm::Argument* irValue, std::shared_ptr<IRParameterType> parameterType, IRInstructionNode* allocation, std::optional<std::shared_ptr<ASTFunctionParameterNode>> node = {}, std::optional<IRInstructionNode*> irArc = {});
     llvm::Argument* getArgument();
-    IRParameterType* getParameterType();
+    std::shared_ptr<IRParameterType> getParameterType();
     IRInstructionNode* getAllocation();
     std::optional<IRInstructionNode*> getArc();
     bool isCaptured();

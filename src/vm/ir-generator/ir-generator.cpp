@@ -188,8 +188,8 @@ IRGenerator::IRGenerator(IRInjector* irInjector) {
             this->generatePointerType(),
             this->generateBooleanType()
     }, "Invocable");
-    _genericClassInstanceIRType = new IRClassInstanceType(
-        new IRClassType(
+    _genericClassInstanceIRType = std::make_shared<IRClassInstanceType>(
+        std::make_shared<IRClassType>(
             "generic_class",
             this->generateIRStructRefType()
         )
@@ -375,11 +375,11 @@ void IRGenerator::generatePostInitialTypeFor(std::shared_ptr<ASTNode> node, IRLo
     }
 }
 
-IRClassInstanceType* IRGenerator::getGenericClassInstanceIRType() {
+std::shared_ptr<IRClassInstanceType> IRGenerator::getGenericClassInstanceIRType() {
     return _genericClassInstanceIRType;
 }
 
-IRType* IRGenerator::generateInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> IRGenerator::generateInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
             return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
@@ -388,7 +388,7 @@ IRType* IRGenerator::generateInitialTypeFor(std::shared_ptr<TypeSignature> typeS
     }
 }
 
-IRType* IRGenerator::generatePostInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> IRGenerator::generatePostInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
             return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
@@ -397,11 +397,11 @@ IRType* IRGenerator::generatePostInitialTypeFor(std::shared_ptr<TypeSignature> t
     }
 }
 
-IRType* IRGenerator::generateTypeFor(llvm::Constant* constant) {
-    return new IRType(constant->getType());
+std::shared_ptr<IRType> IRGenerator::generateTypeFor(llvm::Constant* constant) {
+    return std::make_shared<IRType>(constant->getType());
 }
 
-IRType* IRGenerator::generateTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     auto existingIRType = scope->findType(typeSignature->getId());
     if (existingIRType) {
         return existingIRType.value()->clone();
@@ -480,44 +480,44 @@ IRType* IRGenerator::generateTypeFor(std::shared_ptr<TypeSignature> typeSignatur
     }
 }
 
-IRArrayPointerType* IRGenerator::generateTypeFor(std::shared_ptr<ArrayTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRArrayPointerType> IRGenerator::generateTypeFor(std::shared_ptr<ArrayTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IREnumType* IRGenerator::generateTypeFor(std::shared_ptr<EnumTypeSignature> typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IREnumType> IRGenerator::generateTypeFor(std::shared_ptr<EnumTypeSignature> typeSignature, std::vector<llvm::Constant*> enumValues, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(std::shared_ptr<InterfaceTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> IRGenerator::generateTypeFor(std::shared_ptr<InterfaceTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructRefType* IRGenerator::generateTypeFor(std::shared_ptr<StructTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructRefType> IRGenerator::generateTypeFor(std::shared_ptr<StructTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructRefType* IRGenerator::generateTypeFor(std::shared_ptr<TupleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructRefType> IRGenerator::generateTypeFor(std::shared_ptr<TupleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRStructType* IRGenerator::generateTypeFor(std::shared_ptr<LambdaScopeTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> IRGenerator::generateTypeFor(std::shared_ptr<LambdaScopeTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRModuleType* IRGenerator::generateTypeFor(std::shared_ptr<ModuleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRModuleType> IRGenerator::generateTypeFor(std::shared_ptr<ModuleTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRClassType* IRGenerator::generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRClassType> IRGenerator::generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
 
-IRPointerType* IRGenerator::generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRPointerType> IRGenerator::generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
-IRRefType* IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRRefType> IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
 }
 
@@ -525,32 +525,32 @@ llvm::Type* IRGenerator::getVoidType() {
     return llvm::Type::getVoidTy(*_context);
 }
 
-IRType* IRGenerator::generateVoidType() {
+std::shared_ptr<IRType> IRGenerator::generateVoidType() {
     return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
 }
 
-IRPointerType* IRGenerator::generateIRInvocableCleanupType() {
+std::shared_ptr<IRPointerType> IRGenerator::generateIRInvocableCleanupType() {
     return this->generateIrPointerType(
-        new IRFunctionType(llvm::FunctionType::get(this->getVoidType(), { this->generatePointerType() }, false))
+        std::make_shared<IRFunctionType>(llvm::FunctionType::get(this->getVoidType(), { this->generatePointerType() }, false))
     );
 }
 
-IRInvocableType* IRGenerator::generateIRInvocableType() {
-    return new IRInvocableType(
+std::shared_ptr<IRInvocableType> IRGenerator::generateIRInvocableType() {
+    return std::make_shared<IRInvocableType>(
             this->getFunctionParameterType(),
             this->generateIrPointerType(),
             this->generateIRInvocableCleanupType(),
-            new IRInvocableParameterListType(),
+            std::make_shared<IRInvocableParameterListType>(),
             this->generateVoidType()
     );
 }
 
-IRPointerType* IRGenerator::generateIrPointerType() {
-    return new IRPointerType(llvm::PointerType::get(*_context, 0));
+std::shared_ptr<IRPointerType> IRGenerator::generateIrPointerType() {
+    return std::make_shared<IRPointerType>(llvm::PointerType::get(*_context, 0));
 }
 
-IRPointerType* IRGenerator::generateIrPointerType(IRType* type) {
-    return new IRPointerType(llvm::PointerType::get(type->getType(), 0), type);
+std::shared_ptr<IRPointerType> IRGenerator::generateIrPointerType(std::shared_ptr<IRType> type) {
+    return std::make_shared<IRPointerType>(llvm::PointerType::get(type->getType(), 0), type);
 }
 
 llvm::ConstantPointerNull* IRGenerator::generateConstantPointer() {
@@ -576,7 +576,7 @@ llvm::Constant* IRGenerator::generatePlaceholderArrayPointerArgument() {
     });
 }
 
-llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(IRType* irType) {
+llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(std::shared_ptr<IRType> irType) {
     if (irType->isArrayPointerType()) {
         return this->generatePlaceholderArrayPointerArgument();
     } else if (irType->isStructRefType() || irType->isClassInstanceType() || irType->isNewClassInstanceType()) {
@@ -609,12 +609,12 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(IRType* irType) {
     return this->generateConstantPointer();
 }
 
-llvm::Constant* IRGenerator::generateInitialValueForIRType(IRType* irType) {
+llvm::Constant* IRGenerator::generateInitialValueForIRType(std::shared_ptr<IRType> irType) {
     return llvm::Constant::getNullValue(irType->getType());
 }
 
-IRRefType* IRGenerator::generateIrRefType(IRType* underlyingIRType) {
-    auto irRefType = new IRRefType(_refType, new IRType(this->generateIntType()), underlyingIRType);
+std::shared_ptr<IRRefType> IRGenerator::generateIrRefType(std::shared_ptr<IRType> underlyingIRType) {
+    auto irRefType = std::make_shared<IRRefType>(_refType, std::make_shared<IRType>(this->generateIntType()), underlyingIRType);
     return irRefType;
 }
 
@@ -622,8 +622,8 @@ llvm::StructType* IRGenerator::getFunctionParameterType() {
     return _invocableType;
 }
 
-IRArrayType* IRGenerator::generateIRArrayType(IRType* elementType, unsigned long size) {
-    auto irArrayType = new IRArrayType(llvm::ArrayType::get(elementType->getType(), size), elementType);
+std::shared_ptr<IRArrayType> IRGenerator::generateIRArrayType(std::shared_ptr<IRType> elementType, unsigned long size) {
+    auto irArrayType = std::make_shared<IRArrayType>(llvm::ArrayType::get(elementType->getType(), size), elementType);
     return irArrayType;
 }
 
@@ -647,11 +647,11 @@ std::string IRGenerator::getJetDebugFunctionName(std::string id) {
     return IRDebugInternalModule::getIRName(id);
 }
 
-IRFunctionType* IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {
-    return new IRFunctionType(functionType);
+std::shared_ptr<IRFunctionType> IRGenerator::generateFunctionIrType(llvm::FunctionType* functionType) {
+    return std::make_shared<IRFunctionType>(functionType);
 }
 
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctionType* irFunctionType, std::vector<IRFunctionArgumentNode*>* irArguments) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(std::shared_ptr<IRFunctionType> irFunctionType, std::vector<IRFunctionArgumentNode*>* irArguments) {
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = irArguments->size();
@@ -664,7 +664,7 @@ std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRFunctio
     return argList;
 }
 
-std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(IRInvocableType* irInvocableType, std::vector<IRFunctionArgumentNode*>* irArguments) {
+std::vector<llvm::Value*> IRGenerator::generateArgumentPlaceholderList(std::shared_ptr<IRInvocableType> irInvocableType, std::vector<IRFunctionArgumentNode*>* irArguments) {
     auto pointerType = this->generatePointerType();
     auto argList = std::vector<llvm::Value*>();
     auto numArguments = irArguments->size();
@@ -751,23 +751,23 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-IRTypeValueInstructionNode* IRGenerator::generateIRTypeValueFor(IRType* irType, IRContext* irContext) {
+IRTypeValueInstructionNode* IRGenerator::generateIRTypeValueFor(std::shared_ptr<IRType> irType, IRContext* irContext) {
     if (irType->isRefType()) {
-        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue((IRRefType*)irType, this, irContext);
+        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRRefType>(irType), this, irContext);
     } else if (irType->isStructType()) {
-        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructType*)irType, this, irContext);
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructType>(irType), this, irContext);
     } else if (irType->isStructRefType()) {
-        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue((IRStructRefType*)irType, this, irContext);
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructRefType>(irType), this, irContext);
     } else if (irType->isArrayPointerType()) {
-        return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue((IRArrayPointerType*)irType, this, irContext);
+        return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRArrayPointerType>(irType), this, irContext);
     } else if (irType->isPointerType()) {
-        return this->_irStrategyMap.getPointerTypeSignatureIRStrategy()->generateTypeValue((IRPointerType*)irType, this);
+        return this->_irStrategyMap.getPointerTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRPointerType>(irType), this);
     }
     throw std::logic_error("unable to generate type value for ir type");
 }
 
-IRTypeValueType* IRGenerator::generateIrTypeValueType() {
-    return new IRTypeValueType(_typeValueType);
+std::shared_ptr<IRTypeValueType> IRGenerator::generateIrTypeValueType() {
+    return std::make_shared<IRTypeValueType>(_typeValueType);
 }
 
 llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
@@ -780,7 +780,7 @@ llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
     );
 }
 
-llvm::GetElementPtrInst* IRGenerator::generateGEP(IRType* irType, llvm::Value* pointer, unsigned long index) {
+llvm::GetElementPtrInst* IRGenerator::generateGEP(std::shared_ptr<IRType> irType, llvm::Value* pointer, unsigned long index) {
     return llvm::GetElementPtrInst::Create(irType->getType(), pointer, { this->generateIntConstant(0), this->generateIntConstant(index) });
 }
 
@@ -788,24 +788,24 @@ llvm::ExtractValueInst* IRGenerator::generateExtractValue(llvm::Value* value, un
     return llvm::ExtractValueInst::Create(value, { index });
 }
 
-llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, IRType* irType) {
+llvm::StoreInst* IRGenerator::generateStoreInstruction(llvm::Value* value, llvm::Value* pointer, std::shared_ptr<IRType> irType) {
     return new llvm::StoreInst(value, pointer, false, irType->getAlignment());
 }
 
-llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, IRType* irType) {
+llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, std::shared_ptr<IRType> irType) {
     return new llvm::LoadInst(irType->getType(), pointer, "", false, irType->getAlignment());
 }
 
-IRParameterListType* IRGenerator::generateParameterList(std::shared_ptr<ParameterListTypeSignature> parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
+std::shared_ptr<IRParameterListType> IRGenerator::generateParameterList(std::shared_ptr<ParameterListTypeSignature> parameterList, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
     return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, this, scope, irContext, scopeParameter);
 }
 
-IRParameterType* IRGenerator::generateParameterType(std::shared_ptr<ParameterListItemTypeSignature> parameter, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRParameterType> IRGenerator::generateParameterType(std::shared_ptr<ParameterListItemTypeSignature> parameter, IRLookupTable* scope, IRContext* irContext) {
     return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, this, scope, irContext);
 }
 
-std::vector<IRType*> IRGenerator::generateIRTypes(std::vector<std::shared_ptr<TypeSignature>>* parameters, IRLookupTable* scope, IRContext* irContext) {
-    auto parameterIRTypes = std::vector<IRType*>();
+std::vector<std::shared_ptr<IRType>> IRGenerator::generateIRTypes(std::vector<std::shared_ptr<TypeSignature>>* parameters, IRLookupTable* scope, IRContext* irContext) {
+    auto parameterIRTypes = std::vector<std::shared_ptr<IRType>>();
     for (int i = 0; i < parameters->size(); ++i) {
         parameterIRTypes.push_back(this->generateTypeFor(parameters->at(i), scope, irContext));
     }
@@ -885,42 +885,42 @@ llvm::Constant* IRGenerator::getOrInsertGlobalVariableString(std::string id, std
     );
 }
 
-IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRPointerType* irPointerType) {
-    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), irPointerType->getSourceType());
+std::shared_ptr<IRArrayPointerType> IRGenerator::generateIrArrayPointerType(std::shared_ptr<IRPointerType> irPointerType) {
+    auto irArrayPointerType = std::make_shared<IRArrayPointerType>(this->getArrayPointerType(), irPointerType->getSourceType());
     return irArrayPointerType;
 }
 
-IRArrayPointerType* IRGenerator::generateIrArrayPointerType(IRType* arrayElementType) {
-    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), arrayElementType);
+std::shared_ptr<IRArrayPointerType> IRGenerator::generateIrArrayPointerType(std::shared_ptr<IRType> arrayElementType) {
+    auto irArrayPointerType = std::make_shared<IRArrayPointerType>(this->getArrayPointerType(), arrayElementType);
     return irArrayPointerType;
 }
 
-IRStructRefType* IRGenerator::generateIRStructRefType(IRStructType* irStructType) {
-    return new IRStructRefType(
+std::shared_ptr<IRStructRefType> IRGenerator::generateIRStructRefType(std::shared_ptr<IRStructType> irStructType) {
+    return std::make_shared<IRStructRefType>(
         this->getStructRefType(),
         this->generateIRStructRefCounterType(),
         irStructType
     );
 }
 
-IRStructRefType* IRGenerator::generateIRStructRefType() {
-    return new IRStructRefType(
+std::shared_ptr<IRStructRefType> IRGenerator::generateIRStructRefType() {
+    return std::make_shared<IRStructRefType>(
             this->getStructRefType(),
             this->generateIRStructRefCounterType(),
             this->generateIRStructType()
     );
 }
 
-IRStructType* IRGenerator::generateIRStructType() {
-    return new IRStructType(
+std::shared_ptr<IRStructType> IRGenerator::generateIRStructType() {
+    return std::make_shared<IRStructType>(
             llvm::StructType::get(*_context),
             std::unordered_map<std::string, unsigned long>(),
             std::unordered_map<unsigned long, std::string>(),
-            std::unordered_map<std::string, IRType*>()
+            std::unordered_map<std::string, std::shared_ptr<IRType>>()
     );
 }
 
-IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irType) {
+IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(std::shared_ptr<IRType> irType) {
     return new IRInstructionNode(
             new llvm::AllocaInst(
                     irType->getType(),
@@ -930,7 +930,7 @@ IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(IRType* irTy
             ), this->generateIrPointerType(irType));
 }
 
-IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(std::shared_ptr<ASTFunctionParameterNode> functionParameter, IRParameterType* irParameterType, IRContext* irContext) {
+IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(std::shared_ptr<ASTFunctionParameterNode> functionParameter, std::shared_ptr<IRParameterType> irParameterType, IRContext* irContext) {
     auto irType = irParameterType->getIRType();
     if (functionParameter->isCaptured()) {
         return new IRInstructionNode(
@@ -952,16 +952,16 @@ IRInstructionNode* IRGenerator::generateFunctionParameterAllocation(std::shared_
     );
 }
 
-IRType* IRGenerator::generateIRCaptureCounterType() {
-    return new IRType(this->generateIntType());
+std::shared_ptr<IRType> IRGenerator::generateIRCaptureCounterType() {
+    return std::make_shared<IRType>(this->generateIntType());
 }
 
-IRType* IRGenerator::generateIRStructRefCounterType() {
-    return new IRType(this->generateIntType());
+std::shared_ptr<IRType> IRGenerator::generateIRStructRefCounterType() {
+    return std::make_shared<IRType>(this->generateIntType());
 }
 
-IRType* IRGenerator::generateIRArcType() {
-    return new IRType(this->generateIntType());
+std::shared_ptr<IRType> IRGenerator::generateIRArcType() {
+    return std::make_shared<IRType>(this->generateIntType());
 }
 
 IRInstructionNode* IRGenerator::generateArcAllocationForInvocable(IRContext* irContext, llvm::Value* source, unsigned long count) {
@@ -1087,7 +1087,7 @@ IRInstructionNode* IRGenerator::generateArcAllocationForRef(IRContext* irContext
     }
 }
 
-IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, IRType* irType, llvm::Value* source, unsigned long count) {
+IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, std::shared_ptr<IRType> irType, llvm::Value* source, unsigned long count) {
     if (irType->isInvocableType()) {
         return this->generateArcAllocationForInvocable(irContext, source, count);
     } else if (irType->isRefType()) {
@@ -1112,20 +1112,20 @@ IRInstructionNode* IRGenerator::generateArcAllocation(IRContext* irContext, unsi
     );
 }
 
-IRCapturedVariableType* IRGenerator::generateIRCapturedVariableType(IRType* variableIrType) {
-    return new IRCapturedVariableType(
+std::shared_ptr<IRCapturedVariableType> IRGenerator::generateIRCapturedVariableType(std::shared_ptr<IRType> variableIrType) {
+    return std::make_shared<IRCapturedVariableType>(
         llvm::StructType::get(*_context, { this->generatePointerType(), this->generatePointerType() }),
         this->generateIRCaptureCounterType(),
         variableIrType
     );
 }
 
-IRType* IRGenerator::generateIRCharType() {
-    return new IRType(this->generateCharType());
+std::shared_ptr<IRType> IRGenerator::generateIRCharType() {
+    return std::make_shared<IRType>(this->generateCharType());
 }
 
-IRArrayPointerType* IRGenerator::generateIrStringArrayPointerType() {
-    auto irArrayPointerType = new IRArrayPointerType(this->getArrayPointerType(), this->generateIRCharType());
+std::shared_ptr<IRArrayPointerType> IRGenerator::generateIrStringArrayPointerType() {
+    auto irArrayPointerType = std::make_shared<IRArrayPointerType>(this->getArrayPointerType(), this->generateIRCharType());
     return irArrayPointerType;
 }
 

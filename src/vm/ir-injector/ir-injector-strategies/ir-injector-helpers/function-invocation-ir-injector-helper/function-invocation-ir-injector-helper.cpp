@@ -28,8 +28,8 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     // the front-end does not currently support variadic functions/lambdas
     if (irExpression->getVarArgsTypeValueArgument()) {
         auto startIndex = irExpression->getInvocationTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
-        auto typeValueType = (IRTypeValueType*)irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value()->getIRType()->getUnderlyingType();
-        auto arrayPointerType = (IRArrayPointerType*)irExpression->getVarArgsTypeValueArgument().value()->getIRType()->getUnderlyingType();
+        auto typeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value()->getIRType()->getUnderlyingType());
+        auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getVarArgsTypeValueArgument().value()->getIRType()->getUnderlyingType());
         auto varArgsArrayAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value()->getParentAllocation().value(), irBlock);
         auto varArgsArrayPointerAllocation = InstructionIRInjectorHelper::inject(irExpression->getVarArgsTypeValueArgument().value(), irBlock);
         auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);
@@ -75,7 +75,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {
-        auto irLambdaType = (IRLambdaType*)irExpression->getFunctionIRType();
+        auto irLambdaType = std::dynamic_pointer_cast<IRLambdaType>(irExpression->getFunctionIRType());
         auto lambdaIndex = irLambdaType->getLambdaVariableType()->getFunctionIndex();
         auto lambdaPointer = irBlock->getBuilder()->get()->CreateStructGEP(irLambdaType->getLambdaVariableType()->getType(), irExpression->getFunctionValue(), lambdaIndex);
         auto loadedLambda = InstructionIRInjectorHelper::injectLoad(irLambdaType->getFunctionPointerType(), lambdaPointer, irBlock);
@@ -97,7 +97,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRFunctionInvocationExpr
     }
 
     if (irExpression->getFunctionIRType()->isInvocableType()) {
-        auto irInvocableType = (IRInvocableType*)irExpression->getFunctionIRType();
+        auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getFunctionIRType());
         auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), irExpression->getFunctionValue(), irInvocableType->getFunctionIndex());
         auto loadedFunctionParameter = InstructionIRInjectorHelper::injectLoad(irInvocableType->getIRFunctionPointer()->getType(), functionPointer, irBlock);
         irExpression->getValue()->setCalledOperand(loadedFunctionParameter);
@@ -240,9 +240,9 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRTupleAccessInvocationE
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
 
-    auto irInvocableType = (IRInvocableType*)irExpression->getFunctionIRType();
+    auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getFunctionIRType());
     auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
-    auto sourceIrType = (IRStructRefType*)irExpression->getSource()->getUnderlyingIRType();
+    auto sourceIrType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getUnderlyingIRType());
     auto tupleSourcePointer = irBlock->getBuilder()->get()->CreateExtractValue(sourceValue, sourceIrType->getStructIndex());
     auto targetPointer = irBlock->getBuilder()->get()->CreateStructGEP(sourceIrType->getStructIRType()->getType(), tupleSourcePointer, irExpression->getTargetIndex());
     auto targetValue = InstructionIRInjectorHelper::injectLoad(irInvocableType->getType(), targetPointer, irBlock, irInvocableType);
@@ -269,9 +269,9 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRObjectAccessInvocation
 
     auto irType = irExpression->getFunctionIRType();
     if (irType->isInvocableType()) {
-        auto irInvocableType = (IRInvocableType*)irType;
+        auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irType);
         auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
-        auto sourceIrType = (IRStructRefType*)irExpression->getSource()->getUnderlyingIRType();
+        auto sourceIrType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getUnderlyingIRType());
         auto tupleSourcePointer = irBlock->getBuilder()->get()->CreateExtractValue(sourceValue, sourceIrType->getStructIndex());
         auto targetPointer = irBlock->getBuilder()->get()->CreateStructGEP(sourceIrType->getStructIRType()->getType(), tupleSourcePointer, irExpression->getTargetIndex());
         auto targetValue = InstructionIRInjectorHelper::injectLoad(irInvocableType->getType(), targetPointer, irBlock, irInvocableType);
@@ -312,7 +312,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(IRArrayAccessInvocationE
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
     auto pointerToLambda = irInjector->inject(irBlock, irExpression->getIRArrayAccessExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
-    auto irInvocableType = (IRInvocableType*)irExpression->getFunctionIRType();
+    auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getFunctionIRType());
     auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irInvocableType->getType(), pointerToLambda, irBlock);
     auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irInvocableType->getFunctionIndex() });
     auto lambdaScopeArgument= irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irInvocableType->getFunctionScopeArgumentIndex() });

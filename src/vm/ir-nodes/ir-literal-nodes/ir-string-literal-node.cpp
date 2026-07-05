@@ -4,7 +4,7 @@
 
 #include "ir-string-literal-node.h"
 
-IRStringLiteralNode::IRStringLiteralNode(std::shared_ptr<ASTStringLiteralNode> astNode, llvm::Constant* irValue, IRArrayType* type) {
+IRStringLiteralNode::IRStringLiteralNode(std::shared_ptr<ASTStringLiteralNode> astNode, llvm::Constant* irValue, std::shared_ptr<IRArrayType> type) {
     _astNode = astNode;
     _irValue = irValue;
     _type = type;
@@ -14,7 +14,11 @@ llvm::Constant* IRStringLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
-IRArrayType* IRStringLiteralNode::getIRType() {
+std::shared_ptr<IRArrayType> IRStringLiteralNode::getIRArrayType() {
+    return _type;
+}
+
+std::shared_ptr<IRType> IRStringLiteralNode::getIRType() {
     return _type;
 }
 

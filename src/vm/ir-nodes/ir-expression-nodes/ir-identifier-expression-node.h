@@ -15,14 +15,14 @@ private:
     std::shared_ptr<ASTIdentifierExpressionNode> _node;
     IRInstructionNode* _irValue;
     std::optional<IRInstructionNode*> _irArc;
-    IRPointerType* _irType;
+    std::shared_ptr<IRPointerType> _irType;
 public:
     IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
     IRInstructionNode* getIRValue();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     std::optional<IRInstructionNode*> getArc() override;
     llvm::Value* getValue() override;
-    IRPointerType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

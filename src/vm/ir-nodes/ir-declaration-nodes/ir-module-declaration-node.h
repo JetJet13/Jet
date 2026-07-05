@@ -15,12 +15,12 @@ class IRModuleDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTModuleDeclarationNode> _node;
     IRInstructionNode* _allocation;
-    IRModuleType* _type;
+    std::shared_ptr<IRModuleType> _type;
     std::vector<IRDeclarationNode*> _exports;
 public:
-    IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, IRModuleType* type, std::vector<IRDeclarationNode*> exports);
+    IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, std::shared_ptr<IRModuleType> type, std::vector<IRDeclarationNode*> exports);
     IRInstructionNode* getAllocation();
-    IRModuleType* getIRType();
+    std::shared_ptr<IRModuleType> getIRType();
     std::vector<IRDeclarationNode*>* getExports();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;

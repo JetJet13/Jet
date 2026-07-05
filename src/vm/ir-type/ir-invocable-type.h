@@ -15,17 +15,17 @@
 class IRInvocableType : public IRType {
 private:
     llvm::StructType* _type;
-    IRPointerType* _irFunctionPointer;
-    IRPointerType* _irFunctionCleanupPointer;
-    IRInvocableParameterListType* _parameters;
-    IRType* _returnType;
+    std::shared_ptr<IRPointerType> _irFunctionPointer;
+    std::shared_ptr<IRPointerType> _irFunctionCleanupPointer;
+    std::shared_ptr<IRInvocableParameterListType> _parameters;
+    std::shared_ptr<IRType> _returnType;
     unsigned int _functionIndex;
     unsigned int _functionScopeArgumentIndex;
     unsigned int _functionRefCounterIndex;
     unsigned int _functionCleanupIndex;
     unsigned int _isPerpetualIndex;
 public:
-    explicit IRInvocableType(llvm::StructType* type, IRPointerType* irFunctionPointer, IRPointerType* irFunctionCleanupPointer, IRInvocableParameterListType* parameters, IRType* returnType);
+    explicit IRInvocableType(llvm::StructType* type, std::shared_ptr<IRPointerType> irFunctionPointer, std::shared_ptr<IRPointerType> irFunctionCleanupPointer, std::shared_ptr<IRInvocableParameterListType> parameters, std::shared_ptr<IRType> returnType);
     llvm::StructType* getType() override;
     bool isInvocableType() override;
     [[nodiscard]] unsigned int getFunctionIndex() const;
@@ -33,15 +33,15 @@ public:
     [[nodiscard]] unsigned int getFunctionRefCounterIndex() const;
     [[nodiscard]] unsigned int getFunctionCleanupIndex() const;
     [[nodiscard]] unsigned int getIsPerpetualIndex() const;
-    IRInvocableParameterListType* getParameters();
-    IRType* getReturnType();
+    std::shared_ptr<IRInvocableParameterListType> getParameters();
+    std::shared_ptr<IRType> getReturnType();
     llvm::PointerType* getFunctionScopeArgumentType();
     llvm::PointerType* getFunctionRefCounterType();
     llvm::PointerType* getFunctionCleanupType();
     llvm::FunctionType* getFunctionType();
     llvm::FunctionType* getCleanupFunctionType();
-    IRFunctionType* getIRFunctionType();
-    IRPointerType* getIRFunctionPointer();
+    std::shared_ptr<IRFunctionType> getIRFunctionType();
+    std::shared_ptr<IRPointerType> getIRFunctionPointer();
     std::string getFunctionParameterName(std::string parameterName);
     std::string getFunctionScopeArgumentParameterName(std::string parameterName);
     uint64_t getRefCounterSizeInBytes();
@@ -50,7 +50,7 @@ public:
     bool requiresArc() override;
     llvm::Align getAlignment() override;
     uint64_t getSizeInBytes() override;
-    IRInvocableType* clone() override;
+    std::shared_ptr<IRType> clone() override;
 };
 
 #endif //JETLANG_IR_INVOCABLE_TYPE_H

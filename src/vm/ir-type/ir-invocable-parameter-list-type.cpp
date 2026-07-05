@@ -5,10 +5,10 @@
 #include "ir-invocable-parameter-list-type.h"
 
 IRInvocableParameterListType::IRInvocableParameterListType() {
-    _parameters = std::vector<IRType*>();
+    _parameters = std::vector<std::shared_ptr<IRType>>();
 }
 
-IRInvocableParameterListType::IRInvocableParameterListType(std::vector<IRType*> parameters, std::optional<IRType*> lambdaScopeParameterType) {
+IRInvocableParameterListType::IRInvocableParameterListType(std::vector<std::shared_ptr<IRType>> parameters, std::optional<std::shared_ptr<IRType>> lambdaScopeParameterType) {
     _parameters = parameters;
     _lambdaScopeParameterType = lambdaScopeParameterType;
 }
@@ -21,7 +21,7 @@ std::string IRInvocableParameterListType::getId() {
     return id;
 }
 
-std::vector<IRType*>* IRInvocableParameterListType::getParameters() {
+std::vector<std::shared_ptr<IRType>>* IRInvocableParameterListType::getParameters() {
     return &_parameters;
 }
 
@@ -37,15 +37,15 @@ std::vector<llvm::Type*> IRInvocableParameterListType::getParameterTypes() {
     return parameterList;
 }
 
-IRInvocableParameterListType* IRInvocableParameterListType::clone() {
-    auto parameters = std::vector<IRType*>();
+std::shared_ptr<IRInvocableParameterListType> IRInvocableParameterListType::clone() {
+    auto parameters = std::vector<std::shared_ptr<IRType>>();
     for (auto parameter : _parameters) {
         parameters.push_back(parameter->clone());
     }
 
-    std::optional<IRType*> lambdaScopeTypeClone = {};
+    std::optional<std::shared_ptr<IRType>> lambdaScopeTypeClone = {};
     if (_lambdaScopeParameterType) {
         lambdaScopeTypeClone = _lambdaScopeParameterType.value()->clone();
     }
-    return new IRInvocableParameterListType(parameters, lambdaScopeTypeClone);
+    return std::make_shared<IRInvocableParameterListType>(parameters, lambdaScopeTypeClone);
 }

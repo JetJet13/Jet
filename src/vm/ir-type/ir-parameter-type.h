@@ -11,13 +11,13 @@
 class IRParameterType {
 private:
     std::string _name;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
 public:
-    IRParameterType(std::string name, IRType* type);
+    IRParameterType(std::string name, std::shared_ptr<IRType> type);
     std::string getName();
-    IRType* getIRType();
+    std::shared_ptr<IRType> getIRType();
     llvm::Type* getType();
-    IRParameterType* clone();
+    std::shared_ptr<IRParameterType> clone();
 };
 
 #endif //JETLANG_IR_PARAMETER_TYPE_H

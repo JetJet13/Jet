@@ -14,7 +14,7 @@ void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* 
         irProcedureDeclaration->getBlock()->getLastChildOrSelf()->addVoidReturn();
     }
 
-    auto irType = (IRInvocableType*)irProcedureDeclaration->getGlobalVariable()->getIRType()->getSourceType();
+    auto irType = std::dynamic_pointer_cast<IRInvocableType>(irProcedureDeclaration->getGlobalVariable()->getIRType()->getSourceType());
     auto functionIndex = irType->getFunctionIndex();
     auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irProcedureDeclaration->getGlobalVariable()->getValue(), functionIndex);
     InstructionIRInjectorHelper::injectStore(irProcedureDeclaration->getValue(), functionPointer, irBlock, irType);

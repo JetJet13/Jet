@@ -11,11 +11,11 @@
 class IRArrayType : public IRType {
 private:
     llvm::ArrayType* _type;
-    IRType* _arrayElementType;
+    std::shared_ptr<IRType> _arrayElementType;
 public:
-    explicit IRArrayType(llvm::ArrayType* type, IRType* arrayElementType);
+    explicit IRArrayType(llvm::ArrayType* type, std::shared_ptr<IRType> arrayElementType);
     llvm::ArrayType* getType() override;
-    IRType* getElementIRType();
+    std::shared_ptr<IRType> getElementIRType();
     llvm::Type* getElementType();
     uint64_t getSize();
     uint64_t getSizeInBytes() override;
@@ -23,7 +23,7 @@ public:
     llvm::Align getAlignment() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayType() override;
-    IRArrayType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

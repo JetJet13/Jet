@@ -58,8 +58,8 @@ uint64_t IRTypeValueType::getSizeInBytes() {
     return 48;
 }
 
-IRTypeValueType* IRTypeValueType::clone() {
-    auto clone = new IRTypeValueType(_type);
+std::shared_ptr<IRType> IRTypeValueType::clone() {
+    auto clone = std::make_shared<IRTypeValueType>(_type);
     this->initClone(clone);
     return clone;
 }

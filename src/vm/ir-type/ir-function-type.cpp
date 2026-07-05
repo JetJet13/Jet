@@ -17,8 +17,8 @@ llvm::FunctionType* IRFunctionType::getType() {
     return _type;
 }
 
-IRFunctionType* IRFunctionType::clone() {
-    auto clone = new IRFunctionType(_type);
+std::shared_ptr<IRType> IRFunctionType::clone() {
+    auto clone = std::make_shared<IRFunctionType>(_type);
     this->initClone(clone);
     return clone;
 }

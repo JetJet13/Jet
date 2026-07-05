@@ -4,8 +4,8 @@
 
 #include "parameter-list-type-signature-ir-strategy.h"
 
-IRParameterListType* ParameterListTypeSignatureIRStrategy::generate(std::shared_ptr<ParameterListTypeSignature> parameterListTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
-    auto parameters = std::vector<IRParameterType*>();
+std::shared_ptr<IRParameterListType> ParameterListTypeSignatureIRStrategy::generate(std::shared_ptr<ParameterListTypeSignature> parameterListTypeSignature,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
+    auto parameters = std::vector<std::shared_ptr<IRParameterType>>();
     for (auto parameter : *parameterListTypeSignature->getParameters()) {
         parameters.push_back(irGenerator->generateParameterType(parameter, scope, irContext));
     }
@@ -14,5 +14,5 @@ IRParameterListType* ParameterListTypeSignatureIRStrategy::generate(std::shared_
         parameters.push_back(irGenerator->generateParameterType(scopeParameter.value(), scope, irContext));
     }
 
-    return new IRParameterListType(parameters);
+    return std::make_shared<IRParameterListType>(parameters);
 }

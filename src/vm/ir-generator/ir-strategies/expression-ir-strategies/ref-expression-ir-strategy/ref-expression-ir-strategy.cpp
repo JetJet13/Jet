@@ -18,6 +18,6 @@ IRRefExpressionNode* RefExpressionIRStrategy::generate(std::shared_ptr<ASTRefExp
     return new IRRefExpressionNode(node, irExpressionNode, irType, allocation, arcAllocation);
 }
 
-IRInstructionNode* RefExpressionIRStrategy::generateAllocation(std::shared_ptr<ASTRefExpressionNode> node, IRRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* RefExpressionIRStrategy::generateAllocation(std::shared_ptr<ASTRefExpressionNode> node, std::shared_ptr<IRRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

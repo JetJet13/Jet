@@ -14,11 +14,11 @@
 class IRCustomTypeDeclarationNode : public IRTypeDeclarationNode {
 private:
     std::shared_ptr<ASTCustomTypeDeclarationNode> _node;
-    IRType* _irType;
+    std::shared_ptr<IRType> _irType;
 public:
-    IRCustomTypeDeclarationNode(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRType* irType);
+    IRCustomTypeDeclarationNode(std::shared_ptr<ASTCustomTypeDeclarationNode> node, std::shared_ptr<IRType> irType);
     std::string getName();
-    IRType* getIRType();
+    std::shared_ptr<IRType> getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

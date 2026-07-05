@@ -5,7 +5,7 @@
 #include "ir-array-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRArrayType::IRArrayType(llvm::ArrayType* type, IRType* arrayElementType) : IRType(type) {
+IRArrayType::IRArrayType(llvm::ArrayType* type, std::shared_ptr<IRType> arrayElementType) : IRType(type) {
     _type = type;
     _arrayElementType = arrayElementType;
 }
@@ -14,7 +14,7 @@ llvm::ArrayType* IRArrayType::getType() {
     return _type;
 }
 
-IRType* IRArrayType::getElementIRType() {
+std::shared_ptr<IRType> IRArrayType::getElementIRType() {
     return _arrayElementType;
 }
 
@@ -51,9 +51,9 @@ bool IRArrayType::isArrayType() {
     return true;
 }
 
-IRArrayType* IRArrayType::clone() {
+std::shared_ptr<IRType> IRArrayType::clone() {
     auto elementClone = _arrayElementType->clone();
-    auto clone = new IRArrayType(_type, elementClone);
+    auto clone = std::make_shared<IRArrayType>(_type, elementClone);
     this->initClone(clone);
     return clone;
 }

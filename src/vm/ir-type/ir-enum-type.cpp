@@ -16,12 +16,12 @@ bool IREnumType::isEnumType() {
     return true;
 }
 
-IREnumType* IREnumType::clone() {
-    auto keyTypeMapClone = std::unordered_map<std::string, IRType*>();
+std::shared_ptr<IRType> IREnumType::clone() {
+    auto keyTypeMapClone = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : _keyTypeMap) {
         keyTypeMapClone[keyValue.first] = keyValue.second->clone();
     }
-    auto clone = new IREnumType(_type, _keyIndexMap, _keyIdMap, keyTypeMapClone);
+    auto clone = std::make_shared<IREnumType>(_type, _keyIndexMap, _keyIdMap, keyTypeMapClone);
     this->initClone(clone);
     return clone;
 }

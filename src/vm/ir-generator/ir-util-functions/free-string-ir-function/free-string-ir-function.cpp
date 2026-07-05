@@ -17,7 +17,7 @@ void FreeStringIRFunction::declareFreeStringFunction(IRGenerator* irGenerator, s
 }
 
 void FreeStringIRFunction::generateFreeStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
-    auto charType = new IRType(irGenerator->generateCharType());
+    auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
 
     auto function = irModuleNode->getFreeStringFunction();

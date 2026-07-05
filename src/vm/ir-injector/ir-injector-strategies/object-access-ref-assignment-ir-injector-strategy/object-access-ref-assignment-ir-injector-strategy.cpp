@@ -27,7 +27,7 @@ void ObjectAccessRefAssignmentIRInjectorStrategy::inject(IRObjectAccessRefAssign
             }
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
-    auto irRefType = (IRRefType*)irObjectAccessRefAssignmentStatement->getIRObjectAccessExpression()->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irObjectAccessRefAssignmentStatement->getIRObjectAccessExpression()->getIRType()->getSourceType());
     auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(

@@ -34,11 +34,11 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(IRRefExpress
                 llvm::GlobalValue::InternalLinkage
         );
         irModule->getModule()->get()->insertGlobalVariable(globalVariable);
-        InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRType()->getRefValueIRType());
+        InstructionIRInjectorHelper::injectStore(rawValue, globalVariable, irBlock, irExpression->getIRRefType()->getRefValueIRType());
         return globalVariable;
     }
 
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getExpression()->getType());
-    InstructionIRInjectorHelper::injectStore(rawValue, allocation, irBlock, irExpression->getIRType()->getRefValueIRType());
+    InstructionIRInjectorHelper::injectStore(rawValue, allocation, irBlock, irExpression->getIRRefType()->getRefValueIRType());
     return allocation;
 }

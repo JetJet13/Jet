@@ -4,7 +4,7 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type) {
+IRArrayExpressionNode::IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, std::shared_ptr<IRArrayPointerType> type) {
     _node = node;
     _irValue = irValue;
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
@@ -39,7 +39,11 @@ IRInstructionNode* IRArrayExpressionNode::getAggregatePointerAllocation() {
     return _arrayPointerSourceAllocation;
 }
 
-IRArrayPointerType* IRArrayExpressionNode::getIRType() {
+std::shared_ptr<IRArrayPointerType> IRArrayExpressionNode::getIRArrayPointerType() {
+    return _type;
+}
+
+std::shared_ptr<IRType> IRArrayExpressionNode::getIRType() {
     return _type;
 }
 

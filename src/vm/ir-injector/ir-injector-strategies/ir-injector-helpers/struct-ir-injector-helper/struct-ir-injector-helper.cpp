@@ -9,7 +9,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
-    auto irStructRefType = (IRStructRefType*)structRefAllocation->getIRType()->getUnderlyingType();
+    auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(structRefAllocation->getIRType()->getUnderlyingType());
     auto irStructType = irStructRefType->getStructIRType();
     auto destinationStructRefAllocation = IRInstructionNodeFactory::create(structRefAllocation);
     InstructionIRInjectorHelper::inject(destinationStructRefAllocation, irBlock);
@@ -44,7 +44,7 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
             InstructionIRInjectorHelper::injectStore(loadedNestedStruct, destinationPointer, irBlock, irTypeAtIndex);
         } else if (irTypeAtIndex->isPointerType()) {
             auto pointerAllocation = sourceStructAllocation->getChildAllocationForKey(irStructType->getKeyForIndex(i));
-            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, (IRPointerType*)irTypeAtIndex, pointerAllocation, irModule, irInjector);
+            auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, std::dynamic_pointer_cast<IRPointerType>(irTypeAtIndex), pointerAllocation, irModule, irInjector);
             InstructionIRInjectorHelper::injectStore(loadedPointer, destinationPointer, irBlock);
         } else {
             auto elementPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructType->getType(), sourceStructAllocation->getValue(), i);
@@ -60,13 +60,13 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
     return InstructionIRInjectorHelper::injectLoad(destinationStructRefAllocation->getAllocatedType(), destinationStructRefAllocation->getValue(), irBlock);
 }
 
-llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto destinationStructRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irStructRefType->getType());
     StructIRInjectorHelper::injectStructRefCopy(irBlock, irStructRefType, structRefSource, destinationStructRefAllocation, irModule, irInjector);
     return InstructionIRInjectorHelper::injectLoad(destinationStructRefAllocation->getAllocatedType(), destinationStructRefAllocation, irBlock, irStructRefType);
 }
 
-llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, IRStructRefType* irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto destinationStructAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
             irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getStructIRType()->getSizeInBytes()),
@@ -93,13 +93,13 @@ llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, I
                     }
             );
         } else if (irTypeAtIndex->isStructRefType()) {
-            auto structRefType = (IRStructRefType*)irTypeAtIndex;
+            auto structRefType = std::dynamic_pointer_cast<IRStructRefType>(irTypeAtIndex);
             auto loadedNestedStruct = StructIRInjectorHelper::injectStructRefCopy(irBlock, structRefType,
                                                                                   pointerToStructValue, irModule,
                                                                                   irInjector);
             InstructionIRInjectorHelper::injectStore(loadedNestedStruct, destinationPointer, irBlock, irTypeAtIndex);
         } else if (irTypeAtIndex->isPointerType()) {
-            auto pointerType = (IRPointerType*)irTypeAtIndex;
+            auto pointerType = std::dynamic_pointer_cast<IRPointerType>(irTypeAtIndex);
             auto loadedPointer = PointerIRInjectorHelper::injectPointerCopy(irBlock, pointerType, pointerToStructValue, irModule, irInjector);
             InstructionIRInjectorHelper::injectStore(loadedPointer, destinationPointer, irBlock, irTypeAtIndex);
         } else {

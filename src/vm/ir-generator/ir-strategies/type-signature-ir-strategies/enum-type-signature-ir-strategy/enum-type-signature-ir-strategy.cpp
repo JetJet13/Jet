@@ -4,15 +4,15 @@
 
 #include "enum-type-signature-ir-strategy.h"
 
-IRType* EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     return irGenerator->generateTypeFor(enumTypeSignature->getType(), scope, irContext);
 }
 
-IREnumType* EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IREnumType> EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
-    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (unsigned long i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
         auto enumPropertyType = irGenerator->generateTypeFor(enumValues[i]);
         enumPropertyTypes.push_back(enumPropertyType->getType());
@@ -22,7 +22,7 @@ IREnumType* EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignat
         keyTypeMap.insert(std::pair(enumKey, enumPropertyType));
     }
 
-    auto irType = new IREnumType(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
+    auto irType = std::make_shared<IREnumType>(llvm::StructType::get(**irContext->getContext(), enumPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
     irType->setId(enumTypeSignature->getId());
     return irType;
 }

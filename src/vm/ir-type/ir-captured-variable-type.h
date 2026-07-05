@@ -13,22 +13,22 @@ private:
     llvm::StructType* _type;
     unsigned int _variableIndex;
     unsigned int _captureCounterIndex;
-    IRType* _captureCounterIRType;
-    IRType* _variableIRType;
+    std::shared_ptr<IRType> _captureCounterIRType;
+    std::shared_ptr<IRType> _variableIRType;
 public:
-    explicit IRCapturedVariableType(llvm::StructType* type, IRType* captureCounterIRType, IRType* variableIRType);
+    explicit IRCapturedVariableType(llvm::StructType* type, std::shared_ptr<IRType> captureCounterIRType, std::shared_ptr<IRType> variableIRType);
     llvm::StructType* getType() override;
     [[nodiscard]] unsigned int getVariableIndex() const;
     [[nodiscard]] unsigned int getCaptureCounterIndex() const;
     llvm::PointerType* getVariableType();
     llvm::PointerType* getCaptureCounterType();
-    IRType* getCaptureCounterIRType();
-    IRType* getVariableIRType();
-    IRType* getUnderlyingType() override;
+    std::shared_ptr<IRType> getCaptureCounterIRType();
+    std::shared_ptr<IRType> getVariableIRType();
+    std::shared_ptr<IRType> getUnderlyingType() override;
     uint64_t getSizeInBytes() override;
     bool isCapturedVariableType() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
-    IRCapturedVariableType* clone() override;
+    std::shared_ptr<IRType> clone() override;
 };
 
 #endif //JETLANG_IR_CAPTURED_VARIABLE_TYPE_H

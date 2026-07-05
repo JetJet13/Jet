@@ -6,12 +6,12 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../types/ir-type-id.h"
 
-IRStructType* InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
 
     auto interfacePropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
-    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : interfaceTypeSignature->getKeyValuePairs()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
         auto index = interfaceTypeSignature->getKeyValuePairs()->findKeyIndex(keyValue.first);
@@ -20,13 +20,13 @@ IRStructType* InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<Interfa
         keyIdMap.insert(std::pair(index, keyValue.first));
         keyTypeMap.insert(std::pair(keyValue.first, irType));
     }
-    auto structType = new IRStructType(llvm::StructType::create(**irContext->getContext(), interfacePropertyTypes, interfaceTypeSignature->getId()), keyIndexMap, keyIdMap, keyTypeMap);
+    auto structType = std::make_shared<IRStructType>(llvm::StructType::create(**irContext->getContext(), interfacePropertyTypes, interfaceTypeSignature->getId()), keyIndexMap, keyIdMap, keyTypeMap);
     structType->setAlignmentAndSizeForIRTypes();
     structType->setValue(this->generateTypeValue(structType, irGenerator, irContext));
     return structType;
 }
 
-IRTypeValueInstructionNode* InterfaceTypeSignatureIRStrategy::generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* InterfaceTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

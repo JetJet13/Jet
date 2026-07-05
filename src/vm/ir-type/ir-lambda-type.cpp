@@ -5,7 +5,7 @@
 #include "ir-lambda-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRLambdaType::IRLambdaType(llvm::FunctionType* type, IRPointerType* irType, IRInvocableType* lambdaVariableType, IRInvocableParameterListType* parameterList, IRType* returnType, std::optional<IRStructType*> lambdaScopeType) : IRType(type) {
+IRLambdaType::IRLambdaType(llvm::FunctionType* type, std::shared_ptr<IRPointerType> irType, std::shared_ptr<IRInvocableType> lambdaVariableType, std::shared_ptr<IRInvocableParameterListType> parameterList, std::shared_ptr<IRType> returnType, std::optional<std::shared_ptr<IRStructType>> lambdaScopeType) : IRType(type) {
     _type = type;
     _irType = irType;
     _lambdaVariableType = lambdaVariableType;
@@ -22,11 +22,11 @@ bool IRLambdaType::isFunctionType() {
     return false;
 }
 
-std::optional<IRStructType*> IRLambdaType::getLambdaScopeType() {
+std::optional<std::shared_ptr<IRStructType>> IRLambdaType::getLambdaScopeType() {
     return _lambdaScopeType;
 }
 
-IRInvocableType* IRLambdaType::getLambdaVariableType() {
+std::shared_ptr<IRInvocableType> IRLambdaType::getLambdaVariableType() {
     return _lambdaVariableType;
 }
 
@@ -68,16 +68,16 @@ uint64_t IRLambdaType::getSizeInBytes() {
     return _lambdaVariableType->getSizeInBytes();
 }
 
-IRLambdaType* IRLambdaType::clone() {
-    auto irTypeClone = _irType->clone();
-    auto lambdaVariableTypeClone = _lambdaVariableType->clone();
+std::shared_ptr<IRType> IRLambdaType::clone() {
+    auto irTypeClone = std::dynamic_pointer_cast<IRPointerType>(_irType->clone());
+    auto lambdaVariableTypeClone = std::dynamic_pointer_cast<IRInvocableType>(_lambdaVariableType->clone());
     auto parameterListClone = _parameterList->clone();
     auto returnTypeClone = _returnType->clone();
-    std::optional<IRStructType*> lambdaScopeTypeClone = {};
+    std::optional<std::shared_ptr<IRStructType>> lambdaScopeTypeClone = {};
     if (_lambdaScopeType) {
-        lambdaScopeTypeClone = _lambdaScopeType.value()->clone();
+        lambdaScopeTypeClone = std::dynamic_pointer_cast<IRStructType>(_lambdaScopeType.value()->clone());
     }
-    auto clone = new IRLambdaType(_type, irTypeClone, lambdaVariableTypeClone, parameterListClone, returnTypeClone, lambdaScopeTypeClone);
+    auto clone = std::make_shared<IRLambdaType>(_type, irTypeClone, lambdaVariableTypeClone, parameterListClone, returnTypeClone, lambdaScopeTypeClone);
     this->initClone(clone);
     return clone;
 }

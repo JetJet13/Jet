@@ -16,7 +16,7 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::inject(IRArrayAccess
 }
 
 llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getIRType());
     auto pointerAtIndex = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irExpression, irModule, irInjector, scope);
     auto sourceAlloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);
     irBlock->getBuilder()->get()->CreateCall(
@@ -30,7 +30,7 @@ llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectCopy(IRArrayAc
 }
 
 llvm::Value* StringIRArrayAccessExpressionInjectorStrategy::injectOperand(IRArrayAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto arrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getIRType());
     auto pointerAtIndex = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irExpression, irModule, irInjector, scope);
     if (irOperation->isOperandPointer()) {
         return pointerAtIndex;

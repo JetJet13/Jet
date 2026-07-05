@@ -18,10 +18,10 @@ private:
     std::string _targetKey;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
-    IRType* _irType;
+    std::shared_ptr<IRType> _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation = {});
     void markAsGlobal() override;
     std::shared_ptr<ASTObjectAccessExpressionNode> getNode();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
@@ -30,11 +30,11 @@ public:
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();
     unsigned long getTargetKeyIndex();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
-    IRType* getTargetIRType();
+    std::shared_ptr<IRType> getTargetIRType();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

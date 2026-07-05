@@ -15,10 +15,10 @@ protected:
     llvm::StructType* _type;
     std::unordered_map<unsigned long, std::string> _keyIdMap;
     std::unordered_map<std::string, unsigned long> _keyIndexMap;
-    std::unordered_map<std::string, IRType*> _keyTypeMap;
+    std::unordered_map<std::string, std::shared_ptr<IRType>> _keyTypeMap;
 public:
     IRStructType();
-    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<unsigned long, std::string> keyIdMap, std::unordered_map<std::string, IRType*> keyTypeMap);
+    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<unsigned long, std::string> keyIdMap, std::unordered_map<std::string, std::shared_ptr<IRType>> keyTypeMap);
     llvm::StructType* getType() override;
     void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);
     void setAlignmentAndSizeForIRTypes();
@@ -30,11 +30,11 @@ public:
     std::string getKeyIdForIndex(unsigned long index);
     unsigned long getIndexForKey(std::string key);
     unsigned long getIndexForKey(unsigned long key);
-    IRType* getIRTypeForKey(std::string key);
-    IRType* getIRTypeByIndex(unsigned long index);
+    std::shared_ptr<IRType> getIRTypeForKey(std::string key);
+    std::shared_ptr<IRType> getIRTypeByIndex(unsigned long index);
     bool containsTypeThatRequiresFreeing() override;
     bool isStructType() override;
-    IRStructType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     virtual void print() override;
 };
 

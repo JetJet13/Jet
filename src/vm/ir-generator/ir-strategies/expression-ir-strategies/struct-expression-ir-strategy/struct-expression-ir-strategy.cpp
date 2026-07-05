@@ -32,7 +32,7 @@ IRStructExpressionNode* StructExpressionIRStrategy::generate(std::shared_ptr<AST
     );
 }
 
-IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStructType* irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext) {
+IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(std::shared_ptr<IRStructType> irType, std::unordered_map<std::string, IRInstructionNode*> structValueSourceAllocationMap, IRGenerator* irGenerator, IRContext* irContext) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -49,6 +49,6 @@ IRInstructionNode* StructExpressionIRStrategy::generateStructAllocation(IRStruct
     );
 }
 
-IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(std::shared_ptr<ASTStructExpressionNode> node, IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
+IRInstructionNode* StructExpressionIRStrategy::generateStructRefAllocation(std::shared_ptr<ASTStructExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

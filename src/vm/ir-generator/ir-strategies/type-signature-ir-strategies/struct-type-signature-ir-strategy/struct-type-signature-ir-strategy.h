@@ -12,9 +12,9 @@
 
 class StructTypeSignatureIRStrategy {
 public:
-    IRStructRefType* generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(IRStructType* irType, IRGenerator* irGenerator, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(IRStructRefType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRStructRefType> generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_STRUCT_TYPE_SIGNATURE_IR_STRATEGY_H

@@ -15,7 +15,7 @@ llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::inject(IRThisExpress
 }
 
 llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectCopy(IRThisExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irType = (IRStructRefType*)irExpression->getUnderlyingIRType();
+    auto irType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getUnderlyingIRType());
     auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
     auto typeValue = irInjector->inject(irBlock, irType, irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);

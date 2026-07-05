@@ -5,7 +5,7 @@
 #include "ir-type-value-instruction-node.h"
 #include "../ir-type/ir-pointer-type.h"
 
-IRTypeValueInstructionNode::IRTypeValueInstructionNode(llvm::AllocaInst* alloc, IRPointerType* irType, llvm::StoreInst* initialValueStoreInstruction) {
+IRTypeValueInstructionNode::IRTypeValueInstructionNode(llvm::AllocaInst* alloc, std::shared_ptr<IRPointerType> irType, llvm::StoreInst* initialValueStoreInstruction) {
     _alloc = alloc;
     _irType = irType;
     _initialValueStoreInstruction = initialValueStoreInstruction;
@@ -46,6 +46,6 @@ uint64_t IRTypeValueInstructionNode::getSizeInBytes() {
     return _irType->getSourceType()->getSizeInBytes();
 }
 
-IRPointerType* IRTypeValueInstructionNode::getIRType() {
+std::shared_ptr<IRPointerType> IRTypeValueInstructionNode::getIRType() {
     return _irType;
 }

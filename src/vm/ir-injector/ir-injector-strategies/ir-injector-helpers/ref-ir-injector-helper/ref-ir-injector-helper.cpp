@@ -5,13 +5,13 @@
 #include "ref-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void RefIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, IRType* irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
+void RefIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, std::shared_ptr<IRType> irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
     if (irOperation->isFunctionArgument()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementRefCountFunction(), { value });
     }
 }
 
-llvm::Value* RefIRInjectorHelper::injectForInvocationExpression(llvm::Value* value, IRRefType* irRefType, IRBlockNode* irBlock, IROperation* irOperation) {
+llvm::Value* RefIRInjectorHelper::injectForInvocationExpression(llvm::Value* value, std::shared_ptr<IRRefType> irRefType, IRBlockNode* irBlock, IROperation* irOperation) {
     // value is expected to be a ptr
     if (irOperation->isOperandPointer() && irOperation->isUnderlying()) {
         auto pointerToRefValue = irBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), value, irRefType->getRefValueIndex());

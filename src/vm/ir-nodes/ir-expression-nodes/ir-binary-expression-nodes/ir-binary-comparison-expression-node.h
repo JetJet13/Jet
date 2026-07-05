@@ -15,20 +15,20 @@ private:
     llvm::CmpInst* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
-    IRType* _type;
-    IRType* _leftIrType;
-    IRType* _rightIrType;
+    std::shared_ptr<IRType> _type;
+    std::shared_ptr<IRType> _leftIrType;
+    std::shared_ptr<IRType> _rightIrType;
 public:
-    IRBinaryComparisonExpressionNode(std::shared_ptr<ASTBinaryComparatorExpressionNode> astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type, IRType* leftIrType, IRType* rightIrType);
+    IRBinaryComparisonExpressionNode(std::shared_ptr<ASTBinaryComparatorExpressionNode> astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type, std::shared_ptr<IRType> leftIrType, std::shared_ptr<IRType> rightIrType);
     void markAsGlobal() override;
     llvm::CmpInst* getValue() override;
     bool isPredicateEqual();
     bool isPredicateNotEqual();
-    IRType* getLeftIrType();
-    IRType* getRightIrType();
+    std::shared_ptr<IRType> getLeftIrType();
+    std::shared_ptr<IRType> getRightIrType();
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

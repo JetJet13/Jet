@@ -8,7 +8,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* DrefIRInjectorHelper::inject(IRDrefExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irRefType = (IRRefType*)irExpression->getExpression()->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irExpression->getExpression()->getIRType()->getSourceType());
     auto refValue = irInjector->inject(irBlock, irExpression->getExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     if (irOperation->isOperandPointer()) {
         return refValue;

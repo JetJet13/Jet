@@ -9,7 +9,7 @@
 llvm::Value* PointerIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->getUnderlyingIRType()->isArrayPointerType() &&
             (irOperation->isCopy() || irOperation->isCopyGlobal())) {
-        auto irArrayPointerType = (IRArrayPointerType*)irExpression->getUnderlyingIRType();
+        auto irArrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getUnderlyingIRType());
         auto loadedUnderlyingPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock);
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irArrayPointerType->getType());
         auto typeValue = irInjector->inject(irBlock, irArrayPointerType, irModule);

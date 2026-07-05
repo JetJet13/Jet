@@ -4,7 +4,7 @@
 
 #include "ir-ref-type.h"
 
-IRRefType::IRRefType(llvm::StructType* type, IRType* refCounterIRType, IRType* refIRType) : IRType(type) {
+IRRefType::IRRefType(llvm::StructType* type, std::shared_ptr<IRType> refCounterIRType, std::shared_ptr<IRType> refIRType) : IRType(type) {
     _type = type;
     _refCounterIRType = refCounterIRType;
     _refIRType = refIRType;
@@ -33,15 +33,15 @@ llvm::PointerType* IRRefType::getRefCounterType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_refCounterIndex));
 }
 
-IRType* IRRefType::getRefCounterIRType() {
+std::shared_ptr<IRType> IRRefType::getRefCounterIRType() {
     return _refCounterIRType;
 }
 
-IRType* IRRefType::getRefValueIRType() {
+std::shared_ptr<IRType> IRRefType::getRefValueIRType() {
     return _refIRType;
 }
 
-IRType* IRRefType::getUnderlyingType() {
+std::shared_ptr<IRType> IRRefType::getUnderlyingType() {
     return this->getRefValueIRType();
 }
 
@@ -63,10 +63,10 @@ bool IRRefType::containsTypeThatRequiresFreeing() {
     return true;
 }
 
-IRRefType* IRRefType::clone() {
+std::shared_ptr<IRType> IRRefType::clone() {
     auto refIRTypeClone = _refIRType->clone();
     auto refCounterIRTypeClone = _refCounterIRType->clone();
-    auto clone = new IRRefType(_type, refCounterIRTypeClone, refIRTypeClone);
+    auto clone = std::make_shared<IRRefType>(_type, refCounterIRTypeClone, refIRTypeClone);
     this->initClone(clone);
     return clone;
 }

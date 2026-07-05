@@ -40,7 +40,7 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::inject(IRRefExpressionNode* irE
     return irBlock->getBuilder()->get()->CreateLoad(irExpression->getIRType()->getType(), allocation);
 }
 
-llvm::Value* RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, IRType* irType, IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, IROperation* irOperation) {
+llvm::Value* RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocation, llvm::Value* value, llvm::Value* valueArc, std::shared_ptr<IRType> irType, IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, IROperation* irOperation) {
         auto sizeInBytes = irBlock->getBuilder()->get()->getInt64(irType->getSourceType()->getSizeInBytes());
         auto malloc = irBlock->getBuilder()->get()->CreateCall(
             irModule->getMallocFunction(),

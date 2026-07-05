@@ -7,14 +7,14 @@
 IRFloatLiteralNode::IRFloatLiteralNode(std::shared_ptr<ASTFloatLiteralNode> astNode, llvm::Constant* irValue) {
     _astNode = astNode;
     _irValue = irValue;
-    _type = new IRType(_irValue->getType());
+    _type = std::make_shared<IRType>(_irValue->getType());
 }
 
 llvm::Constant* IRFloatLiteralNode::getConstantIRValue() {
     return _irValue;
 }
 
-IRType* IRFloatLiteralNode::getIRType() {
+std::shared_ptr<IRType> IRFloatLiteralNode::getIRType() {
     return _type;
 }
 

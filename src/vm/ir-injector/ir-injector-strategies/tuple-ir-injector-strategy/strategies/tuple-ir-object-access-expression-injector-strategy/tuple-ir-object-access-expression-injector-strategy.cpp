@@ -20,7 +20,7 @@ llvm::Value* TupleIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectA
     auto pointerToTarget = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, sourceAllocation);
     return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType*)irExpression->getIRType()->getSourceType(),
+            std::dynamic_pointer_cast<IRStructRefType>(irExpression->getIRType()->getSourceType()),
             pointerToTarget,
             irModule,
             irInjector

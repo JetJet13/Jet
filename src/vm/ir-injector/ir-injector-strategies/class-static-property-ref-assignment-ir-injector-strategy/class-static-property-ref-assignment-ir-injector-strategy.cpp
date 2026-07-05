@@ -25,7 +25,7 @@ void ClassStaticPropertyRefAssignmentIRInjectorStrategy::inject(IRClassStaticPro
             }
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
-    auto irRefType = (IRRefType*)irClassStaticPropertyRefAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode()->getIRType()->getSourceType();
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irClassStaticPropertyRefAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode()->getIRType()->getSourceType());
     auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
     auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(

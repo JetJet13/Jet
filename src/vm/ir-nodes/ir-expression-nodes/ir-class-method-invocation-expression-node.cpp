@@ -5,7 +5,7 @@
 #include "ir-class-method-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRInstructionNode* classScopeArgument) {
+IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRInstructionNode* classScopeArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -38,11 +38,11 @@ llvm::Value* IRClassMethodInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 
-IRType* IRClassMethodInvocationExpressionNode::getFunctionIRType() {
+std::shared_ptr<IRType> IRClassMethodInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
 }
 
-IRType* IRClassMethodInvocationExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRClassMethodInvocationExpressionNode::getIRType() {
     return _type;
 }
 

@@ -7,7 +7,7 @@
 IRCustomTypeDeclarationNode* CustomTypeDeclarationIRStrategy::generate(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irType->isStructType()) {
-        auto structType = (IRStructType*)irType;
+        auto structType = std::dynamic_pointer_cast<IRStructType>(irType);
         structType->makeGlobal(node->getId(), irContext->getContext());
     }
     scope->insert(node->getId(), irType);

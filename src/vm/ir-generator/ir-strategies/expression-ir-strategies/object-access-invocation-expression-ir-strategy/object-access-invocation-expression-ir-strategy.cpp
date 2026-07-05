@@ -83,7 +83,7 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(std::shar
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
-        auto classInstanceType = (IRClassInstanceType*)sourceType;
+        auto classInstanceType = std::dynamic_pointer_cast<IRClassInstanceType>(sourceType);
         auto irFunctionType = classInstanceType->getIRTypeForMethod(node->getName()).value();
         auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(node->getName()));
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction, argList);
@@ -91,7 +91,7 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(std::shar
     }
 
     if (sourceType->isClassType()) {
-        auto irClassType = (IRClassType*)sourceType;
+        auto irClassType = std::dynamic_pointer_cast<IRClassType>(sourceType);
         auto functionName = irClassType->getIRMethodName(node->getName());
         auto irFunctionType = irClassType->getIRTypeForStaticMethod(functionName).value();
         auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(node->getName())), irGenerator->generateIrPointerType(irFunctionType));
@@ -99,9 +99,9 @@ IRExpressionNode* ObjectAccessInvocationExpressionIRStrategy::generate(std::shar
         return new IRClassStaticMethodInvocationExpressionNode(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
     }
 
-    auto irStructRefType = (IRStructRefType*)sourceType;
+    auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(sourceType);
     auto targetIndex = irStructRefType->getStructIRType()->getIndexForKey(node->getName());
-    auto irInvocableType = (IRInvocableType*)irStructRefType->getStructIRType()->getIRTypeForKey(node->getName());
+    auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irStructRefType->getStructIRType()->getIRTypeForKey(node->getName()));
     auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), sourceValue->getValue(), argList);
     return new IRObjectAccessInvocationExpressionNode(node, sourceValue, callInstruction, irInvocableType, targetIndex, arguments, irReturnType);
 }

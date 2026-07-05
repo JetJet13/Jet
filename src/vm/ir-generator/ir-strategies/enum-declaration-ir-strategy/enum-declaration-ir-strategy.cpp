@@ -13,7 +13,7 @@ IREnumDeclarationNode* EnumDeclarationIRStrategy::generate(std::shared_ptr<ASTEn
         for (unsigned long i = 0; i < node->getValues()->numParameters(); ++i) {
             auto keyValuePair = node->getValues()->getParameters()[i];
             auto enumValue = irGenerator->generateFor(keyValuePair->getValue().value(), scope, irContext);
-            auto stringType = (IRArrayType*)enumValue->getIRType();
+            auto stringType = std::dynamic_pointer_cast<IRArrayType>(enumValue->getIRType());
             auto stringValue = enumValue->getConstantIRValue();
             auto stringGlobalVariable = new llvm::GlobalVariable(
                     *irContext->getModule(),

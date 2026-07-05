@@ -15,7 +15,7 @@ public:
     IRFunctionType(llvm::FunctionType* type, bool requiresScopeArgument = false);
     bool requiresScopeArgument();
     llvm::FunctionType* getType() override;
-    IRFunctionType* clone() override;
+    std::shared_ptr<IRType> clone() override;
 };
 
 #endif //JETLANG_IR_FUNCTION_TYPE_H

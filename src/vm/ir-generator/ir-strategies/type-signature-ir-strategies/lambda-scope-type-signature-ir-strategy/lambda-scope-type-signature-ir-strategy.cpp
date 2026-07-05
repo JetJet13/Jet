@@ -6,11 +6,11 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
-    auto keyTypeMap = std::unordered_map<std::string, IRType*>();
+    auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     auto capturedVariableIds = lambdaScopeTypeSignature->getCapturedVariableIds();
     int i = 0;
     for (auto capturedVariableId : *capturedVariableIds) {
@@ -23,12 +23,12 @@ IRStructType* LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<Lambd
         keyTypeMap.insert(std::pair(capturedVariableId, irCapturedVariableType));
         i++;
     }
-    auto structType = new IRStructType(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
+    auto structType = std::make_shared<IRStructType>(llvm::StructType::get(**irContext->getContext(), structPropertyTypes), keyIndexMap, keyIdMap, keyTypeMap);
     structType->setValue(irGenerator->generateIRTypeValueFor(structType, irContext));
     return structType;
 }
 
-IRTypeValueInstructionNode* LambdaScopeTypeSignatureIRStrategy::generateTypeValue(IRCapturedVariableType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* LambdaScopeTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

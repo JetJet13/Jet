@@ -185,7 +185,7 @@ void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_p
     _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule);
 }
 
-llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRType* irType, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* IRInjector::inject(IRBlockNode* irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule) {
     return _typeValueIRInjectorStrategy->inject(irType, irBlock, this, irModule);
 }
 

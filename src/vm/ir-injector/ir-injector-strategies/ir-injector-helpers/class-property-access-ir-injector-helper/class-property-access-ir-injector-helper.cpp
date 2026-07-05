@@ -6,7 +6,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(IRClassPropertyAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation) {
-    auto irStructRefType = (IRStructRefType*)irExpression->getSource()->getIRType()->getSourceType()->getSourceType();
+    auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getIRType()->getSourceType()->getSourceType());
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getSource()->getAllocatedType(), irExpression->getValue(), irBlock);
     auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), loadedPointer, irStructRefType->getStructIndex());
     auto loadedStructAlloc = InstructionIRInjectorHelper::injectLoad(irExpression->getSource()->getAllocatedType(), pointerToStructAlloc, irBlock);

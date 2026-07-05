@@ -11,10 +11,10 @@
 
 class LiteralTypeSignatureIRStrategy {
 private:
-    llvm::Value* generateInitialTypeValue(IRType* irType, IRTypeValueType* irTypeValueType, IRGenerator* irGenerator, IRContext* irContext);
+    llvm::Value* generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    IRType* generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(IRType* irType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRType> generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_IR_STRATEGY_H

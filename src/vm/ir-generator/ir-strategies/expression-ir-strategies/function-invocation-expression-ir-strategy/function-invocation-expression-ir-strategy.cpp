@@ -40,14 +40,14 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
     auto irReturnType = irGenerator->generateTypeFor(node->getInvocationTypeSignature()->getReturnType(), scope, irContext);
 
     if (irType->isInvocableType()) {
-        auto irInvocableType = (IRInvocableType*)irType;
+        auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irType);
         auto source = scope->findAcrossScopes(node->getFunction()->getModuleId(), node->getFunction()->getId()).value();
         auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
         return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
-        auto irFunctionType = (IRFunctionType*)irType;
+        auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irType);
         auto irParameterList = irGenerator->generateIRTypes(node->getInvocationTypeSignature()->getFunctionType()->getParameterTypes(), scope, irContext);
 
         auto irFunctionName = node->getFunction()->getTypeSignature()->isDebug()
@@ -72,7 +72,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
         return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
-    auto irFunctionType = (IRFunctionType*)irType;
+    auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irType);
     auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getModuleId(), node->getFunction()->getId(), std::dynamic_pointer_cast<InvocableTypeSignature>(node->getFunction()->getTypeSignature()));
     auto function = irContext->getModule()->getFunction(irFunctionId);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));

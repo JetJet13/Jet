@@ -44,7 +44,7 @@ llvm::Value* InstructionIRInjectorHelper::injectLoad(IRInstructionNode* irInstru
     return loadedValue;
 }
 
-llvm::Value* InstructionIRInjectorHelper::injectLoad(IRPointerType* irPointerType, llvm::Value* sourcePointer, IRBlockNode* irBlock, std::string name) {
+llvm::Value* InstructionIRInjectorHelper::injectLoad(std::shared_ptr<IRPointerType> irPointerType, llvm::Value* sourcePointer, IRBlockNode* irBlock, std::string name) {
     auto loadedPointer = irBlock->getBuilder()->get()->CreateLoad(irPointerType->getType(), sourcePointer);
     auto loadedValue = irBlock->getBuilder()->get()->CreateLoad(
             irPointerType->getSourceType()->getType(),
@@ -55,7 +55,7 @@ llvm::Value* InstructionIRInjectorHelper::injectLoad(IRPointerType* irPointerTyp
     return loadedValue;
 }
 
-llvm::LoadInst* InstructionIRInjectorHelper::injectLoad(llvm::Type* type, llvm::Value* source, IRBlockNode* irBlock, std::optional<IRType*> irType, std::string name) {
+llvm::LoadInst* InstructionIRInjectorHelper::injectLoad(llvm::Type* type, llvm::Value* source, IRBlockNode* irBlock, std::optional<std::shared_ptr<IRType>> irType, std::string name) {
     auto loadInstruction = irBlock->getBuilder()->get()->CreateLoad(type, source, name);
     if (irType && irType.value()->isPointerType()) {
         loadInstruction->setAlignment(irType.value()->getSourceType()->getAlignment());
@@ -65,7 +65,7 @@ llvm::LoadInst* InstructionIRInjectorHelper::injectLoad(llvm::Type* type, llvm::
     return loadInstruction;
 }
 
-llvm::StoreInst* InstructionIRInjectorHelper::injectStore(llvm::Value* value, llvm::Value* source, IRBlockNode* irBlock, std::optional<IRType*> irType) {
+llvm::StoreInst* InstructionIRInjectorHelper::injectStore(llvm::Value* value, llvm::Value* source, IRBlockNode* irBlock, std::optional<std::shared_ptr<IRType>> irType) {
     auto storeInstruction = irBlock->getBuilder()->get()->CreateStore(value, source);
     if (irType && irType.value()->isPointerType()) {
         storeInstruction->setAlignment(irType.value()->getSourceType()->getAlignment());

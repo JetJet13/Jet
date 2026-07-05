@@ -428,7 +428,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto irPointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();
-    auto intIrType = new IRType(intType);
+    auto intIrType = std::make_shared<IRType>(intType);
     auto charType = irGenerator->generateCharType();
     auto floatType = irGenerator->generateFloatType();
     auto boolType = irGenerator->generateBooleanType();
@@ -749,7 +749,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
 }
 
 void PrintIRFunction::generatePrintStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
-    auto charType = new IRType(irGenerator->generateCharType());
+    auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
@@ -913,7 +913,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
-    auto charType = new IRType(irGenerator->generateCharType());
+    auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
@@ -1135,7 +1135,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
-    auto charType = new IRType(irGenerator->generateCharType());
+    auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));

@@ -7,7 +7,7 @@
 
 IRClassPropertyAccessExpressionNode* ClassPropertyAccessExpressionIRStrategy::generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto classScope = scope->getClassScope().value();
-    auto sourceType = (IRStructRefType*)classScope->getIRType()->getUnderlyingType();
+    auto sourceType = std::dynamic_pointer_cast<IRStructRefType>(classScope->getIRType()->getUnderlyingType());
     auto targetKey = node->getPropertyName();
     auto targetIndex = sourceType->getStructIRType()->getIndexForKey(targetKey);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);

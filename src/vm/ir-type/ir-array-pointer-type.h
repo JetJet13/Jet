@@ -14,23 +14,23 @@ private:
     unsigned int _numElementsIndex;
     unsigned int _depthIndex;
     unsigned int _allocIndex;
-    IRType* _arrayElementType;
+    std::shared_ptr<IRType> _arrayElementType;
 public:
-    explicit IRArrayPointerType(llvm::StructType* type, IRType* arrayElementType);
+    explicit IRArrayPointerType(llvm::StructType* type, std::shared_ptr<IRType> arrayElementType);
     llvm::StructType* getType() override;
     [[nodiscard]] unsigned int getNumElementsIndex() const;
     [[nodiscard]] unsigned int getDepthIndex() const;
     [[nodiscard]] unsigned int getAllocIndex() const;
     llvm::Type* getNumElementsType();
     llvm::PointerType* getAllocType();
-    IRType* getElementIRType();
+    std::shared_ptr<IRType> getElementIRType();
     llvm::Type* getElementType();
     unsigned long getDepth();
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;
     bool isArrayPointerType() override;
-    IRArrayPointerType* clone() override;
+    std::shared_ptr<IRType> clone() override;
     void print() override;
 };
 

@@ -6,7 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-type/ir-struct-ref-type.h"
 
-IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, IRType* irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irTargetKeyIndex = irTargetKeyIndex;
@@ -40,7 +40,7 @@ unsigned long IRTupleAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
 }
 
-IRType* IRTupleAccessExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRTupleAccessExpressionNode::getIRType() {
     return _irType;
 }
 
@@ -56,8 +56,8 @@ Position* IRTupleAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-IRType* IRTupleAccessExpressionNode::getTargetIRType() {
-    return ((IRStructRefType*)_irSource->getUnderlyingIRType())->getStructIRType()->getIRTypeByIndex(_targetKeyIndex);
+std::shared_ptr<IRType> IRTupleAccessExpressionNode::getTargetIRType() {
+    return std::dynamic_pointer_cast<IRStructRefType>(_irSource->getUnderlyingIRType())->getStructIRType()->getIRTypeByIndex(_targetKeyIndex);
 }
 
 llvm::Value* IRTupleAccessExpressionNode::getValue() {

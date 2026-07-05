@@ -21,7 +21,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRExpressionNode* irExpr
 }
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irStructRefType = irExpression->getIRType()->getIRClassPropertiesType();
+    auto irStructRefType = irExpression->getIRClassInstanceType()->getIRClassPropertiesType();
     auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation(), irBlock);
     auto classInstancePropertiesAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation()->getParentAllocation().value(), irBlock);
     auto pointerToClassInstancePropertiesPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getStructIndex());
@@ -30,7 +30,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
     auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
     InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
 
-    auto preConstructorFunction = irModule->getModule()->get()->getFunction(irExpression->getIRType()->getIRClassType()->getPreConstructorName());
+    auto preConstructorFunction = irModule->getModule()->get()->getFunction(irExpression->getIRClassInstanceType()->getIRClassType()->getPreConstructorName());
     irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
 
     auto arguments = std::vector<llvm::Value*>();
@@ -58,7 +58,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRNewClassInstanceExpres
 
 llvm::Value* NewClassInstanceIRInjectorStrategy::inject(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isCopy()) {
-        auto irType = (IRNewClassInstanceType*)irExpression->getIRType()->getSourceType();
+        auto irType = std::dynamic_pointer_cast<IRNewClassInstanceType>(irExpression->getIRType()->getSourceType());
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
         auto typeValue = irInjector->inject(irBlock, irType, irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getValue()->getAllocatedType(), typeValue, irBlock);

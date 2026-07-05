@@ -5,7 +5,7 @@
 #include "ir-tuple-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type) {
+IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type) {
     _node = node;
     _source = source;
     _irCallInstruction = irCallInstruction;
@@ -34,7 +34,7 @@ llvm::CallInst* IRTupleAccessInvocationExpressionNode::getValue() {
     return _irCallInstruction;
 }
 
-IRType* IRTupleAccessInvocationExpressionNode::getFunctionIRType() {
+std::shared_ptr<IRType> IRTupleAccessInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
 }
 
@@ -42,7 +42,7 @@ int64_t IRTupleAccessInvocationExpressionNode::getTargetIndex() {
     return _targetIndex;
 }
 
-IRType* IRTupleAccessInvocationExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRTupleAccessInvocationExpressionNode::getIRType() {
     return _type;
 }
 

@@ -5,7 +5,7 @@
 #include "ir-array-pointer-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRArrayPointerType::IRArrayPointerType(llvm::StructType* type, IRType* arrayElementType) : IRType(type) {
+IRArrayPointerType::IRArrayPointerType(llvm::StructType* type, std::shared_ptr<IRType> arrayElementType) : IRType(type) {
     _type = type;
     _arrayElementType = arrayElementType;
     _numElementsIndex = 0;
@@ -37,7 +37,7 @@ llvm::PointerType* IRArrayPointerType::getAllocType() {
     return llvm::cast<llvm::PointerType>(_type->getStructElementType(2));
 }
 
-IRType* IRArrayPointerType::getElementIRType() {
+std::shared_ptr<IRType> IRArrayPointerType::getElementIRType() {
     return _arrayElementType;
 }
 
@@ -50,7 +50,7 @@ unsigned long IRArrayPointerType::getDepth() {
     auto irType = _arrayElementType;
     while (irType->isArrayPointerType()) {
         depth++;
-        auto arrayPointerType = (IRArrayPointerType*)irType;
+        auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irType);
         irType = arrayPointerType->getElementIRType();
     }
     return depth;
@@ -76,9 +76,9 @@ bool IRArrayPointerType::isArrayPointerType() {
     return true;
 }
 
-IRArrayPointerType* IRArrayPointerType::clone() {
+std::shared_ptr<IRType> IRArrayPointerType::clone() {
     auto elementClone = _arrayElementType->clone();
-    auto clone = new IRArrayPointerType(_type, elementClone);
+    auto clone = std::make_shared<IRArrayPointerType>(_type, elementClone);
     this->initClone(clone);
     return clone;
 }

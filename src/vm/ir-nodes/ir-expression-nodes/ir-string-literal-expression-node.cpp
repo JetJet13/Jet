@@ -4,7 +4,7 @@
 
 #include "ir-string-literal-expression-node.h"
 
-IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRStringLiteralNode* irValue, IRArrayPointerType* irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation) {
+IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRStringLiteralNode* irValue, std::shared_ptr<IRArrayPointerType> irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation) {
     _node = node;
     _irValue = irValue;
     _irArrayPointerType = irArrayPointerType;
@@ -12,7 +12,11 @@ IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(std::shared_ptr<AST
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
 }
 
-IRArrayPointerType* IRStringLiteralExpressionNode::getIRType() {
+std::shared_ptr<IRArrayPointerType> IRStringLiteralExpressionNode::getIRArrayPointerType() {
+    return _irArrayPointerType;
+}
+
+std::shared_ptr<IRType> IRStringLiteralExpressionNode::getIRType() {
     return _irArrayPointerType;
 }
 

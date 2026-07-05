@@ -6,14 +6,14 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRArrayPointerType* ArrayTypeSignatureIRStrategy::generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRArrayPointerType> ArrayTypeSignatureIRStrategy::generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
     auto irArrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
     irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));
     return irArrayPointerType;
 }
 
-IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(IRArrayPointerType* irType, IRGenerator* irGenerator, IRContext* irContext) {
+IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRArrayPointerType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

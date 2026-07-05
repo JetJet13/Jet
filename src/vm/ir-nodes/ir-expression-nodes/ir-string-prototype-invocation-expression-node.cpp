@@ -5,7 +5,7 @@
 #include "ir-string-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRStringPrototypeInvocationExpressionNode::IRStringPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, IRType* irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, IRExpressionNode* irString) {
+IRStringPrototypeInvocationExpressionNode::IRStringPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRExpressionNode* irString) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -39,11 +39,11 @@ llvm::Value* IRStringPrototypeInvocationExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 
-IRType* IRStringPrototypeInvocationExpressionNode::getFunctionIRType() {
+std::shared_ptr<IRType> IRStringPrototypeInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
 }
 
-IRType* IRStringPrototypeInvocationExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRStringPrototypeInvocationExpressionNode::getIRType() {
     return _type;
 }
 

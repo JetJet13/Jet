@@ -12,13 +12,13 @@ llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(IRArrayExpressionNod
     for (unsigned long i = 0; i < numElements; ++i) {
         auto elementExpression = irExpression->getValues()->at(i);
         auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
-        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRType()->getElementType(),
+        auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRArrayPointerType()->getElementType(),
                                                                        irExpression->getSourceAggregateAllocation()->getValue(), { irIndex });
         auto irExpressionValue = irInjector->inject(irBlock, elementExpression, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, elementExpression->getIRType());
     }
 
-    auto loadedArray = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRType(), numElements,
+    auto loadedArray = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRArrayPointerType(), numElements,
                                                      irExpression->getSourceAggregateAllocation(),
                                                      irExpression->getAggregatePointerAllocation())->getValue();
     if (irOperation->isOperandPointer()) {

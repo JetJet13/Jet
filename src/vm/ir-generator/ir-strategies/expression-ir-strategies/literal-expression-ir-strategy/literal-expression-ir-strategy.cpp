@@ -12,7 +12,7 @@ IRExpressionNode* LiteralExpressionIRStrategy::generate(std::shared_ptr<ASTLiter
         auto stringLiteral = (IRStringLiteralNode*)irLiteralNode;
         auto arrayAllocation = this->generateArrayAllocation(stringLiteral, irGenerator, irContext, irOperation);
         auto arrayPointerAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType), arrayAllocation);
-        return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, (IRArrayPointerType*)irType, arrayAllocation, arrayPointerAllocation);
+        return new IRStringLiteralExpressionNode(node, (IRStringLiteralNode*)irLiteralNode, std::dynamic_pointer_cast<IRArrayPointerType>(irType), arrayAllocation, arrayPointerAllocation);
     }
     return new IRLiteralExpressionNode(node, irLiteralNode, irType);
 }
@@ -21,8 +21,8 @@ IRInstructionNode* LiteralExpressionIRStrategy::generateArrayAllocation(IRString
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
-                irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getSize()),
-                irGenerator->generateInt64Constant(irStringLiteralNode->getIRType()->getElementIRType()->getSizeInBytes())
+                irGenerator->generateInt64Constant(irStringLiteralNode->getIRArrayType()->getSize()),
+                irGenerator->generateInt64Constant(irStringLiteralNode->getIRArrayType()->getElementIRType()->getSizeInBytes())
             },
             ""
     );

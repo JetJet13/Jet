@@ -22,18 +22,18 @@ class IRInjector;
 
 class TypeValueIRInjectorStrategy {
 private:
-    llvm::Value* inject(IRArrayPointerType* irArrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRStructType* irStructType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRPointerType* irPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRRefType* irRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRCapturedVariableType* irCapturedVariableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRStructRefType* irStructRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRInvocableType* irInvocableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRLambdaType* irLambdaType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRClassInstanceType* irClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRNewClassInstanceType* irNewClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRArrayPointerType> irArrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRStructType> irStructType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRPointerType> irPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRRefType> irRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRCapturedVariableType> irCapturedVariableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRStructRefType> irStructRefType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRInvocableType> irInvocableType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRLambdaType> irLambdaType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRClassInstanceType> irClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 public:
-    llvm::Value* inject(IRType* irType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRType> irType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 };
 
 #endif //JETLANG_TYPE_VALUE_IR_INJECTOR_STRATEGY_H

@@ -20,16 +20,17 @@ private:
     IRInstructionNode* _irValue;
     IRInstructionNode* _irArc;
     std::vector<IRExpressionNode*> _irValues;
-    IRStructRefType* _type;
+    std::shared_ptr<IRStructRefType> _type;
 public:
-    IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     unsigned long size();
     IRInstructionNode* getIRValue();
     std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getArc() override;
-    IRStructRefType* getIRType() override;
+    std::shared_ptr<IRStructRefType> getIRStructRefType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

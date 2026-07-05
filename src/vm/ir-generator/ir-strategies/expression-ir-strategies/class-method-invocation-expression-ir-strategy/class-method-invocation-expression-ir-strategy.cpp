@@ -20,7 +20,7 @@ IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy
         );
     }
 
-    auto irFunctionType = (IRFunctionType*)irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext);
+    auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext));
     auto irReturnType = irGenerator->generateTypeFor(node->getName()->getMethodTypeSignature()->getReturnType(), scope, irContext);
     auto function = irContext->getModule()->getFunction(node->getName()->getId());
     auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);

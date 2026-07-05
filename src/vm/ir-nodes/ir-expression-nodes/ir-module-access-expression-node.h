@@ -15,13 +15,13 @@ class IRModuleAccessExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTModuleAccessExpressionNode> _node;
     llvm::Value* _irValue;
-    IRType* _irType;
+    std::shared_ptr<IRType> _irType;
     std::optional<IRInstructionNode*> _sourceAllocation;
 public:
-    IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, IRType* irType);
+    IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, std::shared_ptr<IRType> irType);
     void markAsGlobal() override;
     std::shared_ptr<ASTModuleAccessExpressionNode> getNode();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

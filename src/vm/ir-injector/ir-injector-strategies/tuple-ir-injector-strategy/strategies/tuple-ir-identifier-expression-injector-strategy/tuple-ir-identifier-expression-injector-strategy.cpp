@@ -20,7 +20,7 @@ llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::inject(IRIdentifierExp
 llvm::Value* TupleIRIdentifierExpressionInjectorStrategy::injectCopy(IRIdentifierExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     return StructIRInjectorHelper::injectStructRefCopy(
             irBlock,
-            (IRStructRefType *) irExpression->getUnderlyingIRType(),
+            std::dynamic_pointer_cast<IRStructRefType>(irExpression->getUnderlyingIRType()),
             irExpression->getValue(),
             irModule,
             irInjector

@@ -16,16 +16,16 @@ private:
     llvm::BinaryOperator* _irValue;
     IRExpressionNode* _irLeftNode;
     IRExpressionNode* _irRightNode;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
 public:
-    IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, IRType* type);
+    IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type);
     std::vector<IRExpressionNode*> getListOfOperands();
     std::vector<IRBinaryOperatorNode*> getListOfOperations();
     void markAsGlobal() override;
     llvm::BinaryOperator* getValue() override;
     IRExpressionNode* getLeftNode();
     IRExpressionNode* getRightNode();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

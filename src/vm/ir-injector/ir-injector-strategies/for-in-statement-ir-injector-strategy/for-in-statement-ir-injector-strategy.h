@@ -13,7 +13,7 @@
 
 class ForInStatementIRInjectorStrategy {
 private:
-    llvm::Value* getSourceValue(IRForInStatementNode* irForInStatement, IRArrayPointerType* arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* getSourceValue(IRForInStatementNode* irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 public:
     void inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };

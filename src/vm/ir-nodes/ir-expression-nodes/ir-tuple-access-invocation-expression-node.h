@@ -19,18 +19,18 @@ private:
     llvm::CallInst* _irCallInstruction;
     IRExpressionNode* _source;
     int64_t _targetIndex;
-    IRType* _irFunctionType;
+    std::shared_ptr<IRType> _irFunctionType;
     std::vector<IRFunctionArgumentNode*> _arguments;
-    IRType* _type;
+    std::shared_ptr<IRType> _type;
 public:
-    IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type);
+    IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type);
     void markAsGlobal() override;
     IRExpressionNode* getSource();
     std::vector<IRFunctionArgumentNode*>* getIRArguments();
     llvm::CallInst* getValue() override;
-    IRType* getFunctionIRType();
+    std::shared_ptr<IRType> getFunctionIRType();
     int64_t getTargetIndex();
-    IRType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

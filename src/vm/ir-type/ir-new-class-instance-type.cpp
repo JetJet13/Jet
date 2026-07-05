@@ -5,7 +5,7 @@
 #include "ir-new-class-instance-type.h"
 #include "../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceType::IRNewClassInstanceType(IRClassType* irClassType, std::string constructorId, IRStructRefType* irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
+IRNewClassInstanceType::IRNewClassInstanceType(std::shared_ptr<IRClassType> irClassType, std::string constructorId, std::shared_ptr<IRStructRefType> irClassInstancePropertiesType) : IRType(irClassInstancePropertiesType->getType()) {
     _id = irClassType->getId();
     _irClassInstancePropertiesType = irClassInstancePropertiesType;
     _irClassType = irClassType;
@@ -13,15 +13,15 @@ IRNewClassInstanceType::IRNewClassInstanceType(IRClassType* irClassType, std::st
     _value = irClassInstancePropertiesType->getValue();
 }
 
-IRStructRefType* IRNewClassInstanceType::getIRClassPropertiesType() {
+std::shared_ptr<IRStructRefType> IRNewClassInstanceType::getIRClassPropertiesType() {
     return _irClassInstancePropertiesType;
 }
 
-IRClassType* IRNewClassInstanceType::getIRClassType() {
+std::shared_ptr<IRClassType> IRNewClassInstanceType::getIRClassType() {
     return _irClassType;
 }
 
-IRFunctionType* IRNewClassInstanceType::getIRConstructorType() {
+std::shared_ptr<IRFunctionType> IRNewClassInstanceType::getIRConstructorType() {
     return _irClassType->getIRTypeForConstructor(_constructorId).value();
 }
 
@@ -37,11 +37,11 @@ unsigned long IRNewClassInstanceType::getIndexForProperty(std::string propertyNa
     return _irClassInstancePropertiesType->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 
-IRType* IRNewClassInstanceType::getIRTypeForProperty(std::string propertyName) {
+std::shared_ptr<IRType> IRNewClassInstanceType::getIRTypeForProperty(std::string propertyName) {
     return _irClassInstancePropertiesType->getStructIRType()->getIRTypeForKey(this->getIRPropertyName(propertyName));
 }
 
-std::optional<IRFunctionType*> IRNewClassInstanceType::getIRTypeForMethod(std::string methodName) {
+std::optional<std::shared_ptr<IRFunctionType>> IRNewClassInstanceType::getIRTypeForMethod(std::string methodName) {
     return _irClassType->getIRTypeForMethod(this->getIRMethodName(methodName));
 }
 
@@ -68,9 +68,9 @@ llvm::Align IRNewClassInstanceType::getAlignment() {
     return _irClassType->getAlignment();
 }
 
-IRNewClassInstanceType* IRNewClassInstanceType::clone() {
-    auto classPropertiesClone = _irClassInstancePropertiesType->clone();
-    auto clone = new IRNewClassInstanceType(_irClassType, _constructorId, classPropertiesClone);
+std::shared_ptr<IRType> IRNewClassInstanceType::clone() {
+    auto classPropertiesClone = std::dynamic_pointer_cast<IRStructRefType>(_irClassInstancePropertiesType->clone());
+    auto clone = std::make_shared<IRNewClassInstanceType>(_irClassType, _constructorId, classPropertiesClone);
     this->initClone(clone);
     return clone;
 }

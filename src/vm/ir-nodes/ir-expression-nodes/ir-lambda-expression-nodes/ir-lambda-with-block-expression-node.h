@@ -19,18 +19,18 @@ private:
     llvm::Function* _irFunction;
     IRFunctionParameterListNode* _irParameterList;
     IRBlockNode* _irBlock;
-    IRLambdaType* _type;
+    std::shared_ptr<IRLambdaType> _type;
     llvm::Function* _irCleanupFunction;
     IRInstructionNode* _irValue;
 public:
-    IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRLambdaType* type, llvm::Function* irCleanupFunction);
+    IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction);
     IRInstructionNode* getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;
     IRFunctionParameterListNode* getParameters() override;
     IRBlockNode* getBlock() override;
     llvm::Value* getValue() override;
-    IRLambdaType* getIRType() override;
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;

@@ -13,7 +13,7 @@
 class IRInstructionNode;
 class IRTypeValueInstructionNode;
 
-class IRType {
+class IRType : public std::enable_shared_from_this<IRType> {
 protected:
     std::string _moduleId;
     std::string _id;
@@ -21,12 +21,12 @@ protected:
     std::optional<IRTypeValueInstructionNode*> _value;
     std::optional<llvm::Align> _alignmentOverride;
     std::optional<unsigned long> _sizeInBytesOverride;
-    void initClone(IRType* irType);
+    void initClone(std::shared_ptr<IRType> irType);
 public:
     explicit IRType(llvm::Type* type);
     virtual llvm::Type* getType();
-    virtual IRType* getUnderlyingType();
-    virtual IRType* getSourceType();
+    virtual std::shared_ptr<IRType> getUnderlyingType();
+    virtual std::shared_ptr<IRType> getSourceType();
     virtual uint64_t getSizeInBytes();
     virtual llvm::Align getAlignment();
     virtual void setAlignmentOverride(llvm::Align alignmentOverride);
@@ -64,13 +64,13 @@ public:
     virtual bool isCapturedVariableType();
     virtual bool containsTypeThatRequiresFreeing();
     virtual bool requiresArc();
-    bool isEqual(IRType* otherValue);
-    bool isNotEqual(IRType* otherValue);
-    bool isLessThan(IRType* otherValue);
-    bool isLessThanOrEqual(IRType* otherValue);
-    bool isGreaterThan(IRType* otherValue);
-    bool isGreaterThanOrEqual(IRType* otherValue);
-    virtual IRType* clone();
+    bool isEqual(std::shared_ptr<IRType> otherValue);
+    bool isNotEqual(std::shared_ptr<IRType> otherValue);
+    bool isLessThan(std::shared_ptr<IRType> otherValue);
+    bool isLessThanOrEqual(std::shared_ptr<IRType> otherValue);
+    bool isGreaterThan(std::shared_ptr<IRType> otherValue);
+    bool isGreaterThanOrEqual(std::shared_ptr<IRType> otherValue);
+    virtual std::shared_ptr<IRType> clone();
     virtual void print();
 };
 

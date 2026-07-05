@@ -5,7 +5,7 @@
 #include "ir-object-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, IRType* irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, IRType* type, std::optional<IRExpressionNode*> scopeArgument) {
+IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, std::optional<IRExpressionNode*> scopeArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _source = source;
@@ -44,11 +44,11 @@ int64_t IRObjectAccessInvocationExpressionNode::getTargetIndex() {
     return _targetIndex;
 }
 
-IRType* IRObjectAccessInvocationExpressionNode::getFunctionIRType() {
+std::shared_ptr<IRType> IRObjectAccessInvocationExpressionNode::getFunctionIRType() {
     return _irFunctionType;
 }
 
-IRType* IRObjectAccessInvocationExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRObjectAccessInvocationExpressionNode::getIRType() {
     return _type;
 }
 

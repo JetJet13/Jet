@@ -8,7 +8,7 @@
 IRThisExpressionNode::IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, IRInstructionNode* irValue) {
     _node = node;
     _irValue = irValue;
-    _irType = (IRPointerType*)irValue->getIRType()->getSourceType();
+    _irType = std::dynamic_pointer_cast<IRPointerType>(irValue->getIRType()->getSourceType());
 }
 
 llvm::Value* IRThisExpressionNode::getValue() {
@@ -23,7 +23,7 @@ std::optional<IRInstructionNode*> IRThisExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-IRPointerType* IRThisExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRThisExpressionNode::getIRType() {
     return _irType;
 }
 

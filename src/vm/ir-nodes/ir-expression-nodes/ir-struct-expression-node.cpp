@@ -4,7 +4,7 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, IRStructRefType* type, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues) {
     _node = astNode;
     _irValue = irValue;
     _irArc = irArc;
@@ -19,7 +19,11 @@ void IRStructExpressionNode::markAsGlobal() {
     }
 }
 
-IRStructRefType* IRStructExpressionNode::getIRType() {
+std::shared_ptr<IRStructRefType> IRStructExpressionNode::getIRStructRefType() {
+    return _type;
+}
+
+std::shared_ptr<IRType> IRStructExpressionNode::getIRType() {
     return _type;
 }
 

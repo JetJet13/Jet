@@ -5,14 +5,14 @@
 #include "pointer-type-signature-ir-strategy.h"
 #include "../../../../types/ir-type-id.h"
 
-IRPointerType* PointerTypeSignatureIRStrategy::generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRPointerType> PointerTypeSignatureIRStrategy::generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto underlyingIRType = irGenerator->generateTypeFor(pointerTypeSignature->getUnderlyingType(), scope, irContext);
     auto irPointerType = IRPointerType::create(underlyingIRType);
     irPointerType->setValue(this->generateTypeValue(irPointerType, irGenerator));
     return irPointerType;
 }
 
-IRTypeValueInstructionNode* PointerTypeSignatureIRStrategy::generateTypeValue(IRPointerType* irType, IRGenerator* irGenerator) {
+IRTypeValueInstructionNode* PointerTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRPointerType> irType, IRGenerator* irGenerator) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

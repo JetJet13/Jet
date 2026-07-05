@@ -18,7 +18,7 @@ llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::inject(IRObjectAcces
 }
 
 llvm::Value* ArrayIRObjectAccessExpressionInjectorStrategy::injectCopy(IRObjectAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
-    auto irArrayPointerType = (IRArrayPointerType*)irExpression->getIRType();
+    auto irArrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getIRType());
     auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, arrayAccessAllocation);
     auto alloc = InstructionIRInjectorHelper::inject(irExpression->getSourceAllocation().value(), irBlock);

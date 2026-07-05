@@ -12,7 +12,7 @@
 
 class ClassPropertyTypeSignatureIRStrategy {
 public:
-    IRType* generate(std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRType> generate(std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_TYPE_SIGNATURE_IR_STRATEGY_H

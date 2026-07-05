@@ -4,7 +4,7 @@
 
 #include "ir-aggregate-identifier-expression-node.h"
 
-IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, IRArrayPointerType* type) {
+IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type) {
     _node = node;
     _arrayAllocation = irAllocation;
     _arrayPointerAllocation = arrayPointerSourceAllocation;
@@ -49,7 +49,7 @@ IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregatePointerAlloc
     return _arrayPointerAllocation;
 }
 
-IRArrayPointerType* IRAggregateIdentifierExpressionNode::getIRType() {
+std::shared_ptr<IRType> IRAggregateIdentifierExpressionNode::getIRType() {
     return _type;
 }
 

@@ -19,16 +19,17 @@ private:
     IRInstructionNode* _irValue;
     IRInstructionNode* _arrayPointerSourceAllocation;
     std::vector<IRExpressionNode*> _irValues;
-    IRArrayPointerType* _type;
+    std::shared_ptr<IRArrayPointerType> _type;
 public:
-    IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, IRArrayPointerType* type);
+    IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, std::shared_ptr<IRArrayPointerType> type);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     std::vector<IRExpressionNode*>* getValues();
     std::optional<IRInstructionNode*> getSourceAllocation() override;
     IRInstructionNode* getSourceAggregateAllocation();
     IRInstructionNode* getAggregatePointerAllocation();
-    IRArrayPointerType* getIRType() override;
+    std::shared_ptr<IRArrayPointerType> getIRArrayPointerType();
+    std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
