@@ -15,7 +15,7 @@ class ForInStatementIRInjectorStrategy {
 private:
     llvm::Value* getSourceValue(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 public:
-    void inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_FOR_IN_STATEMENT_IR_INJECTOR_STRATEGY_H

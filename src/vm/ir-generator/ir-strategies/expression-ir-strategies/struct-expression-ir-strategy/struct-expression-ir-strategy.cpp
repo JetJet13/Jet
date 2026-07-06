@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRStructExpressionNode> StructExpressionIRStrategy::generate(std::shared_ptr<ASTStructExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRStructExpressionNode> StructExpressionIRStrategy::generate(std::shared_ptr<ASTStructExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getStructTypeSignature(), scope, irContext);
     auto structValues = std::vector<std::shared_ptr<IRExpressionNode>>();
     auto structValueSourceAllocationMap = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();

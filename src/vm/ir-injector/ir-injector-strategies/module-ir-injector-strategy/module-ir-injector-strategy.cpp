@@ -5,7 +5,7 @@
 #include "module-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void ModuleIRInjectorStrategy::inject(std::shared_ptr<IRModuleDeclarationNode> irModuleDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ModuleIRInjectorStrategy::inject(std::shared_ptr<IRModuleDeclarationNode> irModuleDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     InstructionIRInjectorHelper::inject(irModuleDeclaration->getAllocation(), irBlock);
     auto numElements = irModuleDeclaration->getExports()->size();
     auto zeroIndex = irBlock->getBuilder()->get()->getInt64(0);

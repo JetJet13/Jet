@@ -4,7 +4,7 @@
 
 #include "interface-type-declaration-ir-strategy.h"
 
-std::shared_ptr<IRInterfaceTypeDeclarationNode> InterfaceTypeDeclarationIRStrategy::generate(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRInterfaceTypeDeclarationNode> InterfaceTypeDeclarationIRStrategy::generate(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto irType = irGenerator->generateTypeFor(node->getInterfaceTypeSignature(), scope, irContext);
     scope->insert(node->getName()->getId(), irType);
     return std::make_shared<IRInterfaceTypeDeclarationNode>(node, irType);

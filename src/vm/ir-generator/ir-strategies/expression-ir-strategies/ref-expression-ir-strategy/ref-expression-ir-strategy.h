@@ -14,7 +14,7 @@ class RefExpressionIRStrategy {
 private:
     std::shared_ptr<IRInstructionNode> generateAllocation(std::shared_ptr<ASTRefExpressionNode> node, std::shared_ptr<IRRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    std::shared_ptr<IRRefExpressionNode> generate(std::shared_ptr<ASTRefExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRRefExpressionNode> generate(std::shared_ptr<ASTRefExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
 };
 
 

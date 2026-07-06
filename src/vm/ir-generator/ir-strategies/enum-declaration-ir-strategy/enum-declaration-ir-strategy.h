@@ -12,7 +12,7 @@
 
 class EnumDeclarationIRStrategy {
 public:
-    std::shared_ptr<IREnumDeclarationNode> generate(std::shared_ptr<ASTEnumDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IREnumDeclarationNode> generate(std::shared_ptr<ASTEnumDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
 };
 
 #endif //JETLANG_ENUM_DECLARATION_IR_STRATEGY_H

@@ -5,7 +5,7 @@
 #include "literal-expression-ir-strategy.h"
 
 
-std::shared_ptr<IRExpressionNode> LiteralExpressionIRStrategy::generate(std::shared_ptr<ASTLiteralExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> LiteralExpressionIRStrategy::generate(std::shared_ptr<ASTLiteralExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irContext);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {

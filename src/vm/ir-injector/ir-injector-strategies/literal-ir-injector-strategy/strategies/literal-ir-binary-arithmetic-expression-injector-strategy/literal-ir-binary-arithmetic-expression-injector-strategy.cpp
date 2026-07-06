@@ -7,7 +7,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h"
 
-llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irOperations = irExpression->getListOfOperations();
 
     auto irOperands = irExpression->getListOfOperands();

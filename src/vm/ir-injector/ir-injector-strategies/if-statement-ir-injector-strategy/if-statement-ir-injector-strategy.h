@@ -12,7 +12,7 @@
 
 class IfStatementIRInjectorStrategy {
 public:
-    void inject(std::shared_ptr<IRIfStatementNode> irIfStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRIfStatementNode> irIfStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 

@@ -6,7 +6,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../../../shared/utils/logger/logger.h"
 
-llvm::Value* LiteralIRUnaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRUnaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRUnaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRUnaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto expressionIRValue = irInjector->inject(irBlock, irExpression->getIRValue(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
     irExpression->getValue()->setOperand(1, expressionIRValue);
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());

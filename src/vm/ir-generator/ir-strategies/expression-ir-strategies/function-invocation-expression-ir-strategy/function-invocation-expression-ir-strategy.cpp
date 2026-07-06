@@ -7,7 +7,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-std::shared_ptr<IRExpressionNode> FunctionInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> FunctionInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (unsigned long i = 0; i < node->getArguments()->numArguments(); ++i) {
         arguments.push_back(

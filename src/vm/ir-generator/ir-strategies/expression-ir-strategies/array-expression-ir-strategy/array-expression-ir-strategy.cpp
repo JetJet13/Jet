@@ -7,7 +7,7 @@
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRArrayExpressionNode> ArrayExpressionIRStrategy::generate(std::shared_ptr<ASTArrayExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRArrayExpressionNode> ArrayExpressionIRStrategy::generate(std::shared_ptr<ASTArrayExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto elementValues = std::vector<std::shared_ptr<IRExpressionNode>>();
     auto elementValueSourceAllocations = std::vector<std::shared_ptr<IRInstructionNode>>();
     for (auto element : *node->getElements()) {

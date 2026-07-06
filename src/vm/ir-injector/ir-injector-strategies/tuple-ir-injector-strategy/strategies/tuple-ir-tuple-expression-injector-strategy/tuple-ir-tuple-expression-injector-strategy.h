@@ -12,7 +12,7 @@
 
 class TupleIRTupleExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(std::shared_ptr<IRTupleExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRTupleExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 

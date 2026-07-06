@@ -5,7 +5,7 @@
 #include "ref-ir-ref-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* RefIRRefExpressionInjectorStrategy::inject(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* RefIRRefExpressionInjectorStrategy::inject(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto valueArc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE, IR_ARRAY_ACCESS_EXPRESSION_NODE })) {
@@ -61,6 +61,6 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocatio
     return malloc;
 }
 
-llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* RefIRRefExpressionInjectorStrategy::injectRawValue(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     return irInjector->inject(irBlock, irExpression->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
 }

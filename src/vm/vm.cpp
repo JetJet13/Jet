@@ -67,7 +67,7 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
 
     for (auto jetFileToCompile : *dependencyGraph.getPrioritizedList()) {
         Logger::log("Compiling", jetFileToCompile->getId());
-        auto jetFileScope = new IRLookupTable(jetFileToCompile->getFile()->getModuleName());
+        auto jetFileScope = std::make_shared<IRLookupTable>(jetFileToCompile->getFile()->getModuleName());
         auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());
         auto irJetFileToCompile = new IRJetFile(jetFileToCompile, jetFileIRModule, jetFileScope);
         jetFileIRModule->linkTo(irCoreModule);

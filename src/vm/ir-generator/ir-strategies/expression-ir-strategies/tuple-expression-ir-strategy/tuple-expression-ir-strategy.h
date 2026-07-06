@@ -15,7 +15,7 @@ private:
     std::shared_ptr<IRInstructionNode> generateTupleAllocation(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext);
     std::shared_ptr<IRInstructionNode> generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    std::shared_ptr<IRTupleExpressionNode> generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRTupleExpressionNode> generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_TUPLE_EXPRESSION_IR_STRATEGY_H

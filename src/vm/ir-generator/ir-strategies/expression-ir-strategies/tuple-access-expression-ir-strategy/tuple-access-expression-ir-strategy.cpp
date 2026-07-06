@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRTupleAccessExpressionNode> TupleAccessExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRTupleAccessExpressionNode> TupleAccessExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = std::dynamic_pointer_cast<IRStructRefType>(sourceValue->getUnderlyingIRType());
     auto targetIndex = node->getIndex()->getIndexValue();

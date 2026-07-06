@@ -7,7 +7,7 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRExpressionNode> TupleAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> TupleAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);

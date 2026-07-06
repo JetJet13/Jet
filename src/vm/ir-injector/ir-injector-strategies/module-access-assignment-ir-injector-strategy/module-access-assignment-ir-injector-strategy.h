@@ -13,7 +13,7 @@
 
 class ModuleAccessAssignmentIRInjectorStrategy {
 public:
-    void inject(std::shared_ptr<IRModuleAccessAssignmentStatementNode> irModuleAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRModuleAccessAssignmentStatementNode> irModuleAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_MODULE_ACCESS_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

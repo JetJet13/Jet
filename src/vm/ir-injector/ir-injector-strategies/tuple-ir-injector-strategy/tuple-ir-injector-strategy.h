@@ -32,7 +32,7 @@ private:
     TupleIRTupleAccessExpressionInjectorStrategy _tupleIRTupleAccessExpressionInjectorStrategy = TupleIRTupleAccessExpressionInjectorStrategy();
     TupleIRClassPropertyAccessExpressionInjectorStrategy _tupleIRClassPropertyAccessExpressionInjectorStrategy = TupleIRClassPropertyAccessExpressionInjectorStrategy();
 public:
-    llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) override;
 };
 
 #endif //JETLANG_TUPLE_IR_INJECTOR_STRATEGY_H

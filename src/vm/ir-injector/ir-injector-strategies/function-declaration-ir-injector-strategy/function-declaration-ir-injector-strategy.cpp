@@ -8,7 +8,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-invocable-type.h"
 
-void FunctionDeclarationIRInjectorStrategy::inject(std::shared_ptr<IRFunctionDeclarationNode> irFunctionDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void FunctionDeclarationIRInjectorStrategy::inject(std::shared_ptr<IRFunctionDeclarationNode> irFunctionDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule);
 
     auto irType = std::dynamic_pointer_cast<IRInvocableType>(irFunctionDeclaration->getGlobalVariable()->getIRType()->getSourceType());

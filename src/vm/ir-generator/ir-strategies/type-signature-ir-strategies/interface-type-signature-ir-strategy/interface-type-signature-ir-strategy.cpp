@@ -6,7 +6,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../types/ir-type-id.h"
 
-std::shared_ptr<IRStructType> InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
 
     auto interfacePropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();

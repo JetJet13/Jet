@@ -12,7 +12,7 @@
 
 class TupleAccessExpressionIRStrategy {
 public:
-    std::shared_ptr<IRTupleAccessExpressionNode> generate(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRTupleAccessExpressionNode> generate(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_EXPRESSION_IR_STRATEGY_H

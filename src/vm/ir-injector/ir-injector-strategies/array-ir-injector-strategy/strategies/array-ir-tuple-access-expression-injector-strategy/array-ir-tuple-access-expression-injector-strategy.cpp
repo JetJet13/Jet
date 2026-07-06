@@ -7,7 +7,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 
-llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::inject(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::inject(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irOperation->isRefAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irOperation->isCopy()) {
@@ -17,7 +17,7 @@ llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::inject(std::shared_pt
     }
 }
 
-llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectCopy(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectCopy(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irArrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irExpression->getUnderlyingIRType());
     auto arrayAccessAllocation = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, arrayAccessAllocation);
@@ -35,12 +35,12 @@ llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectCopy(std::share
     return InstructionIRInjectorHelper::injectLoad(irArrayPointerType->getType(), alloc, irBlock);
 }
 
-llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectRef(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectRef(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
     return ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, loadedPointerToIndexedElement);
 }
 
-llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectOperand(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ArrayIRTupleAccessExpressionInjectorStrategy::injectOperand(std::shared_ptr<IRTupleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto loadedPointerToIndexedElement = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointer = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irExpression, loadedPointerToIndexedElement);
     if (irOperation->isOperandValue()) {

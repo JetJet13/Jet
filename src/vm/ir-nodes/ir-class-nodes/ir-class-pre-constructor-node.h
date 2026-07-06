@@ -26,7 +26,7 @@ public:
     std::vector<std::pair<unsigned long, llvm::Constant*>>* getInitializers();
     std::shared_ptr<IRInstructionNode> getClassScopeParameter();
     std::shared_ptr<IRBlockNode> getBlock();
-    IRLookupTable* getScope();
+    std::shared_ptr<IRLookupTable> getScope();
 };
 
 #endif //JETLANG_IR_CLASS_PRE_CONSTRUCTOR_NODE_H

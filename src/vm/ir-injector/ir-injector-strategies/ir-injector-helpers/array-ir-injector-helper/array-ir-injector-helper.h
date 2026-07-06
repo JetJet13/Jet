@@ -23,7 +23,7 @@ public:
     static std::shared_ptr<IRLoadInstructionNode> injectArrayPointer(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> sourceArrayPointerAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector);
     static std::shared_ptr<IRLoadInstructionNode> injectArrayCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRType> elementType, std::shared_ptr<IRModuleNode> irModule, llvm::Value* sourceArray, std::shared_ptr<IRInstructionNode> arrayPointerAllocation, IRInjector* irInjector);
     static void injectArrayPointer(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, llvm::Value* numElements, llvm::Value* depth, llvm::Value* arrayPointerAllocation, llvm::Value* arrayAllocation);
-    static llvm::Value* getPointerToIndexedElement(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayAccessExpressionNode> irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, IRLookupTable* scope);
+    static llvm::Value* getPointerToIndexedElement(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayAccessExpressionNode> irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_HELPER_H

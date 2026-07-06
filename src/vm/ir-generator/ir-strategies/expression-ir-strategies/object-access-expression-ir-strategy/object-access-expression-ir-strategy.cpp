@@ -8,7 +8,7 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 
-std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(node->getSource()->getSource()->getTypeSignature());
         auto targetKey = classTypeSignature->addClassNameToKey(node->getTarget()->getTarget()->getIdentifierNode()->getId());

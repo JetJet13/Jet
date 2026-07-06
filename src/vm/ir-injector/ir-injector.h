@@ -102,12 +102,12 @@ private:
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
     IRInjector();
-    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRDeclarationNode> irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStatementNode> irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRDeclarationNode> irDeclaration, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStatementNode> irStatement, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBlockNode> irNode, std::shared_ptr<IRModuleNode> irModule);
     llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     void injectVoidReturnType(std::shared_ptr<IRBlockNode> irBlock);
     llvm::Value* injectStringGlobalVariable(std::shared_ptr<IRBlockNode> irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule);
     llvm::AllocaInst* injectRawString(std::shared_ptr<IRBlockNode> irBlock, std::string rawString);

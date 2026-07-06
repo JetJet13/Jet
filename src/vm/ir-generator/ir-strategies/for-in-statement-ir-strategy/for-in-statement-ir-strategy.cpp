@@ -7,7 +7,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRStatementNode> ForInStatementIRStrategy::generate(std::shared_ptr<ASTForInStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStatementNode> ForInStatementIRStrategy::generate(std::shared_ptr<ASTForInStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto sourceIRExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto index = IRInstructionNodeFactory::create(std::make_shared<IRType>(irGenerator->generateIntType()));
     auto variableIrType = irGenerator->generateTypeFor(node->getVariable()->getTypeSignature(), scope, irContext);

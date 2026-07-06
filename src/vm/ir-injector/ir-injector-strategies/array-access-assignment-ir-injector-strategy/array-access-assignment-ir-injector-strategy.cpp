@@ -7,7 +7,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
-void ArrayAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRArrayAccessAssignmentStatementNode> irArrayAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ArrayAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRArrayAccessAssignmentStatementNode> irArrayAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto pointerToIndexedElement = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irArrayAccessAssignmentStatement->getIRArrayAccessExpression(), irModule, irInjector, scope);
     auto irExpressionValue = irInjector
             ->inject(

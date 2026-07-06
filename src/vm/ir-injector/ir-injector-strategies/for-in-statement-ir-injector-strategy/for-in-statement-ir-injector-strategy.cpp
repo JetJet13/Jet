@@ -9,7 +9,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
-void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();

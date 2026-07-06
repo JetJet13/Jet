@@ -13,7 +13,7 @@
 
 class RefValueAssignmentIRInjectorStrategy {
 public:
-    void inject(std::shared_ptr<IRRefValueAssignmentStatementNode> irRefValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRRefValueAssignmentStatementNode> irRefValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_REF_VALUE_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

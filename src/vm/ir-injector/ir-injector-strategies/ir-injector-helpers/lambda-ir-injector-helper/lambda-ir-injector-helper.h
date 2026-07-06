@@ -13,7 +13,7 @@
 class LambdaIRInjectorHelper {
 public:
     static void incrementRefCountForInvocationExpression(llvm::Value* value, std::shared_ptr<IRType> irType, std::shared_ptr<IRBlockNode> irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule);
-    static llvm::Value* injectDetails(std::shared_ptr<IRLambdaExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static llvm::Value* injectDetails(std::shared_ptr<IRLambdaExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_LAMBDA_IR_INJECTOR_HELPER_H

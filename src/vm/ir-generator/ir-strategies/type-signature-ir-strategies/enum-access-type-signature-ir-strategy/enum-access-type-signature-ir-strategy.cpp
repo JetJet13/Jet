@@ -4,6 +4,6 @@
 
 #include "enum-access-type-signature-ir-strategy.h"
 
-std::shared_ptr<IRType> EnumAccessTypeSignatureIRStrategy::generate(std::shared_ptr<EnumAccessTypeSignature> enumAccessTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRType> EnumAccessTypeSignatureIRStrategy::generate(std::shared_ptr<EnumAccessTypeSignature> enumAccessTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     return irGenerator->generateTypeFor(enumAccessTypeSignature->getEnum()->getType(), scope, irContext);
 }

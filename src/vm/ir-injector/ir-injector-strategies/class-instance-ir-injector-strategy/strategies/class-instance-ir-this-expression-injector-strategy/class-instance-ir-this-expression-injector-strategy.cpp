@@ -6,7 +6,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../../ir-type/ir-struct-ref-type.h"
 
-llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::inject(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::inject(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else {
@@ -14,7 +14,7 @@ llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::inject(std::shared_p
     }
 }
 
-llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectCopy(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectCopy(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getUnderlyingIRType());
     auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());
     auto typeValue = irInjector->inject(irBlock, irType, irModule);
@@ -31,7 +31,7 @@ llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectCopy(std::shar
     return InstructionIRInjectorHelper::injectLoad(irType->getType(), destinationPointerAllocation, irBlock);
 }
 
-llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectOperand(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* ClassInstanceIRThisExpressionInjectorStrategy::injectOperand(std::shared_ptr<IRThisExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto pointerToValue = InstructionIRInjectorHelper::injectLoad(irExpression->getIRType()->getType(), irExpression->getValue(), irBlock, irExpression->getUnderlyingIRType());
     if (irOperation->isOperandValue()) {
         return InstructionIRInjectorHelper::injectLoad(irExpression->getUnderlyingIRType()->getType(), pointerToValue, irBlock, irExpression->getUnderlyingIRType());

@@ -14,12 +14,12 @@ class IRJetFile {
 private:
     JetFile* _jetFile;
     std::shared_ptr<IRModuleNode> _irModule;
-    IRLookupTable* _scope;
+    std::shared_ptr<IRLookupTable> _scope;
 public:
-    IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    IRJetFile(JetFile* jetFile, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     JetFile* getFile();
     std::shared_ptr<IRModuleNode> getIRModule();
-    IRLookupTable* getScope();
+    std::shared_ptr<IRLookupTable> getScope();
     std::string getModuleName();
 };
 

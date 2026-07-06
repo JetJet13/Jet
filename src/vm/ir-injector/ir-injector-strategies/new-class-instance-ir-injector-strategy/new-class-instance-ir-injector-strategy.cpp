@@ -7,7 +7,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irExpression->is(IR_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
         return this->inject(std::dynamic_pointer_cast<IRNewClassInstanceExpressionNode>(irExpression), irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -20,7 +20,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRExpres
     throw std::logic_error("NewClassInstanceIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRNewClassInstanceExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRNewClassInstanceExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irStructRefType = irExpression->getIRClassInstanceType()->getIRClassPropertiesType();
     auto classInstanceAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation(), irBlock);
     auto classInstancePropertiesAllocation = InstructionIRInjectorHelper::inject(irExpression->getClassInstanceAllocation()->getParentAllocation().value(), irBlock);
@@ -56,7 +56,7 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRNewCla
     );
 }
 
-llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRIdentifierExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRIdentifierExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irOperation->isOperandValue() || irOperation->isFunctionArgument() || irOperation->isCopy()) {
         auto irType = std::dynamic_pointer_cast<IRNewClassInstanceType>(irExpression->getIRType()->getSourceType());
         auto destinationPointerAllocation = irBlock->getBuilder()->get()->CreateAlloca(irType->getType());

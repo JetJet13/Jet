@@ -11,7 +11,7 @@
 
 class ModuleDeclarationIRStrategy {
 public:
-    std::shared_ptr<IRModuleDeclarationNode> generate(std::shared_ptr<ASTModuleDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRModuleDeclarationNode> generate(std::shared_ptr<ASTModuleDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
 };
 
 #endif //JETLANG_MODULE_DECLARATION_IR_STRATEGY_H

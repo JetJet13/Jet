@@ -19,7 +19,7 @@ class IRBlockNode : public std::enable_shared_from_this<IRBlockNode> {
 protected:
     llvm::BasicBlock* _irValue;
     IRBlockType _type;
-    IRLookupTable* _scope;
+    std::shared_ptr<IRLookupTable> _scope;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
     std::vector<std::shared_ptr<IRNode>> _body;
     std::vector<std::shared_ptr<IRBlockNode>> _childBlocks;
@@ -32,7 +32,7 @@ protected:
     bool _allowedToFreeNodes = true;
     bool _representsRealBlock = true;
 public:
-    IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope);
+    IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, std::shared_ptr<IRLookupTable> scope);
     bool hasReturnStatement();
     bool hasBranchInstruction();
     bool hasReturnInstruction();
@@ -41,7 +41,7 @@ public:
     bool isAllowedToFreeNodes();
     void preventFreeingNodes();
     std::shared_ptr<IRBlockNode> markAsFakeBlock();
-    IRLookupTable* getScope();
+    std::shared_ptr<IRLookupTable> getScope();
     llvm::BasicBlock* getBlock();
     std::vector<std::shared_ptr<IRNode>>* getBody();
     void insert(std::shared_ptr<IRNode> irNode);

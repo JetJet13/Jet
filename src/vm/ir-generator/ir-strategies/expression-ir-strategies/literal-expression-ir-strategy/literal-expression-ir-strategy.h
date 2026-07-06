@@ -18,7 +18,7 @@ class LiteralExpressionIRStrategy {
 private:
     std::shared_ptr<IRInstructionNode> generateArrayAllocation(std::shared_ptr<IRStringLiteralNode> irStringLiteralNode, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
 public:
-    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTLiteralExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTLiteralExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_LITERAL_EXPRESSION_IR_STRATEGY_H

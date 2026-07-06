@@ -14,11 +14,11 @@
 
 class LambdaExpressionIRStrategy {
 private:
-    void setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, IRContext* irContext);
+    void setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, IRContext* irContext);
     llvm::Function* generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    std::shared_ptr<IRLambdaWithBlockExpressionNode> generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    std::shared_ptr<IRLambdaWithFatArrowExpressionNode> generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRLambdaWithBlockExpressionNode> generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRLambdaWithFatArrowExpressionNode> generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_IR_STRATEGY_H

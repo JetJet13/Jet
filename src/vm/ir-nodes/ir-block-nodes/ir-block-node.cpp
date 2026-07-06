@@ -5,7 +5,7 @@
 #include "ir-block-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, IRLookupTable* scope) {
+IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, std::shared_ptr<IRLookupTable> scope) {
     _irValue = irValue;
     _type = type;
     _scope = scope;
@@ -57,7 +57,7 @@ std::shared_ptr<IRBlockNode> IRBlockNode::markAsFakeBlock() {
     return shared_from_this();
 }
 
-IRLookupTable* IRBlockNode::getScope() {
+std::shared_ptr<IRLookupTable> IRBlockNode::getScope() {
     return _scope;
 }
 

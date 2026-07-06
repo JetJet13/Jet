@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-dref-expression-node.h"
 
-std::shared_ptr<IRExpressionNode> DrefExpressionIRStrategy::generate(std::shared_ptr<ASTDrefExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> DrefExpressionIRStrategy::generate(std::shared_ptr<ASTDrefExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto irExpressionNode = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, irOperation);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto allocation = this->generateAllocation(node, irType, irGenerator, irContext, irOperation);

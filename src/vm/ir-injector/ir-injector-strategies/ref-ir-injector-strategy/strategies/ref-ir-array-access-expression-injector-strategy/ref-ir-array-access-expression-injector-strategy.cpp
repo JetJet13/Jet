@@ -8,7 +8,7 @@
 #include "../../../../../ir-type/ir-ref-type.h"
 #include "../../../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 
-llvm::Value* RefIRArrayAccessExpressionInjectorStrategy::inject(std::shared_ptr<IRArrayAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* RefIRArrayAccessExpressionInjectorStrategy::inject(std::shared_ptr<IRArrayAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irRefType = std::dynamic_pointer_cast<IRRefType>(irExpression->getIRType());
     auto pointerAtIndex = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irExpression, irModule, irInjector, scope);
     if (irOperation->incrementRefCount()) {

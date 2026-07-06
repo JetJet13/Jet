@@ -12,9 +12,9 @@
 
 class ClassTypeSignatureIRStrategy {
 public:
-    std::shared_ptr<IRClassType> generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    std::shared_ptr<IRClassType> generateInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    std::shared_ptr<IRClassType> generatePostInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRClassType> generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRClassType> generateInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRClassType> generatePostInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_TYPE_SIGNATURE_IR_STRATEGY_H

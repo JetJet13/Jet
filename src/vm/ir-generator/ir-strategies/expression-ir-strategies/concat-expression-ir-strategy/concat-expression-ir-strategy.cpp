@@ -6,7 +6,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRConcatExpressionNode> ConcatExpressionIRStrategy::generate(std::shared_ptr<ASTConcatExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRConcatExpressionNode> ConcatExpressionIRStrategy::generate(std::shared_ptr<ASTConcatExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, irOperation);
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, irOperation);
     auto irType = std::dynamic_pointer_cast<IRArrayPointerType>(irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext));

@@ -4,7 +4,7 @@
 
 #include "class-method-invocation-expression-ir-strategy.h"
 
-std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);

@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-std::shared_ptr<IRStructRefType> StructTypeSignatureIRStrategy::generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStructRefType> StructTypeSignatureIRStrategy::generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();

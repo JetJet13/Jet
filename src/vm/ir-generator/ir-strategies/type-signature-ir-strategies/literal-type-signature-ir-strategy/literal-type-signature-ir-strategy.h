@@ -13,7 +13,7 @@ class LiteralTypeSignatureIRStrategy {
 private:
     llvm::Value* generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, IRContext* irContext);
 public:
-    std::shared_ptr<IRType> generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRType> generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
     std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 

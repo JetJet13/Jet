@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRArrayPointerType> ArrayTypeSignatureIRStrategy::generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRArrayPointerType> ArrayTypeSignatureIRStrategy::generate(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto arrayElementType = irGenerator->generateTypeFor(arrayTypeSignature->getElementType(), scope, irContext);
     auto irArrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateIrPointerType(arrayElementType));
     irArrayPointerType->setValue(this->generateTypeValue(irArrayPointerType, irGenerator, irContext));

@@ -6,7 +6,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto operation = this->determineOperationType(node);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irContext);
