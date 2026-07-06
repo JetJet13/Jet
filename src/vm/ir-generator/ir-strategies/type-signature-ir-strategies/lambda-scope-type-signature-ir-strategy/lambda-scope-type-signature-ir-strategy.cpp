@@ -28,7 +28,7 @@ std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::
     return structType;
 }
 
-IRTypeValueInstructionNode* LambdaScopeTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> LambdaScopeTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -40,7 +40,7 @@ IRTypeValueInstructionNode* LambdaScopeTypeSignatureIRStrategy::generateTypeValu
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRTypeValueInstructionNode(
+    return std::make_shared<IRTypeValueInstructionNode>(
             allocation,
             irGenerator->generateIrPointerType(irTypeValueType),
             storeInstruction

@@ -145,7 +145,7 @@ public:
     llvm::IntegerType* generateBooleanType();
     llvm::IntegerType* generateCharType();
     llvm::IntegerType* generatePointerIntType();
-    IRTypeValueInstructionNode* generateIRTypeValueFor(std::shared_ptr<IRType> irType, IRContext* irContext);
+    std::shared_ptr<IRTypeValueInstructionNode> generateIRTypeValueFor(std::shared_ptr<IRType> irType, IRContext* irContext);
     std::shared_ptr<IRTypeValueType> generateIrTypeValueType();
     llvm::AllocaInst* generateIrTypeValueTypeAllocation();
     llvm::GetElementPtrInst* generateGEP(std::shared_ptr<IRType> irType, llvm::Value* pointer, unsigned long index);

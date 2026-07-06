@@ -13,7 +13,7 @@ std::shared_ptr<IRArrayPointerType> ArrayTypeSignatureIRStrategy::generate(std::
     return irArrayPointerType;
 }
 
-IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRArrayPointerType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> ArrayTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRArrayPointerType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -25,7 +25,7 @@ IRTypeValueInstructionNode* ArrayTypeSignatureIRStrategy::generateTypeValue(std:
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())
     });
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRTypeValueInstructionNode(
+    return std::make_shared<IRTypeValueInstructionNode>(
             allocation,
             irGenerator->generateIrPointerType(irTypeValueType),
             storeInstruction

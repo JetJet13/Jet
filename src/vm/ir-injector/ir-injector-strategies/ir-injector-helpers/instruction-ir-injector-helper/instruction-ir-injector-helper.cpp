@@ -5,7 +5,7 @@
 #include "instruction-ir-injector-helper.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-llvm::Value* InstructionIRInjectorHelper::inject(IRTypeValueInstructionNode* irTypeValueInstructionNode, IRBlockNode* irBlock, std::string name) {
+llvm::Value* InstructionIRInjectorHelper::inject(std::shared_ptr<IRTypeValueInstructionNode> irTypeValueInstructionNode, IRBlockNode* irBlock, std::string name) {
     auto value = irBlock->getBuilder()->get()->Insert(irTypeValueInstructionNode->getValue(), name);
     irBlock->getBuilder()->get()->Insert(irTypeValueInstructionNode->getInitialValueStoreInstruction());
     return value;

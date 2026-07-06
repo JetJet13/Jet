@@ -38,7 +38,7 @@ llvm::FunctionType* IRLambdaType::getFunctionType() {
     return _type;
 }
 
-IRTypeValueInstructionNode* IRLambdaType::getValue() {
+std::shared_ptr<IRTypeValueInstructionNode> IRLambdaType::getValue() {
     return _lambdaVariableType->getValue();
 }
 

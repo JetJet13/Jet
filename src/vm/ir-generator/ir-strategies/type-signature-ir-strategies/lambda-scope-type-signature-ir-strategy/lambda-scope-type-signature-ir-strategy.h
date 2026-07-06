@@ -11,7 +11,7 @@
 class LambdaScopeTypeSignatureIRStrategy {
 public:
     std::shared_ptr<IRStructType> generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_LAMBDA_SCOPE_TYPE_SIGNATURE_IR_STRATEGY_H

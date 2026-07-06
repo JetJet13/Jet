@@ -23,11 +23,11 @@ llvm::StoreInst* IRTypeValueInstructionNode::getInitialValueStoreInstruction() {
     return _initialValueStoreInstruction;
 }
 
-IRTypeValueInstructionNode* IRTypeValueInstructionNode::clone() {
+std::shared_ptr<IRTypeValueInstructionNode> IRTypeValueInstructionNode::clone() {
     auto alloc = llvm::cast<llvm::AllocaInst>(_alloc->clone());
     auto storeInstruction = llvm::cast<llvm::StoreInst>(_initialValueStoreInstruction->clone());
     storeInstruction->setOperand(1, alloc);
-    return new IRTypeValueInstructionNode(
+    return std::make_shared<IRTypeValueInstructionNode>(
             alloc,
             this->getIRType(),
             storeInstruction

@@ -25,7 +25,7 @@ public:
     std::shared_ptr<IRInvocableType> getLambdaVariableType();
     llvm::PointerType* getFunctionPointerType();
     llvm::FunctionType* getFunctionType();
-    IRTypeValueInstructionNode* getValue() override;
+    std::shared_ptr<IRTypeValueInstructionNode> getValue() override;
     bool containsTypeThatRequiresFreeing() override;
     bool isInvocableType() override;
     llvm::Type* getType() override;

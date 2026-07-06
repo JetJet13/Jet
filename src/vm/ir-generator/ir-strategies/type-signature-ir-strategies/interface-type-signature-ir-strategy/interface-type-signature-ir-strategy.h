@@ -12,7 +12,7 @@
 class InterfaceTypeSignatureIRStrategy {
 public:
     std::shared_ptr<IRStructType> generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
-    IRTypeValueInstructionNode* generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext);
 };
 
 #endif //JETLANG_INTERFACE_TYPE_SIGNATURE_IR_STRATEGY_H

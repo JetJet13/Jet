@@ -57,7 +57,7 @@ void IRType::setModuleId(std::string id) {
     _moduleId = id;
 }
 
-void IRType::setValue(IRTypeValueInstructionNode* value) {
+void IRType::setValue(std::shared_ptr<IRTypeValueInstructionNode> value) {
     _value = value;
 }
 
@@ -82,7 +82,7 @@ std::shared_ptr<IRType> IRType::clone() {
     return clone;
 }
 
-IRTypeValueInstructionNode* IRType::getValue() {
+std::shared_ptr<IRTypeValueInstructionNode> IRType::getValue() {
     if (!_value) {
         throw std::logic_error("ir type has no value");
     }

@@ -36,12 +36,12 @@ std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr
     }
 }
 
-IRTypeValueInstructionNode* LiteralTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> LiteralTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator, irContext);
     auto storeInstruction = irGenerator->generateStoreInstruction(initialValue, allocation, irTypeValueType);
-    return new IRTypeValueInstructionNode(
+    return std::make_shared<IRTypeValueInstructionNode>(
         allocation,
         irGenerator->generateIrPointerType(irTypeValueType),
         storeInstruction

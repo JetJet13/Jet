@@ -751,7 +751,7 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
     return llvm::IntegerType::get(*_context, 8);
 }
 
-IRTypeValueInstructionNode* IRGenerator::generateIRTypeValueFor(std::shared_ptr<IRType> irType, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> IRGenerator::generateIRTypeValueFor(std::shared_ptr<IRType> irType, IRContext* irContext) {
     if (irType->isRefType()) {
         return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRRefType>(irType), this, irContext);
     } else if (irType->isStructType()) {

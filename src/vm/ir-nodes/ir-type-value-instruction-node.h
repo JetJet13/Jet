@@ -21,7 +21,7 @@ public:
     bool isInserted();
     llvm::AllocaInst* getValue();
     llvm::StoreInst* getInitialValueStoreInstruction();
-    IRTypeValueInstructionNode* clone();
+    std::shared_ptr<IRTypeValueInstructionNode> clone();
     llvm::Type* getAllocatedType();
     llvm::MaybeAlign getAlignment();
     uint64_t getSizeInBytes();
