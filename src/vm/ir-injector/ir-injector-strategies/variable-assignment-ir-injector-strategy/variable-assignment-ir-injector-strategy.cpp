@@ -6,7 +6,7 @@
 #include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void VariableAssignmentIRInjectorStrategy::inject(IRVariableAssignmentStatementNode* irVariableAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void VariableAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRVariableAssignmentStatementNode> irVariableAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
     auto newVariableValue = irInjector->inject(
                     irBlock,

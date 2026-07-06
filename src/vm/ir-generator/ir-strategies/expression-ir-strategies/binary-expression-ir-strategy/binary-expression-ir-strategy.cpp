@@ -7,7 +7,7 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRBinaryExpressionNode> BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -24,14 +24,14 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<AST
                     irGenerator->generateIntConstant(0)
             );
 
-    auto binaryArithmeticExpressionNode = new IRBinaryArithmeticExpressionNode(node, binaryOperator, leftExpressionIr, rightExpressionIr, irType);
+    auto binaryArithmeticExpressionNode = std::make_shared<IRBinaryArithmeticExpressionNode>(node, binaryOperator, leftExpressionIr, rightExpressionIr, irType);
     if (node->isGrouped()) {
         binaryArithmeticExpressionNode->markAsGrouped();
     }
     return binaryArithmeticExpressionNode;
 }
 
-IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRBinaryExpressionNode> BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
@@ -52,7 +52,7 @@ IRBinaryExpressionNode* BinaryExpressionIRStrategy::generate(std::shared_ptr<AST
                     irGenerator->generateIntConstant(0), // placeholder
                     irGenerator->generateIntConstant(0) // placeholder
             );
-    return new IRBinaryComparisonExpressionNode(node, comparison, leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
+    return std::make_shared<IRBinaryComparisonExpressionNode>(node, comparison, leftExpressionIr, rightExpressionIr, irType, leftIrType, rightIrType);
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {

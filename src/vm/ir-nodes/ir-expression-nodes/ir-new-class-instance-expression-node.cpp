@@ -5,7 +5,7 @@
 #include "ir-new-class-instance-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, std::shared_ptr<IRFunctionType> irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRNewClassInstanceType> type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc) {
+IRNewClassInstanceExpressionNode::IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, std::shared_ptr<IRFunctionType> irConstructorType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRNewClassInstanceType> type, std::shared_ptr<IRInstructionNode> classInstanceAllocation, std::shared_ptr<IRInstructionNode> irArc) {
     _node = node;
     _constructorId = constructorId;
     _irConstructorType = irConstructorType;
@@ -22,15 +22,15 @@ void IRNewClassInstanceExpressionNode::markAsGlobal() {
     }
 }
 
-IRInstructionNode* IRNewClassInstanceExpressionNode::getClassInstanceAllocation() {
+std::shared_ptr<IRInstructionNode> IRNewClassInstanceExpressionNode::getClassInstanceAllocation() {
     return _classInstanceAllocation;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRNewClassInstanceExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRNewClassInstanceExpressionNode::getIRArguments() {
     return &_arguments;
 }
 
-std::optional<IRInstructionNode*> IRNewClassInstanceExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRNewClassInstanceExpressionNode::getArc() {
     return _irArc;
 }
 

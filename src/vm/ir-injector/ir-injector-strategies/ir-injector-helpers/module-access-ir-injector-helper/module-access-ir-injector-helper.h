@@ -11,7 +11,7 @@
 
 class ModuleAccessIRInjectorHelper {
 public:
-    static llvm::Value* inject(IRModuleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation);
+    static llvm::Value* inject(std::shared_ptr<IRModuleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope, IROperation* irOperation);
 };
 
 #endif //JETLANG_MODULE_ACCESS_IR_INJECTOR_HELPER_H

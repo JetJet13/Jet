@@ -4,7 +4,7 @@
 
 #include "ir-array-expression-node.h"
 
-IRArrayExpressionNode::IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* arrayPointerSourceAllocation, std::vector<IRExpressionNode*> irValues, std::shared_ptr<IRArrayPointerType> type) {
+IRArrayExpressionNode::IRArrayExpressionNode(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> arrayPointerSourceAllocation, std::vector<std::shared_ptr<IRExpressionNode>> irValues, std::shared_ptr<IRArrayPointerType> type) {
     _node = node;
     _irValue = irValue;
     _arrayPointerSourceAllocation = arrayPointerSourceAllocation;
@@ -23,19 +23,19 @@ llvm::Value* IRArrayExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-std::vector<IRExpressionNode*>* IRArrayExpressionNode::getValues() {
+std::vector<std::shared_ptr<IRExpressionNode>>* IRArrayExpressionNode::getValues() {
     return &_irValues;
 }
 
-std::optional<IRInstructionNode*> IRArrayExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRArrayExpressionNode::getSourceAllocation() {
     return _arrayPointerSourceAllocation;
 }
 
-IRInstructionNode* IRArrayExpressionNode::getSourceAggregateAllocation() {
+std::shared_ptr<IRInstructionNode> IRArrayExpressionNode::getSourceAggregateAllocation() {
     return _irValue;
 }
 
-IRInstructionNode* IRArrayExpressionNode::getAggregatePointerAllocation() {
+std::shared_ptr<IRInstructionNode> IRArrayExpressionNode::getAggregatePointerAllocation() {
     return _arrayPointerSourceAllocation;
 }
 

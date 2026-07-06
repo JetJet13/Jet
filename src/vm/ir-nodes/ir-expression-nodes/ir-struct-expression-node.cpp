@@ -4,7 +4,7 @@
 
 #include "ir-struct-expression-node.h"
 
-IRStructExpressionNode::IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues) {
+IRStructExpressionNode::IRStructExpressionNode(std::shared_ptr<ASTStructExpressionNode> astNode, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc, std::shared_ptr<IRStructRefType> type, std::vector<std::shared_ptr<IRExpressionNode>> irValues) {
     _node = astNode;
     _irValue = irValue;
     _irArc = irArc;
@@ -39,11 +39,11 @@ Position* IRStructExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-std::optional<IRInstructionNode*> IRStructExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRStructExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRStructExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRStructExpressionNode::getArc() {
     return _irArc;
 }
 
@@ -55,11 +55,11 @@ llvm::Value* IRStructExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRStructExpressionNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRStructExpressionNode::getIRValue() {
     return _irValue;
 }
 
-std::vector<IRExpressionNode*>* IRStructExpressionNode::getValues() {
+std::vector<std::shared_ptr<IRExpressionNode>>* IRStructExpressionNode::getValues() {
     return &_irValues;
 }
 

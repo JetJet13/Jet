@@ -4,7 +4,7 @@
 
 #include "ir-aggregate-identifier-expression-node.h"
 
-IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type) {
+IRAggregateIdentifierExpressionNode::IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, std::shared_ptr<IRInstructionNode> irAllocation, std::shared_ptr<IRInstructionNode> arrayPointerSourceAllocation, std::shared_ptr<IRInstructionNode> sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type) {
     _node = node;
     _arrayAllocation = irAllocation;
     _arrayPointerAllocation = arrayPointerSourceAllocation;
@@ -27,11 +27,11 @@ llvm::Value* IRAggregateIdentifierExpressionNode::getValue() {
 }
 
 
-std::optional<IRInstructionNode*> IRAggregateIdentifierExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRAggregateIdentifierExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 
-IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {
+std::shared_ptr<IRInstructionNode> IRAggregateIdentifierExpressionNode::getAggregateSourceAllocation() {
     if (!_sourceAllocation->getParentAllocation()) {
         throw std::logic_error("source allocation has no parent allocation");
     }
@@ -41,11 +41,11 @@ IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateSourceAlloca
     return _sourceAllocation->getParentAllocation().value();
 }
 
-IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregateAllocation() {
+std::shared_ptr<IRInstructionNode> IRAggregateIdentifierExpressionNode::getAggregateAllocation() {
     return _arrayAllocation;
 }
 
-IRInstructionNode* IRAggregateIdentifierExpressionNode::getAggregatePointerAllocation() {
+std::shared_ptr<IRInstructionNode> IRAggregateIdentifierExpressionNode::getAggregatePointerAllocation() {
     return _arrayPointerAllocation;
 }
 

@@ -13,11 +13,11 @@
 class IRVariableAssignmentStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTVariableAssignmentStatementNode> _node;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
 public:
-    IRVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentStatementNode> node, IRExpressionNode* irExpression);
+    IRVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression);
     std::string getVariableName();
-    IRExpressionNode* getIRExpression();
+    std::shared_ptr<IRExpressionNode> getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

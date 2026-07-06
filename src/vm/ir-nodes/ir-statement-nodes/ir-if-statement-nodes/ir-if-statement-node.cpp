@@ -4,17 +4,17 @@
 
 #include "ir-if-statement-node.h"
 
-IRIfStatementNode::IRIfStatementNode(std::shared_ptr<ASTIfStatementNode> node, IRIfElseNode* ifElseNode, std::optional<IRBlockNode*> elseNode) {
+IRIfStatementNode::IRIfStatementNode(std::shared_ptr<ASTIfStatementNode> node, std::shared_ptr<IRIfElseNode> ifElseNode, std::optional<std::shared_ptr<IRBlockNode>> elseNode) {
     _node = node;
     _ifElseNode = ifElseNode;
     _elseNode = elseNode;
 }
 
-IRIfElseNode* IRIfStatementNode::getIfElseNode() {
+std::shared_ptr<IRIfElseNode> IRIfStatementNode::getIfElseNode() {
     return _ifElseNode;
 }
 
-std::optional<IRBlockNode*> IRIfStatementNode::getElseNode() {
+std::optional<std::shared_ptr<IRBlockNode>> IRIfStatementNode::getElseNode() {
     return _elseNode;
 }
 

@@ -13,14 +13,14 @@
 class IRIdentifierExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTIdentifierExpressionNode> _node;
-    IRInstructionNode* _irValue;
-    std::optional<IRInstructionNode*> _irArc;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::optional<std::shared_ptr<IRInstructionNode>> _irArc;
     std::shared_ptr<IRPointerType> _irType;
 public:
-    IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
-    IRInstructionNode* getIRValue();
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
-    std::optional<IRInstructionNode*> getArc() override;
+    IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::optional<std::shared_ptr<IRInstructionNode>> irArc = {});
+    std::shared_ptr<IRInstructionNode> getIRValue();
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

@@ -12,7 +12,7 @@
 
 class ExpressionStatementIRStrategy {
 public:
-    IRStatementNode* generate(std::shared_ptr<ASTExpressionStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTExpressionStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_EXPRESSION_STATEMENT_IR_STRATEGY_H

@@ -4,7 +4,7 @@
 
 #include "ir-ref-expression-node.h"
 
-IRRefExpressionNode::IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRRefType> irType, IRInstructionNode* irValue, IRInstructionNode* irArc) {
+IRRefExpressionNode::IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRRefType> irType, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc) {
     _node = node;
     _irExpression = irExpression;
     _irType = irType;
@@ -17,11 +17,11 @@ void IRRefExpressionNode::markAsGlobal() {
     _irExpression->markAsGlobal();
 }
 
-IRExpressionNode* IRRefExpressionNode::getExpression() {
+std::shared_ptr<IRExpressionNode> IRRefExpressionNode::getExpression() {
     return _irExpression;
 }
 
-IRInstructionNode* IRRefExpressionNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRRefExpressionNode::getIRValue() {
     return _irValue;
 }
 
@@ -45,11 +45,11 @@ Position* IRRefExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-std::optional<IRInstructionNode*> IRRefExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRRefExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRRefExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRRefExpressionNode::getArc() {
     return _irArc;
 }
 

@@ -13,9 +13,9 @@
 class IREnumDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTEnumDeclarationNode> _node;
-    IRInstructionNode* _irValue;
+    std::shared_ptr<IRInstructionNode> _irValue;
 public:
-    IREnumDeclarationNode(std::shared_ptr<ASTEnumDeclarationNode> node, IRInstructionNode* irValue);
+    IREnumDeclarationNode(std::shared_ptr<ASTEnumDeclarationNode> node, std::shared_ptr<IRInstructionNode> irValue);
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

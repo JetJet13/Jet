@@ -13,12 +13,12 @@
 class IRLoadInstructionNode : public IRNode {
 private:
     llvm::LoadInst* _irValue;
-    IRInstructionNode* _loadedInstruction;
+    std::shared_ptr<IRInstructionNode> _loadedInstruction;
 public:
-    IRLoadInstructionNode(llvm::LoadInst* irValue, IRInstructionNode* loadedInstruction);
+    IRLoadInstructionNode(llvm::LoadInst* irValue, std::shared_ptr<IRInstructionNode> loadedInstruction);
     llvm::LoadInst* getValue();
     llvm::Type* getType();
-    IRInstructionNode* getLoadedInstruction();
+    std::shared_ptr<IRInstructionNode> getLoadedInstruction();
     std::shared_ptr<IRType> getIRType();
     IRNodeType getNodeType() override;
     std::string toString() override;

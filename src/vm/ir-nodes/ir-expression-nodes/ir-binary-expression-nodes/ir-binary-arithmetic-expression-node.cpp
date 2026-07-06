@@ -5,7 +5,7 @@
 #include "ir-binary-arithmetic-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type) {
+IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode, std::shared_ptr<IRType> type) {
     _node = astNode;
     _irValue = irValue;
     _irLeftNode = irLeftNode;
@@ -13,13 +13,13 @@ IRBinaryArithmeticExpressionNode::IRBinaryArithmeticExpressionNode(std::shared_p
     _type = type;
 }
 
-std::vector<IRExpressionNode*> IRBinaryArithmeticExpressionNode::getListOfOperands() {
-    auto expressionList = std::vector<IRExpressionNode*>();
+std::vector<std::shared_ptr<IRExpressionNode>> IRBinaryArithmeticExpressionNode::getListOfOperands() {
+    auto expressionList = std::vector<std::shared_ptr<IRExpressionNode>>();
     if (_irLeftNode->isGrouped()) {
         Logger::log("LEFT NODE IS GROUPED");
     }
     if (_irLeftNode->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE) && !_irLeftNode->isGrouped()) {
-        auto leftNode = (IRBinaryArithmeticExpressionNode*)_irLeftNode;
+        auto leftNode = std::dynamic_pointer_cast<IRBinaryArithmeticExpressionNode>(_irLeftNode);
         auto leftNodeListOfExpressions = leftNode->getListOfOperands();
         expressionList.insert(
                 expressionList.end(),
@@ -34,7 +34,7 @@ std::vector<IRExpressionNode*> IRBinaryArithmeticExpressionNode::getListOfOperan
         Logger::log("RIGHT NODE IS GROUPED");
     }
     if (_irRightNode->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE) && !_irRightNode->isGrouped()) {
-        auto rightNode = (IRBinaryArithmeticExpressionNode*)_irRightNode;
+        auto rightNode = std::dynamic_pointer_cast<IRBinaryArithmeticExpressionNode>(_irRightNode);
         auto rightNodeListOfExpressions = rightNode->getListOfOperands();
         expressionList.insert(
                 expressionList.end(),
@@ -47,11 +47,11 @@ std::vector<IRExpressionNode*> IRBinaryArithmeticExpressionNode::getListOfOperan
     return expressionList;
 }
 
-std::vector<IRBinaryOperatorNode*> IRBinaryArithmeticExpressionNode::getListOfOperations() {
-    auto operationList = std::vector<IRBinaryOperatorNode*>();
+std::vector<std::shared_ptr<IRBinaryOperatorNode>> IRBinaryArithmeticExpressionNode::getListOfOperations() {
+    auto operationList = std::vector<std::shared_ptr<IRBinaryOperatorNode>>();
 
     if (_irLeftNode->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE) && !_irLeftNode->isGrouped()) {
-        auto leftNode = (IRBinaryArithmeticExpressionNode*)_irLeftNode;
+        auto leftNode = std::dynamic_pointer_cast<IRBinaryArithmeticExpressionNode>(_irLeftNode);
         auto leftNodeListOfExpressions = leftNode->getListOfOperations();
         operationList.insert(
                 operationList.end(),
@@ -60,9 +60,9 @@ std::vector<IRBinaryOperatorNode*> IRBinaryArithmeticExpressionNode::getListOfOp
         );
     }
 
-    operationList.push_back(new IRBinaryOperatorNode(_irValue));
+    operationList.push_back(std::make_shared<IRBinaryOperatorNode>(_irValue));
     if (_irRightNode->is(IR_BINARY_ARITHMETIC_EXPRESSION_NODE) && !_irRightNode->isGrouped()) {
-        auto rightNode = (IRBinaryArithmeticExpressionNode*)_irRightNode;
+        auto rightNode = std::dynamic_pointer_cast<IRBinaryArithmeticExpressionNode>(_irRightNode);
         auto rightNodeListOfExpressions = rightNode->getListOfOperations();
         operationList.insert(
             operationList.end(),
@@ -83,11 +83,11 @@ llvm::BinaryOperator* IRBinaryArithmeticExpressionNode::getValue() {
     return _irValue;
 }
 
-IRExpressionNode* IRBinaryArithmeticExpressionNode::getLeftNode() {
+std::shared_ptr<IRExpressionNode> IRBinaryArithmeticExpressionNode::getLeftNode() {
     return _irLeftNode;
 }
 
-IRExpressionNode* IRBinaryArithmeticExpressionNode::getRightNode() {
+std::shared_ptr<IRExpressionNode> IRBinaryArithmeticExpressionNode::getRightNode() {
     return _irRightNode;
 }
 

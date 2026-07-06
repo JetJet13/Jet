@@ -14,14 +14,14 @@
 class IRFunctionParameterDeclarationNode : public IRDeclarationNode {
 private:
     llvm::Argument* _argument;
-    IRInstructionNode* _irValue;
-    std::optional<IRInstructionNode*> _irArc;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::optional<std::shared_ptr<IRInstructionNode>> _irArc;
 public:
-    IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc = {});
+    IRFunctionParameterDeclarationNode(llvm::Argument* argument, std::shared_ptr<IRInstructionNode> irValue, std::optional<std::shared_ptr<IRInstructionNode>> irArc = {});
     llvm::Value* getValue() override;
     llvm::Argument* getArgument();
-    IRInstructionNode* getAllocation();
-    std::optional<IRInstructionNode*> getArc();
+    std::shared_ptr<IRInstructionNode> getAllocation();
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

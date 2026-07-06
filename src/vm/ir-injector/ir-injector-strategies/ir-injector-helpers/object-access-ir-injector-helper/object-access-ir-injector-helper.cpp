@@ -7,7 +7,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-type/ir-class-instance-type.h"
 
-llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRObjectAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
+llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRObjectAccessExpressionNode> irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
     if (irType->isStructRefType()) {
         auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irType);
@@ -31,7 +31,7 @@ llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlo
     }
 }
 
-llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(IRBlockNode* irBlock, IRTupleAccessExpressionNode* irExpression, llvm::Value* sourceValue) {
+llvm::Value* ObjectAccessIRInjectorHelper::getPointerToTarget(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRTupleAccessExpressionNode> irExpression, llvm::Value* sourceValue) {
     auto irType = irExpression->getSource()->getUnderlyingIRType();
     if (irType->isStructRefType()) {
         auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irType);

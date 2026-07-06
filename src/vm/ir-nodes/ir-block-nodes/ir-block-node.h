@@ -15,20 +15,20 @@
 #include "../../ir-lookup-table/ir-lookup-table.h"
 #include "../ir-node-to-free.h"
 
-class IRBlockNode {
+class IRBlockNode : public std::enable_shared_from_this<IRBlockNode> {
 protected:
     llvm::BasicBlock* _irValue;
     IRBlockType _type;
     IRLookupTable* _scope;
     std::unique_ptr<llvm::IRBuilder<>> _builder;
-    std::vector<IRNode*> _body;
-    std::vector<IRBlockNode*> _childBlocks;
-    std::vector<IRBlockNode*> _nestedBlocks;
-    std::vector<IRBlockNode*> _successors;
-    std::optional<IRBlockNode*> _parentBlock;
-    std::optional<IRBlockNode*> _nestedParentBlock;
+    std::vector<std::shared_ptr<IRNode>> _body;
+    std::vector<std::shared_ptr<IRBlockNode>> _childBlocks;
+    std::vector<std::shared_ptr<IRBlockNode>> _nestedBlocks;
+    std::vector<std::shared_ptr<IRBlockNode>> _successors;
+    std::optional<std::shared_ptr<IRBlockNode>> _parentBlock;
+    std::optional<std::shared_ptr<IRBlockNode>> _nestedParentBlock;
     std::vector<IRNodeToFree*> _nodesToFree;
-    std::optional<IRFunctionReturnExpressionNode*> _returnExpression;
+    std::optional<std::shared_ptr<IRFunctionReturnExpressionNode>> _returnExpression;
     bool _allowedToFreeNodes = true;
     bool _representsRealBlock = true;
 public:
@@ -40,43 +40,43 @@ public:
     bool isUnreachable();
     bool isAllowedToFreeNodes();
     void preventFreeingNodes();
-    IRBlockNode* markAsFakeBlock();
+    std::shared_ptr<IRBlockNode> markAsFakeBlock();
     IRLookupTable* getScope();
     llvm::BasicBlock* getBlock();
-    std::vector<IRNode*>* getBody();
-    void insert(IRNode* irNode);
+    std::vector<std::shared_ptr<IRNode>>* getBody();
+    void insert(std::shared_ptr<IRNode> irNode);
     std::unique_ptr<llvm::IRBuilder<>>* getBuilder();
     void addVoidReturn();
     bool hasNodesToFree();
-    void addExpressionToFree(IRExpressionNode* expressionNode, std::optional<IRBlockNode*> associatedIRBlock = {});
-    void addVariableToFree(IRVariableDeclarationNode* variableNode, std::optional<IRBlockNode*> associatedIRBlock = {});
-    void addLambdaVariableToFree(IRVariableDeclarationNode* variableNode, std::optional<IRBlockNode*> associatedIRBlock = {});
+    void addExpressionToFree(std::shared_ptr<IRExpressionNode> expressionNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
+    void addVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
+    void addLambdaVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
     std::vector<IRNodeToFree*>* getNodesToFree();
     std::vector<IRNodeToFree*> getNestedParentsNodesToFree();
-    void setFinalBlockForNodesToFree(IRBlockNode* irBlock);
+    void setFinalBlockForNodesToFree(std::shared_ptr<IRBlockNode> irBlock);
     virtual void setInsertionPointBeforeLastInstruction();
     virtual void setInsertionPointBeforeFirstInstruction();
     virtual void resetInsertionPoint();
     virtual void removeLastInstruction();
-    void adoptNodesToFreeFrom(IRBlockNode* other);
-    void addReturnExpression(IRFunctionReturnExpressionNode* returnExpressionNode);
-    std::optional<IRFunctionReturnExpressionNode*> getReturnExpression();
+    void adoptNodesToFreeFrom(std::shared_ptr<IRBlockNode> other);
+    void addReturnExpression(std::shared_ptr<IRFunctionReturnExpressionNode> returnExpressionNode);
+    std::optional<std::shared_ptr<IRFunctionReturnExpressionNode>> getReturnExpression();
     void createChild();
-    std::vector<IRBlockNode*>* getSuccessors();
-    std::set<IRBlockNode*>* getAllSuccessors();
-    std::set<IRBlockNode*> getAllChildrenThatReturn();
-    std::vector<IRBlockNode*>* getNestedBlocks();
+    std::vector<std::shared_ptr<IRBlockNode>>* getSuccessors();
+    std::set<std::shared_ptr<IRBlockNode>>* getAllSuccessors();
+    std::set<std::shared_ptr<IRBlockNode>> getAllChildrenThatReturn();
+    std::vector<std::shared_ptr<IRBlockNode>>* getNestedBlocks();
     bool hasNestedBlocks();
     bool allImmediateNestedBlocksReturn();
-    void nest(IRBlockNode* irBlock);
-    IRBlockNode* getLastChildOrSelf();
-    std::optional<IRBlockNode*> getNestedParentBlock();
+    void nest(std::shared_ptr<IRBlockNode> irBlock);
+    std::shared_ptr<IRBlockNode> getLastChildOrSelf();
+    std::optional<std::shared_ptr<IRBlockNode>> getNestedParentBlock();
     bool is(IRBlockType blockType);
     bool isOneOf(std::vector<IRBlockType> blockTypes);
     bool canReturn();
     bool isEntryBlock();
-    void setParentBlock(IRBlockNode* parentIRBlock);
-    void setNestedParentBlock(IRBlockNode* nestedParentIRBlock);
+    void setParentBlock(std::shared_ptr<IRBlockNode> parentIRBlock);
+    void setNestedParentBlock(std::shared_ptr<IRBlockNode> nestedParentIRBlock);
 };
 
 #endif //JETLANG_IR_BLOCK_NODE_H

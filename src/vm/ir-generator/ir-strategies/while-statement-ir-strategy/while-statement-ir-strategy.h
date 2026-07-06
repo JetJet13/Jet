@@ -11,9 +11,9 @@
 
 class WhileStatementIRStrategy {
 private:
-    IRBlockNode* setupBlock(IRBlockNode* irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRBlockNode> setupBlock(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 public:
-    IRStatementNode* generate(std::shared_ptr<ASTWhileStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTWhileStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_WHILE_STATEMENT_IR_STRATEGY_H

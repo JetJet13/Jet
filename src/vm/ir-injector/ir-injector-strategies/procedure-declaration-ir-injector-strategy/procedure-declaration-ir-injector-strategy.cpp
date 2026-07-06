@@ -8,7 +8,7 @@
 #include "../../../ir-type/ir-invocable-type.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void ProcedureDeclarationIRInjectorStrategy::inject(IRProcedureDeclarationNode* irProcedureDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ProcedureDeclarationIRInjectorStrategy::inject(std::shared_ptr<IRProcedureDeclarationNode> irProcedureDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     irInjector->inject(irBlock, irProcedureDeclaration->getBlock(), irModule);
     if (!irProcedureDeclaration->getBlock()->hasReturnStatement()) {
         irProcedureDeclaration->getBlock()->getLastChildOrSelf()->addVoidReturn();

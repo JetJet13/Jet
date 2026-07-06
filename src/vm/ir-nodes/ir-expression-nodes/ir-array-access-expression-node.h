@@ -13,17 +13,17 @@
 class IRArrayAccessExpressionNode : public IRExpressionNode {
 protected:
     std::shared_ptr<ASTArrayAccessExpressionNode> _node;
-    IRExpressionNode* _irSource;
-    IRExpressionNode* _irIndex;
+    std::shared_ptr<IRExpressionNode> _irSource;
+    std::shared_ptr<IRExpressionNode> _irIndex;
     std::shared_ptr<IRType> _type;
-    std::optional<IRInstructionNode*> _sourceAllocation;
+    std::optional<std::shared_ptr<IRInstructionNode>> _sourceAllocation;
 public:
-    IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRExpressionNode* irSource, IRExpressionNode* irIndex, std::shared_ptr<IRType> type, std::optional<IRInstructionNode*> sourceAllocation);
+    IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, std::shared_ptr<IRExpressionNode> irIndex, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation);
     void markAsGlobal() override;
-    IRExpressionNode* getSourceExpression();
-    IRExpressionNode* getIndexExpression();
+    std::shared_ptr<IRExpressionNode> getSourceExpression();
+    std::shared_ptr<IRExpressionNode> getIndexExpression();
     std::shared_ptr<ASTArrayAccessExpressionNode> getNode();
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

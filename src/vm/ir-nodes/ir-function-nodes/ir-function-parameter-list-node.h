@@ -14,14 +14,14 @@
 class IRFunctionParameterListNode : public IRNode {
 private:
     std::shared_ptr<ASTFunctionParameterListNode> _node;
-    std::vector<IRFunctionParameterNode*> _parameters;
-    std::optional<IRFunctionParameterNode*> _scopeParameter;
+    std::vector<std::shared_ptr<IRFunctionParameterNode>> _parameters;
+    std::optional<std::shared_ptr<IRFunctionParameterNode>> _scopeParameter;
 public:
-    IRFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListNode> node, std::vector<IRFunctionParameterNode*> parameters);
-    void addLambdaScopeParameter(IRFunctionParameterNode* parameter);
-    void addClassScopeParameter(IRFunctionParameterNode* classScopeParameter);
-    std::optional<IRFunctionParameterNode*> getLambdaScopeParameter();
-    std::vector<IRFunctionParameterNode*>* getParameters();
+    IRFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListNode> node, std::vector<std::shared_ptr<IRFunctionParameterNode>> parameters);
+    void addLambdaScopeParameter(std::shared_ptr<IRFunctionParameterNode> parameter);
+    void addClassScopeParameter(std::shared_ptr<IRFunctionParameterNode> classScopeParameter);
+    std::optional<std::shared_ptr<IRFunctionParameterNode>> getLambdaScopeParameter();
+    std::vector<std::shared_ptr<IRFunctionParameterNode>>* getParameters();
     std::vector<llvm::Argument*> getArguments();
     IRNodeType getNodeType() override;
     std::string toString() override;

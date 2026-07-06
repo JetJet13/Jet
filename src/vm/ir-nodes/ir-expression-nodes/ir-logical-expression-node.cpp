@@ -4,7 +4,7 @@
 
 #include "ir-logical-expression-node.h"
 
-IRLogicalExpressionNode::IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRType> type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode) {
+IRLogicalExpressionNode::IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode) {
     _node = astNode;
     _irValue = irValue;
     _type = type;
@@ -38,11 +38,11 @@ llvm::BinaryOperator* IRLogicalExpressionNode::getValue() {
     return _irValue;
 }
 
-IRExpressionNode* IRLogicalExpressionNode::getLeftNode() {
+std::shared_ptr<IRExpressionNode> IRLogicalExpressionNode::getLeftNode() {
     return _irLeftNode;
 }
 
-IRExpressionNode* IRLogicalExpressionNode::getRightNode() {
+std::shared_ptr<IRExpressionNode> IRLogicalExpressionNode::getRightNode() {
     return _irRightNode;
 }
 

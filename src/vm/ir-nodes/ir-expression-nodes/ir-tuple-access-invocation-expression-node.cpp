@@ -5,7 +5,7 @@
 #include "ir-tuple-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type) {
+IRTupleAccessInvocationExpressionNode::IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, std::shared_ptr<IRExpressionNode> source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type) {
     _node = node;
     _source = source;
     _irCallInstruction = irCallInstruction;
@@ -22,11 +22,11 @@ void IRTupleAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRExpressionNode* IRTupleAccessInvocationExpressionNode::getSource() {
+std::shared_ptr<IRExpressionNode> IRTupleAccessInvocationExpressionNode::getSource() {
     return _source;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRTupleAccessInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

@@ -14,10 +14,10 @@
 
 class LiteralIRBinaryArithmeticExpressionInjectorStrategy {
 private:
-    IRBinaryArithmeticNode* findNextOperationIndex(std::vector<IRBinaryOperatorNode*>* operations);
-    llvm::Value* calculate(IRBlockNode* irBlock, IRBinaryArithmeticNode* binaryOp, llvm::Value* leftValue, llvm::Value* rightValue, std::shared_ptr<IRModuleNode> irModule);
+    std::shared_ptr<IRBinaryArithmeticNode> findNextOperationIndex(std::vector<std::shared_ptr<IRBinaryOperatorNode>>* operations);
+    llvm::Value* calculate(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBinaryArithmeticNode> binaryOp, llvm::Value* leftValue, llvm::Value* rightValue, std::shared_ptr<IRModuleNode> irModule);
 public:
-    llvm::Value* inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 

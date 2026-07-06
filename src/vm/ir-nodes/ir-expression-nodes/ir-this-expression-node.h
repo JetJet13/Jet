@@ -13,12 +13,12 @@
 class IRThisExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTThisExpressionNode> _node;
-    IRInstructionNode* _irValue;
+    std::shared_ptr<IRInstructionNode> _irValue;
     std::shared_ptr<IRPointerType> _irType;
 public:
-    IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, IRInstructionNode* irValue);
-    IRInstructionNode* getIRValue();
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
+    IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue);
+    std::shared_ptr<IRInstructionNode> getIRValue();
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

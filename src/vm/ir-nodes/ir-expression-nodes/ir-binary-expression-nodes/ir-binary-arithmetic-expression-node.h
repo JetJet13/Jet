@@ -14,17 +14,17 @@ class IRBinaryArithmeticExpressionNode : public IRBinaryExpressionNode {
 private:
     std::shared_ptr<ASTBinaryArithmeticExpressionNode> _node;
     llvm::BinaryOperator* _irValue;
-    IRExpressionNode* _irLeftNode;
-    IRExpressionNode* _irRightNode;
+    std::shared_ptr<IRExpressionNode> _irLeftNode;
+    std::shared_ptr<IRExpressionNode> _irRightNode;
     std::shared_ptr<IRType> _type;
 public:
-    IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type);
-    std::vector<IRExpressionNode*> getListOfOperands();
-    std::vector<IRBinaryOperatorNode*> getListOfOperations();
+    IRBinaryArithmeticExpressionNode(std::shared_ptr<ASTBinaryArithmeticExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode, std::shared_ptr<IRType> type);
+    std::vector<std::shared_ptr<IRExpressionNode>> getListOfOperands();
+    std::vector<std::shared_ptr<IRBinaryOperatorNode>> getListOfOperations();
     void markAsGlobal() override;
     llvm::BinaryOperator* getValue() override;
-    IRExpressionNode* getLeftNode();
-    IRExpressionNode* getRightNode();
+    std::shared_ptr<IRExpressionNode> getLeftNode();
+    std::shared_ptr<IRExpressionNode> getRightNode();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;

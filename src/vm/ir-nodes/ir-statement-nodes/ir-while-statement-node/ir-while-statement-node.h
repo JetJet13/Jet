@@ -12,17 +12,17 @@
 class IRWhileStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTWhileStatementNode> _node;
-    IRExpressionNode* _condition;
-    IRBlockNode* _whileBlock;
-    IRBlockNode* _bodyBlock;
-    IRBlockNode* _endBlock;
+    std::shared_ptr<IRExpressionNode> _condition;
+    std::shared_ptr<IRBlockNode> _whileBlock;
+    std::shared_ptr<IRBlockNode> _bodyBlock;
+    std::shared_ptr<IRBlockNode> _endBlock;
 public:
-    IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock);
-    IRExpressionNode* getExpression();
-    IRBlockNode* getWhileBlock();
-    IRBlockNode* getBodyBlock();
-    IRBlockNode* getEndBlock();
-    void nestIn(IRBlockNode* irBlock);
+    IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, std::shared_ptr<IRExpressionNode> condition, std::shared_ptr<IRBlockNode> whileBlock, std::shared_ptr<IRBlockNode> bodyBlock, std::shared_ptr<IRBlockNode> endBlock);
+    std::shared_ptr<IRExpressionNode> getExpression();
+    std::shared_ptr<IRBlockNode> getWhileBlock();
+    std::shared_ptr<IRBlockNode> getBodyBlock();
+    std::shared_ptr<IRBlockNode> getEndBlock();
+    void nestIn(std::shared_ptr<IRBlockNode> irBlock);
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

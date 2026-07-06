@@ -16,21 +16,21 @@
 class IRAggregateIdentifierExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTIdentifierExpressionNode> _node;
-    IRInstructionNode* _arrayAllocation;
-    IRInstructionNode* _arrayPointerAllocation;
+    std::shared_ptr<IRInstructionNode> _arrayAllocation;
+    std::shared_ptr<IRInstructionNode> _arrayPointerAllocation;
     llvm::GetElementPtrInst* _intPointer;
     llvm::LoadInst* _loadedNumElements;
-    IRInstructionNode* _sourceAllocation;
+    std::shared_ptr<IRInstructionNode> _sourceAllocation;
     std::shared_ptr<IRArrayPointerType> _type;
 public:
-    IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irAllocation, IRInstructionNode* arrayPointerSourceAllocation, IRInstructionNode* sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type);
+    IRAggregateIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, std::shared_ptr<IRInstructionNode> irAllocation, std::shared_ptr<IRInstructionNode> arrayPointerSourceAllocation, std::shared_ptr<IRInstructionNode> sourceAllocation, llvm::GetElementPtrInst* intPointer, llvm::LoadInst* loadedNumElements, std::shared_ptr<IRArrayPointerType> type);
     llvm::GetElementPtrInst* getIntPointer();
     llvm::LoadInst* getLoadedNumElements();
     llvm::Value* getValue() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
-    IRInstructionNode* getAggregateSourceAllocation();
-    IRInstructionNode* getAggregateAllocation();
-    IRInstructionNode* getAggregatePointerAllocation();
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
+    std::shared_ptr<IRInstructionNode> getAggregateSourceAllocation();
+    std::shared_ptr<IRInstructionNode> getAggregateAllocation();
+    std::shared_ptr<IRInstructionNode> getAggregatePointerAllocation();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;

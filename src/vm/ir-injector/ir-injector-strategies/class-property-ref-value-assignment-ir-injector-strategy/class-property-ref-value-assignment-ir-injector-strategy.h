@@ -13,7 +13,7 @@
 
 class ClassPropertyRefValueAssignmentIRInjectorStrategy {
 public:
-    void inject(IRClassPropertyRefValueAssignmentStatementNode* irClassPropertyRefValueAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRClassPropertyRefValueAssignmentStatementNode> irClassPropertyRefValueAssignmentStatementNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

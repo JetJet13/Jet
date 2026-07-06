@@ -13,12 +13,12 @@
 class IRArrayAccessAssignmentStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTArrayAccessAssignmentStatementNode> _node;
-    IRArrayAccessExpressionNode* _irArrayAccessExpression;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRArrayAccessExpressionNode> _irArrayAccessExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
 public:
-    IRArrayAccessAssignmentStatementNode(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression);
-    IRArrayAccessExpressionNode* getIRArrayAccessExpression();
-    IRExpressionNode* getIRExpression();
+    IRArrayAccessAssignmentStatementNode(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> node, std::shared_ptr<IRArrayAccessExpressionNode> irArrayAccessExpression, std::shared_ptr<IRExpressionNode> irExpression);
+    std::shared_ptr<IRArrayAccessExpressionNode> getIRArrayAccessExpression();
+    std::shared_ptr<IRExpressionNode> getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

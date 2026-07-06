@@ -4,7 +4,7 @@
 
 #include "ir-context.h"
 
-IRContext::IRContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context) {
+IRContext::IRContext(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context) {
     _irBlock = irBlock;
     _irModule = irModule;
     _context = context;
@@ -20,7 +20,7 @@ std::unique_ptr<llvm::LLVMContext>* IRContext::getContext() {
     return _context;
 }
 
-IRBlockNode* IRContext::getIRBlock() {
+std::shared_ptr<IRBlockNode> IRContext::getIRBlock() {
     return _irBlock;
 }
 
@@ -40,6 +40,6 @@ llvm::Function* IRContext::getFunction() {
     return _irBlock->getBlock()->getParent();
 }
 
-IRContext* IRContext::clone(IRBlockNode* irBlock) {
+IRContext* IRContext::clone(std::shared_ptr<IRBlockNode> irBlock) {
     return new IRContext(irBlock, _irModule, _context);
 }

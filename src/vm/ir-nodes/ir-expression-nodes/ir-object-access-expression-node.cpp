@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRExpressionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -26,15 +26,15 @@ std::shared_ptr<ASTObjectAccessExpressionNode> IRObjectAccessExpressionNode::get
     return _node;
 }
 
-std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRObjectAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 
-std::optional<IRInstructionNode*> IRObjectAccessExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRObjectAccessExpressionNode::getArc() {
     return _irSource->getArc();
 }
 
-IRExpressionNode* IRObjectAccessExpressionNode::getSource() {
+std::shared_ptr<IRExpressionNode> IRObjectAccessExpressionNode::getSource() {
     return _irSource;
 }
 

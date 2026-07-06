@@ -13,7 +13,7 @@
 
 class TupleAccessRefAssignmentIRInjectorStrategy {
 public:
-    void inject(IRTupleAccessRefAssignmentStatementNode* irTupleAccessRefAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRTupleAccessRefAssignmentStatementNode> irTupleAccessRefAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_REF_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

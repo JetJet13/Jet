@@ -28,7 +28,7 @@ void VM::addCompiledJetFile(IRJetFile* irJetFile) {
     _jetFileMap.insert(std::pair(irJetFile->getFile()->getId(), irJetFile));
 }
 
-IRFunctionNode* VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule) {
+std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule) {
     auto scope = irJetFile->getScope();
     auto jetFile = irJetFile->getFile();
     auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
@@ -40,7 +40,7 @@ IRFunctionNode* VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> 
     for (auto node : *jetFile->getFile()->getBody()) {
         _irGenerator->generatePostInitialTypeFor(node, scope, irContext);
     }
-    auto generatedIRNodes = std::vector<IRNode*>();
+    auto generatedIRNodes = std::vector<std::shared_ptr<IRNode>>();
     for (auto node : *jetFile->getFile()->getBody()) {
         generatedIRNodes.push_back(_irGenerator->generateFor(node, scope, irContext));
     }

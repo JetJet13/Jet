@@ -14,7 +14,7 @@
 
 class ClassStaticPropertyRefAssignmentIRInjectorStrategy {
 public:
-    void inject(IRClassStaticPropertyRefAssignmentStatementNode* irClassStaticPropertyRefAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRClassStaticPropertyRefAssignmentStatementNode> irClassStaticPropertyRefAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

@@ -5,7 +5,7 @@
 #include "ir-array-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRExpressionNode* irSource, IRExpressionNode* irIndex, std::shared_ptr<IRType> type, std::optional<IRInstructionNode*> sourceAllocation) {
+IRArrayAccessExpressionNode::IRArrayAccessExpressionNode(std::shared_ptr<ASTArrayAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, std::shared_ptr<IRExpressionNode> irIndex, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irIndex = irIndex;
@@ -20,11 +20,11 @@ void IRArrayAccessExpressionNode::markAsGlobal() {
 }
 
 
-IRExpressionNode* IRArrayAccessExpressionNode::getSourceExpression() {
+std::shared_ptr<IRExpressionNode> IRArrayAccessExpressionNode::getSourceExpression() {
     return _irSource;
 }
 
-IRExpressionNode* IRArrayAccessExpressionNode::getIndexExpression() {
+std::shared_ptr<IRExpressionNode> IRArrayAccessExpressionNode::getIndexExpression() {
     return _irIndex;
 }
 
@@ -32,7 +32,7 @@ std::shared_ptr<ASTArrayAccessExpressionNode> IRArrayAccessExpressionNode::getNo
     return _node;
 }
 
-std::optional<IRInstructionNode*> IRArrayAccessExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRArrayAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

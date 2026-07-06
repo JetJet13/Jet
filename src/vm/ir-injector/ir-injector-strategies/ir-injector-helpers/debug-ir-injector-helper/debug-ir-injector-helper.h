@@ -13,14 +13,14 @@
 class DebugIRInjectorHelper {
 public:
     static bool const _debugMode = true;
-    static void injectFunctionEnterLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectFunctionExitLog(IRBlockNode* irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectControlFlowEnterLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectControlFlowExitLog(IRBlockNode* irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectRefCountLog(IRBlockNode* irBlockNode, llvm::Value* idValue, llvm::Value* refValue, std::shared_ptr<IRModuleNode> irModule);
-    static void injectLog(IRBlockNode* irBlockNode, llvm::Value* log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectLog(IRBlockNode* irBlockNode, int log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
-    static void injectLog(IRBlockNode* irBlockNode, std::string log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectFunctionEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectFunctionExitLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectControlFlowEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectControlFlowExitLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectRefCountLog(std::shared_ptr<IRBlockNode> irBlockNode, llvm::Value* idValue, llvm::Value* refValue, std::shared_ptr<IRModuleNode> irModule);
+    static void injectLog(std::shared_ptr<IRBlockNode> irBlockNode, llvm::Value* log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectLog(std::shared_ptr<IRBlockNode> irBlockNode, int log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
+    static void injectLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule);
 };
 
 #endif //JETLANG_DEBUG_IR_INJECTOR_HELPER_H

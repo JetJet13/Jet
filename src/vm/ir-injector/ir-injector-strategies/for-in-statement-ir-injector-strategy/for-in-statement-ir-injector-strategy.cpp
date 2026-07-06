@@ -9,7 +9,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
-void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();
@@ -89,7 +89,7 @@ void ForInStatementIRInjectorStrategy::inject(IRForInStatementNode* irForInState
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
 }
 
-llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(IRForInStatementNode* irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
     if (sourceIrType->isRefType()) {
         return irInjector->inject(irBlock, irForInStatement->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());

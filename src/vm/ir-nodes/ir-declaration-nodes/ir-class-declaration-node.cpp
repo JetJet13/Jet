@@ -6,7 +6,7 @@
 
 #include <utility>
 
-IRClassDeclarationNode::IRClassDeclarationNode(std::shared_ptr<ASTClassDeclarationNode> node, IRInstructionNode* irValue, std::shared_ptr<IRClassType> type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties) {
+IRClassDeclarationNode::IRClassDeclarationNode(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRClassType> type, std::optional<std::shared_ptr<IRClassPreConstructorNode>> preConstructor, std::vector<std::shared_ptr<IRClassConstructorNode>> constructors, std::vector<std::shared_ptr<IRClassMethodNode>> methods, std::vector<std::shared_ptr<IRClassMethodNode>> staticMethods, std::vector<std::shared_ptr<IRClassStaticPropertyNode>> staticProperties) {
     _node = node;
     _type = type;
     _irValue = irValue;
@@ -21,23 +21,23 @@ std::shared_ptr<IRClassType> IRClassDeclarationNode::getIRType() {
     return _type;
 }
 
-std::optional<IRClassPreConstructorNode*> IRClassDeclarationNode::getPreConstructor() {
+std::optional<std::shared_ptr<IRClassPreConstructorNode>> IRClassDeclarationNode::getPreConstructor() {
     return _preConstructor;
 }
 
-std::vector<IRClassConstructorNode*>* IRClassDeclarationNode::getConstructors() {
+std::vector<std::shared_ptr<IRClassConstructorNode>>* IRClassDeclarationNode::getConstructors() {
     return &_constructors;
 }
 
-std::vector<IRClassMethodNode*>* IRClassDeclarationNode::getMethods() {
+std::vector<std::shared_ptr<IRClassMethodNode>>* IRClassDeclarationNode::getMethods() {
     return &_methods;
 }
 
-std::vector<IRClassMethodNode*>* IRClassDeclarationNode::getStaticMethods() {
+std::vector<std::shared_ptr<IRClassMethodNode>>* IRClassDeclarationNode::getStaticMethods() {
     return &_staticMethods;
 }
 
-std::vector<IRClassStaticPropertyNode*>* IRClassDeclarationNode::getStaticProperties() {
+std::vector<std::shared_ptr<IRClassStaticPropertyNode>>* IRClassDeclarationNode::getStaticProperties() {
     return &_staticProperties;
 }
 

@@ -4,8 +4,8 @@
 
 #include "class-method-invocation-expression-ir-strategy.h"
 
-IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto arguments = std::vector<IRFunctionArgumentNode*>();
+std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);
         arguments.push_back(
@@ -29,5 +29,5 @@ IRClassMethodInvocationExpressionNode* ClassMethodInvocationExpressionIRStrategy
     argList.push_back(irGenerator->generateConstantPointer());
 
     auto callInstruction = llvm::CallInst::Create(function->getFunctionType(), function, argList);
-    return new IRClassMethodInvocationExpressionNode(node, function, callInstruction, irFunctionType, arguments, irReturnType, scope->getClassScope().value());
+    return std::make_shared<IRClassMethodInvocationExpressionNode>(node, function, callInstruction, irFunctionType, arguments, irReturnType, scope->getClassScope().value());
 }

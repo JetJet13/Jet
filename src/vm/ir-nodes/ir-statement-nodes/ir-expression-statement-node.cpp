@@ -4,12 +4,12 @@
 
 #include "ir-expression-statement-node.h"
 
-IRExpressionStatementNode::IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, IRExpressionNode* irExpression) {
+IRExpressionStatementNode::IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irExpression = irExpression;
 }
 
-IRExpressionNode* IRExpressionStatementNode::getExpression() {
+std::shared_ptr<IRExpressionNode> IRExpressionStatementNode::getExpression() {
     return _irExpression;
 }
 

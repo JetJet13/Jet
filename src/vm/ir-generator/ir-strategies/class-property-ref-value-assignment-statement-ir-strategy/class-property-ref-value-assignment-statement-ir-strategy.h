@@ -11,7 +11,7 @@
 
 class ClassPropertyRefValueAssignmentStatementIRStrategy {
 public:
-    IRStatementNode* generate(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

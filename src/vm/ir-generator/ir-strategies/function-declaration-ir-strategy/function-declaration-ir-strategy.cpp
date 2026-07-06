@@ -9,7 +9,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(std::shared_ptr<ASTFunctionDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRFunctionDeclarationNode> FunctionDeclarationIRStrategy::generate(std::shared_ptr<ASTFunctionDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto functionScope = new IRLookupTable();
     functionScope->inherit(scope);
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), functionScope, irContext);
@@ -24,7 +24,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(std::shared_p
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
+        functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
@@ -46,7 +46,7 @@ IRFunctionDeclarationNode* FunctionDeclarationIRStrategy::generate(std::shared_p
             globalVariable,
             irGenerator->generateIrPointerType(globalVariableIRType)
     );
-    auto irFunctionDeclaration = new IRFunctionDeclarationNode(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
+    auto irFunctionDeclaration = std::make_shared<IRFunctionDeclarationNode>(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
     scope->insertGlobalVariable(irFunctionId, irGlobalVariable);
 
     return irFunctionDeclaration;

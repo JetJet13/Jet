@@ -12,7 +12,7 @@
 
 class StringLiteralIRStrategy {
 public:
-    IRStringLiteralNode* generate(std::shared_ptr<ASTStringLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext);
+    std::shared_ptr<IRStringLiteralNode> generate(std::shared_ptr<ASTStringLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext);
     llvm::Constant* generateIRString(std::string rawString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
 };
 

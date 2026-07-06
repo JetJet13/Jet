@@ -4,7 +4,7 @@
 
 #include "ir-tuple-expression-node.h"
 
-IRTupleExpressionNode::IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues) {
+IRTupleExpressionNode::IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc, std::shared_ptr<IRStructRefType> type, std::vector<std::shared_ptr<IRExpressionNode>> irValues) {
     _node = node;
     _irValue = irValue;
     _irArc = irArc;
@@ -27,15 +27,15 @@ unsigned long IRTupleExpressionNode::size() {
     return _irValues.size();
 }
 
-IRInstructionNode* IRTupleExpressionNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRTupleExpressionNode::getIRValue() {
     return _irValue;
 }
 
-std::vector<IRExpressionNode*>* IRTupleExpressionNode::getValues() {
+std::vector<std::shared_ptr<IRExpressionNode>>* IRTupleExpressionNode::getValues() {
     return &_irValues;
 }
 
-std::optional<IRInstructionNode*> IRTupleExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRTupleExpressionNode::getArc() {
     return _irArc;
 }
 

@@ -6,12 +6,12 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto operation = this->determineOperationType(node);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irContext);
 
-    auto irGlobalVariable = std::optional<IRInstructionNode*>();
+    auto irGlobalVariable = std::optional<std::shared_ptr<IRInstructionNode>>();
     if (node->isGlobal()) {
         auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
         auto globalVariable = new llvm::GlobalVariable(
@@ -42,7 +42,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(std::shared_p
         variableAllocation->setParentAllocation(irExpression->getSourceAllocation());
     }
 
-    auto irArc = std::optional<IRInstructionNode*>();
+    auto irArc = std::optional<std::shared_ptr<IRInstructionNode>>();
     if (irType->requiresArc()) {
         irArc = irGenerator->generateArcAllocation(irContext, irType, variableAllocation->getValue(), node->getCaptureCount());
         scope->insertArc(node->getId(), irArc.value());
@@ -51,7 +51,7 @@ IRVariableDeclarationNode* VariableDeclarationIRStrategy::generate(std::shared_p
         scope->insertArc(node->getId(), irArc.value());
     }
 
-    return new IRVariableDeclarationNode(node, variableAllocation, irExpression, irGenerator->generateRawString(node->getId()), irGlobalVariable, irArc);
+    return std::make_shared<IRVariableDeclarationNode>(node, variableAllocation, irExpression, irGenerator->generateRawString(node->getId()), irGlobalVariable, irArc);
 }
 
 IROperation* VariableDeclarationIRStrategy::determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node) {
@@ -61,7 +61,7 @@ IROperation* VariableDeclarationIRStrategy::determineOperationType(std::shared_p
     return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? new IROperation(IR_REF_ASSIGNMENT_OP) : new IROperation(IR_COPY_ASSIGNMENT_OP);
 }
 
-IRInstructionNode* VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext) {
+std::shared_ptr<IRInstructionNode> VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext) {
     if (node->isCaptured()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

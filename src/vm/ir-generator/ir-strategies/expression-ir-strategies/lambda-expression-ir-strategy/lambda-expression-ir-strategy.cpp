@@ -10,7 +10,7 @@
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRLambdaWithBlockExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
@@ -31,10 +31,10 @@ IRLambdaWithBlockExpressionNode* LambdaExpressionIRStrategy::generate(std::share
         }
     }
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
-    return new IRLambdaWithBlockExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction);
+    return std::make_shared<IRLambdaWithBlockExpressionNode>(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction);
 }
 
-IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto lambdaScope = new IRLookupTable(scope);
     auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getLambdaTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
@@ -48,21 +48,21 @@ IRLambdaWithFatArrowExpressionNode* LambdaExpressionIRStrategy::generate(std::sh
     auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaBlock->getScope(), lambdaIrContext, new IROperation(IR_OPERAND_VALUE_OP));
     returnExpression->markAsReturned();
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
-    return new IRLambdaWithFatArrowExpressionNode(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);
+    return std::make_shared<IRLambdaWithFatArrowExpressionNode>(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);
 }
 
-void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, IRFunctionParameterListNode* functionParameterList, IRBlockNode* functionBlock, IRContext* irContext) {
+void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, IRLookupTable* scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, IRContext* irContext) {
     for (unsigned long i = 0; i < functionParameterList->getParameters()->size(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(
-                new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc())
+                std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc())
         );
     }
 
     auto lambdaScopeParameterType = irGenerator->generateParameterType(typeSignature->getScopeParameter(), scope, irContext);
     auto argument = new llvm::Argument(lambdaScopeParameterType->getType(), lambdaScopeParameterType->getName(), irFunction, irFunction->arg_size() - 1);
-    auto scopeParameter = new IRFunctionParameterNode(argument, lambdaScopeParameterType, irGenerator->generateFunctionParameterAllocation(lambdaScopeParameterType->getIRType()));
+    auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, lambdaScopeParameterType, irGenerator->generateFunctionParameterAllocation(lambdaScopeParameterType->getIRType()));
     functionParameterList->addLambdaScopeParameter(scopeParameter);
 
     if (typeSignature->isScopeParameterNecessary()) {

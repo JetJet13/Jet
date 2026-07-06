@@ -5,7 +5,7 @@
 #include "ir-object-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, std::optional<IRExpressionNode*> scopeArgument) {
+IRObjectAccessInvocationExpressionNode::IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, std::shared_ptr<IRExpressionNode> source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRExpressionNode>> scopeArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _source = source;
@@ -23,16 +23,16 @@ void IRObjectAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRExpressionNode* IRObjectAccessInvocationExpressionNode::getSource() {
+std::shared_ptr<IRExpressionNode> IRObjectAccessInvocationExpressionNode::getSource() {
     return _source;
 }
 
 
-std::optional<IRExpressionNode*> IRObjectAccessInvocationExpressionNode::getScopeArgument() {
+std::optional<std::shared_ptr<IRExpressionNode>> IRObjectAccessInvocationExpressionNode::getScopeArgument() {
     return _scopeArgument;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRObjectAccessInvocationExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRObjectAccessInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

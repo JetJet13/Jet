@@ -13,7 +13,7 @@
 
 class FunctionReturnIRInjectorStrategy {
 public:
-    void inject(IRFunctionReturnExpressionNode* irFunctionReturnExpression, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRFunctionReturnExpressionNode> irFunctionReturnExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_IR_INJECTOR_STRATEGY_H

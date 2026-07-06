@@ -8,11 +8,11 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUnaryExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRUnaryExpressionNode> UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUnaryExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getUnaryOperatorNode()->isPlus()) {
-        return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+        return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 irGenerator->generateInt64Constant(1),
                 irGenerator->generateInt64Constant(1) // placeholder
@@ -20,18 +20,18 @@ IRUnaryExpressionNode* UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUn
     } else if (node->getUnaryOperatorNode()->isMinus()) {
         auto isFloat = node->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE);
         if (isFloat) {
-            return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+            return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
                     llvm::Instruction::BinaryOps::FSub,
                     irGenerator->generateFloatConstant(0),
                     irGenerator->generateFloatConstant(0) // placeholder
             ), expressionIr, irType);
         }
-        return new IRUnaryArithmeticExpressionNode(node, llvm::BinaryOperator::Create(
+        return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Sub,
                 irGenerator->generateInt64Constant(0),
                 irGenerator->generateInt64Constant(0) // placeholder
         ), expressionIr, irType);
     } else {
-        return new IRUnaryNegateExpressionNode(node, expressionIr, irType);
+        return std::make_shared<IRUnaryNegateExpressionNode>(node, expressionIr, irType);
     }
 }

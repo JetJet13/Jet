@@ -4,7 +4,7 @@
 
 #include "ir-class-static-property-node.h"
 
-IRClassStaticPropertyNode::IRClassStaticPropertyNode(std::shared_ptr<ASTClassPropertyDeclarationNode> node, llvm::GlobalVariable* irValue, IRExpressionNode* initialIRValue, std::shared_ptr<IRType> irType) {
+IRClassStaticPropertyNode::IRClassStaticPropertyNode(std::shared_ptr<ASTClassPropertyDeclarationNode> node, llvm::GlobalVariable* irValue, std::shared_ptr<IRExpressionNode> initialIRValue, std::shared_ptr<IRType> irType) {
     _node = node;
     _irValue = irValue;
     _initialIRValue = initialIRValue;
@@ -15,7 +15,7 @@ llvm::GlobalVariable* IRClassStaticPropertyNode::getGlobalVariable() {
     return _irValue;
 }
 
-IRExpressionNode* IRClassStaticPropertyNode::getInitialIRValue() {
+std::shared_ptr<IRExpressionNode> IRClassStaticPropertyNode::getInitialIRValue() {
     return _initialIRValue;
 }
 

@@ -14,25 +14,25 @@
 class IRForInStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTForInStatementNode> _node;
-    IRInstructionNode* _index;
-    IRInstructionNode* _variable;
-    IRExpressionNode* _source;
-    IRBlockNode* _setupBlock;
-    IRBlockNode* _forInBlock;
-    IRBlockNode* _bodyBlock;
-    IRBlockNode* _endBlock;
-    std::optional<IRCapturedVariableNode*> _capturedVariable;
+    std::shared_ptr<IRInstructionNode> _index;
+    std::shared_ptr<IRInstructionNode> _variable;
+    std::shared_ptr<IRExpressionNode> _source;
+    std::shared_ptr<IRBlockNode> _setupBlock;
+    std::shared_ptr<IRBlockNode> _forInBlock;
+    std::shared_ptr<IRBlockNode> _bodyBlock;
+    std::shared_ptr<IRBlockNode> _endBlock;
+    std::optional<std::shared_ptr<IRCapturedVariableNode>> _capturedVariable;
 public:
-    IRForInStatementNode(std::shared_ptr<ASTForInStatementNode> node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable = {});
-    IRInstructionNode* getIndex();
-    IRInstructionNode* getVariable();
-    std::optional<IRCapturedVariableNode*> getCapturedVariable();
-    IRExpressionNode* getSource();
-    IRBlockNode* getSetupBlock();
-    IRBlockNode* getForInBlock();
-    IRBlockNode* getBodyBlock();
-    IRBlockNode* getEndBlock();
-    void nestIn(IRBlockNode* irBlock);
+    IRForInStatementNode(std::shared_ptr<ASTForInStatementNode> node, std::shared_ptr<IRInstructionNode> index, std::shared_ptr<IRInstructionNode> variable, std::shared_ptr<IRExpressionNode> source, std::shared_ptr<IRBlockNode> setupBlock, std::shared_ptr<IRBlockNode> forInBlock, std::shared_ptr<IRBlockNode> bodyBlock, std::shared_ptr<IRBlockNode> endBlock, std::optional<std::shared_ptr<IRCapturedVariableNode>> capturedVariable = {});
+    std::shared_ptr<IRInstructionNode> getIndex();
+    std::shared_ptr<IRInstructionNode> getVariable();
+    std::optional<std::shared_ptr<IRCapturedVariableNode>> getCapturedVariable();
+    std::shared_ptr<IRExpressionNode> getSource();
+    std::shared_ptr<IRBlockNode> getSetupBlock();
+    std::shared_ptr<IRBlockNode> getForInBlock();
+    std::shared_ptr<IRBlockNode> getBodyBlock();
+    std::shared_ptr<IRBlockNode> getEndBlock();
+    void nestIn(std::shared_ptr<IRBlockNode> irBlock);
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

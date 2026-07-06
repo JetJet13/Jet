@@ -10,22 +10,22 @@
 
 class IRIfElseNode : public IRNode {
 private:
-    IRExpressionNode* _condition;
-    IRBlockNode* _ifBlock;
-    IRBlockNode* _thenBlock;
-    IRBlockNode* _elseBlock;
-    IRBlockNode* _endBlock;
-    std::optional<IRIfElseNode*> _next;
+    std::shared_ptr<IRExpressionNode> _condition;
+    std::shared_ptr<IRBlockNode> _ifBlock;
+    std::shared_ptr<IRBlockNode> _thenBlock;
+    std::shared_ptr<IRBlockNode> _elseBlock;
+    std::shared_ptr<IRBlockNode> _endBlock;
+    std::optional<std::shared_ptr<IRIfElseNode>> _next;
 public:
-    IRIfElseNode(IRExpressionNode* condition, IRBlockNode* ifBlock, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next = {});
-    IRExpressionNode* getExpression();
-    IRBlockNode* getIfBlock();
-    IRBlockNode* getThenBlock();
-    IRBlockNode* getElseBlock();
-    IRBlockNode* getEndBlock();
-    void nestIn(IRBlockNode* irBlock);
-    void setNext(IRIfElseNode* next);
-    std::optional<IRIfElseNode*> getNext();
+    IRIfElseNode(std::shared_ptr<IRExpressionNode> condition, std::shared_ptr<IRBlockNode> ifBlock, std::shared_ptr<IRBlockNode> thenBlock, std::shared_ptr<IRBlockNode> elseBlock, std::shared_ptr<IRBlockNode> endBlock, std::optional<std::shared_ptr<IRIfElseNode>> next = {});
+    std::shared_ptr<IRExpressionNode> getExpression();
+    std::shared_ptr<IRBlockNode> getIfBlock();
+    std::shared_ptr<IRBlockNode> getThenBlock();
+    std::shared_ptr<IRBlockNode> getElseBlock();
+    std::shared_ptr<IRBlockNode> getEndBlock();
+    void nestIn(std::shared_ptr<IRBlockNode> irBlock);
+    void setNext(std::shared_ptr<IRIfElseNode> next);
+    std::optional<std::shared_ptr<IRIfElseNode>> getNext();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

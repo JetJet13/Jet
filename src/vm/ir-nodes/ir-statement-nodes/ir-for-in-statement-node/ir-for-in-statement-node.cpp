@@ -4,7 +4,7 @@
 
 #include "ir-for-in-statement-node.h"
 
-IRForInStatementNode::IRForInStatementNode(std::shared_ptr<ASTForInStatementNode> node, IRInstructionNode* index, IRInstructionNode* variable, IRExpressionNode* source, IRBlockNode* setupBlock, IRBlockNode* forInBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock, std::optional<IRCapturedVariableNode*> capturedVariable) {
+IRForInStatementNode::IRForInStatementNode(std::shared_ptr<ASTForInStatementNode> node, std::shared_ptr<IRInstructionNode> index, std::shared_ptr<IRInstructionNode> variable, std::shared_ptr<IRExpressionNode> source, std::shared_ptr<IRBlockNode> setupBlock, std::shared_ptr<IRBlockNode> forInBlock, std::shared_ptr<IRBlockNode> bodyBlock, std::shared_ptr<IRBlockNode> endBlock, std::optional<std::shared_ptr<IRCapturedVariableNode>> capturedVariable) {
     _node = node;
     _index = index;
     _variable = variable;
@@ -16,39 +16,39 @@ IRForInStatementNode::IRForInStatementNode(std::shared_ptr<ASTForInStatementNode
     _capturedVariable = capturedVariable;
 }
 
-IRInstructionNode* IRForInStatementNode::getIndex() {
+std::shared_ptr<IRInstructionNode> IRForInStatementNode::getIndex() {
     return _index;
 }
 
-IRInstructionNode* IRForInStatementNode::getVariable() {
+std::shared_ptr<IRInstructionNode> IRForInStatementNode::getVariable() {
     return _variable;
 }
 
-std::optional<IRCapturedVariableNode*> IRForInStatementNode::getCapturedVariable() {
+std::optional<std::shared_ptr<IRCapturedVariableNode>> IRForInStatementNode::getCapturedVariable() {
     return _capturedVariable;
 }
 
-IRExpressionNode* IRForInStatementNode::getSource() {
+std::shared_ptr<IRExpressionNode> IRForInStatementNode::getSource() {
     return _source;
 }
 
-IRBlockNode* IRForInStatementNode::getSetupBlock() {
+std::shared_ptr<IRBlockNode> IRForInStatementNode::getSetupBlock() {
     return _setupBlock;
 }
 
-IRBlockNode* IRForInStatementNode::getForInBlock() {
+std::shared_ptr<IRBlockNode> IRForInStatementNode::getForInBlock() {
     return _forInBlock;
 }
 
-IRBlockNode* IRForInStatementNode::getBodyBlock() {
+std::shared_ptr<IRBlockNode> IRForInStatementNode::getBodyBlock() {
     return _bodyBlock;
 }
 
-IRBlockNode* IRForInStatementNode::getEndBlock() {
+std::shared_ptr<IRBlockNode> IRForInStatementNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRForInStatementNode::nestIn(IRBlockNode* irBlock) {
+void IRForInStatementNode::nestIn(std::shared_ptr<IRBlockNode> irBlock) {
     irBlock->nest(_setupBlock);
     irBlock->nest(_forInBlock);
     irBlock->nest(_bodyBlock);

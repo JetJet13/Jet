@@ -14,14 +14,14 @@
 class IRModuleDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTModuleDeclarationNode> _node;
-    IRInstructionNode* _allocation;
+    std::shared_ptr<IRInstructionNode> _allocation;
     std::shared_ptr<IRModuleType> _type;
-    std::vector<IRDeclarationNode*> _exports;
+    std::vector<std::shared_ptr<IRDeclarationNode>> _exports;
 public:
-    IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, IRInstructionNode* allocation, std::shared_ptr<IRModuleType> type, std::vector<IRDeclarationNode*> exports);
-    IRInstructionNode* getAllocation();
+    IRModuleDeclarationNode(std::shared_ptr<ASTModuleDeclarationNode> node, std::shared_ptr<IRInstructionNode> allocation, std::shared_ptr<IRModuleType> type, std::vector<std::shared_ptr<IRDeclarationNode>> exports);
+    std::shared_ptr<IRInstructionNode> getAllocation();
     std::shared_ptr<IRModuleType> getIRType();
-    std::vector<IRDeclarationNode*>* getExports();
+    std::vector<std::shared_ptr<IRDeclarationNode>>* getExports();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

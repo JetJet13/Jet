@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
     auto operation = this->determineOperationType(irVariableDeclaration);
     auto irExpressionValue = irInjector
@@ -38,7 +38,7 @@ void VariableIRInjectorStrategy::inject(IRVariableDeclarationNode* irVariableDec
     }
 }
 
-IROperation* VariableIRInjectorStrategy::determineOperationType(IRVariableDeclarationNode* irVariableDeclaration) {
+IROperation* VariableIRInjectorStrategy::determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration) {
     auto operation = irVariableDeclaration->getIRExpression()->is(IR_REF_EXPRESSION_NODE)
             ? new IROperation(IR_REF_ASSIGNMENT_OP)
             : new IROperation(IR_COPY_ASSIGNMENT_OP);

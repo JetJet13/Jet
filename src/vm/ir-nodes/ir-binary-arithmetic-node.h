@@ -29,7 +29,7 @@ public:
     bool isFloatSubtraction();
     bool isFloatMultiplication();
     int getPriority() const;
-    bool isHigherPriorityThan(IRBinaryArithmeticNode* other) const;
+    bool isHigherPriorityThan(std::shared_ptr<IRBinaryArithmeticNode> other) const;
 };
 
 #endif //JETLANG_IR_BINARY_ARITHMETIC_NODE_H

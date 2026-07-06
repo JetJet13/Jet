@@ -34,7 +34,7 @@ private:
     ArrayIRIdentifierExpressionInjectorStrategy _arrayIRIdentifierExpressionInjectorStrategy = ArrayIRIdentifierExpressionInjectorStrategy();
     ArrayIRConcatExpressionInjectorStrategy _arrayIRConcatExpressionInjectorStrategy = ArrayIRConcatExpressionInjectorStrategy();
 public:
-    llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
+    llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) override;
 };
 
 #endif //JETLANG_ARRAY_IR_INJECTOR_STRATEGY_H

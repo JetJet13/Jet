@@ -6,8 +6,8 @@
 #include <llvm/IR/Constants.h>
 #include "bool-literal-ir-strategy.h"
 
-IRBoolLiteralNode* BoolLiteralIRStrategy::generate(std::shared_ptr<ASTBooleanLiteralNode> node, IRContext* irContext) {
+std::shared_ptr<IRBoolLiteralNode> BoolLiteralIRStrategy::generate(std::shared_ptr<ASTBooleanLiteralNode> node, IRContext* irContext) {
     return node->getValue()
-           ? new IRBoolLiteralNode(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APSInt("1")))
-           : new IRBoolLiteralNode(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APSInt("0")));
+           ? std::make_shared<IRBoolLiteralNode>(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APSInt("1")))
+           : std::make_shared<IRBoolLiteralNode>(node, llvm::ConstantInt::get(**irContext->getContext(), llvm::APSInt("0")));
 }

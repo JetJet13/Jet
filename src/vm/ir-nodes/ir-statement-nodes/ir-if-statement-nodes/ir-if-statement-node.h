@@ -13,12 +13,12 @@
 class IRIfStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTIfStatementNode> _node;
-    IRIfElseNode* _ifElseNode;
-    std::optional<IRBlockNode*> _elseNode;
+    std::shared_ptr<IRIfElseNode> _ifElseNode;
+    std::optional<std::shared_ptr<IRBlockNode>> _elseNode;
 public:
-    IRIfStatementNode(std::shared_ptr<ASTIfStatementNode> node, IRIfElseNode* ifElseNode, std::optional<IRBlockNode*> elseNode = {});
-    IRIfElseNode* getIfElseNode();
-    std::optional<IRBlockNode*> getElseNode();
+    IRIfStatementNode(std::shared_ptr<ASTIfStatementNode> node, std::shared_ptr<IRIfElseNode> ifElseNode, std::optional<std::shared_ptr<IRBlockNode>> elseNode = {});
+    std::shared_ptr<IRIfElseNode> getIfElseNode();
+    std::optional<std::shared_ptr<IRBlockNode>> getElseNode();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

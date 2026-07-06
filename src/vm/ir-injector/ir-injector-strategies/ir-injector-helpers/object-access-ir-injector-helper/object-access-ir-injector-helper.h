@@ -12,8 +12,8 @@
 
 class ObjectAccessIRInjectorHelper {
 public:
-    static llvm::Value* getPointerToTarget(IRBlockNode* irBlock, IRObjectAccessExpressionNode* irExpression, llvm::Value* sourceValue);
-    static llvm::Value* getPointerToTarget(IRBlockNode* irBlock, IRTupleAccessExpressionNode* irExpression, llvm::Value* sourceValue);
+    static llvm::Value* getPointerToTarget(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRObjectAccessExpressionNode> irExpression, llvm::Value* sourceValue);
+    static llvm::Value* getPointerToTarget(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRTupleAccessExpressionNode> irExpression, llvm::Value* sourceValue);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_IR_INJECTOR_HELPER_H

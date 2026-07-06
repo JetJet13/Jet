@@ -4,17 +4,17 @@
 
 #include "ir-class-static-property-assignment-statement-node.h"
 
-IRClassStaticPropertyAssignmentStatementNode::IRClassStaticPropertyAssignmentStatementNode(std::shared_ptr<ASTObjectAccessAssignmentStatementNode> node, IRClassStaticPropertyAccessExpressionNode* irClassStaticPropertyAccessExpressionNode, IRExpressionNode* irExpression) {
+IRClassStaticPropertyAssignmentStatementNode::IRClassStaticPropertyAssignmentStatementNode(std::shared_ptr<ASTObjectAccessAssignmentStatementNode> node, std::shared_ptr<IRClassStaticPropertyAccessExpressionNode> irClassStaticPropertyAccessExpressionNode, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irClassStaticPropertyAccessExpressionNode = irClassStaticPropertyAccessExpressionNode;
     _irExpression = irExpression;
 }
 
-IRClassStaticPropertyAccessExpressionNode* IRClassStaticPropertyAssignmentStatementNode::getIRClassStaticPropertyAccessExpressionNode() {
+std::shared_ptr<IRClassStaticPropertyAccessExpressionNode> IRClassStaticPropertyAssignmentStatementNode::getIRClassStaticPropertyAccessExpressionNode() {
     return _irClassStaticPropertyAccessExpressionNode;
 }
 
-IRExpressionNode* IRClassStaticPropertyAssignmentStatementNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRClassStaticPropertyAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

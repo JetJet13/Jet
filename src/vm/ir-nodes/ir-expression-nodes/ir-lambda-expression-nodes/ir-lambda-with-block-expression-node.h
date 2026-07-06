@@ -17,18 +17,18 @@ class IRLambdaWithBlockExpressionNode : public IRLambdaExpressionNode {
 private:
     std::shared_ptr<ASTLambdaExpressionNode> _node;
     llvm::Function* _irFunction;
-    IRFunctionParameterListNode* _irParameterList;
-    IRBlockNode* _irBlock;
+    std::shared_ptr<IRFunctionParameterListNode> _irParameterList;
+    std::shared_ptr<IRBlockNode> _irBlock;
     std::shared_ptr<IRLambdaType> _type;
     llvm::Function* _irCleanupFunction;
-    IRInstructionNode* _irValue;
+    std::shared_ptr<IRInstructionNode> _irValue;
 public:
-    IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction);
-    IRInstructionNode* getAllocation() override;
+    IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction);
+    std::shared_ptr<IRInstructionNode> getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;
-    IRFunctionParameterListNode* getParameters() override;
-    IRBlockNode* getBlock() override;
+    std::shared_ptr<IRFunctionParameterListNode> getParameters() override;
+    std::shared_ptr<IRBlockNode> getBlock() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

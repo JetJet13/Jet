@@ -12,7 +12,7 @@
 
 class ClassPropertyAccessExpressionIRStrategy {
 public:
-    IRClassPropertyAccessExpressionNode* generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRClassPropertyAccessExpressionNode> generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_CLASS_PROPERTY_ACCESS_EXPRESSION_IR_STRATEGY_H

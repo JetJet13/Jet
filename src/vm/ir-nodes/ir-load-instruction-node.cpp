@@ -5,7 +5,7 @@
 #include "ir-load-instruction-node.h"
 #include <utility>
 
-IRLoadInstructionNode::IRLoadInstructionNode(llvm::LoadInst* irValue, IRInstructionNode* loadedInstruction) {
+IRLoadInstructionNode::IRLoadInstructionNode(llvm::LoadInst* irValue, std::shared_ptr<IRInstructionNode> loadedInstruction) {
     _irValue = irValue;
     _loadedInstruction = loadedInstruction;
 }
@@ -18,7 +18,7 @@ llvm::Type* IRLoadInstructionNode::getType() {
     return _irValue->getType();
 }
 
-IRInstructionNode* IRLoadInstructionNode::getLoadedInstruction() {
+std::shared_ptr<IRInstructionNode> IRLoadInstructionNode::getLoadedInstruction() {
     return _loadedInstruction;
 }
 

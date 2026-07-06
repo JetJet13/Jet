@@ -5,7 +5,7 @@
 #include "ir-identifier-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRIdentifierExpressionNode::IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc) {
+IRIdentifierExpressionNode::IRIdentifierExpressionNode(std::shared_ptr<ASTIdentifierExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::optional<std::shared_ptr<IRInstructionNode>> irArc) {
     _node = node;
     _irValue = irValue;
     _irArc = irArc;
@@ -16,15 +16,15 @@ llvm::Value* IRIdentifierExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRIdentifierExpressionNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRIdentifierExpressionNode::getIRValue() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRIdentifierExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRIdentifierExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRIdentifierExpressionNode::getArc() {
     return _irArc;
 }
 

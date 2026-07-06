@@ -12,7 +12,7 @@
 
 class LambdaIRClassStaticMethodInvocationExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRClassStaticMethodInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRClassStaticMethodInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_LAMBDA_CLASS_STATIC_METHOD_INVOCATION_EXPRESSION_INJECTOR_STRATEGY_H

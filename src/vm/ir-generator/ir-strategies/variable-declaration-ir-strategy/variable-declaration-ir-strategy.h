@@ -13,9 +13,9 @@
 class VariableDeclarationIRStrategy {
 private:
     IROperation* determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node);
-    IRInstructionNode* generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext);
+    std::shared_ptr<IRInstructionNode> generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext);
 public:
-    IRVariableDeclarationNode* generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
+    std::shared_ptr<IRVariableDeclarationNode> generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext);
 };
 
 #endif //JETLANG_VARIABLE_DECLARATION_IR_STRATEGY_H

@@ -14,17 +14,17 @@
 class IRTupleAccessExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTTupleAccessExpressionNode> _node;
-    IRExpressionNode* _irSource;
+    std::shared_ptr<IRExpressionNode> _irSource;
     unsigned long _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
     std::shared_ptr<IRType> _irType;
-    std::optional<IRInstructionNode*> _sourceAllocation;
+    std::optional<std::shared_ptr<IRInstructionNode>> _sourceAllocation;
 public:
-    IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation = {});
+    IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation = {});
     void markAsGlobal() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
-    std::optional<IRInstructionNode*> getArc() override;
-    IRExpressionNode* getSource();
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
+    std::shared_ptr<IRExpressionNode> getSource();
     llvm::Constant* getIRTargetKeyIndex();
     unsigned long getTargetKeyIndex();
     std::shared_ptr<IRType> getIRType() override;

@@ -7,7 +7,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRClassDeclarationNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getClassTypeSignature(), scope, irContext);
 
     for (auto method : *node->getBlock()->getInstanceMethods()) {
@@ -26,24 +26,24 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<AST
         this->declareStaticProperty(classStaticProperty, node->isExportable(), irGenerator, scope, irContext, irClassType);
     }
 
-    auto irClassConstructors = std::vector<IRClassConstructorNode*>();
+    auto irClassConstructors = std::vector<std::shared_ptr<IRClassConstructorNode>>();
     for (auto constructor : *node->getBlock()->getConstructors()) {
         irClassConstructors.push_back(this->generate(constructor, irGenerator, scope, irContext, irClassType));
     }
 
     auto irPreConstructor = this->generatePreConstructor(node,  irGenerator, scope, irContext, irClassType);
 
-    auto irClassMethods = std::vector<IRClassMethodNode*>();
+    auto irClassMethods = std::vector<std::shared_ptr<IRClassMethodNode>>();
     for (auto method : *node->getBlock()->getInstanceMethods()) {
         irClassMethods.push_back(this->generate(method,  irGenerator, scope, irContext, irClassType));
     }
 
-    auto irClassStaticMethods = std::vector<IRClassMethodNode*>();
+    auto irClassStaticMethods = std::vector<std::shared_ptr<IRClassMethodNode>>();
     for (auto method : *node->getBlock()->getStaticMethods()) {
         irClassStaticMethods.push_back(this->generateStatic(method,  irGenerator, scope, irContext, irClassType));
     }
 
-    auto irClassStaticProperties = std::vector<IRClassStaticPropertyNode*>();
+    auto irClassStaticProperties = std::vector<std::shared_ptr<IRClassStaticPropertyNode>>();
     for (auto staticClassProperty : *node->getBlock()->getStaticProperties()) {
         irClassStaticProperties.push_back(this->generateStaticProperty(staticClassProperty,  irGenerator, scope, irContext, irClassType));
     }
@@ -62,10 +62,10 @@ IRClassDeclarationNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<AST
     auto irValue = IRInstructionNodeFactory::create(globalVariable, globalVariableIrType);
     scope->insertGlobalVariable(node->getId(), irValue);
 
-    return new IRClassDeclarationNode(node, irValue, irClassType, irPreConstructor, irClassConstructors, irClassMethods, irClassStaticMethods, irClassStaticProperties);
+    return std::make_shared<IRClassDeclarationNode>(node, irValue, irClassType, irPreConstructor, irClassConstructors, irClassMethods, irClassStaticMethods, irClassStaticProperties);
 }
 
-std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePreConstructor(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
+std::optional<std::shared_ptr<IRClassPreConstructorNode>> ClassDeclarationIRStrategy::generatePreConstructor(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
     if (!irClassType->getClassScopeParameterType()) {
         return {};
     }
@@ -84,9 +84,9 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, preConstructorScope);
     auto classScopeParameterAllocation = irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType());
     functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
-    functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(0), classScopeParameterAllocation));
+    functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(0), classScopeParameterAllocation));
 
-    auto initialPropertyIRExpressions = new std::vector<std::pair<unsigned long, IRExpressionNode*>>();
+    auto initialPropertyIRExpressions = new std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>();
     auto initialPropertyConstants = new std::vector<std::pair<unsigned long, llvm::Constant*>>();
     for (int i = 0; i < node->getBlock()->getInstanceProperties()->size(); ++i) {
         auto property = node->getBlock()->getInstanceProperties()->at(i);
@@ -100,17 +100,17 @@ std::optional<IRClassPreConstructorNode*> ClassDeclarationIRStrategy::generatePr
             initialPropertyConstants->push_back(std::pair { propertyIndex, irGenerator->generateInitialValueForIRType(irType) });
         }
     }
-    return new IRClassPreConstructorNode(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, initialPropertyConstants, functionBlock);
+    return std::make_shared<IRClassPreConstructorNode>(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, initialPropertyConstants, functionBlock);
 }
 
-IRClassConstructorNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassConstructorDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
+std::shared_ptr<IRClassConstructorNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassConstructorDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
     auto constructorScope = new IRLookupTable();
     constructorScope->inherit(scope);
     auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), constructorScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = new IRFunctionParameterNode(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
         functionParameterList->addClassScopeParameter(scopeParameter);
         constructorScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     }
@@ -120,17 +120,17 @@ IRClassConstructorNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<AST
     for (unsigned long i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
+        functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return new IRClassConstructorNode(node, irFunction, functionParameterList, functionBlock);
+    return std::make_shared<IRClassConstructorNode>(node, irFunction, functionParameterList, functionBlock);
 }
 
-IRClassMethodNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
+std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
     auto methodScope = new IRLookupTable();
     methodScope->inherit(scope);
     auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
@@ -139,7 +139,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClass
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = new IRFunctionParameterNode(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
         functionParameterList->addClassScopeParameter(scopeParameter);
         methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     }
@@ -148,17 +148,17 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClass
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
+        functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return new IRClassMethodNode(node, irFunction, functionParameterList, functionBlock);
+    return std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock);
 }
 
-IRClassMethodNode* ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
+std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
     auto methodScope = new IRLookupTable();
     methodScope->inherit(scope);
     auto methodTypeNode = irClassType->getIRTypeForStaticMethod(node->getId()).value();
@@ -167,7 +167,7 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<AS
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = new IRFunctionParameterNode(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
         functionParameterList->addClassScopeParameter(scopeParameter);
         methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     }
@@ -176,19 +176,19 @@ IRClassMethodNode* ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<AS
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
+        functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return new IRClassMethodNode(node, irFunction, functionParameterList, functionBlock);
+    return std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock);
 }
 
-IRClassStaticPropertyNode* ClassDeclarationIRStrategy::generateStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
+std::shared_ptr<IRClassStaticPropertyNode> ClassDeclarationIRStrategy::generateStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node,  IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType) {
     auto irType = irClassType->getIRTypeForStaticProperty(node->getId());
-    return new IRClassStaticPropertyNode(
+    return std::make_shared<IRClassStaticPropertyNode>(
             node,
             irContext->getIRModule()->getModule()->get()->getNamedGlobal(node->getId()),
             irGenerator->generateFor(node->getInitializer().value(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),

@@ -14,24 +14,24 @@
 class IRVariableDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTVariableDeclarationNode> _node;
-    IRInstructionNode* _irValue;
-    IRExpressionNode* _irExpression;
-    std::optional<IRInstructionNode*> _irGlobalVariable;
-    std::optional<IRInstructionNode*> _irArc;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::shared_ptr<IRExpressionNode> _irExpression;
+    std::optional<std::shared_ptr<IRInstructionNode>> _irGlobalVariable;
+    std::optional<std::shared_ptr<IRInstructionNode>> _irArc;
     llvm::Value* _variableNameIRValue;
 public:
-    IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable = {}, std::optional<IRInstructionNode*> irArc = {});
+    IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRExpressionNode> irExpression, llvm::Value* variableNameIRValue, std::optional<std::shared_ptr<IRInstructionNode>> irGlobalVariable = {}, std::optional<std::shared_ptr<IRInstructionNode>> irArc = {});
     std::string getVariableName();
     llvm::Value* getVariableNameIRValue();
     llvm::Value* getValue() override;
     llvm::Type* getAllocatedType();
     std::shared_ptr<IRType> getAllocatedIRType();
-    IRInstructionNode* getIRValue();
-    IRExpressionNode* getIRExpression();
+    std::shared_ptr<IRInstructionNode> getIRValue();
+    std::shared_ptr<IRExpressionNode> getIRExpression();
     bool toBeFreedDirectly();
     bool isLambdaVariable();
-    std::optional<IRInstructionNode*> getGlobalVariable();
-    std::optional<IRInstructionNode*> getArc();
+    std::optional<std::shared_ptr<IRInstructionNode>> getGlobalVariable();
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

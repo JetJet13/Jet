@@ -12,7 +12,7 @@
 
 class ArrayAccessInvocationExpressionIRStrategy {
 public:
-    IRExpressionNode* generate(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_INVOCATION_EXPRESSION_IR_STRATEGY_H

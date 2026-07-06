@@ -13,12 +13,12 @@
 class IRTupleAccessRefAssignmentStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> _node;
-    IRTupleAccessExpressionNode* _irTupleAccessExpression;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRTupleAccessExpressionNode> _irTupleAccessExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
 public:
-    IRTupleAccessRefAssignmentStatementNode(std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> node, IRTupleAccessExpressionNode* irTupleAccessExpression, IRExpressionNode* irExpression);
-    IRTupleAccessExpressionNode* getIRTupleAccessExpression();
-    IRExpressionNode* getIRExpression();
+    IRTupleAccessRefAssignmentStatementNode(std::shared_ptr<ASTTupleAccessRefAssignmentStatementNode> node, std::shared_ptr<IRTupleAccessExpressionNode> irTupleAccessExpression, std::shared_ptr<IRExpressionNode> irExpression);
+    std::shared_ptr<IRTupleAccessExpressionNode> getIRTupleAccessExpression();
+    std::shared_ptr<IRExpressionNode> getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

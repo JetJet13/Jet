@@ -13,21 +13,21 @@ class IRBinaryComparisonExpressionNode : public IRBinaryExpressionNode {
 private:
     std::shared_ptr<ASTBinaryComparatorExpressionNode> _node;
     llvm::CmpInst* _irValue;
-    IRExpressionNode* _irLeftNode;
-    IRExpressionNode* _irRightNode;
+    std::shared_ptr<IRExpressionNode> _irLeftNode;
+    std::shared_ptr<IRExpressionNode> _irRightNode;
     std::shared_ptr<IRType> _type;
     std::shared_ptr<IRType> _leftIrType;
     std::shared_ptr<IRType> _rightIrType;
 public:
-    IRBinaryComparisonExpressionNode(std::shared_ptr<ASTBinaryComparatorExpressionNode> astNode, llvm::CmpInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRType> type, std::shared_ptr<IRType> leftIrType, std::shared_ptr<IRType> rightIrType);
+    IRBinaryComparisonExpressionNode(std::shared_ptr<ASTBinaryComparatorExpressionNode> astNode, llvm::CmpInst* irValue, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode, std::shared_ptr<IRType> type, std::shared_ptr<IRType> leftIrType, std::shared_ptr<IRType> rightIrType);
     void markAsGlobal() override;
     llvm::CmpInst* getValue() override;
     bool isPredicateEqual();
     bool isPredicateNotEqual();
     std::shared_ptr<IRType> getLeftIrType();
     std::shared_ptr<IRType> getRightIrType();
-    IRExpressionNode* getLeftNode();
-    IRExpressionNode* getRightNode();
+    std::shared_ptr<IRExpressionNode> getLeftNode();
+    std::shared_ptr<IRExpressionNode> getRightNode();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;

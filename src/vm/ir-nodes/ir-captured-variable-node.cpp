@@ -4,15 +4,15 @@
 
 #include "ir-captured-variable-node.h"
 
-IRCapturedVariableNode::IRCapturedVariableNode(IRInstructionNode* mallocVariable, IRInstructionNode* arc) {
+IRCapturedVariableNode::IRCapturedVariableNode(std::shared_ptr<IRInstructionNode> mallocVariable, std::shared_ptr<IRInstructionNode> arc) {
     _mallocVariable = mallocVariable;
     _arc = arc;
 }
 
-IRInstructionNode* IRCapturedVariableNode::getVariable() {
+std::shared_ptr<IRInstructionNode> IRCapturedVariableNode::getVariable() {
     return _mallocVariable;
 }
 
-IRInstructionNode* IRCapturedVariableNode::getArc() {
+std::shared_ptr<IRInstructionNode> IRCapturedVariableNode::getArc() {
     return _arc;
 }

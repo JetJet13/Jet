@@ -75,6 +75,6 @@ int IRBinaryArithmeticNode::getPriority() const {
     return _priority;
 }
 
-bool IRBinaryArithmeticNode::isHigherPriorityThan(IRBinaryArithmeticNode* other) const {
+bool IRBinaryArithmeticNode::isHigherPriorityThan(std::shared_ptr<IRBinaryArithmeticNode> other) const {
     return _priority < other->getPriority();
 }

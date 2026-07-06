@@ -5,20 +5,20 @@
 #include "ir-node-to-free.h"
 #include "ir-block-nodes/ir-block-node.h"
 
-IRNodeToFree::IRNodeToFree(IRNode* irNode, IRBlockNode* irBlock) {
+IRNodeToFree::IRNodeToFree(std::shared_ptr<IRNode> irNode, std::shared_ptr<IRBlockNode> irBlock) {
     _irNode = irNode;
     _irBlock = irBlock;
 }
 
-IRNode* IRNodeToFree::getIRNode() {
+std::shared_ptr<IRNode> IRNodeToFree::getIRNode() {
     return _irNode;
 }
 
-void IRNodeToFree::setFinalBlockToFree(IRBlockNode* irBlock) {
+void IRNodeToFree::setFinalBlockToFree(std::shared_ptr<IRBlockNode> irBlock) {
     _finalIRBlockToFree = irBlock;
 }
 
-bool IRNodeToFree::comesBefore(IRBlockNode* irBlockNode, llvm::DominatorTree* dominator) {
+bool IRNodeToFree::comesBefore(std::shared_ptr<IRBlockNode> irBlockNode, llvm::DominatorTree* dominator) {
     auto function = _irBlock->getBlock()->getParent();
     if (function != irBlockNode->getBlock()->getParent()) {
         return false;

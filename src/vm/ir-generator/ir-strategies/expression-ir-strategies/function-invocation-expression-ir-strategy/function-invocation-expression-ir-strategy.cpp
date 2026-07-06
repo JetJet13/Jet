@@ -7,8 +7,8 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto arguments = std::vector<IRFunctionArgumentNode*>();
+std::shared_ptr<IRExpressionNode> FunctionInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (unsigned long i = 0; i < node->getArguments()->numArguments(); ++i) {
         arguments.push_back(
                 irGenerator->generateFor(
@@ -23,7 +23,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
     }
     auto argList = irGenerator->generateArgumentPlaceholderListForFunction(node->getInvocationTypeSignature()->getFunctionType(), &arguments, scope, irContext);
 
-    std::optional<IRInstructionNode*> varArgsTypeValueArgument = {};
+    std::optional<std::shared_ptr<IRInstructionNode>> varArgsTypeValueArgument = {};
     if (node->getInvocationTypeSignature()->getFunctionType()->hasVariableLengthParameters()) {
         auto startIndex = node->getInvocationTypeSignature()->getFunctionType()->getVariableLengthParametersStartIndex();
         auto numVarArgs = arguments.size() - startIndex;
@@ -43,7 +43,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
         auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irType);
         auto source = scope->findAcrossScopes(node->getFunction()->getModuleId(), node->getFunction()->getId()).value();
         auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), source->getValue(), argList);
-        return new IRFunctionInvocationExpressionNode(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
+        return std::make_shared<IRFunctionInvocationExpressionNode>(node, source, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
     if (node->getFunction()->getTypeSignature()->isBuiltIn()) {
@@ -69,7 +69,7 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
             argList.push_back(assertMessage);
         }
         auto callInstruction = llvm::CallInst::Create(function->getFunctionType(), function, argList);
-        return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
+        return std::make_shared<IRFunctionInvocationExpressionNode>(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
     }
 
     auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irType);
@@ -77,5 +77,5 @@ IRExpressionNode* FunctionInvocationExpressionIRStrategy::generate(std::shared_p
     auto function = irContext->getModule()->getFunction(irFunctionId);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
-    return new IRFunctionInvocationExpressionNode(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
+    return std::make_shared<IRFunctionInvocationExpressionNode>(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);
 }

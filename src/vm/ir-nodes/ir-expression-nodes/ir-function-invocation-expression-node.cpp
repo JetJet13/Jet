@@ -5,7 +5,7 @@
 #include "ir-function-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, std::optional<IRInstructionNode*> varArgsTypeValueArgument) {
+IRFunctionInvocationExpressionNode::IRFunctionInvocationExpressionNode(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, std::shared_ptr<IRInstructionNode> irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRInstructionNode>> varArgsTypeValueArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -22,11 +22,11 @@ void IRFunctionInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-std::optional<IRInstructionNode*> IRFunctionInvocationExpressionNode::getVarArgsTypeValueArgument() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRFunctionInvocationExpressionNode::getVarArgsTypeValueArgument() {
     return _varArgsTypeValueArgument;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRFunctionInvocationExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRFunctionInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 
@@ -38,7 +38,7 @@ llvm::CallInst* IRFunctionInvocationExpressionNode::getValue() {
     return _irCallInstruction;
 }
 
-IRInstructionNode* IRFunctionInvocationExpressionNode::getFunction() {
+std::shared_ptr<IRInstructionNode> IRFunctionInvocationExpressionNode::getFunction() {
     return _irFunction;
 }
 

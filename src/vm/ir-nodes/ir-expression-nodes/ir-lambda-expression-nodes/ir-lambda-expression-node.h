@@ -13,12 +13,12 @@
 class IRLambdaExpressionNode : public IRExpressionNode {
 public:
     std::shared_ptr<IRLambdaType> getIRLambdaType();
-    virtual IRInstructionNode* getAllocation() = 0;
+    virtual std::shared_ptr<IRInstructionNode> getAllocation() = 0;
     virtual llvm::Function* getFunctionValue() = 0;
     virtual std::shared_ptr<IRType> getIRType() = 0;
     virtual llvm::Function* getCleanupFunction() = 0;
-    virtual IRFunctionParameterListNode* getParameters() = 0;
-    virtual IRBlockNode* getBlock() = 0;
+    virtual std::shared_ptr<IRFunctionParameterListNode> getParameters() = 0;
+    virtual std::shared_ptr<IRBlockNode> getBlock() = 0;
 };
 
 #endif //JETLANG_IR_LAMBDA_EXPRESSION_NODE_H

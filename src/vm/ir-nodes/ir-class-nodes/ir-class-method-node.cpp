@@ -4,7 +4,7 @@
 
 #include "ir-class-method-node.h"
 
-IRClassMethodNode::IRClassMethodNode(std::shared_ptr<ASTClassMethodDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
+IRClassMethodNode::IRClassMethodNode(std::shared_ptr<ASTClassMethodDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameters, std::shared_ptr<IRBlockNode> irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameters = irParameters;
@@ -19,10 +19,10 @@ llvm::Function* IRClassMethodNode::getFunction() {
     return _irValue;
 }
 
-IRFunctionParameterListNode* IRClassMethodNode::getParameters() {
+std::shared_ptr<IRFunctionParameterListNode> IRClassMethodNode::getParameters() {
     return _irParameters;
 }
 
-IRBlockNode* IRClassMethodNode::getBlock() {
+std::shared_ptr<IRBlockNode> IRClassMethodNode::getBlock() {
     return _irBlock;
 }

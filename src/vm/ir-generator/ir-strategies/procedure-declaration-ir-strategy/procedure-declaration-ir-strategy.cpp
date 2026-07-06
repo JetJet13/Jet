@@ -9,7 +9,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(std::shared_ptr<ASTProcedureDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRProcedureDeclarationNode> ProcedureDeclarationIRStrategy::generate(std::shared_ptr<ASTProcedureDeclarationNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto procedureScope = new IRLookupTable();
     procedureScope->inherit(scope);
     auto procedureTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), procedureScope, irContext);
@@ -23,7 +23,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(std::shared
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
-        functionBlock->insert(new IRFunctionParameterDeclarationNode(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
+        functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
     }
 
     for (auto statement : *node->getBlock()->getContents()) {
@@ -46,7 +46,7 @@ IRProcedureDeclarationNode* ProcedureDeclarationIRStrategy::generate(std::shared
             irGenerator->generateIrPointerType(globalVariableIRType)
     );
 
-    auto irProcedureDeclaration = new IRProcedureDeclarationNode(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
+    auto irProcedureDeclaration = std::make_shared<IRProcedureDeclarationNode>(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
     scope->insertGlobalVariable(irFunctionId, irGlobalVariable);
 
     return irProcedureDeclaration;

@@ -6,13 +6,13 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../ir-type/ir-captured-variable-type.h"
 
-void LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, std::shared_ptr<IRType> irType, IRBlockNode* irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
+void LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Value* value, std::shared_ptr<IRType> irType, std::shared_ptr<IRBlockNode> irBlock, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule) {
     if (irOperation->isFunctionArgument()) {
         irBlock->getBuilder()->get()->CreateCall(irModule->getIncrementLambdaRefCountFunction(), { value });
     }
 }
 
-llvm::Value* LambdaIRInjectorHelper::injectDetails(IRLambdaExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LambdaIRInjectorHelper::injectDetails(std::shared_ptr<IRLambdaExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getAllocation(), irBlock);
     auto functionIndex = irExpression->getIRLambdaType()->getLambdaVariableType()->getFunctionIndex();
     auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, functionIndex);

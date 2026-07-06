@@ -4,17 +4,17 @@
 
 #include "ir-tuple-access-assignment-statement-node.h"
 
-IRTupleAccessAssignmentStatementNode::IRTupleAccessAssignmentStatementNode(std::shared_ptr<ASTTupleAccessAssignmentStatementNode> node, IRTupleAccessExpressionNode* irTupleAccessExpression, IRExpressionNode* irExpression) {
+IRTupleAccessAssignmentStatementNode::IRTupleAccessAssignmentStatementNode(std::shared_ptr<ASTTupleAccessAssignmentStatementNode> node, std::shared_ptr<IRTupleAccessExpressionNode> irTupleAccessExpression, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irTupleAccessExpression = irTupleAccessExpression;
     _irExpression = irExpression;
 }
 
-IRTupleAccessExpressionNode* IRTupleAccessAssignmentStatementNode::getIRTupleAccessExpression() {
+std::shared_ptr<IRTupleAccessExpressionNode> IRTupleAccessAssignmentStatementNode::getIRTupleAccessExpression() {
     return _irTupleAccessExpression;
 }
 
-IRExpressionNode* IRTupleAccessAssignmentStatementNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRTupleAccessAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

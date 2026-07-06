@@ -13,20 +13,20 @@
 class IRContext {
 private:
     std::unique_ptr<llvm::LLVMContext>* _context;
-    IRBlockNode* _irBlock;
+    std::shared_ptr<IRBlockNode> _irBlock;
     std::shared_ptr<IRModuleNode> _irModule;
     IRScope _irScope;
     llvm::DataLayout* _dataLayout;
 public:
-    IRContext(IRBlockNode* irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context);
+    IRContext(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context);
     llvm::DataLayout* getDataLayout();
     std::unique_ptr<llvm::LLVMContext>* getContext();
-    IRBlockNode* getIRBlock();
+    std::shared_ptr<IRBlockNode> getIRBlock();
     std::shared_ptr<IRModuleNode> getIRModule();
     IRScope* getIRScope();
     llvm::Module* getModule();
     llvm::Function* getFunction();
-    IRContext* clone(IRBlockNode* irBlock);
+    IRContext* clone(std::shared_ptr<IRBlockNode> irBlock);
 };
 
 #endif //JETLANG_IR_CONTEXT_H

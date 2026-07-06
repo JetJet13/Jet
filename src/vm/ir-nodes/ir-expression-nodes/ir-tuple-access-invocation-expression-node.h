@@ -17,16 +17,16 @@ class IRTupleAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTTupleAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
-    IRExpressionNode* _source;
+    std::shared_ptr<IRExpressionNode> _source;
     int64_t _targetIndex;
     std::shared_ptr<IRType> _irFunctionType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
 public:
-    IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type);
+    IRTupleAccessInvocationExpressionNode(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, std::shared_ptr<IRExpressionNode> source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type);
     void markAsGlobal() override;
-    IRExpressionNode* getSource();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
+    std::shared_ptr<IRExpressionNode> getSource();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     llvm::CallInst* getValue() override;
     std::shared_ptr<IRType> getFunctionIRType();
     int64_t getTargetIndex();

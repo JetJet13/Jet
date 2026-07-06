@@ -4,7 +4,7 @@
 
 #include "ir-if-else-node.h"
 
-IRIfElseNode::IRIfElseNode(IRExpressionNode* condition, IRBlockNode* ifBlock, IRBlockNode* thenBlock, IRBlockNode* elseBlock, IRBlockNode* endBlock, std::optional<IRIfElseNode*> next) {
+IRIfElseNode::IRIfElseNode(std::shared_ptr<IRExpressionNode> condition, std::shared_ptr<IRBlockNode> ifBlock, std::shared_ptr<IRBlockNode> thenBlock, std::shared_ptr<IRBlockNode> elseBlock, std::shared_ptr<IRBlockNode> endBlock, std::optional<std::shared_ptr<IRIfElseNode>> next) {
     _condition = condition;
     _ifBlock = ifBlock;
     _thenBlock = thenBlock;
@@ -14,27 +14,27 @@ IRIfElseNode::IRIfElseNode(IRExpressionNode* condition, IRBlockNode* ifBlock, IR
     _next = next;
 }
 
-IRExpressionNode* IRIfElseNode::getExpression() {
+std::shared_ptr<IRExpressionNode> IRIfElseNode::getExpression() {
     return _condition;
 }
 
-IRBlockNode* IRIfElseNode::getIfBlock() {
+std::shared_ptr<IRBlockNode> IRIfElseNode::getIfBlock() {
     return _ifBlock;
 }
 
-IRBlockNode* IRIfElseNode::getThenBlock() {
+std::shared_ptr<IRBlockNode> IRIfElseNode::getThenBlock() {
     return _thenBlock;
 }
 
-IRBlockNode* IRIfElseNode::getElseBlock() {
+std::shared_ptr<IRBlockNode> IRIfElseNode::getElseBlock() {
     return _elseBlock;
 }
 
-IRBlockNode* IRIfElseNode::getEndBlock() {
+std::shared_ptr<IRBlockNode> IRIfElseNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRIfElseNode::nestIn(IRBlockNode* irBlock) {
+void IRIfElseNode::nestIn(std::shared_ptr<IRBlockNode> irBlock) {
     irBlock->nest(_ifBlock);
     irBlock->nest(_thenBlock);
     irBlock->nest(_elseBlock);
@@ -44,11 +44,11 @@ void IRIfElseNode::nestIn(IRBlockNode* irBlock) {
     }
 }
 
-void IRIfElseNode::setNext(IRIfElseNode* next) {
+void IRIfElseNode::setNext(std::shared_ptr<IRIfElseNode> next) {
     _next = next;
 }
 
-std::optional<IRIfElseNode*> IRIfElseNode::getNext() {
+std::optional<std::shared_ptr<IRIfElseNode>> IRIfElseNode::getNext() {
     return _next;
 }
 

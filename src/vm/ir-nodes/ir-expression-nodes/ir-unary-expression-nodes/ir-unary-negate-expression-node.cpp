@@ -4,13 +4,13 @@
 
 #include "ir-unary-negate-expression-node.h"
 
-IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRType> type) {
+IRUnaryNegateExpressionNode::IRUnaryNegateExpressionNode(std::shared_ptr<ASTUnaryExpressionNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRType> type) {
     _node = node;
     _irExpression = irExpression;
     _type = type;
 }
 
-IRExpressionNode* IRUnaryNegateExpressionNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRUnaryNegateExpressionNode::getIRExpression() {
     return _irExpression;
 }
 

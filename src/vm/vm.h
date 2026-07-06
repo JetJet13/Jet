@@ -19,7 +19,7 @@ private:
     void addCompiledJetFile(IRJetFile* irJetFile);
 public:
     VM(IRGenerator* irGenerator, IRInjector* irInjector);
-    IRFunctionNode* compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule);
+    std::shared_ptr<IRFunctionNode> compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule);
     IRJetFile* compileMain(JetFile* jetFile);
     void linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination);
 };

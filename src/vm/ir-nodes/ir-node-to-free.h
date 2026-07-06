@@ -12,14 +12,14 @@ class IRBlockNode;
 
 class IRNodeToFree {
 private:
-    IRNode* _irNode;
-    IRBlockNode* _irBlock;
-    std::optional<IRBlockNode*> _finalIRBlockToFree = {};
+    std::shared_ptr<IRNode> _irNode;
+    std::shared_ptr<IRBlockNode> _irBlock;
+    std::optional<std::shared_ptr<IRBlockNode>> _finalIRBlockToFree = {};
 public:
-    IRNodeToFree(IRNode* irNode, IRBlockNode* irBlock);
-    IRNode* getIRNode();
-    void setFinalBlockToFree(IRBlockNode* irBlock);
-    bool comesBefore(IRBlockNode* irBlockNode, llvm::DominatorTree* dominator);
+    IRNodeToFree(std::shared_ptr<IRNode> irNode, std::shared_ptr<IRBlockNode> irBlock);
+    std::shared_ptr<IRNode> getIRNode();
+    void setFinalBlockToFree(std::shared_ptr<IRBlockNode> irBlock);
+    bool comesBefore(std::shared_ptr<IRBlockNode> irBlockNode, llvm::DominatorTree* dominator);
 };
 
 #endif //JETLANG_IR_NODE_TO_FREE_H

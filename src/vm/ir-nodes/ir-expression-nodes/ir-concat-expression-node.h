@@ -14,15 +14,15 @@ class IRConcatExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTConcatExpressionNode> _node;
     llvm::CallInst* _irValue;
-    IRExpressionNode* _irLeftNode;
-    IRExpressionNode* _irRightNode;
+    std::shared_ptr<IRExpressionNode> _irLeftNode;
+    std::shared_ptr<IRExpressionNode> _irRightNode;
     std::shared_ptr<IRArrayPointerType> _type;
 public:
-    IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode, std::shared_ptr<IRArrayPointerType> type);
+    IRConcatExpressionNode(std::shared_ptr<ASTConcatExpressionNode> astNode, llvm::CallInst* irValue, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode, std::shared_ptr<IRArrayPointerType> type);
     void markAsGlobal() override;
     llvm::CallInst* getValue() override;
-    IRExpressionNode* getLeftNode();
-    IRExpressionNode* getRightNode();
+    std::shared_ptr<IRExpressionNode> getLeftNode();
+    std::shared_ptr<IRExpressionNode> getRightNode();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;

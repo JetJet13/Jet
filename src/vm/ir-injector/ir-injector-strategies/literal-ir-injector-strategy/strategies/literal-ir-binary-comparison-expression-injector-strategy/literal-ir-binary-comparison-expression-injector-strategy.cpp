@@ -6,7 +6,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
-llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(IRBinaryComparisonExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRBinaryComparisonExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryComparisonExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irExpression->isPredicateEqual() || irExpression->isPredicateNotEqual()) {
         auto leftIrTypeValue = irInjector->inject(irBlock, irExpression->getLeftIrType(), irModule);
         auto loadedLeftIrTypeValue = InstructionIRInjectorHelper::injectLoad(irExpression->getLeftIrType()->getValue()->getAllocatedType(), leftIrTypeValue, irBlock);

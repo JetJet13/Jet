@@ -7,10 +7,10 @@
 
 IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
     _moduleId = "";
-    _globalScope = std::unordered_map<std::string, IRInstructionNode*>();
-    _scope = std::unordered_map<std::string, IRInstructionNode*>();
-    _arcScope = std::unordered_map<std::string, IRInstructionNode*>();
-    _loadedScope = std::unordered_map<std::string, IRLoadInstructionNode*>();
+    _globalScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _scope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _arcScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _loadedScope = std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>>();
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
@@ -19,17 +19,17 @@ IRLookupTable::IRLookupTable(std::optional<IRLookupTable*> outerScope) {
 
 IRLookupTable::IRLookupTable(std::string moduleId, std::optional<IRLookupTable*> outerScope) {
     _moduleId = moduleId;
-    _globalScope = std::unordered_map<std::string, IRInstructionNode*>();
-    _scope = std::unordered_map<std::string, IRInstructionNode*>();
-    _arcScope = std::unordered_map<std::string, IRInstructionNode*>();
-    _loadedScope = std::unordered_map<std::string, IRLoadInstructionNode*>();
+    _globalScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _scope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _arcScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
+    _loadedScope = std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>>();
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _linkedScopes = new std::unordered_map<std::string, IRLookupTable*>();
 }
 
-std::unordered_map<std::string, IRInstructionNode*> IRLookupTable::getGlobalScope() {
+std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> IRLookupTable::getGlobalScope() {
     return _globalScope;
 }
 
@@ -64,18 +64,18 @@ void IRLookupTable::link(IRLookupTable* otherScope) {
     _linkedScopes->insert_or_assign(otherScope->getModuleId(), otherScope);
 }
 
-IRLookupTable* IRLookupTable::insert(std::string key, IRInstructionNode* value) {
+IRLookupTable* IRLookupTable::insert(std::string key, std::shared_ptr<IRInstructionNode> value) {
     _scope[key] = value;
     return this;
 }
 
-IRLookupTable* IRLookupTable::insertArc(std::string key, IRInstructionNode* value) {
+IRLookupTable* IRLookupTable::insertArc(std::string key, std::shared_ptr<IRInstructionNode> value) {
     _arcScope[key] = value;
     return this;
 }
 
 
-IRLookupTable* IRLookupTable::insert(std::string key, IRLoadInstructionNode* value) {
+IRLookupTable* IRLookupTable::insert(std::string key, std::shared_ptr<IRLoadInstructionNode> value) {
     _loadedScope[key] = value;
     return this;
 }
@@ -92,7 +92,7 @@ IRLookupTable* IRLookupTable::insertGlobalType(std::string key, std::shared_ptr<
     return this;
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::find(std::string key) {
     auto result = _scope.find(key);
     if (result == _scope.end()) {
         if (_outerScope) {
@@ -104,7 +104,7 @@ std::optional<IRInstructionNode*> IRLookupTable::find(std::string key) {
     }
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::findArc(std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findArc(std::string key) {
     auto result = _arcScope.find(key);
     if (result == _arcScope.end()) {
         if (_outerScope) {
@@ -116,7 +116,7 @@ std::optional<IRInstructionNode*> IRLookupTable::findArc(std::string key) {
     }
 }
 
-std::optional<IRLoadInstructionNode*> IRLookupTable::findLoaded(std::string key) {
+std::optional<std::shared_ptr<IRLoadInstructionNode>> IRLookupTable::findLoaded(std::string key) {
     auto result = _loadedScope.find(key);
     if (result == _loadedScope.end()) {
         if (_outerScope) {
@@ -128,7 +128,7 @@ std::optional<IRLoadInstructionNode*> IRLookupTable::findLoaded(std::string key)
     }
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findAcrossScopes(std::string key) {
     auto result = this->find(key);
     if (result) {
         return result;
@@ -136,7 +136,7 @@ std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string ke
     return this->findGlobalVariable(key);
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::findAcrossScopes(std::string moduleId, std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findAcrossScopes(std::string moduleId, std::string key) {
     if (moduleId == _moduleId) {
         return this->findAcrossScopes(key);
     }
@@ -208,7 +208,7 @@ std::optional<std::shared_ptr<IRType>> IRLookupTable::findGlobalType(std::string
     return scope->second->findGlobalType(key);
 }
 
-IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRInstructionNode* value) {
+IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, std::shared_ptr<IRInstructionNode> value) {
     _globalScope[key] = value;
     if (_outerScope) {
         _outerScope.value()->insertGlobalVariable(key, value);
@@ -216,7 +216,7 @@ IRLookupTable* IRLookupTable::insertGlobalVariable(std::string key, IRInstructio
     return this;
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findGlobalVariable(std::string key) {
     auto result = _globalScope.find(key);
     if (result == _globalScope.end()) {
         if (_outerScope) {
@@ -228,7 +228,7 @@ std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string 
     }
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string moduleId, std::string key) {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findGlobalVariable(std::string moduleId, std::string key) {
     if (moduleId == _moduleId) {
         return this->findGlobalVariable(key);
     }
@@ -244,7 +244,7 @@ std::optional<IRInstructionNode*> IRLookupTable::findGlobalVariable(std::string 
     return scope->second->findGlobalVariable(key);
 }
 
-std::optional<IRInstructionNode*> IRLookupTable::getClassScope() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::getClassScope() {
     return this->find("jet.class.scope");
 }
 

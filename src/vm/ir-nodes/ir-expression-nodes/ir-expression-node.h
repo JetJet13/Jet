@@ -30,8 +30,8 @@ public:
     bool hasArc();
     std::shared_ptr<IRType> getUnderlyingIRType();
     virtual TypeSource getInjectorTypeSource();
-    virtual std::optional<IRInstructionNode*> getSourceAllocation();
-    virtual std::optional<IRInstructionNode*> getArc();
+    virtual std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation();
+    virtual std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     virtual llvm::Type* getType();
     virtual llvm::Type* getTypeAtIndex(unsigned long index);
     virtual llvm::Value* getValue() = 0;

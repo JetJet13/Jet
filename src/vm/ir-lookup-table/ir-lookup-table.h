@@ -14,10 +14,10 @@
 class IRLookupTable {
 private:
     std::string _moduleId;
-    std::unordered_map<std::string, IRInstructionNode*> _globalScope;
-    std::unordered_map<std::string, IRInstructionNode*> _scope;
-    std::unordered_map<std::string, IRInstructionNode*> _arcScope;
-    std::unordered_map<std::string, IRLoadInstructionNode*> _loadedScope;
+    std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _globalScope;
+    std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _scope;
+    std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _arcScope;
+    std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>> _loadedScope;
     std::optional<IRLookupTable*> _outerScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _typeScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _globalTypeScope;
@@ -25,31 +25,31 @@ private:
 public:
     explicit IRLookupTable(std::optional<IRLookupTable*> outerScope = {});
     explicit IRLookupTable(std::string moduleId, std::optional<IRLookupTable*> outerScope = {});
-    std::unordered_map<std::string, IRInstructionNode*> getGlobalScope();
+    std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> getGlobalScope();
     std::unordered_map<std::string, std::shared_ptr<IRType>> getTypeScope();
     std::unordered_map<std::string, std::shared_ptr<IRType>> getGlobalTypeScope();
     std::unordered_map<std::string, IRLookupTable*>* getLinkedScopes();
     std::string getModuleId();
     void inherit(IRLookupTable* otherScope);
     void link(IRLookupTable* otherScope);
-    IRLookupTable* insert(std::string key, IRInstructionNode* value);
-    IRLookupTable* insertArc(std::string key, IRInstructionNode* value);
-    IRLookupTable* insert(std::string key, IRLoadInstructionNode* value);
+    IRLookupTable* insert(std::string key, std::shared_ptr<IRInstructionNode> value);
+    IRLookupTable* insertArc(std::string key, std::shared_ptr<IRInstructionNode> value);
+    IRLookupTable* insert(std::string key, std::shared_ptr<IRLoadInstructionNode> value);
     IRLookupTable* insert(std::string key, std::shared_ptr<IRType> value);
     IRLookupTable* insertGlobalType(std::string key, std::shared_ptr<IRType> value);
-    std::optional<IRInstructionNode*> find(std::string key);
-    std::optional<IRInstructionNode*> findArc(std::string key);
-    std::optional<IRLoadInstructionNode*> findLoaded(std::string key);
-    std::optional<IRInstructionNode*> findAcrossScopes(std::string key);
-    std::optional<IRInstructionNode*> findAcrossScopes(std::string moduleId, std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> find(std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> findArc(std::string key);
+    std::optional<std::shared_ptr<IRLoadInstructionNode>> findLoaded(std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> findAcrossScopes(std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> findAcrossScopes(std::string moduleId, std::string key);
     std::optional<std::shared_ptr<IRType>> findType(std::string key);
     std::optional<std::shared_ptr<IRType>> findType(std::string moduleId, std::string key);
     std::optional<std::shared_ptr<IRType>> findGlobalType(std::string key);
     std::optional<std::shared_ptr<IRType>> findGlobalType(std::string moduleId, std::string key);
-    IRLookupTable* insertGlobalVariable(std::string key, IRInstructionNode* value);
-    std::optional<IRInstructionNode*> findGlobalVariable(std::string key);
-    std::optional<IRInstructionNode*> findGlobalVariable(std::string moduleId, std::string key);
-    std::optional<IRInstructionNode*> getClassScope();
+    IRLookupTable* insertGlobalVariable(std::string key, std::shared_ptr<IRInstructionNode> value);
+    std::optional<std::shared_ptr<IRInstructionNode>> findGlobalVariable(std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> findGlobalVariable(std::string moduleId, std::string key);
+    std::optional<std::shared_ptr<IRInstructionNode>> getClassScope();
     void dump();
 };
 

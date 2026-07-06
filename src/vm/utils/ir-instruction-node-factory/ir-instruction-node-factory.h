@@ -11,27 +11,27 @@
 
 class IRInstructionNodeFactory {
 public:
-    static IRInstructionNode* create(llvm::GlobalVariable* globalVariable);
-    static IRInstructionNode* create(llvm::GlobalVariable* globalVariable, std::shared_ptr<IRPointerType> irType, std::optional<IRInstructionNode*> sourceAllocation);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<IRInstructionNode*> childAllocations);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::vector<IRInstructionNode*> childAllocations);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::optional<IRInstructionNode*> sourceAllocation);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
-    static IRInstructionNode* create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::optional<IRInstructionNode*> sourceInstructionNode);
+    static std::shared_ptr<IRInstructionNode> create(llvm::GlobalVariable* globalVariable);
+    static std::shared_ptr<IRInstructionNode> create(llvm::GlobalVariable* globalVariable, std::shared_ptr<IRPointerType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> childAllocationMap);
+    static std::shared_ptr<IRInstructionNode> create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceInstructionNode);
 
-    static IRInstructionNode* create(IRInstructionNode* otherInstructionNode);
-    static IRInstructionNode* create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, llvm::Value* numElements);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, IRInstructionNode* sourceAllocation);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, std::vector<IRInstructionNode*> childAllocations);
-    static IRInstructionNode* create(std::shared_ptr<IRType> irType, IRInstructionNode* sourceAllocation);
-    static IRInstructionNode* create(std::shared_ptr<IRType> irType);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, std::string name);
-    static IRInstructionNode* create(std::shared_ptr<IRPointerType> irType, std::string name, std::optional<IRInstructionNode*> sourceAllocation);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRInstructionNode> otherInstructionNode);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRInstructionNode> otherInstructionNode, std::shared_ptr<IRInstructionNode> sourceInstructionNode);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> childAllocationMap);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, llvm::Value* numElements);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, std::shared_ptr<IRInstructionNode> sourceAllocation);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRType> irType, std::shared_ptr<IRInstructionNode> sourceAllocation);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRType> irType);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, std::string name);
+    static std::shared_ptr<IRInstructionNode> create(std::shared_ptr<IRPointerType> irType, std::string name, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation);
 };
 
 #endif //JETLANG_IR_INSTRUCTION_NODE_FACTORY_H

@@ -16,22 +16,22 @@
 class IRRefExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTRefExpressionNode> _node;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
     std::shared_ptr<IRRefType> _irType;
-    IRInstructionNode* _irValue;
-    IRInstructionNode* _irArc;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::shared_ptr<IRInstructionNode> _irArc;
 public:
-    IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, IRExpressionNode* irExpression, std::shared_ptr<IRRefType> irType, IRInstructionNode* irValue, IRInstructionNode* irArc);
+    IRRefExpressionNode(std::shared_ptr<ASTRefExpressionNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRRefType> irType, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc);
     void markAsGlobal() override;
-    IRExpressionNode* getExpression();
-    IRInstructionNode* getIRValue();
+    std::shared_ptr<IRExpressionNode> getExpression();
+    std::shared_ptr<IRInstructionNode> getIRValue();
     std::shared_ptr<IRRefType> getIRRefType();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
-    std::optional<IRInstructionNode*> getSourceAllocation() override;
-    std::optional<IRInstructionNode*> getArc() override;
+    std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

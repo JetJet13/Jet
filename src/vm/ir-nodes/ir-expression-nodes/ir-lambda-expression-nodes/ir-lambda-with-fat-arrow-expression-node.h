@@ -17,20 +17,20 @@ class IRLambdaWithFatArrowExpressionNode : public IRLambdaExpressionNode {
 private:
     std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> _node;
     llvm::Function* _irFunction;
-    IRInstructionNode* _irValue;
-    IRFunctionParameterListNode* _irParameterList;
-    IRBlockNode* _irBlock;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::shared_ptr<IRFunctionParameterListNode> _irParameterList;
+    std::shared_ptr<IRBlockNode> _irBlock;
     std::shared_ptr<IRLambdaType> _type;
     llvm::Function* _irCleanupFunction;
-    IRExpressionNode* _irReturnExpression;
+    std::shared_ptr<IRExpressionNode> _irReturnExpression;
 public:
-    IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression);
-    IRExpressionNode* getReturnExpression();
-    IRInstructionNode* getAllocation() override;
+    IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction, std::shared_ptr<IRExpressionNode> irReturnExpression);
+    std::shared_ptr<IRExpressionNode> getReturnExpression();
+    std::shared_ptr<IRInstructionNode> getAllocation() override;
     llvm::Function* getFunctionValue() override;
     llvm::Function* getCleanupFunction() override;
-    IRBlockNode* getBlock() override;
-    IRFunctionParameterListNode* getParameters() override;
+    std::shared_ptr<IRBlockNode> getBlock() override;
+    std::shared_ptr<IRFunctionParameterListNode> getParameters() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

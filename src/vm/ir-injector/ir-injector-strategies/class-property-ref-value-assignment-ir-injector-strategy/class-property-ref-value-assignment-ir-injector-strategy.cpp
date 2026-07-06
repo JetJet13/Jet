@@ -7,7 +7,7 @@
 #include "../../../ir-type/ir-struct-ref-type.h"
 #include "../../../ir-type/ir-ref-type.h"
 
-void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(IRClassPropertyRefValueAssignmentStatementNode* irClassPropertyRefValueAssignmentStatementNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRClassPropertyRefValueAssignmentStatementNode> irClassPropertyRefValueAssignmentStatementNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto classScopeParameter = scope->getClassScope().value();
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(classScopeParameter->getIRType()->getType(), classScopeParameter->getValue(), irBlock);
     auto classInstanceIrType = std::dynamic_pointer_cast<IRStructRefType>(classScopeParameter->getIRType()->getUnderlyingType());

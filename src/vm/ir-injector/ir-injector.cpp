@@ -113,83 +113,83 @@ std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSig
 }
 
 
-void IRInjector::inject(IRBlockNode* irBlock, IRNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irNode->isDeclaration()) {
-        this->inject(irBlock, (IRDeclarationNode*)irNode, irModule, scope);
+        this->inject(irBlock, std::dynamic_pointer_cast<IRDeclarationNode>(irNode), irModule, scope);
     } else if (irNode->isStatement()) {
-        this->inject(irBlock, (IRStatementNode*)irNode, irModule, scope);
+        this->inject(irBlock, std::dynamic_pointer_cast<IRStatementNode>(irNode), irModule, scope);
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRDeclarationNode> irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irDeclaration->is(IR_VARIABLE_DECLARATION_NODE)) {
-        _variableIRInjector->inject((IRVariableDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+        _variableIRInjector->inject(std::dynamic_pointer_cast<IRVariableDeclarationNode>(irDeclaration), irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_FUNCTION_PARAMETER_DECLARATION_NODE)) {
-        _functionParameterIRInjector->inject((IRFunctionParameterDeclarationNode*)irDeclaration, irBlock, this, irModule);
+        _functionParameterIRInjector->inject(std::dynamic_pointer_cast<IRFunctionParameterDeclarationNode>(irDeclaration), irBlock, this, irModule);
     } else if (irDeclaration->is(IR_MODULE_DECLARATION_NODE)) {
-        _moduleIRInjector->inject((IRModuleDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+        _moduleIRInjector->inject(std::dynamic_pointer_cast<IRModuleDeclarationNode>(irDeclaration), irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_PROCEDURE_DECLARATION_NODE)) {
-        _procedureDeclarationIRInjectorStrategy->inject((IRProcedureDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+        _procedureDeclarationIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRProcedureDeclarationNode>(irDeclaration), irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_FUNCTION_DECLARATION_NODE)) {
-        _functionDeclarationIRInjectorStrategy->inject((IRFunctionDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+        _functionDeclarationIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRFunctionDeclarationNode>(irDeclaration), irBlock, this, irModule, scope);
     } else if (irDeclaration->is(IR_CLASS_DECLARATION_NODE)) {
-        _classIRInjectorStrategy->inject((IRClassDeclarationNode*)irDeclaration, irBlock, this, irModule, scope);
+        _classIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassDeclarationNode>(irDeclaration), irBlock, this, irModule, scope);
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStatementNode> irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     if (irStatement->is(IR_FUNCTION_RETURN_EXPRESSION_NODE)) {
-        _functionReturnIRInjector->inject((IRFunctionReturnExpressionNode*) irStatement, irBlock, this, irModule, scope);
+        _functionReturnIRInjector->inject(std::dynamic_pointer_cast<IRFunctionReturnExpressionNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
-        _classPropertyAssignmentIRInjectorStrategy->inject((IRClassPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _classPropertyAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassPropertyAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        _classPropertyRefValueAssignmentIRInjectorStrategy->inject((IRClassPropertyRefValueAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _classPropertyRefValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassPropertyRefValueAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        _refValueAssignmentIRInjectorStrategy->inject((IRRefValueAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _refValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRRefValueAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
-        _variableAssignmentIRInjectorStrategy->inject((IRVariableAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _variableAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRVariableAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        _arrayAccessAssignmentIRInjectorStrategy->inject((IRArrayAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _arrayAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRArrayAccessAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _arrayAccessRefAssignmentIRInjectorStrategy->inject((IRArrayAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _arrayAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRArrayAccessRefAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        _objectAccessAssignmentIRInjectorStrategy->inject((IRObjectAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _objectAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRObjectAccessAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _objectAccessRefAssignmentIRInjectorStrategy->inject((IRObjectAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _objectAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRObjectAccessRefAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        _tupleAccessAssignmentIRInjectorStrategy->inject((IRTupleAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _tupleAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRTupleAccessAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _tupleAccessRefAssignmentIRInjectorStrategy->inject((IRTupleAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _tupleAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRTupleAccessRefAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        _moduleAccessAssignmentIRInjectorStrategy->inject((IRModuleAccessAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _moduleAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRModuleAccessAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _moduleAccessRefAssignmentIRInjectorStrategy->inject((IRModuleAccessRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _moduleAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRModuleAccessRefAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
-        _classStaticPropertyAssignmentIRInjectorStrategy->inject((IRClassStaticPropertyAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _classStaticPropertyAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassStaticPropertyAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _classStaticPropertyRefAssignmentIRInjectorStrategy->inject((IRClassStaticPropertyRefAssignmentStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _classStaticPropertyRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassStaticPropertyRefAssignmentStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
-        _ifStatementIRInjectorStrategy->inject((IRIfStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _ifStatementIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRIfStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_WHILE_STATEMENT_NODE)) {
-        _whileStatementIRInjectorStrategy->inject((IRWhileStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _whileStatementIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRWhileStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_FOR_IN_STATEMENT_NODE)) {
-        _forInStatementIRInjectorStrategy->inject((IRForInStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _forInStatementIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRForInStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else if (irStatement->is(IR_EXPRESSION_STATEMENT_NODE)) {
-        _expressionStatementIRInjectorStrategy->inject((IRExpressionStatementNode*)irStatement, irBlock, this, irModule, scope);
+        _expressionStatementIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRExpressionStatementNode>(irStatement), irBlock, this, irModule, scope);
     } else {
         throw std::invalid_argument("unable to find injector for statement " + std::to_string(irStatement->getNodeType()));
     }
 }
 
-void IRInjector::inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule) {
+void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBlockNode> irNode, std::shared_ptr<IRModuleNode> irModule) {
     _blockIRInjectorStrategy->inject(irNode, irBlock, this, irModule);
 }
 
-llvm::Value* IRInjector::inject(IRBlockNode* irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule) {
     return _typeValueIRInjectorStrategy->inject(irType, irBlock, this, irModule);
 }
 
-llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
         irExpression->getTypeSignature()->print();
@@ -203,11 +203,11 @@ llvm::Value* IRInjector::inject(IRBlockNode* irBlock, IRExpressionNode* irExpres
     return injector->second.get()->inject(irExpression, irBlock, this, irOperation, irModule, scope);
 }
 
-void IRInjector::injectVoidReturnType(IRBlockNode* irBlock) {
+void IRInjector::injectVoidReturnType(std::shared_ptr<IRBlockNode> irBlock) {
     irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt64(0));
 }
 
-llvm::Value* IRInjector::injectStringGlobalVariable(IRBlockNode* irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* IRInjector::injectStringGlobalVariable(std::shared_ptr<IRBlockNode> irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule) {
     auto existingStringGlobalVariable = irModule->getModule()->get()->getGlobalVariable(id);
     if (existingStringGlobalVariable != nullptr) {
         return existingStringGlobalVariable;
@@ -224,7 +224,7 @@ llvm::Value* IRInjector::injectStringGlobalVariable(IRBlockNode* irBlock, std::s
     return stringGlobalVariable;
 }
 
-llvm::AllocaInst* IRInjector::injectRawString(IRBlockNode* irBlock, std::string rawString) {
+llvm::AllocaInst* IRInjector::injectRawString(std::shared_ptr<IRBlockNode> irBlock, std::string rawString) {
     auto irString = llvm::ConstantDataArray::getString(irBlock->getBuilder()->get()->getContext(), rawString);
     auto alloca = irBlock->getBuilder()->get()->CreateAlloca(irString->getType());
     irBlock->getBuilder()->get()->CreateStore(irString, alloca);

@@ -15,14 +15,14 @@ private:
     llvm::Argument* _irValue;
     std::shared_ptr<IRParameterType> _parameterType;
     std::optional<std::shared_ptr<ASTFunctionParameterNode>> _node;
-    IRInstructionNode* _allocation;
-    std::optional<IRInstructionNode*> _irArc;
+    std::shared_ptr<IRInstructionNode> _allocation;
+    std::optional<std::shared_ptr<IRInstructionNode>> _irArc;
 public:
-    IRFunctionParameterNode(llvm::Argument* irValue, std::shared_ptr<IRParameterType> parameterType, IRInstructionNode* allocation, std::optional<std::shared_ptr<ASTFunctionParameterNode>> node = {}, std::optional<IRInstructionNode*> irArc = {});
+    IRFunctionParameterNode(llvm::Argument* irValue, std::shared_ptr<IRParameterType> parameterType, std::shared_ptr<IRInstructionNode> allocation, std::optional<std::shared_ptr<ASTFunctionParameterNode>> node = {}, std::optional<std::shared_ptr<IRInstructionNode>> irArc = {});
     llvm::Argument* getArgument();
     std::shared_ptr<IRParameterType> getParameterType();
-    IRInstructionNode* getAllocation();
-    std::optional<IRInstructionNode*> getArc();
+    std::shared_ptr<IRInstructionNode> getAllocation();
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     bool isCaptured();
     unsigned long getCaptureCount();
     bool needsToBeFreed();

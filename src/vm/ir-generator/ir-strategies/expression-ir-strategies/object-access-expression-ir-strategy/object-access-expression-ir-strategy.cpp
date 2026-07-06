@@ -8,13 +8,13 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 
-IRExpressionNode* ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(node->getSource()->getSource()->getTypeSignature());
         auto targetKey = classTypeSignature->addClassNameToKey(node->getTarget()->getTarget()->getIdentifierNode()->getId());
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto classStaticProperty = scope->findGlobalVariable(targetKey);
-        return new IRClassStaticPropertyAccessExpressionNode(node, classStaticProperty.value(), irType);
+        return std::make_shared<IRClassStaticPropertyAccessExpressionNode>(node, classStaticProperty.value(), irType);
     }
 
     auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
@@ -25,20 +25,20 @@ IRExpressionNode* ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<AST
         auto targetIndex = classInstanceType->getIndexForProperty(targetKey);
         auto irType = classInstanceType->getIRTypeForProperty(targetKey);
         auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+        return std::make_shared<IRObjectAccessExpressionNode>(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
     } else if (sourceType->isStructRefType()) {
         auto structRefType = std::dynamic_pointer_cast<IRStructRefType>(sourceType);
         auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto targetIndex = structRefType->getStructIRType()->getIndexForKey(targetKey);
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+        return std::make_shared<IRObjectAccessExpressionNode>(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
     } else {
         auto structType = std::dynamic_pointer_cast<IRStructType>(sourceType);
         auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto targetIndex = structType->getIndexForKey(targetKey);
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-        return new IRObjectAccessExpressionNode(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
+        return std::make_shared<IRObjectAccessExpressionNode>(node, sourceValue, targetKey, targetIndex, irGenerator->generateIntConstant(targetIndex), irType, sourceAllocation);
     }
 }

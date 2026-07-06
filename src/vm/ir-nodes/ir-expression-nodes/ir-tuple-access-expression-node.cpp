@@ -6,7 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-type/ir-struct-ref-type.h"
 
-IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, IRExpressionNode* irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irTargetKeyIndex = irTargetKeyIndex;
@@ -20,15 +20,15 @@ void IRTupleAccessExpressionNode::markAsGlobal() {
     _irSource->markAsGlobal();
 }
 
-std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRTupleAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 
-std::optional<IRInstructionNode*> IRTupleAccessExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRTupleAccessExpressionNode::getArc() {
     return _irSource->getArc();
 }
 
-IRExpressionNode* IRTupleAccessExpressionNode::getSource() {
+std::shared_ptr<IRExpressionNode> IRTupleAccessExpressionNode::getSource() {
     return _irSource;
 }
 

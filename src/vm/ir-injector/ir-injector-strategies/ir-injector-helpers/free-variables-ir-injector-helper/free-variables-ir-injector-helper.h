@@ -12,13 +12,13 @@
 
 class FreeIRInjectorHelper {
 public:
-    static void freeNodes(IRBlockNode* irBlockNode, std::vector<IRNodeToFree*>* nodesToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeForInLoopSource(IRBlockNode* forInEndBlock, IRBlockNode* forInSetupBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeNestedBlockNodes(IRBlockNode* irBlockNode, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeVariable(IRBlockNode* irBlockNode, IRVariableDeclarationNode* variableToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeExpression(IRBlockNode* irBlockNode, IRExpressionNode* expressionToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeFunctionBlockNodes(IRBlockNode* functionBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    static void freeFunctionParameters(IRBlockNode* irBlockNode, IRFunctionParameterListNode* functionParameterList, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeNodes(std::shared_ptr<IRBlockNode> irBlockNode, std::vector<IRNodeToFree*>* nodesToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeForInLoopSource(std::shared_ptr<IRBlockNode> forInEndBlock, std::shared_ptr<IRBlockNode> forInSetupBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeNestedBlockNodes(std::shared_ptr<IRBlockNode> irBlockNode, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeVariable(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRVariableDeclarationNode> variableToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeExpression(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRExpressionNode> expressionToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeFunctionBlockNodes(std::shared_ptr<IRBlockNode> functionBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    static void freeFunctionParameters(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_FREE_VARIABLES_IR_INJECTOR_HELPER_H

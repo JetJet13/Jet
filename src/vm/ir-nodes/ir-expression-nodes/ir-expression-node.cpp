@@ -70,11 +70,11 @@ TypeSource IRExpressionNode::getInjectorTypeSource() {
     return typeSignature->getTypeTarget();
 }
 
-std::optional<IRInstructionNode*> IRExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRExpressionNode::getSourceAllocation() {
     return {};
 }
 
-std::optional<IRInstructionNode*> IRExpressionNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRExpressionNode::getArc() {
     return {};
 }
 

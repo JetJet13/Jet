@@ -4,7 +4,7 @@
 
 #include "ir-function-parameter-declaration-node.h"
 
-IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, IRInstructionNode* irValue, std::optional<IRInstructionNode*> irArc) {
+IRFunctionParameterDeclarationNode::IRFunctionParameterDeclarationNode(llvm::Argument* argument, std::shared_ptr<IRInstructionNode> irValue, std::optional<std::shared_ptr<IRInstructionNode>> irArc) {
     _argument = argument;
     _irValue = irValue;
     _irArc = irArc;
@@ -18,11 +18,11 @@ llvm::Argument* IRFunctionParameterDeclarationNode::getArgument() {
     return _argument;
 }
 
-IRInstructionNode* IRFunctionParameterDeclarationNode::getAllocation() {
+std::shared_ptr<IRInstructionNode> IRFunctionParameterDeclarationNode::getAllocation() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRFunctionParameterDeclarationNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRFunctionParameterDeclarationNode::getArc() {
     return _irArc;
 }
 

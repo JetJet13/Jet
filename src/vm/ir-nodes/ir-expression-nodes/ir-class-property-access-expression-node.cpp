@@ -6,7 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-type/ir-struct-ref-type.h"
 
-IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRInstructionNode* irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
+IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, std::shared_ptr<IRInstructionNode> irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -20,7 +20,7 @@ std::shared_ptr<ASTClassPropertyAccessExpressionNode> IRClassPropertyAccessExpre
     return _node;
 }
 
-IRInstructionNode* IRClassPropertyAccessExpressionNode::getSource() {
+std::shared_ptr<IRInstructionNode> IRClassPropertyAccessExpressionNode::getSource() {
     return _irSource;
 }
 
@@ -36,7 +36,7 @@ unsigned long IRClassPropertyAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
 }
 
-std::optional<IRInstructionNode*> IRClassPropertyAccessExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRClassPropertyAccessExpressionNode::getSourceAllocation() {
     return _sourceAllocation;
 }
 

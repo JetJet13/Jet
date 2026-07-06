@@ -13,12 +13,12 @@
 class IRObjectAccessAssignmentStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTObjectAccessAssignmentStatementNode> _node;
-    IRObjectAccessExpressionNode* _irObjectAccessExpression;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRObjectAccessExpressionNode> _irObjectAccessExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
 public:
-    IRObjectAccessAssignmentStatementNode(std::shared_ptr<ASTObjectAccessAssignmentStatementNode> node, IRObjectAccessExpressionNode* irObjectAccessExpression, IRExpressionNode* irExpression);
-    IRObjectAccessExpressionNode* getIRObjectAccessExpression();
-    IRExpressionNode* getIRExpression();
+    IRObjectAccessAssignmentStatementNode(std::shared_ptr<ASTObjectAccessAssignmentStatementNode> node, std::shared_ptr<IRObjectAccessExpressionNode> irObjectAccessExpression, std::shared_ptr<IRExpressionNode> irExpression);
+    std::shared_ptr<IRObjectAccessExpressionNode> getIRObjectAccessExpression();
+    std::shared_ptr<IRExpressionNode> getIRExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

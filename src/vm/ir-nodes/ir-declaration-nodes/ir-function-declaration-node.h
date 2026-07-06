@@ -16,16 +16,16 @@ class IRFunctionDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTFunctionDeclarationNode> _node;
     llvm::Function* _irValue;
-    IRFunctionParameterListNode* _irParameterList;
-    IRBlockNode* _irBlock;
-    IRInstructionNode* _globalVariable;
+    std::shared_ptr<IRFunctionParameterListNode> _irParameterList;
+    std::shared_ptr<IRBlockNode> _irBlock;
+    std::shared_ptr<IRInstructionNode> _globalVariable;
 public:
-    IRFunctionDeclarationNode(std::shared_ptr<ASTFunctionDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable);
+    IRFunctionDeclarationNode(std::shared_ptr<ASTFunctionDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> globalVariable);
     std::string getName();
     std::string getNormalizedName();
-    IRFunctionParameterListNode* getParameters();
-    IRInstructionNode* getGlobalVariable();
-    IRBlockNode* getBlock();
+    std::shared_ptr<IRFunctionParameterListNode> getParameters();
+    std::shared_ptr<IRInstructionNode> getGlobalVariable();
+    std::shared_ptr<IRBlockNode> getBlock();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

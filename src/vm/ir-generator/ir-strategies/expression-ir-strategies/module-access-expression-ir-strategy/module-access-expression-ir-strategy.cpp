@@ -5,7 +5,7 @@
 #include "module-access-expression-ir-strategy.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRExpressionNode* ModuleAccessExpressionIRStrategy::generate(std::shared_ptr<ASTModuleAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> ModuleAccessExpressionIRStrategy::generate(std::shared_ptr<ASTModuleAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto sourceValue = scope->findGlobalVariable(node->getModuleName(), node->getModuleTargetName());
     if (!sourceValue && node->getTypeSignature()->isInvocable()) {
         auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(node->getTypeSignature());
@@ -13,5 +13,5 @@ IRExpressionNode* ModuleAccessExpressionIRStrategy::generate(std::shared_ptr<AST
         sourceValue = scope->findGlobalVariable(node->getModuleId(), lambdaValueName);
     }
 
-    return new IRModuleAccessExpressionNode(node, sourceValue.value()->getValue(), sourceValue.value()->getIRType());
+    return std::make_shared<IRModuleAccessExpressionNode>(node, sourceValue.value()->getValue(), sourceValue.value()->getIRType());
 }

@@ -16,16 +16,16 @@
 class IRArrayAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTArrayAccessInvocationExpressionNode> _node;
-    IRArrayAccessExpressionNode* _irArrayAccessExpression;
+    std::shared_ptr<IRArrayAccessExpressionNode> _irArrayAccessExpression;
     llvm::CallInst* _irCallInstruction;
     std::shared_ptr<IRType> _irFunctionType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
 public:
-    IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type);
+    IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, std::shared_ptr<IRArrayAccessExpressionNode> irArrayAccessExpression, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type);
     void markAsGlobal() override;
-    IRArrayAccessExpressionNode* getIRArrayAccessExpression();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
+    std::shared_ptr<IRArrayAccessExpressionNode> getIRArrayAccessExpression();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     llvm::CallInst* getValue() override;
     std::shared_ptr<IRType> getFunctionIRType();
     std::shared_ptr<IRType> getIRType() override;

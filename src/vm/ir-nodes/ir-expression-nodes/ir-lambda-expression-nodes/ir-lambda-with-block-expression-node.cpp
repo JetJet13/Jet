@@ -4,7 +4,7 @@
 
 #include "ir-lambda-with-block-expression-node.h"
 
-IRLambdaWithBlockExpressionNode::IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction) {
+IRLambdaWithBlockExpressionNode::IRLambdaWithBlockExpressionNode(std::shared_ptr<ASTLambdaExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction) {
     _node = node;
     _irValue = irValue;
     _irFunction = irFunction;
@@ -18,11 +18,11 @@ llvm::Function* IRLambdaWithBlockExpressionNode::getCleanupFunction() {
     return _irCleanupFunction;
 }
 
-IRFunctionParameterListNode* IRLambdaWithBlockExpressionNode::getParameters() {
+std::shared_ptr<IRFunctionParameterListNode> IRLambdaWithBlockExpressionNode::getParameters() {
     return _irParameterList;
 }
 
-IRBlockNode* IRLambdaWithBlockExpressionNode::getBlock() {
+std::shared_ptr<IRBlockNode> IRLambdaWithBlockExpressionNode::getBlock() {
     return _irBlock;
 }
 
@@ -30,7 +30,7 @@ llvm::Value* IRLambdaWithBlockExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRLambdaWithBlockExpressionNode::getAllocation() {
+std::shared_ptr<IRInstructionNode> IRLambdaWithBlockExpressionNode::getAllocation() {
     return _irValue;
 }
 

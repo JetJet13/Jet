@@ -5,7 +5,7 @@
 #include "function-parameter-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void FunctionParameterIRInjectorStrategy::inject(IRFunctionParameterDeclarationNode* irFunctionParameterDeclaration, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void FunctionParameterIRInjectorStrategy::inject(std::shared_ptr<IRFunctionParameterDeclarationNode> irFunctionParameterDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     InstructionIRInjectorHelper::inject(irFunctionParameterDeclaration->getAllocation(), irBlock);
     InstructionIRInjectorHelper::injectStore(irFunctionParameterDeclaration->getArgument(), irFunctionParameterDeclaration->getAllocation()->getValue(), irBlock, irFunctionParameterDeclaration->getAllocation()->getIRType());
     if (irFunctionParameterDeclaration->getArc()) {

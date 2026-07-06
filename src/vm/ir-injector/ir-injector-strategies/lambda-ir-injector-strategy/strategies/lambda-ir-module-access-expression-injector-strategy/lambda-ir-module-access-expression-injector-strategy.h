@@ -12,7 +12,7 @@
 
 class LambdaIRModuleAccessExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRModuleAccessExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRModuleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_LAMBDA_IR_MODULE_ACCESS_EXPRESSION_INJECTOR_STRATEGY_H

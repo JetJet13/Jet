@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void TupleAccessAssignmentIRInjectorStrategy::inject(IRTupleAccessAssignmentStatementNode* irTupleAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+void TupleAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRTupleAccessAssignmentStatementNode> irTupleAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto objectAccess = irTupleAccessAssignmentStatement->getIRTupleAccessExpression();
     auto source = irInjector->inject(irBlock, objectAccess->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointerToTarget = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irTupleAccessAssignmentStatement->getIRTupleAccessExpression(), source);

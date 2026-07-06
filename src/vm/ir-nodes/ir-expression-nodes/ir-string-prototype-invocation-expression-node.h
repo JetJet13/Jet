@@ -19,14 +19,14 @@ private:
     llvm::CallInst* _irCallInstruction;
     llvm::Value* _irFunction;
     std::shared_ptr<IRType> _irFunctionType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
-    IRExpressionNode* _irString;
+    std::shared_ptr<IRExpressionNode> _irString;
 public:
-    IRStringPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRExpressionNode* irString);
+    IRStringPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irString);
     void markAsGlobal() override;
-    IRExpressionNode* getIRStringValue();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
+    std::shared_ptr<IRExpressionNode> getIRStringValue();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     llvm::CallInst* getValue() override;
     llvm::Value* getFunctionValue();
     std::shared_ptr<IRType> getFunctionIRType();

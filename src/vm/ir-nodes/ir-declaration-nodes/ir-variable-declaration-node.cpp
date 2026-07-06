@@ -4,7 +4,7 @@
 
 #include "ir-variable-declaration-node.h"
 
-IRVariableDeclarationNode::IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, IRInstructionNode* irValue, IRExpressionNode* irExpression, llvm::Value* variableNameIRValue, std::optional<IRInstructionNode*> irGlobalVariable, std::optional<IRInstructionNode*> irArc) {
+IRVariableDeclarationNode::IRVariableDeclarationNode(std::shared_ptr<ASTVariableDeclarationNode> astNode, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRExpressionNode> irExpression, llvm::Value* variableNameIRValue, std::optional<std::shared_ptr<IRInstructionNode>> irGlobalVariable, std::optional<std::shared_ptr<IRInstructionNode>> irArc) {
     _node = astNode;
     _irValue = irValue;
     _irExpression = irExpression;
@@ -33,11 +33,11 @@ std::shared_ptr<IRType> IRVariableDeclarationNode::getAllocatedIRType() {
     return _irValue->getIRType()->getSourceType();
 }
 
-IRInstructionNode* IRVariableDeclarationNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRVariableDeclarationNode::getIRValue() {
     return _irValue;
 }
 
-IRExpressionNode* IRVariableDeclarationNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRVariableDeclarationNode::getIRExpression() {
     return _irExpression;
 }
 
@@ -51,11 +51,11 @@ bool IRVariableDeclarationNode::isLambdaVariable() {
     return _irExpression->getIRType()->getUnderlyingType()->isLambdaType();
 }
 
-std::optional<IRInstructionNode*> IRVariableDeclarationNode::getGlobalVariable() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRVariableDeclarationNode::getGlobalVariable() {
     return _irGlobalVariable;
 }
 
-std::optional<IRInstructionNode*> IRVariableDeclarationNode::getArc() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRVariableDeclarationNode::getArc() {
     return _irArc;
 }
 

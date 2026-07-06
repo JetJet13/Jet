@@ -13,7 +13,7 @@
 
 class TupleAccessAssignmentIRInjectorStrategy {
 public:
-    void inject(IRTupleAccessAssignmentStatementNode* irTupleAccessAssignmentStatement, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRTupleAccessAssignmentStatementNode> irTupleAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_TUPLE_ACCESS_ASSIGNMENT_IR_INJECTOR_STRATEGY_H

@@ -5,7 +5,7 @@
 #include "ir-array-access-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type) {
+IRArrayAccessInvocationExpressionNode::IRArrayAccessInvocationExpressionNode(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> node, std::shared_ptr<IRArrayAccessExpressionNode> irArrayAccessExpression, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irArrayAccessExpression = irArrayAccessExpression;
@@ -21,11 +21,11 @@ void IRArrayAccessInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRArrayAccessExpressionNode* IRArrayAccessInvocationExpressionNode::getIRArrayAccessExpression() {
+std::shared_ptr<IRArrayAccessExpressionNode> IRArrayAccessInvocationExpressionNode::getIRArrayAccessExpression() {
     return _irArrayAccessExpression;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRArrayAccessInvocationExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRArrayAccessInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

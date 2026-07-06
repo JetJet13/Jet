@@ -4,7 +4,7 @@
 
 #include "ir-string-literal-expression-node.h"
 
-IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, IRStringLiteralNode* irValue, std::shared_ptr<IRArrayPointerType> irArrayPointerType, IRInstructionNode* sourceAllocation, IRInstructionNode* arrayPointerSourceAllocation) {
+IRStringLiteralExpressionNode::IRStringLiteralExpressionNode(std::shared_ptr<ASTLiteralExpressionNode> node, std::shared_ptr<IRStringLiteralNode> irValue, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRInstructionNode> sourceAllocation, std::shared_ptr<IRInstructionNode> arrayPointerSourceAllocation) {
     _node = node;
     _irValue = irValue;
     _irArrayPointerType = irArrayPointerType;
@@ -36,15 +36,15 @@ llvm::Constant* IRStringLiteralExpressionNode::getValue() {
     return _irValue->getConstantIRValue();
 }
 
-std::optional<IRInstructionNode*> IRStringLiteralExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRStringLiteralExpressionNode::getSourceAllocation() {
     return _arrayPointerSourceAllocation;
 }
 
-IRInstructionNode* IRStringLiteralExpressionNode::getSourceAggregateAllocation() {
+std::shared_ptr<IRInstructionNode> IRStringLiteralExpressionNode::getSourceAggregateAllocation() {
     return _sourceAllocation;
 }
 
-IRInstructionNode* IRStringLiteralExpressionNode::getAggregatePointerAllocation() {
+std::shared_ptr<IRInstructionNode> IRStringLiteralExpressionNode::getAggregatePointerAllocation() {
     return _arrayPointerSourceAllocation;
 }
 

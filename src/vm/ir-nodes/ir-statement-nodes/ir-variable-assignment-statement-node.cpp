@@ -4,7 +4,7 @@
 
 #include "ir-variable-assignment-statement-node.h"
 
-IRVariableAssignmentStatementNode::IRVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentStatementNode> node, IRExpressionNode* irExpression) {
+IRVariableAssignmentStatementNode::IRVariableAssignmentStatementNode(std::shared_ptr<ASTVariableAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irExpression = irExpression;
 }
@@ -13,7 +13,7 @@ std::string IRVariableAssignmentStatementNode::getVariableName() {
     return _node->getVariableAssignment()->getIdentifierNode()->getId();
 }
 
-IRExpressionNode* IRVariableAssignmentStatementNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRVariableAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

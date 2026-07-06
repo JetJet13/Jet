@@ -17,18 +17,18 @@
 class IRTupleExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTTupleExpressionNode> _node;
-    IRInstructionNode* _irValue;
-    IRInstructionNode* _irArc;
-    std::vector<IRExpressionNode*> _irValues;
+    std::shared_ptr<IRInstructionNode> _irValue;
+    std::shared_ptr<IRInstructionNode> _irArc;
+    std::vector<std::shared_ptr<IRExpressionNode>> _irValues;
     std::shared_ptr<IRStructRefType> _type;
 public:
-    IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, IRInstructionNode* irValue, IRInstructionNode* irArc, std::shared_ptr<IRStructRefType> type, std::vector<IRExpressionNode*> irValues);
+    IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc, std::shared_ptr<IRStructRefType> type, std::vector<std::shared_ptr<IRExpressionNode>> irValues);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
     unsigned long size();
-    IRInstructionNode* getIRValue();
-    std::vector<IRExpressionNode*>* getValues();
-    std::optional<IRInstructionNode*> getArc() override;
+    std::shared_ptr<IRInstructionNode> getIRValue();
+    std::vector<std::shared_ptr<IRExpressionNode>>* getValues();
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
     std::shared_ptr<IRStructRefType> getIRStructRefType();
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

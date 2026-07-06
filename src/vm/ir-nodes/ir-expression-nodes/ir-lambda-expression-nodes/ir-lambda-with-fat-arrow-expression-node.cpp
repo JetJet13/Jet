@@ -4,7 +4,7 @@
 
 #include "ir-lambda-with-fat-arrow-expression-node.h"
 
-IRLambdaWithFatArrowExpressionNode::IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRInstructionNode* irValue, llvm::Function* irFunction, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction, IRExpressionNode* irReturnExpression) {
+IRLambdaWithFatArrowExpressionNode::IRLambdaWithFatArrowExpressionNode(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRLambdaType> type, llvm::Function* irCleanupFunction, std::shared_ptr<IRExpressionNode> irReturnExpression) {
     _node = node;
     _irValue = irValue;
     _irFunction = irFunction;
@@ -19,15 +19,15 @@ llvm::Function* IRLambdaWithFatArrowExpressionNode::getCleanupFunction() {
     return _irCleanupFunction;
 }
 
-IRBlockNode* IRLambdaWithFatArrowExpressionNode::getBlock() {
+std::shared_ptr<IRBlockNode> IRLambdaWithFatArrowExpressionNode::getBlock() {
     return _irBlock;
 }
 
-IRExpressionNode* IRLambdaWithFatArrowExpressionNode::getReturnExpression() {
+std::shared_ptr<IRExpressionNode> IRLambdaWithFatArrowExpressionNode::getReturnExpression() {
     return _irReturnExpression;
 }
 
-IRInstructionNode* IRLambdaWithFatArrowExpressionNode::getAllocation() {
+std::shared_ptr<IRInstructionNode> IRLambdaWithFatArrowExpressionNode::getAllocation() {
     return _irValue;
 }
 
@@ -35,7 +35,7 @@ llvm::Function* IRLambdaWithFatArrowExpressionNode::getFunctionValue() {
     return _irFunction;
 }
 
-IRFunctionParameterListNode* IRLambdaWithFatArrowExpressionNode::getParameters() {
+std::shared_ptr<IRFunctionParameterListNode> IRLambdaWithFatArrowExpressionNode::getParameters() {
     return _irParameterList;
 }
 

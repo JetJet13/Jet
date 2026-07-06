@@ -4,17 +4,17 @@
 
 #include "ir-function-argument-node.h"
 
-IRFunctionArgumentNode::IRFunctionArgumentNode(IRExpressionNode* irArgument) {
+IRFunctionArgumentNode::IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument) {
     _irArgument = irArgument;
     _irOperation = new IROperation(IR_FUNCTION_ARGUMENT_OP);
 }
 
-IRFunctionArgumentNode::IRFunctionArgumentNode(IRExpressionNode* irArgument, IROperation* irOperation) {
+IRFunctionArgumentNode::IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, IROperation* irOperation) {
     _irArgument = irArgument;
     _irOperation = irOperation;
 }
 
-IRExpressionNode* IRFunctionArgumentNode::getArgument() {
+std::shared_ptr<IRExpressionNode> IRFunctionArgumentNode::getArgument() {
     return _irArgument;
 }
 

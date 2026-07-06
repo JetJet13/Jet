@@ -7,7 +7,7 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h"
 
-llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinaryArithmeticExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
+llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) {
     auto irOperations = irExpression->getListOfOperations();
 
     auto irOperands = irExpression->getListOfOperands();
@@ -36,7 +36,7 @@ llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(IRBinar
     return finalResult;
 }
 
-IRBinaryArithmeticNode* LiteralIRBinaryArithmeticExpressionInjectorStrategy::findNextOperationIndex(std::vector<IRBinaryOperatorNode*>* operations) {
+std::shared_ptr<IRBinaryArithmeticNode> LiteralIRBinaryArithmeticExpressionInjectorStrategy::findNextOperationIndex(std::vector<std::shared_ptr<IRBinaryOperatorNode>>* operations) {
     for (int i = 0; i < operations->size(); ++i) {
         auto currentOp = operations->at(i);
         if (currentOp->isHandled()) continue;
@@ -45,16 +45,16 @@ IRBinaryArithmeticNode* LiteralIRBinaryArithmeticExpressionInjectorStrategy::fin
             auto otherOp = operations->at(j);
             if (!otherOp->isHandled() && otherOp->isHigherPriorityThan(currentOp)) {
                 otherOp->markAsHandled();
-                return new IRBinaryArithmeticNode(otherOp->getOp(), j, j+1);
+                return std::make_shared<IRBinaryArithmeticNode>(otherOp->getOp(), j, j+1);
             }
         }
         currentOp->markAsHandled();
-        return new IRBinaryArithmeticNode(currentOp->getOp(), i, i+1);
+        return std::make_shared<IRBinaryArithmeticNode>(currentOp->getOp(), i, i+1);
     }
     throw std::logic_error("unable to find next binary arithmetic operation");
 }
 
-llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::calculate(IRBlockNode* irBlock, IRBinaryArithmeticNode* binaryOp, llvm::Value* leftValue, llvm::Value* rightValue, std::shared_ptr<IRModuleNode> irModule) {
+llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::calculate(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBinaryArithmeticNode> binaryOp, llvm::Value* leftValue, llvm::Value* rightValue, std::shared_ptr<IRModuleNode> irModule) {
     if (binaryOp->isIntAddition()) {
         return irBlock->getBuilder()->get()->CreateCall(
             irModule.get()->getIntAddOverflowFunction(),

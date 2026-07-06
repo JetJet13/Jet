@@ -19,18 +19,18 @@ class IRObjectAccessInvocationExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTObjectAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
-    IRExpressionNode* _source;
+    std::shared_ptr<IRExpressionNode> _source;
     int64_t _targetIndex;
     std::shared_ptr<IRType> _irFunctionType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
-    std::optional<IRExpressionNode*> _scopeArgument;
+    std::optional<std::shared_ptr<IRExpressionNode>> _scopeArgument;
 public:
-    IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRExpressionNode* source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, std::optional<IRExpressionNode*> scopeArgument = {});
+    IRObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, std::shared_ptr<IRExpressionNode> source, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, int64_t targetIndex, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRExpressionNode>> scopeArgument = {});
     void markAsGlobal() override;
-    IRExpressionNode* getSource();
-    std::optional<IRExpressionNode*> getScopeArgument();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
+    std::shared_ptr<IRExpressionNode> getSource();
+    std::optional<std::shared_ptr<IRExpressionNode>> getScopeArgument();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     llvm::CallInst* getValue() override;
     int64_t getTargetIndex();
     std::shared_ptr<IRType> getFunctionIRType();

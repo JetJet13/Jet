@@ -14,19 +14,19 @@ class IRLogicalExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTLogicalExpressionNode> _node;
     llvm::BinaryOperator* _irValue;
-    IRExpressionNode* _irLeftNode;
-    IRExpressionNode* _irRightNode;
+    std::shared_ptr<IRExpressionNode> _irLeftNode;
+    std::shared_ptr<IRExpressionNode> _irRightNode;
     std::shared_ptr<IRType> _type;
 public:
-    IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRType> type, IRExpressionNode* irLeftNode, IRExpressionNode* irRightNode);
+    IRLogicalExpressionNode(std::shared_ptr<ASTLogicalExpressionNode> astNode, llvm::BinaryOperator* irValue, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irLeftNode, std::shared_ptr<IRExpressionNode> irRightNode);
     void markAsGlobal() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     Position* getStartPosition() override;
     Position* getEndPosition() override;
     llvm::BinaryOperator* getValue() override;
-    IRExpressionNode* getLeftNode();
-    IRExpressionNode* getRightNode();
+    std::shared_ptr<IRExpressionNode> getLeftNode();
+    std::shared_ptr<IRExpressionNode> getRightNode();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

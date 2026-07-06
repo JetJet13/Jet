@@ -12,12 +12,12 @@
 
 class InstructionIRInjectorHelper {
 public:
-    static llvm::Value* inject(std::shared_ptr<IRTypeValueInstructionNode> irTypeValueInstructionNode, IRBlockNode* irBlock, std::string name = "");
-    static llvm::Value* inject(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
-    static llvm::Value* injectLoad(IRInstructionNode* irInstruction, IRBlockNode* irBlock, std::string name = "");
-    static llvm::Value* injectLoad(std::shared_ptr<IRPointerType> irPointerType, llvm::Value* sourcePointer, IRBlockNode* irBlock, std::string name = "");
-    static llvm::LoadInst* injectLoad(llvm::Type* type, llvm::Value* source, IRBlockNode* irBlock, std::optional<std::shared_ptr<IRType>> irType = {}, std::string name = "");
-    static llvm::StoreInst* injectStore(llvm::Value* value, llvm::Value* source, IRBlockNode* irBlock, std::optional<std::shared_ptr<IRType>> irType = {});
+    static llvm::Value* inject(std::shared_ptr<IRTypeValueInstructionNode> irTypeValueInstructionNode, std::shared_ptr<IRBlockNode> irBlock, std::string name = "");
+    static llvm::Value* inject(std::shared_ptr<IRInstructionNode> irInstruction, std::shared_ptr<IRBlockNode> irBlock, std::string name = "");
+    static llvm::Value* injectLoad(std::shared_ptr<IRInstructionNode> irInstruction, std::shared_ptr<IRBlockNode> irBlock, std::string name = "");
+    static llvm::Value* injectLoad(std::shared_ptr<IRPointerType> irPointerType, llvm::Value* sourcePointer, std::shared_ptr<IRBlockNode> irBlock, std::string name = "");
+    static llvm::LoadInst* injectLoad(llvm::Type* type, llvm::Value* source, std::shared_ptr<IRBlockNode> irBlock, std::optional<std::shared_ptr<IRType>> irType = {}, std::string name = "");
+    static llvm::StoreInst* injectStore(llvm::Value* value, llvm::Value* source, std::shared_ptr<IRBlockNode> irBlock, std::optional<std::shared_ptr<IRType>> irType = {});
 };
 
 #endif //JETLANG_INSTRUCTION_IR_INJECTOR_HELPER_H

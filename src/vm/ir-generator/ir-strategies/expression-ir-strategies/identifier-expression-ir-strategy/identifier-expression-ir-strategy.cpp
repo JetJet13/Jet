@@ -7,7 +7,7 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRExpressionNode* IdentifierExpressionIRStrategy::generate(std::shared_ptr<ASTIdentifierExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> IdentifierExpressionIRStrategy::generate(std::shared_ptr<ASTIdentifierExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto allocation = scope->findAcrossScopes(node->getIdentifierNode()->getId());
     if (!allocation && node->getTypeSignature()->isInvocable()) {
         auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(node->getTypeSignature());
@@ -15,7 +15,7 @@ IRExpressionNode* IdentifierExpressionIRStrategy::generate(std::shared_ptr<ASTId
     }
 
     if (irOperation->isCopy() && allocation.value()->getIRType()->getSourceType()->requiresArc()) {
-        return new IRIdentifierExpressionNode(node, allocation.value(), irGenerator->generateArcAllocation(irContext));
+        return std::make_shared<IRIdentifierExpressionNode>(node, allocation.value(), irGenerator->generateArcAllocation(irContext));
     }
-    return new IRIdentifierExpressionNode(node, allocation.value(), scope->findArc(node->getIdentifierNode()->getId()));
+    return std::make_shared<IRIdentifierExpressionNode>(node, allocation.value(), scope->findArc(node->getIdentifierNode()->getId()));
 }

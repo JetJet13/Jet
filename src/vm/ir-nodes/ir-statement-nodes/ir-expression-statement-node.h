@@ -13,10 +13,10 @@
 class IRExpressionStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTExpressionStatementNode> _node;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
 public:
-    IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, IRExpressionNode* irExpression);
-    IRExpressionNode* getExpression();
+    IRExpressionStatementNode(std::shared_ptr<ASTExpressionStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression);
+    std::shared_ptr<IRExpressionNode> getExpression();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

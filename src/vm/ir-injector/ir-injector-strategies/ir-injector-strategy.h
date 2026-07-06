@@ -17,7 +17,7 @@
 
 class IRInjectorStrategy {
 public:
-    virtual llvm::Value* inject(IRExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) = 0;
+    virtual llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope) = 0;
 };
 
 #endif //JETLANG_IR_INJECTOR_STRATEGY_H

@@ -8,7 +8,7 @@
 #include "../pointer-ir-injector-helper/pointer-ir-injector-helper.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRInstructionNode* structRefAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* StructIRInjectorHelper::injectStructRef(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> structRefAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(structRefAllocation->getIRType()->getUnderlyingType());
     auto irStructType = irStructRefType->getStructIRType();
     auto destinationStructRefAllocation = IRInstructionNodeFactory::create(structRefAllocation);
@@ -60,13 +60,13 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(IRBlockNode* irBlock, IRIns
     return InstructionIRInjectorHelper::injectLoad(destinationStructRefAllocation->getAllocatedType(), destinationStructRefAllocation->getValue(), irBlock);
 }
 
-llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* StructIRInjectorHelper::injectStructRefCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto destinationStructRefAllocation = irBlock->getBuilder()->get()->CreateAlloca(irStructRefType->getType());
     StructIRInjectorHelper::injectStructRefCopy(irBlock, irStructRefType, structRefSource, destinationStructRefAllocation, irModule, irInjector);
     return InstructionIRInjectorHelper::injectLoad(destinationStructRefAllocation->getAllocatedType(), destinationStructRefAllocation, irBlock, irStructRefType);
 }
 
-llvm::Value* StructIRInjectorHelper::injectStructRefCopy(IRBlockNode* irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* StructIRInjectorHelper::injectStructRefCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStructRefType> irStructRefType, llvm::Value* structRefSource, llvm::Value* structRefDestination, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
     auto destinationStructAllocation = irBlock->getBuilder()->get()->CreateCall(irModule->getMallocFunction(), {
             irBlock->getBuilder()->get()->getInt64(1),
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getStructIRType()->getSizeInBytes()),

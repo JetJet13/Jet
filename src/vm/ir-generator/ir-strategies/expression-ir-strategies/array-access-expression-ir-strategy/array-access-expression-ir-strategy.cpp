@@ -7,10 +7,10 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-IRArrayAccessExpressionNode* ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRArrayAccessExpressionNode> ArrayAccessExpressionIRStrategy::ArrayAccessExpressionIRStrategy::generate(std::shared_ptr<ASTArrayAccessExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
     auto sourceValue = irGenerator->generateFor(node->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
     auto indexValue = irGenerator->generateFor(node->getIndex()->getIndex(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto sourceAllocation = IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
-    return new IRArrayAccessExpressionNode(node, sourceValue, indexValue, irType, sourceAllocation);
+    return std::make_shared<IRArrayAccessExpressionNode>(node, sourceValue, indexValue, irType, sourceAllocation);
 }

@@ -4,30 +4,30 @@
 
 #include "ir-while-statement-node.h"
 
-IRWhileStatementNode::IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, IRExpressionNode* condition, IRBlockNode* whileBlock, IRBlockNode* bodyBlock, IRBlockNode* endBlock) {
+IRWhileStatementNode::IRWhileStatementNode(std::shared_ptr<ASTWhileStatementNode> node, std::shared_ptr<IRExpressionNode> condition, std::shared_ptr<IRBlockNode> whileBlock, std::shared_ptr<IRBlockNode> bodyBlock, std::shared_ptr<IRBlockNode> endBlock) {
     _condition = condition;
     _whileBlock = whileBlock;
     _bodyBlock = bodyBlock;
     _endBlock = endBlock;
 }
 
-IRExpressionNode* IRWhileStatementNode::getExpression() {
+std::shared_ptr<IRExpressionNode> IRWhileStatementNode::getExpression() {
     return _condition;
 }
 
-IRBlockNode* IRWhileStatementNode::getWhileBlock() {
+std::shared_ptr<IRBlockNode> IRWhileStatementNode::getWhileBlock() {
     return _whileBlock;
 }
 
-IRBlockNode* IRWhileStatementNode::getBodyBlock() {
+std::shared_ptr<IRBlockNode> IRWhileStatementNode::getBodyBlock() {
     return _bodyBlock;
 }
 
-IRBlockNode* IRWhileStatementNode::getEndBlock() {
+std::shared_ptr<IRBlockNode> IRWhileStatementNode::getEndBlock() {
     return _endBlock;
 }
 
-void IRWhileStatementNode::nestIn(IRBlockNode* irBlock) {
+void IRWhileStatementNode::nestIn(std::shared_ptr<IRBlockNode> irBlock) {
     irBlock->nest(_whileBlock);
     irBlock->nest(_bodyBlock);
     irBlock->nest(_endBlock);

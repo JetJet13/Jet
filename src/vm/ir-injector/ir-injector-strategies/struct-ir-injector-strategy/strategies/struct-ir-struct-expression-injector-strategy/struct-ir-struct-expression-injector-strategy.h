@@ -12,7 +12,7 @@
 
 class StructIRStructExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRStructExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRStructExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_STRUCT_IR_STRUCT_EXPRESSION_INJECTOR_STRATEGY_H

@@ -17,21 +17,21 @@
 class IRClassDeclarationNode : public IRDeclarationNode {
 private:
     std::shared_ptr<ASTClassDeclarationNode> _node;
-    IRInstructionNode* _irValue;
+    std::shared_ptr<IRInstructionNode> _irValue;
     std::shared_ptr<IRClassType> _type;
-    std::optional<IRClassPreConstructorNode*> _preConstructor;
-    std::vector<IRClassConstructorNode*> _constructors;
-    std::vector<IRClassMethodNode*> _methods;
-    std::vector<IRClassMethodNode*> _staticMethods;
-    std::vector<IRClassStaticPropertyNode*> _staticProperties;
+    std::optional<std::shared_ptr<IRClassPreConstructorNode>> _preConstructor;
+    std::vector<std::shared_ptr<IRClassConstructorNode>> _constructors;
+    std::vector<std::shared_ptr<IRClassMethodNode>> _methods;
+    std::vector<std::shared_ptr<IRClassMethodNode>> _staticMethods;
+    std::vector<std::shared_ptr<IRClassStaticPropertyNode>> _staticProperties;
 public:
-    IRClassDeclarationNode(std::shared_ptr<ASTClassDeclarationNode> node, IRInstructionNode* irValue, std::shared_ptr<IRClassType> type, std::optional<IRClassPreConstructorNode*> preConstructor, std::vector<IRClassConstructorNode*> constructors, std::vector<IRClassMethodNode*> methods, std::vector<IRClassMethodNode*> staticMethods, std::vector<IRClassStaticPropertyNode*> staticProperties);
+    IRClassDeclarationNode(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRClassType> type, std::optional<std::shared_ptr<IRClassPreConstructorNode>> preConstructor, std::vector<std::shared_ptr<IRClassConstructorNode>> constructors, std::vector<std::shared_ptr<IRClassMethodNode>> methods, std::vector<std::shared_ptr<IRClassMethodNode>> staticMethods, std::vector<std::shared_ptr<IRClassStaticPropertyNode>> staticProperties);
     std::shared_ptr<IRClassType> getIRType();
-    std::optional<IRClassPreConstructorNode*> getPreConstructor();
-    std::vector<IRClassConstructorNode*>* getConstructors();
-    std::vector<IRClassMethodNode*>* getMethods();
-    std::vector<IRClassMethodNode*>* getStaticMethods();
-    std::vector<IRClassStaticPropertyNode*>* getStaticProperties();
+    std::optional<std::shared_ptr<IRClassPreConstructorNode>> getPreConstructor();
+    std::vector<std::shared_ptr<IRClassConstructorNode>>* getConstructors();
+    std::vector<std::shared_ptr<IRClassMethodNode>>* getMethods();
+    std::vector<std::shared_ptr<IRClassMethodNode>>* getStaticMethods();
+    std::vector<std::shared_ptr<IRClassStaticPropertyNode>>* getStaticProperties();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;
     std::string toString() override;

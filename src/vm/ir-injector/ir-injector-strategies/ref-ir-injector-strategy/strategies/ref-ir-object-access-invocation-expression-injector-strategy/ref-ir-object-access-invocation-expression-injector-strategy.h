@@ -12,7 +12,7 @@
 
 class RefIRObjectAccessInvocationExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(IRObjectAccessInvocationExpressionNode* irExpression, IRBlockNode* irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    llvm::Value* inject(std::shared_ptr<IRObjectAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
 };
 
 #endif //JETLANG_REF_IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_INJECTOR_STRATEGY_H

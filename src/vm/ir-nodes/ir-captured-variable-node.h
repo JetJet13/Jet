@@ -9,12 +9,12 @@
 
 class IRCapturedVariableNode {
 private:
-    IRInstructionNode* _mallocVariable;
-    IRInstructionNode* _arc;
+    std::shared_ptr<IRInstructionNode> _mallocVariable;
+    std::shared_ptr<IRInstructionNode> _arc;
 public:
-    IRCapturedVariableNode(IRInstructionNode* mallocVariable, IRInstructionNode* arc);
-    IRInstructionNode* getVariable();
-    IRInstructionNode* getArc();
+    IRCapturedVariableNode(std::shared_ptr<IRInstructionNode> mallocVariable, std::shared_ptr<IRInstructionNode> arc);
+    std::shared_ptr<IRInstructionNode> getVariable();
+    std::shared_ptr<IRInstructionNode> getArc();
 };
 
 #endif //JETLANG_IR_CAPTURED_VARIABLE_NODE_H

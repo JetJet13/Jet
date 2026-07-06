@@ -14,10 +14,10 @@
 class IRClassStaticPropertyAccessExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTObjectAccessExpressionNode> _node;
-    IRInstructionNode* _irStaticProperty;
+    std::shared_ptr<IRInstructionNode> _irStaticProperty;
     std::shared_ptr<IRType> _irType;
 public:
-    IRClassStaticPropertyAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRInstructionNode* irStaticProperty, std::shared_ptr<IRType> irType);
+    IRClassStaticPropertyAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, std::shared_ptr<IRInstructionNode> irStaticProperty, std::shared_ptr<IRType> irType);
     std::shared_ptr<ASTObjectAccessExpressionNode> getNode();
     std::shared_ptr<IRPointerType> getPointerIRType();
     std::shared_ptr<IRType> getIRType() override;

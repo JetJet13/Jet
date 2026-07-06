@@ -4,17 +4,17 @@
 
 #include "ir-module-access-assignment-statement-node.h"
 
-IRModuleAccessAssignmentStatementNode::IRModuleAccessAssignmentStatementNode(std::shared_ptr<ASTModuleAccessAssignmentStatementNode> node, IRModuleAccessExpressionNode* irModuleAccessExpression, IRExpressionNode* irExpression) {
+IRModuleAccessAssignmentStatementNode::IRModuleAccessAssignmentStatementNode(std::shared_ptr<ASTModuleAccessAssignmentStatementNode> node, std::shared_ptr<IRModuleAccessExpressionNode> irModuleAccessExpression, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irModuleAccessExpression = irModuleAccessExpression;
     _irExpression = irExpression;
 }
 
-IRModuleAccessExpressionNode* IRModuleAccessAssignmentStatementNode::getIRModuleAccessExpression() {
+std::shared_ptr<IRModuleAccessExpressionNode> IRModuleAccessAssignmentStatementNode::getIRModuleAccessExpression() {
     return _irModuleAccessExpression;
 }
 
-IRExpressionNode* IRModuleAccessAssignmentStatementNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRModuleAccessAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

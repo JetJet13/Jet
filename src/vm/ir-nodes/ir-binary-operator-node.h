@@ -19,7 +19,7 @@ public:
     bool isHandled();
     void markAsHandled();
     [[nodiscard]] int getPriority() const;
-    bool isHigherPriorityThan(IRBinaryOperatorNode* other) const;
+    bool isHigherPriorityThan(std::shared_ptr<IRBinaryOperatorNode> other) const;
 };
 
 #endif //JETLANG_IR_BINARY_OPERATOR_NODE_H

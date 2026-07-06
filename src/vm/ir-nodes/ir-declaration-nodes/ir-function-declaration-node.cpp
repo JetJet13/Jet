@@ -5,7 +5,7 @@
 #include "ir-function-declaration-node.h"
 #include "../../../shared/utils/function-id-generator/function-id-generator.h"
 
-IRFunctionDeclarationNode::IRFunctionDeclarationNode(std::shared_ptr<ASTFunctionDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameterList, IRBlockNode* irBlock, IRInstructionNode* globalVariable) {
+IRFunctionDeclarationNode::IRFunctionDeclarationNode(std::shared_ptr<ASTFunctionDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> globalVariable) {
     _node = node;
     _irValue = irValue;
     _irParameterList = irParameterList;
@@ -21,15 +21,15 @@ std::string IRFunctionDeclarationNode::getNormalizedName() {
     return _node->getId();
 }
 
-IRFunctionParameterListNode* IRFunctionDeclarationNode::getParameters() {
+std::shared_ptr<IRFunctionParameterListNode> IRFunctionDeclarationNode::getParameters() {
     return _irParameterList;
 }
 
-IRInstructionNode* IRFunctionDeclarationNode::getGlobalVariable() {
+std::shared_ptr<IRInstructionNode> IRFunctionDeclarationNode::getGlobalVariable() {
     return _globalVariable;
 }
 
-IRBlockNode* IRFunctionDeclarationNode::getBlock() {
+std::shared_ptr<IRBlockNode> IRFunctionDeclarationNode::getBlock() {
     return _irBlock;
 }
 

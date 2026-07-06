@@ -4,25 +4,25 @@
 
 #include "ir-function-parameter-list-node.h"
 
-IRFunctionParameterListNode::IRFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListNode> node, std::vector<IRFunctionParameterNode*> parameters) {
+IRFunctionParameterListNode::IRFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListNode> node, std::vector<std::shared_ptr<IRFunctionParameterNode>> parameters) {
     _node = node;
     _parameters = parameters;
     _scopeParameter = {};
 }
 
-void IRFunctionParameterListNode::addLambdaScopeParameter(IRFunctionParameterNode* parameter) {
+void IRFunctionParameterListNode::addLambdaScopeParameter(std::shared_ptr<IRFunctionParameterNode> parameter) {
     _scopeParameter = parameter;
 }
 
-std::optional<IRFunctionParameterNode*> IRFunctionParameterListNode::getLambdaScopeParameter() {
+std::optional<std::shared_ptr<IRFunctionParameterNode>> IRFunctionParameterListNode::getLambdaScopeParameter() {
     return _scopeParameter;
 }
 
-std::vector<IRFunctionParameterNode*>* IRFunctionParameterListNode::getParameters() {
+std::vector<std::shared_ptr<IRFunctionParameterNode>>* IRFunctionParameterListNode::getParameters() {
     return &_parameters;
 }
 
-void IRFunctionParameterListNode::addClassScopeParameter(IRFunctionParameterNode* classScopeParameter) {
+void IRFunctionParameterListNode::addClassScopeParameter(std::shared_ptr<IRFunctionParameterNode> classScopeParameter) {
     _parameters.push_back(classScopeParameter);
 }
 

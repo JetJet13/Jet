@@ -7,8 +7,8 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
-    auto arguments = std::vector<IRFunctionArgumentNode*>();
+std::shared_ptr<IRExpressionNode> TupleAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext, IROperation* irOperation) {
+    auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);
         arguments.push_back(
@@ -31,5 +31,5 @@ IRExpressionNode* TupleAccessInvocationExpressionIRStrategy::generate(std::share
 
     auto callInstruction = llvm::CallInst::Create(irInvocableType->getIRFunctionType()->getType(), sourceValue->getValue(), argList);
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-    return new IRTupleAccessInvocationExpressionNode(node, sourceValue, callInstruction, irInvocableType, targetIndex, arguments, irReturnType);
+    return std::make_shared<IRTupleAccessInvocationExpressionNode>(node, sourceValue, callInstruction, irInvocableType, targetIndex, arguments, irReturnType);
 }

@@ -4,7 +4,7 @@
 
 #include "ir-class-constructor-node.h"
 
-IRClassConstructorNode::IRClassConstructorNode(std::shared_ptr<ASTClassConstructorDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock) {
+IRClassConstructorNode::IRClassConstructorNode(std::shared_ptr<ASTClassConstructorDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameters, std::shared_ptr<IRBlockNode> irBlock) {
     _node = node;
     _irValue = irValue;
     _irParameters = irParameters;
@@ -19,10 +19,10 @@ llvm::Function* IRClassConstructorNode::getFunction() {
     return _irValue;
 }
 
-IRFunctionParameterListNode* IRClassConstructorNode::getParameters() {
+std::shared_ptr<IRFunctionParameterListNode> IRClassConstructorNode::getParameters() {
     return _irParameters;
 }
 
-IRBlockNode* IRClassConstructorNode::getBlock() {
+std::shared_ptr<IRBlockNode> IRClassConstructorNode::getBlock() {
     return _irBlock;
 }

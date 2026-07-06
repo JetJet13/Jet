@@ -4,12 +4,12 @@
 
 #include "ir-function-return-expression-node.h"
 
-IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnExpressionNode> node, std::optional<IRExpressionNode*> irExpression) {
+IRFunctionReturnExpressionNode::IRFunctionReturnExpressionNode(std::shared_ptr<ASTFunctionReturnExpressionNode> node, std::optional<std::shared_ptr<IRExpressionNode>> irExpression) {
     _node = node;
     _irExpression = irExpression;
 }
 
-std::optional<IRExpressionNode*> IRFunctionReturnExpressionNode::getReturnExpression() {
+std::optional<std::shared_ptr<IRExpressionNode>> IRFunctionReturnExpressionNode::getReturnExpression() {
     return _irExpression;
 }
 

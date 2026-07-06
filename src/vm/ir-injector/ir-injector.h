@@ -102,15 +102,15 @@ private:
     std::pair<TypeSource, IRInjectorStrategy*> insert(TypeSource typeSignature, IRInjectorStrategy* injector);
 public:
     IRInjector();
-    void inject(IRBlockNode* irBlock, IRNode* irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRDeclarationNode* irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRStatementNode* irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void inject(IRBlockNode* irBlock, IRBlockNode* irNode, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRBlockNode* irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule);
-    llvm::Value* inject(IRBlockNode* irBlock, IRExpressionNode* irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
-    void injectVoidReturnType(IRBlockNode* irBlock);
-    llvm::Value* injectStringGlobalVariable(IRBlockNode* irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule);
-    llvm::AllocaInst* injectRawString(IRBlockNode* irBlock, std::string rawString);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRDeclarationNode> irDeclaration, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStatementNode> irStatement, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBlockNode> irNode, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule);
+    llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, IRLookupTable* scope);
+    void injectVoidReturnType(std::shared_ptr<IRBlockNode> irBlock);
+    llvm::Value* injectStringGlobalVariable(std::shared_ptr<IRBlockNode> irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule);
+    llvm::AllocaInst* injectRawString(std::shared_ptr<IRBlockNode> irBlock, std::string rawString);
 };
 
 #endif //JETLANG_IR_INJECTOR_H

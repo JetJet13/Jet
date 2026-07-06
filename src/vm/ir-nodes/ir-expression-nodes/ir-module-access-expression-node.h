@@ -16,7 +16,7 @@ private:
     std::shared_ptr<ASTModuleAccessExpressionNode> _node;
     llvm::Value* _irValue;
     std::shared_ptr<IRType> _irType;
-    std::optional<IRInstructionNode*> _sourceAllocation;
+    std::optional<std::shared_ptr<IRInstructionNode>> _sourceAllocation;
 public:
     IRModuleAccessExpressionNode(std::shared_ptr<ASTModuleAccessExpressionNode> node, llvm::Value* irValue, std::shared_ptr<IRType> irType);
     void markAsGlobal() override;

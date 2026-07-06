@@ -5,7 +5,7 @@
 #include "ir-class-method-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, IRInstructionNode* classScopeArgument) {
+IRClassMethodInvocationExpressionNode::IRClassMethodInvocationExpressionNode(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRInstructionNode> classScopeArgument) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
@@ -22,11 +22,11 @@ void IRClassMethodInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-IRInstructionNode* IRClassMethodInvocationExpressionNode::getClassScopeArgument() {
+std::shared_ptr<IRInstructionNode> IRClassMethodInvocationExpressionNode::getClassScopeArgument() {
     return _classScopeArgument;
 }
 
-std::vector<IRFunctionArgumentNode*>* IRClassMethodInvocationExpressionNode::getIRArguments() {
+std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRClassMethodInvocationExpressionNode::getIRArguments() {
     return &_arguments;
 }
 

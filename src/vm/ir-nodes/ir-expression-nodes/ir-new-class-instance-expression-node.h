@@ -20,16 +20,16 @@ private:
     std::shared_ptr<ASTNewClassInstanceExpressionNode> _node;
     std::string _constructorId;
     std::shared_ptr<IRFunctionType> _irConstructorType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRNewClassInstanceType> _type;
-    IRInstructionNode* _classInstanceAllocation;
-    IRInstructionNode* _irArc;
+    std::shared_ptr<IRInstructionNode> _classInstanceAllocation;
+    std::shared_ptr<IRInstructionNode> _irArc;
 public:
-    IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, std::shared_ptr<IRFunctionType> irConstructorType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRNewClassInstanceType> type, IRInstructionNode* classInstanceAllocation, IRInstructionNode* irArc);
+    IRNewClassInstanceExpressionNode(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::string constructorId, std::shared_ptr<IRFunctionType> irConstructorType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRNewClassInstanceType> type, std::shared_ptr<IRInstructionNode> classInstanceAllocation, std::shared_ptr<IRInstructionNode> irArc);
     void markAsGlobal() override;
-    IRInstructionNode* getClassInstanceAllocation();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
-    std::optional<IRInstructionNode*> getArc() override;
+    std::shared_ptr<IRInstructionNode> getClassInstanceAllocation();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
+    std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
     llvm::Value* getValue() override;
     std::shared_ptr<IRFunctionType> getConstructorIRType();
     std::string getConstructorId();

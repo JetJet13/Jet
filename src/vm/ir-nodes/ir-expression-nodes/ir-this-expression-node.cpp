@@ -5,7 +5,7 @@
 #include "ir-this-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRThisExpressionNode::IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, IRInstructionNode* irValue) {
+IRThisExpressionNode::IRThisExpressionNode(std::shared_ptr<ASTThisExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue) {
     _node = node;
     _irValue = irValue;
     _irType = std::dynamic_pointer_cast<IRPointerType>(irValue->getIRType()->getSourceType());
@@ -15,11 +15,11 @@ llvm::Value* IRThisExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-IRInstructionNode* IRThisExpressionNode::getIRValue() {
+std::shared_ptr<IRInstructionNode> IRThisExpressionNode::getIRValue() {
     return _irValue;
 }
 
-std::optional<IRInstructionNode*> IRThisExpressionNode::getSourceAllocation() {
+std::optional<std::shared_ptr<IRInstructionNode>> IRThisExpressionNode::getSourceAllocation() {
     return _irValue;
 }
 

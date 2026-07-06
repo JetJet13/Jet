@@ -4,17 +4,17 @@
 
 #include "ir-array-access-ref-assignment-statement-node.h"
 
-IRArrayAccessRefAssignmentStatementNode::IRArrayAccessRefAssignmentStatementNode(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, IRArrayAccessExpressionNode* irArrayAccessExpression, IRExpressionNode* irExpression) {
+IRArrayAccessRefAssignmentStatementNode::IRArrayAccessRefAssignmentStatementNode(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, std::shared_ptr<IRArrayAccessExpressionNode> irArrayAccessExpression, std::shared_ptr<IRExpressionNode> irExpression) {
     _node = node;
     _irArrayAccessExpression = irArrayAccessExpression;
     _irExpression = irExpression;
 }
 
-IRArrayAccessExpressionNode* IRArrayAccessRefAssignmentStatementNode::getIRArrayAccessExpression() {
+std::shared_ptr<IRArrayAccessExpressionNode> IRArrayAccessRefAssignmentStatementNode::getIRArrayAccessExpression() {
     return _irArrayAccessExpression;
 }
 
-IRExpressionNode* IRArrayAccessRefAssignmentStatementNode::getIRExpression() {
+std::shared_ptr<IRExpressionNode> IRArrayAccessRefAssignmentStatementNode::getIRExpression() {
     return _irExpression;
 }
 

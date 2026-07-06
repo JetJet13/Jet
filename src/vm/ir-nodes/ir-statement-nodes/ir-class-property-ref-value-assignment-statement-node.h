@@ -12,12 +12,12 @@
 class IRClassPropertyRefValueAssignmentStatementNode : public IRStatementNode {
 private:
     std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> _node;
-    IRExpressionNode* _irExpression;
+    std::shared_ptr<IRExpressionNode> _irExpression;
     std::string _propertyName;
     unsigned long _propertyIndex;
 public:
-    IRClassPropertyRefValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> node, IRExpressionNode* irExpression, std::string propertyName, unsigned long propertyIndex);
-    IRExpressionNode* getExpression();
+    IRClassPropertyRefValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::string propertyName, unsigned long propertyIndex);
+    std::shared_ptr<IRExpressionNode> getExpression();
     unsigned long getPropertyIndex();
     IRNodeType getNodeType() override;
     std::string toString() override;

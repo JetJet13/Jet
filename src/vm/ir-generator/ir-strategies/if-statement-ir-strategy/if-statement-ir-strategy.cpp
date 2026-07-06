@@ -6,13 +6,13 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h"
 
-IRStatementNode* IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStatementNode> IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     auto ifConditionBlock = irGenerator->generateIfBlock(irContext, scope);
     auto thenBlock = irGenerator->generateIfThenBlock(irContext, scope);
     this->setupBlock(thenBlock, node->getIfBlock()->getBlock(), irGenerator, scope, irContext);
     auto endBlock = irGenerator->generateIfEndBlock(irContext, scope);
-    auto ifNode = new IRIfElseNode(
+    auto ifNode = std::make_shared<IRIfElseNode>(
             ifConditionIRExpression,
             ifConditionBlock,
             thenBlock,
@@ -22,7 +22,7 @@ IRStatementNode* IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementN
     auto currentIfNode = ifNode;
     for (auto elseIf : *node->getElseIfBlocks()) {
         auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
-        auto elseIfNode = new IRIfElseNode(
+        auto elseIfNode = std::make_shared<IRIfElseNode>(
             elseIfConditionIRExpression,
             irGenerator->generateIfBlock(irContext, scope),
             this->setupBlock(irGenerator->generateIfThenBlock(irContext, scope), elseIf->getBlock(), irGenerator, scope, irContext),
@@ -36,12 +36,12 @@ IRStatementNode* IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementN
     if (node->getElseBlock()) {
         auto elseBlock = irGenerator->generateIfElseBlock(irContext, scope);
         this->setupBlock(elseBlock, node->getElseBlock().value()->getBlock(), irGenerator, scope, irContext);
-        return new IRIfStatementNode(node, ifNode, elseBlock);
+        return std::make_shared<IRIfStatementNode>(node, ifNode, elseBlock);
     }
-    return new IRIfStatementNode(node, ifNode);
+    return std::make_shared<IRIfStatementNode>(node, ifNode);
 }
 
-IRBlockNode* IfStatementIRStrategy::setupBlock(IRBlockNode* irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRBlockNode> IfStatementIRStrategy::setupBlock(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<ASTControlFlowBlockNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     for (auto statement : *node->getContents()) {
         irBlockNode->insert(irGenerator->generateFor(statement, irBlockNode->getScope(), irContext));
     }

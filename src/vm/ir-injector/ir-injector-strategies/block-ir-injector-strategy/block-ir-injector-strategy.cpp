@@ -7,10 +7,10 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 
-void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void BlockIRInjectorStrategy::inject(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     for (auto statement : *irBlockNode->getBody()) {
         if (statement->is(IR_IF_STATEMENT_NODE)) {
-            auto ifStatement = (IRIfStatementNode*)statement;
+            auto ifStatement = std::dynamic_pointer_cast<IRIfStatementNode>(statement);
             irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateBr(ifStatement->getIfElseNode()->getIfBlock()->getBlock());
             irInjector->inject(irBlockNode->getLastChildOrSelf(), statement, irModule,
                                irBlockNode->getLastChildOrSelf()->getScope());
@@ -29,7 +29,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
                 ifStatement->getIfElseNode()->getEndBlock()->addVoidReturn();
             }
         } else if (statement->is(IR_WHILE_STATEMENT_NODE)) {
-            auto whileStatement = (IRWhileStatementNode*)statement;
+            auto whileStatement = std::dynamic_pointer_cast<IRWhileStatementNode>(statement);
             irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateBr(whileStatement->getWhileBlock()->getBlock());
             irInjector->inject(irBlockNode->getLastChildOrSelf(), statement, irModule,
                                irBlockNode->getLastChildOrSelf()->getScope());
@@ -40,7 +40,7 @@ void BlockIRInjectorStrategy::inject(IRBlockNode* irBlockNode, IRBlockNode* irBl
             );
             irBlockNode->getLastChildOrSelf()->getBlock()->moveAfter(whileStatement->getEndBlock()->getBlock());
         } else if (statement->is(IR_FOR_IN_STATEMENT_NODE)) {
-            auto forInStatement = (IRForInStatementNode*)statement;
+            auto forInStatement = std::dynamic_pointer_cast<IRForInStatementNode>(statement);
             irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateBr(forInStatement->getSetupBlock()->getBlock());
             irInjector->inject(irBlockNode->getLastChildOrSelf(), statement, irModule,
                                irBlockNode->getLastChildOrSelf()->getScope());

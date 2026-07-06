@@ -8,47 +8,47 @@
 #include "../address-space-generator/address-space-generator.h"
 #include "../data-alignment-generator/data-alignment-generator.h"
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable) {
-    return new IRInstructionNode(globalVariable, IRPointerType::create(globalVariable));
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable) {
+    return std::make_shared<IRInstructionNode>(globalVariable, IRPointerType::create(globalVariable));
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable, std::shared_ptr<IRPointerType> irType, std::optional<IRInstructionNode*> sourceAllocation) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable, std::shared_ptr<IRPointerType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
+    return std::make_shared<IRInstructionNode>(
             globalVariable,
             irType,
             sourceAllocation);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType) {
-    return new IRInstructionNode(irValue, irType);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType) {
+    return std::make_shared<IRInstructionNode>(irValue, irType);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues) {
-    return new IRInstructionNode(irValue, irType, ancestorValues);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, ancestorValues);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<IRInstructionNode*> childAllocations) {
-    return new IRInstructionNode(irValue, irType, childAllocations);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, childAllocations);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::vector<IRInstructionNode*> childAllocations) {
-    return new IRInstructionNode(irValue, irType, ancestorValues, childAllocations);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, ancestorValues, childAllocations);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::optional<IRInstructionNode*> sourceAllocation) {
-    return new IRInstructionNode(irValue, irType, ancestorValues, sourceAllocation);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, ancestorValues, sourceAllocation);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
-    return new IRInstructionNode(irValue, irType, ancestorValues, childAllocationMap);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::vector<llvm::Value*> ancestorValues, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> childAllocationMap) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, ancestorValues, childAllocationMap);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::optional<IRInstructionNode*> sourceInstructionNode) {
-    return new IRInstructionNode(irValue, irType, sourceInstructionNode);
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::Value* irValue, std::shared_ptr<IRPointerType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceInstructionNode) {
+    return std::make_shared<IRInstructionNode>(irValue, irType, sourceInstructionNode);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInstructionNode) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRInstructionNode> otherInstructionNode) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     otherInstructionNode->getAllocatedType(),
                     AddressSpaceGenerator::generate(otherInstructionNode->getIRType()->getSourceType()),
@@ -58,8 +58,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInst
     );
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInstructionNode, IRInstructionNode* sourceInstructionNode) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRInstructionNode> otherInstructionNode, std::shared_ptr<IRInstructionNode> sourceInstructionNode) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     otherInstructionNode->getAllocatedType(),
                     AddressSpaceGenerator::generate(otherInstructionNode->getIRType()->getSourceType()),
@@ -70,8 +70,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(IRInstructionNode* otherInst
     );
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -79,8 +79,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
                     irType->getSourceType()->getAlignment()), irType);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::unordered_map<std::string, IRInstructionNode*> childAllocationMap) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> childAllocationMap) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -88,8 +88,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
                     irType->getSourceType()->getAlignment()), irType, std::move(childAllocationMap));
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, llvm::Value* numElements) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, llvm::Value* numElements) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -97,8 +97,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
                     irType->getSourceType()->getAlignment()), irType);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, IRInstructionNode* sourceAllocation) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::shared_ptr<IRInstructionNode> sourceAllocation) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -108,8 +108,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
             sourceAllocation);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::vector<IRInstructionNode*> childAllocations) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -119,8 +119,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
             childAllocations);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRType> irType, IRInstructionNode* sourceAllocation) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRType> irType, std::shared_ptr<IRInstructionNode> sourceAllocation) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -130,8 +130,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRType> irTy
             sourceAllocation);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRType> irType) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRType> irType) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getType(),
                     AddressSpaceGenerator::generate(irType),
@@ -140,8 +140,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRType> irTy
             IRPointerType::create(irType));
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::string name) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::string name) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),
@@ -150,8 +150,8 @@ IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerTyp
                     name), irType);
 }
 
-IRInstructionNode* IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::string name, std::optional<IRInstructionNode*> sourceAllocation) {
-    return new IRInstructionNode(
+std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(std::shared_ptr<IRPointerType> irType, std::string name, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
+    return std::make_shared<IRInstructionNode>(
             new llvm::AllocaInst(
                     irType->getSourceType()->getType(),
                     AddressSpaceGenerator::generate(irType->getSourceType()),

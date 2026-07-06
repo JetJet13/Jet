@@ -5,12 +5,12 @@
 #include "array-access-ref-assignment-statement-ir-strategy.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-array-access-ref-assignment-statement-node.h"
 
-IRStatementNode* ArrayAccessRefAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
+std::shared_ptr<IRStatementNode> ArrayAccessRefAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, IRGenerator* irGenerator, IRLookupTable* scope, IRContext* irContext) {
     auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
     irExpression->markAsAssigned();
-    return new IRArrayAccessRefAssignmentStatementNode(
+    return std::make_shared<IRArrayAccessRefAssignmentStatementNode>(
             node,
-            (IRArrayAccessExpressionNode*)irGenerator->generateFor(node->getArrayAccessAssignment()->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
+            std::dynamic_pointer_cast<IRArrayAccessExpressionNode>(irGenerator->generateFor(node->getArrayAccessAssignment()->getArrayAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP))),
             irExpression
     );
 }

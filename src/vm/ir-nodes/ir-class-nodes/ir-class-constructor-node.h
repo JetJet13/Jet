@@ -15,14 +15,14 @@ class IRClassConstructorNode {
 private:
     std::shared_ptr<ASTClassConstructorDeclarationNode> _node;
     llvm::Function* _irValue;
-    IRBlockNode* _irBlock;
-    IRFunctionParameterListNode* _irParameters;
+    std::shared_ptr<IRBlockNode> _irBlock;
+    std::shared_ptr<IRFunctionParameterListNode> _irParameters;
 public:
-    IRClassConstructorNode(std::shared_ptr<ASTClassConstructorDeclarationNode> node, llvm::Function* irValue, IRFunctionParameterListNode* irParameters, IRBlockNode* irBlock);
+    IRClassConstructorNode(std::shared_ptr<ASTClassConstructorDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameters, std::shared_ptr<IRBlockNode> irBlock);
     std::shared_ptr<ASTClassConstructorDeclarationNode> getNode();
     llvm::Function* getFunction();
-    IRFunctionParameterListNode* getParameters();
-    IRBlockNode* getBlock();
+    std::shared_ptr<IRFunctionParameterListNode> getParameters();
+    std::shared_ptr<IRBlockNode> getBlock();
 };
 
 

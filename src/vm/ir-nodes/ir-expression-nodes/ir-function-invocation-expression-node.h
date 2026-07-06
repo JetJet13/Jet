@@ -17,19 +17,19 @@ class IRFunctionInvocationExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTFunctionInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
-    IRInstructionNode* _irFunction;
+    std::shared_ptr<IRInstructionNode> _irFunction;
     std::shared_ptr<IRType> _irFunctionType;
-    std::vector<IRFunctionArgumentNode*> _arguments;
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
-    std::optional<IRInstructionNode*> _varArgsTypeValueArgument;
+    std::optional<std::shared_ptr<IRInstructionNode>> _varArgsTypeValueArgument;
 public:
-    IRFunctionInvocationExpressionNode(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, IRInstructionNode* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<IRFunctionArgumentNode*> arguments, std::shared_ptr<IRType> type, std::optional<IRInstructionNode*> varArgsTypeValueArgument = {});
+    IRFunctionInvocationExpressionNode(std::shared_ptr<ASTFunctionInvocationExpressionNode> node, std::shared_ptr<IRInstructionNode> irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::optional<std::shared_ptr<IRInstructionNode>> varArgsTypeValueArgument = {});
     void markAsGlobal() override;
-    std::optional<IRInstructionNode*> getVarArgsTypeValueArgument();
-    std::vector<IRFunctionArgumentNode*>* getIRArguments();
+    std::optional<std::shared_ptr<IRInstructionNode>> getVarArgsTypeValueArgument();
+    std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     std::shared_ptr<ASTFunctionInvocationExpressionNode> getNode();
     llvm::CallInst* getValue() override;
-    IRInstructionNode* getFunction();
+    std::shared_ptr<IRInstructionNode> getFunction();
     llvm::Value* getFunctionValue();
     std::shared_ptr<IRType> getFunctionIRType();
     std::shared_ptr<IRType> getIRType() override;
