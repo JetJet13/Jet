@@ -9,7 +9,7 @@
 std::shared_ptr<IRStatementNode> ClassPropertyRefValueAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTClassPropertyRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(node->getPropertyAssignment()->getClassAccess()->getThis()->getId()).value());
     auto propertyName = node->getPropertyAssignment()->getProperty()->getId();
-    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     irExpression->markAsAssigned();
     return std::make_shared<IRClassPropertyRefValueAssignmentStatementNode>(
             node,

@@ -92,8 +92,8 @@ void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNo
 llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
     if (sourceIrType->isRefType()) {
-        return irInjector->inject(irBlock, irForInStatement->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());
+        return irInjector->inject(irBlock, irForInStatement->getSource(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());
     }
 
-    return irInjector->inject(irBlock, irForInStatement->getSource(), new IROperation(IR_OPERAND_POINTER_OP), irModule, irBlock->getScope());
+    return irInjector->inject(irBlock, irForInStatement->getSource(), std::make_shared<IROperation>(IR_OPERAND_POINTER_OP), irModule, irBlock->getScope());
 }

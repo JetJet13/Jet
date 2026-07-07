@@ -7,13 +7,13 @@
 #include "../../../../../../shared/utils/logger/logger.h"
 #include "../../../../../utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h"
 
-llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::shared_ptr<IRBinaryArithmeticExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irOperations = irExpression->getListOfOperations();
 
     auto irOperands = irExpression->getListOfOperands();
     auto irOperandValues = std::vector<BinaryArithmeticDSU*>();
     for (auto irOperand : irOperands) {
-        auto irValue = irInjector->inject(irBlock, irOperand, (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+        auto irValue = irInjector->inject(irBlock, irOperand, (std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
         irOperandValues.push_back(new BinaryArithmeticDSU(irValue));
     }
 

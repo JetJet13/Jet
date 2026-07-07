@@ -8,17 +8,17 @@
 #include <optional>
 #include "../types/ir-operation-type.h"
 
-class IROperation {
+class IROperation : public std::enable_shared_from_this<IROperation> {
 private:
     IROperationType _type;
-    bool _global;
-    bool _underlyingType;
-    std::optional<bool> _countTowardsRefCount;
+    bool _global = false;
+    bool _underlyingType = false;
+    std::optional<bool> _countTowardsRefCount = {};
 public:
     IROperation(IROperationType type);
-    IROperation* markAsUnderlying();
-    IROperation* markAsGlobal();
-    IROperation* markCountTowardsRefCount();
+    std::shared_ptr<IROperation> markAsUnderlying();
+    std::shared_ptr<IROperation> markAsGlobal();
+    std::shared_ptr<IROperation> markCountTowardsRefCount();
     bool isOperand();
     bool isOperandValue();
     bool isOperandPointer();

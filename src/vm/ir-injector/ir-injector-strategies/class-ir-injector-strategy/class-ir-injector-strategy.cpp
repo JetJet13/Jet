@@ -42,7 +42,7 @@ void ClassIRInjectorStrategy::injectPreConstructor(std::shared_ptr<IRClassPreCon
     DebugIRInjectorHelper::injectLog(preConstructorBlock, irClassType->getId(), irInjector, irModule);
     for (auto keyValue : *irClassPreConstructorNode->getExpressions()) {
             auto pointerToProperty = preConstructorBlock->getBuilder()->get()->CreateStructGEP(classInstanceIrType->getStructIRType()->getType(), classInstancePropertiesStructAlloc, keyValue.first);
-            auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, preConstructorScope);
+            auto irExpressionValue = irInjector->inject(preConstructorBlock, keyValue.second, std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP), irModule, preConstructorScope);
             InstructionIRInjectorHelper::injectStore(irExpressionValue, pointerToProperty, preConstructorBlock, classInstanceIrType->getStructIRType()->getIRTypeByIndex(keyValue.first));
     }
 
@@ -78,7 +78,8 @@ void ClassIRInjectorStrategy::injectMethod(std::shared_ptr<IRClassMethodNode> ir
 }
 
 void ClassIRInjectorStrategy::injectStaticProperty(std::shared_ptr<IRClassStaticPropertyNode> irClassStaticPropertyNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    auto initialValue = irInjector->inject(irBlock, irClassStaticPropertyNode->getInitialIRValue(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto valueIrOperation = std::make_shared<IROperation>(IR_OPERAND_VALUE_OP);
+    auto initialValue = irInjector->inject(irBlock, irClassStaticPropertyNode->getInitialIRValue(), valueIrOperation, irModule, scope);
     InstructionIRInjectorHelper::injectStore(initialValue, irClassStaticPropertyNode->getGlobalVariable(), irBlock, irClassStaticPropertyNode->getIRType());
     // we need to increment the ref count for static properties that require arc because they are similar to global variables,
     // which means they need the extra ref increment on initialization to prevent them from being freed after first use

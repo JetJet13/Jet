@@ -13,9 +13,9 @@
 class NewClassInstanceExpressionIRStrategy {
 private:
     std::shared_ptr<IRInstructionNode> generateClassInstanceAllocation(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, IRGenerator* irGenerator, IRContext* irContext);
-    std::shared_ptr<IRInstructionNode> generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRNewClassInstanceType> irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRInstructionNode> generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRNewClassInstanceType> irClassInstanceType, IRGenerator* irGenerator, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
 public:
-    std::shared_ptr<IRNewClassInstanceExpressionNode> generate(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
+    std::shared_ptr<IRNewClassInstanceExpressionNode> generate(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 

@@ -95,8 +95,8 @@ public:
     std::shared_ptr<IRDeclarationNode> generateFor(std::shared_ptr<ASTDeclarationNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
     std::shared_ptr<IRTypeDeclarationNode> generateFor(std::shared_ptr<ASTTypeDeclarationNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
     std::shared_ptr<IRFunctionParameterListNode> generateFor(std::shared_ptr<ASTFunctionParameterListNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, llvm::Function* irFunction);
-    std::shared_ptr<IRExpressionNode> generateFor(std::shared_ptr<ASTExpressionNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation);
-    std::shared_ptr<IRFunctionArgumentNode> generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
+    std::shared_ptr<IRExpressionNode> generateFor(std::shared_ptr<ASTExpressionNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRFunctionArgumentNode> generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
     std::shared_ptr<IRLiteralNode> generateFor(std::shared_ptr<ASTLiteralNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
     std::shared_ptr<IRType> generateInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
     std::shared_ptr<IRType> generatePostInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);

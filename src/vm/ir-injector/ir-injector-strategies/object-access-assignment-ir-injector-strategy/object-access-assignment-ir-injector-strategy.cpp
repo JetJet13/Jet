@@ -8,13 +8,13 @@
 
 void ObjectAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRObjectAccessAssignmentStatementNode> irObjectAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto objectAccess = irObjectAccessAssignmentStatement->getIRObjectAccessExpression();
-    auto source = irInjector->inject(irBlock, objectAccess->getSource(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto source = irInjector->inject(irBlock, objectAccess->getSource(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto pointerToTarget = ObjectAccessIRInjectorHelper::getPointerToTarget(irBlock, irObjectAccessAssignmentStatement->getIRObjectAccessExpression(), source);
     auto irExpressionValue = irInjector
             ->inject(
                 irBlock,
                 irObjectAccessAssignmentStatement->getIRExpression(),
-                new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
+                std::make_shared<IROperation>(IR_OPERAND_VALUE_OP), irModule, scope
             );
     auto irType = irObjectAccessAssignmentStatement->getIRObjectAccessExpression()->getIRType()->getSourceType();
     if (irType->containsTypeThatRequiresFreeing()) {

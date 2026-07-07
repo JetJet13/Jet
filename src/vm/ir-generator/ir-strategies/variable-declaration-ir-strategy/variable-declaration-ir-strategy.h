@@ -12,7 +12,7 @@
 
 class VariableDeclarationIRStrategy {
 private:
-    IROperation* determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node);
+    std::shared_ptr<IROperation> determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node);
     std::shared_ptr<IRInstructionNode> generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, IRContext* irContext);
 public:
     std::shared_ptr<IRVariableDeclarationNode> generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);

@@ -47,6 +47,8 @@ std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_pt
     for (auto irNode : generatedIRNodes) {
         _irInjector->inject(irMainFunctionBlock, irNode, irModule, scope);
     }
+    DebugIRInjectorHelper::injectFunctionEnterLog(irMainFunctionBlock, jetFile->getFile()->getModuleName(), _irInjector, irModule);
+    DebugIRInjectorHelper::injectFunctionExitLog(irMainFunctionBlock, jetFile->getFile()->getModuleName(), _irInjector, irModule);
     irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irMainFunction;
 }
@@ -89,6 +91,8 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
             auto freeCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), freeCounterVariable);
             DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "FREE COUNT", _irInjector, irMainModule);
             DebugIRInjectorHelper::injectLog(irMainFunctionBlock, freeCounter, _irInjector, irMainModule);
+            DebugIRInjectorHelper::injectFunctionEnterLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
+            DebugIRInjectorHelper::injectFunctionExitLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
             irMainFunctionBlock->getBuilder()->get()->CreateRet(mainIRValue);
         }
     }

@@ -8,7 +8,7 @@
 #include "../../../../ir-type/ir-class-instance-type.h"
 
 
-std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(node->getSource()->getSource()->getTypeSignature());
         auto targetKey = classTypeSignature->addClassNameToKey(node->getTarget()->getTarget()->getIdentifierNode()->getId());
@@ -17,7 +17,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std
         return std::make_shared<IRClassStaticPropertyAccessExpressionNode>(node, classStaticProperty.value(), irType);
     }
 
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = std::dynamic_pointer_cast<IRClassInstanceType>(sourceType);

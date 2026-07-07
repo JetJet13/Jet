@@ -5,7 +5,7 @@
 #include "class-property-access-expression-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRClassPropertyAccessExpressionNode> ClassPropertyAccessExpressionIRStrategy::generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRClassPropertyAccessExpressionNode> ClassPropertyAccessExpressionIRStrategy::generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
     auto classScope = scope->getClassScope().value();
     auto sourceType = std::dynamic_pointer_cast<IRStructRefType>(classScope->getIRType()->getUnderlyingType());
     auto targetKey = node->getPropertyName();

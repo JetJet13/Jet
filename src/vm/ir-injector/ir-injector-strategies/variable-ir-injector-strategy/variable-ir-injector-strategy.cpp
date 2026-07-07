@@ -38,10 +38,10 @@ void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNod
     }
 }
 
-IROperation* VariableIRInjectorStrategy::determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration) {
+std::shared_ptr<IROperation> VariableIRInjectorStrategy::determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration) {
     auto operation = irVariableDeclaration->getIRExpression()->is(IR_REF_EXPRESSION_NODE)
-            ? new IROperation(IR_REF_ASSIGNMENT_OP)
-            : new IROperation(IR_COPY_ASSIGNMENT_OP);
+            ? std::make_shared<IROperation>(IR_REF_ASSIGNMENT_OP)
+            : std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
     if (irVariableDeclaration->getGlobalVariable()) {
         operation->markAsGlobal();
     }

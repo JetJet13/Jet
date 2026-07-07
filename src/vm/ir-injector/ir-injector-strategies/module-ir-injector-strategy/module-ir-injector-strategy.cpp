@@ -14,6 +14,5 @@ void ModuleIRInjectorStrategy::inject(std::shared_ptr<IRModuleDeclarationNode> i
         auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irModuleDeclaration->getIRType()->getType(), irModuleDeclaration->getAllocation()->getValue(), { zeroIndex, irIndex });
         InstructionIRInjectorHelper::injectStore(exportAtIndex->getValue(), pointer, irBlock);
-//        irBlock->getBuilder()->get()->CreateStore(exportAtIndex->getValue(), pointer);
     }
 }

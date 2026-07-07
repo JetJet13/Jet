@@ -6,7 +6,7 @@
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 
-llvm::Value* ModuleAccessIRInjectorHelper::inject(std::shared_ptr<IRModuleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* ModuleAccessIRInjectorHelper::inject(std::shared_ptr<IRModuleAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     if (irOperation->isOperandPointer()) {
         return irExpression->getValue();
     }

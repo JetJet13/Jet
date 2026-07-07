@@ -13,7 +13,7 @@ void IfStatementIRInjectorStrategy::inject(std::shared_ptr<IRIfStatementNode> ir
         auto thenBlock = currentIfElseNode.value()->getThenBlock();
         auto elseBlock = currentIfElseNode.value()->getElseBlock();
 
-        auto irIfConditionValue = irInjector->inject(ifConditionBlock, currentIfElseNode.value()->getExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+        auto irIfConditionValue = irInjector->inject(ifConditionBlock, currentIfElseNode.value()->getExpression(), std::make_shared<IROperation>(IR_OPERAND_VALUE_OP), irModule, scope);
         ifConditionBlock->getBuilder()->get()->CreateCondBr(irIfConditionValue, thenBlock->getBlock(), elseBlock->getBlock());
         irInjector->inject(irBlock, thenBlock, irModule);
         irInjector->inject(irBlock, elseBlock, irModule);

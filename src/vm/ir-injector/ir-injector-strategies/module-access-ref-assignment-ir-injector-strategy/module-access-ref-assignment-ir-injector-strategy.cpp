@@ -8,11 +8,11 @@
 #include "../../../ir-type/ir-ref-type.h"
 
 void ModuleAccessRefAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRModuleAccessRefAssignmentStatementNode> irModuleAccessRefAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    auto pointerToTarget = ModuleAccessIRInjectorHelper::inject(irModuleAccessRefAssignmentStatement->getIRModuleAccessExpression(), irBlock, irInjector, irModule, scope, new IROperation(IR_OPERAND_POINTER_OP));
+    auto pointerToTarget = ModuleAccessIRInjectorHelper::inject(irModuleAccessRefAssignmentStatement->getIRModuleAccessExpression(), irBlock, irInjector, irModule, scope, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
     auto newValue = irInjector->inject(
             irBlock,
             irModuleAccessRefAssignmentStatement->getIRExpression(),
-            new IROperation(IR_COPY_ASSIGNMENT_OP),
+            std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP),
             irModule,
             scope
     );

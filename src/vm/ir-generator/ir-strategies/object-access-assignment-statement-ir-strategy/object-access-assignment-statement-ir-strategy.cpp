@@ -7,18 +7,18 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-statement-node.h"
 
 std::shared_ptr<IRStatementNode> ObjectAccessAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTObjectAccessAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
-    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     irExpression->markAsAssigned();
     if (node->getObjectAccessAssignment()->getObjectAccess()->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         return std::make_shared<IRClassStaticPropertyAssignmentStatementNode>(
                 node,
-                std::dynamic_pointer_cast<IRClassStaticPropertyAccessExpressionNode>(irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP))),
+                std::dynamic_pointer_cast<IRClassStaticPropertyAccessExpressionNode>(irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))),
                 irExpression
         );
     }
     return std::make_shared<IRObjectAccessAssignmentStatementNode>(
             node,
-            std::dynamic_pointer_cast<IRObjectAccessExpressionNode>(irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP))),
+            std::dynamic_pointer_cast<IRObjectAccessExpressionNode>(irGenerator->generateFor(node->getObjectAccessAssignment()->getObjectAccess(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))),
             irExpression
     );
 }

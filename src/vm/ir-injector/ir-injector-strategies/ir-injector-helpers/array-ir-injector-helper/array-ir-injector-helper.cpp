@@ -105,9 +105,9 @@ void ArrayIRInjectorHelper::injectArrayPointer(std::shared_ptr<IRBlockNode> irBl
 }
 
 llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayAccessExpressionNode> irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, std::shared_ptr<IRLookupTable> scope) {
-    auto sourceValue = irInjector->inject(irBlock, irAccessExpressionNode->getSourceExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto sourceValue = irInjector->inject(irBlock, irAccessExpressionNode->getSourceExpression(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irAccessExpressionNode->getSourceExpression()->getUnderlyingIRType());
-    auto indexValue = irInjector->inject(irBlock, irAccessExpressionNode->getIndexExpression(), new IROperation(IR_OPERAND_VALUE_OP), irModule, scope);
+    auto indexValue = irInjector->inject(irBlock, irAccessExpressionNode->getIndexExpression(), std::make_shared<IROperation>(IR_OPERAND_VALUE_OP), irModule, scope);
     irBlock->getBuilder()->get()->CreateCall(
             irModule->getArrayAccessFunction(),
             { sourceValue, indexValue }

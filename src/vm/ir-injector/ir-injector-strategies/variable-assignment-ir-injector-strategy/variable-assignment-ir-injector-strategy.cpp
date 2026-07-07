@@ -11,7 +11,7 @@ void VariableAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRVariableAssi
     auto newVariableValue = irInjector->inject(
                     irBlock,
                     irVariableAssignmentStatement->getIRExpression(),
-                    new IROperation(IR_COPY_ASSIGNMENT_OP),
+                    std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP),
                     irModule,
                     scope
     );

@@ -13,7 +13,7 @@
 
 class VariableIRInjectorStrategy {
 private:
-    IROperation* determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration);
+    std::shared_ptr<IROperation> determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration);
 public:
     void inject(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };

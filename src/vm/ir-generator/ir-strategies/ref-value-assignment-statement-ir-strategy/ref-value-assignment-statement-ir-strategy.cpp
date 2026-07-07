@@ -8,7 +8,7 @@
 
 std::shared_ptr<IRStatementNode> RefValueAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
     auto isGlobal = scope->findGlobalVariable(node->getVariableAssignment()->getIdentifierNode()->getId()).has_value();
-    auto irOperation = new IROperation(IR_COPY_ASSIGNMENT_OP);
+    auto irOperation = std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
     if (isGlobal) {
         irOperation->markAsGlobal();
     }

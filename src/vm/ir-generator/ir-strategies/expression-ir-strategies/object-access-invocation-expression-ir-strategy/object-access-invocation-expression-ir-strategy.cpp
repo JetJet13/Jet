@@ -12,7 +12,7 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.h"
 
-std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);
@@ -22,7 +22,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
                     i,
                     scope,
                     irContext,
-                    new IROperation(IR_FUNCTION_ARGUMENT_OP),
+                    std::make_shared<IROperation>(IR_FUNCTION_ARGUMENT_OP),
                     node->getInvocableTypeSignature()
             )
         );
@@ -32,7 +32,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
 
 
     if (node->isRefPrototypeInvocation() && irGenerator->getRefPrototypeFunctionName(node->getName())) {
-        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, new IROperation(IR_OPERAND_POINTER_OP));
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
         auto function = irContext->getModule()->getFunction(irGenerator->getRefPrototypeFunctionName(node->getName()).value());
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto refPrototypeArgList = std::vector<llvm::Value*>();
@@ -49,7 +49,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
     }
 
     if (node->isArrayPrototypeInvocation()) {
-        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying());
         auto function = irContext->getModule()->getFunction(irGenerator->getArrayPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto arrayPrototypeArgList = std::vector<llvm::Value*>();
@@ -67,7 +67,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
     }
 
     if (node->isStringPrototypeInvocation()) {
-        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+        auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying());
         auto function = irContext->getModule()->getFunction(irGenerator->getStringPrototypeFunctionName(node->getName()));
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
         auto stringPrototypeArgList = std::vector<llvm::Value*>();
@@ -80,7 +80,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
         return std::make_shared<IRStringPrototypeInvocationExpressionNode>(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
     }
 
-    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying());
+    auto sourceValue = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying());
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = std::dynamic_pointer_cast<IRClassInstanceType>(sourceType);

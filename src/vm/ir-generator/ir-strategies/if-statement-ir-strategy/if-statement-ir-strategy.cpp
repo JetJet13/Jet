@@ -7,7 +7,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.h"
 
 std::shared_ptr<IRStatementNode> IfStatementIRStrategy::generate(std::shared_ptr<ASTIfStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
-    auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto ifConditionIRExpression = irGenerator->generateFor(node->getIfBlock()->getCondition()->getCondition(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     auto ifConditionBlock = irGenerator->generateIfBlock(irContext, scope);
     auto thenBlock = irGenerator->generateIfThenBlock(irContext, scope);
     this->setupBlock(thenBlock, node->getIfBlock()->getBlock(), irGenerator, scope, irContext);
@@ -21,7 +21,7 @@ std::shared_ptr<IRStatementNode> IfStatementIRStrategy::generate(std::shared_ptr
     );
     auto currentIfNode = ifNode;
     for (auto elseIf : *node->getElseIfBlocks()) {
-        auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP));
+        auto elseIfConditionIRExpression = irGenerator->generateFor(elseIf->getCondition()->getCondition(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
         auto elseIfNode = std::make_shared<IRIfElseNode>(
             elseIfConditionIRExpression,
             irGenerator->generateIfBlock(irContext, scope),

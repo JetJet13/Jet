@@ -8,14 +8,14 @@
 #include "../../../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.h"
 
-llvm::Value* LambdaIRLambdaWithFatArrowExpressionInjectorStrategy::inject(std::shared_ptr<IRLambdaWithFatArrowExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* LambdaIRLambdaWithFatArrowExpressionInjectorStrategy::inject(std::shared_ptr<IRLambdaWithFatArrowExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto lambdaScope = irExpression->getBlock()->getScope();
     auto lambdaScopeParameter = irExpression->getParameters()->getLambdaScopeParameter();
     if (lambdaScopeParameter) {
         InstructionIRInjectorHelper::inject(lambdaScopeParameter.value()->getAllocation(), irExpression->getBlock());
     }
     irInjector->inject(irBlock, irExpression->getBlock(), irModule);
-    auto irReturnExpressionValue = irInjector->inject(irExpression->getBlock(), irExpression->getReturnExpression(), new IROperation(IR_FUNCTION_RETURN_OP), irModule, lambdaScope);
+    auto irReturnExpressionValue = irInjector->inject(irExpression->getBlock(), irExpression->getReturnExpression(), std::make_shared<IROperation>(IR_FUNCTION_RETURN_OP), irModule, lambdaScope);
     irExpression->getBlock()->getBuilder()->get()->CreateRet(irReturnExpressionValue);
     FreeIRInjectorHelper::freeFunctionBlockNodes(irExpression->getBlock(), irInjector, irModule, lambdaScope);
     FreeIRInjectorHelper::freeFunctionParameters(irExpression->getBlock(), irExpression->getParameters(), irInjector, irModule, lambdaScope);

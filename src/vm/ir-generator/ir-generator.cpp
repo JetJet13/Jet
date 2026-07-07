@@ -279,7 +279,7 @@ std::shared_ptr<IRFunctionParameterListNode> IRGenerator::generateFor(std::share
     return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node,  this, scope, irContext, irFunction);
 }
 
-std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTExpressionNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation) {
+std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTExpressionNode> node, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLiteralExpressionNode>(node),  this, scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
@@ -336,13 +336,13 @@ std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTEx
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-std::shared_ptr<IRFunctionArgumentNode> IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, IROperation* irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
+std::shared_ptr<IRFunctionArgumentNode> IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     auto irExpression = this->generateFor(node->getArgument(), scope, irContext, irOperation);
     auto operation = invocableTypeSignature->isArgumentVarArg(index)
                      || invocableTypeSignature->getParameterTypes()->at(index)->isGeneric()
                      || invocableTypeSignature->isPrototype()
-                    ? new IROperation(IR_OPERAND_POINTER_OP)
-                    : new IROperation(IR_FUNCTION_ARGUMENT_OP);
+                    ? std::make_shared<IROperation>(IR_OPERAND_POINTER_OP)
+                    : std::make_shared<IROperation>(IR_FUNCTION_ARGUMENT_OP);
     return std::make_shared<IRFunctionArgumentNode>(irExpression, operation);
 }
 

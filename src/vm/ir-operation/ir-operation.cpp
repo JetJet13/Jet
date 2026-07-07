@@ -8,19 +8,19 @@ IROperation::IROperation(IROperationType type) {
     _type = type;
 }
 
-IROperation* IROperation::markAsUnderlying() {
+std::shared_ptr<IROperation> IROperation::markAsUnderlying() {
     _underlyingType = true;
-    return this;
+    return shared_from_this();
 }
 
-IROperation* IROperation::markAsGlobal() {
+std::shared_ptr<IROperation> IROperation::markAsGlobal() {
     _global = true;
-    return this;
+    return shared_from_this();
 }
 
-IROperation* IROperation::markCountTowardsRefCount() {
+std::shared_ptr<IROperation> IROperation::markCountTowardsRefCount() {
     _countTowardsRefCount = true;
-    return this;
+    return shared_from_this();
 }
 
 bool IROperation::isOperand() {

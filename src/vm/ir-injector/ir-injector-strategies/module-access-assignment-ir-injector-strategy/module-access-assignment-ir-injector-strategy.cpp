@@ -7,13 +7,13 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void ModuleAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRModuleAccessAssignmentStatementNode> irModuleAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    auto pointerToTarget = ModuleAccessIRInjectorHelper::inject(irModuleAccessAssignmentStatement->getIRModuleAccessExpression(), irBlock, irInjector, irModule, scope, new IROperation(IR_OPERAND_POINTER_OP));
+    auto pointerToTarget = ModuleAccessIRInjectorHelper::inject(irModuleAccessAssignmentStatement->getIRModuleAccessExpression(), irBlock, irInjector, irModule, scope, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
     auto irType = irModuleAccessAssignmentStatement->getIRModuleAccessExpression()->getIRType();
     auto irExpressionValue = irInjector
             ->inject(
                 irBlock,
                 irModuleAccessAssignmentStatement->getIRExpression(),
-                new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope
+                std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP), irModule, scope
             );
     if (irType->getSourceType()->containsTypeThatRequiresFreeing()) {
         auto typeValue = irInjector->inject(irBlock, irType->getSourceType(), irModule);

@@ -15,15 +15,15 @@
 class IRFunctionArgumentNode : public IRNode {
 private:
     std::shared_ptr<IRExpressionNode> _irArgument;
-    IROperation* _irOperation;
+    std::shared_ptr<IROperation> _irOperation;
     std::optional<std::shared_ptr<ParameterListItemTypeSignature>> _parameterTypeSignature;
     void initIROperation();
 public:
     IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument);
-    IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, IROperation* irOperation);
+    IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, std::shared_ptr<IROperation> irOperation);
     IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, std::shared_ptr<ParameterListItemTypeSignature> parameterTypeSignature);
     std::shared_ptr<IRExpressionNode> getArgument();
-    IROperation* getOperation();
+    std::shared_ptr<IROperation> getOperation();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

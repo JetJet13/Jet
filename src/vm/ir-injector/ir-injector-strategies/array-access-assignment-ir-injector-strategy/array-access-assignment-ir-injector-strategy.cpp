@@ -13,7 +13,7 @@ void ArrayAccessAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRArrayAcce
             ->inject(
                     irBlock,
                     irArrayAccessAssignmentStatement->getIRExpression(),
-                    new IROperation(IR_OPERAND_VALUE_OP), irModule, scope
+                    std::make_shared<IROperation>(IR_OPERAND_VALUE_OP), irModule, scope
             );
 
     auto irType = irArrayAccessAssignmentStatement->getIRArrayAccessExpression()->getIRType()->getSourceType();

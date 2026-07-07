@@ -14,7 +14,7 @@ void RefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRRefValueAssi
     auto newValue = irInjector->inject(
             irBlock,
             irRefValueAssignmentStatement->getIRExpression(),
-            new IROperation(IR_COPY_ASSIGNMENT_OP),
+            std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP),
             irModule,
             scope
     );

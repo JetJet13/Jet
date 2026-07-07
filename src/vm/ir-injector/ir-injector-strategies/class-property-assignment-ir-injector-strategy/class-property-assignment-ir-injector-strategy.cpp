@@ -19,7 +19,7 @@ void ClassPropertyAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRClassPr
         classInstancePropertiesAlloc,
         irClassPropertyAssignmentStatementNode->getPropertyIndex()
     );
-    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
+    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyAssignmentStatementNode->getExpression(), std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP), irModule, scope);
     if (irType->getSourceType()->containsTypeThatRequiresFreeing()) {
         auto typeValue = irInjector->inject(irBlock, irType->getSourceType(), irModule);
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irType->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);

@@ -6,10 +6,10 @@
 
 IRFunctionArgumentNode::IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument) {
     _irArgument = irArgument;
-    _irOperation = new IROperation(IR_FUNCTION_ARGUMENT_OP);
+    _irOperation = std::make_shared<IROperation>(IR_FUNCTION_ARGUMENT_OP);
 }
 
-IRFunctionArgumentNode::IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, IROperation* irOperation) {
+IRFunctionArgumentNode::IRFunctionArgumentNode(std::shared_ptr<IRExpressionNode> irArgument, std::shared_ptr<IROperation> irOperation) {
     _irArgument = irArgument;
     _irOperation = irOperation;
 }
@@ -18,7 +18,7 @@ std::shared_ptr<IRExpressionNode> IRFunctionArgumentNode::getArgument() {
     return _irArgument;
 }
 
-IROperation* IRFunctionArgumentNode::getOperation() {
+std::shared_ptr<IROperation> IRFunctionArgumentNode::getOperation() {
     return _irOperation;
 }
 

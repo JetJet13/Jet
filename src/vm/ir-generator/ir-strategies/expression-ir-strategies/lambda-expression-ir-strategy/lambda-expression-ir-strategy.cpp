@@ -45,7 +45,7 @@ std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::
     auto lambdaIrContext = irGenerator->generateContext(lambdaBlock, irContext->getIRModule());
 
     this->setupParameters(node->getLambdaTypeSignature(), irGenerator, lambdaBlock->getScope(), irFunction, functionParameterList, lambdaBlock, lambdaIrContext);
-    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaBlock->getScope(), lambdaIrContext, new IROperation(IR_OPERAND_VALUE_OP));
+    auto returnExpression = irGenerator->generateFor(node->getReturnExpression()->getExpression(), lambdaBlock->getScope(), lambdaIrContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     returnExpression->markAsReturned();
     auto allocation = IRInstructionNodeFactory::create(irType->getLambdaVariableType());
     return std::make_shared<IRLambdaWithFatArrowExpressionNode>(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);

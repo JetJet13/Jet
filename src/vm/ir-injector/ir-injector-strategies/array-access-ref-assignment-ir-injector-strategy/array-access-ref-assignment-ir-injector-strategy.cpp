@@ -13,7 +13,7 @@ void ArrayAccessRefAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRArrayA
     auto newValue = irInjector->inject(
             irBlock,
             irArrayAccessRefAssignmentStatement->getIRExpression(),
-            new IROperation(IR_COPY_ASSIGNMENT_OP),
+            std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP),
             irModule,
             scope
     );

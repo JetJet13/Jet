@@ -5,7 +5,7 @@
 #include "tuple-ir-tuple-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(std::shared_ptr<IRTupleExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(std::shared_ptr<IRTupleExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto tupleRefAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
     auto tupleAllocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue()->getParentAllocation().value(), irBlock);
     auto numElements = irExpression->size();
@@ -13,7 +13,7 @@ llvm::Value* TupleIRTupleExpressionInjectorStrategy::inject(std::shared_ptr<IRTu
         auto irExpressionAtIndex = irExpression->getValues()->at(i);
         auto irTypeAtIndex = irExpression->getIRStructRefType()->getStructIRType()->getIRTypeByIndex(i);
         auto pointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getIRStructRefType()->getStructIRType()->getType(), tupleAllocation, i);
-        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
+        auto irExpressionValue = irInjector->inject(irBlock, irExpressionAtIndex, std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP), irModule, scope);
         InstructionIRInjectorHelper::injectStore(irExpressionValue, pointer, irBlock, irTypeAtIndex);
     }
 

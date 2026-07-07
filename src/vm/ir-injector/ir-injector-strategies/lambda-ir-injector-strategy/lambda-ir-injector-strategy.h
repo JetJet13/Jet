@@ -42,7 +42,7 @@ private:
     LambdaIRArrayAccessInvocationExpressionInjectorStrategy _arrayAccessInvocationExpressionInjector = LambdaIRArrayAccessInvocationExpressionInjectorStrategy();
     LambdaIRFunctionInvocationExpressionInjectorStrategy _functionInvocationExpressionInjector = LambdaIRFunctionInvocationExpressionInjectorStrategy();
 public:
-    llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) override;
+    llvm::Value* inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) override;
 };
 
 

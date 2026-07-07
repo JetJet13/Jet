@@ -92,7 +92,7 @@ std::optional<std::shared_ptr<IRClassPreConstructorNode>> ClassDeclarationIRStra
         auto property = node->getBlock()->getInstanceProperties()->at(i);
         auto propertyIndex = irClassType->getClassProperties()->getStructIRType()->getIndexForKey(property->getId());
         if (property->getInitializer()) {
-            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, new IROperation(IR_OPERAND_VALUE_OP));
+            auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();
             initialPropertyIRExpressions->push_back(std::pair { propertyIndex, irExpression });
         } else {
@@ -191,7 +191,7 @@ std::shared_ptr<IRClassStaticPropertyNode> ClassDeclarationIRStrategy::generateS
     return std::make_shared<IRClassStaticPropertyNode>(
             node,
             irContext->getIRModule()->getModule()->get()->getNamedGlobal(node->getId()),
-            irGenerator->generateFor(node->getInitializer().value(), scope, irContext, new IROperation(IR_OPERAND_VALUE_OP)),
+            irGenerator->generateFor(node->getInitializer().value(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP)),
             irType.value()
     );
 }

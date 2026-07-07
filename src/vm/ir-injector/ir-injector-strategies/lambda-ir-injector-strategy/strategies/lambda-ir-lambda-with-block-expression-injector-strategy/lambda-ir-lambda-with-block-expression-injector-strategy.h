@@ -12,7 +12,7 @@
 
 class LambdaIRLambdaWithBlockExpressionInjectorStrategy {
 public:
-    llvm::Value* inject(std::shared_ptr<IRLambdaWithBlockExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    llvm::Value* inject(std::shared_ptr<IRLambdaWithBlockExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_LAMBDA_IR_LAMBDA_WITH_BLOCK_EXPRESSION_INJECTOR_STRATEGY_H

@@ -5,7 +5,7 @@
 #include "pointer-ir-ref-expression-injector-strategy.h"
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irExpression->getExpression()->isOneOf({ IR_OBJECT_ACCESS_EXPRESSION_NODE, IR_TUPLE_ACCESS_EXPRESSION_NODE })) {
         auto value = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
         auto allocation = InstructionIRInjectorHelper::inject(irExpression->getIRValue(), irBlock);
@@ -25,7 +25,7 @@ llvm::Value* PointerIRRefExpressionInjectorStrategy::inject(std::shared_ptr<IRRe
     return allocation;
 }
 
-llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, IROperation* irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* PointerIRRefExpressionInjectorStrategy::injectRawValue(std::shared_ptr<IRRefExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto rawValue = irInjector->inject(irBlock, irExpression->getExpression(), irOperation, irModule, scope);
     if (irOperation->isRefGlobalAssignment()) {
         auto globalVariable = new llvm::GlobalVariable(

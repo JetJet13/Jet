@@ -10,7 +10,7 @@
 #include "../../../../ir-type/ir-type-value-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFunctionInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFunctionInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto functionTypeSignature = irExpression->getInvocationTypeSignature()->getFunctionType();
     auto arguments = std::vector<llvm::Value*>();
     for (unsigned long i = 0; i < irExpression->getIRArguments()->size(); ++i) {
@@ -123,7 +123,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFuncti
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRClassMethodInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRClassMethodInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -147,7 +147,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRClassM
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -155,7 +155,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayP
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
 
-    auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto arrayValue = irInjector->inject(irBlock, irExpression->getIRArrayValue(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     irExpression->getValue()->setArgOperand(0, arrayValue);
     if (irExpression->requiresTypeValueArgument()) {
         auto arrayTypeValue = irInjector->inject(irBlock, irExpression->getIRArrayValue()->getIRType()->getUnderlyingType(), irModule);
@@ -179,7 +179,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayP
     return result;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRStringPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRStringPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -187,7 +187,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRString
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
 
-    auto stringValue = irInjector->inject(irBlock, irExpression->getIRStringValue(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto stringValue = irInjector->inject(irBlock, irExpression->getIRStringValue(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     irExpression->getValue()->setArgOperand(0, stringValue);
 
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
@@ -207,7 +207,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRString
     return result;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRRefPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRRefPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
 
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
@@ -215,7 +215,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRRefPro
         auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
-    auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), new IROperation(IR_OPERAND_POINTER_OP), irModule, scope);
+    auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), std::make_shared<IROperation>(IR_OPERAND_POINTER_OP), irModule, scope);
     irExpression->getValue()->setArgOperand(0, refValue);
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
@@ -232,7 +232,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRRefPro
     return result;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRTupleAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRTupleAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -241,7 +241,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRTupleA
     }
 
     auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getFunctionIRType());
-    auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+    auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
     auto sourceIrType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getUnderlyingIRType());
     auto tupleSourcePointer = irBlock->getBuilder()->get()->CreateExtractValue(sourceValue, sourceIrType->getStructIndex());
     auto targetPointer = irBlock->getBuilder()->get()->CreateStructGEP(sourceIrType->getStructIRType()->getType(), tupleSourcePointer, irExpression->getTargetIndex());
@@ -259,7 +259,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRTupleA
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRObjectAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRObjectAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
@@ -270,7 +270,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRObject
     auto irType = irExpression->getFunctionIRType();
     if (irType->isInvocableType()) {
         auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irType);
-        auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (new IROperation(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
+        auto sourceValue = irInjector->inject(irBlock, irExpression->getSource(), (std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
         auto sourceIrType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getUnderlyingIRType());
         auto tupleSourcePointer = irBlock->getBuilder()->get()->CreateExtractValue(sourceValue, sourceIrType->getStructIndex());
         auto targetPointer = irBlock->getBuilder()->get()->CreateStructGEP(sourceIrType->getStructIRType()->getType(), tupleSourcePointer, irExpression->getTargetIndex());
@@ -290,7 +290,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRObject
 
     auto scopeArgument = irExpression->getScopeArgument();
     if (scopeArgument) {
-        auto scopeArgumentValue = irInjector->inject(irBlock, scopeArgument.value(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+        auto scopeArgumentValue = irInjector->inject(irBlock, scopeArgument.value(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
         irExpression->getValue()->setArgOperand(irExpression->getValue()->arg_size() - 1, scopeArgumentValue);
     }
 
@@ -304,14 +304,14 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRObject
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayAccessInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);
         auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i, argumentValue);
     }
-    auto pointerToLambda = irInjector->inject(irBlock, irExpression->getIRArrayAccessExpression(), (new IROperation(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
+    auto pointerToLambda = irInjector->inject(irBlock, irExpression->getIRArrayAccessExpression(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto irInvocableType = std::dynamic_pointer_cast<IRInvocableType>(irExpression->getFunctionIRType());
     auto loadedLambdaAtIndex = InstructionIRInjectorHelper::injectLoad(irInvocableType->getType(), pointerToLambda, irBlock);
     auto lambda = irBlock->getBuilder()->get()->CreateExtractValue(loadedLambdaAtIndex, { irInvocableType->getFunctionIndex() });
@@ -327,7 +327,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRArrayA
     return value;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRClassStaticMethodInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, IROperation* irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRClassStaticMethodInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {
         auto argument = irExpression->getIRArguments()->at(i);

@@ -30,6 +30,6 @@ void ClassPropertyRefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<I
                 { loadedPointerToRefValue, loadedTypeValue }
         );
     }
-    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyRefValueAssignmentStatementNode->getExpression(), new IROperation(IR_COPY_ASSIGNMENT_OP), irModule, scope);
+    auto irExpressionValue = irInjector->inject(irBlock, irClassPropertyRefValueAssignmentStatementNode->getExpression(), std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP), irModule, scope);
     InstructionIRInjectorHelper::injectStore(irExpressionValue, loadedPointerToRefValue, irBlock, irClassPropertyRefValueAssignmentStatementNode->getExpression()->getIRType());
 }

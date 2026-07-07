@@ -7,7 +7,7 @@
 
 void FunctionReturnIRInjectorStrategy::inject(std::shared_ptr<IRFunctionReturnExpressionNode> irFunctionReturnExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irFunctionReturnExpression->getReturnExpression()) {
-        auto returnValue = irInjector->inject(irBlock, irFunctionReturnExpression->getReturnExpression().value(), new IROperation(IR_FUNCTION_RETURN_OP), irModule, scope);
+        auto returnValue = irInjector->inject(irBlock, irFunctionReturnExpression->getReturnExpression().value(), std::make_shared<IROperation>(IR_FUNCTION_RETURN_OP), irModule, scope);
         irBlock->getBuilder()->get()->CreateRet(returnValue);
     } else {
         irBlock->addVoidReturn();
