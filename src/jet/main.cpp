@@ -44,11 +44,15 @@ int main (int argc, const char* argv[]) {
         postProcessor.process(jetFile);
         auto irInjector = std::make_shared<IRInjector>();
         auto irGenerator = std::make_shared<IRGenerator>(irInjector);
-        auto vm = VM(irGenerator, irInjector);
-        auto irJetFile = vm.compileMain(jetFile);
+
+        // using new here avoids llvm 'use after deletion' errors from
+        // being thrown (likely due to the destruction of the VM instance being problematic)
+        auto vm = new VM(irGenerator, irInjector);
+
+        auto irJetFile = vm->compileMain(jetFile);
 
         Logger::log("IR Generation & Injection is done.");
-//        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
+        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
         // Initialize the target registry etc.
         llvm::InitializeAllTargetInfos();
         llvm::InitializeAllTargets();
