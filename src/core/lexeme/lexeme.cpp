@@ -7,19 +7,19 @@
 #include "../../shared/utils/to-string/to-string.h"
 #include "../../shared/utils/logger/logger.h"
 
-Lexeme::Lexeme(Token* token) {
+Lexeme::Lexeme(std::shared_ptr<Token> token) {
     _token = token;
     _startPosition = std::make_shared<Position>();
     _endPosition = std::make_shared<Position>();
 }
 
-Lexeme::Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn) {
+Lexeme::Lexeme(std::shared_ptr<Token> token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn) {
     _token = token;
     _startPosition = std::make_shared<Position>(startLine, startColumn);
     _endPosition = std::make_shared<Position>(endLine, endColumn);
 }
 
-Token* Lexeme::getToken() {
+std::shared_ptr<Token> Lexeme::getToken() {
     return _token;
 }
 

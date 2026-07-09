@@ -12,13 +12,13 @@
 
 class Lexeme {
 private:
-    Token* _token;
+    std::shared_ptr<Token> _token;
     std::shared_ptr<Position> _startPosition;
     std::shared_ptr<Position> _endPosition;
 public:
-    Lexeme(Token* token);
-    Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn);
-    Token* getToken();
+    Lexeme(std::shared_ptr<Token> token);
+    Lexeme(std::shared_ptr<Token> token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn);
+    std::shared_ptr<Token> getToken();
     std::shared_ptr<Position> getStartPosition();
     std::shared_ptr<Position> getEndPosition();
     std::string toString();

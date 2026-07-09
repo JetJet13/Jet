@@ -14,7 +14,7 @@ LexicalAnalyzer::LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::sh
     _tokenTable = tokenTable;
     _hasMore = false;
     _tokenValueIdCursor = INT_MIN;
-    _prevToken = std::optional<Token*>();
+    _prevToken = std::optional<std::shared_ptr<Token>>();
 }
 
 void LexicalAnalyzer::start(std::string &filePath) {
@@ -91,7 +91,7 @@ bool LexicalAnalyzer::hasMore() {
     return _hasMore;
 }
 
-std::optional<Token*> LexicalAnalyzer::buildNextToken() {
+std::optional<std::shared_ptr<Token>> LexicalAnalyzer::buildNextToken() {
     auto character = _fileReader.advance();
     if (!character) {
         return {};
@@ -108,7 +108,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 if (isPrevTokenPeriod) {
                     break;
                 } else if (isFloat) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
+                    return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
                 } else {
                     isFloat = true;
                 }
@@ -124,10 +124,10 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         auto valueId = this->generateTokenValueId();
         if (isFloat) {
             _tokenTable->setFloat(valueId, term);
-            return new Token(SymbolFactory::createFloatSymbol(), term, valueId);
+            return std::make_shared<Token>(SymbolFactory::createFloatSymbol(), term, valueId);
         } else {
             _tokenTable->setInt(valueId, term);
-            return new Token(SymbolFactory::createIntSymbol(), term, valueId);
+            return std::make_shared<Token>(SymbolFactory::createIntSymbol(), term, valueId);
         }
 
     }
@@ -140,16 +140,16 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
+                    return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
                 }
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setChar(valueId, c.value());
-                return new Token(SymbolFactory::createCharSymbol(), term, valueId);
+                return std::make_shared<Token>(SymbolFactory::createCharSymbol(), term, valueId);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term), term);
+        return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -160,12 +160,12 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             if (nextChar.value() == DOUBLE_QUOTE) {
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setString(valueId, term);
-                return new Token(SymbolFactory::createStringSymbol(), term, valueId);
+                return std::make_shared<Token>(SymbolFactory::createStringSymbol(), term, valueId);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term), term);
+        return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -179,9 +179,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                 auto isBangEqual = _reservedKeywords->match(term);
                 if (isBangEqual) {
                     _fileReader.advance();
-                    return new Token(isBangEqual.value());
+                    return std::make_shared<Token>(isBangEqual.value());
                 }
-                return new Token(isCharacterReservedKeyword.value());
+                return std::make_shared<Token>(isCharacterReservedKeyword.value());
 
         } else if (nextChar && reservedKeyword->isPlus()) {
             std::string term;
@@ -190,9 +190,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isConcatOperator = _reservedKeywords->match(term);
             if (isConcatOperator) {
                 _fileReader.advance();
-                return new Token(isConcatOperator.value());
+                return std::make_shared<Token>(isConcatOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar && reservedKeyword->isStar()) {
             std::string term;
             term += character.value();
@@ -200,9 +200,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isColonEqual = _reservedKeywords->match(term);
             if (isColonEqual) {
                 _fileReader.advance();
-                return new Token(isColonEqual.value());
+                return std::make_shared<Token>(isColonEqual.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                     (reservedKeyword->isEqual() ||
                      reservedKeyword->isGreaterThan() ||
@@ -214,9 +214,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value());
+                return std::make_shared<Token>(isEqualityOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -226,9 +226,9 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value());
+                return std::make_shared<Token>(isColonColon.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -242,13 +242,13 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value());
+                        return std::make_shared<Token>(isDotDotDot.value());
                     }
                 }
-                return new Token(isDotDot.value());
+                return std::make_shared<Token>(isDotDot.value());
             }
         }
-        return new Token(isCharacterReservedKeyword.value());
+        return std::make_shared<Token>(isCharacterReservedKeyword.value());
     }
 
     std::string term;
@@ -258,11 +258,11 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             auto matchedKeyword = _reservedKeywords->match(term);
             if (matchedKeyword) {
-                return new Token(matchedKeyword.value(), term);
+                return std::make_shared<Token>(matchedKeyword.value(), term);
             }
             auto valueId = this->generateTokenValueId();
             _tokenTable->setIdentifier(valueId, term);
-            return new Token(SymbolFactory::createIdentifierSymbol(), term, valueId);
+            return std::make_shared<Token>(SymbolFactory::createIdentifierSymbol(), term, valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;
@@ -272,7 +272,7 @@ std::optional<Token*> LexicalAnalyzer::buildNextToken() {
     return {};
 }
 
-std::optional<Token*> LexicalAnalyzer::peekNextToken() {
+std::optional<std::shared_ptr<Token>> LexicalAnalyzer::peekNextToken() {
     auto character = _fileReader.advance();
     if (!character) {
         return {};
@@ -288,7 +288,7 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                 if (isPrevTokenPeriod) {
                     break;
                 } else if (isFloat) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
+                    return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
                 } else {
                     isFloat = true;
                 }
@@ -305,9 +305,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         }
 
         if (isFloat) {
-            return new Token(SymbolFactory::createFloatSymbol(), term);
+            return std::make_shared<Token>(SymbolFactory::createFloatSymbol(), term);
         } else {
-            return new Token(SymbolFactory::createIntSymbol(), term);
+            return std::make_shared<Token>(SymbolFactory::createIntSymbol(), term);
         }
 
     }
@@ -320,14 +320,14 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             if (nextChar.value() == SINGLE_QUOTE) {
                 auto c = _charTable.match(term);
                 if (!c) {
-                    return new Token(SymbolFactory::createMalformedSymbol(term), term);
+                    return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
                 }
-                return new Token(SymbolFactory::createCharSymbol(), term);
+                return std::make_shared<Token>(SymbolFactory::createCharSymbol(), term);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term), term);
+        return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     if (character.value() == DOUBLE_QUOTE) {
@@ -336,12 +336,12 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         while (peekNextChar) {
             auto nextChar = _fileReader.advance();
             if (nextChar.value() == DOUBLE_QUOTE) {
-                return new Token(SymbolFactory::createStringSymbol(), term);
+                return std::make_shared<Token>(SymbolFactory::createStringSymbol(), term);
             }
             term += nextChar.value();
             peekNextChar = _fileReader.peek();
         }
-        return new Token(SymbolFactory::createMalformedSymbol(term), term);
+        return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
     }
 
     auto isCharacterReservedKeyword = _reservedKeywords->match(character);
@@ -355,9 +355,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isBangEqual = _reservedKeywords->match(term);
             if (isBangEqual) {
                 _fileReader.advance();
-                return new Token(isBangEqual.value());
+                return std::make_shared<Token>(isBangEqual.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
 
         }  else if (nextChar && reservedKeyword->isPlus()) {
             std::string term;
@@ -366,9 +366,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isConcatOperator = _reservedKeywords->match(term);
             if (isConcatOperator) {
                 _fileReader.advance();
-                return new Token(isConcatOperator.value());
+                return std::make_shared<Token>(isConcatOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar && reservedKeyword->isStar()) {
             std::string term;
             term += character.value();
@@ -376,9 +376,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isColonEqual = _reservedKeywords->match(term);
             if (isColonEqual) {
                 _fileReader.advance();
-                return new Token(isColonEqual.value());
+                return std::make_shared<Token>(isColonEqual.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar &&
                    (reservedKeyword->isEqual() ||
                     reservedKeyword->isGreaterThan() ||
@@ -390,9 +390,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isEqualityOperator = _reservedKeywords->match(term);
             if (isEqualityOperator) {
                 _fileReader.advance();
-                return new Token(isEqualityOperator.value());
+                return std::make_shared<Token>(isEqualityOperator.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         }  else if (nextChar &&
                     (reservedKeyword->isColon())
                 ) {
@@ -402,9 +402,9 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
             auto isColonColon = _reservedKeywords->match(term);
             if (isColonColon) {
                 _fileReader.advance();
-                return new Token(isColonColon.value());
+                return std::make_shared<Token>(isColonColon.value());
             }
-            return new Token(isCharacterReservedKeyword.value());
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         }  else if (nextChar && reservedKeyword->isPeriod()) {
             std::string term;
             term += character.value();
@@ -418,13 +418,13 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
                     auto isDotDotDot = _reservedKeywords->match(term);
                     if (isDotDotDot) {
                         _fileReader.advance();
-                        return new Token(isDotDotDot.value());
+                        return std::make_shared<Token>(isDotDotDot.value());
                     }
                 }
-                return new Token(isDotDot.value());
+                return std::make_shared<Token>(isDotDot.value());
             }
         }
-        return new Token(isCharacterReservedKeyword.value());
+        return std::make_shared<Token>(isCharacterReservedKeyword.value());
     }
 
     std::string term;
@@ -434,11 +434,11 @@ std::optional<Token*> LexicalAnalyzer::peekNextToken() {
         if (nextChar.value() == WHITE_SPACE || nextChar.value() == NEW_LINE || _reservedKeywords->match(nextChar)) {
             auto matchedKeyword = _reservedKeywords->match(term);
             if (matchedKeyword) {
-                return new Token(matchedKeyword.value(), term);
+                return std::make_shared<Token>(matchedKeyword.value(), term);
             }
             auto valueId = this->generateTokenValueId();
             _tokenTable->setIdentifier(valueId, term);
-            return new Token(SymbolFactory::createIdentifierSymbol(), term, valueId);
+            return std::make_shared<Token>(SymbolFactory::createIdentifierSymbol(), term, valueId);
         }
         auto c = _fileReader.advance().value();
         term += c;

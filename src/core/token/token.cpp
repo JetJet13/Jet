@@ -37,9 +37,9 @@ std::optional<unsigned long> Token::getValueId() {
     return _valueId;
 }
 
-Token* Token::setValueId(unsigned long valueId) {
+std::shared_ptr<Token> Token::setValueId(unsigned long valueId) {
     _valueId = valueId;
-    return this;
+    return shared_from_this();
 }
 
 std::string Token::toString() {
@@ -55,7 +55,7 @@ std::string Token::toString() {
     return tokenString;
 }
 
-bool Token::isEqualTo(Token* otherToken) {
+bool Token::isEqualTo(std::shared_ptr<Token> otherToken) {
     if (this->getSymbolType() != otherToken->getSymbolType()) {
         return false;
     }

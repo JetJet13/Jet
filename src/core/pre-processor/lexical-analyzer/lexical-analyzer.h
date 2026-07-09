@@ -20,9 +20,9 @@ private:
     std::shared_ptr<TokenTable> _tokenTable;
     int _tokenValueIdCursor;
     bool _hasMore;
-    std::optional<Token*> _prevToken;
-    std::optional<Token*> buildNextToken();
-    std::optional<Token*> peekNextToken();
+    std::optional<std::shared_ptr<Token>> _prevToken;
+    std::optional<std::shared_ptr<Token>> buildNextToken();
+    std::optional<std::shared_ptr<Token>> peekNextToken();
     void skipWhitespaceAndNewLine();
     void skipComments();
     void stopIfNecessary();

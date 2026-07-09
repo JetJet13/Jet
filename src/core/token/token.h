@@ -11,7 +11,7 @@
 #include "token-table.h"
 #include <memory>
 
-class Token {
+class Token : public std::enable_shared_from_this<Token> {
 private:
     std::shared_ptr<Symbol> _symbol;
     std::optional<unsigned long> _valueId;
@@ -24,9 +24,9 @@ public:
     SymbolType getSymbolType();
     std::string getRawValue();
     std::optional<unsigned long> getValueId();
-    Token* setValueId(unsigned long valueId);
+    std::shared_ptr<Token> setValueId(unsigned long valueId);
     std::string toString();
-    bool isEqualTo(Token* otherToken);
+    bool isEqualTo(std::shared_ptr<Token> otherToken);
 };
 
 #endif //JETLANG_TOKEN_H
