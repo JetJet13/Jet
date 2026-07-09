@@ -8,7 +8,7 @@
 #include "../../../ir-type/ir-ref-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
-void RefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRRefValueAssignmentStatementNode> irRefValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void RefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRRefValueAssignmentStatementNode> irRefValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irType = irRefValueAssignmentStatement->getIRExpression()->getUnderlyingIRType();
     auto globalVariable = scope->findGlobalVariable(irRefValueAssignmentStatement->getVariableName());
     auto newValue = irInjector->inject(

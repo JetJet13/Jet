@@ -10,7 +10,7 @@ std::string ArrayTakeIRFunction::getArrayTakeIRFunctionName() {
     return "jet.array.take";
 }
 
-void ArrayTakeIRFunction::generateArrayTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void ArrayTakeIRFunction::generateArrayTakeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();

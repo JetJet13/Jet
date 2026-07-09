@@ -12,7 +12,7 @@
 class ArrayEmptyIRFunction {
 public:
     static std::string getArrayEmptyIRFunctionName();
-    static void generateArrayEmptyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateArrayEmptyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_EMPTY_IR_FUNCTION_H

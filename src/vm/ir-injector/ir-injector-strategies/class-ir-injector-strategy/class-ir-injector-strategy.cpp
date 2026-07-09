@@ -7,7 +7,7 @@
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-void ClassIRInjectorStrategy::inject(std::shared_ptr<IRClassDeclarationNode> irClassDeclarationNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassIRInjectorStrategy::inject(std::shared_ptr<IRClassDeclarationNode> irClassDeclarationNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irClassDeclarationNode->getPreConstructor()) {
         this->injectPreConstructor(irClassDeclarationNode->getPreConstructor().value(), irClassDeclarationNode->getIRType(), irBlock, irInjector, irModule, scope);
     }
@@ -28,7 +28,7 @@ void ClassIRInjectorStrategy::inject(std::shared_ptr<IRClassDeclarationNode> irC
     }
 }
 
-void ClassIRInjectorStrategy::injectPreConstructor(std::shared_ptr<IRClassPreConstructorNode> irClassPreConstructorNode, std::shared_ptr<IRClassType> irClassType, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassIRInjectorStrategy::injectPreConstructor(std::shared_ptr<IRClassPreConstructorNode> irClassPreConstructorNode, std::shared_ptr<IRClassType> irClassType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto preConstructorBlock = irClassPreConstructorNode->getBlock();
     auto preConstructorScope = irClassPreConstructorNode->getBlock()->getScope();
     irInjector->inject(irBlock, preConstructorBlock, irModule);
@@ -53,7 +53,7 @@ void ClassIRInjectorStrategy::injectPreConstructor(std::shared_ptr<IRClassPreCon
     irClassPreConstructorNode->getBlock()->addVoidReturn();
 }
 
-void ClassIRInjectorStrategy::injectConstructor(std::shared_ptr<IRClassConstructorNode> irClassConstructorNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassIRInjectorStrategy::injectConstructor(std::shared_ptr<IRClassConstructorNode> irClassConstructorNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     irInjector->inject(irBlock, irClassConstructorNode->getBlock(), irModule);
 
     irClassConstructorNode->getBlock()->addVoidReturn();
@@ -64,7 +64,7 @@ void ClassIRInjectorStrategy::injectConstructor(std::shared_ptr<IRClassConstruct
     DebugIRInjectorHelper::injectFunctionExitLog(irClassConstructorNode->getBlock(), irClassConstructorNode->getNode()->getId(), irInjector, irModule);
 }
 
-void ClassIRInjectorStrategy::injectMethod(std::shared_ptr<IRClassMethodNode> irClassMethodNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassIRInjectorStrategy::injectMethod(std::shared_ptr<IRClassMethodNode> irClassMethodNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     irInjector->inject(irBlock, irClassMethodNode->getBlock(), irModule);
 
     if (!irClassMethodNode->getNode()->getReturnType()) {
@@ -77,7 +77,7 @@ void ClassIRInjectorStrategy::injectMethod(std::shared_ptr<IRClassMethodNode> ir
     DebugIRInjectorHelper::injectFunctionExitLog(irClassMethodNode->getBlock(), irClassMethodNode->getNode()->getId(), irInjector, irModule);
 }
 
-void ClassIRInjectorStrategy::injectStaticProperty(std::shared_ptr<IRClassStaticPropertyNode> irClassStaticPropertyNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassIRInjectorStrategy::injectStaticProperty(std::shared_ptr<IRClassStaticPropertyNode> irClassStaticPropertyNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto valueIrOperation = std::make_shared<IROperation>(IR_OPERAND_VALUE_OP);
     auto initialValue = irInjector->inject(irBlock, irClassStaticPropertyNode->getInitialIRValue(), valueIrOperation, irModule, scope);
     InstructionIRInjectorHelper::injectStore(initialValue, irClassStaticPropertyNode->getGlobalVariable(), irBlock, irClassStaticPropertyNode->getIRType());

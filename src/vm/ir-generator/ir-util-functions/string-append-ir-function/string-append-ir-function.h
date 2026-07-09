@@ -12,7 +12,7 @@
 class StringAppendIRFunction {
 public:
     static std::string getStringAppendIRFunctionName();
-    static void generateStringAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringAppendFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_APPEND_IR_FUNCTION_H

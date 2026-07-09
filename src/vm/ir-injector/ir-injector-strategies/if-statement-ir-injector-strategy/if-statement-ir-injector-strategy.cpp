@@ -5,7 +5,7 @@
 #include "if-statement-ir-injector-strategy.h"
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
-void IfStatementIRInjectorStrategy::inject(std::shared_ptr<IRIfStatementNode> irIfStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void IfStatementIRInjectorStrategy::inject(std::shared_ptr<IRIfStatementNode> irIfStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto endBlock = irIfStatement->getIfElseNode()->getEndBlock();
     std::optional<std::shared_ptr<IRIfElseNode>> currentIfElseNode = irIfStatement->getIfElseNode();
     while (currentIfElseNode) {

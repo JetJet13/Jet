@@ -12,10 +12,10 @@
 
 class StructExpressionIRStrategy {
 private:
-    std::shared_ptr<IRInstructionNode> generateStructAllocation(std::shared_ptr<IRStructType> irType, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> structValueSourceAllocationMap, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext);
-    std::shared_ptr<IRInstructionNode> generateStructRefAllocation(std::shared_ptr<ASTStructExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRInstructionNode> generateStructAllocation(std::shared_ptr<IRStructType> irType, std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> structValueSourceAllocationMap, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRInstructionNode> generateStructRefAllocation(std::shared_ptr<ASTStructExpressionNode> node, std::shared_ptr<IRStructRefType> irType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 public:
-    std::shared_ptr<IRStructExpressionNode> generate(std::shared_ptr<ASTStructExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRStructExpressionNode> generate(std::shared_ptr<ASTStructExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 #endif //JETLANG_STRUCT_EXPRESSION_IR_STRATEGY_H

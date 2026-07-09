@@ -11,7 +11,7 @@ std::string StringAppendIRFunction::getStringAppendIRFunctionName() {
     return "jet.string.append";
 }
 
-void StringAppendIRFunction::generateStringAppendFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringAppendIRFunction::generateStringAppendFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());

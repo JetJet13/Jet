@@ -12,8 +12,8 @@
 
 class StringLiteralIRStrategy {
 public:
-    std::shared_ptr<IRStringLiteralNode> generate(std::shared_ptr<ASTStringLiteralNode> node, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext);
-    llvm::Constant* generateIRString(std::string rawString, IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
+    std::shared_ptr<IRStringLiteralNode> generate(std::shared_ptr<ASTStringLiteralNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext);
+    llvm::Constant* generateIRString(std::string rawString, std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_STRING_LITERAL_IR_STRATEGY_H

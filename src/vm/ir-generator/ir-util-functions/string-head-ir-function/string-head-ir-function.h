@@ -12,7 +12,7 @@
 class StringHeadIRFunction {
 public:
     static std::string getStringHeadIRFunctionName();
-    static void generateStringHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringHeadFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_HEAD_IR_FUNCTION_H

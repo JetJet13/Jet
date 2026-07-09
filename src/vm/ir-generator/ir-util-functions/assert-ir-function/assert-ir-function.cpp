@@ -42,7 +42,7 @@ std::string AssertIRFunction::getGlobalAssertDebugLambdaRefCountMessageStringNam
     return "jet.assert.debug.lambda.ref.count.message";
 }
 
-void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertGlobals(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto defaultMessage = "\n\nAssertion Failed\n";
     auto defaultAssertMessageString = irGenerator->generateRawString(defaultMessage);
     new llvm::GlobalVariable(
@@ -55,7 +55,7 @@ void AssertIRFunction::generateAssertGlobals(IRGenerator* irGenerator, std::uniq
     );
 }
 
-void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertDebugGlobals(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto debugRefCountMessage = "\n\nRef Count Assertion Failed\n";
     auto debugRefCountMessageString = irGenerator->generateRawString(debugRefCountMessage);
     new llvm::GlobalVariable(
@@ -90,7 +90,7 @@ void AssertIRFunction::generateAssertDebugGlobals(IRGenerator* irGenerator, std:
     );
 }
 
-void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
@@ -122,7 +122,7 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     isValueTrueIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertWithMessageFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto boolType = irGenerator->generateBooleanType();
     auto voidType = irGenerator->getVoidType();
     auto pointerType = irGenerator->generatePointerType();
@@ -163,7 +163,7 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     isValueTrueIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertDebugRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
@@ -199,7 +199,7 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenera
     isRefCountMatchIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertDebugStructRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto structRefType = irGenerator->generateIRStructRefType();
@@ -235,7 +235,7 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     isRefCountMatchIfElseBlock->addVoidReturn();
 }
 
-void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
     auto invocableType = irGenerator->generateIRInvocableType();

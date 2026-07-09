@@ -8,7 +8,7 @@
 #include "../../ir-util-functions/assert-ir-function/assert-ir-function.h"
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
-void IRDebugInternalModule::augment(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIRModule) {
+void IRDebugInternalModule::augment(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIRModule) {
     AssertIRFunction::generateAssertDebugGlobals(irGenerator, context, coreIRModule);
     AssertIRFunction::generateAssertDebugRefCountFunction(irGenerator, context, coreIRModule);
     AssertIRFunction::generateAssertDebugStructRefCountFunction(irGenerator, context, coreIRModule);

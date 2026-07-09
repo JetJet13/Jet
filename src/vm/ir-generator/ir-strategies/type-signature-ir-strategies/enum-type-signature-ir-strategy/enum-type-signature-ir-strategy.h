@@ -12,8 +12,8 @@
 
 class EnumTypeSignatureIRStrategy {
 public:
-    std::shared_ptr<IRType> generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
-    std::shared_ptr<IREnumType> generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::vector<llvm::Constant*> enumValues, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRType> generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IREnumType> generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::vector<llvm::Constant*> enumValues, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_ENUM_TYPE_SIGNATURE_IR_STRATEGY_H

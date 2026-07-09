@@ -11,7 +11,7 @@
 
 class IRUtilInternalModule {
 public:
-    static void augment(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule);
+    static void augment(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule);
     static std::string getIRName(std::string id, unsigned long numArgs);
 };
 

@@ -10,7 +10,7 @@ std::string ArrayAccessIRFunction::getArrayAccessIRFunctionName() {
     return "jet.array.access.check";
 }
 
-void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void ArrayAccessIRFunction::generateArrayAccessFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto voidType = irGenerator->generateVoidType()->getType();

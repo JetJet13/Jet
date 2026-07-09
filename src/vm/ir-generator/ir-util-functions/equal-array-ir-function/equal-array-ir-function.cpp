@@ -9,14 +9,14 @@ std::string EqualArrayIRFunction::getEqualArrayIRFunctionName() {
     return "jet.equal.array";
 }
 
-void EqualArrayIRFunction::declareEqualArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void EqualArrayIRFunction::declareEqualArrayFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType, typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, EqualArrayIRFunction::getEqualArrayIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void EqualArrayIRFunction::generateEqualArrayFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void EqualArrayIRFunction::generateEqualArrayFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto pointerType = irGenerator->generatePointerType();

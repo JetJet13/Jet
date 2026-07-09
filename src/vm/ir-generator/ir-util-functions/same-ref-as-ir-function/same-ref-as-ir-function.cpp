@@ -9,7 +9,7 @@ std::string SameRefAsIRFunction::getSameRefAsIRFunctionName() {
     return "jet.ref.same.as";
 }
 
-void SameRefAsIRFunction::generateSameRefAsFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void SameRefAsIRFunction::generateSameRefAsFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType }, false);

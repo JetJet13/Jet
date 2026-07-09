@@ -12,7 +12,7 @@
 class GetRefCountIRFunction {
 public:
     static std::string getGetRefCountIRFunctionName();
-    static void generateGetRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateGetRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_GET_REF_COUNT_IR_FUNCTION_H

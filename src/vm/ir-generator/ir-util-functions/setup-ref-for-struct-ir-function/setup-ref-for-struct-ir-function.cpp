@@ -9,7 +9,7 @@ std::string SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName() {
     return "jet.setup.ref.for.struct";
 }
 
-void SetupRefForStructIRFunction::generateSetupRefForStructFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void SetupRefForStructIRFunction::generateSetupRefForStructFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto refType = irGenerator->generateIrRefType(pointerType);
     auto structRefType = irGenerator->generateIRStructRefType();

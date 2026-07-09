@@ -17,7 +17,7 @@ std::string FreeClassPropertyIRFunction::getFreeClassPropertyIRFunctionName() {
 // with an expression when declared, the existing value can be zero-initialized and so the
 // free-value function will invoke 'free' on an uninitialized pointer. This function
 // ensures we only attempt to free the value if the existing value isn't zero-initialized
-void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());

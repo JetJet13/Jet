@@ -16,7 +16,7 @@
 
 class FloatLiteralIRStrategy {
 public:
-    std::shared_ptr<IRFloatLiteralNode> generate(std::shared_ptr<ASTFloatLiteralNode> node, IRGenerator* irGenerator,  std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRFloatLiteralNode> generate(std::shared_ptr<ASTFloatLiteralNode> node, std::shared_ptr<IRGenerator> irGenerator,  std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_FLOAT_LITERAL_IR_STRATEGY_H

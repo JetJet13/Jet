@@ -12,13 +12,13 @@
 
 class VM {
 private:
-    IRGenerator* _irGenerator;
-    IRInjector* _irInjector;
+    std::shared_ptr<IRGenerator> _irGenerator;
+    std::shared_ptr<IRInjector> _irInjector;
     std::unordered_map<std::string, IRJetFile*> _jetFileMap;
     std::optional<IRJetFile*> findCompiledJetFile(std::string id);
     void addCompiledJetFile(IRJetFile* irJetFile);
 public:
-    VM(IRGenerator* irGenerator, IRInjector* irInjector);
+    VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector);
     std::shared_ptr<IRFunctionNode> compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule);
     IRJetFile* compileMain(std::shared_ptr<JetFile> jetFile);
     void linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination);

@@ -12,7 +12,7 @@
 class StringTakeLastIRFunction {
 public:
     static std::string getStringTakeLastIRFunctionName();
-    static void generateStringTakeLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringTakeLastFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_TAKE_LAST_IR_FUNCTION_H

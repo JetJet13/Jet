@@ -42,8 +42,8 @@ int main (int argc, const char* argv[]) {
         }
         auto postProcessor = PostProcessor();
         postProcessor.process(jetFile);
-        auto irInjector = new IRInjector();
-        auto irGenerator = new IRGenerator(irInjector);
+        auto irInjector = std::make_shared<IRInjector>();
+        auto irGenerator = std::make_shared<IRGenerator>(irInjector);
         auto vm = VM(irGenerator, irInjector);
         auto irJetFile = vm.compileMain(jetFile);
 

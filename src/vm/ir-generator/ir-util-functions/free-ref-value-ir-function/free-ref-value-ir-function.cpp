@@ -11,7 +11,7 @@ std::string FreeRefValueIRFunction::getFreeRefValueIRFunctionName() {
     return "jet.free.ref.value";
 }
 
-void FreeRefValueIRFunction::generateFreeRefValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeRefValueIRFunction::generateFreeRefValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();

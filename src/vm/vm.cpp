@@ -10,7 +10,7 @@
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../core/ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
 
-VM::VM(IRGenerator* irGenerator, IRInjector* irInjector) {
+VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector) {
     _irGenerator = irGenerator;
     _irInjector = irInjector;
     _jetFileMap = std::unordered_map<std::string, IRJetFile*>();

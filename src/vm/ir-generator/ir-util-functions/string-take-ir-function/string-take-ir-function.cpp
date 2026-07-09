@@ -10,7 +10,7 @@ std::string StringTakeIRFunction::getStringTakeIRFunctionName() {
     return "jet.string.take";
 }
 
-void StringTakeIRFunction::generateStringTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringTakeIRFunction::generateStringTakeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();

@@ -8,7 +8,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRUnaryExpressionNode> UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUnaryExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRUnaryExpressionNode> UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUnaryExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (node->getUnaryOperatorNode()->isPlus()) {

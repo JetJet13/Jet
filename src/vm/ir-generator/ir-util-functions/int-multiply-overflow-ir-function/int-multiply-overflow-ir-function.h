@@ -12,7 +12,7 @@
 class IntMultiplyOverflowIRFunction {
 public:
     static std::string getIntMultiplyOverflowIRFunctionName();
-    static void generateIntMultiplyOverflowFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateIntMultiplyOverflowFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_INT_MULTIPLY_OVERFLOW_IR_FUNCTION_H

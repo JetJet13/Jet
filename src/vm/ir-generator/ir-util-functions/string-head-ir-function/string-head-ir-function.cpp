@@ -8,7 +8,7 @@ std::string StringHeadIRFunction::getStringHeadIRFunctionName() {
     return "jet.string.head";
 }
 
-void StringHeadIRFunction::generateStringHeadFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringHeadIRFunction::generateStringHeadFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType() },

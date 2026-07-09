@@ -12,7 +12,7 @@
 class StringTailIRFunction {
 public:
     static std::string getStringTailIRFunctionName();
-    static void generateStringTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringTailFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_TAIL_IR_FUNCTION_H

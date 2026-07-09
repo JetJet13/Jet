@@ -8,7 +8,7 @@ std::string StringEmptyIRFunction::getStringEmptyIRFunctionName() {
     return "jet.string.empty";
 }
 
-void StringEmptyIRFunction::generateStringEmptyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringEmptyIRFunction::generateStringEmptyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto boolType = irGenerator->generateBooleanType();
     auto pointerType = irGenerator->generateIrPointerType();

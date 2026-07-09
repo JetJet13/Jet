@@ -12,7 +12,7 @@
 class StringTakeIRFunction {
 public:
     static std::string getStringTakeIRFunctionName();
-    static void generateStringTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringTakeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_TAKE_IR_FUNCTION_H

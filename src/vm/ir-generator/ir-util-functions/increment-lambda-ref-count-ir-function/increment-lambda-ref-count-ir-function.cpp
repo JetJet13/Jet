@@ -10,7 +10,7 @@ std::string IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunct
     return "jet.increment.lambda.ref.count";
 }
 
-void IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto intType = irGenerator->generateIntType();
     auto functionParameterType = irGenerator->generateIRInvocableType();

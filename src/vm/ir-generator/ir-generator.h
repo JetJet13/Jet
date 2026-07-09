@@ -74,11 +74,11 @@
 #include "../ir-nodes/ir-function-nodes/ir-function-argument-node.h"
 #include "../ir-type/ir-class-instance-type.h"
 
-class IRGenerator {
+class IRGenerator : public std::enable_shared_from_this<IRGenerator> {
 private:
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
-    IRInjector* _irInjector;
+    std::shared_ptr<IRInjector> _irInjector;
     llvm::StructType* _arrayPointerType;
     llvm::StructType* _structRefType;
     llvm::StructType* _typeValueType;
@@ -86,7 +86,7 @@ private:
     llvm::StructType* _invocableType;
     std::shared_ptr<IRClassInstanceType> _genericClassInstanceIRType;
 public:
-    explicit IRGenerator(IRInjector* irInjector);
+    explicit IRGenerator(std::shared_ptr<IRInjector> irInjector);
     std::shared_ptr<IRNode> generateFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     void generateInitialTypeFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     void generatePostInitialTypeFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
@@ -213,7 +213,7 @@ public:
     void augmentUtilInternalModule(std::shared_ptr<IRModuleNode> commonIRModule);
     void augmentDebugInternalModule(std::shared_ptr<IRModuleNode> commonIRModule);
     std::shared_ptr<IRModuleNode> generateCoreModule();
-    IRInjector* getInjector();
+    std::shared_ptr<IRInjector> getInjector();
 };
 
 #endif //JETLANG_IR_GENERATOR_H

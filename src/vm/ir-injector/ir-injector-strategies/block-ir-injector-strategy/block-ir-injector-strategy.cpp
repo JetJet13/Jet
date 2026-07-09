@@ -7,7 +7,7 @@
 #include "../../../ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.h"
 #include "../../../ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.h"
 
-void BlockIRInjectorStrategy::inject(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void BlockIRInjectorStrategy::inject(std::shared_ptr<IRBlockNode> irBlockNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     for (auto statement : *irBlockNode->getBody()) {
         if (statement->is(IR_IF_STATEMENT_NODE)) {
             auto ifStatement = std::dynamic_pointer_cast<IRIfStatementNode>(statement);

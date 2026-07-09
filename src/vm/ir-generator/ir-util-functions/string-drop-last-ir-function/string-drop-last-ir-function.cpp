@@ -10,7 +10,7 @@ std::string StringDropLastIRFunction::getStringDropLastIRFunctionName() {
     return "jet.string.drop.last";
 }
 
-void StringDropLastIRFunction::generateStringDropLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringDropLastIRFunction::generateStringDropLastFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());

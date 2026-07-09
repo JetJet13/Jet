@@ -12,7 +12,7 @@
 class SetRefValueIRFunction {
 public:
     static std::string getSetRefValueIRFunctionName();
-    static void generateSetRefValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateSetRefValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_SET_REF_VALUE_IR_FUNCTION_H

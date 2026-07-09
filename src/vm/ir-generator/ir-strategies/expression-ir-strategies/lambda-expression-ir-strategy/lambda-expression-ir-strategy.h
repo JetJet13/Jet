@@ -14,11 +14,11 @@
 
 class LambdaExpressionIRStrategy {
 private:
-    void setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, std::shared_ptr<IRContext> irContext);
-    llvm::Function* generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext);
+    void setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, std::shared_ptr<IRContext> irContext);
+    llvm::Function* generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext);
 public:
-    std::shared_ptr<IRLambdaWithBlockExpressionNode> generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
-    std::shared_ptr<IRLambdaWithFatArrowExpressionNode> generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRLambdaWithBlockExpressionNode> generate(std::shared_ptr<ASTLambdaExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRLambdaWithFatArrowExpressionNode> generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_LAMBDA_EXPRESSION_IR_STRATEGY_H

@@ -11,10 +11,10 @@
 
 class LiteralTypeSignatureIRStrategy {
 private:
-    llvm::Value* generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext);
+    llvm::Value* generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext);
 public:
-    std::shared_ptr<IRType> generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
-    std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRType> generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_LITERAL_TYPE_SIGNATURE_IR_STRATEGY_H

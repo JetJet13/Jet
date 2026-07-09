@@ -12,7 +12,7 @@
 
 class VariableAssignmentStatementIRStrategy {
 public:
-    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTVariableAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTVariableAssignmentStatementNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_VARIABLE_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

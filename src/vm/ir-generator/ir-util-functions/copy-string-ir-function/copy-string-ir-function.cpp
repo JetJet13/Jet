@@ -12,7 +12,7 @@ std::string CopyStringIRFunction::getCopyStringIRFunctionName() {
     return "jet.copy.string";
 }
 
-void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void CopyStringIRFunction::generateCopyStringFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();

@@ -5,7 +5,7 @@
 #include "literal-expression-ir-strategy.h"
 
 
-std::shared_ptr<IRExpressionNode> LiteralExpressionIRStrategy::generate(std::shared_ptr<ASTLiteralExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRExpressionNode> LiteralExpressionIRStrategy::generate(std::shared_ptr<ASTLiteralExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto irLiteralNode = irGenerator->generateFor(node->getLiteralNode(), scope, irContext);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     if (irLiteralNode->is(IR_STRING_LITERAL_NODE)) {
@@ -17,7 +17,7 @@ std::shared_ptr<IRExpressionNode> LiteralExpressionIRStrategy::generate(std::sha
     return std::make_shared<IRLiteralExpressionNode>(node, irLiteralNode, irType);
 }
 
-std::shared_ptr<IRInstructionNode> LiteralExpressionIRStrategy::generateArrayAllocation(std::shared_ptr<IRStringLiteralNode> irStringLiteralNode, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRInstructionNode> LiteralExpressionIRStrategy::generateArrayAllocation(std::shared_ptr<IRStringLiteralNode> irStringLiteralNode, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {

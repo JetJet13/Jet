@@ -12,7 +12,7 @@
 class IncrementRefCountIRFunction {
 public:
     static std::string getIncrementRefCountIRFunctionName();
-    static void generateIncrementRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateIncrementRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_INCREMENT_REF_COUNT_IR_FUNCTION_H

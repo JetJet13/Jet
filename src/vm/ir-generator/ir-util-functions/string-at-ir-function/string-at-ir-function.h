@@ -12,7 +12,7 @@
 class StringAtIRFunction {
 public:
     static std::string getStringAtIRFunctionName();
-    static void generateStringAtFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringAtFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_AT_IR_FUNCTION_H

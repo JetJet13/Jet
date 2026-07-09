@@ -6,7 +6,7 @@
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::generate(std::shared_ptr<ASTVariableDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto operation = this->determineOperationType(node);
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto variableAllocation = this->generateVariableAllocation(node, irGenerator, irType, irContext);
@@ -61,7 +61,7 @@ std::shared_ptr<IROperation> VariableDeclarationIRStrategy::determineOperationTy
     return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? std::make_shared<IROperation>(IR_REF_ASSIGNMENT_OP) : std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
 }
 
-std::shared_ptr<IRInstructionNode> VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRType> irType, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRInstructionNode> VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRType> irType, std::shared_ptr<IRContext> irContext) {
     if (node->isCaptured()) {
         auto malloc = llvm::CallInst::Create(
                 irContext->getIRModule()->getMallocFunction(),

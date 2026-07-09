@@ -10,7 +10,7 @@ std::string StringAtIRFunction::getStringAtIRFunctionName() {
     return "jet.string.at";
 }
 
-void StringAtIRFunction::generateStringAtFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringAtIRFunction::generateStringAtFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generatePointerType();

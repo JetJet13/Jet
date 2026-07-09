@@ -12,7 +12,7 @@
 class StringDropIRFunction {
 public:
     static std::string getStringDropIRFunctionName();
-    static void generateStringDropFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringDropFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_DROP_IR_FUNCTION_H

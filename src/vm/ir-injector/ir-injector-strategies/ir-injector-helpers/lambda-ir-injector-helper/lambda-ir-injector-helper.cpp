@@ -12,7 +12,7 @@ void LambdaIRInjectorHelper::incrementRefCountForInvocationExpression(llvm::Valu
     }
 }
 
-llvm::Value* LambdaIRInjectorHelper::injectDetails(std::shared_ptr<IRLambdaExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* LambdaIRInjectorHelper::injectDetails(std::shared_ptr<IRLambdaExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto allocation = InstructionIRInjectorHelper::inject(irExpression->getAllocation(), irBlock);
     auto functionIndex = irExpression->getIRLambdaType()->getLambdaVariableType()->getFunctionIndex();
     auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, functionIndex);

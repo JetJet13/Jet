@@ -10,7 +10,7 @@ std::string ArrayTakeLastIRFunction::getArrayTakeLastIRFunctionName() {
     return "jet.array.take.last";
 }
 
-void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void ArrayTakeLastIRFunction::generateArrayTakeLastFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto pointerIntType = irGenerator->generatePointerIntType();

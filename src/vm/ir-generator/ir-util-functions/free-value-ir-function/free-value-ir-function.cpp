@@ -10,14 +10,14 @@ std::string FreeValueIRFunction::getFreeValueIRFunctionName() {
     return "jet.free.value";
 }
 
-void FreeValueIRFunction::declareFreeValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeValueIRFunction::declareFreeValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeValueIRFunction::getFreeValueIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeValueIRFunction::generateFreeValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getFreeValueFunction();

@@ -10,7 +10,7 @@ std::string StringConcatIRFunction::getStringConcatIRFunctionName() {
     return "jet.string.concat";
 }
 
-void StringConcatIRFunction::generateStringConcatFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringConcatIRFunction::generateStringConcatFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();

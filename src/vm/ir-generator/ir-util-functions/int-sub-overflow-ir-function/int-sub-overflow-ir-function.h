@@ -12,7 +12,7 @@
 class IntSubOverflowIRFunction {
 public:
     static std::string getIntSubOverflowIRFunctionName();
-    static void generateIntSubOverflowFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateIntSubOverflowFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_INT_SUB_OVERFLOW_IR_FUNCTION_H

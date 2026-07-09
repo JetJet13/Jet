@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     InstructionIRInjectorHelper::inject(irVariableDeclaration->getIRValue(), irBlock, irVariableDeclaration->getVariableName());
     auto operation = this->determineOperationType(irVariableDeclaration);
     auto irExpressionValue = irInjector

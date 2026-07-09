@@ -9,7 +9,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../ir-util-functions/assert-ir-function/assert-ir-function.h"
 
-void IRUtilInternalModule::augment(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule) {
+void IRUtilInternalModule::augment(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIrModule) {
     PrintIRFunction::generatePrintGlobals(irGenerator, context, coreIrModule);
     PrintIRFunction::declarePrintRefFunction(irGenerator, context, coreIrModule);
     PrintIRFunction::declarePrintArrayFunction(irGenerator, context, coreIrModule);

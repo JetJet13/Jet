@@ -9,7 +9,7 @@ std::string IntAddOverflowIRFunction::getIntAddOverflowIRFunctionName() {
     return "jet.int.add.overflow";
 }
 
-void IntAddOverflowIRFunction::generateIntAddOverflowFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void IntAddOverflowIRFunction::generateIntAddOverflowFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));

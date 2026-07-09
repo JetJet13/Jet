@@ -5,7 +5,7 @@
 #include "module-declaration-ir-strategy.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRModuleDeclarationNode> ModuleDeclarationIRStrategy::generate(std::shared_ptr<ASTModuleDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRModuleDeclarationNode> ModuleDeclarationIRStrategy::generate(std::shared_ptr<ASTModuleDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto exports = std::vector<std::shared_ptr<IRDeclarationNode>>();
     auto moduleIrType = irGenerator->generateTypeFor(node->getModuleTypeSignature(), scope, irContext);
     for (auto exportedNode : *node->getExports()) {

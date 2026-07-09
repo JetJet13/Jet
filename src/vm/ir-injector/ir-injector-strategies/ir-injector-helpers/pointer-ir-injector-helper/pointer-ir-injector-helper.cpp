@@ -8,7 +8,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRPointerType> irPointerType, std::shared_ptr<IRInstructionNode> sourceValueAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRPointerType> irPointerType, std::shared_ptr<IRInstructionNode> sourceValueAllocation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRInjector> irInjector) {
     auto loadedValue = InstructionIRInjectorHelper::injectLoad(sourceValueAllocation, irBlock);
     auto newValueAllocation = PointerIRInjectorHelper::injectPointerSourceAllocation(irBlock, irPointerType, loadedValue, irModule);
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());
@@ -26,7 +26,7 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockN
     return newPointer;
 }
 
-llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRPointerType> irPointerType, llvm::Value* sourcePointer, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRPointerType> irPointerType, llvm::Value* sourcePointer, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRInjector> irInjector) {
     auto loadedValue = InstructionIRInjectorHelper::injectLoad(irPointerType, sourcePointer, irBlock);
     auto newValueAllocation = PointerIRInjectorHelper::injectPointerSourceAllocation(irBlock, irPointerType, loadedValue, irModule);
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());

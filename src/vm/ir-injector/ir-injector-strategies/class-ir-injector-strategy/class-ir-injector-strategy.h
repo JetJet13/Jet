@@ -16,12 +16,12 @@
 
 class ClassIRInjectorStrategy {
 private:
-    void injectPreConstructor(std::shared_ptr<IRClassPreConstructorNode> irClassPreConstructorNode, std::shared_ptr<IRClassType> irClassType, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
-    void injectConstructor(std::shared_ptr<IRClassConstructorNode> irClassConstructorNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
-    void injectMethod(std::shared_ptr<IRClassMethodNode> irClassMethodNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
-    void injectStaticProperty(std::shared_ptr<IRClassStaticPropertyNode> irClassStaticPropertyNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void injectPreConstructor(std::shared_ptr<IRClassPreConstructorNode> irClassPreConstructorNode, std::shared_ptr<IRClassType> irClassType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void injectConstructor(std::shared_ptr<IRClassConstructorNode> irClassConstructorNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void injectMethod(std::shared_ptr<IRClassMethodNode> irClassMethodNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void injectStaticProperty(std::shared_ptr<IRClassStaticPropertyNode> irClassStaticPropertyNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 public:
-    void inject(std::shared_ptr<IRClassDeclarationNode> irClassDeclarationNode, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void inject(std::shared_ptr<IRClassDeclarationNode> irClassDeclarationNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 #endif //JETLANG_CLASS_IR_INJECTOR_STRATEGY_H

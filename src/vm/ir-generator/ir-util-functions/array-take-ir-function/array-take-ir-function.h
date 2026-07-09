@@ -12,7 +12,7 @@
 class ArrayTakeIRFunction {
 public:
     static std::string getArrayTakeIRFunctionName();
-    static void generateArrayTakeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateArrayTakeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_TAKE_IR_FUNCTION_H

@@ -12,7 +12,7 @@
 class StringEmptyIRFunction {
 public:
     static std::string getStringEmptyIRFunctionName();
-    static void generateStringEmptyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringEmptyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_EMPTY_IR_FUNCTION_H

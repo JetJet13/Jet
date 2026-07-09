@@ -11,7 +11,7 @@
 
 class IRCoreInternalModule {
 public:
-    static std::shared_ptr<IRModuleNode> generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
+    static std::shared_ptr<IRModuleNode> generate(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context);
 };
 
 #endif //JETLANG_IR_CORE_INTERNAL_MODULE_H

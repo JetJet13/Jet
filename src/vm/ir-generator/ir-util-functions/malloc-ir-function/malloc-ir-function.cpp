@@ -8,7 +8,7 @@ std::string MallocIRFunction::getMallocIRFunctionName() {
     return "jet.malloc";
 }
 
-void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void MallocIRFunction::generateMallocFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generateIrPointerType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { intType, intType }, false);

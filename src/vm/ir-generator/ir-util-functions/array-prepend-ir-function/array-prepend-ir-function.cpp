@@ -10,7 +10,7 @@ std::string ArrayPrependIRFunction::getArrayPrependIRFunctionName() {
     return "jet.array.prepend";
 }
 
-void ArrayPrependIRFunction::generateArrayPrependFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void ArrayPrependIRFunction::generateArrayPrependFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generateIrPointerType();

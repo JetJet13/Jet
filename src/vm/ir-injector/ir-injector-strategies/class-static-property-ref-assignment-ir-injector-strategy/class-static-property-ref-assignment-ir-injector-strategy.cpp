@@ -7,7 +7,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-ref-type.h"
 
-void ClassStaticPropertyRefAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRClassStaticPropertyRefAssignmentStatementNode> irClassStaticPropertyRefAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void ClassStaticPropertyRefAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRClassStaticPropertyRefAssignmentStatementNode> irClassStaticPropertyRefAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto pointerToTarget = ClassPropertyAccessIRInjectorHelper::inject(irClassStaticPropertyRefAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode(),irBlock, irInjector, irModule, scope, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
     auto newValue = irInjector->inject(
             irBlock,

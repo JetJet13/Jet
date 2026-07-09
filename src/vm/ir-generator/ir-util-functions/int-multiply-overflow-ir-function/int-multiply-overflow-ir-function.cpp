@@ -9,7 +9,7 @@ std::string IntMultiplyOverflowIRFunction::getIntMultiplyOverflowIRFunctionName(
     return "jet.int.multiply.overflow";
 }
 
-void IntMultiplyOverflowIRFunction::generateIntMultiplyOverflowFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void IntMultiplyOverflowIRFunction::generateIntMultiplyOverflowFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto raise = irModuleNode->getModule()->get()->getOrInsertFunction("raise", llvm::FunctionType::get(intType, { intType }, false));

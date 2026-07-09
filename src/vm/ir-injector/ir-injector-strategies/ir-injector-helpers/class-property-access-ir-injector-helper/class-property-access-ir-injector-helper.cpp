@@ -5,7 +5,7 @@
 #include "class-property-access-ir-injector-helper.h"
 #include "../instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(std::shared_ptr<IRClassPropertyAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
+llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(std::shared_ptr<IRClassPropertyAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto irStructRefType = std::dynamic_pointer_cast<IRStructRefType>(irExpression->getSource()->getIRType()->getSourceType()->getSourceType());
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(irExpression->getSource()->getAllocatedType(), irExpression->getValue(), irBlock);
     auto pointerToStructAlloc = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), loadedPointer, irStructRefType->getStructIndex());
@@ -26,7 +26,7 @@ llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(std::shared_ptr<IRClass
     return pointerToProperty;
 }
 
-llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(std::shared_ptr<IRClassStaticPropertyAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
+llvm::Value* ClassPropertyAccessIRInjectorHelper::inject(std::shared_ptr<IRClassStaticPropertyAccessExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     if (irOperation->isCopy() || irOperation->isCopyGlobal() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getSourceType()->getType());
         auto typeValue = irInjector->inject(irBlock, irExpression->getIRType()->getSourceType(), irModule);

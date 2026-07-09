@@ -13,7 +13,7 @@
 
 class ArrayAccessAssignmentIRInjectorStrategy {
 public:
-    void inject(std::shared_ptr<IRArrayAccessAssignmentStatementNode> irArrayAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
+    void inject(std::shared_ptr<IRArrayAccessAssignmentStatementNode> irArrayAccessAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
 };
 
 

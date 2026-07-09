@@ -5,7 +5,7 @@
 #include "new-class-instance-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRNewClassInstanceExpressionNode> NewClassInstanceExpressionIRStrategy::generate(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRNewClassInstanceExpressionNode> NewClassInstanceExpressionIRStrategy::generate(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
     for (int i = 0; i < node->getArguments()->numArguments(); ++i) {
         auto argument = node->getArguments()->getArguments()->at(i);
@@ -36,7 +36,7 @@ std::shared_ptr<IRNewClassInstanceExpressionNode> NewClassInstanceExpressionIRSt
     );
 }
 
-std::shared_ptr<IRInstructionNode> NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRInstructionNode> NewClassInstanceExpressionIRStrategy::generateClassInstanceAllocation(std::shared_ptr<IRNewClassInstanceType> irNewClassInstanceType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -51,6 +51,6 @@ std::shared_ptr<IRInstructionNode> NewClassInstanceExpressionIRStrategy::generat
     );
 }
 
-std::shared_ptr<IRInstructionNode> NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRNewClassInstanceType> irClassInstanceType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRInstructionNode> NewClassInstanceExpressionIRStrategy::generateClassInstancePointerAllocation(std::shared_ptr<ASTNewClassInstanceExpressionNode> node, std::shared_ptr<IRNewClassInstanceType> irClassInstanceType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irClassInstanceType->getIRClassPropertiesType()));
 }

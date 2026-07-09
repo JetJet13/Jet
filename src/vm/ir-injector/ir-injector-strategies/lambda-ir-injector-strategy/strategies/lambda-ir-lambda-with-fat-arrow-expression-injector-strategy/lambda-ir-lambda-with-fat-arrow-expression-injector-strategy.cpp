@@ -8,7 +8,7 @@
 #include "../../../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.h"
 
-llvm::Value* LambdaIRLambdaWithFatArrowExpressionInjectorStrategy::inject(std::shared_ptr<IRLambdaWithFatArrowExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, IRInjector* irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* LambdaIRLambdaWithFatArrowExpressionInjectorStrategy::inject(std::shared_ptr<IRLambdaWithFatArrowExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto lambdaScope = irExpression->getBlock()->getScope();
     auto lambdaScopeParameter = irExpression->getParameters()->getLambdaScopeParameter();
     if (lambdaScopeParameter) {

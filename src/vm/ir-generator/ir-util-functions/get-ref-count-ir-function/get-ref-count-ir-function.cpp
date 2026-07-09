@@ -9,7 +9,7 @@ std::string GetRefCountIRFunction::getGetRefCountIRFunctionName() {
     return "jet.get.ref.count";
 }
 
-void GetRefCountIRFunction::generateGetRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void GetRefCountIRFunction::generateGetRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());

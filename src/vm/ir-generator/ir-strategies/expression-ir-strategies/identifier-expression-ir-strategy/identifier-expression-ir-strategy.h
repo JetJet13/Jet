@@ -13,7 +13,7 @@
 
 class IdentifierExpressionIRStrategy {
 public:
-    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTIdentifierExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTIdentifierExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 #endif //JETLANG_IDENTIFIER_EXPRESSION_IR_STRATEGY_H

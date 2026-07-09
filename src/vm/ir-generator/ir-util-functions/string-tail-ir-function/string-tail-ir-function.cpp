@@ -11,7 +11,7 @@ std::string StringTailIRFunction::getStringTailIRFunctionName() {
     return "jet.string.tail";
 }
 
-void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void StringTailIRFunction::generateStringTailFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto charType = irGenerator->generateIRCharType();
     auto pointerType = irGenerator->generateIrPointerType();

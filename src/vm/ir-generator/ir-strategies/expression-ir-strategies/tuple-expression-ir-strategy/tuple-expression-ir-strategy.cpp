@@ -5,7 +5,7 @@
 #include "tuple-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRTupleExpressionNode> TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTupleExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRTupleExpressionNode> TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getTupleTypeSignature(), scope, irContext);
     auto tupleValues = std::vector<std::shared_ptr<IRExpressionNode>>();
     for (unsigned long i = 0; i < node->numItems(); ++i) {
@@ -26,7 +26,7 @@ std::shared_ptr<IRTupleExpressionNode> TupleExpressionIRStrategy::generate(std::
     );
 }
 
-std::shared_ptr<IRInstructionNode> TupleExpressionIRStrategy::generateTupleAllocation(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRInstructionNode> TupleExpressionIRStrategy::generateTupleAllocation(std::shared_ptr<IRStructType> irType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -42,6 +42,6 @@ std::shared_ptr<IRInstructionNode> TupleExpressionIRStrategy::generateTupleAlloc
 }
 
 
-std::shared_ptr<IRInstructionNode> TupleExpressionIRStrategy::generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRInstructionNode> TupleExpressionIRStrategy::generateTuplePointerAllocation(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRStructRefType> irType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irType));
 }

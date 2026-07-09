@@ -13,7 +13,7 @@
 
 class FunctionReturnExpressionIRStrategy {
 public:
-    std::shared_ptr<IRFunctionReturnExpressionNode> generate(std::shared_ptr<ASTFunctionReturnExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRFunctionReturnExpressionNode> generate(std::shared_ptr<ASTFunctionReturnExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_FUNCTION_RETURN_EXPRESSION_IR_STRATEGY_H

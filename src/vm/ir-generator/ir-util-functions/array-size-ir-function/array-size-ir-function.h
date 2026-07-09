@@ -12,7 +12,7 @@
 class ArraySizeIRFunction {
 public:
     static std::string getArraySizeIRFunctionName();
-    static void generateArraySizeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateArraySizeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_ARRAY_SIZE_IR_FUNCTION_H

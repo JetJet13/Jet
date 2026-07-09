@@ -4,7 +4,7 @@
 
 #include "debug-ir-injector-helper.h"
 
-void DebugIRInjectorHelper::injectFunctionEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectFunctionEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeFirstInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
@@ -16,7 +16,7 @@ void DebugIRInjectorHelper::injectFunctionEnterLog(std::shared_ptr<IRBlockNode> 
     irBlockNode->resetInsertionPoint();
 }
 
-void DebugIRInjectorHelper::injectFunctionExitLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectFunctionExitLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeLastInstruction();
     irBlockNode->getLastChildOrSelf()->getBuilder()->get()->CreateCall(
@@ -28,7 +28,7 @@ void DebugIRInjectorHelper::injectFunctionExitLog(std::shared_ptr<IRBlockNode> i
     irBlockNode->resetInsertionPoint();
 }
 
-void DebugIRInjectorHelper::injectControlFlowEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectControlFlowEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeFirstInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
@@ -40,7 +40,7 @@ void DebugIRInjectorHelper::injectControlFlowEnterLog(std::shared_ptr<IRBlockNod
     irBlockNode->resetInsertionPoint();
 }
 
-void DebugIRInjectorHelper::injectControlFlowExitLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectControlFlowExitLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeLastInstruction();
     irBlockNode->getBuilder()->get()->CreateCall(
@@ -64,14 +64,14 @@ void DebugIRInjectorHelper::injectRefCountLog(std::shared_ptr<IRBlockNode> irBlo
     );
 }
 
-void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, llvm::Value* log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, llvm::Value* log, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     auto logAsDebugMarker = irBlockNode->getBuilder()->get()->CreateZExt(log, irBlockNode->getBuilder()->get()->getInt64Ty());
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintDebugMarkerFunction(), { logAsDebugMarker });
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
 }
 
-void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, int log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, int log, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->getBuilder()->get()->CreateCall(
         irModule->getPrintDebugMarkerFunction(),
@@ -82,7 +82,7 @@ void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, 
     irBlockNode->getBuilder()->get()->CreateCall(irModule->getPrintNewLineFunction());
 }
 
-void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string log, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule) {
+void DebugIRInjectorHelper::injectLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string log, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->getBuilder()->get()->CreateCall(
             irModule->getPrintDebugStringFunction(),

@@ -11,7 +11,7 @@
 
 class ArrayAccessRefAssignmentStatementIRStrategy {
 public:
-    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTArrayAccessRefAssignmentStatementNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

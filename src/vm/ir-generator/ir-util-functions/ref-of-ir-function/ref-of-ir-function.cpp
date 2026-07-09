@@ -9,7 +9,7 @@ std::string RefOfIRFunction::getRefOfIRFunctionName() {
     return "jet.ref.of";
 }
 
-void RefOfIRFunction::generateRefOfFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void RefOfIRFunction::generateRefOfFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generatePointerType();
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->generateBooleanType(), { pointerType, pointerType }, false);

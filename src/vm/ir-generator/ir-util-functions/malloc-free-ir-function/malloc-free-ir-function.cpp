@@ -8,7 +8,7 @@ std::string MallocFreeIRFunction::getMallocFreeIRFunctionName() {
     return "jet.malloc.free";
 }
 
-void MallocFreeIRFunction::generateMallocFreeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void MallocFreeIRFunction::generateMallocFreeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
     auto free = irModuleNode->getModule()->get()->getOrInsertFunction("free", functionType);

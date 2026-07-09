@@ -12,7 +12,7 @@
 class MemcpyIRFunction {
 public:
     static std::string getMemcpyIRFunctionName();
-    static void generateMemcpyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateMemcpyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 

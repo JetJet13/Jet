@@ -12,7 +12,7 @@
 
 class ConcatExpressionIRStrategy {
 public:
-    std::shared_ptr<IRConcatExpressionNode> generate(std::shared_ptr<ASTConcatExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRConcatExpressionNode> generate(std::shared_ptr<ASTConcatExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 #endif //JETLANG_CONCAT_EXPRESSION_IR_STRATEGY_H

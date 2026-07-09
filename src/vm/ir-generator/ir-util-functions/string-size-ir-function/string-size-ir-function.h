@@ -12,7 +12,7 @@
 class StringSizeIRFunction {
 public:
     static std::string getStringSizeIRFunctionName();
-    static void generateStringSizeFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateStringSizeFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_STRING_SIZE_IR_FUNCTION_H

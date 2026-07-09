@@ -8,7 +8,7 @@ std::string MemcpyIRFunction::getMemcpyIRFunctionName() {
     return "jet.memcpy";
 }
 
-void MemcpyIRFunction::generateMemcpyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void MemcpyIRFunction::generateMemcpyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
     auto memcpy = irModuleNode->getModule()->get()->getOrInsertFunction("memcpy", llvm::FunctionType::get(pointerType, { pointerType, pointerType, intType }, false));

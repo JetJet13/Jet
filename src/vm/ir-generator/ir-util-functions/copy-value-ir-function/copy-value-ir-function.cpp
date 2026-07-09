@@ -9,14 +9,14 @@ std::string CopyValueIRFunction::getCopyValueIRFunctionName() {
     return "jet.copy.value";
 }
 
-void CopyValueIRFunction::declareCopyValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void CopyValueIRFunction::declareCopyValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
     llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyValueIRFunction::getCopyValueIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void CopyValueIRFunction::generateCopyValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto typeValueType = irGenerator->generateIrTypeValueType();
 
     auto function = irModuleNode->getCopyValueFunction();

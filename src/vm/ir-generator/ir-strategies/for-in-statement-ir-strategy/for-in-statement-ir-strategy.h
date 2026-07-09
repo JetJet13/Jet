@@ -11,7 +11,7 @@
 
 class ForInStatementIRStrategy {
 public:
-    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTForInStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTForInStatementNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_FOR_IN_STATEMENT_IR_STRATEGY_H

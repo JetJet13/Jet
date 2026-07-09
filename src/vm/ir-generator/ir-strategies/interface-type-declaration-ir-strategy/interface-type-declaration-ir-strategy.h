@@ -11,7 +11,7 @@
 
 class InterfaceTypeDeclarationIRStrategy {
 public:
-    std::shared_ptr<IRInterfaceTypeDeclarationNode> generate(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRInterfaceTypeDeclarationNode> generate(std::shared_ptr<ASTInterfaceTypeDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_INTERFACE_TYPE_DECLARATION_IR_STRATEGY_H

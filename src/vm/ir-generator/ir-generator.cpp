@@ -156,7 +156,7 @@
 // vm code.
 // we need to figure out how to generate vm code for an ASTNode and its
 // type signature.
-IRGenerator::IRGenerator(IRInjector* irInjector) {
+IRGenerator::IRGenerator(std::shared_ptr<IRInjector> irInjector) {
     _context = std::make_unique<llvm::LLVMContext>();
     _irStrategyMap = IRStrategyMap();
     _irInjector = irInjector;
@@ -205,133 +205,133 @@ std::shared_ptr<IRNode> IRGenerator::generateFor(std::shared_ptr<ASTNode> node, 
         return this->generateFor(std::dynamic_pointer_cast<ASTStatementNode>(node), scope, irContext);
     } else if (node->is(AST_FUNCTION_RETURN_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getFunctionReturnExpressionIRStrategy()->generate(
-                std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(node), this, scope, irContext);
+                std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(node), shared_from_this(), scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for node " + node->toString());
 }
 
 std::shared_ptr<IRStatementNode> IRGenerator::generateFor(std::shared_ptr<ASTStatementNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (node->is(AST_EXPRESSION_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getArrayAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getArrayAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getObjectAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getObjectAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getTupleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getTupleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getModuleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getModuleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getModuleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getModuleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_IF_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getIfStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTIfStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getIfStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTIfStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_WHILE_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getWhileStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTWhileStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getWhileStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTWhileStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_FOR_IN_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getForInStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTForInStatementNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getForInStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTForInStatementNode>(node),  shared_from_this(), scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for statement " + node->toString());
 }
 
 std::shared_ptr<IRDeclarationNode> IRGenerator::generateFor(std::shared_ptr<ASTDeclarationNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getVariableDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_FUNCTION_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getFunctionDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getFunctionDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_PROCEDURE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getProcedureDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getProcedureDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_ENUM_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getEnumDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getEnumDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_MODULE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getImportSingleModuleDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CLASS_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getClassDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node),  shared_from_this(), scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for declaration " + node->toString());
 }
 
 std::shared_ptr<IRTypeDeclarationNode> IRGenerator::generateFor(std::shared_ptr<ASTTypeDeclarationNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (node->is(AST_INTERFACE_TYPE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getInterfaceTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CUSTOM_TYPE_DECLARATION_NODE)) {
-        return this->_irStrategyMap.getCustomTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getCustomTypeDeclarationIRStrategy()->generate(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node),  shared_from_this(), scope, irContext);
     }
     throw std::logic_error("unable to generate llvm value for type declaration " + node->toString());
 }
 
 std::shared_ptr<IRFunctionParameterListNode> IRGenerator::generateFor(std::shared_ptr<ASTFunctionParameterListNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, llvm::Function* irFunction) {
-    return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node,  this, scope, irContext, irFunction);
+    return this->_irStrategyMap.getFunctionParameterListIRStrategy()->generate(node,  shared_from_this(), scope, irContext, irFunction);
 }
 
 std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTExpressionNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     if (node->is(AST_LITERAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLiteralExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getLiteralExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLiteralExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_ARITHMETIC_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(node), this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(node), shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_BINARY_COMPARATOR_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(node), this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getBinaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(node), shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_CONCAT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTConcatExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getConcatExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTConcatExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_LOGICAL_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLogicalExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getLogicalExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLogicalExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getArrayAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getArrayAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_STRUCT_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTStructExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getStructExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTStructExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_UNARY_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getUnaryExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_THIS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getThisExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTThisExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getThisExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTThisExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_IDENTIFIER_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getIdentifierExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getObjectAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(node), this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getObjectAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(node), shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getTupleAccessInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_FUNCTION_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getFunctionInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node),  this, scope, irContext);
+        return this->_irStrategyMap.getLambdaExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getClassPropertyAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_REF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_MODULE_ACCESS_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node),  this, scope, irContext, irOperation);
+        return this->_irStrategyMap.getModuleAccessExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     }
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
@@ -351,11 +351,11 @@ std::shared_ptr<IRLiteralNode> IRGenerator::generateFor(std::shared_ptr<ASTLiter
         case AST_INT_LITERAL_NODE:
             return _irStrategyMap.getIntLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTIntLiteralNode>(node), irContext);
         case AST_FLOAT_LITERAL_NODE:
-            return _irStrategyMap.getFloatLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTFloatLiteralNode>(node), this, irContext);
+            return _irStrategyMap.getFloatLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTFloatLiteralNode>(node), shared_from_this(), irContext);
         case AST_CHAR_LITERAL_NODE:
-            return _irStrategyMap.getCharLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTCharLiteralNode>(node), this, irContext);
+            return _irStrategyMap.getCharLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTCharLiteralNode>(node), shared_from_this(), irContext);
         case AST_STRING_LITERAL_NODE:
-            return _irStrategyMap.getStringLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTStringLiteralNode>(node), this, irContext);
+            return _irStrategyMap.getStringLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTStringLiteralNode>(node), shared_from_this(), irContext);
         case AST_BOOLEAN_LITERAL_NODE:
             return _irStrategyMap.getBoolLiteralIRStrategy()->generate(std::dynamic_pointer_cast<ASTBooleanLiteralNode>(node), irContext);
         default:
@@ -382,7 +382,7 @@ std::shared_ptr<IRClassInstanceType> IRGenerator::getGenericClassInstanceIRType(
 std::shared_ptr<IRType> IRGenerator::generateInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
-            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generateInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         default:
             return this->generateTypeFor(typeSignature, scope, irContext);
     }
@@ -391,7 +391,7 @@ std::shared_ptr<IRType> IRGenerator::generateInitialTypeFor(std::shared_ptr<Type
 std::shared_ptr<IRType> IRGenerator::generatePostInitialTypeFor(std::shared_ptr<TypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     switch (typeSignature->getTypeSource()) {
         case CLASS_TYPE_SOURCE:
-            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
+            return this->_irStrategyMap.getClassTypeSignatureIRStrategy()->generatePostInitial(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         default:
             return this->generateTypeFor(typeSignature, scope, irContext);
     }
@@ -408,71 +408,71 @@ std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignatu
     }
     switch (typeSignature->getTypeSource()) {
         case VOID_TYPE_SOURCE:
-            return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
+            return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(shared_from_this());
         case ARRAY_TYPE_SOURCE:
-            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ArrayTypeSignature>(typeSignature), this, scope, irContext);
+            return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ArrayTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case CLASS_TYPE_SOURCE:
-            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), this, scope, irContext);
+            return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ClassTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case ENUM_TYPE_SOURCE:
-            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<EnumTypeSignature>(typeSignature), this, scope, irContext);
+            return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<EnumTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case ENUM_ACCESS_TYPE_SOURCE:
             return _irStrategyMap.getEnumAccessTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<EnumAccessTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<EnumAccessTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case FUNCTION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<FunctionTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<FunctionTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case PROCEDURE_TYPE_SOURCE:
             return _irStrategyMap.getProcedureTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<ProcedureTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<ProcedureTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case LAMBDA_EXPRESSION_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaExpressionTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case LAMBDA_TYPE_SOURCE:
             return _irStrategyMap.getLambdaTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<LambdaTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case INTERFACE_TYPE_SOURCE:
             return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<InterfaceTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<InterfaceTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case STRUCT_TYPE_SOURCE:
             return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<StructTypeSignature>(typeSignature),
-                                                                               this, scope, irContext);
+                                                                               shared_from_this(), scope, irContext);
         case TUPLE_TYPE_SOURCE:
             return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<TupleTypeSignature>(typeSignature),
-                                                                              this, scope, irContext);
+                                                                              shared_from_this(), scope, irContext);
         case MODULE_TYPE_SOURCE:
             return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<ModuleTypeSignature>(typeSignature),
-                                                                               this, scope, irContext);
+                                                                               shared_from_this(), scope, irContext);
         case POINTER_TYPE_SOURCE:
             return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<PointerTypeSignature>(typeSignature),
-                                                                                this, scope, irContext);
+                                                                                shared_from_this(), scope, irContext);
         case REF_TYPE_SOURCE:
             return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<RefTypeSignature>(typeSignature),
-                                                                                this, scope, irContext);
+                                                                                shared_from_this(), scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case CLASS_METHOD_TYPE_SOURCE:
             return _irStrategyMap.getClassMethodTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<ClassMethodTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassMethodTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case CLASS_PROPERTY_TYPE_SOURCE:
             return _irStrategyMap.getClassPropertyTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<ClassPropertyTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassPropertyTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case NEW_CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getNewClassInstanceTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case CLASS_INSTANCE_TYPE_SOURCE:
             return _irStrategyMap.getClassInstanceTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<ClassInstanceTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<ClassInstanceTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case LAMBDA_SCOPE_TYPE_SOURCE:
             return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(
-                    std::dynamic_pointer_cast<LambdaScopeTypeSignature>(typeSignature), this, scope, irContext);
+                    std::dynamic_pointer_cast<LambdaScopeTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         case INT_LITERAL_TYPE_SOURCE:
         case FLOAT_LITERAL_TYPE_SOURCE:
         case CHAR_LITERAL_TYPE_SOURCE:
         case STRING_LITERAL_TYPE_SOURCE:
         case BOOL_LITERAL_TYPE_SOURCE:
         case LITERAL_TYPE_SOURCE:
-            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<LiteralTypeSignature>(typeSignature), this, scope, irContext);
+            return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<LiteralTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         default:
             Logger::log("UH OH");
             typeSignature->print();
@@ -481,44 +481,44 @@ std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignatu
 }
 
 std::shared_ptr<IRArrayPointerType> IRGenerator::generateTypeFor(std::shared_ptr<ArrayTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getArrayTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IREnumType> IRGenerator::generateTypeFor(std::shared_ptr<EnumTypeSignature> typeSignature, std::vector<llvm::Constant*> enumValues, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, this, scope, irContext);
+    return _irStrategyMap.getEnumTypeSignatureIRStrategy()->generate(typeSignature, enumValues, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRStructType> IRGenerator::generateTypeFor(std::shared_ptr<InterfaceTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getInterfaceTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRStructRefType> IRGenerator::generateTypeFor(std::shared_ptr<StructTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getStructTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRStructRefType> IRGenerator::generateTypeFor(std::shared_ptr<TupleTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getTupleTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRStructType> IRGenerator::generateTypeFor(std::shared_ptr<LambdaScopeTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getLambdaScopeTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRModuleType> IRGenerator::generateTypeFor(std::shared_ptr<ModuleTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getModuleTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRClassType> IRGenerator::generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getClassTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 
 std::shared_ptr<IRPointerType> IRGenerator::generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 std::shared_ptr<IRRefType> IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, this, scope, irContext);
+    return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 llvm::Type* IRGenerator::getVoidType() {
@@ -526,7 +526,7 @@ llvm::Type* IRGenerator::getVoidType() {
 }
 
 std::shared_ptr<IRType> IRGenerator::generateVoidType() {
-    return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(this);
+    return _irStrategyMap.getVoidTypeSignatureIRStrategy()->generate(shared_from_this());
 }
 
 std::shared_ptr<IRPointerType> IRGenerator::generateIRInvocableCleanupType() {
@@ -753,15 +753,15 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
 
 std::shared_ptr<IRTypeValueInstructionNode> IRGenerator::generateIRTypeValueFor(std::shared_ptr<IRType> irType, std::shared_ptr<IRContext> irContext) {
     if (irType->isRefType()) {
-        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRRefType>(irType), this, irContext);
+        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRRefType>(irType), shared_from_this(), irContext);
     } else if (irType->isStructType()) {
-        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructType>(irType), this, irContext);
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructType>(irType), shared_from_this(), irContext);
     } else if (irType->isStructRefType()) {
-        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructRefType>(irType), this, irContext);
+        return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructRefType>(irType), shared_from_this(), irContext);
     } else if (irType->isArrayPointerType()) {
-        return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRArrayPointerType>(irType), this, irContext);
+        return this->_irStrategyMap.getArrayTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRArrayPointerType>(irType), shared_from_this(), irContext);
     } else if (irType->isPointerType()) {
-        return this->_irStrategyMap.getPointerTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRPointerType>(irType), this);
+        return this->_irStrategyMap.getPointerTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRPointerType>(irType), shared_from_this());
     }
     throw std::logic_error("unable to generate type value for ir type");
 }
@@ -797,11 +797,11 @@ llvm::LoadInst* IRGenerator::generateLoadInstruction(llvm::Value* pointer, std::
 }
 
 std::shared_ptr<IRParameterListType> IRGenerator::generateParameterList(std::shared_ptr<ParameterListTypeSignature> parameterList, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::optional<std::shared_ptr<ParameterListItemTypeSignature>> scopeParameter) {
-    return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, this, scope, irContext, scopeParameter);
+    return _irStrategyMap.getParameterListTypeSignatureIRStrategy()->generate(parameterList, shared_from_this(), scope, irContext, scopeParameter);
 }
 
 std::shared_ptr<IRParameterType> IRGenerator::generateParameterType(std::shared_ptr<ParameterListItemTypeSignature> parameter, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, this, scope, irContext);
+    return _irStrategyMap.getParameterTypeSignatureIRStrategy()->generate(parameter, shared_from_this(), scope, irContext);
 }
 
 std::vector<std::shared_ptr<IRType>> IRGenerator::generateIRTypes(std::vector<std::shared_ptr<TypeSignature>>* parameters, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
@@ -864,7 +864,7 @@ llvm::ConstantInt* IRGenerator::generateInt64Constant(unsigned long integer) {
 }
 
 llvm::Constant* IRGenerator::generateRawString(std::string rawString) {
-    return this->_irStrategyMap.getStringLiteralIRStrategy()->generateIRString(rawString, this, &_context);
+    return this->_irStrategyMap.getStringLiteralIRStrategy()->generateIRString(rawString, shared_from_this(), &_context);
 }
 
 llvm::Constant* IRGenerator::getOrInsertGlobalVariableString(std::string id, std::string rawString, std::shared_ptr<IRContext> irContext) {
@@ -1311,17 +1311,17 @@ std::shared_ptr<IRFunctionNode> IRGenerator::generateMainFunction(std::string fu
 }
 
 void IRGenerator::augmentUtilInternalModule(std::shared_ptr<IRModuleNode> coreIRModule) {
-    IRUtilInternalModule::augment(this, &_context, coreIRModule);
+    IRUtilInternalModule::augment(shared_from_this(), &_context, coreIRModule);
 }
 
 void IRGenerator::augmentDebugInternalModule(std::shared_ptr<IRModuleNode> coreIRModule) {
-    IRDebugInternalModule::augment(this, &_context, coreIRModule);
+    IRDebugInternalModule::augment(shared_from_this(), &_context, coreIRModule);
 }
 
 std::shared_ptr<IRModuleNode> IRGenerator::generateCoreModule() {
-    return IRCoreInternalModule::generate(this, &_context);
+    return IRCoreInternalModule::generate(shared_from_this(), &_context);
 }
 
-IRInjector* IRGenerator::getInjector() {
+std::shared_ptr<IRInjector> IRGenerator::getInjector() {
     return _irInjector;
 }

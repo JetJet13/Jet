@@ -5,7 +5,7 @@
 #include "class-instance-type-signature-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRClassInstanceType> ClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<ClassInstanceTypeSignature> classInstanceTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
+std::shared_ptr<IRClassInstanceType> ClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<ClassInstanceTypeSignature> classInstanceTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (classInstanceTypeSignature->isGeneric()) {
         return irGenerator->getGenericClassInstanceIRType();
     }

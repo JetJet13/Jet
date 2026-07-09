@@ -75,7 +75,7 @@
 #include "../../ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h"
 #include "../../ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h"
 
-std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
+std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
     new llvm::GlobalVariable(
             **irModule->getModule(),

@@ -12,7 +12,7 @@
 class FreeClassPropertyIRFunction {
 public:
     static std::string getFreeClassPropertyIRFunctionName();
-    static void generateFreeClassPropertyFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateFreeClassPropertyFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_FREE_CLASS_PROPERTY_IR_FUNCTION_H

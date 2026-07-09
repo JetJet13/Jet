@@ -15,7 +15,7 @@
 class IncrementRefCountIfNecessaryIRFunction {
 public:
     static std::string getIncrementRefCountIfNecessaryIRFunctionName();
-    static void generateIncrementRefCountIfNecessaryFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateIncrementRefCountIfNecessaryFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 #endif //JETLANG_INCREMENT_REF_COUNT_IF_NECESSARY_IR_FUNCTION_H

@@ -56,7 +56,7 @@ class TypeValueIRInjectorStrategy;
 class BlockIRInjectorStrategy;
 class ClassIRInjectorStrategy;
 
-class IRInjector {
+class IRInjector : public std::enable_shared_from_this<IRInjector> {
 private:
     std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>> _injectorMap;
     std::shared_ptr<StringIRInjectorStrategy> _stringIRInjector;

@@ -84,400 +84,400 @@
 #include "./type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
-    _intLiteralIRStrategy = std::make_unique<IntLiteralIRStrategy>();
-    _floatLiteralIRStrategy = std::make_unique<FloatLiteralIRStrategy>();
-    _charLiteralIRStrategy = std::make_unique<CharLiteralIRStrategy>();
-    _stringLiteralIRStrategy = std::make_unique<StringLiteralIRStrategy>();
-    _boolLiteralIRStrategy = std::make_unique<BoolLiteralIRStrategy>();
-    _literalExpressionIRStrategy = std::make_unique<LiteralExpressionIRStrategy>();
-    _binaryExpressionIRStrategy = std::make_unique<BinaryExpressionIRStrategy>();
-    _concatExpressionIRStrategy = std::make_unique<ConcatExpressionIRStrategy>();
-    _logicalExpressionIRStrategy = std::make_unique<LogicalExpressionIRStrategy>();
-    _arrayExpressionIRStrategy = std::make_unique<ArrayExpressionIRStrategy>();
-    _structExpressionIRStrategy = std::make_unique<StructExpressionIRStrategy>();
-    _arrayAccessExpressionIRStrategy = std::make_unique<ArrayAccessExpressionIRStrategy>();
-    _arrayAccessInvocationExpressionIRStrategy = std::make_unique<ArrayAccessInvocationExpressionIRStrategy>();
-    _unaryExpressionIRStrategy = std::make_unique<UnaryExpressionIRStrategy>();
-    _tupleExpressionIRStrategy = std::make_unique<TupleExpressionIRStrategy>();
-    _thisExpressionIRStrategy = std::make_unique<ThisExpressionIRStrategy>();
-    _identifierExpressionIRStrategy = std::make_unique<IdentifierExpressionIRStrategy>();
-    _variableDeclarationIRStrategy = std::make_unique<VariableDeclarationIRStrategy>();
-    _functionDeclarationIRStrategy = std::make_unique<FunctionDeclarationIRStrategy>();
-    _functionParameterListIRStrategy = std::make_unique<FunctionParameterListIRStrategy>();
-    _functionReturnExpressionIRStrategy = std::make_unique<FunctionReturnExpressionIRStrategy>();
-    _procedureDeclarationIRStrategy = std::make_unique<ProcedureDeclarationIRStrategy>();
-    _enumDeclarationIRStrategy = std::make_unique<EnumDeclarationIRStrategy>();
-    _interfaceTypeDeclarationIRStrategy = std::make_unique<InterfaceTypeDeclarationIRStrategy>();
-    _customTypeDeclarationIRStrategy = std::make_unique<CustomTypeDeclarationIRStrategy>();
-    _moduleDeclarationIRStrategy = std::make_unique<ModuleDeclarationIRStrategy>();
-    _importSingleModuleDeclarationIRStrategy = std::make_unique<ImportSingleModuleDeclarationIRStrategy>();
-    _objectAccessExpressionIRStrategy = std::make_unique<ObjectAccessExpressionIRStrategy>();
-    _objectAccessInvocationExpressionIRStrategy = std::make_unique<ObjectAccessInvocationExpressionIRStrategy>();
-    _tupleAccessExpressionIRStrategy = std::make_unique<TupleAccessExpressionIRStrategy>();
-    _tupleAccessInvocationExpressionIRStrategy = std::make_unique<TupleAccessInvocationExpressionIRStrategy>();
-    _functionInvocationExpressionIRStrategy = std::make_unique<FunctionInvocationExpressionIRStrategy>();
-    _lambdaExpressionIRStrategy = std::make_unique<LambdaExpressionIRStrategy>();
-    _moduleAccessExpressionIRStrategy = std::make_unique<ModuleAccessExpressionIRStrategy>();
-    _expressionStatementIRStrategy = std::make_unique<ExpressionStatementIRStrategy>();
-    _classDeclarationIRStrategy = std::make_unique<ClassDeclarationIRStrategy>();
-    _classPropertyAccessExpressionIRStrategy = std::make_unique<ClassPropertyAccessExpressionIRStrategy>();
-    _classMethodInvocationExpressionIRStrategy = std::make_unique<ClassMethodInvocationExpressionIRStrategy>();
-    _newClassInstanceExpressionIRStrategy = std::make_unique<NewClassInstanceExpressionIRStrategy>();
-    _classPropertyAssignmentStatementIRStrategy = std::make_unique<ClassPropertyAssignmentStatementIRStrategy>();
-    _variableAssignmentStatementIRStrategy = std::make_unique<VariableAssignmentStatementIRStrategy>();
-    _arrayAccessAssignmentStatementIRStrategy = std::make_unique<ArrayAccessAssignmentStatementIRStrategy>();
-    _arrayAccessRefAssignmentStatementIRStrategy = std::make_unique<ArrayAccessRefAssignmentStatementIRStrategy>();
-    _objectAccessAssignmentStatementIRStrategy = std::make_unique<ObjectAccessAssignmentStatementIRStrategy>();
-    _objectAccessRefAssignmentStatementIRStrategy = std::make_unique<ObjectAccessRefAssignmentStatementIRStrategy>();
-    _tupleAccessAssignmentStatementIRStrategy = std::make_unique<TupleAccessAssignmentStatementIRStrategy>();
-    _tupleAccessRefAssignmentStatementIRStrategy = std::make_unique<TupleAccessRefAssignmentStatementIRStrategy>();
-    _moduleAccessAssignmentStatementIRStrategy = std::make_unique<ModuleAccessAssignmentStatementIRStrategy>();
-    _moduleAccessRefAssignmentStatementIRStrategy = std::make_unique<ModuleAccessRefAssignmentStatementIRStrategy>();
-    _classPropertyRefValueAssignmentStatementIRStrategy = std::make_unique<ClassPropertyRefValueAssignmentStatementIRStrategy>();
-    _refValueAssignmentStatementIRStrategy = std::make_unique<RefValueAssignmentStatementIRStrategy>();
-    _ifStatementIRStrategy = std::make_unique<IfStatementIRStrategy>();
-    _whileStatementIRStrategy = std::make_unique<WhileStatementIRStrategy>();
-    _forInStatementIRStrategy = std::make_unique<ForInStatementIRStrategy>();
-    _refExpressionIRStrategy = std::make_unique<RefExpressionIRStrategy>();
-    _drefExpressionIRStrategy = std::make_unique<DrefExpressionIRStrategy>();
+    _intLiteralIRStrategy = std::make_shared<IntLiteralIRStrategy>();
+    _floatLiteralIRStrategy = std::make_shared<FloatLiteralIRStrategy>();
+    _charLiteralIRStrategy = std::make_shared<CharLiteralIRStrategy>();
+    _stringLiteralIRStrategy = std::make_shared<StringLiteralIRStrategy>();
+    _boolLiteralIRStrategy = std::make_shared<BoolLiteralIRStrategy>();
+    _literalExpressionIRStrategy = std::make_shared<LiteralExpressionIRStrategy>();
+    _binaryExpressionIRStrategy = std::make_shared<BinaryExpressionIRStrategy>();
+    _concatExpressionIRStrategy = std::make_shared<ConcatExpressionIRStrategy>();
+    _logicalExpressionIRStrategy = std::make_shared<LogicalExpressionIRStrategy>();
+    _arrayExpressionIRStrategy = std::make_shared<ArrayExpressionIRStrategy>();
+    _structExpressionIRStrategy = std::make_shared<StructExpressionIRStrategy>();
+    _arrayAccessExpressionIRStrategy = std::make_shared<ArrayAccessExpressionIRStrategy>();
+    _arrayAccessInvocationExpressionIRStrategy = std::make_shared<ArrayAccessInvocationExpressionIRStrategy>();
+    _unaryExpressionIRStrategy = std::make_shared<UnaryExpressionIRStrategy>();
+    _tupleExpressionIRStrategy = std::make_shared<TupleExpressionIRStrategy>();
+    _thisExpressionIRStrategy = std::make_shared<ThisExpressionIRStrategy>();
+    _identifierExpressionIRStrategy = std::make_shared<IdentifierExpressionIRStrategy>();
+    _variableDeclarationIRStrategy = std::make_shared<VariableDeclarationIRStrategy>();
+    _functionDeclarationIRStrategy = std::make_shared<FunctionDeclarationIRStrategy>();
+    _functionParameterListIRStrategy = std::make_shared<FunctionParameterListIRStrategy>();
+    _functionReturnExpressionIRStrategy = std::make_shared<FunctionReturnExpressionIRStrategy>();
+    _procedureDeclarationIRStrategy = std::make_shared<ProcedureDeclarationIRStrategy>();
+    _enumDeclarationIRStrategy = std::make_shared<EnumDeclarationIRStrategy>();
+    _interfaceTypeDeclarationIRStrategy = std::make_shared<InterfaceTypeDeclarationIRStrategy>();
+    _customTypeDeclarationIRStrategy = std::make_shared<CustomTypeDeclarationIRStrategy>();
+    _moduleDeclarationIRStrategy = std::make_shared<ModuleDeclarationIRStrategy>();
+    _importSingleModuleDeclarationIRStrategy = std::make_shared<ImportSingleModuleDeclarationIRStrategy>();
+    _objectAccessExpressionIRStrategy = std::make_shared<ObjectAccessExpressionIRStrategy>();
+    _objectAccessInvocationExpressionIRStrategy = std::make_shared<ObjectAccessInvocationExpressionIRStrategy>();
+    _tupleAccessExpressionIRStrategy = std::make_shared<TupleAccessExpressionIRStrategy>();
+    _tupleAccessInvocationExpressionIRStrategy = std::make_shared<TupleAccessInvocationExpressionIRStrategy>();
+    _functionInvocationExpressionIRStrategy = std::make_shared<FunctionInvocationExpressionIRStrategy>();
+    _lambdaExpressionIRStrategy = std::make_shared<LambdaExpressionIRStrategy>();
+    _moduleAccessExpressionIRStrategy = std::make_shared<ModuleAccessExpressionIRStrategy>();
+    _expressionStatementIRStrategy = std::make_shared<ExpressionStatementIRStrategy>();
+    _classDeclarationIRStrategy = std::make_shared<ClassDeclarationIRStrategy>();
+    _classPropertyAccessExpressionIRStrategy = std::make_shared<ClassPropertyAccessExpressionIRStrategy>();
+    _classMethodInvocationExpressionIRStrategy = std::make_shared<ClassMethodInvocationExpressionIRStrategy>();
+    _newClassInstanceExpressionIRStrategy = std::make_shared<NewClassInstanceExpressionIRStrategy>();
+    _classPropertyAssignmentStatementIRStrategy = std::make_shared<ClassPropertyAssignmentStatementIRStrategy>();
+    _variableAssignmentStatementIRStrategy = std::make_shared<VariableAssignmentStatementIRStrategy>();
+    _arrayAccessAssignmentStatementIRStrategy = std::make_shared<ArrayAccessAssignmentStatementIRStrategy>();
+    _arrayAccessRefAssignmentStatementIRStrategy = std::make_shared<ArrayAccessRefAssignmentStatementIRStrategy>();
+    _objectAccessAssignmentStatementIRStrategy = std::make_shared<ObjectAccessAssignmentStatementIRStrategy>();
+    _objectAccessRefAssignmentStatementIRStrategy = std::make_shared<ObjectAccessRefAssignmentStatementIRStrategy>();
+    _tupleAccessAssignmentStatementIRStrategy = std::make_shared<TupleAccessAssignmentStatementIRStrategy>();
+    _tupleAccessRefAssignmentStatementIRStrategy = std::make_shared<TupleAccessRefAssignmentStatementIRStrategy>();
+    _moduleAccessAssignmentStatementIRStrategy = std::make_shared<ModuleAccessAssignmentStatementIRStrategy>();
+    _moduleAccessRefAssignmentStatementIRStrategy = std::make_shared<ModuleAccessRefAssignmentStatementIRStrategy>();
+    _classPropertyRefValueAssignmentStatementIRStrategy = std::make_shared<ClassPropertyRefValueAssignmentStatementIRStrategy>();
+    _refValueAssignmentStatementIRStrategy = std::make_shared<RefValueAssignmentStatementIRStrategy>();
+    _ifStatementIRStrategy = std::make_shared<IfStatementIRStrategy>();
+    _whileStatementIRStrategy = std::make_shared<WhileStatementIRStrategy>();
+    _forInStatementIRStrategy = std::make_shared<ForInStatementIRStrategy>();
+    _refExpressionIRStrategy = std::make_shared<RefExpressionIRStrategy>();
+    _drefExpressionIRStrategy = std::make_shared<DrefExpressionIRStrategy>();
 
-    _arrayTypeSignatureIRStrategy = std::make_unique<ArrayTypeSignatureIRStrategy>();
-    _literalTypeSignatureIRStrategy = std::make_unique<LiteralTypeSignatureIRStrategy>();
-    _classTypeSignatureIRStrategy = std::make_unique<ClassTypeSignatureIRStrategy>();
-    _enumTypeSignatureIRStrategy = std::make_unique<EnumTypeSignatureIRStrategy>();
-    _interfaceTypeSignatureIRStrategy = std::make_unique<InterfaceTypeSignatureIRStrategy>();
-    _functionTypeSignatureIRStrategy = std::make_unique<FunctionTypeSignatureIRStrategy>();
-    _lambdaTypeSignatureIRStrategy = std::make_unique<LambdaTypeSignatureIRStrategy>();
-    _procedureTypeSignatureIRStrategy = std::make_unique<ProcedureTypeSignatureIRStrategy>();
-    _parameterListTypeSignatureIRStrategy = std::make_unique<ParameterListTypeSignatureIRStrategy>();
-    _parameterTypeSignatureIRStrategy = std::make_unique<ParameterTypeSignatureIRStrategy>();
-    _structTypeSignatureIRStrategy = std::make_unique<StructTypeSignatureIRStrategy>();
-    _tupleTypeSignatureIRStrategy = std::make_unique<TupleTypeSignatureIRStrategy>();
-    _enumAccessTypeSignatureIRStrategy = std::make_unique<EnumAccessTypeSignatureIRStrategy>();
-    _moduleTypeSignatureStrategy = std::make_unique<ModuleTypeSignatureIRStrategy>();
-    _pointerTypeSignatureStrategy = std::make_unique<PointerTypeSignatureIRStrategy>();
-    _refTypeSignatureStrategy = std::make_unique<RefTypeSignatureIRStrategy>();
-    _functionInvocationTypeSignatureIRStrategy = std::make_unique<FunctionInvocationTypeSignatureIRStrategy>();
-    _classMethodTypeSignatureIRStrategy = std::make_unique<ClassMethodTypeSignatureIRStrategy>();
-    _classPropertyTypeSignatureIRStrategy = std::make_unique<ClassPropertyTypeSignatureIRStrategy>();
-    _newClassInstanceTypeSignatureIRStrategy = std::make_unique<NewClassInstanceTypeSignatureIRStrategy>();
-    _classInstanceTypeSignatureIRStrategy = std::make_unique<ClassInstanceTypeSignatureIRStrategy>();
-    _lambdaScopeTypeSignatureIRStrategy = std::make_unique<LambdaScopeTypeSignatureIRStrategy>();
-    _voidTypeSignatureIRStrategy = std::make_unique<VoidTypeSignatureIRStrategy>();
+    _arrayTypeSignatureIRStrategy = std::make_shared<ArrayTypeSignatureIRStrategy>();
+    _literalTypeSignatureIRStrategy = std::make_shared<LiteralTypeSignatureIRStrategy>();
+    _classTypeSignatureIRStrategy = std::make_shared<ClassTypeSignatureIRStrategy>();
+    _enumTypeSignatureIRStrategy = std::make_shared<EnumTypeSignatureIRStrategy>();
+    _interfaceTypeSignatureIRStrategy = std::make_shared<InterfaceTypeSignatureIRStrategy>();
+    _functionTypeSignatureIRStrategy = std::make_shared<FunctionTypeSignatureIRStrategy>();
+    _lambdaTypeSignatureIRStrategy = std::make_shared<LambdaTypeSignatureIRStrategy>();
+    _procedureTypeSignatureIRStrategy = std::make_shared<ProcedureTypeSignatureIRStrategy>();
+    _parameterListTypeSignatureIRStrategy = std::make_shared<ParameterListTypeSignatureIRStrategy>();
+    _parameterTypeSignatureIRStrategy = std::make_shared<ParameterTypeSignatureIRStrategy>();
+    _structTypeSignatureIRStrategy = std::make_shared<StructTypeSignatureIRStrategy>();
+    _tupleTypeSignatureIRStrategy = std::make_shared<TupleTypeSignatureIRStrategy>();
+    _enumAccessTypeSignatureIRStrategy = std::make_shared<EnumAccessTypeSignatureIRStrategy>();
+    _moduleTypeSignatureStrategy = std::make_shared<ModuleTypeSignatureIRStrategy>();
+    _pointerTypeSignatureStrategy = std::make_shared<PointerTypeSignatureIRStrategy>();
+    _refTypeSignatureStrategy = std::make_shared<RefTypeSignatureIRStrategy>();
+    _functionInvocationTypeSignatureIRStrategy = std::make_shared<FunctionInvocationTypeSignatureIRStrategy>();
+    _classMethodTypeSignatureIRStrategy = std::make_shared<ClassMethodTypeSignatureIRStrategy>();
+    _classPropertyTypeSignatureIRStrategy = std::make_shared<ClassPropertyTypeSignatureIRStrategy>();
+    _newClassInstanceTypeSignatureIRStrategy = std::make_shared<NewClassInstanceTypeSignatureIRStrategy>();
+    _classInstanceTypeSignatureIRStrategy = std::make_shared<ClassInstanceTypeSignatureIRStrategy>();
+    _lambdaScopeTypeSignatureIRStrategy = std::make_shared<LambdaScopeTypeSignatureIRStrategy>();
+    _voidTypeSignatureIRStrategy = std::make_shared<VoidTypeSignatureIRStrategy>();
 }
 
-IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
-    return _intLiteralIRStrategy.get();
+std::shared_ptr<IntLiteralIRStrategy> IRStrategyMap::getIntLiteralIRStrategy() {
+    return _intLiteralIRStrategy;
 }
 
-FloatLiteralIRStrategy* IRStrategyMap::getFloatLiteralIRStrategy() {
-    return _floatLiteralIRStrategy.get();
+std::shared_ptr<FloatLiteralIRStrategy> IRStrategyMap::getFloatLiteralIRStrategy() {
+    return _floatLiteralIRStrategy;
 }
 
-CharLiteralIRStrategy* IRStrategyMap::getCharLiteralIRStrategy() {
-    return _charLiteralIRStrategy.get();
+std::shared_ptr<CharLiteralIRStrategy> IRStrategyMap::getCharLiteralIRStrategy() {
+    return _charLiteralIRStrategy;
 }
 
-StringLiteralIRStrategy* IRStrategyMap::getStringLiteralIRStrategy() {
-    return _stringLiteralIRStrategy.get();
+std::shared_ptr<StringLiteralIRStrategy> IRStrategyMap::getStringLiteralIRStrategy() {
+    return _stringLiteralIRStrategy;
 }
 
-BoolLiteralIRStrategy* IRStrategyMap::getBoolLiteralIRStrategy() {
-    return _boolLiteralIRStrategy.get();
+std::shared_ptr<BoolLiteralIRStrategy> IRStrategyMap::getBoolLiteralIRStrategy() {
+    return _boolLiteralIRStrategy;
 }
 
-LiteralExpressionIRStrategy* IRStrategyMap::getLiteralExpressionIRStrategy() {
-    return _literalExpressionIRStrategy.get();
+std::shared_ptr<LiteralExpressionIRStrategy> IRStrategyMap::getLiteralExpressionIRStrategy() {
+    return _literalExpressionIRStrategy;
 }
 
-BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
-    return _binaryExpressionIRStrategy.get();
+std::shared_ptr<BinaryExpressionIRStrategy> IRStrategyMap::getBinaryExpressionIRStrategy() {
+    return _binaryExpressionIRStrategy;
 }
 
-ConcatExpressionIRStrategy* IRStrategyMap::getConcatExpressionIRStrategy() {
-    return _concatExpressionIRStrategy.get();
+std::shared_ptr<ConcatExpressionIRStrategy> IRStrategyMap::getConcatExpressionIRStrategy() {
+    return _concatExpressionIRStrategy;
 }
 
-LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
-    return _logicalExpressionIRStrategy.get();
+std::shared_ptr<LogicalExpressionIRStrategy> IRStrategyMap::getLogicalExpressionIRStrategy() {
+    return _logicalExpressionIRStrategy;
 }
 
-ArrayExpressionIRStrategy* IRStrategyMap::getArrayExpressionIRStrategy() {
-    return _arrayExpressionIRStrategy.get();
+std::shared_ptr<ArrayExpressionIRStrategy> IRStrategyMap::getArrayExpressionIRStrategy() {
+    return _arrayExpressionIRStrategy;
 }
 
-ArrayAccessExpressionIRStrategy* IRStrategyMap::getArrayAccessExpressionIRStrategy() {
-    return _arrayAccessExpressionIRStrategy.get();
+std::shared_ptr<ArrayAccessExpressionIRStrategy> IRStrategyMap::getArrayAccessExpressionIRStrategy() {
+    return _arrayAccessExpressionIRStrategy;
 }
 
-ArrayAccessInvocationExpressionIRStrategy* IRStrategyMap::getArrayAccessInvocationExpressionIRStrategy() {
-    return _arrayAccessInvocationExpressionIRStrategy.get();
+std::shared_ptr<ArrayAccessInvocationExpressionIRStrategy> IRStrategyMap::getArrayAccessInvocationExpressionIRStrategy() {
+    return _arrayAccessInvocationExpressionIRStrategy;
 }
 
-StructExpressionIRStrategy* IRStrategyMap::getStructExpressionIRStrategy() {
-    return _structExpressionIRStrategy.get();
+std::shared_ptr<StructExpressionIRStrategy> IRStrategyMap::getStructExpressionIRStrategy() {
+    return _structExpressionIRStrategy;
 }
 
-UnaryExpressionIRStrategy* IRStrategyMap::getUnaryExpressionIRStrategy() {
-    return _unaryExpressionIRStrategy.get();
+std::shared_ptr<UnaryExpressionIRStrategy> IRStrategyMap::getUnaryExpressionIRStrategy() {
+    return _unaryExpressionIRStrategy;
 }
 
-TupleExpressionIRStrategy* IRStrategyMap::getTupleExpressionIRStrategy() {
-    return _tupleExpressionIRStrategy.get();
+std::shared_ptr<TupleExpressionIRStrategy> IRStrategyMap::getTupleExpressionIRStrategy() {
+    return _tupleExpressionIRStrategy;
 }
 
-ThisExpressionIRStrategy* IRStrategyMap::getThisExpressionIRStrategy() {
-    return _thisExpressionIRStrategy.get();
+std::shared_ptr<ThisExpressionIRStrategy> IRStrategyMap::getThisExpressionIRStrategy() {
+    return _thisExpressionIRStrategy;
 }
 
-IdentifierExpressionIRStrategy* IRStrategyMap::getIdentifierExpressionIRStrategy() {
-    return _identifierExpressionIRStrategy.get();
+std::shared_ptr<IdentifierExpressionIRStrategy> IRStrategyMap::getIdentifierExpressionIRStrategy() {
+    return _identifierExpressionIRStrategy;
 }
 
-VariableDeclarationIRStrategy* IRStrategyMap::getVariableDeclarationIRStrategy() {
-    return _variableDeclarationIRStrategy.get();
+std::shared_ptr<VariableDeclarationIRStrategy> IRStrategyMap::getVariableDeclarationIRStrategy() {
+    return _variableDeclarationIRStrategy;
 }
 
-FunctionDeclarationIRStrategy* IRStrategyMap::getFunctionDeclarationIRStrategy() {
-    return _functionDeclarationIRStrategy.get();
+std::shared_ptr<FunctionDeclarationIRStrategy> IRStrategyMap::getFunctionDeclarationIRStrategy() {
+    return _functionDeclarationIRStrategy;
 }
 
-FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrategy() {
-    return _functionParameterListIRStrategy.get();
+std::shared_ptr<FunctionParameterListIRStrategy> IRStrategyMap::getFunctionParameterListIRStrategy() {
+    return _functionParameterListIRStrategy;
 }
 
-FunctionReturnExpressionIRStrategy* IRStrategyMap::getFunctionReturnExpressionIRStrategy() {
-    return _functionReturnExpressionIRStrategy.get();
+std::shared_ptr<FunctionReturnExpressionIRStrategy> IRStrategyMap::getFunctionReturnExpressionIRStrategy() {
+    return _functionReturnExpressionIRStrategy;
 }
 
-ProcedureDeclarationIRStrategy* IRStrategyMap::getProcedureDeclarationIRStrategy() {
-    return _procedureDeclarationIRStrategy.get();
+std::shared_ptr<ProcedureDeclarationIRStrategy> IRStrategyMap::getProcedureDeclarationIRStrategy() {
+    return _procedureDeclarationIRStrategy;
 }
 
-EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
-    return _enumDeclarationIRStrategy.get();
+std::shared_ptr<EnumDeclarationIRStrategy> IRStrategyMap::getEnumDeclarationIRStrategy() {
+    return _enumDeclarationIRStrategy;
 }
 
-InterfaceTypeDeclarationIRStrategy* IRStrategyMap::getInterfaceTypeDeclarationIRStrategy() {
-    return _interfaceTypeDeclarationIRStrategy.get();
+std::shared_ptr<InterfaceTypeDeclarationIRStrategy> IRStrategyMap::getInterfaceTypeDeclarationIRStrategy() {
+    return _interfaceTypeDeclarationIRStrategy;
 }
 
-CustomTypeDeclarationIRStrategy* IRStrategyMap::getCustomTypeDeclarationIRStrategy() {
-    return _customTypeDeclarationIRStrategy.get();
+std::shared_ptr<CustomTypeDeclarationIRStrategy> IRStrategyMap::getCustomTypeDeclarationIRStrategy() {
+    return _customTypeDeclarationIRStrategy;
 }
 
-ModuleDeclarationIRStrategy* IRStrategyMap::getModuleDeclarationIRStrategy() {
-    return _moduleDeclarationIRStrategy.get();
+std::shared_ptr<ModuleDeclarationIRStrategy> IRStrategyMap::getModuleDeclarationIRStrategy() {
+    return _moduleDeclarationIRStrategy;
 }
 
-ImportSingleModuleDeclarationIRStrategy* IRStrategyMap::getImportSingleModuleDeclarationIRStrategy() {
-    return _importSingleModuleDeclarationIRStrategy.get();
+std::shared_ptr<ImportSingleModuleDeclarationIRStrategy> IRStrategyMap::getImportSingleModuleDeclarationIRStrategy() {
+    return _importSingleModuleDeclarationIRStrategy;
 }
 
-ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStrategy() {
-    return _objectAccessExpressionIRStrategy.get();
+std::shared_ptr<ObjectAccessExpressionIRStrategy> IRStrategyMap::getObjectAccessExpressionIRStrategy() {
+    return _objectAccessExpressionIRStrategy;
 }
 
-ObjectAccessInvocationExpressionIRStrategy* IRStrategyMap::getObjectAccessInvocationExpressionIRStrategy() {
-    return _objectAccessInvocationExpressionIRStrategy.get();
+std::shared_ptr<ObjectAccessInvocationExpressionIRStrategy> IRStrategyMap::getObjectAccessInvocationExpressionIRStrategy() {
+    return _objectAccessInvocationExpressionIRStrategy;
 }
 
-TupleAccessExpressionIRStrategy* IRStrategyMap::getTupleAccessExpressionIRStrategy() {
-    return _tupleAccessExpressionIRStrategy.get();
+std::shared_ptr<TupleAccessExpressionIRStrategy> IRStrategyMap::getTupleAccessExpressionIRStrategy() {
+    return _tupleAccessExpressionIRStrategy;
 }
 
-TupleAccessInvocationExpressionIRStrategy* IRStrategyMap::getTupleAccessInvocationExpressionIRStrategy() {
-    return _tupleAccessInvocationExpressionIRStrategy.get();
+std::shared_ptr<TupleAccessInvocationExpressionIRStrategy> IRStrategyMap::getTupleAccessInvocationExpressionIRStrategy() {
+    return _tupleAccessInvocationExpressionIRStrategy;
 }
 
-FunctionInvocationExpressionIRStrategy* IRStrategyMap::getFunctionInvocationExpressionIRStrategy() {
-    return _functionInvocationExpressionIRStrategy.get();
+std::shared_ptr<FunctionInvocationExpressionIRStrategy> IRStrategyMap::getFunctionInvocationExpressionIRStrategy() {
+    return _functionInvocationExpressionIRStrategy;
 }
 
-LambdaExpressionIRStrategy* IRStrategyMap::getLambdaExpressionIRStrategy() {
-    return _lambdaExpressionIRStrategy.get();
+std::shared_ptr<LambdaExpressionIRStrategy> IRStrategyMap::getLambdaExpressionIRStrategy() {
+    return _lambdaExpressionIRStrategy;
 }
 
-ModuleAccessExpressionIRStrategy* IRStrategyMap::getModuleAccessExpressionIRStrategy() {
-    return _moduleAccessExpressionIRStrategy.get();
+std::shared_ptr<ModuleAccessExpressionIRStrategy> IRStrategyMap::getModuleAccessExpressionIRStrategy() {
+    return _moduleAccessExpressionIRStrategy;
 }
 
-ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy() {
-    return _expressionStatementIRStrategy.get();
+std::shared_ptr<ExpressionStatementIRStrategy> IRStrategyMap::getExpressionStatementIRStrategy() {
+    return _expressionStatementIRStrategy;
 }
 
-ClassDeclarationIRStrategy* IRStrategyMap::getClassDeclarationIRStrategy() {
-    return _classDeclarationIRStrategy.get();
+std::shared_ptr<ClassDeclarationIRStrategy> IRStrategyMap::getClassDeclarationIRStrategy() {
+    return _classDeclarationIRStrategy;
 }
 
-ClassPropertyAccessExpressionIRStrategy* IRStrategyMap::getClassPropertyAccessExpressionIRStrategy() {
-    return _classPropertyAccessExpressionIRStrategy.get();
+std::shared_ptr<ClassPropertyAccessExpressionIRStrategy> IRStrategyMap::getClassPropertyAccessExpressionIRStrategy() {
+    return _classPropertyAccessExpressionIRStrategy;
 }
 
-ClassMethodInvocationExpressionIRStrategy* IRStrategyMap::getClassMethodInvocationExpressionIRStrategy() {
-    return _classMethodInvocationExpressionIRStrategy.get();
+std::shared_ptr<ClassMethodInvocationExpressionIRStrategy> IRStrategyMap::getClassMethodInvocationExpressionIRStrategy() {
+    return _classMethodInvocationExpressionIRStrategy;
 }
 
-NewClassInstanceExpressionIRStrategy* IRStrategyMap::getNewClassInstanceExpressionIRStrategy() {
-    return _newClassInstanceExpressionIRStrategy.get();
+std::shared_ptr<NewClassInstanceExpressionIRStrategy> IRStrategyMap::getNewClassInstanceExpressionIRStrategy() {
+    return _newClassInstanceExpressionIRStrategy;
 }
 
-ClassPropertyAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyAssignmentStatementIRStrategy() {
-    return _classPropertyAssignmentStatementIRStrategy.get();
+std::shared_ptr<ClassPropertyAssignmentStatementIRStrategy> IRStrategyMap::getClassPropertyAssignmentStatementIRStrategy() {
+    return _classPropertyAssignmentStatementIRStrategy;
 }
 
-VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
-    return _variableAssignmentStatementIRStrategy.get();
+std::shared_ptr<VariableAssignmentStatementIRStrategy> IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
+    return _variableAssignmentStatementIRStrategy;
 }
 
-ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmentStatementIRStrategy() {
-    return _arrayAccessAssignmentStatementIRStrategy.get();
+std::shared_ptr<ArrayAccessAssignmentStatementIRStrategy> IRStrategyMap::getArrayAccessAssignmentStatementIRStrategy() {
+    return _arrayAccessAssignmentStatementIRStrategy;
 }
 
-ArrayAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessRefAssignmentStatementIRStrategy() {
-    return _arrayAccessRefAssignmentStatementIRStrategy.get();
+std::shared_ptr<ArrayAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getArrayAccessRefAssignmentStatementIRStrategy() {
+    return _arrayAccessRefAssignmentStatementIRStrategy;
 }
 
-ObjectAccessAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
-    return _objectAccessAssignmentStatementIRStrategy.get();
+std::shared_ptr<ObjectAccessAssignmentStatementIRStrategy> IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
+    return _objectAccessAssignmentStatementIRStrategy;
 }
 
-ObjectAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessRefAssignmentStatementIRStrategy() {
-    return _objectAccessRefAssignmentStatementIRStrategy.get();
+std::shared_ptr<ObjectAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getObjectAccessRefAssignmentStatementIRStrategy() {
+    return _objectAccessRefAssignmentStatementIRStrategy;
 }
 
-TupleAccessAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
-    return _tupleAccessAssignmentStatementIRStrategy.get();
+std::shared_ptr<TupleAccessAssignmentStatementIRStrategy> IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
+    return _tupleAccessAssignmentStatementIRStrategy;
 }
 
-TupleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessRefAssignmentStatementIRStrategy() {
-    return _tupleAccessRefAssignmentStatementIRStrategy.get();
+std::shared_ptr<TupleAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getTupleAccessRefAssignmentStatementIRStrategy() {
+    return _tupleAccessRefAssignmentStatementIRStrategy;
 }
 
-ModuleAccessAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessAssignmentStatementIRStrategy() {
-    return _moduleAccessAssignmentStatementIRStrategy.get();
+std::shared_ptr<ModuleAccessAssignmentStatementIRStrategy> IRStrategyMap::getModuleAccessAssignmentStatementIRStrategy() {
+    return _moduleAccessAssignmentStatementIRStrategy;
 }
 
-ModuleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessRefAssignmentStatementIRStrategy() {
-    return _moduleAccessRefAssignmentStatementIRStrategy.get();
+std::shared_ptr<ModuleAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getModuleAccessRefAssignmentStatementIRStrategy() {
+    return _moduleAccessRefAssignmentStatementIRStrategy;
 }
 
-ClassPropertyRefValueAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {
-    return _classPropertyRefValueAssignmentStatementIRStrategy.get();
+std::shared_ptr<ClassPropertyRefValueAssignmentStatementIRStrategy> IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {
+    return _classPropertyRefValueAssignmentStatementIRStrategy;
 }
 
-RefValueAssignmentStatementIRStrategy* IRStrategyMap::getRefValueAssignmentStatementIRStrategy() {
-    return _refValueAssignmentStatementIRStrategy.get();
+std::shared_ptr<RefValueAssignmentStatementIRStrategy> IRStrategyMap::getRefValueAssignmentStatementIRStrategy() {
+    return _refValueAssignmentStatementIRStrategy;
 }
 
-IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {
-    return _ifStatementIRStrategy.get();
+std::shared_ptr<IfStatementIRStrategy> IRStrategyMap::getIfStatementIRStrategy() {
+    return _ifStatementIRStrategy;
 }
 
-WhileStatementIRStrategy* IRStrategyMap::getWhileStatementIRStrategy() {
-    return _whileStatementIRStrategy.get();
+std::shared_ptr<WhileStatementIRStrategy> IRStrategyMap::getWhileStatementIRStrategy() {
+    return _whileStatementIRStrategy;
 }
 
-ForInStatementIRStrategy* IRStrategyMap::getForInStatementIRStrategy() {
-    return _forInStatementIRStrategy.get();
+std::shared_ptr<ForInStatementIRStrategy> IRStrategyMap::getForInStatementIRStrategy() {
+    return _forInStatementIRStrategy;
 }
 
-RefExpressionIRStrategy* IRStrategyMap::getRefExpressionIRStrategy() {
-    return _refExpressionIRStrategy.get();
+std::shared_ptr<RefExpressionIRStrategy> IRStrategyMap::getRefExpressionIRStrategy() {
+    return _refExpressionIRStrategy;
 }
 
-DrefExpressionIRStrategy* IRStrategyMap::getDrefExpressionIRStrategy() {
-    return _drefExpressionIRStrategy.get();
+std::shared_ptr<DrefExpressionIRStrategy> IRStrategyMap::getDrefExpressionIRStrategy() {
+    return _drefExpressionIRStrategy;
 }
 
-ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
-    return _arrayTypeSignatureIRStrategy.get();
+std::shared_ptr<ArrayTypeSignatureIRStrategy> IRStrategyMap::getArrayTypeSignatureIRStrategy() {
+    return _arrayTypeSignatureIRStrategy;
 }
 
-LiteralTypeSignatureIRStrategy* IRStrategyMap::getLiteralTypeSignatureIRStrategy() {
-    return _literalTypeSignatureIRStrategy.get();
+std::shared_ptr<LiteralTypeSignatureIRStrategy> IRStrategyMap::getLiteralTypeSignatureIRStrategy() {
+    return _literalTypeSignatureIRStrategy;
 }
 
-ClassTypeSignatureIRStrategy* IRStrategyMap::getClassTypeSignatureIRStrategy() {
-    return _classTypeSignatureIRStrategy.get();
+std::shared_ptr<ClassTypeSignatureIRStrategy> IRStrategyMap::getClassTypeSignatureIRStrategy() {
+    return _classTypeSignatureIRStrategy;
 }
 
-EnumTypeSignatureIRStrategy* IRStrategyMap::getEnumTypeSignatureIRStrategy() {
-    return _enumTypeSignatureIRStrategy.get();
+std::shared_ptr<EnumTypeSignatureIRStrategy> IRStrategyMap::getEnumTypeSignatureIRStrategy() {
+    return _enumTypeSignatureIRStrategy;
 }
 
-InterfaceTypeSignatureIRStrategy* IRStrategyMap::getInterfaceTypeSignatureIRStrategy() {
-    return _interfaceTypeSignatureIRStrategy.get();
+std::shared_ptr<InterfaceTypeSignatureIRStrategy> IRStrategyMap::getInterfaceTypeSignatureIRStrategy() {
+    return _interfaceTypeSignatureIRStrategy;
 }
 
-FunctionTypeSignatureIRStrategy* IRStrategyMap::getFunctionTypeSignatureIRStrategy() {
-    return _functionTypeSignatureIRStrategy.get();
+std::shared_ptr<FunctionTypeSignatureIRStrategy> IRStrategyMap::getFunctionTypeSignatureIRStrategy() {
+    return _functionTypeSignatureIRStrategy;
 }
 
-LambdaTypeSignatureIRStrategy* IRStrategyMap::getLambdaTypeSignatureIRStrategy() {
-    return _lambdaTypeSignatureIRStrategy.get();
+std::shared_ptr<LambdaTypeSignatureIRStrategy> IRStrategyMap::getLambdaTypeSignatureIRStrategy() {
+    return _lambdaTypeSignatureIRStrategy;
 }
 
-ProcedureTypeSignatureIRStrategy* IRStrategyMap::getProcedureTypeSignatureIRStrategy() {
-    return _procedureTypeSignatureIRStrategy.get();
+std::shared_ptr<ProcedureTypeSignatureIRStrategy> IRStrategyMap::getProcedureTypeSignatureIRStrategy() {
+    return _procedureTypeSignatureIRStrategy;
 }
 
-ParameterListTypeSignatureIRStrategy* IRStrategyMap::getParameterListTypeSignatureIRStrategy() {
-    return _parameterListTypeSignatureIRStrategy.get();
+std::shared_ptr<ParameterListTypeSignatureIRStrategy> IRStrategyMap::getParameterListTypeSignatureIRStrategy() {
+    return _parameterListTypeSignatureIRStrategy;
 }
 
-ParameterTypeSignatureIRStrategy* IRStrategyMap::getParameterTypeSignatureIRStrategy() {
-    return _parameterTypeSignatureIRStrategy.get();
+std::shared_ptr<ParameterTypeSignatureIRStrategy> IRStrategyMap::getParameterTypeSignatureIRStrategy() {
+    return _parameterTypeSignatureIRStrategy;
 }
 
-StructTypeSignatureIRStrategy* IRStrategyMap::getStructTypeSignatureIRStrategy() {
-    return _structTypeSignatureIRStrategy.get();
+std::shared_ptr<StructTypeSignatureIRStrategy> IRStrategyMap::getStructTypeSignatureIRStrategy() {
+    return _structTypeSignatureIRStrategy;
 }
 
-TupleTypeSignatureIRStrategy* IRStrategyMap::getTupleTypeSignatureIRStrategy() {
-    return _tupleTypeSignatureIRStrategy.get();
+std::shared_ptr<TupleTypeSignatureIRStrategy> IRStrategyMap::getTupleTypeSignatureIRStrategy() {
+    return _tupleTypeSignatureIRStrategy;
 }
 
-EnumAccessTypeSignatureIRStrategy* IRStrategyMap::getEnumAccessTypeSignatureIRStrategy() {
-    return _enumAccessTypeSignatureIRStrategy.get();
+std::shared_ptr<EnumAccessTypeSignatureIRStrategy> IRStrategyMap::getEnumAccessTypeSignatureIRStrategy() {
+    return _enumAccessTypeSignatureIRStrategy;
 }
 
-ModuleTypeSignatureIRStrategy* IRStrategyMap::getModuleTypeSignatureIRStrategy() {
-    return _moduleTypeSignatureStrategy.get();
+std::shared_ptr<ModuleTypeSignatureIRStrategy> IRStrategyMap::getModuleTypeSignatureIRStrategy() {
+    return _moduleTypeSignatureStrategy;
 }
 
-PointerTypeSignatureIRStrategy* IRStrategyMap::getPointerTypeSignatureIRStrategy() {
-    return _pointerTypeSignatureStrategy.get();
+std::shared_ptr<PointerTypeSignatureIRStrategy> IRStrategyMap::getPointerTypeSignatureIRStrategy() {
+    return _pointerTypeSignatureStrategy;
 }
 
-RefTypeSignatureIRStrategy* IRStrategyMap::getRefTypeSignatureIRStrategy() {
-    return _refTypeSignatureStrategy.get();
+std::shared_ptr<RefTypeSignatureIRStrategy> IRStrategyMap::getRefTypeSignatureIRStrategy() {
+    return _refTypeSignatureStrategy;
 }
 
-FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {
-    return _functionInvocationTypeSignatureIRStrategy.get();
+std::shared_ptr<FunctionInvocationTypeSignatureIRStrategy> IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {
+    return _functionInvocationTypeSignatureIRStrategy;
 }
 
-ClassMethodTypeSignatureIRStrategy* IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
-    return _classMethodTypeSignatureIRStrategy.get();
+std::shared_ptr<ClassMethodTypeSignatureIRStrategy> IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
+    return _classMethodTypeSignatureIRStrategy;
 }
 
-ClassPropertyTypeSignatureIRStrategy* IRStrategyMap::getClassPropertyTypeSignatureIRStrategy() {
-    return _classPropertyTypeSignatureIRStrategy.get();
+std::shared_ptr<ClassPropertyTypeSignatureIRStrategy> IRStrategyMap::getClassPropertyTypeSignatureIRStrategy() {
+    return _classPropertyTypeSignatureIRStrategy;
 }
 
-NewClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getNewClassInstanceTypeSignatureIRStrategy() {
-    return _newClassInstanceTypeSignatureIRStrategy.get();
+std::shared_ptr<NewClassInstanceTypeSignatureIRStrategy> IRStrategyMap::getNewClassInstanceTypeSignatureIRStrategy() {
+    return _newClassInstanceTypeSignatureIRStrategy;
 }
 
-ClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getClassInstanceTypeSignatureIRStrategy() {
-    return _classInstanceTypeSignatureIRStrategy.get();
+std::shared_ptr<ClassInstanceTypeSignatureIRStrategy> IRStrategyMap::getClassInstanceTypeSignatureIRStrategy() {
+    return _classInstanceTypeSignatureIRStrategy;
 }
 
-LambdaScopeTypeSignatureIRStrategy* IRStrategyMap::getLambdaScopeTypeSignatureIRStrategy() {
-    return _lambdaScopeTypeSignatureIRStrategy.get();
+std::shared_ptr<LambdaScopeTypeSignatureIRStrategy> IRStrategyMap::getLambdaScopeTypeSignatureIRStrategy() {
+    return _lambdaScopeTypeSignatureIRStrategy;
 }
 
-VoidTypeSignatureIRStrategy* IRStrategyMap::getVoidTypeSignatureIRStrategy() {
-    return _voidTypeSignatureIRStrategy.get();
+std::shared_ptr<VoidTypeSignatureIRStrategy> IRStrategyMap::getVoidTypeSignatureIRStrategy() {
+    return _voidTypeSignatureIRStrategy;
 }

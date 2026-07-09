@@ -12,7 +12,7 @@
 class IncrementLambdaRefCountIRFunction {
 public:
     static std::string getIncrementLambdaRefCountIRFunctionName();
-    static void generateIncrementLambdaRefCountFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
+    static void generateIncrementLambdaRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode);
 };
 
 

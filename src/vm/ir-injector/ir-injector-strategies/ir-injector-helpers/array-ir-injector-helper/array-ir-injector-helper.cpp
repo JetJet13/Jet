@@ -38,7 +38,7 @@ std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayPointer
     );
 }
 
-std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayPointer(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> sourceArrayPointerAllocation, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector) {
+std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayPointer(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> sourceArrayPointerAllocation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRInjector> irInjector) {
     auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(sourceArrayPointerAllocation->getIRType()->getUnderlyingType());
 
     if (!sourceArrayPointerAllocation->getParentAllocation().value()->getChildAllocations()->empty()) {
@@ -79,7 +79,7 @@ std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayPointer
     return ArrayIRInjectorHelper::injectArrayPointer(irBlock, arrayPointerType, loadedNumElements, arrayPointerAllocation);
 }
 
-std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRType> elementType, std::shared_ptr<IRModuleNode> irModule, llvm::Value* sourceArray, std::shared_ptr<IRInstructionNode> arrayPointerAllocation, IRInjector* irInjector) {
+std::shared_ptr<IRLoadInstructionNode> ArrayIRInjectorHelper::injectArrayCopy(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRType> elementType, std::shared_ptr<IRModuleNode> irModule, llvm::Value* sourceArray, std::shared_ptr<IRInstructionNode> arrayPointerAllocation, std::shared_ptr<IRInjector> irInjector) {
     auto numElementsPointer = irBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), sourceArray, arrayPointerType->getNumElementsIndex());
     auto loadedNumElements = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getNumElementsType(), numElementsPointer, irBlock, arrayPointerType);
     auto destinationAllocation = ArrayIRInjectorHelper::injectArrayAllocation(irBlock, arrayPointerType, loadedNumElements, irModule);
@@ -104,7 +104,7 @@ void ArrayIRInjectorHelper::injectArrayPointer(std::shared_ptr<IRBlockNode> irBl
     InstructionIRInjectorHelper::injectStore(arrayAllocation, allocPointer, irBlock);
 }
 
-llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayAccessExpressionNode> irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, IRInjector* irInjector, std::shared_ptr<IRLookupTable> scope) {
+llvm::Value* ArrayIRInjectorHelper::getPointerToIndexedElement(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRArrayAccessExpressionNode> irAccessExpressionNode, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRLookupTable> scope) {
     auto sourceValue = irInjector->inject(irBlock, irAccessExpressionNode->getSourceExpression(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, scope);
     auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irAccessExpressionNode->getSourceExpression()->getUnderlyingIRType());
     auto indexValue = irInjector->inject(irBlock, irAccessExpressionNode->getIndexExpression(), std::make_shared<IROperation>(IR_OPERAND_VALUE_OP), irModule, scope);

@@ -10,7 +10,7 @@ std::string IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecess
     return "jet.increment.ref.count.if.necessary";
 }
 
-void IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessaryFunction(IRGenerator* irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessaryFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), typeValueType->getType() }, false);
