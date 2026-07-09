@@ -7,11 +7,11 @@
 #include "../ast-lambda-nodes/ast-lambda-type-fat-arrow-node.h"
 #include "../ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
 
-ASTFatArrowBaseNode::ASTFatArrowBaseNode(Lexeme *lexeme) {
+ASTFatArrowBaseNode::ASTFatArrowBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTFatArrowBaseNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTFatArrowBaseNode::getLexeme() {
     return _lexeme;
 }
 

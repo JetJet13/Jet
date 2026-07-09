@@ -7,11 +7,11 @@
 
 namespace ASTTypeNodeFactory {
 
-    std::shared_ptr<ASTTypeNode> createCustomTypeNode(Lexeme* lexeme, std::string id) {
+    std::shared_ptr<ASTTypeNode> createCustomTypeNode(std::shared_ptr<Lexeme> lexeme, std::string id) {
         return std::make_shared<ASTTypeNode>(std::make_shared<ASTCustomTypeNode>(lexeme, id));
     }
 
-    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(Lexeme* lexeme) {
+    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(std::shared_ptr<Lexeme> lexeme) {
         return std::make_shared<ASTTypeNode>(std::make_shared<ASTPrimitiveTypeNode>(lexeme));
     }
 

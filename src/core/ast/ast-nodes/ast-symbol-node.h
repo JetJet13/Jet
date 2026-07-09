@@ -9,11 +9,11 @@
 
 class ASTSymbolNode : public ASTNode {
 protected:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTSymbolNode(Lexeme* lexeme);
-    explicit ASTSymbolNode(Lexeme* lexeme, std::string id);
-    Lexeme* getLexeme();
+    explicit ASTSymbolNode(std::shared_ptr<Lexeme> lexeme);
+    explicit ASTSymbolNode(std::shared_ptr<Lexeme> lexeme, std::string id);
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

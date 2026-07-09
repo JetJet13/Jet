@@ -9,7 +9,7 @@
 #include "../ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.h"
 #include "../ast-import-nodes/ast-import-wildcard-node.h"
 
-ASTStarBaseNode::ASTStarBaseNode(Lexeme* lexeme) {
+ASTStarBaseNode::ASTStarBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 

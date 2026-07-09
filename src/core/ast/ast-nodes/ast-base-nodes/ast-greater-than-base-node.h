@@ -12,10 +12,10 @@
 
 class ASTGreaterThanBaseNode : public ASTNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    ASTGreaterThanBaseNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
+    ASTGreaterThanBaseNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;

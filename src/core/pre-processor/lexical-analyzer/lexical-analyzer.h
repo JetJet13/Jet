@@ -32,8 +32,8 @@ public:
     LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<ReservedKeywords> reservedKeywords);
     void start(std::string &filePath);
     void stop();
-    std::optional<Lexeme*> next();
-    std::optional<Lexeme*> peek();
+    std::optional<std::shared_ptr<Lexeme>> next();
+    std::optional<std::shared_ptr<Lexeme>> peek();
     bool hasMore();
 };
 

@@ -72,14 +72,14 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
 
-std::optional<std::shared_ptr<ASTNode>> LexemeTransformer::transform(std::optional<Lexeme*> lexeme) {
+std::optional<std::shared_ptr<ASTNode>> LexemeTransformer::transform(std::optional<std::shared_ptr<Lexeme>> lexeme) {
     if (lexeme) {
         return LexemeTransformer::transform(lexeme.value());
     }
     return {};
 }
 
-std::shared_ptr<ASTNode> LexemeTransformer::transform(Lexeme* lexeme) {
+std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
     if (symbol->isIdentifier()) {
         return std::make_shared<ASTIdentifierNode>(lexeme);

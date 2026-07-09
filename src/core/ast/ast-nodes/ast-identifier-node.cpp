@@ -31,11 +31,11 @@
 #include "ast-type-nodes/ast-type-name-node.h"
 #include "../../pre-processor/syntax-analyzer/utils/syntax-analyzer-mode-utils.h"
 
-ASTIdentifierNode::ASTIdentifierNode(Lexeme* lexeme) {
+ASTIdentifierNode::ASTIdentifierNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTIdentifierNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTIdentifierNode::getLexeme() {
     return _lexeme;
 }
 

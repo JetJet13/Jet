@@ -13,9 +13,9 @@
 
 class ASTMinusBaseNode : public ASTNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTMinusBaseNode(Lexeme* lexeme);
+    explicit ASTMinusBaseNode(std::shared_ptr<Lexeme> lexeme);
     std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
     ASTNodeType getNodeType() override;
     std::string toString() override;

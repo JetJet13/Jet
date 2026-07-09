@@ -22,8 +22,8 @@ public:
     std::shared_ptr<Position> getStartPosition();
     std::shared_ptr<Position> getEndPosition();
     std::string toString();
-    bool hasSameSymbolTypeAs(Lexeme* other);
-    bool isEqualTo(Lexeme* other);
+    bool hasSameSymbolTypeAs(std::shared_ptr<Lexeme> other);
+    bool isEqualTo(std::shared_ptr<Lexeme> other);
 };
 
 #endif //JETLANG_LEXEME_H

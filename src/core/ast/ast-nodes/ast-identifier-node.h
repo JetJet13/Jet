@@ -10,10 +10,10 @@
 
 class ASTIdentifierNode : public ASTNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTIdentifierNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
+    explicit ASTIdentifierNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getLexeme();
     std::string getValue(TokenTable* tokenTable);
     std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;
     std::shared_ptr<Position> getStartPosition() override;

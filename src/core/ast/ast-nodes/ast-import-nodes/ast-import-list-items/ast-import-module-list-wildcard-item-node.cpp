@@ -5,11 +5,11 @@
 #include "ast-import-module-list-wildcard-item-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTImportModuleListWildcardItemNode::ASTImportModuleListWildcardItemNode(Lexeme* lexeme) {
+ASTImportModuleListWildcardItemNode::ASTImportModuleListWildcardItemNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTImportModuleListWildcardItemNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTImportModuleListWildcardItemNode::getLexeme() {
     return _lexeme;
 }
 

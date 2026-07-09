@@ -97,7 +97,7 @@ std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string classN
     return this->generateClassMethodId(className, classMethodCall->getLexeme());
 }
 
-std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, Lexeme* lexeme) {
+std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string className, std::shared_ptr<Lexeme> lexeme) {
     return className +
            "." +
            _tokenTable->getIdentifier(

@@ -12,11 +12,11 @@
 
 class ASTLiteralNode : public ASTNode {
 protected:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
     std::shared_ptr<LiteralTypeSignature> _typeSignature = std::make_shared<LiteralTypeSignature>();
 public:
-    explicit ASTLiteralNode(Lexeme* lexemeLiteral);
-    Lexeme* getLiteral();
+    explicit ASTLiteralNode(std::shared_ptr<Lexeme> lexemeLiteral);
+    std::shared_ptr<Lexeme> getLiteral();
     void setTypeSignature(std::shared_ptr<LiteralTypeSignature> typeSignature);
     std::shared_ptr<LiteralTypeSignature> getLiteralTypeSignature();
     std::shared_ptr<TypeSignature> getTypeSignature() override;

@@ -6,7 +6,7 @@
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 
-ASTMinusBaseNode::ASTMinusBaseNode(Lexeme* lexeme) {
+ASTMinusBaseNode::ASTMinusBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 

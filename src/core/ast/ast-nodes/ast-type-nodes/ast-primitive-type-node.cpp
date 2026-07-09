@@ -5,11 +5,11 @@
 #include "ast-primitive-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTPrimitiveTypeNode::ASTPrimitiveTypeNode(Lexeme* lexeme) {
+ASTPrimitiveTypeNode::ASTPrimitiveTypeNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTPrimitiveTypeNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTPrimitiveTypeNode::getLexeme() {
     return _lexeme;
 }
 

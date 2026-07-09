@@ -13,10 +13,10 @@
 class ASTTupleAccessNode : public ASTNode {
 private:
     int64_t _index;
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTTupleAccessNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
+    explicit ASTTupleAccessNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<ASTTupleAccessNode> setIndexValue(std::string index);
     int64_t getIndexValue();
     std::shared_ptr<Position> getStartPosition() override;

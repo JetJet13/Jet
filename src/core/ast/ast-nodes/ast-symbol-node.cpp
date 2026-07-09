@@ -5,16 +5,16 @@
 #include "ast-symbol-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-ASTSymbolNode::ASTSymbolNode(Lexeme *lexeme) {
+ASTSymbolNode::ASTSymbolNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-ASTSymbolNode::ASTSymbolNode(Lexeme *lexeme, std::string id) {
+ASTSymbolNode::ASTSymbolNode(std::shared_ptr<Lexeme> lexeme, std::string id) {
     _lexeme = lexeme;
     _id = id;
 }
 
-Lexeme* ASTSymbolNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTSymbolNode::getLexeme() {
     return _lexeme;
 }
 

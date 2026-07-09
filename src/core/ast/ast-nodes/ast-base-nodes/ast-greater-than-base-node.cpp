@@ -9,11 +9,11 @@
 #include "../ast-type-nodes/ast-type-parameter-list-end-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
-ASTGreaterThanBaseNode::ASTGreaterThanBaseNode(Lexeme *lexeme) {
+ASTGreaterThanBaseNode::ASTGreaterThanBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTGreaterThanBaseNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTGreaterThanBaseNode::getLexeme() {
     return _lexeme;
 }
 

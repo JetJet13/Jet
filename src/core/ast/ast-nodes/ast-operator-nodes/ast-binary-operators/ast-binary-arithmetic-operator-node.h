@@ -10,12 +10,12 @@
 
 class ASTBinaryArithmeticOperatorNode : public ASTNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
     unsigned int _priority;
-    unsigned int determinePriority(Lexeme* lexeme);
+    unsigned int determinePriority(std::shared_ptr<Lexeme> lexeme);
 public:
-    explicit ASTBinaryArithmeticOperatorNode(Lexeme* lexeme);
-    Lexeme* getOperator();
+    explicit ASTBinaryArithmeticOperatorNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getOperator();
     unsigned int getPriority() const;
     bool isHigherOrEqualPriorityThan(std::shared_ptr<ASTBinaryArithmeticOperatorNode> other) const;
     bool isPlus();

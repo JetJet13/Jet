@@ -5,12 +5,12 @@
 #include "ast-custom-type-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTCustomTypeNode::ASTCustomTypeNode(Lexeme* lexeme, std::string id) {
+ASTCustomTypeNode::ASTCustomTypeNode(std::shared_ptr<Lexeme> lexeme, std::string id) {
     _lexeme = lexeme;
     _id = id;
 }
 
-Lexeme* ASTCustomTypeNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTCustomTypeNode::getLexeme() {
     return _lexeme;
 }
 

@@ -19,7 +19,7 @@ private:
     std::string generateClassPropertyId(std::string className, std::shared_ptr<ASTClassPropertyNameNode> classPropertyName);
     std::string generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodNameNode> classMethodName);
     std::string generateClassMethodId(std::string className, std::shared_ptr<ASTClassMethodCallNode> classMethodCall);
-    std::string generateClassMethodId(std::string className, Lexeme* lexeme);
+    std::string generateClassMethodId(std::string className, std::shared_ptr<Lexeme> lexeme);
     std::string generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, std::shared_ptr<ASTClassConstructorDeclarationNode> constructorDeclaration);
 public:
     void assign(std::shared_ptr<ASTNode> node) override;

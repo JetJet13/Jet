@@ -9,10 +9,10 @@
 
 class ASTCustomTypeNode : public ASTTypeBaseNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    ASTCustomTypeNode(Lexeme* lexeme, std::string id);
-    Lexeme* getLexeme();
+    ASTCustomTypeNode(std::shared_ptr<Lexeme> lexeme, std::string id);
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

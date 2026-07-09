@@ -38,7 +38,7 @@ void LexicalAnalyzer::stop() {
 }
 
 
-std::optional<Lexeme*> LexicalAnalyzer::next() {
+std::optional<std::shared_ptr<Lexeme>> LexicalAnalyzer::next() {
     if (!_fileReader.isOpen() || !_hasMore) {
         return {};
     }
@@ -55,13 +55,13 @@ std::optional<Lexeme*> LexicalAnalyzer::next() {
     if (nextToken) {
         auto endLine = _fileReader.getCursor().line;
         auto endColumn = _fileReader.getCursor().column;
-        auto lexeme = new Lexeme(nextToken.value(), line, column, endLine, endColumn);
+        auto lexeme = std::make_shared<Lexeme>(nextToken.value(), line, column, endLine, endColumn);
         return lexeme;
     }
     return {};
 }
 
-std::optional<Lexeme*> LexicalAnalyzer::peek() {
+std::optional<std::shared_ptr<Lexeme>> LexicalAnalyzer::peek() {
     if (!_fileReader.isOpen() || !_hasMore) {
         return {};
     }
@@ -81,7 +81,7 @@ std::optional<Lexeme*> LexicalAnalyzer::peek() {
         auto endLine = _fileReader.getCursor().line;
         auto endColumn = _fileReader.getCursor().column;
         this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
-        return new Lexeme(nextToken.value(), line, column, endLine, endColumn);
+        return std::make_shared<Lexeme>(nextToken.value(), line, column, endLine, endColumn);
     }
     this->resetAfterPeek(cursorSnapshot, numAdvancesSnapshot);
     return {};

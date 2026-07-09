@@ -7,7 +7,7 @@
 #include "../ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 
-ASTPlusBaseNode::ASTPlusBaseNode(Lexeme* lexeme) {
+ASTPlusBaseNode::ASTPlusBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 

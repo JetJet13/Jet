@@ -19,8 +19,8 @@
 #include "ast-module-type-nodes/ast-module-type-node.h"
 
 namespace ASTTypeNodeFactory {
-    std::shared_ptr<ASTTypeNode> createCustomTypeNode(Lexeme* lexeme, std::string id);
-    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(Lexeme* lexeme);
+    std::shared_ptr<ASTTypeNode> createCustomTypeNode(std::shared_ptr<Lexeme> lexeme, std::string id);
+    std::shared_ptr<ASTTypeNode> createPrimitiveTypeNode(std::shared_ptr<Lexeme> lexeme);
     std::shared_ptr<ASTTypeNode> createLambdaTypeNode(std::shared_ptr<ASTLambdaTypeNode> lambdaTypeNode);
     std::shared_ptr<ASTTypeNode> createTupleTypeNode(std::shared_ptr<ASTTupleTypeNode> tupleTypeNode);
     std::shared_ptr<ASTTypeNode> createArrayTypeNode(std::shared_ptr<ASTArrayTypeNode> arrayTypeNode);

@@ -5,11 +5,11 @@
 #include "ast-tuple-access-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 
-ASTTupleAccessNode::ASTTupleAccessNode(Lexeme *lexeme) {
+ASTTupleAccessNode::ASTTupleAccessNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTTupleAccessNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTTupleAccessNode::getLexeme() {
     return _lexeme;
 }
 

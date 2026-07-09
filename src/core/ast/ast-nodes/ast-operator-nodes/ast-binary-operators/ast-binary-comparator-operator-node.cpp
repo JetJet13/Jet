@@ -5,11 +5,11 @@
 #include "ast-binary-comparator-operator-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTBinaryComparatorOperatorNode::ASTBinaryComparatorOperatorNode(Lexeme* lexeme) {
+ASTBinaryComparatorOperatorNode::ASTBinaryComparatorOperatorNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTBinaryComparatorOperatorNode::getOperator() {
+std::shared_ptr<Lexeme> ASTBinaryComparatorOperatorNode::getOperator() {
     return _lexeme;
 }
 

@@ -10,10 +10,10 @@
 
 class ASTBinaryComparatorOperatorNode : public ASTNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTBinaryComparatorOperatorNode(Lexeme* lexeme);
-    Lexeme* getOperator();
+    explicit ASTBinaryComparatorOperatorNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getOperator();
     bool isEqual();
     bool isNotEqual();
     bool isGreaterThan();

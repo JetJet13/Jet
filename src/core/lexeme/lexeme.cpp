@@ -43,11 +43,11 @@ std::string Lexeme::toString() {
     return lexemeString;
 }
 
-bool Lexeme::hasSameSymbolTypeAs(Lexeme* other) {
+bool Lexeme::hasSameSymbolTypeAs(std::shared_ptr<Lexeme> other) {
     auto result = this->getToken()->getSymbolType() == other->getToken()->getSymbolType();
     return result;
 }
 
-bool Lexeme::isEqualTo(Lexeme* other) {
+bool Lexeme::isEqualTo(std::shared_ptr<Lexeme> other) {
     return this->getToken()->isEqualTo(other->getToken());
 }

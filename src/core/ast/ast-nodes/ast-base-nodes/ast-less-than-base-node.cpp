@@ -7,11 +7,11 @@
 #include "../ast-type-nodes/ast-type-parameter-list-start-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
-ASTLessThanBaseNode::ASTLessThanBaseNode(Lexeme *lexeme) {
+ASTLessThanBaseNode::ASTLessThanBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTLessThanBaseNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTLessThanBaseNode::getLexeme() {
     return _lexeme;
 }
 

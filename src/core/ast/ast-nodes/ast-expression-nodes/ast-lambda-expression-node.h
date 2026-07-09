@@ -15,7 +15,7 @@
 
 class ASTLambdaExpressionNode : public ASTExpressionNode {
 private:
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
     std::shared_ptr<ASTFunctionParameterListNode> _parameters;
     std::shared_ptr<ASTFunctionBlockNode> _block;
     std::optional<std::shared_ptr<ASTTypeColonNode>> _typeColon;
@@ -25,7 +25,7 @@ private:
 public:
     explicit ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block);
     explicit ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTFunctionBlockNode> block, std::shared_ptr<ASTTypeColonNode> typeColon, std::shared_ptr<ASTTypeNode> returnType);
-    Lexeme* getLexeme();
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();

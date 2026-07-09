@@ -5,12 +5,12 @@
 #include "ast-binary-arithmetic-operator-node.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-ASTBinaryArithmeticOperatorNode::ASTBinaryArithmeticOperatorNode(Lexeme* lexeme) {
+ASTBinaryArithmeticOperatorNode::ASTBinaryArithmeticOperatorNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
     _priority = this->determinePriority(lexeme);
 }
 
-Lexeme* ASTBinaryArithmeticOperatorNode::getOperator() {
+std::shared_ptr<Lexeme> ASTBinaryArithmeticOperatorNode::getOperator() {
     return _lexeme;
 }
 
@@ -74,7 +74,7 @@ std::string ASTBinaryArithmeticOperatorNode::toSourceCode() {
     return this->getOperator()->getToken()->getSymbol()->toString();
 }
 
-unsigned int ASTBinaryArithmeticOperatorNode::determinePriority(Lexeme* lexeme) {
+unsigned int ASTBinaryArithmeticOperatorNode::determinePriority(std::shared_ptr<Lexeme> lexeme) {
     auto symbol = lexeme->getToken()->getSymbol();
     if (symbol->isSlash() || symbol->isStar()) {
         return 1;

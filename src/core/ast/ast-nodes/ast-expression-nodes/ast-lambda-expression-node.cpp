@@ -28,7 +28,7 @@ ASTLambdaExpressionNode::ASTLambdaExpressionNode(std::shared_ptr<ASTFunctionPara
     _capturedValueIds = std::set<std::string>();
 }
 
-Lexeme* ASTLambdaExpressionNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTLambdaExpressionNode::getLexeme() {
     return _lexeme;
 }
 

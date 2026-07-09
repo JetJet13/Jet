@@ -4,11 +4,11 @@
 
 #include "ast-literal-node.h"
 
-ASTLiteralNode::ASTLiteralNode(Lexeme* lexemeLiteral) {
+ASTLiteralNode::ASTLiteralNode(std::shared_ptr<Lexeme> lexemeLiteral) {
     _lexeme = lexemeLiteral;
 }
 
-Lexeme* ASTLiteralNode::getLiteral() {
+std::shared_ptr<Lexeme> ASTLiteralNode::getLiteral() {
     return _lexeme;
 }
 

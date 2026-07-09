@@ -13,10 +13,10 @@
 
 
 class ASTImportModuleListWildcardItemNode : public ASTImportModuleListBaseItemNode {
-    Lexeme* _lexeme;
+    std::shared_ptr<Lexeme> _lexeme;
 public:
-    explicit ASTImportModuleListWildcardItemNode(Lexeme* lexeme);
-    Lexeme* getLexeme();
+    explicit ASTImportModuleListWildcardItemNode(std::shared_ptr<Lexeme> lexeme);
+    std::shared_ptr<Lexeme> getLexeme();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

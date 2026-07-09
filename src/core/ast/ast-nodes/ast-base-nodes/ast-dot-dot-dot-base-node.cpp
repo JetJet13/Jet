@@ -6,11 +6,11 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ast-module-nodes/ast-module-spread-node.h"
 
-ASTDotDotDotBaseNode::ASTDotDotDotBaseNode(Lexeme *lexeme) {
+ASTDotDotDotBaseNode::ASTDotDotDotBaseNode(std::shared_ptr<Lexeme> lexeme) {
     _lexeme = lexeme;
 }
 
-Lexeme* ASTDotDotDotBaseNode::getLexeme() {
+std::shared_ptr<Lexeme> ASTDotDotDotBaseNode::getLexeme() {
     return _lexeme;
 }
 
