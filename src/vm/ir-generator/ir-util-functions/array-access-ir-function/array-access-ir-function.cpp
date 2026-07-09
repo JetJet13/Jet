@@ -20,7 +20,7 @@ void ArrayAccessIRFunction::generateArrayAccessFunction(IRGenerator* irGenerator
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, ArrayAccessIRFunction::getArrayAccessIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto zero = irGenerator->generateIntConstant(0);
 
     auto pointerToNumElements = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(0), arrayPointerType->getNumElementsIndex());

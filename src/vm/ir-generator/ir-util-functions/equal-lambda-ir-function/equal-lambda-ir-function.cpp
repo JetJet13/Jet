@@ -21,7 +21,7 @@ void EqualLambdaIRFunction::generateEqualLambdaFunction(IRGenerator* irGenerator
     auto irInvocableType = irGenerator->generateIRInvocableType();
     auto function = irModuleNode->getEqualLambdaFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto firstLambdaFunctionPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irInvocableType->getType(), function->getArg(0), irInvocableType->getFunctionIndex());
     auto firstLambdaFunction = InstructionIRInjectorHelper::injectLoad(pointerType, firstLambdaFunctionPointer, functionBlock);

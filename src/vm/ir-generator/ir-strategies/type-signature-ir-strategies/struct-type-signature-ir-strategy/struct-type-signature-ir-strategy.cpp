@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-std::shared_ptr<IRStructRefType> StructTypeSignatureIRStrategy::generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRStructRefType> StructTypeSignatureIRStrategy::generate(std::shared_ptr<StructTypeSignature> structTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
@@ -27,7 +27,7 @@ std::shared_ptr<IRStructRefType> StructTypeSignatureIRStrategy::generate(std::sh
     return structRefType;
 }
 
-std::shared_ptr<IRTypeValueInstructionNode> StructTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> StructTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRStructType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
@@ -46,7 +46,7 @@ std::shared_ptr<IRTypeValueInstructionNode> StructTypeSignatureIRStrategy::gener
     );
 }
 
-std::shared_ptr<IRTypeValueInstructionNode> StructTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> StructTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRStructRefType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

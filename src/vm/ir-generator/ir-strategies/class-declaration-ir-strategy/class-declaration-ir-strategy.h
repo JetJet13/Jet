@@ -12,17 +12,17 @@
 
 class ClassDeclarationIRStrategy {
 private:
-    std::optional<std::shared_ptr<IRClassPreConstructorNode>> generatePreConstructor(std::shared_ptr<ASTClassDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    std::shared_ptr<IRClassConstructorNode> generate(std::shared_ptr<ASTClassConstructorDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    std::shared_ptr<IRClassMethodNode> generate(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    std::shared_ptr<IRClassMethodNode> generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    std::shared_ptr<IRClassStaticPropertyNode> generateStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    void declareMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    void declareStaticMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    void declareConstructor(std::shared_ptr<ASTClassConstructorDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
-    void declareStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IRClassType> irClassType);
+    std::optional<std::shared_ptr<IRClassPreConstructorNode>> generatePreConstructor(std::shared_ptr<ASTClassDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    std::shared_ptr<IRClassConstructorNode> generate(std::shared_ptr<ASTClassConstructorDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    std::shared_ptr<IRClassMethodNode> generate(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    std::shared_ptr<IRClassMethodNode> generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    std::shared_ptr<IRClassStaticPropertyNode> generateStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    void declareMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    void declareStaticMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    void declareConstructor(std::shared_ptr<ASTClassConstructorDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
+    void declareStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node, bool isExportable, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType);
 public:
-    std::shared_ptr<IRClassDeclarationNode> generate(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRClassDeclarationNode> generate(std::shared_ptr<ASTClassDeclarationNode> node,  IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 

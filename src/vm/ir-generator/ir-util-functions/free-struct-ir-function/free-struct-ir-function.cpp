@@ -25,7 +25,7 @@ void FreeStructIRFunction::generateFreeStructFunction(IRGenerator* irGenerator, 
 
     auto function = irModuleNode->getFreeStructFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     // for loop blocks
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());

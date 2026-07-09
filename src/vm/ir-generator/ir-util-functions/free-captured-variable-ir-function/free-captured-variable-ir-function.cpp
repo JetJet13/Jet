@@ -25,7 +25,7 @@ void FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(IRGene
 
     auto function = irModuleNode->getFreeCapturedVariableFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     DebugIRInjectorHelper::injectLog(functionBlock, "FREEING CAPTURED VARIABLE!", irGenerator->getInjector(), irModuleNode);
     auto pointerToCaptureCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(capturedVariableType->getType(), function->getArg(0), capturedVariableType->getCaptureCounterIndex());
     auto captureCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToCaptureCounterPointer);

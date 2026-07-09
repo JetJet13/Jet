@@ -23,7 +23,7 @@ void CopyPointerIRFunction::generateCopyPointerFunction(IRGenerator* irGenerator
 
     auto function = irModuleNode->getCopyPointerFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto sizeInBytesIndex = irGenerator->generateIntConstant(typeValueType->getSizeInBytesIndex());
 

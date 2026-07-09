@@ -23,7 +23,7 @@ void FreeLambdaIRFunction::generateFreeLambdaFunction(IRGenerator* irGenerator, 
 
     auto function = irModuleNode->getFreeLambdaFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto freeLambdaIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto freeLambdaIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());

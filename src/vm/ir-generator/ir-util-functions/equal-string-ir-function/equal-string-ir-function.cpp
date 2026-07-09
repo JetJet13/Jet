@@ -21,7 +21,7 @@ void EqualStringIRFunction::generateEqualStringFunction(IRGenerator* irGenerator
     auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
     auto function = irModuleNode->getEqualStringFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);

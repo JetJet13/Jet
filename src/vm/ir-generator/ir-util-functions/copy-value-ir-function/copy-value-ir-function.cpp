@@ -21,7 +21,7 @@ void CopyValueIRFunction::generateCopyValueFunction(IRGenerator* irGenerator, st
 
     auto function = irModuleNode->getCopyValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto literalIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "literal.");
     auto literalIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "literal.");

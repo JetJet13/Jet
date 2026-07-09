@@ -40,6 +40,6 @@ llvm::Function* IRContext::getFunction() {
     return _irBlock->getBlock()->getParent();
 }
 
-IRContext* IRContext::clone(std::shared_ptr<IRBlockNode> irBlock) {
-    return new IRContext(irBlock, _irModule, _context);
+std::shared_ptr<IRContext> IRContext::clone(std::shared_ptr<IRBlockNode> irBlock) {
+    return std::make_shared<IRContext>(irBlock, _irModule, _context);
 }

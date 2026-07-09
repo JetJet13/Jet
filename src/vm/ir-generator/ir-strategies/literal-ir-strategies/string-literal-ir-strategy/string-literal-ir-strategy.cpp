@@ -7,7 +7,7 @@
 #include "string-literal-ir-strategy.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-std::shared_ptr<IRStringLiteralNode> StringLiteralIRStrategy::generate(std::shared_ptr<ASTStringLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRStringLiteralNode> StringLiteralIRStrategy::generate(std::shared_ptr<ASTStringLiteralNode> node, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto chars = std::vector<llvm::Constant*>();
 
     for (auto character : node->getValue()) {

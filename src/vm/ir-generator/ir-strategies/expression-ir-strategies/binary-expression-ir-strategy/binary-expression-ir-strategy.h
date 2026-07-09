@@ -17,8 +17,8 @@ private:
     llvm::Instruction::BinaryOps determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature);
     llvm::CmpInst::Predicate determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature);
 public:
-    std::shared_ptr<IRBinaryExpressionNode> generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
-    std::shared_ptr<IRBinaryExpressionNode> generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRBinaryExpressionNode> generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRBinaryExpressionNode> generate(std::shared_ptr<ASTBinaryComparatorExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_IR_STRATEGY_H

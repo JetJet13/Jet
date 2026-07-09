@@ -436,7 +436,7 @@ void PrintIRFunction::generatePrintFunction(IRGenerator* irGenerator, std::uniqu
     auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType->getType() }, true);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto vaStart = irModuleNode->getModule()->get()->getOrInsertFunction("llvm.va_start", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
     auto vaEnd = irModuleNode->getModule()->get()->getOrInsertFunction("llvm.va_end", llvm::FunctionType::get(voidType->getType(), { pointerIntType->getPointerTo() }, false));
@@ -712,7 +712,7 @@ void PrintIRFunction::generatePrintBoolFunction(IRGenerator* irGenerator, std::u
     auto functionType = llvm::FunctionType::get(voidType, { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintBoolIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto printTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto printTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto elseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -776,7 +776,7 @@ void PrintIRFunction::generatePrintRefFunction(IRGenerator* irGenerator, std::un
         throw std::logic_error("print ref function is null!");
     }
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto intIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "int.");
     auto intIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "int.");
@@ -919,7 +919,7 @@ void PrintIRFunction::generatePrintArrayFunction(IRGenerator* irGenerator, std::
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
 
@@ -1141,7 +1141,7 @@ void PrintIRFunction::generatePrintStructFunction(IRGenerator* irGenerator, std:
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintStructFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto zeroIndex = irGenerator->generateIntConstant(0);
     auto typeValueIdIndex = irGenerator->generateIntConstant(typeValueType->getIdIndex());
 
@@ -1384,7 +1384,7 @@ void PrintIRFunction::generatePrintStructRefFunction(IRGenerator* irGenerator, s
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
     auto pointerToTypeValueAtIndex = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { forLoopIndexValue });
     auto structRefTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, functionBlock, typeValueType);

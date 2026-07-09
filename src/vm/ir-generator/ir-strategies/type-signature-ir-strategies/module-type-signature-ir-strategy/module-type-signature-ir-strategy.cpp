@@ -5,7 +5,7 @@
 #include "module-type-signature-ir-strategy.h"
 
 
-std::shared_ptr<IRModuleType> ModuleTypeSignatureIRStrategy::generate(std::shared_ptr<ModuleTypeSignature> moduleTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRModuleType> ModuleTypeSignatureIRStrategy::generate(std::shared_ptr<ModuleTypeSignature> moduleTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto moduleExportTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();

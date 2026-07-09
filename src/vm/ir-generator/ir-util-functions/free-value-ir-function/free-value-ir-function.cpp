@@ -22,7 +22,7 @@ void FreeValueIRFunction::generateFreeValueFunction(IRGenerator* irGenerator, st
 
     auto function = irModuleNode->getFreeValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto arrayIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "array.");
     auto arrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "array.");

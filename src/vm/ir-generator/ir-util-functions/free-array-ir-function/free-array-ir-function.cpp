@@ -30,7 +30,7 @@ void FreeArrayIRFunction::generateFreeArrayFunction(IRGenerator* irGenerator, st
 
     auto function = irModuleNode->getFreeArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isElementTypeLiteralIfBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isElementTypeLiteralThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createChild();

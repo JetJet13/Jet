@@ -6,7 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ir-type/ir-invocable-type.h"
 
-std::shared_ptr<IRFunctionParameterListNode> FunctionParameterListIRStrategy::generate(std::shared_ptr<ASTFunctionParameterListNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, llvm::Function* irFunction) {
+std::shared_ptr<IRFunctionParameterListNode> FunctionParameterListIRStrategy::generate(std::shared_ptr<ASTFunctionParameterListNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, llvm::Function* irFunction) {
     auto functionParameters = std::vector<std::shared_ptr<IRFunctionParameterNode>>();
     for (unsigned long i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];

@@ -23,7 +23,7 @@ void EqualStructIRFunction::generateEqualStructFunction(IRGenerator* irGenerator
     auto pointerType = irGenerator->generatePointerType();
     auto function = irModuleNode->getEqualStructFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
     auto forLoopConditionBlock = irGenerator->generateForLoopConditionBlock(irContext, functionBlock->getScope());
     auto forLoopBodyBlock = irGenerator->generateForLoopBodyBlock(irContext, functionBlock->getScope());

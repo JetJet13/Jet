@@ -12,7 +12,7 @@
 
 class IntLiteralIRStrategy {
 public:
-    std::shared_ptr<IRIntLiteralNode> generate(std::shared_ptr<ASTIntLiteralNode> node, IRContext* irContext);
+    std::shared_ptr<IRIntLiteralNode> generate(std::shared_ptr<ASTIntLiteralNode> node, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_INT_LITERAL_IR_STRATEGY_H

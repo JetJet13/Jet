@@ -26,7 +26,7 @@ void EqualValueIRFunction::generateEqualValueFunction(IRGenerator* irGenerator, 
 
     auto function = irModuleNode->getEqualValueFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto intIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope(), "int.");
     auto intIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(), "int.");

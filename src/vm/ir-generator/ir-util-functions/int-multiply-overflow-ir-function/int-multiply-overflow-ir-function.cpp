@@ -17,7 +17,7 @@ void IntMultiplyOverflowIRFunction::generateIntMultiplyOverflowFunction(IRGenera
     auto functionType = llvm::FunctionType::get(intType, { intType, intType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, IntMultiplyOverflowIRFunction::getIntMultiplyOverflowIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isOverflowBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope(),  "is.overflow");
     auto elseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
 

@@ -21,7 +21,7 @@ void CopyStringIRFunction::generateCopyStringFunction(IRGenerator* irGenerator, 
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyStringIRFunction::getCopyStringIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto pointerToSourceStringNumChars = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), function->getArg(1), arrayPointerType->getNumElementsIndex());
     auto sourceStringNumChars = InstructionIRInjectorHelper::injectLoad(intType, pointerToSourceStringNumChars, functionBlock);

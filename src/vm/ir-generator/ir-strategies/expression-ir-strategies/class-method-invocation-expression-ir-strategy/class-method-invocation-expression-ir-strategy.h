@@ -12,7 +12,7 @@
 
 class ClassMethodInvocationExpressionIRStrategy {
 public:
-    std::shared_ptr<IRClassMethodInvocationExpressionNode> generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRClassMethodInvocationExpressionNode> generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 

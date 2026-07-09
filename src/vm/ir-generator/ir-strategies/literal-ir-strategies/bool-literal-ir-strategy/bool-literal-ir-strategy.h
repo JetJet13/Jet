@@ -12,7 +12,7 @@
 
 class BoolLiteralIRStrategy {
 public:
-    std::shared_ptr<IRBoolLiteralNode> generate(std::shared_ptr<ASTBooleanLiteralNode> node, IRContext* irContext);
+    std::shared_ptr<IRBoolLiteralNode> generate(std::shared_ptr<ASTBooleanLiteralNode> node, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_BOOL_LITERAL_IR_STRATEGY_H

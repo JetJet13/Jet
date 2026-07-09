@@ -11,7 +11,7 @@
 
 class CustomTypeDeclarationIRStrategy {
 public:
-    std::shared_ptr<IRCustomTypeDeclarationNode> generate(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRCustomTypeDeclarationNode> generate(std::shared_ptr<ASTCustomTypeDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_CUSTOM_TYPE_DECLARATION_IR_STRATEGY_H

@@ -24,7 +24,7 @@ void EqualStructRefIRFunction::generateEqualStructRefFunction(IRGenerator* irGen
     auto structRefType = irGenerator->generateIRStructRefType();
     auto function = irModuleNode->getEqualStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto structTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     auto loadedStructType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
     auto firstStructPointer = functionBlock->getBuilder()->get()->CreateStructGEP(structRefType->getType(), function->getArg(0), structRefType->getStructIndex());

@@ -12,7 +12,7 @@
 
 class ImportSingleModuleDeclarationIRStrategy {
 public:
-    std::shared_ptr<IRImportSingleModuleDeclarationNode> generate(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRImportSingleModuleDeclarationNode> generate(std::shared_ptr<ASTImportSingleModuleDeclarationNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_IMPORT_SINGLE_MODULE_DECLARATION_IR_STRATEGY_H

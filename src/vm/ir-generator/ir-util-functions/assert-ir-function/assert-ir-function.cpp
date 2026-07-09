@@ -100,7 +100,7 @@ void AssertIRFunction::generateAssertFunction(IRGenerator* irGenerator, std::uni
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { }, false));
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -133,7 +133,7 @@ void AssertIRFunction::generateAssertWithMessageFunction(IRGenerator* irGenerato
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { }, false));
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isValueTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isValueTrueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isValueTrueIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -174,7 +174,7 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(IRGenerator* irGenera
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { }, false));
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -210,7 +210,7 @@ void AssertIRFunction::generateAssertDebugStructRefCountFunction(IRGenerator* ir
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { }, false));
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -246,7 +246,7 @@ void AssertIRFunction::generateAssertDebugLambdaRefCountFunction(IRGenerator* ir
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto abort = irModuleNode->getModule()->get()->getOrInsertFunction("abort", llvm::FunctionType::get(voidType, { }, false));
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isRefCountMatchTrueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());

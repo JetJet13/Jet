@@ -4,7 +4,7 @@
 
 #include "float-literal-ir-strategy.h"
 
-std::shared_ptr<IRFloatLiteralNode> FloatLiteralIRStrategy::generate(std::shared_ptr<ASTFloatLiteralNode> node, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRFloatLiteralNode> FloatLiteralIRStrategy::generate(std::shared_ptr<ASTFloatLiteralNode> node, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     return std::make_shared<IRFloatLiteralNode>(
             node,
             llvm::ConstantFP::get(

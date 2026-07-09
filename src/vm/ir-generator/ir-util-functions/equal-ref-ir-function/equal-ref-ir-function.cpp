@@ -44,7 +44,7 @@ void EqualRefIRFunction::generateEqualRefFunction(IRGenerator* irGenerator, std:
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto function = irModuleNode->getEqualRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
     auto firstRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, firstRefValuePointer, functionBlock);
@@ -72,7 +72,7 @@ void EqualRefIRFunction::generateEqualRefLeftOnlyFunction(IRGenerator* irGenerat
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto function = irModuleNode->getEqualRefLeftOnlyFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto firstRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefValueIndex());
     auto firstRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, firstRefValuePointer, functionBlock);
@@ -97,7 +97,7 @@ void EqualRefIRFunction::generateEqualRefRightOnlyFunction(IRGenerator* irGenera
     auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto function = irModuleNode->getEqualRefRightOnlyFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto secondRefValuePointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(1), irRefType->getRefValueIndex());
     auto secondRefValue = InstructionIRInjectorHelper::injectLoad(pointerType, secondRefValuePointer, functionBlock);

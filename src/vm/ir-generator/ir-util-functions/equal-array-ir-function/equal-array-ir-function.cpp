@@ -23,7 +23,7 @@ void EqualArrayIRFunction::generateEqualArrayFunction(IRGenerator* irGenerator, 
     auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
     auto function = irModuleNode->getEqualArrayFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isNumCharsNotEqualIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumCharsNotEqualIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext, functionBlock->getScope());

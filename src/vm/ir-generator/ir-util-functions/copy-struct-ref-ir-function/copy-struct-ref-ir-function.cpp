@@ -24,7 +24,7 @@ void CopyStructRefIRFunction::generateCopyStructRefFunction(IRGenerator* irGener
 
     auto function = irModuleNode->getCopyStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto structTypePointer = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getAllocIndex() });
     auto loadedStructType = functionBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), structTypePointer);
     auto structTypeSizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(loadedStructType, { typeValueType->getSizeInBytesIndex() });

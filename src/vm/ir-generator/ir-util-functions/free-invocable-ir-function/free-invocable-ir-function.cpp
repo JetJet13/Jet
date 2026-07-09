@@ -24,7 +24,7 @@ void FreeInvocableIRFunction::generateFreeInvocableFunction(IRGenerator* irGener
 
     auto function = irModuleNode->getFreeInvocableFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto freeInvocableIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto freeInvocableIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());

@@ -10,7 +10,7 @@
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-std::shared_ptr<IRLambdaWithBlockExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRLambdaWithBlockExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto lambdaScope = std::make_shared<IRLookupTable>(scope);
     auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
@@ -34,7 +34,7 @@ std::shared_ptr<IRLambdaWithBlockExpressionNode> LambdaExpressionIRStrategy::gen
     return std::make_shared<IRLambdaWithBlockExpressionNode>(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction);
 }
 
-std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::generate(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto lambdaScope = std::make_shared<IRLookupTable>(scope);
     auto irType = std::dynamic_pointer_cast<IRLambdaType>(irGenerator->generateTypeFor(node->getLambdaTypeSignature(), lambdaScope, irContext));
     auto functionType = irType->getFunctionType();
@@ -51,7 +51,7 @@ std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::
     return std::make_shared<IRLambdaWithFatArrowExpressionNode>(node, allocation, irFunction, functionParameterList, lambdaBlock, irType, irCleanupFunction, returnExpression);
 }
 
-void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, IRContext* irContext) {
+void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, std::shared_ptr<IRContext> irContext) {
     for (unsigned long i = 0; i < functionParameterList->getParameters()->size(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
@@ -90,7 +90,7 @@ void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressio
 
 }
 
-llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, IRGenerator* irGenerator, IRContext* irContext) {
+llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(std::shared_ptr<IRLambdaType> irLambdaType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto voidType = irGenerator->generateVoidType();
     auto pointerType = irGenerator->generatePointerType();

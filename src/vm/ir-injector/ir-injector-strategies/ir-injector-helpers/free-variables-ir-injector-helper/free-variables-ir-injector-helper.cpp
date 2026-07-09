@@ -33,7 +33,7 @@ void FreeIRInjectorHelper::freeFunctionBlockNodes(std::shared_ptr<IRBlockNode> f
     );
 }
 
-void FreeIRInjectorHelper::freeNodes(std::shared_ptr<IRBlockNode> irBlockNode, std::vector<IRNodeToFree*>* nodesToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+void FreeIRInjectorHelper::freeNodes(std::shared_ptr<IRBlockNode> irBlockNode, std::vector<std::shared_ptr<IRNodeToFree>>* nodesToFree, IRInjector* irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto dominator = llvm::DominatorTree(*irBlockNode->getBlock()->getParent());
     auto allChildrenThatReturn = irBlockNode->getAllChildrenThatReturn();
     for (auto childBlock : allChildrenThatReturn) {

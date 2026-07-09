@@ -11,7 +11,7 @@
 
 class ParameterTypeSignatureIRStrategy {
 public:
-    std::shared_ptr<IRParameterType> generate(std::shared_ptr<ParameterListItemTypeSignature> parameterListItemTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRParameterType> generate(std::shared_ptr<ParameterListItemTypeSignature> parameterListItemTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_PARAMETER_TYPE_SIGNATURE_IR_STRATEGY_H

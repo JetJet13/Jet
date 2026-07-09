@@ -29,7 +29,7 @@ void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(IRGenerator*
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                            FreeClassPropertyIRFunction::getFreeClassPropertyIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isClassPropertyArrayIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isClassPropertyArrayIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isClassPropertyStringIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());

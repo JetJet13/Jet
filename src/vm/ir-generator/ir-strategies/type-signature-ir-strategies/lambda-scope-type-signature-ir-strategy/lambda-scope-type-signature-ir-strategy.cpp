@@ -6,7 +6,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../../shared/utils/logger/logger.h"
 
-std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
     auto keyIdMap = std::unordered_map<unsigned long, std::string>();
@@ -28,7 +28,7 @@ std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::
     return structType;
 }
 
-std::shared_ptr<IRTypeValueInstructionNode> LambdaScopeTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> LambdaScopeTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRCapturedVariableType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {

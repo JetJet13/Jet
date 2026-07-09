@@ -7,7 +7,7 @@
 #include "../../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 
-std::shared_ptr<IRArrayExpressionNode> ArrayExpressionIRStrategy::generate(std::shared_ptr<ASTArrayExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRArrayExpressionNode> ArrayExpressionIRStrategy::generate(std::shared_ptr<ASTArrayExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto elementValues = std::vector<std::shared_ptr<IRExpressionNode>>();
     auto elementValueSourceAllocations = std::vector<std::shared_ptr<IRInstructionNode>>();
     for (auto element : *node->getElements()) {
@@ -26,7 +26,7 @@ std::shared_ptr<IRArrayExpressionNode> ArrayExpressionIRStrategy::generate(std::
     return std::make_shared<IRArrayExpressionNode>(node, arrayAllocation, arrayPointerAllocation, elementValues, irType);
 }
 
-std::shared_ptr<IRInstructionNode> ArrayExpressionIRStrategy::generateArrayAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, std::shared_ptr<IRType> arrayElementIrType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations, IRGenerator* irGenerator, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRInstructionNode> ArrayExpressionIRStrategy::generateArrayAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, std::shared_ptr<IRType> arrayElementIrType, std::vector<std::shared_ptr<IRInstructionNode>> childAllocations, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),
             {
@@ -42,6 +42,6 @@ std::shared_ptr<IRInstructionNode> ArrayExpressionIRStrategy::generateArrayAlloc
     );
 }
 
-std::shared_ptr<IRInstructionNode> ArrayExpressionIRStrategy::generateArrayPointerAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, std::shared_ptr<IRInstructionNode> arrayAllocation, IRGenerator* irGenerator, IRContext* irContext, std::shared_ptr<IROperation> irOperation) {
+std::shared_ptr<IRInstructionNode> ArrayExpressionIRStrategy::generateArrayPointerAllocation(std::shared_ptr<ASTArrayExpressionNode> node, std::shared_ptr<IRArrayPointerType> irArrayPointerType, std::shared_ptr<IRArrayType> irArrayType, std::shared_ptr<IRInstructionNode> arrayAllocation, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     return IRInstructionNodeFactory::create(irGenerator->generateIrPointerType(irArrayPointerType), arrayAllocation);
 }

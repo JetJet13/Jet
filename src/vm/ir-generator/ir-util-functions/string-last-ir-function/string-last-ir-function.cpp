@@ -20,7 +20,7 @@ void StringLastIRFunction::generateStringLastFunction(IRGenerator* irGenerator, 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            StringLastIRFunction::getStringLastIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isNumElementsOneIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumElementsOneIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isNumElementsOneIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());

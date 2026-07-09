@@ -11,7 +11,7 @@
 
 class PointerTypeSignatureIRStrategy {
 public:
-    std::shared_ptr<IRPointerType> generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRPointerType> generate(std::shared_ptr<PointerTypeSignature> pointerTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRTypeValueInstructionNode> generateTypeValue(std::shared_ptr<IRPointerType> irType, IRGenerator* irGenerator);
 };
 

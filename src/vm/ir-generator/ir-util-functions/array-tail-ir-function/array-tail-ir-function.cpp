@@ -22,7 +22,7 @@ void ArrayTailIRFunction::generateArrayTailFunction(IRGenerator* irGenerator, st
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            ArrayTailIRFunction::getArrayTailIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isNumElementsLessThanTwoIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isNumElementsLessThanTwoIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createChild();

@@ -24,7 +24,7 @@ void RangeIRFunction::generateRange1pFunction(IRGenerator* irGenerator, std::uni
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange1pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isStepNegativeIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isStepNegativeIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isStepNegativeIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
@@ -68,7 +68,7 @@ void RangeIRFunction::generateRange2pFunction(IRGenerator* irGenerator, std::uni
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange2pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto differenceLessThanZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto differenceLessThanZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto forLoopPrepBlock = irGenerator->generateBasicBlock("for.loop.prep", irContext);
@@ -163,7 +163,7 @@ void RangeIRFunction::generateRange3pFunction(IRGenerator* irGenerator, std::uni
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
                                            RangeIRFunction::getRange3pIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isStepZeroIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isStepZeroIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isStepInvalidIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());

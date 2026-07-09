@@ -12,7 +12,7 @@
 
 class RefValueAssignmentStatementIRStrategy {
 public:
-    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRStatementNode> generate(std::shared_ptr<ASTRefValueAssignmentStatementNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_REF_VALUE_ASSIGNMENT_STATEMENT_IR_STRATEGY_H

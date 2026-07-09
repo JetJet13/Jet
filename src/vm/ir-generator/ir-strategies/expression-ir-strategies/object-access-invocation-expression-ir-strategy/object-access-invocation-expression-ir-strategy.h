@@ -12,7 +12,7 @@
 
 class ObjectAccessInvocationExpressionIRStrategy {
 public:
-    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext, std::shared_ptr<IROperation> irOperation);
+    std::shared_ptr<IRExpressionNode> generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation);
 };
 
 #endif //JETLANG_OBJECT_ACCESS_INVOCATION_EXPRESSION_IR_STRATEGY_H

@@ -27,7 +27,7 @@ protected:
     std::vector<std::shared_ptr<IRBlockNode>> _successors;
     std::optional<std::shared_ptr<IRBlockNode>> _parentBlock;
     std::optional<std::shared_ptr<IRBlockNode>> _nestedParentBlock;
-    std::vector<IRNodeToFree*> _nodesToFree;
+    std::vector<std::shared_ptr<IRNodeToFree>> _nodesToFree;
     std::optional<std::shared_ptr<IRFunctionReturnExpressionNode>> _returnExpression;
     bool _allowedToFreeNodes = true;
     bool _representsRealBlock = true;
@@ -51,8 +51,8 @@ public:
     void addExpressionToFree(std::shared_ptr<IRExpressionNode> expressionNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
     void addVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
     void addLambdaVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock = {});
-    std::vector<IRNodeToFree*>* getNodesToFree();
-    std::vector<IRNodeToFree*> getNestedParentsNodesToFree();
+    std::vector<std::shared_ptr<IRNodeToFree>>* getNodesToFree();
+    std::vector<std::shared_ptr<IRNodeToFree>> getNestedParentsNodesToFree();
     void setFinalBlockForNodesToFree(std::shared_ptr<IRBlockNode> irBlock);
     virtual void setInsertionPointBeforeLastInstruction();
     virtual void setInsertionPointBeforeFirstInstruction();

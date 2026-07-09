@@ -10,7 +10,7 @@ IRBlockNode::IRBlockNode(llvm::BasicBlock* irValue, IRBlockType type, std::share
     _type = type;
     _scope = scope;
     _builder = std::make_unique<llvm::IRBuilder<>>(_irValue);
-    _nodesToFree = std::vector<IRNodeToFree*>();
+    _nodesToFree = std::vector<std::shared_ptr<IRNodeToFree>>();
 }
 
 bool IRBlockNode::hasReturnStatement() {
@@ -103,7 +103,7 @@ void IRBlockNode::addExpressionToFree(std::shared_ptr<IRExpressionNode> expressi
         _parentBlock.value()->addExpressionToFree(expressionNode, shared_from_this());
         return;
     }
-    _nodesToFree.insert(_nodesToFree.begin(), new IRNodeToFree(expressionNode, associatedIRBlock.value_or(shared_from_this())));
+    _nodesToFree.insert(_nodesToFree.begin(), std::make_shared<IRNodeToFree>(expressionNode, associatedIRBlock.value_or(shared_from_this())));
 }
 
 void IRBlockNode::addVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock) {
@@ -111,7 +111,7 @@ void IRBlockNode::addVariableToFree(std::shared_ptr<IRVariableDeclarationNode> v
         _parentBlock.value()->addVariableToFree(variableNode, associatedIRBlock.value_or(shared_from_this()));
         return;
     }
-    _nodesToFree.insert(_nodesToFree.begin(), new IRNodeToFree(variableNode, associatedIRBlock.value_or(shared_from_this())));
+    _nodesToFree.insert(_nodesToFree.begin(), std::make_shared<IRNodeToFree>(variableNode, associatedIRBlock.value_or(shared_from_this())));
 }
 
 void IRBlockNode::addLambdaVariableToFree(std::shared_ptr<IRVariableDeclarationNode> variableNode, std::optional<std::shared_ptr<IRBlockNode>> associatedIRBlock) {
@@ -119,19 +119,19 @@ void IRBlockNode::addLambdaVariableToFree(std::shared_ptr<IRVariableDeclarationN
         _parentBlock.value()->addLambdaVariableToFree(variableNode, associatedIRBlock.value_or(shared_from_this()));
         return;
     }
-    _nodesToFree.insert(_nodesToFree.begin(), new IRNodeToFree(variableNode, associatedIRBlock.value_or(shared_from_this())));
+    _nodesToFree.insert(_nodesToFree.begin(), std::make_shared<IRNodeToFree>(variableNode, associatedIRBlock.value_or(shared_from_this())));
 }
 
-std::vector<IRNodeToFree*>* IRBlockNode::getNodesToFree() {
+std::vector<std::shared_ptr<IRNodeToFree>>* IRBlockNode::getNodesToFree() {
     return &_nodesToFree;
 }
 
-std::vector<IRNodeToFree*> IRBlockNode::getNestedParentsNodesToFree() {
+std::vector<std::shared_ptr<IRNodeToFree>> IRBlockNode::getNestedParentsNodesToFree() {
     if (!_nestedParentBlock) {
-        return std::vector<IRNodeToFree*>();
+        return std::vector<std::shared_ptr<IRNodeToFree>>();
     }
 
-    auto nodesToFree = std::vector<IRNodeToFree*>();
+    auto nodesToFree = std::vector<std::shared_ptr<IRNodeToFree>>();
     auto nestedParentBlock = _nestedParentBlock;
     while (nestedParentBlock) {
         auto nestedNodesToFree = nestedParentBlock.value()->getNodesToFree();

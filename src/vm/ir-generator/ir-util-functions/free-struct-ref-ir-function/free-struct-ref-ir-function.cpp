@@ -23,7 +23,7 @@ void FreeStructRefIRFunction::generateFreeStructRefFunction(IRGenerator* irGener
 
     auto function = irModuleNode->getFreeStructRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto freeStructRefIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto freeStructRefIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());

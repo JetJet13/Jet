@@ -7,7 +7,7 @@
 #include "../../../../types/ir-type-id.h"
 #include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
-std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {
         auto irType = std::make_shared<IRType>(irGenerator->generateIntType());
         irType->setValue(this->generateTypeValue(irType, irGenerator, irContext));
@@ -36,7 +36,7 @@ std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr
     }
 }
 
-std::shared_ptr<IRTypeValueInstructionNode> LiteralTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, IRContext* irContext) {
+std::shared_ptr<IRTypeValueInstructionNode> LiteralTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRType> irType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto allocation = irGenerator->generateIrTypeValueTypeAllocation();
     auto initialValue = this->generateInitialTypeValue(irType, irTypeValueType, irGenerator, irContext);
@@ -48,7 +48,7 @@ std::shared_ptr<IRTypeValueInstructionNode> LiteralTypeSignatureIRStrategy::gene
     );
 }
 
-llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, IRContext* irContext) {
+llvm::Value* LiteralTypeSignatureIRStrategy::generateInitialTypeValue(std::shared_ptr<IRType> irType, std::shared_ptr<IRTypeValueType> irTypeValueType, IRGenerator* irGenerator, std::shared_ptr<IRContext> irContext) {
     auto pointerType = irGenerator->generatePointerType();
     if (irType->isIntegerType()) {
         return llvm::ConstantStruct::get(irTypeValueType->getType(), {

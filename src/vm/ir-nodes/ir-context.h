@@ -26,7 +26,7 @@ public:
     IRScope* getIRScope();
     llvm::Module* getModule();
     llvm::Function* getFunction();
-    IRContext* clone(std::shared_ptr<IRBlockNode> irBlock);
+    std::shared_ptr<IRContext> clone(std::shared_ptr<IRBlockNode> irBlock);
 };
 
 #endif //JETLANG_IR_CONTEXT_H

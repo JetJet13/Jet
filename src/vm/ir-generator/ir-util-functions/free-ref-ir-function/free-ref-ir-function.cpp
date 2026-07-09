@@ -24,7 +24,7 @@ void FreeRefIRFunction::generateFreeRefFunction(IRGenerator* irGenerator, std::u
 
     auto function = irModuleNode->getFreeRefFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 
     auto freeValueIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto freeValueIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());

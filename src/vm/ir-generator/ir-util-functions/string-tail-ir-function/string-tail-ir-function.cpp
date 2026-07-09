@@ -21,7 +21,7 @@ void StringTailIRFunction::generateStringTailFunction(IRGenerator* irGenerator, 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            StringTailIRFunction::getStringTailIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto isStringEmptyIfBlock = irGenerator->generateIfBlock(irContext, functionBlock->getScope());
     auto isStringEmptyIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     functionBlock->createChild();

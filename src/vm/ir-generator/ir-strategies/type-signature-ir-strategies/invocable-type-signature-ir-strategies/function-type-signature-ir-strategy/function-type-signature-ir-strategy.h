@@ -12,7 +12,7 @@
 
 class FunctionTypeSignatureIRStrategy {
 public:
-    std::shared_ptr<IRFunctionType> generate(std::shared_ptr<FunctionTypeSignature> functionTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext);
+    std::shared_ptr<IRFunctionType> generate(std::shared_ptr<FunctionTypeSignature> functionTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
 };
 
 #endif //JETLANG_FUNCTION_TYPE_SIGNATURE_IR_STRATEGY_H

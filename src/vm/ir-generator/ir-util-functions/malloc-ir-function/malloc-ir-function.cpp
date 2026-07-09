@@ -17,7 +17,7 @@ void MallocIRFunction::generateMallocFunction(IRGenerator* irGenerator, std::uni
 
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, MallocIRFunction::getMallocIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
-    auto irContext = new IRContext(functionBlock, irModuleNode, context);
+    auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
     auto allocatedPointer = functionBlock->getBuilder()->get()->CreateCall(calloc, { function->getArg(0), function->getArg(1) });
     auto isAllocatedPointerNull = functionBlock->getBuilder()->get()->CreateICmp(
             llvm::CmpInst::Predicate::ICMP_NE,

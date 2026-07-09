@@ -5,7 +5,7 @@
 #include "class-type-signature-ir-strategy.h"
 #include "../../../../../shared/utils/md5/md5.h"
 
-std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(classTypeSignature->getModuleId(), classTypeSignature->getId()).value());
     auto classPropertyTypes = std::vector<llvm::Type*>();
     auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
@@ -67,7 +67,7 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_
     return irClassType;
 }
 
-std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generateInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generateInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = std::make_shared<IRClassType>(
             classTypeSignature->getId(),
             irGenerator->generateIRStructRefType(),
@@ -81,7 +81,7 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generateInitial(std::
     return irClassType;
 }
 
-std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generatePostInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, IRContext* irContext) {
+std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generatePostInitial(std::shared_ptr<ClassTypeSignature> classTypeSignature, IRGenerator* irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(classTypeSignature->getId()).value());
     auto constructorReturnType = irGenerator->getVoidType();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
