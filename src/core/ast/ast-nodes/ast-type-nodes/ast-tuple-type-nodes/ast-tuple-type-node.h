@@ -25,8 +25,8 @@ public:
     unsigned long numValueTypes();
     std::shared_ptr<ASTTupleTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<ASTTupleTypeNode> addValueType(std::shared_ptr<ASTTypeNode> type);
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

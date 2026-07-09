@@ -50,11 +50,11 @@ std::shared_ptr<TypeSignature> IRClassMethodInvocationExpressionNode::getTypeSig
     return _node->getName()->getMethodTypeSignature()->getReturnType();
 }
 
-Position* IRClassMethodInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRClassMethodInvocationExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRClassMethodInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRClassMethodInvocationExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

@@ -6,4 +6,4 @@
 
 PostProcessor::PostProcessor() {}
 
-void PostProcessor::process(JetFile* file) {}
+void PostProcessor::process(std::shared_ptr<JetFile> file) {}

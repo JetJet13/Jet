@@ -51,11 +51,11 @@ std::shared_ptr<TypeSignature> IRArrayExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRArrayExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRArrayExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRArrayExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRArrayExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

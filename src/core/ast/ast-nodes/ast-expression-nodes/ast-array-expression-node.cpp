@@ -40,11 +40,11 @@ unsigned long ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 
-Position* ASTArrayExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayExpressionNode::getStartPosition() {
     return _array->getStartPosition();
 }
 
-Position* ASTArrayExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayExpressionNode::getEndPosition() {
     return _array->getEndPosition();
 }
 

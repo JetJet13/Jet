@@ -25,8 +25,8 @@ public:
     unsigned long numKeyValueTypes();
     std::shared_ptr<ASTStructTypeNode> addKeyValueType(std::shared_ptr<ASTStructTypeKeyValueNode> keyValueType);
     std::shared_ptr<ASTStructTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

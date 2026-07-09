@@ -14,11 +14,11 @@ std::shared_ptr<ASTExpressionNode> ASTObjectAccessSourceNode::getSource() {
     return _source;
 }
 
-Position* ASTObjectAccessSourceNode::getStartPosition() {
+std::shared_ptr<Position> ASTObjectAccessSourceNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTObjectAccessSourceNode::getEndPosition() {
+std::shared_ptr<Position> ASTObjectAccessSourceNode::getEndPosition() {
     return _source->getEndPosition();
 }
 

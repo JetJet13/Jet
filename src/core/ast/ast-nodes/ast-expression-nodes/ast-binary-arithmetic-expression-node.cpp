@@ -43,11 +43,11 @@ std::shared_ptr<ASTBinaryArithmeticOperatorNode> ASTBinaryArithmeticExpressionNo
     return _binaryOperator;
 }
 
-Position* ASTBinaryArithmeticExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTBinaryArithmeticExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }
 
-Position* ASTBinaryArithmeticExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTBinaryArithmeticExpressionNode::getEndPosition() {
     return _rightNode->getEndPosition();
 }
 

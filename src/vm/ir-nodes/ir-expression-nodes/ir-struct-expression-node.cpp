@@ -31,11 +31,11 @@ std::shared_ptr<TypeSignature> IRStructExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRStructExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRStructExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRStructExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRStructExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

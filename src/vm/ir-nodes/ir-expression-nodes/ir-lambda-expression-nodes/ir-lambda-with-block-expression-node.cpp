@@ -46,11 +46,11 @@ std::shared_ptr<TypeSignature> IRLambdaWithBlockExpressionNode::getTypeSignature
     return _node->getTypeSignature();
 }
 
-Position* IRLambdaWithBlockExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRLambdaWithBlockExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRLambdaWithBlockExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRLambdaWithBlockExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

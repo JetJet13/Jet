@@ -56,11 +56,11 @@ std::shared_ptr<TypeSignature> IRBinaryComparisonExpressionNode::getTypeSignatur
     return _node->getTypeSignature();
 }
 
-Position* IRBinaryComparisonExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRBinaryComparisonExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRBinaryComparisonExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRBinaryComparisonExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

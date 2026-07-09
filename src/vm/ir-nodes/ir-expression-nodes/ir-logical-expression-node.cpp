@@ -26,11 +26,11 @@ std::shared_ptr<TypeSignature> IRLogicalExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRLogicalExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRLogicalExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRLogicalExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRLogicalExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

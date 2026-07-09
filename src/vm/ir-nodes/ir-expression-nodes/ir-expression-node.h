@@ -37,8 +37,8 @@ public:
     virtual llvm::Value* getValue() = 0;
     virtual std::shared_ptr<IRType> getIRType() = 0;
     virtual std::shared_ptr<TypeSignature> getTypeSignature() = 0;
-    virtual Position* getStartPosition() = 0;
-    virtual Position* getEndPosition() = 0;
+    virtual std::shared_ptr<Position> getStartPosition() = 0;
+    virtual std::shared_ptr<Position> getEndPosition() = 0;
     bool isExpression() override;
 };
 

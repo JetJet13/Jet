@@ -22,11 +22,11 @@ std::shared_ptr<ASTDrefNode> ASTDrefExpressionNode::getDrefNode() {
     return _drefNode;
 }
 
-Position* ASTDrefExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTDrefExpressionNode::getStartPosition() {
     return _drefNode->getStartPosition();
 }
 
-Position* ASTDrefExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTDrefExpressionNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

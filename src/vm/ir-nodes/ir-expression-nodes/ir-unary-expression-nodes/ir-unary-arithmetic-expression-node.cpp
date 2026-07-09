@@ -32,11 +32,11 @@ std::shared_ptr<TypeSignature> IRUnaryArithmeticExpressionNode::getTypeSignature
     return _node->getTypeSignature();
 }
 
-Position* IRUnaryArithmeticExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRUnaryArithmeticExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRUnaryArithmeticExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRUnaryArithmeticExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

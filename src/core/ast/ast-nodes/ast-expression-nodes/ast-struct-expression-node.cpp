@@ -58,11 +58,11 @@ void ASTStructExpressionNode::setTypeSignature(std::shared_ptr<StructTypeSignatu
     _typeSignature = structTypeSignature;
 }
 
-Position* ASTStructExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTStructExpressionNode::getStartPosition() {
     return _structStartNode->getStartPosition();
 }
 
-Position* ASTStructExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTStructExpressionNode::getEndPosition() {
     return _structEndNode->getEndPosition();
 }
 

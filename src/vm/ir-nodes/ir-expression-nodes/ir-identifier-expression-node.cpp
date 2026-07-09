@@ -36,11 +36,11 @@ std::shared_ptr<TypeSignature> IRIdentifierExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRIdentifierExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRIdentifierExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRIdentifierExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRIdentifierExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

@@ -50,11 +50,11 @@ bool ASTIfStatementNode::onlyHasIfBlock() {
     return _elseIfBlocks.empty() && !_elseBlock;
 }
 
-Position* ASTIfStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTIfStatementNode::getStartPosition() {
     return _ifBlock->getStartPosition();
 }
 
-Position* ASTIfStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTIfStatementNode::getEndPosition() {
     if (_elseBlock) {
         return _elseBlock.value()->getEndPosition();
     }

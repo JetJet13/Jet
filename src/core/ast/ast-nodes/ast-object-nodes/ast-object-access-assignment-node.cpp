@@ -21,11 +21,11 @@ std::shared_ptr<TypeSignature> ASTObjectAccessAssignmentNode::getTypeSignature()
     return _objectAccessExpression->getTypeSignature();
 }
 
-Position* ASTObjectAccessAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTObjectAccessAssignmentNode::getStartPosition() {
     return _objectAccessExpression->getStartPosition();
 }
 
-Position* ASTObjectAccessAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTObjectAccessAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

@@ -13,14 +13,14 @@
 class Lexeme {
 private:
     Token* _token;
-    Position _startPosition;
-    Position _endPosition;
+    std::shared_ptr<Position> _startPosition;
+    std::shared_ptr<Position> _endPosition;
 public:
     Lexeme(Token* token);
     Lexeme(Token* token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn);
     Token* getToken();
-    Position* getStartPosition();
-    Position* getEndPosition();
+    std::shared_ptr<Position> getStartPosition();
+    std::shared_ptr<Position> getEndPosition();
     std::string toString();
     bool hasSameSymbolTypeAs(Lexeme* other);
     bool isEqualTo(Lexeme* other);

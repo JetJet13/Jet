@@ -14,11 +14,11 @@ Lexeme* ASTCustomTypeNode::getLexeme() {
     return _lexeme;
 }
 
-Position* ASTCustomTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTCustomTypeNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTCustomTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTCustomTypeNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

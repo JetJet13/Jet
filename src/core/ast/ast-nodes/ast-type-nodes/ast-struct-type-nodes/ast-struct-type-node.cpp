@@ -42,11 +42,11 @@ std::shared_ptr<ASTStructTypeNode> ASTStructTypeNode::addComma(std::shared_ptr<A
     return std::dynamic_pointer_cast<ASTStructTypeNode>(shared_from_this());
 }
 
-Position* ASTStructTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTStructTypeNode::getStartPosition() {
     return _structTypeStartNode->getStartPosition();
 }
 
-Position* ASTStructTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTStructTypeNode::getEndPosition() {
     return _structTypeEndNode->getEndPosition();
 }
 

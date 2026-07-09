@@ -18,11 +18,11 @@ std::shared_ptr<TypeSignature> IRLiteralExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRLiteralExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRLiteralExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRLiteralExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRLiteralExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

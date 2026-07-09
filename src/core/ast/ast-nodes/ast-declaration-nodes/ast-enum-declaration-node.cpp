@@ -43,11 +43,11 @@ bool ASTEnumDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
-Position* ASTEnumDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTEnumDeclarationNode::getStartPosition() {
     return _enumKeyword->getStartPosition();
 }
 
-Position* ASTEnumDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTEnumDeclarationNode::getEndPosition() {
     return _values->getEndPosition();
 }
 

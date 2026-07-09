@@ -75,11 +75,11 @@ std::shared_ptr<ASTNode> ASTBlockNode::transformIfNecessary(std::optional<std::s
     return shared_from_this();
 }
 
-Position* ASTBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTBlockNode::getStartPosition() {
     return _blockStartNode->getStartPosition();
 }
 
-Position* ASTBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTBlockNode::getEndPosition() {
     return _blockEndNode->getEndPosition();
 }
 

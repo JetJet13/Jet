@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTClassPropertyRefValueAssignmentStatementNo
     return _expression;
 }
 
-Position* ASTClassPropertyRefValueAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyRefValueAssignmentStatementNode::getStartPosition() {
     return _propertyAssignment->getStartPosition();
 }
 
-Position* ASTClassPropertyRefValueAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyRefValueAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

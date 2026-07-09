@@ -186,11 +186,11 @@ std::string ASTIdentifierNode::toString() {
     return "IDENTIFIER";
 }
 
-Position* ASTIdentifierNode::getStartPosition() {
+std::shared_ptr<Position> ASTIdentifierNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTIdentifierNode::getEndPosition() {
+std::shared_ptr<Position> ASTIdentifierNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

@@ -21,11 +21,11 @@ std::shared_ptr<ASTArrayAccessNode> ASTArrayAccessExpressionNode::getIndex() {
     return _arrayAccess;
 }
 
-Position* ASTArrayAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTArrayAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayAccessExpressionNode::getEndPosition() {
     return _arrayAccess->getEndPosition();
 }
 

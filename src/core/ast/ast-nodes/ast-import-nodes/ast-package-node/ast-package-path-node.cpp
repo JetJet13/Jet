@@ -14,11 +14,11 @@ std::shared_ptr<ASTStringLiteralNode> ASTPackagePathNode::getPackagePath() {
     return _packagePath;
 }
 
-Position* ASTPackagePathNode::getStartPosition() {
+std::shared_ptr<Position> ASTPackagePathNode::getStartPosition() {
     return _packagePath->getStartPosition();
 }
 
-Position* ASTPackagePathNode::getEndPosition() {
+std::shared_ptr<Position> ASTPackagePathNode::getEndPosition() {
     return _packagePath->getEndPosition();
 }
 

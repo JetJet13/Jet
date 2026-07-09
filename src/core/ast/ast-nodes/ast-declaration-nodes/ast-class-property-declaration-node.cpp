@@ -70,11 +70,11 @@ std::shared_ptr<TypeSignature> ASTClassPropertyDeclarationNode::getTypeSignature
     return _typeSignature;
 }
 
-Position* ASTClassPropertyDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyDeclarationNode::getStartPosition() {
     return _propertyInit->getStartPosition();
 }
 
-Position* ASTClassPropertyDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyDeclarationNode::getEndPosition() {
     if (_initializer) {
         return _initializer.value()->getEndPosition();
     }

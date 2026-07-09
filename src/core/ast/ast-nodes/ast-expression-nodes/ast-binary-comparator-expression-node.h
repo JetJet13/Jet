@@ -24,8 +24,8 @@ public:
     std::shared_ptr<TypeSignature> getLeftTypeSignature();
     std::shared_ptr<TypeSignature> getRightTypeSignature();
     std::shared_ptr<ASTBinaryComparatorOperatorNode> getBinaryOperator();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

@@ -24,8 +24,8 @@ public:
     std::shared_ptr<ASTClassMethodCallNode> getName();
     std::shared_ptr<ASTClassAccessNode> getClassAccess();
     unsigned long numArguments();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

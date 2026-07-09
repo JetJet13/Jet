@@ -66,11 +66,11 @@ std::shared_ptr<TypeSignature> ASTClassMethodDeclarationNode::getTypeSignature()
     return _typeSignature;
 }
 
-Position* ASTClassMethodDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassMethodDeclarationNode::getStartPosition() {
     return _classMethodDefinition->getStartPosition();
 }
 
-Position* ASTClassMethodDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassMethodDeclarationNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

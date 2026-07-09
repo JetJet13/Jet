@@ -11,11 +11,11 @@ ASTVoidTypeNode::ASTVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode) {
     _children.push_back(_void);
 }
 
-Position* ASTVoidTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTVoidTypeNode::getStartPosition() {
     return _void->getStartPosition();
 }
 
-Position* ASTVoidTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTVoidTypeNode::getEndPosition() {
     return _void->getEndPosition();
 }
 

@@ -18,7 +18,7 @@ private:
     std::shared_ptr<ASTLeftBracketNode> _leftBracket;
     std::shared_ptr<ASTRightBracketNode> _rightBracket;
     std::vector<std::shared_ptr<ASTCommaNode>> _commas;
-    std::vector<std::shared_ptr<ASTExpressionNode>>* _elements;
+    std::vector<std::shared_ptr<ASTExpressionNode>> _elements;
 public:
     explicit ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::shared_ptr<ASTRightBracketNode> rightBracket);
     explicit ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::vector<std::shared_ptr<ASTExpressionNode>> elements, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTRightBracketNode> rightBracket);
@@ -29,8 +29,8 @@ public:
     std::shared_ptr<ASTRightBracketNode> getRightBracket();
     std::optional<std::shared_ptr<ASTExpressionNode>> getFirstElement();
     std::vector<std::shared_ptr<ASTExpressionNode>>* getElements();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     void print() override;

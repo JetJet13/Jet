@@ -17,8 +17,8 @@ private:
 public:
     explicit ASTTupleTypeNode(std::shared_ptr<ASTTupleNode> tupleNode, std::shared_ptr<ASTTypeParameterListNode> tupleTypeParameterList);
     std::shared_ptr<ASTTypeParameterListNode> getParameterList();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

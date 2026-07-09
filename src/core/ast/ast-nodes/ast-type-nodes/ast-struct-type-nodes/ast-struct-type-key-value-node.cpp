@@ -31,11 +31,11 @@ std::shared_ptr<TypeSignature> ASTStructTypeKeyValueNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTStructTypeKeyValueNode::getStartPosition() {
+std::shared_ptr<Position> ASTStructTypeKeyValueNode::getStartPosition() {
     return _name->getStartPosition();
 }
 
-Position* ASTStructTypeKeyValueNode::getEndPosition() {
+std::shared_ptr<Position> ASTStructTypeKeyValueNode::getEndPosition() {
     return _type->getEndPosition();
 }
 

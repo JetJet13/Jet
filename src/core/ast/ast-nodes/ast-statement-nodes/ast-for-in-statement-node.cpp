@@ -31,11 +31,11 @@ std::shared_ptr<ASTControlFlowBlockNode> ASTForInStatementNode::getBlock() {
     return _block;
 }
 
-Position* ASTForInStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTForInStatementNode::getStartPosition() {
     return _forKeyword->getStartPosition();
 }
 
-Position* ASTForInStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTForInStatementNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

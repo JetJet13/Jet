@@ -46,11 +46,11 @@ std::shared_ptr<ASTInterfacePropertyListNode> ASTInterfacePropertyListNode::addC
     return std::dynamic_pointer_cast<ASTInterfacePropertyListNode>(shared_from_this());
 }
 
-Position* ASTInterfacePropertyListNode::getStartPosition() {
+std::shared_ptr<Position> ASTInterfacePropertyListNode::getStartPosition() {
     return _startNode->getStartPosition();
 }
 
-Position* ASTInterfacePropertyListNode::getEndPosition() {
+std::shared_ptr<Position> ASTInterfacePropertyListNode::getEndPosition() {
     return _endNode->getEndPosition();
 }
 

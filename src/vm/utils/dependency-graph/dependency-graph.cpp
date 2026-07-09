@@ -10,28 +10,28 @@
 // step 3. prioritize by totalDependents count ( the higher the count, the higher the priority)
 
 DependencyGraph::DependencyGraph() {
-    _directDependencyMap = std::unordered_map<std::string, std::set<JetFile*>*>();
+    _directDependencyMap = std::unordered_map<std::string, std::shared_ptr<std::set<std::shared_ptr<JetFile>>>>();
     _totalDependencyMap = std::unordered_map<std::string, unsigned long>();
-    _totalCounts = std::vector<std::pair<unsigned long, JetFile*>>();
+    _totalCounts = std::vector<std::pair<unsigned long, std::shared_ptr<JetFile>>>();
     _visited = std::set<std::string>();
-    _importFreeFiles = std::vector<JetFile*>();
+    _importFreeFiles = std::vector<std::shared_ptr<JetFile>>();
 }
 
-std::vector<JetFile*>* DependencyGraph::getPrioritizedList() {
-    auto prioritizedList = new std::vector<JetFile*>();
+std::shared_ptr<std::vector<std::shared_ptr<JetFile>>> DependencyGraph::getPrioritizedList() {
+    auto prioritizedList = std::make_shared<std::vector<std::shared_ptr<JetFile>>>();
     for (auto keyValue : _totalCounts) {
         prioritizedList->push_back(keyValue.second);
     }
     return prioritizedList;
 }
 
-void DependencyGraph::insert(JetFile* jetFile) {
+void DependencyGraph::insert(std::shared_ptr<JetFile> jetFile) {
     auto id = jetFile->getId();
     auto existingRecord = _directDependencyMap.find(id);
     if (existingRecord != _directDependencyMap.end()) {
         return;
     }
-    _directDependencyMap.insert(std::pair(id, new std::set<JetFile*>()));
+    _directDependencyMap.insert(std::pair(id, std::make_shared<std::set<std::shared_ptr<JetFile>>>()));
     _totalDependencyMap.insert(std::pair(id, 0));
     if (!jetFile->hasImports()) {
         _importFreeFiles.push_back(jetFile);
@@ -41,7 +41,7 @@ void DependencyGraph::insert(JetFile* jetFile) {
     }
 }
 
-void DependencyGraph::insertImport(JetFile* jetFile, JetFile* importedJetFile) {
+void DependencyGraph::insertImport(std::shared_ptr<JetFile> jetFile, std::shared_ptr<JetFile> importedJetFile) {
     this->insert(importedJetFile);
     _directDependencyMap.find(importedJetFile->getId())->second->insert(jetFile);
 }
@@ -53,13 +53,13 @@ void DependencyGraph::prioritize() {
     std::sort(
         _totalCounts.begin(),
         _totalCounts.end(),
-        [](const std::pair<unsigned long, JetFile*>& a, const std::pair<unsigned long, JetFile*>& b) {
+        [](const std::pair<unsigned long, std::shared_ptr<JetFile>>& a, const std::pair<unsigned long, std::shared_ptr<JetFile>>& b) {
           return a.first > b.first;  // sort by desc order
         }
     );
 }
 
-unsigned long DependencyGraph::setAndReturnTotalDependents(JetFile* jetFile) {
+unsigned long DependencyGraph::setAndReturnTotalDependents(std::shared_ptr<JetFile> jetFile) {
     if (_visited.find(jetFile->getId()) != _visited.end()) {
         return _totalDependencyMap.find(jetFile->getId())->second;
     }

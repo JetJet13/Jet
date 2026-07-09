@@ -55,11 +55,11 @@ std::shared_ptr<TypeSignature> IRArrayPrototypeInvocationExpressionNode::getType
     return _node->getTypeSignature();
 }
 
-Position* IRArrayPrototypeInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRArrayPrototypeInvocationExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRArrayPrototypeInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRArrayPrototypeInvocationExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

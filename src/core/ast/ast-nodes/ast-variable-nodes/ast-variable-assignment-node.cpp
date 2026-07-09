@@ -25,11 +25,11 @@ std::shared_ptr<TypeSignature> ASTVariableAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTVariableAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTVariableAssignmentNode::getStartPosition() {
     return _identifier->getStartPosition();
 }
 
-Position* ASTVariableAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTVariableAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

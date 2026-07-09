@@ -32,8 +32,8 @@ public:
     void setTypeSignature(std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
     std::shared_ptr<ParameterListItemTypeSignature> getParameterTypeSignature();
     std::shared_ptr<TypeSignature> getTypeSignature() override;
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

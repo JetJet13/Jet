@@ -31,7 +31,7 @@ void VM::addCompiledJetFile(IRJetFile* irJetFile) {
 std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule) {
     auto scope = irJetFile->getScope();
     auto jetFile = irJetFile->getFile();
-    auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath()->filename().string(), irModule);
+    auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath().filename().string(), irModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = _irGenerator->generateContext(irMainFunctionBlock, irModule);
     for (auto node : *jetFile->getFile()->getBody()) {
@@ -53,7 +53,7 @@ std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_pt
     return irMainFunction;
 }
 
-IRJetFile* VM::compileMain(JetFile* jetFile) {
+IRJetFile* VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     auto dependencyGraph = DependencyGraph();
     dependencyGraph.insert(jetFile);
     dependencyGraph.prioritize();
@@ -66,8 +66,8 @@ IRJetFile* VM::compileMain(JetFile* jetFile) {
     irMainModule->linkTo(irCoreModule);
     auto irMainFunction = _irGenerator->generateMainFunction("main", irMainModule);
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
-
-    for (auto jetFileToCompile : *dependencyGraph.getPrioritizedList()) {
+    auto prioritizedList = dependencyGraph.getPrioritizedList();
+    for (auto jetFileToCompile : *prioritizedList) {
         Logger::log("Compiling", jetFileToCompile->getId());
         auto jetFileScope = std::make_shared<IRLookupTable>(jetFileToCompile->getFile()->getModuleName());
         auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());

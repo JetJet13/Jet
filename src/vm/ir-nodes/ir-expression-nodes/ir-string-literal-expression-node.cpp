@@ -24,11 +24,11 @@ std::shared_ptr<TypeSignature> IRStringLiteralExpressionNode::getTypeSignature()
     return _node->getTypeSignature();
 }
 
-Position* IRStringLiteralExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRStringLiteralExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRStringLiteralExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRStringLiteralExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

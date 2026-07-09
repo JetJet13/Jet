@@ -20,11 +20,11 @@ std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTElseBlockNode:
     return _block->getReturnStatements();
 }
 
-Position* ASTElseBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTElseBlockNode::getStartPosition() {
     return _elseKeyword->getStartPosition();
 }
 
-Position* ASTElseBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTElseBlockNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

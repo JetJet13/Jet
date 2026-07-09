@@ -30,8 +30,8 @@ public:
     std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     std::shared_ptr<IRType> getTargetIRType();
     llvm::Value* getValue() override;
     IRNodeType getNodeType() override;

@@ -35,11 +35,11 @@ unsigned long ASTFunctionDefinitionNode::numParameters() {
     return _parameters->numParameters();
 }
 
-Position* ASTFunctionDefinitionNode::getStartPosition() {
+std::shared_ptr<Position> ASTFunctionDefinitionNode::getStartPosition() {
     return _functionKeyword->getStartPosition();
 }
 
-Position* ASTFunctionDefinitionNode::getEndPosition() {
+std::shared_ptr<Position> ASTFunctionDefinitionNode::getEndPosition() {
     return _returnType->getEndPosition();
 }
 

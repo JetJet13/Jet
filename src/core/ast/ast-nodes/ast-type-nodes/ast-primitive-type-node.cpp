@@ -13,11 +13,11 @@ Lexeme* ASTPrimitiveTypeNode::getLexeme() {
     return _lexeme;
 }
 
-Position* ASTPrimitiveTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTPrimitiveTypeNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTPrimitiveTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTPrimitiveTypeNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

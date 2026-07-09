@@ -17,11 +17,11 @@ std::shared_ptr<ASTModuleNameNode> ASTModuleListSpreadItemNode::getModuleName() 
     return _moduleName;
 }
 
-Position* ASTModuleListSpreadItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleListSpreadItemNode::getStartPosition() {
     return _spread->getStartPosition();
 }
 
-Position* ASTModuleListSpreadItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleListSpreadItemNode::getEndPosition() {
     return _moduleName->getEndPosition();
 }
 

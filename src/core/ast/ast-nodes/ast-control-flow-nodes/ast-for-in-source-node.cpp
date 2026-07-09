@@ -22,11 +22,11 @@ std::shared_ptr<TypeSignature> ASTForInSourceNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTForInSourceNode::getStartPosition() {
+std::shared_ptr<Position> ASTForInSourceNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTForInSourceNode::getEndPosition() {
+std::shared_ptr<Position> ASTForInSourceNode::getEndPosition() {
     return _source->getEndPosition();
 }
 

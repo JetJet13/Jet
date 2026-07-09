@@ -84,400 +84,400 @@
 #include "./type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.h"
 
 IRStrategyMap::IRStrategyMap() {
-    _intLiteralIRStrategy = new IntLiteralIRStrategy();
-    _floatLiteralIRStrategy = new FloatLiteralIRStrategy();
-    _charLiteralIRStrategy = new CharLiteralIRStrategy();
-    _stringLiteralIRStrategy = new StringLiteralIRStrategy();
-    _boolLiteralIRStrategy = new BoolLiteralIRStrategy();
-    _literalExpressionIRStrategy = new LiteralExpressionIRStrategy();
-    _binaryExpressionIRStrategy = new BinaryExpressionIRStrategy();
-    _concatExpressionIRStrategy = new ConcatExpressionIRStrategy();
-    _logicalExpressionIRStrategy = new LogicalExpressionIRStrategy();
-    _arrayExpressionIRStrategy = new ArrayExpressionIRStrategy();
-    _structExpressionIRStrategy = new StructExpressionIRStrategy();
-    _arrayAccessExpressionIRStrategy = new ArrayAccessExpressionIRStrategy();
-    _arrayAccessInvocationExpressionIRStrategy = new ArrayAccessInvocationExpressionIRStrategy();
-    _unaryExpressionIRStrategy = new UnaryExpressionIRStrategy();
-    _tupleExpressionIRStrategy = new TupleExpressionIRStrategy();
-    _thisExpressionIRStrategy = new ThisExpressionIRStrategy();
-    _identifierExpressionIRStrategy = new IdentifierExpressionIRStrategy();
-    _variableDeclarationIRStrategy = new VariableDeclarationIRStrategy();
-    _functionDeclarationIRStrategy = new FunctionDeclarationIRStrategy();
-    _functionParameterListIRStrategy = new FunctionParameterListIRStrategy();
-    _functionReturnExpressionIRStrategy = new FunctionReturnExpressionIRStrategy();
-    _procedureDeclarationIRStrategy = new ProcedureDeclarationIRStrategy();
-    _enumDeclarationIRStrategy = new EnumDeclarationIRStrategy();
-    _interfaceTypeDeclarationIRStrategy = new InterfaceTypeDeclarationIRStrategy();
-    _customTypeDeclarationIRStrategy = new CustomTypeDeclarationIRStrategy();
-    _moduleDeclarationIRStrategy = new ModuleDeclarationIRStrategy();
-    _importSingleModuleDeclarationIRStrategy = new ImportSingleModuleDeclarationIRStrategy();
-    _objectAccessExpressionIRStrategy = new ObjectAccessExpressionIRStrategy();
-    _objectAccessInvocationExpressionIRStrategy = new ObjectAccessInvocationExpressionIRStrategy();
-    _tupleAccessExpressionIRStrategy = new TupleAccessExpressionIRStrategy();
-    _tupleAccessInvocationExpressionIRStrategy = new TupleAccessInvocationExpressionIRStrategy();
-    _functionInvocationExpressionIRStrategy = new FunctionInvocationExpressionIRStrategy();
-    _lambdaExpressionIRStrategy = new LambdaExpressionIRStrategy();
-    _moduleAccessExpressionIRStrategy = new ModuleAccessExpressionIRStrategy();
-    _expressionStatementIRStrategy = new ExpressionStatementIRStrategy();
-    _classDeclarationIRStrategy = new ClassDeclarationIRStrategy();
-    _classPropertyAccessExpressionIRStrategy = new ClassPropertyAccessExpressionIRStrategy();
-    _classMethodInvocationExpressionIRStrategy = new ClassMethodInvocationExpressionIRStrategy();
-    _newClassInstanceExpressionIRStrategy = new NewClassInstanceExpressionIRStrategy();
-    _classPropertyAssignmentStatementIRStrategy = new ClassPropertyAssignmentStatementIRStrategy();
-    _variableAssignmentStatementIRStrategy = new VariableAssignmentStatementIRStrategy();
-    _arrayAccessAssignmentStatementIRStrategy = new ArrayAccessAssignmentStatementIRStrategy();
-    _arrayAccessRefAssignmentStatementIRStrategy = new ArrayAccessRefAssignmentStatementIRStrategy();
-    _objectAccessAssignmentStatementIRStrategy = new ObjectAccessAssignmentStatementIRStrategy();
-    _objectAccessRefAssignmentStatementIRStrategy = new ObjectAccessRefAssignmentStatementIRStrategy();
-    _tupleAccessAssignmentStatementIRStrategy = new TupleAccessAssignmentStatementIRStrategy();
-    _tupleAccessRefAssignmentStatementIRStrategy = new TupleAccessRefAssignmentStatementIRStrategy();
-    _moduleAccessAssignmentStatementIRStrategy = new ModuleAccessAssignmentStatementIRStrategy();
-    _moduleAccessRefAssignmentStatementIRStrategy = new ModuleAccessRefAssignmentStatementIRStrategy();
-    _classPropertyRefValueAssignmentStatementIRStrategy = new ClassPropertyRefValueAssignmentStatementIRStrategy();
-    _refValueAssignmentStatementIRStrategy = new RefValueAssignmentStatementIRStrategy();
-    _ifStatementIRStrategy = new IfStatementIRStrategy();
-    _whileStatementIRStrategy = new WhileStatementIRStrategy();
-    _forInStatementIRStrategy = new ForInStatementIRStrategy();
-    _refExpressionIRStrategy = new RefExpressionIRStrategy();
-    _drefExpressionIRStrategy = new DrefExpressionIRStrategy();
+    _intLiteralIRStrategy = std::make_unique<IntLiteralIRStrategy>();
+    _floatLiteralIRStrategy = std::make_unique<FloatLiteralIRStrategy>();
+    _charLiteralIRStrategy = std::make_unique<CharLiteralIRStrategy>();
+    _stringLiteralIRStrategy = std::make_unique<StringLiteralIRStrategy>();
+    _boolLiteralIRStrategy = std::make_unique<BoolLiteralIRStrategy>();
+    _literalExpressionIRStrategy = std::make_unique<LiteralExpressionIRStrategy>();
+    _binaryExpressionIRStrategy = std::make_unique<BinaryExpressionIRStrategy>();
+    _concatExpressionIRStrategy = std::make_unique<ConcatExpressionIRStrategy>();
+    _logicalExpressionIRStrategy = std::make_unique<LogicalExpressionIRStrategy>();
+    _arrayExpressionIRStrategy = std::make_unique<ArrayExpressionIRStrategy>();
+    _structExpressionIRStrategy = std::make_unique<StructExpressionIRStrategy>();
+    _arrayAccessExpressionIRStrategy = std::make_unique<ArrayAccessExpressionIRStrategy>();
+    _arrayAccessInvocationExpressionIRStrategy = std::make_unique<ArrayAccessInvocationExpressionIRStrategy>();
+    _unaryExpressionIRStrategy = std::make_unique<UnaryExpressionIRStrategy>();
+    _tupleExpressionIRStrategy = std::make_unique<TupleExpressionIRStrategy>();
+    _thisExpressionIRStrategy = std::make_unique<ThisExpressionIRStrategy>();
+    _identifierExpressionIRStrategy = std::make_unique<IdentifierExpressionIRStrategy>();
+    _variableDeclarationIRStrategy = std::make_unique<VariableDeclarationIRStrategy>();
+    _functionDeclarationIRStrategy = std::make_unique<FunctionDeclarationIRStrategy>();
+    _functionParameterListIRStrategy = std::make_unique<FunctionParameterListIRStrategy>();
+    _functionReturnExpressionIRStrategy = std::make_unique<FunctionReturnExpressionIRStrategy>();
+    _procedureDeclarationIRStrategy = std::make_unique<ProcedureDeclarationIRStrategy>();
+    _enumDeclarationIRStrategy = std::make_unique<EnumDeclarationIRStrategy>();
+    _interfaceTypeDeclarationIRStrategy = std::make_unique<InterfaceTypeDeclarationIRStrategy>();
+    _customTypeDeclarationIRStrategy = std::make_unique<CustomTypeDeclarationIRStrategy>();
+    _moduleDeclarationIRStrategy = std::make_unique<ModuleDeclarationIRStrategy>();
+    _importSingleModuleDeclarationIRStrategy = std::make_unique<ImportSingleModuleDeclarationIRStrategy>();
+    _objectAccessExpressionIRStrategy = std::make_unique<ObjectAccessExpressionIRStrategy>();
+    _objectAccessInvocationExpressionIRStrategy = std::make_unique<ObjectAccessInvocationExpressionIRStrategy>();
+    _tupleAccessExpressionIRStrategy = std::make_unique<TupleAccessExpressionIRStrategy>();
+    _tupleAccessInvocationExpressionIRStrategy = std::make_unique<TupleAccessInvocationExpressionIRStrategy>();
+    _functionInvocationExpressionIRStrategy = std::make_unique<FunctionInvocationExpressionIRStrategy>();
+    _lambdaExpressionIRStrategy = std::make_unique<LambdaExpressionIRStrategy>();
+    _moduleAccessExpressionIRStrategy = std::make_unique<ModuleAccessExpressionIRStrategy>();
+    _expressionStatementIRStrategy = std::make_unique<ExpressionStatementIRStrategy>();
+    _classDeclarationIRStrategy = std::make_unique<ClassDeclarationIRStrategy>();
+    _classPropertyAccessExpressionIRStrategy = std::make_unique<ClassPropertyAccessExpressionIRStrategy>();
+    _classMethodInvocationExpressionIRStrategy = std::make_unique<ClassMethodInvocationExpressionIRStrategy>();
+    _newClassInstanceExpressionIRStrategy = std::make_unique<NewClassInstanceExpressionIRStrategy>();
+    _classPropertyAssignmentStatementIRStrategy = std::make_unique<ClassPropertyAssignmentStatementIRStrategy>();
+    _variableAssignmentStatementIRStrategy = std::make_unique<VariableAssignmentStatementIRStrategy>();
+    _arrayAccessAssignmentStatementIRStrategy = std::make_unique<ArrayAccessAssignmentStatementIRStrategy>();
+    _arrayAccessRefAssignmentStatementIRStrategy = std::make_unique<ArrayAccessRefAssignmentStatementIRStrategy>();
+    _objectAccessAssignmentStatementIRStrategy = std::make_unique<ObjectAccessAssignmentStatementIRStrategy>();
+    _objectAccessRefAssignmentStatementIRStrategy = std::make_unique<ObjectAccessRefAssignmentStatementIRStrategy>();
+    _tupleAccessAssignmentStatementIRStrategy = std::make_unique<TupleAccessAssignmentStatementIRStrategy>();
+    _tupleAccessRefAssignmentStatementIRStrategy = std::make_unique<TupleAccessRefAssignmentStatementIRStrategy>();
+    _moduleAccessAssignmentStatementIRStrategy = std::make_unique<ModuleAccessAssignmentStatementIRStrategy>();
+    _moduleAccessRefAssignmentStatementIRStrategy = std::make_unique<ModuleAccessRefAssignmentStatementIRStrategy>();
+    _classPropertyRefValueAssignmentStatementIRStrategy = std::make_unique<ClassPropertyRefValueAssignmentStatementIRStrategy>();
+    _refValueAssignmentStatementIRStrategy = std::make_unique<RefValueAssignmentStatementIRStrategy>();
+    _ifStatementIRStrategy = std::make_unique<IfStatementIRStrategy>();
+    _whileStatementIRStrategy = std::make_unique<WhileStatementIRStrategy>();
+    _forInStatementIRStrategy = std::make_unique<ForInStatementIRStrategy>();
+    _refExpressionIRStrategy = std::make_unique<RefExpressionIRStrategy>();
+    _drefExpressionIRStrategy = std::make_unique<DrefExpressionIRStrategy>();
 
-    _arrayTypeSignatureIRStrategy = new ArrayTypeSignatureIRStrategy();
-    _literalTypeSignatureIRStrategy = new LiteralTypeSignatureIRStrategy();
-    _classTypeSignatureIRStrategy = new ClassTypeSignatureIRStrategy();
-    _enumTypeSignatureIRStrategy = new EnumTypeSignatureIRStrategy();
-    _interfaceTypeSignatureIRStrategy = new InterfaceTypeSignatureIRStrategy();
-    _functionTypeSignatureIRStrategy = new FunctionTypeSignatureIRStrategy();
-    _lambdaTypeSignatureIRStrategy = new LambdaTypeSignatureIRStrategy();
-    _procedureTypeSignatureIRStrategy = new ProcedureTypeSignatureIRStrategy();
-    _parameterListTypeSignatureIRStrategy = new ParameterListTypeSignatureIRStrategy();
-    _parameterTypeSignatureIRStrategy = new ParameterTypeSignatureIRStrategy();
-    _structTypeSignatureIRStrategy = new StructTypeSignatureIRStrategy();
-    _tupleTypeSignatureIRStrategy = new TupleTypeSignatureIRStrategy();
-    _enumAccessTypeSignatureIRStrategy = new EnumAccessTypeSignatureIRStrategy();
-    _moduleTypeSignatureStrategy = new ModuleTypeSignatureIRStrategy();
-    _pointerTypeSignatureStrategy = new PointerTypeSignatureIRStrategy();
-    _refTypeSignatureStrategy = new RefTypeSignatureIRStrategy();
-    _functionInvocationTypeSignatureIRStrategy = new FunctionInvocationTypeSignatureIRStrategy();
-    _classMethodTypeSignatureIRStrategy = new ClassMethodTypeSignatureIRStrategy();
-    _classPropertyTypeSignatureIRStrategy = new ClassPropertyTypeSignatureIRStrategy();
-    _newClassInstanceTypeSignatureIRStrategy = new NewClassInstanceTypeSignatureIRStrategy();
-    _classInstanceTypeSignatureIRStrategy = new ClassInstanceTypeSignatureIRStrategy();
-    _lambdaScopeTypeSignatureIRStrategy = new LambdaScopeTypeSignatureIRStrategy();
-    _voidTypeSignatureIRStrategy = new VoidTypeSignatureIRStrategy();
+    _arrayTypeSignatureIRStrategy = std::make_unique<ArrayTypeSignatureIRStrategy>();
+    _literalTypeSignatureIRStrategy = std::make_unique<LiteralTypeSignatureIRStrategy>();
+    _classTypeSignatureIRStrategy = std::make_unique<ClassTypeSignatureIRStrategy>();
+    _enumTypeSignatureIRStrategy = std::make_unique<EnumTypeSignatureIRStrategy>();
+    _interfaceTypeSignatureIRStrategy = std::make_unique<InterfaceTypeSignatureIRStrategy>();
+    _functionTypeSignatureIRStrategy = std::make_unique<FunctionTypeSignatureIRStrategy>();
+    _lambdaTypeSignatureIRStrategy = std::make_unique<LambdaTypeSignatureIRStrategy>();
+    _procedureTypeSignatureIRStrategy = std::make_unique<ProcedureTypeSignatureIRStrategy>();
+    _parameterListTypeSignatureIRStrategy = std::make_unique<ParameterListTypeSignatureIRStrategy>();
+    _parameterTypeSignatureIRStrategy = std::make_unique<ParameterTypeSignatureIRStrategy>();
+    _structTypeSignatureIRStrategy = std::make_unique<StructTypeSignatureIRStrategy>();
+    _tupleTypeSignatureIRStrategy = std::make_unique<TupleTypeSignatureIRStrategy>();
+    _enumAccessTypeSignatureIRStrategy = std::make_unique<EnumAccessTypeSignatureIRStrategy>();
+    _moduleTypeSignatureStrategy = std::make_unique<ModuleTypeSignatureIRStrategy>();
+    _pointerTypeSignatureStrategy = std::make_unique<PointerTypeSignatureIRStrategy>();
+    _refTypeSignatureStrategy = std::make_unique<RefTypeSignatureIRStrategy>();
+    _functionInvocationTypeSignatureIRStrategy = std::make_unique<FunctionInvocationTypeSignatureIRStrategy>();
+    _classMethodTypeSignatureIRStrategy = std::make_unique<ClassMethodTypeSignatureIRStrategy>();
+    _classPropertyTypeSignatureIRStrategy = std::make_unique<ClassPropertyTypeSignatureIRStrategy>();
+    _newClassInstanceTypeSignatureIRStrategy = std::make_unique<NewClassInstanceTypeSignatureIRStrategy>();
+    _classInstanceTypeSignatureIRStrategy = std::make_unique<ClassInstanceTypeSignatureIRStrategy>();
+    _lambdaScopeTypeSignatureIRStrategy = std::make_unique<LambdaScopeTypeSignatureIRStrategy>();
+    _voidTypeSignatureIRStrategy = std::make_unique<VoidTypeSignatureIRStrategy>();
 }
 
 IntLiteralIRStrategy* IRStrategyMap::getIntLiteralIRStrategy() {
-    return _intLiteralIRStrategy;
+    return _intLiteralIRStrategy.get();
 }
 
 FloatLiteralIRStrategy* IRStrategyMap::getFloatLiteralIRStrategy() {
-    return _floatLiteralIRStrategy;
+    return _floatLiteralIRStrategy.get();
 }
 
 CharLiteralIRStrategy* IRStrategyMap::getCharLiteralIRStrategy() {
-    return _charLiteralIRStrategy;
+    return _charLiteralIRStrategy.get();
 }
 
 StringLiteralIRStrategy* IRStrategyMap::getStringLiteralIRStrategy() {
-    return _stringLiteralIRStrategy;
+    return _stringLiteralIRStrategy.get();
 }
 
 BoolLiteralIRStrategy* IRStrategyMap::getBoolLiteralIRStrategy() {
-    return _boolLiteralIRStrategy;
+    return _boolLiteralIRStrategy.get();
 }
 
 LiteralExpressionIRStrategy* IRStrategyMap::getLiteralExpressionIRStrategy() {
-    return _literalExpressionIRStrategy;
+    return _literalExpressionIRStrategy.get();
 }
 
 BinaryExpressionIRStrategy* IRStrategyMap::getBinaryExpressionIRStrategy() {
-    return _binaryExpressionIRStrategy;
+    return _binaryExpressionIRStrategy.get();
 }
 
 ConcatExpressionIRStrategy* IRStrategyMap::getConcatExpressionIRStrategy() {
-    return _concatExpressionIRStrategy;
+    return _concatExpressionIRStrategy.get();
 }
 
 LogicalExpressionIRStrategy* IRStrategyMap::getLogicalExpressionIRStrategy() {
-    return _logicalExpressionIRStrategy;
+    return _logicalExpressionIRStrategy.get();
 }
 
 ArrayExpressionIRStrategy* IRStrategyMap::getArrayExpressionIRStrategy() {
-    return _arrayExpressionIRStrategy;
+    return _arrayExpressionIRStrategy.get();
 }
 
 ArrayAccessExpressionIRStrategy* IRStrategyMap::getArrayAccessExpressionIRStrategy() {
-    return _arrayAccessExpressionIRStrategy;
+    return _arrayAccessExpressionIRStrategy.get();
 }
 
 ArrayAccessInvocationExpressionIRStrategy* IRStrategyMap::getArrayAccessInvocationExpressionIRStrategy() {
-    return _arrayAccessInvocationExpressionIRStrategy;
+    return _arrayAccessInvocationExpressionIRStrategy.get();
 }
 
 StructExpressionIRStrategy* IRStrategyMap::getStructExpressionIRStrategy() {
-    return _structExpressionIRStrategy;
+    return _structExpressionIRStrategy.get();
 }
 
 UnaryExpressionIRStrategy* IRStrategyMap::getUnaryExpressionIRStrategy() {
-    return _unaryExpressionIRStrategy;
+    return _unaryExpressionIRStrategy.get();
 }
 
 TupleExpressionIRStrategy* IRStrategyMap::getTupleExpressionIRStrategy() {
-    return _tupleExpressionIRStrategy;
+    return _tupleExpressionIRStrategy.get();
 }
 
 ThisExpressionIRStrategy* IRStrategyMap::getThisExpressionIRStrategy() {
-    return _thisExpressionIRStrategy;
+    return _thisExpressionIRStrategy.get();
 }
 
 IdentifierExpressionIRStrategy* IRStrategyMap::getIdentifierExpressionIRStrategy() {
-    return _identifierExpressionIRStrategy;
+    return _identifierExpressionIRStrategy.get();
 }
 
 VariableDeclarationIRStrategy* IRStrategyMap::getVariableDeclarationIRStrategy() {
-    return _variableDeclarationIRStrategy;
+    return _variableDeclarationIRStrategy.get();
 }
 
 FunctionDeclarationIRStrategy* IRStrategyMap::getFunctionDeclarationIRStrategy() {
-    return _functionDeclarationIRStrategy;
+    return _functionDeclarationIRStrategy.get();
 }
 
 FunctionParameterListIRStrategy* IRStrategyMap::getFunctionParameterListIRStrategy() {
-    return _functionParameterListIRStrategy;
+    return _functionParameterListIRStrategy.get();
 }
 
 FunctionReturnExpressionIRStrategy* IRStrategyMap::getFunctionReturnExpressionIRStrategy() {
-    return _functionReturnExpressionIRStrategy;
+    return _functionReturnExpressionIRStrategy.get();
 }
 
 ProcedureDeclarationIRStrategy* IRStrategyMap::getProcedureDeclarationIRStrategy() {
-    return _procedureDeclarationIRStrategy;
+    return _procedureDeclarationIRStrategy.get();
 }
 
 EnumDeclarationIRStrategy* IRStrategyMap::getEnumDeclarationIRStrategy() {
-    return _enumDeclarationIRStrategy;
+    return _enumDeclarationIRStrategy.get();
 }
 
 InterfaceTypeDeclarationIRStrategy* IRStrategyMap::getInterfaceTypeDeclarationIRStrategy() {
-    return _interfaceTypeDeclarationIRStrategy;
+    return _interfaceTypeDeclarationIRStrategy.get();
 }
 
 CustomTypeDeclarationIRStrategy* IRStrategyMap::getCustomTypeDeclarationIRStrategy() {
-    return _customTypeDeclarationIRStrategy;
+    return _customTypeDeclarationIRStrategy.get();
 }
 
 ModuleDeclarationIRStrategy* IRStrategyMap::getModuleDeclarationIRStrategy() {
-    return _moduleDeclarationIRStrategy;
+    return _moduleDeclarationIRStrategy.get();
 }
 
 ImportSingleModuleDeclarationIRStrategy* IRStrategyMap::getImportSingleModuleDeclarationIRStrategy() {
-    return _importSingleModuleDeclarationIRStrategy;
+    return _importSingleModuleDeclarationIRStrategy.get();
 }
 
 ObjectAccessExpressionIRStrategy* IRStrategyMap::getObjectAccessExpressionIRStrategy() {
-    return _objectAccessExpressionIRStrategy;
+    return _objectAccessExpressionIRStrategy.get();
 }
 
 ObjectAccessInvocationExpressionIRStrategy* IRStrategyMap::getObjectAccessInvocationExpressionIRStrategy() {
-    return _objectAccessInvocationExpressionIRStrategy;
+    return _objectAccessInvocationExpressionIRStrategy.get();
 }
 
 TupleAccessExpressionIRStrategy* IRStrategyMap::getTupleAccessExpressionIRStrategy() {
-    return _tupleAccessExpressionIRStrategy;
+    return _tupleAccessExpressionIRStrategy.get();
 }
 
 TupleAccessInvocationExpressionIRStrategy* IRStrategyMap::getTupleAccessInvocationExpressionIRStrategy() {
-    return _tupleAccessInvocationExpressionIRStrategy;
+    return _tupleAccessInvocationExpressionIRStrategy.get();
 }
 
 FunctionInvocationExpressionIRStrategy* IRStrategyMap::getFunctionInvocationExpressionIRStrategy() {
-    return _functionInvocationExpressionIRStrategy;
+    return _functionInvocationExpressionIRStrategy.get();
 }
 
 LambdaExpressionIRStrategy* IRStrategyMap::getLambdaExpressionIRStrategy() {
-    return _lambdaExpressionIRStrategy;
+    return _lambdaExpressionIRStrategy.get();
 }
 
 ModuleAccessExpressionIRStrategy* IRStrategyMap::getModuleAccessExpressionIRStrategy() {
-    return _moduleAccessExpressionIRStrategy;
+    return _moduleAccessExpressionIRStrategy.get();
 }
 
 ExpressionStatementIRStrategy* IRStrategyMap::getExpressionStatementIRStrategy() {
-    return _expressionStatementIRStrategy;
+    return _expressionStatementIRStrategy.get();
 }
 
 ClassDeclarationIRStrategy* IRStrategyMap::getClassDeclarationIRStrategy() {
-    return _classDeclarationIRStrategy;
+    return _classDeclarationIRStrategy.get();
 }
 
 ClassPropertyAccessExpressionIRStrategy* IRStrategyMap::getClassPropertyAccessExpressionIRStrategy() {
-    return _classPropertyAccessExpressionIRStrategy;
+    return _classPropertyAccessExpressionIRStrategy.get();
 }
 
 ClassMethodInvocationExpressionIRStrategy* IRStrategyMap::getClassMethodInvocationExpressionIRStrategy() {
-    return _classMethodInvocationExpressionIRStrategy;
+    return _classMethodInvocationExpressionIRStrategy.get();
 }
 
 NewClassInstanceExpressionIRStrategy* IRStrategyMap::getNewClassInstanceExpressionIRStrategy() {
-    return _newClassInstanceExpressionIRStrategy;
+    return _newClassInstanceExpressionIRStrategy.get();
 }
 
 ClassPropertyAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyAssignmentStatementIRStrategy() {
-    return _classPropertyAssignmentStatementIRStrategy;
+    return _classPropertyAssignmentStatementIRStrategy.get();
 }
 
 VariableAssignmentStatementIRStrategy* IRStrategyMap::getVariableAssignmentStatementIRStrategy() {
-    return _variableAssignmentStatementIRStrategy;
+    return _variableAssignmentStatementIRStrategy.get();
 }
 
 ArrayAccessAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessAssignmentStatementIRStrategy() {
-    return _arrayAccessAssignmentStatementIRStrategy;
+    return _arrayAccessAssignmentStatementIRStrategy.get();
 }
 
 ArrayAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getArrayAccessRefAssignmentStatementIRStrategy() {
-    return _arrayAccessRefAssignmentStatementIRStrategy;
+    return _arrayAccessRefAssignmentStatementIRStrategy.get();
 }
 
 ObjectAccessAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
-    return _objectAccessAssignmentStatementIRStrategy;
+    return _objectAccessAssignmentStatementIRStrategy.get();
 }
 
 ObjectAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getObjectAccessRefAssignmentStatementIRStrategy() {
-    return _objectAccessRefAssignmentStatementIRStrategy;
+    return _objectAccessRefAssignmentStatementIRStrategy.get();
 }
 
 TupleAccessAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
-    return _tupleAccessAssignmentStatementIRStrategy;
+    return _tupleAccessAssignmentStatementIRStrategy.get();
 }
 
 TupleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getTupleAccessRefAssignmentStatementIRStrategy() {
-    return _tupleAccessRefAssignmentStatementIRStrategy;
+    return _tupleAccessRefAssignmentStatementIRStrategy.get();
 }
 
 ModuleAccessAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessAssignmentStatementIRStrategy() {
-    return _moduleAccessAssignmentStatementIRStrategy;
+    return _moduleAccessAssignmentStatementIRStrategy.get();
 }
 
 ModuleAccessRefAssignmentStatementIRStrategy* IRStrategyMap::getModuleAccessRefAssignmentStatementIRStrategy() {
-    return _moduleAccessRefAssignmentStatementIRStrategy;
+    return _moduleAccessRefAssignmentStatementIRStrategy.get();
 }
 
 ClassPropertyRefValueAssignmentStatementIRStrategy* IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {
-    return _classPropertyRefValueAssignmentStatementIRStrategy;
+    return _classPropertyRefValueAssignmentStatementIRStrategy.get();
 }
 
 RefValueAssignmentStatementIRStrategy* IRStrategyMap::getRefValueAssignmentStatementIRStrategy() {
-    return _refValueAssignmentStatementIRStrategy;
+    return _refValueAssignmentStatementIRStrategy.get();
 }
 
 IfStatementIRStrategy* IRStrategyMap::getIfStatementIRStrategy() {
-    return _ifStatementIRStrategy;
+    return _ifStatementIRStrategy.get();
 }
 
 WhileStatementIRStrategy* IRStrategyMap::getWhileStatementIRStrategy() {
-    return _whileStatementIRStrategy;
+    return _whileStatementIRStrategy.get();
 }
 
 ForInStatementIRStrategy* IRStrategyMap::getForInStatementIRStrategy() {
-    return _forInStatementIRStrategy;
+    return _forInStatementIRStrategy.get();
 }
 
 RefExpressionIRStrategy* IRStrategyMap::getRefExpressionIRStrategy() {
-    return _refExpressionIRStrategy;
+    return _refExpressionIRStrategy.get();
 }
 
 DrefExpressionIRStrategy* IRStrategyMap::getDrefExpressionIRStrategy() {
-    return _drefExpressionIRStrategy;
+    return _drefExpressionIRStrategy.get();
 }
 
 ArrayTypeSignatureIRStrategy* IRStrategyMap::getArrayTypeSignatureIRStrategy() {
-    return _arrayTypeSignatureIRStrategy;
+    return _arrayTypeSignatureIRStrategy.get();
 }
 
 LiteralTypeSignatureIRStrategy* IRStrategyMap::getLiteralTypeSignatureIRStrategy() {
-    return _literalTypeSignatureIRStrategy;
+    return _literalTypeSignatureIRStrategy.get();
 }
 
 ClassTypeSignatureIRStrategy* IRStrategyMap::getClassTypeSignatureIRStrategy() {
-    return _classTypeSignatureIRStrategy;
+    return _classTypeSignatureIRStrategy.get();
 }
 
 EnumTypeSignatureIRStrategy* IRStrategyMap::getEnumTypeSignatureIRStrategy() {
-    return _enumTypeSignatureIRStrategy;
+    return _enumTypeSignatureIRStrategy.get();
 }
 
 InterfaceTypeSignatureIRStrategy* IRStrategyMap::getInterfaceTypeSignatureIRStrategy() {
-    return _interfaceTypeSignatureIRStrategy;
+    return _interfaceTypeSignatureIRStrategy.get();
 }
 
 FunctionTypeSignatureIRStrategy* IRStrategyMap::getFunctionTypeSignatureIRStrategy() {
-    return _functionTypeSignatureIRStrategy;
+    return _functionTypeSignatureIRStrategy.get();
 }
 
 LambdaTypeSignatureIRStrategy* IRStrategyMap::getLambdaTypeSignatureIRStrategy() {
-    return _lambdaTypeSignatureIRStrategy;
+    return _lambdaTypeSignatureIRStrategy.get();
 }
 
 ProcedureTypeSignatureIRStrategy* IRStrategyMap::getProcedureTypeSignatureIRStrategy() {
-    return _procedureTypeSignatureIRStrategy;
+    return _procedureTypeSignatureIRStrategy.get();
 }
 
 ParameterListTypeSignatureIRStrategy* IRStrategyMap::getParameterListTypeSignatureIRStrategy() {
-    return _parameterListTypeSignatureIRStrategy;
+    return _parameterListTypeSignatureIRStrategy.get();
 }
 
 ParameterTypeSignatureIRStrategy* IRStrategyMap::getParameterTypeSignatureIRStrategy() {
-    return _parameterTypeSignatureIRStrategy;
+    return _parameterTypeSignatureIRStrategy.get();
 }
 
 StructTypeSignatureIRStrategy* IRStrategyMap::getStructTypeSignatureIRStrategy() {
-    return _structTypeSignatureIRStrategy;
+    return _structTypeSignatureIRStrategy.get();
 }
 
 TupleTypeSignatureIRStrategy* IRStrategyMap::getTupleTypeSignatureIRStrategy() {
-    return _tupleTypeSignatureIRStrategy;
+    return _tupleTypeSignatureIRStrategy.get();
 }
 
 EnumAccessTypeSignatureIRStrategy* IRStrategyMap::getEnumAccessTypeSignatureIRStrategy() {
-    return _enumAccessTypeSignatureIRStrategy;
+    return _enumAccessTypeSignatureIRStrategy.get();
 }
 
 ModuleTypeSignatureIRStrategy* IRStrategyMap::getModuleTypeSignatureIRStrategy() {
-    return _moduleTypeSignatureStrategy;
+    return _moduleTypeSignatureStrategy.get();
 }
 
 PointerTypeSignatureIRStrategy* IRStrategyMap::getPointerTypeSignatureIRStrategy() {
-    return _pointerTypeSignatureStrategy;
+    return _pointerTypeSignatureStrategy.get();
 }
 
 RefTypeSignatureIRStrategy* IRStrategyMap::getRefTypeSignatureIRStrategy() {
-    return _refTypeSignatureStrategy;
+    return _refTypeSignatureStrategy.get();
 }
 
 FunctionInvocationTypeSignatureIRStrategy* IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {
-    return _functionInvocationTypeSignatureIRStrategy;
+    return _functionInvocationTypeSignatureIRStrategy.get();
 }
 
 ClassMethodTypeSignatureIRStrategy* IRStrategyMap::getClassMethodTypeSignatureIRStrategy() {
-    return _classMethodTypeSignatureIRStrategy;
+    return _classMethodTypeSignatureIRStrategy.get();
 }
 
 ClassPropertyTypeSignatureIRStrategy* IRStrategyMap::getClassPropertyTypeSignatureIRStrategy() {
-    return _classPropertyTypeSignatureIRStrategy;
+    return _classPropertyTypeSignatureIRStrategy.get();
 }
 
 NewClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getNewClassInstanceTypeSignatureIRStrategy() {
-    return _newClassInstanceTypeSignatureIRStrategy;
+    return _newClassInstanceTypeSignatureIRStrategy.get();
 }
 
 ClassInstanceTypeSignatureIRStrategy* IRStrategyMap::getClassInstanceTypeSignatureIRStrategy() {
-    return _classInstanceTypeSignatureIRStrategy;
+    return _classInstanceTypeSignatureIRStrategy.get();
 }
 
 LambdaScopeTypeSignatureIRStrategy* IRStrategyMap::getLambdaScopeTypeSignatureIRStrategy() {
-    return _lambdaScopeTypeSignatureIRStrategy;
+    return _lambdaScopeTypeSignatureIRStrategy.get();
 }
 
 VoidTypeSignatureIRStrategy* IRStrategyMap::getVoidTypeSignatureIRStrategy() {
-    return _voidTypeSignatureIRStrategy;
+    return _voidTypeSignatureIRStrategy.get();
 }

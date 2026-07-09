@@ -21,7 +21,7 @@ std::shared_ptr<ASTFileNode> PreProcessor::buildFile(std::string filePath, std::
     return fileNode;
 }
 
-JetFile* PreProcessor::process(std::string filePath) {
+std::shared_ptr<JetFile> PreProcessor::process(std::string filePath) {
     auto processedFile = _processedFileMap.findByFilePath(filePath);
     if (processedFile) {
         return processedFile.value();
@@ -41,11 +41,11 @@ JetFile* PreProcessor::process(std::string filePath) {
         typeCheckerResult.printErrors();
         throw std::logic_error("type checker has errors: " + filePath);
     }
-    return new JetFile(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
+    return std::make_shared<JetFile>(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
 }
 
-std::set<JetFile*> PreProcessor::resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {
-    auto importedJetFiles = std::set<JetFile*>();
+std::set<std::shared_ptr<JetFile>> PreProcessor::resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {
+    auto importedJetFiles = std::set<std::shared_ptr<JetFile>>();
     for (auto node : *fileNode->getImports()) {
         auto filePath = fileNode->getPathDirectory().append(node->getPath()->getImportPath()->getValue());
         auto jetFile = this->process(filePath);

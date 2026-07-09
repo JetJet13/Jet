@@ -42,11 +42,11 @@ bool ASTClassPropertyInitNode::isConstant() {
     return _constKeyword.has_value();
 }
 
-Position* ASTClassPropertyInitNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyInitNode::getStartPosition() {
     return _accessModifier->getStartPosition();
 }
 
-Position* ASTClassPropertyInitNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyInitNode::getEndPosition() {
     if (_type) {
         return _type.value()->getEndPosition();
     }

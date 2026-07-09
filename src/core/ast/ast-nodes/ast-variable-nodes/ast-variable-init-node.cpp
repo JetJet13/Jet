@@ -35,11 +35,11 @@ bool ASTVariableInitNode::isConst() {
     return _assignmentTypeQualifier->isConst();
 }
 
-Position* ASTVariableInitNode::getStartPosition() {
+std::shared_ptr<Position> ASTVariableInitNode::getStartPosition() {
     return _assignmentTypeQualifier->getStartPosition();
 }
 
-Position* ASTVariableInitNode::getEndPosition() {
+std::shared_ptr<Position> ASTVariableInitNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

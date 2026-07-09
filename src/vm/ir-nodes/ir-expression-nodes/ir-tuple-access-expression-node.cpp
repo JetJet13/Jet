@@ -48,11 +48,11 @@ std::shared_ptr<TypeSignature> IRTupleAccessExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRTupleAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRTupleAccessExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRTupleAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRTupleAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

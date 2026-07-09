@@ -29,11 +29,11 @@ std::optional<std::shared_ptr<ASTExpressionNode>> ASTFunctionReturnExpressionNod
     return _returnExpression;
 }
 
-Position* ASTFunctionReturnExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTFunctionReturnExpressionNode::getStartPosition() {
     return _returnNode->getStartPosition();
 }
 
-Position* ASTFunctionReturnExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTFunctionReturnExpressionNode::getEndPosition() {
     if (_returnExpression) {
         return _returnExpression.value()->getEndPosition();
     }

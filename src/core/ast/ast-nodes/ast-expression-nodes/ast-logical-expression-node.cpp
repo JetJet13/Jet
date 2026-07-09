@@ -27,11 +27,11 @@ std::shared_ptr<ASTLogicalOperatorNode> ASTLogicalExpressionNode::getLogicalOper
     return _logicalOperator;
 }
 
-Position* ASTLogicalExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTLogicalExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }
 
-Position* ASTLogicalExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTLogicalExpressionNode::getEndPosition() {
     return _rightNode->getEndPosition();
 }
 

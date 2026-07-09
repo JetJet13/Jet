@@ -5,16 +5,18 @@
 #ifndef JETLANG_POSITION_H
 #define JETLANG_POSITION_H
 
+#include <memory>
+
 class Position {
 private:
-    unsigned long _line;
-    unsigned long _column;
+    unsigned long _line = 0;
+    unsigned long _column = 0;
 public:
     Position();
     Position(unsigned long line, unsigned long column);
     unsigned long getLine();
     unsigned long getColumn();
-    bool isEqual(Position* otherPosition);
+    bool isEqual(std::shared_ptr<Position> otherPosition);
 
 };
 

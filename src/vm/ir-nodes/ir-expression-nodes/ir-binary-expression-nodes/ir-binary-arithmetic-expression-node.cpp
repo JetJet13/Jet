@@ -99,11 +99,11 @@ std::shared_ptr<TypeSignature> IRBinaryArithmeticExpressionNode::getTypeSignatur
     return _node->getTypeSignature();
 }
 
-Position* IRBinaryArithmeticExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRBinaryArithmeticExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRBinaryArithmeticExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRBinaryArithmeticExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

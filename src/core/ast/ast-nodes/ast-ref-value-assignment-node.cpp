@@ -25,11 +25,11 @@ std::shared_ptr<TypeSignature> ASTRefValueAssignmentNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTRefValueAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTRefValueAssignmentNode::getStartPosition() {
     return _identifier->getStartPosition();
 }
 
-Position* ASTRefValueAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTRefValueAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

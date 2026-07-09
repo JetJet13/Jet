@@ -38,11 +38,11 @@ unsigned long ASTArrayAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-Position* ASTArrayAccessInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayAccessInvocationExpressionNode::getStartPosition() {
     return _arrayAccess->getStartPosition();
 }
 
-Position* ASTArrayAccessInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayAccessInvocationExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

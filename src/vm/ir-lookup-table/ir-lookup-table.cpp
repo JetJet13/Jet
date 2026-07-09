@@ -14,7 +14,7 @@ IRLookupTable::IRLookupTable(std::optional<std::shared_ptr<IRLookupTable>> outer
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
-    _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>();
+    _linkedScopes = std::make_shared<std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>>();
 }
 
 IRLookupTable::IRLookupTable(std::string moduleId, std::optional<std::shared_ptr<IRLookupTable>> outerScope) {
@@ -26,7 +26,7 @@ IRLookupTable::IRLookupTable(std::string moduleId, std::optional<std::shared_ptr
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
-    _linkedScopes = new std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>();
+    _linkedScopes = std::make_shared<std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>>();
 }
 
 std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> IRLookupTable::getGlobalScope() {
@@ -41,7 +41,7 @@ std::unordered_map<std::string, std::shared_ptr<IRType>> IRLookupTable::getGloba
     return _globalTypeScope;
 }
 
-std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>* IRLookupTable::getLinkedScopes() {
+std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>> IRLookupTable::getLinkedScopes() {
     return _linkedScopes;
 }
 

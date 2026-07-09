@@ -28,11 +28,11 @@ std::shared_ptr<ASTConcatNode> ASTConcatExpressionNode::getConcatNode() {
     return _concatNode;
 }
 
-Position* ASTConcatExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTConcatExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }
 
-Position* ASTConcatExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTConcatExpressionNode::getEndPosition() {
     return _rightNode->getEndPosition();
 }
 

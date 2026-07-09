@@ -20,8 +20,8 @@ public:
     ASTElseIfNode(std::shared_ptr<ASTElseNode> elseKeyword, std::shared_ptr<ASTIfNode> ifKeyword);
     std::shared_ptr<ASTElseNode> getElse();
     std::shared_ptr<ASTIfNode> getIf();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

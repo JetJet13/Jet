@@ -8,7 +8,7 @@
 #include "jet-file-id-generator/jet-file-id-generator.h"
 #include "../../shared/utils/logger/logger.h"
 
-JetFile::JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles) {
+JetFile::JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<std::shared_ptr<JetFile>> importedJetFiles) {
     _astFileNode = astFileNode;
     _fileScope = fileScope;
     _typeCheckerResult = std::move(typeCheckerResult);
@@ -20,7 +20,7 @@ JetFile::JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeS
     _astFileNode = astFileNode;
     _fileScope = fileScope;
     _typeCheckerResult = std::move(typeCheckerResult);
-    _importedJetFiles = std::set<JetFile*>();
+    _importedJetFiles = std::set<std::shared_ptr<JetFile>>();
     _id = JetFileIdGenerator::generate(astFileNode->getPath());
 }
 
@@ -40,11 +40,11 @@ TypeCheckerResult* JetFile::getTypeCheckerResult() {
     return &_typeCheckerResult;
 }
 
-void JetFile::addImportedFile(JetFile* jetFile) {
+void JetFile::addImportedFile(std::shared_ptr<JetFile> jetFile) {
     _importedJetFiles.insert(jetFile);
 }
 
-std::set<JetFile*>* JetFile::getImportedFiles() {
+std::set<std::shared_ptr<JetFile>>* JetFile::getImportedFiles() {
     return &_importedJetFiles;
 }
 

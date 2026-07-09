@@ -23,11 +23,11 @@ std::shared_ptr<TypeSignature> ASTControlFlowConditionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTControlFlowConditionNode::getStartPosition() {
+std::shared_ptr<Position> ASTControlFlowConditionNode::getStartPosition() {
     return _condition->getStartPosition();
 }
 
-Position* ASTControlFlowConditionNode::getEndPosition() {
+std::shared_ptr<Position> ASTControlFlowConditionNode::getEndPosition() {
     return _condition->getEndPosition();
 }
 

@@ -10,6 +10,6 @@
 
 class JetFileIdGenerator {
 public:
-    static std::string generate(std::filesystem::path* path);
+    static std::string generate(const std::filesystem::path& path);
 };
 #endif //JETLANG_JET_FILE_ID_GENERATOR_H

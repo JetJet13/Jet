@@ -22,11 +22,11 @@ std::shared_ptr<ASTImportModuleListNode> ASTImportModuleListByGroupItemNode::get
     return _importModuleList;
 }
 
-Position* ASTImportModuleListByGroupItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportModuleListByGroupItemNode::getStartPosition() {
     return _moduleName->getStartPosition();
 }
 
-Position* ASTImportModuleListByGroupItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportModuleListByGroupItemNode::getEndPosition() {
     return _importModuleList->getEndPosition();
 }
 

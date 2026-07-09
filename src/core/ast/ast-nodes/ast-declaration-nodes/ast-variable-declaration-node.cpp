@@ -57,11 +57,11 @@ std::shared_ptr<TypeSignature> ASTVariableDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTVariableDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTVariableDeclarationNode::getStartPosition() {
     return _varInit->getStartPosition();
 }
 
-Position* ASTVariableDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTVariableDeclarationNode::getEndPosition() {
     return _initializer->getEndPosition();
 }
 

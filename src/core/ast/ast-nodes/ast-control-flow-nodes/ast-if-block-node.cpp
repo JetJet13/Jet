@@ -26,11 +26,11 @@ std::shared_ptr<ASTControlFlowConditionNode> ASTIfBlockNode::getCondition() {
     return _condition;
 }
 
-Position* ASTIfBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTIfBlockNode::getStartPosition() {
     return _ifKeyword->getStartPosition();
 }
 
-Position* ASTIfBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTIfBlockNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

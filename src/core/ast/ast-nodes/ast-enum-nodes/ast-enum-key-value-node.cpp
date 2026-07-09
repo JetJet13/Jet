@@ -42,11 +42,11 @@ std::shared_ptr<TypeSignature> ASTEnumKeyValueNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTEnumKeyValueNode::getStartPosition() {
+std::shared_ptr<Position> ASTEnumKeyValueNode::getStartPosition() {
     return _key->getStartPosition();
 }
 
-Position* ASTEnumKeyValueNode::getEndPosition() {
+std::shared_ptr<Position> ASTEnumKeyValueNode::getEndPosition() {
     if (_value) {
         return _value.value()->getEndPosition();
     }

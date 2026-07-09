@@ -42,11 +42,11 @@ std::shared_ptr<ASTTupleTypeNode> ASTTupleTypeNode::addComma(std::shared_ptr<AST
     return std::dynamic_pointer_cast<ASTTupleTypeNode>(shared_from_this());
 }
 
-Position* ASTTupleTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleTypeNode::getStartPosition() {
     return _tupleTypeStartNode->getStartPosition();
 }
 
-Position* ASTTupleTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleTypeNode::getEndPosition() {
     return _tupleTypeEndNode->getEndPosition();
 }
 

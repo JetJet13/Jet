@@ -23,11 +23,11 @@ std::shared_ptr<ASTModuleAliasNameNode> ASTModuleListAliasItemNode::getAliasModu
     return _aliasModuleName;
 }
 
-Position* ASTModuleListAliasItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleListAliasItemNode::getStartPosition() {
     return _moduleName->getStartPosition();
 }
 
-Position* ASTModuleListAliasItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleListAliasItemNode::getEndPosition() {
     return _aliasModuleName->getEndPosition();
 }
 

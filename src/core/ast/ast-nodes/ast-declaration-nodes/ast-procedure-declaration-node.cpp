@@ -55,11 +55,11 @@ std::shared_ptr<TypeSignature> ASTProcedureDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTProcedureDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTProcedureDeclarationNode::getStartPosition() {
     return _procedureDefinition->getStartPosition();
 }
 
-Position* ASTProcedureDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTProcedureDeclarationNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

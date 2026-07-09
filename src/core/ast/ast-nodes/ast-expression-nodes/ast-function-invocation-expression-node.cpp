@@ -37,11 +37,11 @@ std::shared_ptr<TypeSignature> ASTFunctionInvocationExpressionNode::getTypeSigna
     return _typeSignature;
 }
 
-Position* ASTFunctionInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTFunctionInvocationExpressionNode::getStartPosition() {
     return _function->getStartPosition();
 }
 
-Position* ASTFunctionInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTFunctionInvocationExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

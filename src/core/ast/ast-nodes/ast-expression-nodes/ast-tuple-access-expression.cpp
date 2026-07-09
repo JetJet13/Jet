@@ -24,11 +24,11 @@ std::shared_ptr<ASTTupleAccessNode> ASTTupleAccessExpressionNode::getIndex() {
     return _index;
 }
 
-Position* ASTTupleAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTTupleAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleAccessExpressionNode::getEndPosition() {
     return _index->getEndPosition();
 }
 

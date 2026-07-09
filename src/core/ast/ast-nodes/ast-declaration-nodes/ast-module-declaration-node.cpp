@@ -37,11 +37,11 @@ std::shared_ptr<TypeSignature> ASTModuleDeclarationNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTModuleDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleDeclarationNode::getStartPosition() {
     return _moduleKeyword->getStartPosition();
 }
 
-Position* ASTModuleDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleDeclarationNode::getEndPosition() {
     return _moduleKeyword->getEndPosition();
 }
 

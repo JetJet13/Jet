@@ -33,11 +33,11 @@ bool ASTCustomTypeDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
-Position* ASTCustomTypeDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTCustomTypeDeclarationNode::getStartPosition() {
     return _typeKeyword->getStartPosition();
 }
 
-Position* ASTCustomTypeDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTCustomTypeDeclarationNode::getEndPosition() {
     return _type->getEndPosition();
 }
 

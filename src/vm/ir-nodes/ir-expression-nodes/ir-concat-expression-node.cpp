@@ -38,11 +38,11 @@ std::shared_ptr<TypeSignature> IRConcatExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRConcatExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRConcatExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRConcatExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRConcatExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

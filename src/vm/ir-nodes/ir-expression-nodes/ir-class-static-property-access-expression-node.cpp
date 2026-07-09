@@ -27,11 +27,11 @@ std::shared_ptr<TypeSignature> IRClassStaticPropertyAccessExpressionNode::getTyp
     return _node->getTypeSignature();
 }
 
-Position* IRClassStaticPropertyAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRClassStaticPropertyAccessExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRClassStaticPropertyAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRClassStaticPropertyAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

@@ -21,11 +21,11 @@ std::shared_ptr<ASTClassPropertyNameNode> ASTClassPropertyAccessNode::getPropert
     return _property;
 }
 
-Position* ASTClassPropertyAccessNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyAccessNode::getStartPosition() {
     return _classAccess->getStartPosition();
 }
 
-Position* ASTClassPropertyAccessNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyAccessNode::getEndPosition() {
     return _property->getEndPosition();
 }
 

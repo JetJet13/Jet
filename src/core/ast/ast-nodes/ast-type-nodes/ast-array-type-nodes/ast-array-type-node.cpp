@@ -19,11 +19,11 @@ std::shared_ptr<ASTTypeNode> ASTArrayTypeNode::getElementType() {
     return _elementType;
 }
 
-Position* ASTArrayTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayTypeNode::getStartPosition() {
     return _arrayStart->getStartPosition();
 }
 
-Position* ASTArrayTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayTypeNode::getEndPosition() {
     return _arrayEnd->getEndPosition();
 }
 

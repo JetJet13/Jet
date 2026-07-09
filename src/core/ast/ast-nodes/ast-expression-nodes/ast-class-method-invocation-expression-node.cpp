@@ -31,11 +31,11 @@ unsigned long ASTClassMethodInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-Position* ASTClassMethodInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassMethodInvocationExpressionNode::getStartPosition() {
     return _classAccess->getStartPosition();
 }
 
-Position* ASTClassMethodInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassMethodInvocationExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

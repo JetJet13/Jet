@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTClassPropertyAssignmentStatementNode::getE
     return _expression;
 }
 
-Position* ASTClassPropertyAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyAssignmentStatementNode::getStartPosition() {
     return _propertyAssignment->getStartPosition();
 }
 
-Position* ASTClassPropertyAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

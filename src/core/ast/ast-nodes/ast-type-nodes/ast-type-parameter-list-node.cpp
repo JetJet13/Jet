@@ -42,11 +42,11 @@ std::shared_ptr<ASTTypeParameterListNode> ASTTypeParameterListNode::addComma(std
     return std::dynamic_pointer_cast<ASTTypeParameterListNode>(shared_from_this());
 }
 
-Position* ASTTypeParameterListNode::getStartPosition() {
+std::shared_ptr<Position> ASTTypeParameterListNode::getStartPosition() {
     return _typeParameterListStartNode->getStartPosition();
 }
 
-Position* ASTTypeParameterListNode::getEndPosition() {
+std::shared_ptr<Position> ASTTypeParameterListNode::getEndPosition() {
     return _typeParameterListEndNode->getEndPosition();
 }
 

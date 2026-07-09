@@ -42,11 +42,11 @@ std::shared_ptr<ASTLambdaTypeParameterListNode> ASTLambdaTypeParameterListNode::
     return std::dynamic_pointer_cast<ASTLambdaTypeParameterListNode>(shared_from_this());
 }
 
-Position* ASTLambdaTypeParameterListNode::getStartPosition() {
+std::shared_ptr<Position> ASTLambdaTypeParameterListNode::getStartPosition() {
     return _startNode->getStartPosition();
 }
 
-Position* ASTLambdaTypeParameterListNode::getEndPosition() {
+std::shared_ptr<Position> ASTLambdaTypeParameterListNode::getEndPosition() {
     return _endNode->getEndPosition();
 }
 

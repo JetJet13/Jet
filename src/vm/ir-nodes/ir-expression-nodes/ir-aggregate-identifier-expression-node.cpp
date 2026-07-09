@@ -57,11 +57,11 @@ std::shared_ptr<TypeSignature> IRAggregateIdentifierExpressionNode::getTypeSigna
     return _node->getTypeSignature();
 }
 
-Position* IRAggregateIdentifierExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRAggregateIdentifierExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRAggregateIdentifierExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRAggregateIdentifierExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

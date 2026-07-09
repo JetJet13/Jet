@@ -20,8 +20,8 @@ public:
     explicit ASTModuleListAliasItemNode(std::shared_ptr<ASTModuleNameNode> moduleName, std::shared_ptr<ASTAsNode> asNode, std::shared_ptr<ASTModuleAliasNameNode> aliasModuleName);
     std::shared_ptr<ASTModuleNameNode> getModuleName();
     std::shared_ptr<ASTModuleAliasNameNode> getAliasModuleName();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

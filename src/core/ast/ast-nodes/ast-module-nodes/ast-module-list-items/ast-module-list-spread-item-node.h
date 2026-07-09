@@ -18,8 +18,8 @@ private:
 public:
     explicit ASTModuleListSpreadItemNode(std::shared_ptr<ASTModuleNameNode> moduleName, std::shared_ptr<ASTModuleSpreadNode> spread);
     std::shared_ptr<ASTModuleNameNode> getModuleName();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

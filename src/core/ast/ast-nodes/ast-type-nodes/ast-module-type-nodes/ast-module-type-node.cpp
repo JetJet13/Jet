@@ -31,11 +31,11 @@ std::string ASTModuleTypeNode::getModuleName() {
     return _source->getId();
 }
 
-Position* ASTModuleTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleTypeNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTModuleTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleTypeNode::getEndPosition() {
     return _target->getEndPosition();
 }
 

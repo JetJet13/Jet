@@ -56,11 +56,11 @@ std::shared_ptr<TypeSignature> IRObjectAccessInvocationExpressionNode::getTypeSi
     return _node->getTypeSignature();
 }
 
-Position* IRObjectAccessInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRObjectAccessInvocationExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRObjectAccessInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRObjectAccessInvocationExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

@@ -18,8 +18,8 @@ public:
     ASTTupleAccessRefAssignmentStatementNode(std::shared_ptr<ASTTupleAccessRefAssignmentNode> tupleAccessAssignment, std::shared_ptr<ASTExpressionNode> expression);
     std::shared_ptr<ASTTupleAccessRefAssignmentNode> getTupleAccessAssignment();
     std::shared_ptr<ASTExpressionNode> getExpression();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

@@ -54,11 +54,11 @@ void ASTTupleExpressionNode::setTypeSignature(std::shared_ptr<TupleTypeSignature
     _typeSignature = tupleTypeSignature;
 }
 
-Position* ASTTupleExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleExpressionNode::getStartPosition() {
     return _tupleListStart->getStartPosition();
 }
 
-Position* ASTTupleExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleExpressionNode::getEndPosition() {
     return _tupleListEnd->getEndPosition();
 }
 

@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTRefValueAssignmentStatementNode::getExpres
     return _expression;
 }
 
-Position* ASTRefValueAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTRefValueAssignmentStatementNode::getStartPosition() {
     return _assignment->getStartPosition();
 }
 
-Position* ASTRefValueAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTRefValueAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

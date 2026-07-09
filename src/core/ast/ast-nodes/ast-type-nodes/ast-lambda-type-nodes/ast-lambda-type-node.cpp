@@ -23,11 +23,11 @@ std::shared_ptr<ASTTypeNode> ASTLambdaTypeNode::getReturnType() {
     return _returnType;
 }
 
-Position* ASTLambdaTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTLambdaTypeNode::getStartPosition() {
     return _parameterList->getStartPosition();
 }
 
-Position* ASTLambdaTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTLambdaTypeNode::getEndPosition() {
     return _returnType->getEndPosition();
 }
 

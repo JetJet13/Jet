@@ -31,11 +31,11 @@ std::shared_ptr<TypeSignature> IRUnaryNegateExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRUnaryNegateExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRUnaryNegateExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRUnaryNegateExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRUnaryNegateExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

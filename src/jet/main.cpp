@@ -15,7 +15,13 @@
 #include "../vm/vm.h"
 #include "../core/post-processor/post-processor.h"
 
-
+// we need to add support for
+// macOS x64
+// Linux arm64
+// Linux x64
+// macOS arm64
+// Windows x64
+// Windows arm64
 int main (int argc, const char* argv[]) {
     if (argc == 1) {
         Logger::log("no file provided...starting REPL");

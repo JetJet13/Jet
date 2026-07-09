@@ -10,8 +10,8 @@
 #include "../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
 #include "../../../type-signature/literal-type-signature/string-literal-type-signature.h"
 
-FunctionVarArgTypeSignatureMap* JetUtilsTypeSignatureMap::getPrintTypeSignatureMap() {
-    auto printVarArgMap = new FunctionVarArgTypeSignatureMap(
+std::shared_ptr<FunctionVarArgTypeSignatureMap> JetUtilsTypeSignatureMap::getPrintTypeSignatureMap() {
+    auto printVarArgMap = std::make_shared<FunctionVarArgTypeSignatureMap>(
             FunctionIdGenerator::getNameFromId(JetUtilsTypeSignatureMap::getPrintTypeSignatureKey())
     );
     printVarArgMap->addFunctionVarArgTypeSignature(

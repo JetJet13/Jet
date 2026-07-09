@@ -33,11 +33,11 @@ std::shared_ptr<TypeSignature> IRDrefExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRDrefExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRDrefExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRDrefExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRDrefExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

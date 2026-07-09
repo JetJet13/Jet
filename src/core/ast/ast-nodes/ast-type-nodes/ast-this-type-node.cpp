@@ -14,11 +14,11 @@ std::shared_ptr<ASTThisNode> ASTThisTypeNode::getThis() {
     return _this;
 }
 
-Position* ASTThisTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTThisTypeNode::getStartPosition() {
     return _this->getStartPosition();
 }
 
-Position* ASTThisTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTThisTypeNode::getEndPosition() {
     return _this->getEndPosition();
 }
 

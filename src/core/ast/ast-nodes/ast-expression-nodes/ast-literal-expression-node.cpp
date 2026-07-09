@@ -14,11 +14,11 @@ std::shared_ptr<ASTLiteralNode> ASTLiteralExpressionNode::getLiteralNode() {
     return _literalNode;
 }
 
-Position* ASTLiteralExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTLiteralExpressionNode::getStartPosition() {
     return _literalNode->getStartPosition();
 }
 
-Position* ASTLiteralExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTLiteralExpressionNode::getEndPosition() {
     return _literalNode->getEndPosition();
 }
 

@@ -84,399 +84,399 @@
 #include "module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
-    _argumentListTypeSignatureStrategy = new ArgumentListTypeSignatureStrategy();
-    _arrayAccessExpressionTypeSignatureStrategy = new ArrayAccessExpressionTypeSignatureStrategy();
-    _arrayAccessInvocationExpressionTypeSignatureStrategy = new ArrayAccessInvocationExpressionTypeSignatureStrategy();
-    _arrayExpressionTypeSignatureStrategy = new ArrayExpressionTypeSignatureStrategy();
-    _binaryExpressionTypeSignatureStrategy = new BinaryExpressionTypeSignatureStrategy();
-    _concatExpressionTypeSignatureStrategy = new ConcatExpressionTypeSignatureStrategy();
-    _classMethodInvocationExpressionTypeSignatureStrategy = new ClassMethodInvocationExpressionTypeSignatureStrategy();
-    _classPropertyAccessExpressionTypeSignatureStrategy = new ClassPropertyAccessExpressionTypeSignatureStrategy();
-    _classPropertyAssignmentStatementTypeSignatureStrategy = new ClassPropertyAssignmentStatementTypeSignatureStrategy();
-    _classPropertyRefValueAssignmentStatementTypeSignatureStrategy = new ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy();
-    _curryExpressionTypeSignatureStrategy = new CurryExpressionTypeSignatureStrategy();
-    _functionInvocationExpressionTypeSignatureStrategy = new FunctionInvocationExpressionTypeSignatureStrategy();
-    _functionReturnExpressionTypeSignatureStrategy = new FunctionReturnExpressionTypeSignatureStrategy();
-    _identifierExpressionTypeSignatureStrategy = new IdentifierExpressionTypeSignatureStrategy();
-    _lambdaExpressionTypeSignatureStrategy = new LambdaExpressionTypeSignatureStrategy();
-    _lambdaWithFatArrowExpressionTypeSignatureStrategy = new LambdaWithFatArrowExpressionTypeSignatureStrategy();
-    _lambdaReturnExpressionTypeSignatureStrategy = new LambdaReturnExpressionTypeSignatureStrategy();
-    _literalExpressionTypeSignatureStrategy = new LiteralExpressionTypeSignatureStrategy();
-    _logicalExpressionTypeSignatureStrategy = new LogicalExpressionTypeSignatureStrategy();
-    _newClassInstanceExpressionTypeSignatureStrategy = new NewClassInstanceExpressionTypeSignatureStrategy();
-    _objectAccessExpressionTypeSignatureStrategy = new ObjectAccessExpressionTypeSignatureStrategy();
-    _objectAccessInvocationExpressionTypeSignatureStrategy = new ObjectAccessInvocationExpressionTypeSignatureStrategy();
-    _structExpressionTypeSignatureStrategy = new StructExpressionTypeSignatureStrategy();
-    _thisExpressionTypeSignatureStrategy = new ThisExpressionTypeSignatureStrategy();
-    _tupleAccessExpressionTypeSignatureStrategy = new TupleAccessExpressionTypeSignatureStrategy();
-    _tupleAccessInvocationExpressionTypeSignatureStrategy = new TupleAccessInvocationExpressionTypeSignatureStrategy();
-    _tupleExpressionTypeSignatureStrategy = new TupleExpressionTypeSignatureStrategy();
-    _unaryExpressionTypeSignatureStrategy = new UnaryExpressionTypeSignatureStrategy();
-    _moduleAccessExpressionTypeSignatureStrategy = new ModuleAccessExpressionTypeSignatureStrategy();
-    _refExpressionTypeSignatureStrategy = new RefExpressionTypeSignatureStrategy();
-    _drefExpressionTypeSignatureStrategy = new DrefExpressionTypeSignatureStrategy();
-    _lambdaExpressionScopeParameterTypeSignatureStrategy = new LambdaExpressionScopeParameterTypeSignatureStrategy();
-    _classScopeParameterTypeSignatureStrategy = new ClassScopeParameterTypeSignatureStrategy();
-    _typeTypeSignatureStrategy = new TypeTypeSignatureStrategy();
-    _primitiveTypeTypeSignatureStrategy = new PrimitiveTypeTypeSignatureStrategy();
-    _customTypeTypeSignatureStrategy = new CustomTypeTypeSignatureStrategy();
-    _arrayTypeTypeSignatureStrategy = new ArrayTypeTypeSignatureStrategy();
-    _structTypeTypeSignatureStrategy = new StructTypeTypeSignatureStrategy();
-    _tupleTypeTypeSignatureStrategy = new TupleTypeTypeSignatureStrategy();
-    _refTypeTypeSignatureStrategy = new RefTypeTypeSignatureStrategy();
-    _moduleTypeTypeSignatureStrategy = new ModuleTypeTypeSignatureStrategy();
-    _lambdaTypeTypeSignatureStrategy = new LambdaTypeTypeSignatureStrategy();
-    _voidTypeTypeSignatureStrategy = new VoidTypeTypeSignatureStrategy();
-    _thisTypeTypeSignatureStrategy = new ThisTypeTypeSignatureStrategy();
-    _enumKeyValueTypeSignatureStrategy = new EnumKeyValueTypeSignatureStrategy();
-    _enumTypeSignatureStrategy = new EnumTypeSignatureStrategy();
-    _variableTypeSignatureStrategy = new VariableTypeSignatureStrategy();
-    _classTypeSignatureStrategy = new ClassTypeSignatureStrategy();
-    _classPropertyTypeSignatureStrategy = new ClassPropertyTypeSignatureStrategy();
-    _classConstructorTypeSignatureStrategy = new ClassConstructorTypeSignatureStrategy();
-    _classMethodTypeSignatureStrategy = new ClassMethodTypeSignatureStrategy();
-    _parameterListItemTypeSignatureStrategy = new ParameterListItemTypeSignatureStrategy();
-    _parameterListTypeSignatureStrategy = new ParameterListTypeSignatureStrategy();
-    _functionTypeSignatureStrategy = new FunctionTypeSignatureStrategy();
-    _procedureTypeSignatureStrategy = new ProcedureTypeSignatureStrategy();
-    _literalTypeSignatureStrategy = new LiteralTypeSignatureStrategy();
-    _accessModifierTypeSignatureStrategy = new AccessModifierTypeSignatureStrategy();
-    _variableAssignmentStatementTypeSignatureStrategy = new VariableAssignmentStatementTypeSignatureStrategy();
-    _refValueAssignmentStatementTypeSignatureStrategy = new RefValueAssignmentStatementTypeSignatureStrategy();
-    _blockTypeSignatureStrategy = new BlockTypeSignatureStrategy();
-    _expressionStatementTypeSignatureStrategy = new ExpressionStatementTypeSignatureStrategy();
-    _conditionTypeSignatureStrategy = new ConditionTypeSignatureStrategy();
-    _forStatementTypeSignatureStrategy = new ForInStatementTypeSignatureStrategy();
-    _whileStatementTypeSignatureStrategy = new WhileStatementTypeSignatureStrategy();
-    _tryStatementTypeSignatureStrategy = new TryStatementTypeSignatureStrategy();
-    _ifStatementTypeSignatureStrategy = new IfStatementTypeSignatureStrategy();
-    _importTypeSignatureStrategy = new ImportTypeSignatureStrategy();
-    _moduleTypeSignatureStrategy = new ModuleTypeSignatureStrategy();
-    _interfaceTypeSignatureStrategy = new InterfaceTypeSignatureStrategy();
-    _interfacePropertyTypeSignatureStrategy = new InterfacePropertyTypeSignatureStrategy();
-    _customTypeDeclarationTypeSignatureStrategy = new CustomTypeDeclarationTypeSignatureStrategy();
-    _arrayAccessAssignmentStatementTypeSignatureStrategy = new ArrayAccessAssignmentStatementTypeSignatureStrategy();
-    _arrayAccessRefAssignmentStatementTypeSignatureStrategy = new ArrayAccessRefAssignmentStatementTypeSignatureStrategy();
-    _objectAccessAssignmentStatementTypeSignatureStrategy = new ObjectAccessAssignmentStatementTypeSignatureStrategy();
-    _objectAccessRefAssignmentStatementTypeSignatureStrategy = new ObjectAccessRefAssignmentStatementTypeSignatureStrategy();
-    _tupleAccessAssignmentStatementTypeSignatureStrategy = new TupleAccessAssignmentStatementTypeSignatureStrategy();
-    _tupleAccessRefAssignmentStatementTypeSignatureStrategy = new TupleAccessRefAssignmentStatementTypeSignatureStrategy();
-    _moduleAccessAssignmentStatementTypeSignatureStrategy = new ModuleAccessAssignmentStatementTypeSignatureStrategy();
-    _moduleAccessRefAssignmentStatementTypeSignatureStrategy = new ModuleAccessRefAssignmentStatementTypeSignatureStrategy();
+    _argumentListTypeSignatureStrategy = std::make_shared<ArgumentListTypeSignatureStrategy>();
+    _arrayAccessExpressionTypeSignatureStrategy = std::make_shared<ArrayAccessExpressionTypeSignatureStrategy>();
+    _arrayAccessInvocationExpressionTypeSignatureStrategy = std::make_shared<ArrayAccessInvocationExpressionTypeSignatureStrategy>();
+    _arrayExpressionTypeSignatureStrategy = std::make_shared<ArrayExpressionTypeSignatureStrategy>();
+    _binaryExpressionTypeSignatureStrategy = std::make_shared<BinaryExpressionTypeSignatureStrategy>();
+    _concatExpressionTypeSignatureStrategy = std::make_shared<ConcatExpressionTypeSignatureStrategy>();
+    _classMethodInvocationExpressionTypeSignatureStrategy = std::make_shared<ClassMethodInvocationExpressionTypeSignatureStrategy>();
+    _classPropertyAccessExpressionTypeSignatureStrategy = std::make_shared<ClassPropertyAccessExpressionTypeSignatureStrategy>();
+    _classPropertyAssignmentStatementTypeSignatureStrategy = std::make_shared<ClassPropertyAssignmentStatementTypeSignatureStrategy>();
+    _classPropertyRefValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy>();
+    _curryExpressionTypeSignatureStrategy = std::make_shared<CurryExpressionTypeSignatureStrategy>();
+    _functionInvocationExpressionTypeSignatureStrategy = std::make_shared<FunctionInvocationExpressionTypeSignatureStrategy>();
+    _functionReturnExpressionTypeSignatureStrategy = std::make_shared<FunctionReturnExpressionTypeSignatureStrategy>();
+    _identifierExpressionTypeSignatureStrategy = std::make_shared<IdentifierExpressionTypeSignatureStrategy>();
+    _lambdaExpressionTypeSignatureStrategy = std::make_shared<LambdaExpressionTypeSignatureStrategy>();
+    _lambdaWithFatArrowExpressionTypeSignatureStrategy = std::make_shared<LambdaWithFatArrowExpressionTypeSignatureStrategy>();
+    _lambdaReturnExpressionTypeSignatureStrategy = std::make_shared<LambdaReturnExpressionTypeSignatureStrategy>();
+    _literalExpressionTypeSignatureStrategy = std::make_shared<LiteralExpressionTypeSignatureStrategy>();
+    _logicalExpressionTypeSignatureStrategy = std::make_shared<LogicalExpressionTypeSignatureStrategy>();
+    _newClassInstanceExpressionTypeSignatureStrategy = std::make_shared<NewClassInstanceExpressionTypeSignatureStrategy>();
+    _objectAccessExpressionTypeSignatureStrategy = std::make_shared<ObjectAccessExpressionTypeSignatureStrategy>();
+    _objectAccessInvocationExpressionTypeSignatureStrategy = std::make_shared<ObjectAccessInvocationExpressionTypeSignatureStrategy>();
+    _structExpressionTypeSignatureStrategy = std::make_shared<StructExpressionTypeSignatureStrategy>();
+    _thisExpressionTypeSignatureStrategy = std::make_shared<ThisExpressionTypeSignatureStrategy>();
+    _tupleAccessExpressionTypeSignatureStrategy = std::make_shared<TupleAccessExpressionTypeSignatureStrategy>();
+    _tupleAccessInvocationExpressionTypeSignatureStrategy = std::make_shared<TupleAccessInvocationExpressionTypeSignatureStrategy>();
+    _tupleExpressionTypeSignatureStrategy = std::make_shared<TupleExpressionTypeSignatureStrategy>();
+    _unaryExpressionTypeSignatureStrategy = std::make_shared<UnaryExpressionTypeSignatureStrategy>();
+    _moduleAccessExpressionTypeSignatureStrategy = std::make_shared<ModuleAccessExpressionTypeSignatureStrategy>();
+    _refExpressionTypeSignatureStrategy = std::make_shared<RefExpressionTypeSignatureStrategy>();
+    _drefExpressionTypeSignatureStrategy = std::make_shared<DrefExpressionTypeSignatureStrategy>();
+    _lambdaExpressionScopeParameterTypeSignatureStrategy = std::make_shared<LambdaExpressionScopeParameterTypeSignatureStrategy>();
+    _classScopeParameterTypeSignatureStrategy = std::make_shared<ClassScopeParameterTypeSignatureStrategy>();
+    _typeTypeSignatureStrategy = std::make_shared<TypeTypeSignatureStrategy>();
+    _primitiveTypeTypeSignatureStrategy = std::make_shared<PrimitiveTypeTypeSignatureStrategy>();
+    _customTypeTypeSignatureStrategy = std::make_shared<CustomTypeTypeSignatureStrategy>();
+    _arrayTypeTypeSignatureStrategy = std::make_shared<ArrayTypeTypeSignatureStrategy>();
+    _structTypeTypeSignatureStrategy = std::make_shared<StructTypeTypeSignatureStrategy>();
+    _tupleTypeTypeSignatureStrategy = std::make_shared<TupleTypeTypeSignatureStrategy>();
+    _refTypeTypeSignatureStrategy = std::make_shared<RefTypeTypeSignatureStrategy>();
+    _moduleTypeTypeSignatureStrategy = std::make_shared<ModuleTypeTypeSignatureStrategy>();
+    _lambdaTypeTypeSignatureStrategy = std::make_shared<LambdaTypeTypeSignatureStrategy>();
+    _voidTypeTypeSignatureStrategy = std::make_shared<VoidTypeTypeSignatureStrategy>();
+    _thisTypeTypeSignatureStrategy = std::make_shared<ThisTypeTypeSignatureStrategy>();
+    _enumKeyValueTypeSignatureStrategy = std::make_shared<EnumKeyValueTypeSignatureStrategy>();
+    _enumTypeSignatureStrategy = std::make_shared<EnumTypeSignatureStrategy>();
+    _variableTypeSignatureStrategy = std::make_shared<VariableTypeSignatureStrategy>();
+    _classTypeSignatureStrategy = std::make_shared<ClassTypeSignatureStrategy>();
+    _classPropertyTypeSignatureStrategy = std::make_shared<ClassPropertyTypeSignatureStrategy>();
+    _classConstructorTypeSignatureStrategy = std::make_shared<ClassConstructorTypeSignatureStrategy>();
+    _classMethodTypeSignatureStrategy = std::make_shared<ClassMethodTypeSignatureStrategy>();
+    _parameterListItemTypeSignatureStrategy = std::make_shared<ParameterListItemTypeSignatureStrategy>();
+    _parameterListTypeSignatureStrategy = std::make_shared<ParameterListTypeSignatureStrategy>();
+    _functionTypeSignatureStrategy = std::make_shared<FunctionTypeSignatureStrategy>();
+    _procedureTypeSignatureStrategy = std::make_shared<ProcedureTypeSignatureStrategy>();
+    _literalTypeSignatureStrategy = std::make_shared<LiteralTypeSignatureStrategy>();
+    _accessModifierTypeSignatureStrategy = std::make_shared<AccessModifierTypeSignatureStrategy>();
+    _variableAssignmentStatementTypeSignatureStrategy = std::make_shared<VariableAssignmentStatementTypeSignatureStrategy>();
+    _refValueAssignmentStatementTypeSignatureStrategy = std::make_shared<RefValueAssignmentStatementTypeSignatureStrategy>();
+    _blockTypeSignatureStrategy = std::make_shared<BlockTypeSignatureStrategy>();
+    _expressionStatementTypeSignatureStrategy = std::make_shared<ExpressionStatementTypeSignatureStrategy>();
+    _conditionTypeSignatureStrategy = std::make_shared<ConditionTypeSignatureStrategy>();
+    _forStatementTypeSignatureStrategy = std::make_shared<ForInStatementTypeSignatureStrategy>();
+    _whileStatementTypeSignatureStrategy = std::make_shared<WhileStatementTypeSignatureStrategy>();
+    _tryStatementTypeSignatureStrategy = std::make_shared<TryStatementTypeSignatureStrategy>();
+    _ifStatementTypeSignatureStrategy = std::make_shared<IfStatementTypeSignatureStrategy>();
+    _importTypeSignatureStrategy = std::make_shared<ImportTypeSignatureStrategy>();
+    _moduleTypeSignatureStrategy = std::make_shared<ModuleTypeSignatureStrategy>();
+    _interfaceTypeSignatureStrategy = std::make_shared<InterfaceTypeSignatureStrategy>();
+    _interfacePropertyTypeSignatureStrategy = std::make_shared<InterfacePropertyTypeSignatureStrategy>();
+    _customTypeDeclarationTypeSignatureStrategy = std::make_shared<CustomTypeDeclarationTypeSignatureStrategy>();
+    _arrayAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ArrayAccessAssignmentStatementTypeSignatureStrategy>();
+    _arrayAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ArrayAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _objectAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ObjectAccessAssignmentStatementTypeSignatureStrategy>();
+    _objectAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ObjectAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _tupleAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<TupleAccessAssignmentStatementTypeSignatureStrategy>();
+    _tupleAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<TupleAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _moduleAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ModuleAccessAssignmentStatementTypeSignatureStrategy>();
+    _moduleAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ModuleAccessRefAssignmentStatementTypeSignatureStrategy>();
 }
 
-ArgumentListTypeSignatureStrategy* TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
+std::shared_ptr<ArgumentListTypeSignatureStrategy> TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
     return _argumentListTypeSignatureStrategy;
 }
 
-ArrayAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessExpressionTypeSignatureStrategy() {
+std::shared_ptr<ArrayAccessExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessExpressionTypeSignatureStrategy() {
     return _arrayAccessExpressionTypeSignatureStrategy;
 }
 
-ArrayAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessInvocationExpressionTypeSignatureStrategy() {
+std::shared_ptr<ArrayAccessInvocationExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessInvocationExpressionTypeSignatureStrategy() {
     return _arrayAccessInvocationExpressionTypeSignatureStrategy;
 }
 
-ArrayExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayExpressionTypeSignatureStrategy() {
+std::shared_ptr<ArrayExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayExpressionTypeSignatureStrategy() {
     return _arrayExpressionTypeSignatureStrategy;
 }
 
-BinaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getBinaryExpressionTypeSignatureStrategy() {
+std::shared_ptr<BinaryExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getBinaryExpressionTypeSignatureStrategy() {
     return _binaryExpressionTypeSignatureStrategy;
 }
 
-ConcatExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getConcatExpressionTypeSignatureStrategy() {
+std::shared_ptr<ConcatExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getConcatExpressionTypeSignatureStrategy() {
     return _concatExpressionTypeSignatureStrategy;
 }
 
-ClassMethodInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getClassMethodInvocationExpressionTypeSignatureStrategy() {
+std::shared_ptr<ClassMethodInvocationExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getClassMethodInvocationExpressionTypeSignatureStrategy() {
     return _classMethodInvocationExpressionTypeSignatureStrategy;
 }
 
-ClassPropertyAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyAccessExpressionTypeSignatureStrategy() {
+std::shared_ptr<ClassPropertyAccessExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyAccessExpressionTypeSignatureStrategy() {
     return _classPropertyAccessExpressionTypeSignatureStrategy;
 }
 
-ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy() {
     return _classPropertyRefValueAssignmentStatementTypeSignatureStrategy;
 }
 
-ClassPropertyAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ClassPropertyAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyAssignmentStatementTypeSignatureStrategy() {
     return _classPropertyAssignmentStatementTypeSignatureStrategy;
 }
 
-CurryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getCurryExpressionTypeSignatureStrategy() {
+std::shared_ptr<CurryExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getCurryExpressionTypeSignatureStrategy() {
     return _curryExpressionTypeSignatureStrategy;
 }
 
-FunctionInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionInvocationExpressionTypeSignatureStrategy() {
+std::shared_ptr<FunctionInvocationExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getFunctionInvocationExpressionTypeSignatureStrategy() {
     return _functionInvocationExpressionTypeSignatureStrategy;
 }
 
-FunctionReturnExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionReturnExpressionTypeSignatureStrategy() {
+std::shared_ptr<FunctionReturnExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getFunctionReturnExpressionTypeSignatureStrategy() {
     return _functionReturnExpressionTypeSignatureStrategy;
 }
 
-IdentifierExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getIdentifierExpressionTypeSignatureStrategy() {
+std::shared_ptr<IdentifierExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getIdentifierExpressionTypeSignatureStrategy() {
     return _identifierExpressionTypeSignatureStrategy;
 }
 
-LambdaExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpressionTypeSignatureStrategy() {
+std::shared_ptr<LambdaExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getLambdaExpressionTypeSignatureStrategy() {
     return _lambdaExpressionTypeSignatureStrategy;
 }
 
-LambdaWithFatArrowExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaWithFatArrowExpressionTypeSignatureStrategy() {
+std::shared_ptr<LambdaWithFatArrowExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getLambdaWithFatArrowExpressionTypeSignatureStrategy() {
     return _lambdaWithFatArrowExpressionTypeSignatureStrategy;
 }
 
-LambdaReturnExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaReturnExpressionTypeSignatureStrategy() {
+std::shared_ptr<LambdaReturnExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getLambdaReturnExpressionTypeSignatureStrategy() {
     return _lambdaReturnExpressionTypeSignatureStrategy;
 }
 
-LiteralExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLiteralExpressionTypeSignatureStrategy() {
+std::shared_ptr<LiteralExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getLiteralExpressionTypeSignatureStrategy() {
     return _literalExpressionTypeSignatureStrategy;
 }
 
-LogicalExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getLogicalExpressionTypeSignatureStrategy() {
+std::shared_ptr<LogicalExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getLogicalExpressionTypeSignatureStrategy() {
     return _logicalExpressionTypeSignatureStrategy;
 }
 
-NewClassInstanceExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getNewClassInstanceExpressionTypeSignatureStrategy() {
+std::shared_ptr<NewClassInstanceExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getNewClassInstanceExpressionTypeSignatureStrategy() {
     return _newClassInstanceExpressionTypeSignatureStrategy;
 }
 
-ObjectAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessExpressionTypeSignatureStrategy() {
+std::shared_ptr<ObjectAccessExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessExpressionTypeSignatureStrategy() {
     return _objectAccessExpressionTypeSignatureStrategy;
 }
 
-ObjectAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessInvocationExpressionTypeSignatureStrategy() {
+std::shared_ptr<ObjectAccessInvocationExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessInvocationExpressionTypeSignatureStrategy() {
     return _objectAccessInvocationExpressionTypeSignatureStrategy;
 }
 
-StructExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getStructExpressionTypeSignatureStrategy() {
+std::shared_ptr<StructExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getStructExpressionTypeSignatureStrategy() {
     return _structExpressionTypeSignatureStrategy;
 }
 
-ThisExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getThisExpressionTypeSignatureStrategy() {
+std::shared_ptr<ThisExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getThisExpressionTypeSignatureStrategy() {
     return _thisExpressionTypeSignatureStrategy;
 }
 
-TupleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessExpressionTypeSignatureStrategy() {
+std::shared_ptr<TupleAccessExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessExpressionTypeSignatureStrategy() {
     return _tupleAccessExpressionTypeSignatureStrategy;
 }
 
-TupleAccessInvocationExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessInvocationExpressionTypeSignatureStrategy() {
+std::shared_ptr<TupleAccessInvocationExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessInvocationExpressionTypeSignatureStrategy() {
     return _tupleAccessInvocationExpressionTypeSignatureStrategy;
 }
 
-TupleExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleExpressionTypeSignatureStrategy() {
+std::shared_ptr<TupleExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleExpressionTypeSignatureStrategy() {
     return _tupleExpressionTypeSignatureStrategy;
 }
 
-UnaryExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getUnaryExpressionTypeSignatureStrategy() {
+std::shared_ptr<UnaryExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getUnaryExpressionTypeSignatureStrategy() {
     return _unaryExpressionTypeSignatureStrategy;
 }
 
-ModuleAccessExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessExpressionTypeSignatureStrategy() {
+std::shared_ptr<ModuleAccessExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessExpressionTypeSignatureStrategy() {
     return _moduleAccessExpressionTypeSignatureStrategy;
 }
 
-RefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getRefExpressionTypeSignatureStrategy() {
+std::shared_ptr<RefExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getRefExpressionTypeSignatureStrategy() {
     return _refExpressionTypeSignatureStrategy;
 }
 
-DrefExpressionTypeSignatureStrategy* TypeSignatureStrategyMap::getDrefExpressionTypeSignatureStrategy() {
+std::shared_ptr<DrefExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getDrefExpressionTypeSignatureStrategy() {
     return _drefExpressionTypeSignatureStrategy;
 }
 
-LambdaExpressionScopeParameterTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaExpressionScopeParameterTypeSignatureStrategy() {
+std::shared_ptr<LambdaExpressionScopeParameterTypeSignatureStrategy> TypeSignatureStrategyMap::getLambdaExpressionScopeParameterTypeSignatureStrategy() {
     return _lambdaExpressionScopeParameterTypeSignatureStrategy;
 }
 
-ClassScopeParameterTypeSignatureStrategy* TypeSignatureStrategyMap::getClassScopeParameterTypeSignatureStrategy() {
+std::shared_ptr<ClassScopeParameterTypeSignatureStrategy> TypeSignatureStrategyMap::getClassScopeParameterTypeSignatureStrategy() {
     return _classScopeParameterTypeSignatureStrategy;
 }
 
-TypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTypeTypeSignatureStrategy() {
+std::shared_ptr<TypeTypeSignatureStrategy> TypeSignatureStrategyMap::getTypeTypeSignatureStrategy() {
     return _typeTypeSignatureStrategy;
 }
 
-PrimitiveTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getPrimitiveTypeTypeSignatureStrategy() {
+std::shared_ptr<PrimitiveTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getPrimitiveTypeTypeSignatureStrategy() {
     return _primitiveTypeTypeSignatureStrategy;
 }
 
-CustomTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getCustomTypeTypeSignatureStrategy() {
+std::shared_ptr<CustomTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getCustomTypeTypeSignatureStrategy() {
     return _customTypeTypeSignatureStrategy;
 }
 
-ArrayTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayTypeTypeSignatureStrategy() {
+std::shared_ptr<ArrayTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayTypeTypeSignatureStrategy() {
     return _arrayTypeTypeSignatureStrategy;
 }
 
-StructTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getStructTypeTypeSignatureStrategy() {
+std::shared_ptr<StructTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getStructTypeTypeSignatureStrategy() {
     return _structTypeTypeSignatureStrategy;
 }
 
-TupleTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleTypeTypeSignatureStrategy() {
+std::shared_ptr<TupleTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleTypeTypeSignatureStrategy() {
     return _tupleTypeTypeSignatureStrategy;
 }
 
-RefTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getRefTypeTypeSignatureStrategy() {
+std::shared_ptr<RefTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getRefTypeTypeSignatureStrategy() {
     return _refTypeTypeSignatureStrategy;
 }
 
-ModuleTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleTypeTypeSignatureStrategy() {
+std::shared_ptr<ModuleTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleTypeTypeSignatureStrategy() {
     return _moduleTypeTypeSignatureStrategy;
 }
 
-LambdaTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getLambdaTypeTypeSignatureStrategy() {
+std::shared_ptr<LambdaTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getLambdaTypeTypeSignatureStrategy() {
     return _lambdaTypeTypeSignatureStrategy;
 }
 
-VoidTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getVoidTypeTypeSignatureStrategy() {
+std::shared_ptr<VoidTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getVoidTypeTypeSignatureStrategy() {
     return _voidTypeTypeSignatureStrategy;
 }
 
-ThisTypeTypeSignatureStrategy* TypeSignatureStrategyMap::getThisTypeTypeSignatureStrategy() {
+std::shared_ptr<ThisTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getThisTypeTypeSignatureStrategy() {
     return _thisTypeTypeSignatureStrategy;
 }
 
-EnumKeyValueTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumKeyValueTypeSignatureStrategy() {
+std::shared_ptr<EnumKeyValueTypeSignatureStrategy> TypeSignatureStrategyMap::getEnumKeyValueTypeSignatureStrategy() {
     return _enumKeyValueTypeSignatureStrategy;
 }
 
-EnumTypeSignatureStrategy* TypeSignatureStrategyMap::getEnumTypeSignatureStrategy() {
+std::shared_ptr<EnumTypeSignatureStrategy> TypeSignatureStrategyMap::getEnumTypeSignatureStrategy() {
     return _enumTypeSignatureStrategy;
 }
 
-VariableTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableTypeSignatureStrategy() {
+std::shared_ptr<VariableTypeSignatureStrategy> TypeSignatureStrategyMap::getVariableTypeSignatureStrategy() {
     return _variableTypeSignatureStrategy;
 }
 
-ClassTypeSignatureStrategy* TypeSignatureStrategyMap::getClassTypeSignatureStrategy() {
+std::shared_ptr<ClassTypeSignatureStrategy> TypeSignatureStrategyMap::getClassTypeSignatureStrategy() {
     return _classTypeSignatureStrategy;
 }
 
-ClassPropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getClassPropertyTypeSignatureStrategy() {
+std::shared_ptr<ClassPropertyTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyTypeSignatureStrategy() {
     return _classPropertyTypeSignatureStrategy;
 }
 
-ClassConstructorTypeSignatureStrategy* TypeSignatureStrategyMap::getClassConstructorTypeSignatureStrategy() {
+std::shared_ptr<ClassConstructorTypeSignatureStrategy> TypeSignatureStrategyMap::getClassConstructorTypeSignatureStrategy() {
     return _classConstructorTypeSignatureStrategy;
 }
 
-ClassMethodTypeSignatureStrategy* TypeSignatureStrategyMap::getClassMethodTypeSignatureStrategy() {
+std::shared_ptr<ClassMethodTypeSignatureStrategy> TypeSignatureStrategyMap::getClassMethodTypeSignatureStrategy() {
     return _classMethodTypeSignatureStrategy;
 }
 
-ParameterListItemTypeSignatureStrategy* TypeSignatureStrategyMap::getParameterListItemTypeSignatureStrategy() {
+std::shared_ptr<ParameterListItemTypeSignatureStrategy> TypeSignatureStrategyMap::getParameterListItemTypeSignatureStrategy() {
     return _parameterListItemTypeSignatureStrategy;
 }
 
-ParameterListTypeSignatureStrategy* TypeSignatureStrategyMap::getParameterListTypeSignatureStrategy() {
+std::shared_ptr<ParameterListTypeSignatureStrategy> TypeSignatureStrategyMap::getParameterListTypeSignatureStrategy() {
     return _parameterListTypeSignatureStrategy;
 }
 
-FunctionTypeSignatureStrategy* TypeSignatureStrategyMap::getFunctionTypeSignatureStrategy() {
+std::shared_ptr<FunctionTypeSignatureStrategy> TypeSignatureStrategyMap::getFunctionTypeSignatureStrategy() {
     return _functionTypeSignatureStrategy;
 }
 
-ProcedureTypeSignatureStrategy* TypeSignatureStrategyMap::getProcedureTypeSignatureStrategy() {
+std::shared_ptr<ProcedureTypeSignatureStrategy> TypeSignatureStrategyMap::getProcedureTypeSignatureStrategy() {
     return _procedureTypeSignatureStrategy;
 }
 
-LiteralTypeSignatureStrategy* TypeSignatureStrategyMap::getLiteralTypeSignatureStrategy() {
+std::shared_ptr<LiteralTypeSignatureStrategy> TypeSignatureStrategyMap::getLiteralTypeSignatureStrategy() {
     return _literalTypeSignatureStrategy;
 }
 
-AccessModifierTypeSignatureStrategy* TypeSignatureStrategyMap::getAccessModifierTypeSignatureStrategy() {
+std::shared_ptr<AccessModifierTypeSignatureStrategy> TypeSignatureStrategyMap::getAccessModifierTypeSignatureStrategy() {
     return _accessModifierTypeSignatureStrategy;
 }
 
-VariableAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getVariableAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<VariableAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getVariableAssignmentStatementTypeSignatureStrategy() {
     return _variableAssignmentStatementTypeSignatureStrategy;
 }
 
-RefValueAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getRefValueAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<RefValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getRefValueAssignmentStatementTypeSignatureStrategy() {
     return _refValueAssignmentStatementTypeSignatureStrategy;
 }
 
-ArrayAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ArrayAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessAssignmentStatementTypeSignatureStrategy() {
     return _arrayAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-ArrayAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getArrayAccessRefAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ArrayAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessRefAssignmentStatementTypeSignatureStrategy() {
     return _arrayAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
-ObjectAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ObjectAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessAssignmentStatementTypeSignatureStrategy() {
     return _objectAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-ObjectAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getObjectAccessRefAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ObjectAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessRefAssignmentStatementTypeSignatureStrategy() {
     return _objectAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
-TupleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<TupleAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessAssignmentStatementTypeSignatureStrategy() {
     return _tupleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-TupleAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTupleAccessRefAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<TupleAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessRefAssignmentStatementTypeSignatureStrategy() {
     return _tupleAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
-ModuleAccessAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ModuleAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessAssignmentStatementTypeSignatureStrategy() {
     return _moduleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-ModuleAccessRefAssignmentStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleAccessRefAssignmentStatementTypeSignatureStrategy() {
+std::shared_ptr<ModuleAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessRefAssignmentStatementTypeSignatureStrategy() {
     return _moduleAccessRefAssignmentStatementTypeSignatureStrategy;
 }
 
-BlockTypeSignatureStrategy* TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {
+std::shared_ptr<BlockTypeSignatureStrategy> TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {
     return _blockTypeSignatureStrategy;
 }
 
-ExpressionStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getExpressionStatementTypeSignatureStrategy() {
+std::shared_ptr<ExpressionStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getExpressionStatementTypeSignatureStrategy() {
     return _expressionStatementTypeSignatureStrategy;
 }
 
-ConditionTypeSignatureStrategy* TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {
+std::shared_ptr<ConditionTypeSignatureStrategy> TypeSignatureStrategyMap::getConditionTypeSignatureStrategy() {
     return _conditionTypeSignatureStrategy;
 }
 
-ForInStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
+std::shared_ptr<ForInStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getForStatementTypeSignatureStrategy() {
     return _forStatementTypeSignatureStrategy;
 }
 
-WhileStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getWhileStatementTypeSignatureStrategy() {
+std::shared_ptr<WhileStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getWhileStatementTypeSignatureStrategy() {
     return _whileStatementTypeSignatureStrategy;
 }
 
-TryStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getTryStatementTypeSignatureStrategy() {
+std::shared_ptr<TryStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTryStatementTypeSignatureStrategy() {
     return _tryStatementTypeSignatureStrategy;
 }
 
-IfStatementTypeSignatureStrategy* TypeSignatureStrategyMap::getIfStatementTypeSignatureStrategy() {
+std::shared_ptr<IfStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getIfStatementTypeSignatureStrategy() {
     return _ifStatementTypeSignatureStrategy;
 }
 
-ImportTypeSignatureStrategy* TypeSignatureStrategyMap::getImportTypeSignatureStrategy() {
+std::shared_ptr<ImportTypeSignatureStrategy> TypeSignatureStrategyMap::getImportTypeSignatureStrategy() {
     return _importTypeSignatureStrategy;
 }
 
-ModuleTypeSignatureStrategy* TypeSignatureStrategyMap::getModuleTypeSignatureStrategy() {
+std::shared_ptr<ModuleTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleTypeSignatureStrategy() {
     return _moduleTypeSignatureStrategy;
 }
 
-InterfaceTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfaceTypeSignatureStrategy() {
+std::shared_ptr<InterfaceTypeSignatureStrategy> TypeSignatureStrategyMap::getInterfaceTypeSignatureStrategy() {
     return _interfaceTypeSignatureStrategy;
 }
 
-InterfacePropertyTypeSignatureStrategy* TypeSignatureStrategyMap::getInterfacePropertyTypeSignatureStrategy() {
+std::shared_ptr<InterfacePropertyTypeSignatureStrategy> TypeSignatureStrategyMap::getInterfacePropertyTypeSignatureStrategy() {
     return _interfacePropertyTypeSignatureStrategy;
 }
 
-CustomTypeDeclarationTypeSignatureStrategy* TypeSignatureStrategyMap::getCustomTypeDeclarationTypeSignatureStrategy() {
+std::shared_ptr<CustomTypeDeclarationTypeSignatureStrategy> TypeSignatureStrategyMap::getCustomTypeDeclarationTypeSignatureStrategy() {
     return _customTypeDeclarationTypeSignatureStrategy;
 }

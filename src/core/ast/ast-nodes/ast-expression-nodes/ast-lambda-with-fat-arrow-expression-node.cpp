@@ -60,11 +60,11 @@ std::shared_ptr<TypeSignature> ASTLambdaWithFatArrowExpressionNode::getTypeSigna
     return _typeSignature;
 }
 
-Position* ASTLambdaWithFatArrowExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTLambdaWithFatArrowExpressionNode::getStartPosition() {
     return _parameters->getStartPosition();
 }
 
-Position* ASTLambdaWithFatArrowExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTLambdaWithFatArrowExpressionNode::getEndPosition() {
     return _returnExpression->getEndPosition();
 }
 

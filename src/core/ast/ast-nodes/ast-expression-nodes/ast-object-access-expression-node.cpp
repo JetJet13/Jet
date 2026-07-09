@@ -22,11 +22,11 @@ std::shared_ptr<ASTObjectAccessTargetNode> ASTObjectAccessExpressionNode::getTar
     return _target;
 }
 
-Position* ASTObjectAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTObjectAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTObjectAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTObjectAccessExpressionNode::getEndPosition() {
     return _target->getEndPosition();
 }
 

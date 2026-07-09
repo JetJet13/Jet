@@ -29,8 +29,8 @@ public:
     void markAsGrouped();
     virtual ASTNodeType getNodeType() = 0;
     virtual std::string toString() = 0;
-    virtual Position* getStartPosition();
-    virtual Position* getEndPosition();
+    virtual std::shared_ptr<Position> getStartPosition();
+    virtual std::shared_ptr<Position> getEndPosition();
     virtual std::string getLineColumn();
     virtual bool isSameAs(std::shared_ptr<ASTNode> other);
     virtual bool isExpression();

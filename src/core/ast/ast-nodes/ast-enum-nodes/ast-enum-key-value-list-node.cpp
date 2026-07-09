@@ -47,11 +47,11 @@ std::shared_ptr<ASTEnumKeyValueListNode> ASTEnumKeyValueListNode::addComma(std::
     return std::dynamic_pointer_cast<ASTEnumKeyValueListNode>(shared_from_this());
 }
 
-Position* ASTEnumKeyValueListNode::getStartPosition() {
+std::shared_ptr<Position> ASTEnumKeyValueListNode::getStartPosition() {
     return _enumKeyValueListStartNode->getStartPosition();
 }
 
-Position* ASTEnumKeyValueListNode::getEndPosition() {
+std::shared_ptr<Position> ASTEnumKeyValueListNode::getEndPosition() {
     return _enumKeyValueListEndNode->getEndPosition();
 }
 

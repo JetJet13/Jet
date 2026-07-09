@@ -23,11 +23,11 @@ std::shared_ptr<ASTControlFlowConditionNode> ASTWhileStatementNode::getCondition
     return _condition;
 }
 
-Position* ASTWhileStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTWhileStatementNode::getStartPosition() {
     return _whileKeyword->getStartPosition();
 }
 
-Position* ASTWhileStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTWhileStatementNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

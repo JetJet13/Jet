@@ -16,16 +16,16 @@ private:
     std::shared_ptr<ASTFileNode> _astFileNode;
     std::shared_ptr<TypeSignatureLookupTable> _fileScope;
     TypeCheckerResult _typeCheckerResult;
-    std::set<JetFile*> _importedJetFiles;
+    std::set<std::shared_ptr<JetFile>> _importedJetFiles;
 public:
-    JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<JetFile*> importedJetFiles);
+    JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult, std::set<std::shared_ptr<JetFile>> importedJetFiles);
     JetFile(std::shared_ptr<ASTFileNode> astFileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope, TypeCheckerResult typeCheckerResult);
     std::string getId();
     std::shared_ptr<ASTFileNode> getFile();
     std::shared_ptr<TypeSignatureLookupTable> getScope();
     TypeCheckerResult* getTypeCheckerResult();
-    void addImportedFile(JetFile* jetFile);
-    std::set<JetFile*>* getImportedFiles();
+    void addImportedFile(std::shared_ptr<JetFile> jetFile);
+    std::set<std::shared_ptr<JetFile>>* getImportedFiles();
     bool isModule();
     bool hasImports();
     void print();

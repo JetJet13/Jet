@@ -102,11 +102,11 @@ std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>* ASTClassBlockN
     return &_constructors;
 }
 
-Position* ASTClassBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassBlockNode::getStartPosition() {
     return _blockStartNode->getStartPosition();
 }
 
-Position* ASTClassBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassBlockNode::getEndPosition() {
     return _blockEndNode->getEndPosition();
 }
 

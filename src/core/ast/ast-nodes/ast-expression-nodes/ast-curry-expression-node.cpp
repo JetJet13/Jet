@@ -25,11 +25,11 @@ unsigned long ASTCurryExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-Position* ASTCurryExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTCurryExpressionNode::getStartPosition() {
     return _callableExpression->getStartPosition();
 }
 
-Position* ASTCurryExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTCurryExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

@@ -30,11 +30,11 @@ std::shared_ptr<TypeSignature> ASTClassPropertyRefValueAssignmentNode::getTypeSi
     return _typeSignature;
 }
 
-Position* ASTClassPropertyRefValueAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyRefValueAssignmentNode::getStartPosition() {
     return _classPropertyAccess->getStartPosition();
 }
 
-Position* ASTClassPropertyRefValueAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyRefValueAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

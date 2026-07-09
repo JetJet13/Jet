@@ -14,11 +14,11 @@ std::shared_ptr<ASTIdentifierNode> ASTModuleAliasNameNode::getIdentifier() {
     return _identifier;
 }
 
-Position* ASTModuleAliasNameNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleAliasNameNode::getStartPosition() {
     return _identifier->getStartPosition();
 }
 
-Position* ASTModuleAliasNameNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleAliasNameNode::getEndPosition() {
     return _identifier->getEndPosition();
 }
 

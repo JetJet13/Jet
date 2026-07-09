@@ -21,7 +21,7 @@ private:
 public:
     ASTFileNode(std::vector<std::shared_ptr<ASTNode>> body, std::string path, std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> imports, std::optional<std::shared_ptr<ASTModuleDeclarationNode>> module = {});
     void append(std::shared_ptr<ASTNode> node);
-    std::filesystem::path* getPath();
+    std::filesystem::path getPath();
     std::string getPathDirectory();
     void markGlobalVariables();
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
@@ -30,8 +30,8 @@ public:
     std::string getModuleName();
     std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>>* getImports();
     std::vector<std::shared_ptr<ASTNode>>* getBody();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

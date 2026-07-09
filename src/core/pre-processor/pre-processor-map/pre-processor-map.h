@@ -13,11 +13,11 @@
 
 class PreProcessorMap {
 private:
-    std::unordered_map<std::string, JetFile*> _graph;
+    std::unordered_map<std::string, std::shared_ptr<JetFile>> _graph;
 public:
     PreProcessorMap();
-    std::optional<JetFile*> findByFilePath(std::string filePath);
-    PreProcessorMap* insert(JetFile* jetFile);
+    std::optional<std::shared_ptr<JetFile>> findByFilePath(std::string filePath);
+    PreProcessorMap* insert(std::shared_ptr<JetFile> jetFile);
 
 };
 

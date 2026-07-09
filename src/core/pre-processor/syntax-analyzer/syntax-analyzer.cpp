@@ -5,7 +5,6 @@
 #include "syntax-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "ast-literal-node-value-assignor/ast-literal-node-value-assignor.h"
-#include "stack-merger/stack-merger.h"
 #include "../../ast/types/source-code-builder/source-code-builder.h"
 
 

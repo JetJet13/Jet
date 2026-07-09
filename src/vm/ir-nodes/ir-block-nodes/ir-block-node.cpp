@@ -189,8 +189,8 @@ std::vector<std::shared_ptr<IRBlockNode>>* IRBlockNode::getSuccessors() {
     return &_successors;
 }
 
-std::set<std::shared_ptr<IRBlockNode>>* IRBlockNode::getAllSuccessors() {
-    auto allSuccessors = new std::set<std::shared_ptr<IRBlockNode>>();
+std::shared_ptr<std::set<std::shared_ptr<IRBlockNode>>> IRBlockNode::getAllSuccessors() {
+    auto allSuccessors = std::make_shared<std::set<std::shared_ptr<IRBlockNode>>>();
     for (auto successor : _successors) {
         allSuccessors->insert(successor);
         auto successorsOfSuccessor = successor->getAllSuccessors();

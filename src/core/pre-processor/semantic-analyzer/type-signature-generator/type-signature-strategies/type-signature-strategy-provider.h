@@ -37,7 +37,7 @@
 class TypeSignatureStrategyProvider {
 private:
     LiteralTypeSignatureLookupTable _literalTypeSignatureLookupTable;
-    TypeSignatureStrategyMap* _typeSignatureStrategyMap;
+    TypeSignatureStrategyMap _typeSignatureStrategyMap;
     ArrayPrototypeTypeSignatureMap _arrayPrototypeSignatureMap;
     StringPrototypeTypeSignatureMap _stringPrototypeSignatureMap;
     RefPrototypeTypeSignatureMap _refPrototypeSignatureMap;

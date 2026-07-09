@@ -62,11 +62,11 @@ std::shared_ptr<TypeSignature> IRFunctionInvocationExpressionNode::getTypeSignat
     return _node->getTypeSignature();
 }
 
-Position* IRFunctionInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRFunctionInvocationExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRFunctionInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRFunctionInvocationExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

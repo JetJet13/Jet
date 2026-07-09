@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTArrayAccessRefAssignmentStatementNode::get
     return _expression;
 }
 
-Position* ASTArrayAccessRefAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayAccessRefAssignmentStatementNode::getStartPosition() {
     return _arrayAccessAssignment->getStartPosition();
 }
 
-Position* ASTArrayAccessRefAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayAccessRefAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

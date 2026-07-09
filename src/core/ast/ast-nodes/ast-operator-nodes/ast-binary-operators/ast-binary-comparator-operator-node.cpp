@@ -37,11 +37,11 @@ bool ASTBinaryComparatorOperatorNode::isLessThanOrEqual() {
     return _lexeme->getToken()->getSymbol()->isLessThanOrEqual();
 }
 
-Position* ASTBinaryComparatorOperatorNode::getStartPosition() {
+std::shared_ptr<Position> ASTBinaryComparatorOperatorNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTBinaryComparatorOperatorNode::getEndPosition() {
+std::shared_ptr<Position> ASTBinaryComparatorOperatorNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

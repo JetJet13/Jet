@@ -51,11 +51,11 @@ std::shared_ptr<TypeSignature> IRTupleExpressionNode::getTypeSignature() {
     return _node->getTypeSignature();
 }
 
-Position* IRTupleExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRTupleExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRTupleExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRTupleExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

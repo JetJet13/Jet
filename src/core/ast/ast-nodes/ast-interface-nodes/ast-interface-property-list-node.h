@@ -25,8 +25,8 @@ public:
     unsigned long numProperties();
     std::shared_ptr<ASTInterfacePropertyListNode> addProperty(std::shared_ptr<ASTInterfacePropertyNode> property);
     std::shared_ptr<ASTInterfacePropertyListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

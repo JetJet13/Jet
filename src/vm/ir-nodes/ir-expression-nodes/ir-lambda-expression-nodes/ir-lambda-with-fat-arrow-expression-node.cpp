@@ -51,11 +51,11 @@ std::shared_ptr<TypeSignature> IRLambdaWithFatArrowExpressionNode::getTypeSignat
     return _node->getTypeSignature();
 }
 
-Position* IRLambdaWithFatArrowExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRLambdaWithFatArrowExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRLambdaWithFatArrowExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRLambdaWithFatArrowExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

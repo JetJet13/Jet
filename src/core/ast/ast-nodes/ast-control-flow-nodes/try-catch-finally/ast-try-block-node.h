@@ -19,8 +19,8 @@ public:
     explicit ASTTryBlockNode(std::shared_ptr<ASTTryNode> tryKeyword, std::shared_ptr<ASTControlFlowBlockNode> block);
     std::shared_ptr<ASTControlFlowBlockNode> getBlock();
     std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

@@ -21,11 +21,11 @@ std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTFinallyBlockNo
     return _block->getReturnStatements();
 }
 
-Position* ASTFinallyBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTFinallyBlockNode::getStartPosition() {
     return _finallyKeyword->getStartPosition();
 }
 
-Position* ASTFinallyBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTFinallyBlockNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

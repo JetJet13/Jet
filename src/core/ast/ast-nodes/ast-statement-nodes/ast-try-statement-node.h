@@ -21,8 +21,8 @@ public:
     std::shared_ptr<ASTTryBlockNode> getTryBlock();
     std::shared_ptr<ASTCatchBlockNode> getCatchBlock();
     std::optional<std::shared_ptr<ASTFinallyBlockNode>> getFinallyBlock();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

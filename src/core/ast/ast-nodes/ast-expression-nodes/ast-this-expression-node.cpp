@@ -15,11 +15,11 @@ std::shared_ptr<ASTThisNode> ASTThisExpressionNode::getThisNode() {
     return _this;
 }
 
-Position* ASTThisExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTThisExpressionNode::getStartPosition() {
     return _this->getStartPosition();
 }
 
-Position* ASTThisExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTThisExpressionNode::getEndPosition() {
     return _this->getEndPosition();
 }
 

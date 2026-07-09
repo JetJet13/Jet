@@ -86,18 +86,18 @@ std::optional<std::shared_ptr<IRClassPreConstructorNode>> ClassDeclarationIRStra
     functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
     functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(0), classScopeParameterAllocation));
 
-    auto initialPropertyIRExpressions = new std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>();
-    auto initialPropertyConstants = new std::vector<std::pair<unsigned long, llvm::Constant*>>();
+    auto initialPropertyIRExpressions = std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>();
+    auto initialPropertyConstants = std::vector<std::pair<unsigned long, llvm::Constant*>>();
     for (int i = 0; i < node->getBlock()->getInstanceProperties()->size(); ++i) {
         auto property = node->getBlock()->getInstanceProperties()->at(i);
         auto propertyIndex = irClassType->getClassProperties()->getStructIRType()->getIndexForKey(property->getId());
         if (property->getInitializer()) {
             auto irExpression = irGenerator->generateFor(property->getInitializer().value(), functionBlock->getScope(), irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
             irExpression->markAsAssigned();
-            initialPropertyIRExpressions->push_back(std::pair { propertyIndex, irExpression });
+            initialPropertyIRExpressions.push_back(std::pair { propertyIndex, irExpression });
         } else {
             auto irType = irGenerator->generateTypeFor(property->getPropertyTypeSignature()->getType(), scope, irContext);
-            initialPropertyConstants->push_back(std::pair { propertyIndex, irGenerator->generateInitialValueForIRType(irType) });
+            initialPropertyConstants.push_back(std::pair { propertyIndex, irGenerator->generateInitialValueForIRType(irType) });
         }
     }
     return std::make_shared<IRClassPreConstructorNode>(irFunction, classScopeParameterAllocation, initialPropertyIRExpressions, initialPropertyConstants, functionBlock);

@@ -87,11 +87,11 @@ bool ASTNode::isLowerPriorityThan(std::shared_ptr<ASTNode> other) {
     return this->getPriority() > other->getPriority();
 }
 
-Position* ASTNode::getStartPosition() {
+std::shared_ptr<Position> ASTNode::getStartPosition() {
     throw std::logic_error("get start-position not implemented: " + this->toString());
 }
 
-Position* ASTNode::getEndPosition() {
+std::shared_ptr<Position> ASTNode::getEndPosition() {
     throw std::logic_error("get end-position not implemented: " + this->toString());
 }
 

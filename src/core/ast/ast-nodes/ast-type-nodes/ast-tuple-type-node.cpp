@@ -16,11 +16,11 @@ std::shared_ptr<ASTTypeParameterListNode> ASTTupleTypeNode::getParameterList() {
     return _typeParameterList;
 }
 
-Position* ASTTupleTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleTypeNode::getStartPosition() {
     return _tupleNode->getStartPosition();
 }
 
-Position* ASTTupleTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleTypeNode::getEndPosition() {
     return _typeParameterList->getEndPosition();
 }
 

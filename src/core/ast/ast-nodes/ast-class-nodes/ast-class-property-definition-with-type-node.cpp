@@ -28,11 +28,11 @@ std::shared_ptr<ASTTypeNode> ASTClassPropertyDefinitionWithTypeNode::getType() {
     return _type;
 }
 
-Position* ASTClassPropertyDefinitionWithTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyDefinitionWithTypeNode::getStartPosition() {
     return _classPropertyDefinition->getStartPosition();
 }
 
-Position* ASTClassPropertyDefinitionWithTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyDefinitionWithTypeNode::getEndPosition() {
     return _type->getEndPosition();
 }
 

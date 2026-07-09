@@ -18,8 +18,8 @@ void ASTFileNode::append(std::shared_ptr<ASTNode> node) {
     _body.push_back(node);
 }
 
-std::filesystem::path* ASTFileNode::getPath() {
-    return &_path;
+std::filesystem::path ASTFileNode::getPath() {
+    return _path;
 }
 
 std::string ASTFileNode::getPathDirectory() {
@@ -76,16 +76,16 @@ std::vector<std::shared_ptr<ASTNode>>* ASTFileNode::getBody() {
     return &_body;
 }
 
-Position* ASTFileNode::getStartPosition() {
+std::shared_ptr<Position> ASTFileNode::getStartPosition() {
     if (_body.empty()) {
-        return new Position();
+        return std::make_shared<Position>();
     }
     return _body[0]->getStartPosition();
 }
 
-Position* ASTFileNode::getEndPosition() {
+std::shared_ptr<Position> ASTFileNode::getEndPosition() {
     if (_body.empty()) {
-        return new Position();
+        return std::make_shared<Position>();
     }
     return _body[_body.size() - 1]->getEndPosition();
 }

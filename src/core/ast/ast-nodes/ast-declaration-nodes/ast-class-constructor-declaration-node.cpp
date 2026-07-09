@@ -43,11 +43,11 @@ std::shared_ptr<TypeSignature> ASTClassConstructorDeclarationNode::getTypeSignat
     return _typeSignature;
 }
 
-Position* ASTClassConstructorDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassConstructorDeclarationNode::getStartPosition() {
     return _constructor->getStartPosition();
 }
 
-Position* ASTClassConstructorDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassConstructorDeclarationNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

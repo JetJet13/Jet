@@ -45,11 +45,11 @@ std::shared_ptr<TypeSignature> ASTInterfaceTypeDeclarationNode::getTypeSignature
     return _typeSignature;
 }
 
-Position* ASTInterfaceTypeDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTInterfaceTypeDeclarationNode::getStartPosition() {
     return _interfaceDefinition->getStartPosition();
 }
 
-Position* ASTInterfaceTypeDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTInterfaceTypeDeclarationNode::getEndPosition() {
     return _propertyList->getEndPosition();
 }
 

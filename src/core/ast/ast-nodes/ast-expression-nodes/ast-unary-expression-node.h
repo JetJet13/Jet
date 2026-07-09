@@ -16,8 +16,8 @@ public:
     ASTUnaryExpressionNode(std::shared_ptr<ASTUnaryOperatorNode> unaryOperator, std::shared_ptr<ASTExpressionNode> astExpressionNode);
     std::shared_ptr<ASTExpressionNode> getExpressionNode();
     std::shared_ptr<ASTUnaryOperatorNode> getUnaryOperatorNode();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;

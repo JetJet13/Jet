@@ -39,11 +39,11 @@ std::shared_ptr<ASTModuleListNode> ASTModuleListNode::addItem(std::shared_ptr<AS
     return std::dynamic_pointer_cast<ASTModuleListNode>(shared_from_this());
 }
 
-Position* ASTModuleListNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleListNode::getStartPosition() {
     return _moduleListStartNode->getStartPosition();
 }
 
-Position* ASTModuleListNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleListNode::getEndPosition() {
     return _moduleListEndNode->getEndPosition();
 }
 

@@ -14,11 +14,11 @@ std::shared_ptr<ASTStringLiteralNode> ASTImportPathNode::getImportPath() {
     return _importPath;
 }
 
-Position* ASTImportPathNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportPathNode::getStartPosition() {
     return _importPath->getStartPosition();
 }
 
-Position* ASTImportPathNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportPathNode::getEndPosition() {
     return _importPath->getEndPosition();
 }
 

@@ -21,14 +21,14 @@ private:
     std::optional<std::shared_ptr<IRLookupTable>> _outerScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _typeScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _globalTypeScope;
-    std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>* _linkedScopes;
+    std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>> _linkedScopes;
 public:
     explicit IRLookupTable(std::optional<std::shared_ptr<IRLookupTable>> outerScope = {});
     explicit IRLookupTable(std::string moduleId, std::optional<std::shared_ptr<IRLookupTable>> outerScope = {});
     std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> getGlobalScope();
     std::unordered_map<std::string, std::shared_ptr<IRType>> getTypeScope();
     std::unordered_map<std::string, std::shared_ptr<IRType>> getGlobalTypeScope();
-    std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>* getLinkedScopes();
+    std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<IRLookupTable>>> getLinkedScopes();
     std::string getModuleId();
     void inherit(std::shared_ptr<IRLookupTable> otherScope);
     void link(std::shared_ptr<IRLookupTable> otherScope);

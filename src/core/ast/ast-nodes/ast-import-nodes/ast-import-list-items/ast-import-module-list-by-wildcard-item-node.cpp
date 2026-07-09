@@ -23,11 +23,11 @@ std::shared_ptr<ASTImportWildcardNode> ASTImportModuleListByWildcardItemNode::ge
     return _wildcard;
 }
 
-Position* ASTImportModuleListByWildcardItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportModuleListByWildcardItemNode::getStartPosition() {
     return _moduleName->getStartPosition();
 }
 
-Position* ASTImportModuleListByWildcardItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportModuleListByWildcardItemNode::getEndPosition() {
     return _wildcard->getEndPosition();
 }
 

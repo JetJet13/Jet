@@ -59,11 +59,11 @@ bool ASTClassDeclarationNode::isExportable() {
     return _exportKeyword.has_value();
 }
 
-Position* ASTClassDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassDeclarationNode::getStartPosition() {
     return _classKeyword->getStartPosition();
 }
 
-Position* ASTClassDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassDeclarationNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTTupleAccessAssignmentStatementNode::getExp
     return _expression;
 }
 
-Position* ASTTupleAccessAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleAccessAssignmentStatementNode::getStartPosition() {
     return _tupleAccessAssignment->getStartPosition();
 }
 
-Position* ASTTupleAccessAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleAccessAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

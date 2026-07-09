@@ -13,7 +13,7 @@ ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std:
     _rightBracket = rightBracket;
     _children.push_back(_leftBracket);
     _children.push_back(_rightBracket);
-    _elements = new std::vector<std::shared_ptr<ASTExpressionNode>>();
+    _elements = std::vector<std::shared_ptr<ASTExpressionNode>>();
 }
 
 ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std::vector<std::shared_ptr<ASTExpressionNode>> elements, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTRightBracketNode> rightBracket) {
@@ -22,14 +22,14 @@ ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std:
     _children.push_back(_leftBracket);
     _children.push_back(_rightBracket);
     _commas = commas;
-    _elements = new std::vector<std::shared_ptr<ASTExpressionNode>>();
+    _elements = std::vector<std::shared_ptr<ASTExpressionNode>>();
     for (auto element: elements) {
         this->addElement(element);
     }
 }
 
 std::shared_ptr<ASTArrayNode> ASTArrayNode::addElement(std::shared_ptr<ASTExpressionNode> element) {
-    _elements->push_back(element);
+    _elements.push_back(element);
     _children.push_back(element);
     return std::dynamic_pointer_cast<ASTArrayNode>(shared_from_this());
 }
@@ -48,21 +48,21 @@ std::shared_ptr<ASTRightBracketNode> ASTArrayNode::getRightBracket() {
 }
 
 std::optional<std::shared_ptr<ASTExpressionNode>> ASTArrayNode::getFirstElement() {
-    if (_elements->at(0)) {
-        return _elements->at(0);
+    if (_elements.at(0)) {
+        return _elements.at(0);
     }
     return {};
 }
 
 std::vector<std::shared_ptr<ASTExpressionNode>>* ASTArrayNode::getElements() {
-    return _elements;
+    return &_elements;
 }
 
-Position* ASTArrayNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayNode::getStartPosition() {
     return _leftBracket->getStartPosition();
 }
 
-Position* ASTArrayNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayNode::getEndPosition() {
     return _rightBracket->getEndPosition();
 }
 
@@ -76,7 +76,7 @@ std::string ASTArrayNode::toString() {
 
 void ASTArrayNode::print() {
     Logger::log("----------", this->toString(), "----------");
-    for (auto element : *_elements) {
+    for (auto element : _elements) {
         element->toString();
     }
     Logger::log("----------");
@@ -85,8 +85,8 @@ void ASTArrayNode::print() {
 std::string ASTArrayNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftBracket);
-    for (unsigned long i = 0; i < _elements->size(); ++i) {
-        sourceCodeBuilder.add(_elements->at(i));
+    for (unsigned long i = 0; i < _elements.size(); ++i) {
+        sourceCodeBuilder.add(_elements.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));
         }

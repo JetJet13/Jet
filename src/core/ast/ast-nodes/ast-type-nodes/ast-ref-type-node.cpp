@@ -17,11 +17,11 @@ std::shared_ptr<ASTTypeNode> ASTRefTypeNode::getRefType() {
     return _typeParameterList->getParameters()[0];
 }
 
-Position* ASTRefTypeNode::getStartPosition() {
+std::shared_ptr<Position> ASTRefTypeNode::getStartPosition() {
     return _ref->getStartPosition();
 }
 
-Position* ASTRefTypeNode::getEndPosition() {
+std::shared_ptr<Position> ASTRefTypeNode::getEndPosition() {
     return _typeParameterList->getEndPosition();
 }
 

@@ -48,11 +48,11 @@ std::shared_ptr<TypeSignature> ASTFunctionParameterNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTFunctionParameterNode::getStartPosition() {
+std::shared_ptr<Position> ASTFunctionParameterNode::getStartPosition() {
     return _identifier->getStartPosition();
 }
 
-Position* ASTFunctionParameterNode::getEndPosition() {
+std::shared_ptr<Position> ASTFunctionParameterNode::getEndPosition() {
     return _type->getEndPosition();
 }
 

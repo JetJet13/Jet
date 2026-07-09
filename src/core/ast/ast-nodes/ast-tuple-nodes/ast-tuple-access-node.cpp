@@ -13,11 +13,11 @@ Lexeme* ASTTupleAccessNode::getLexeme() {
     return _lexeme;
 }
 
-Position* ASTTupleAccessNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleAccessNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTTupleAccessNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleAccessNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

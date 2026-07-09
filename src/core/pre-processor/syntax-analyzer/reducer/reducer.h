@@ -16,9 +16,9 @@
 // for reducing handles (i.e. determine what to reduce the handle to)
 class Reducer {
 private:
-    std::unordered_map<ASTNodeType, ReducerStrategy*, std::hash<int>> _strategies;
+    std::unordered_map<ASTNodeType, std::shared_ptr<ReducerStrategy>, std::hash<int>> _strategies;
     void initStrategies();
-    void addStrategy(ASTNodeType astNodeType, ReducerStrategy* reducerStrategy);
+    void addStrategy(ASTNodeType astNodeType, std::shared_ptr<ReducerStrategy> reducerStrategy);
     std::shared_ptr<ASTNode> generateASTNode(ASTNodeType targetAstNodeType, std::vector<std::shared_ptr<ASTNode>> nodes);
 public:
     Reducer();

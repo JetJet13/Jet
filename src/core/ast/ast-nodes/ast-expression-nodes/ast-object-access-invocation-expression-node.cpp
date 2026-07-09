@@ -67,11 +67,11 @@ bool ASTObjectAccessInvocationExpressionNode::isRefPrototypeInvocation() {
             && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 
-Position* ASTObjectAccessInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTObjectAccessInvocationExpressionNode::getStartPosition() {
     return _objectAccess->getStartPosition();
 }
 
-Position* ASTObjectAccessInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTObjectAccessInvocationExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

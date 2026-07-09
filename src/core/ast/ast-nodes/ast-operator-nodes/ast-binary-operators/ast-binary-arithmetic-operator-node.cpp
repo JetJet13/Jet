@@ -42,11 +42,11 @@ bool ASTBinaryArithmeticOperatorNode::isModulo() {
     return _lexeme->getToken()->getSymbol()->isModulo();
 }
 
-Position* ASTBinaryArithmeticOperatorNode::getStartPosition() {
+std::shared_ptr<Position> ASTBinaryArithmeticOperatorNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTBinaryArithmeticOperatorNode::getEndPosition() {
+std::shared_ptr<Position> ASTBinaryArithmeticOperatorNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

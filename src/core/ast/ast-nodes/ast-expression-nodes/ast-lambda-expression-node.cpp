@@ -64,11 +64,11 @@ std::shared_ptr<TypeSignature> ASTLambdaExpressionNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTLambdaExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTLambdaExpressionNode::getStartPosition() {
     return _parameters->getStartPosition();
 }
 
-Position* ASTLambdaExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTLambdaExpressionNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

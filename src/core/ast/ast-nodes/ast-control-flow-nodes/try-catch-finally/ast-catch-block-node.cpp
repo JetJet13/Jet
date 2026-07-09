@@ -29,11 +29,11 @@ std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTCatchBlockNode
     return _block->getReturnStatements();
 }
 
-Position* ASTCatchBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTCatchBlockNode::getStartPosition() {
     return _catchKeyword->getStartPosition();
 }
 
-Position* ASTCatchBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTCatchBlockNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

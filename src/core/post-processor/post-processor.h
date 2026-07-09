@@ -10,7 +10,7 @@
 class PostProcessor {
 public:
     PostProcessor();
-    void process(JetFile* file);
+    void process(std::shared_ptr<JetFile> file);
 };
 
 #endif //JETLANG_POST_PROCESSOR_H

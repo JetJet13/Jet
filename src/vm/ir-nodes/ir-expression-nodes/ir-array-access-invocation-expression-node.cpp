@@ -45,11 +45,11 @@ std::shared_ptr<TypeSignature> IRArrayAccessInvocationExpressionNode::getTypeSig
     return _node->getTypeSignature();
 }
 
-Position* IRArrayAccessInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRArrayAccessInvocationExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRArrayAccessInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRArrayAccessInvocationExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

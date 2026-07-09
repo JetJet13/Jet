@@ -21,11 +21,11 @@ std::shared_ptr<TypeSignature> ASTTupleAccessRefAssignmentNode::getTypeSignature
     return _tupleAccessExpression->getTypeSignature();
 }
 
-Position* ASTTupleAccessRefAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleAccessRefAssignmentNode::getStartPosition() {
     return _tupleAccessExpression->getStartPosition();
 }
 
-Position* ASTTupleAccessRefAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleAccessRefAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

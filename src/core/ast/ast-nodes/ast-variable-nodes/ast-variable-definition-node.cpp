@@ -21,11 +21,11 @@ std::shared_ptr<ASTIdentifierNode> ASTVariableDefinitionNode::getIdentifierNode(
     return _identifier;
 }
 
-Position* ASTVariableDefinitionNode::getStartPosition() {
+std::shared_ptr<Position> ASTVariableDefinitionNode::getStartPosition() {
     return _assignmentTypeQualifier->getStartPosition();
 }
 
-Position* ASTVariableDefinitionNode::getEndPosition() {
+std::shared_ptr<Position> ASTVariableDefinitionNode::getEndPosition() {
     return _identifier->getEndPosition();
 }
 

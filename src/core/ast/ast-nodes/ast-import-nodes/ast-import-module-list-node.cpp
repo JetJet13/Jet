@@ -40,11 +40,11 @@ std::shared_ptr<ASTImportModuleListNode> ASTImportModuleListNode::addItem(std::s
     return std::dynamic_pointer_cast<ASTImportModuleListNode>(shared_from_this());
 }
 
-Position* ASTImportModuleListNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportModuleListNode::getStartPosition() {
     return _importModuleListStartNode->getStartPosition();
 }
 
-Position* ASTImportModuleListNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportModuleListNode::getEndPosition() {
     return _importModuleListEndNode->getEndPosition();
 }
 

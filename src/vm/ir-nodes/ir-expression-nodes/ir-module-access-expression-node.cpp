@@ -29,11 +29,11 @@ std::shared_ptr<TypeSignature> IRModuleAccessExpressionNode::getTypeSignature() 
     return _node->getTypeSignature();
 }
 
-Position* IRModuleAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRModuleAccessExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRModuleAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRModuleAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

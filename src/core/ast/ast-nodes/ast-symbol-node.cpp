@@ -18,11 +18,11 @@ Lexeme* ASTSymbolNode::getLexeme() {
     return _lexeme;
 }
 
-Position* ASTSymbolNode::getStartPosition() {
+std::shared_ptr<Position> ASTSymbolNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTSymbolNode::getEndPosition() {
+std::shared_ptr<Position> ASTSymbolNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

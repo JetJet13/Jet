@@ -58,11 +58,11 @@ std::shared_ptr<TypeSignature> IRObjectAccessExpressionNode::getTypeSignature() 
     return _node->getTypeSignature();
 }
 
-Position* IRObjectAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRObjectAccessExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRObjectAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRObjectAccessExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

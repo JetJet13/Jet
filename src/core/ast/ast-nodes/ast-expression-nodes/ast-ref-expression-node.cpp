@@ -34,11 +34,11 @@ void ASTRefExpressionNode::setTypeSignature(std::shared_ptr<RefTypeSignature> ty
     _typeSignature = typeSignature;
 }
 
-Position* ASTRefExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTRefExpressionNode::getStartPosition() {
     return _refNode->getStartPosition();
 }
 
-Position* ASTRefExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTRefExpressionNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

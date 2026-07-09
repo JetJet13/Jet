@@ -35,11 +35,11 @@ std::string ASTModuleAccessExpressionNode::getModuleId() {
     return _source->getSource()->getIdentifierNode()->getId();
 }
 
-Position* ASTModuleAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleAccessExpressionNode::getStartPosition() {
     return _source->getStartPosition();
 }
 
-Position* ASTModuleAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleAccessExpressionNode::getEndPosition() {
     return _target->getEndPosition();
 }
 

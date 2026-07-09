@@ -63,8 +63,6 @@ add_library(jet-core
         ast/types/ast-node-type.h
         ast/types/source-code-builder/source-code-builder.cpp
         ast/types/source-code-builder/source-code-builder.h
-        grammar/tables/follow-symbol-table.cpp
-        grammar/tables/follow-symbol-table.h
         ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.cpp
         ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h
         pre-processor/syntax-analyzer/reducer/reducer.cpp
@@ -81,8 +79,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/recognizer-result/recognizer-result.h
         ast/ast-nodes/ast-terminator-node.cpp
         ast/ast-nodes/ast-terminator-node.h
-        grammar/tables/follow-ast-node-table.cpp
-        grammar/tables/follow-ast-node-table.h
         ast/ast-nodes/ast-node-utils/ast-node-utils.h
         pre-processor/syntax-analyzer/handle/handle.cpp
         pre-processor/syntax-analyzer/handle/handle.h

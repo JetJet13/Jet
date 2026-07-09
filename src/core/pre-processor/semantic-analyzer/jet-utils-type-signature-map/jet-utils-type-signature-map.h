@@ -12,7 +12,7 @@
 
 class JetUtilsTypeSignatureMap {
 public:
-    static FunctionVarArgTypeSignatureMap* getPrintTypeSignatureMap();
+    static std::shared_ptr<FunctionVarArgTypeSignatureMap> getPrintTypeSignatureMap();
     static std::string getPrintTypeSignatureKey();
     static std::string getRangeTypeSignatureKey();
     static std::string getRange2pTypeSignatureKey();

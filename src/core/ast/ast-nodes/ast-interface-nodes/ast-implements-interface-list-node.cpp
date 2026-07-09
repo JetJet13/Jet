@@ -42,11 +42,11 @@ std::shared_ptr<ASTImplementsInterfaceListNode> ASTImplementsInterfaceListNode::
     return std::dynamic_pointer_cast<ASTImplementsInterfaceListNode>(shared_from_this());
 }
 
-Position* ASTImplementsInterfaceListNode::getStartPosition() {
+std::shared_ptr<Position> ASTImplementsInterfaceListNode::getStartPosition() {
     return _implements->getStartPosition();
 }
 
-Position* ASTImplementsInterfaceListNode::getEndPosition() {
+std::shared_ptr<Position> ASTImplementsInterfaceListNode::getEndPosition() {
     return _interfaceNames[_interfaceNames.size() - 1]->getEndPosition();
 }
 

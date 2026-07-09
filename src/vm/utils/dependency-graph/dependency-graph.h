@@ -15,18 +15,18 @@
 
 class DependencyGraph {
 private:
-    std::unordered_map<std::string, std::set<JetFile*>*> _directDependencyMap;
+    std::unordered_map<std::string, std::shared_ptr<std::set<std::shared_ptr<JetFile>>>> _directDependencyMap;
     std::unordered_map<std::string, unsigned long> _totalDependencyMap;
-    std::vector<std::pair<unsigned long, JetFile*>> _totalCounts;
-    std::vector<JetFile*> _importFreeFiles;
+    std::vector<std::pair<unsigned long, std::shared_ptr<JetFile>>> _totalCounts;
+    std::vector<std::shared_ptr<JetFile>> _importFreeFiles;
     unsigned long _priorityCounter = 1;
     std::set<std::string> _visited;
-    unsigned long setAndReturnTotalDependents(JetFile* jetFile);
+    unsigned long setAndReturnTotalDependents(std::shared_ptr<JetFile> jetFile);
 public:
     DependencyGraph();
-    std::vector<JetFile*>* getPrioritizedList();
-    void insert(JetFile* jetFile);
-    void insertImport(JetFile* jetFile, JetFile* importedJetFile);
+    std::shared_ptr<std::vector<std::shared_ptr<JetFile>>> getPrioritizedList();
+    void insert(std::shared_ptr<JetFile> jetFile);
+    void insertImport(std::shared_ptr<JetFile> jetFile, std::shared_ptr<JetFile> importedJetFile);
     void prioritize();
     void dump();
 };

@@ -14,11 +14,11 @@ std::shared_ptr<ASTIdentifierExpressionNode> ASTModuleAccessTargetNode::getTarge
     return _target;
 }
 
-Position* ASTModuleAccessTargetNode::getStartPosition() {
+std::shared_ptr<Position> ASTModuleAccessTargetNode::getStartPosition() {
     return _target->getStartPosition();
 }
 
-Position* ASTModuleAccessTargetNode::getEndPosition() {
+std::shared_ptr<Position> ASTModuleAccessTargetNode::getEndPosition() {
     return _target->getEndPosition();
 }
 

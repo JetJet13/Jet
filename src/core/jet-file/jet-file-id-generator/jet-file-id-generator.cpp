@@ -4,6 +4,6 @@
 
 #include "jet-file-id-generator.h"
 
-std::string JetFileIdGenerator::generate(std::filesystem::path* path) {
-    return std::filesystem::canonical(*path).string();
+std::string JetFileIdGenerator::generate(const std::filesystem::path& path) {
+    return std::filesystem::canonical(path).string();
 }

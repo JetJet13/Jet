@@ -34,8 +34,8 @@ public:
     std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* getStaticMethods();
     std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>>* getInstanceMethods();
     std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>>* getConstructors();
-    Position* getStartPosition() override;
-    Position* getEndPosition() override;
+    std::shared_ptr<Position> getStartPosition() override;
+    std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;
     std::string toString() override;

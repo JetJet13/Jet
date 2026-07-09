@@ -86,7 +86,7 @@
 
 
 TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
-    _typeSignatureStrategyMap = new TypeSignatureStrategyMap();
+    _typeSignatureStrategyMap = TypeSignatureStrategyMap();
     _literalTypeSignatureLookupTable = LiteralTypeSignatureLookupTable();
     _arrayPrototypeSignatureMap = ArrayPrototypeTypeSignatureMap();
     _stringPrototypeSignatureMap = StringPrototypeTypeSignatureMap();
@@ -98,284 +98,284 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
     switch (node->getNodeType()) {
         case AST_MODULE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getModuleTypeSignatureStrategy()
+                    .getModuleTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ENUM_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getEnumTypeSignatureStrategy()
+                    .getEnumTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_VARIABLE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getVariableTypeSignatureStrategy()
+                    .getVariableTypeSignatureStrategy()
                     ->assignAndAddToScope(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassTypeSignatureStrategy()
+                    .getClassTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassPropertyTypeSignatureStrategy()
+                    .getClassPropertyTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassPropertyDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_CONSTRUCTOR_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassConstructorTypeSignatureStrategy()
+                    .getClassConstructorTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassConstructorDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_METHOD_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassMethodTypeSignatureStrategy()
+                    .getClassMethodTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassMethodDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassPropertyAssignmentStatementTypeSignatureStrategy()
+                    .getClassPropertyAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy()
+                    .getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getFunctionTypeSignatureStrategy()
+                    .getFunctionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CUSTOM_TYPE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getCustomTypeDeclarationTypeSignatureStrategy()
+                    .getCustomTypeDeclarationTypeSignatureStrategy()
                     ->assignAndAddToScope(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_INTERFACE_TYPE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getInterfaceTypeSignatureStrategy()
+                    .getInterfaceTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTInterfaceTypeDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_INTERFACE_PROPERTY_NODE:
             this->_typeSignatureStrategyMap
-                    ->getInterfacePropertyTypeSignatureStrategy()
+                    .getInterfacePropertyTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTInterfacePropertyNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTypeTypeSignatureStrategy()
+                    .getTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_PROCEDURE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getProcedureTypeSignatureStrategy()
+                    .getProcedureTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         case AST_PRIMITIVE_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getPrimitiveTypeTypeSignatureStrategy()
+                    .getPrimitiveTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTPrimitiveTypeNode>(node), &_literalTypeSignatureLookupTable);
             break;
         case AST_CUSTOM_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getCustomTypeTypeSignatureStrategy()
+                    .getCustomTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTCustomTypeNode>(node), typeSignatureScope);
             break;
         case AST_ARRAY_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayTypeTypeSignatureStrategy()
+                    .getArrayTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_STRUCT_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getStructTypeTypeSignatureStrategy()
+                    .getStructTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTStructTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleTypeTypeSignatureStrategy()
+                    .getTupleTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_REF_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getRefTypeTypeSignatureStrategy()
+                    .getRefTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTRefTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_MODULE_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getModuleTypeTypeSignatureStrategy()
+                    .getModuleTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_LAMBDA_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLambdaTypeTypeSignatureStrategy()
+                    .getLambdaTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLambdaTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_VOID_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getVoidTypeTypeSignatureStrategy()
+                    .getVoidTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTVoidTypeNode>(node), context, typeSignatureScope, this);
             break;
         case AST_THIS_TYPE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getThisTypeTypeSignatureStrategy()
+                    .getThisTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTThisTypeNode>(node), typeSignatureScope);
             break;
         case AST_BINARY_ARITHMETIC_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBinaryExpressionTypeSignatureStrategy()
+                    .getBinaryExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTBinaryArithmeticExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_BINARY_COMPARATOR_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBinaryExpressionTypeSignatureStrategy()
+                    .getBinaryExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTBinaryComparatorExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CONCAT_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getConcatExpressionTypeSignatureStrategy()
+                    .getConcatExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTConcatExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayAccessExpressionTypeSignatureStrategy()
+                    .getArrayAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayAccessExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayAccessInvocationExpressionTypeSignatureStrategy()
+                    .getArrayAccessInvocationExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayAccessInvocationExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayExpressionTypeSignatureStrategy()
+                    .getArrayExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassMethodInvocationExpressionTypeSignatureStrategy()
+                    .getClassMethodInvocationExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getClassPropertyAccessExpressionTypeSignatureStrategy()
+                    .getClassPropertyAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassPropertyAccessExpressionNode>(node), context, typeSignatureScope);
             break;
         case AST_CURRY_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getCurryExpressionTypeSignatureStrategy()
+                    .getCurryExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTCurryExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getFunctionInvocationExpressionTypeSignatureStrategy()
+                    .getFunctionInvocationExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionInvocationExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_ARGUMENT_LIST_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArgumentListTypeSignatureStrategy()
+                    .getArgumentListTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionArgumentListNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_RETURN_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getFunctionReturnExpressionTypeSignatureStrategy()
+                    .getFunctionReturnExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_IDENTIFIER_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getIdentifierExpressionTypeSignatureStrategy()
+                    .getIdentifierExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTIdentifierExpressionNode>(node), context, typeSignatureScope);
             break;
         case AST_LAMBDA_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLambdaExpressionTypeSignatureStrategy()
+                    .getLambdaExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLambdaWithFatArrowExpressionTypeSignatureStrategy()
+                    .getLambdaWithFatArrowExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_LAMBDA_RETURN_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLambdaReturnExpressionTypeSignatureStrategy()
+                    .getLambdaReturnExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLambdaReturnExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_LITERAL_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLiteralExpressionTypeSignatureStrategy()
+                    .getLiteralExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLiteralExpressionNode>(node), context, this);
             break;
         case AST_LOGICAL_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLogicalExpressionTypeSignatureStrategy()
+                    .getLogicalExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLogicalExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getNewClassInstanceExpressionTypeSignatureStrategy()
+                    .getNewClassInstanceExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getObjectAccessExpressionTypeSignatureStrategy()
+                    .getObjectAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTObjectAccessExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getObjectAccessInvocationExpressionTypeSignatureStrategy()
+                    .getObjectAccessInvocationExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTObjectAccessInvocationExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_STRUCT_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getStructExpressionTypeSignatureStrategy()
+                    .getStructExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTStructExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_THIS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getThisExpressionTypeSignatureStrategy()
+                    .getThisExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTThisExpressionNode>(node), typeSignatureScope);
             break;
         case AST_TUPLE_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleAccessExpressionTypeSignatureStrategy()
+                    .getTupleAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleAccessExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleAccessInvocationExpressionTypeSignatureStrategy()
+                    .getTupleAccessInvocationExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleAccessInvocationExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleExpressionTypeSignatureStrategy()
+                    .getTupleExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_UNARY_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getUnaryExpressionTypeSignatureStrategy()
+                    .getUnaryExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_MODULE_ACCESS_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getModuleAccessExpressionTypeSignatureStrategy()
+                    .getModuleAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_REF_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getRefExpressionTypeSignatureStrategy()
+                    .getRefExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTRefExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_DREF_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getDrefExpressionTypeSignatureStrategy()
+                    .getDrefExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_PUBLIC_NODE:
         case AST_PROTECTED_NODE:
         case AST_PRIVATE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getAccessModifierTypeSignatureStrategy()
+                    .getAccessModifierTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTAccessModifierNode>(node));
             break;
         case AST_LITERAL_NODE:
@@ -385,137 +385,137 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
         case AST_STRING_LITERAL_NODE:
         case AST_BOOLEAN_LITERAL_NODE:
             this->_typeSignatureStrategyMap
-                    ->getLiteralTypeSignatureStrategy()
+                    .getLiteralTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTLiteralNode>(node), &_literalTypeSignatureLookupTable);
             break;
         case AST_FUNCTION_PARAMETER_LIST_NODE:
             this->_typeSignatureStrategyMap
-                    ->getParameterListTypeSignatureStrategy()
+                    .getParameterListTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionParameterListNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_PARAMETER_NODE:
             this->_typeSignatureStrategyMap
-                    ->getParameterListItemTypeSignatureStrategy()
+                    .getParameterListItemTypeSignatureStrategy()
                     ->assignAndAddToScope(std::dynamic_pointer_cast<ASTFunctionParameterNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ENUM_KEY_VALUE_NODE:
             this->_typeSignatureStrategyMap
-                    ->getEnumKeyValueTypeSignatureStrategy()
+                    .getEnumKeyValueTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTEnumKeyValueNode>(node), context, this);
             break;
         case AST_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CONTROL_FLOW_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTControlFlowBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFunctionBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TRY_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTryBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CATCH_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTCatchBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FINALLY_BLOCK_NODE:
             this->_typeSignatureStrategyMap
-                    ->getBlockTypeSignatureStrategy()
+                    .getBlockTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTFinallyBlockNode>(node), context, typeSignatureScope, this);
             break;
         case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getVariableAssignmentStatementTypeSignatureStrategy()
+                    .getVariableAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getRefValueAssignmentStatementTypeSignatureStrategy()
+                    .getRefValueAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayAccessAssignmentStatementTypeSignatureStrategy()
+                    .getArrayAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getArrayAccessRefAssignmentStatementTypeSignatureStrategy()
+                    .getArrayAccessRefAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getObjectAccessAssignmentStatementTypeSignatureStrategy()
+                    .getObjectAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getObjectAccessRefAssignmentStatementTypeSignatureStrategy()
+                    .getObjectAccessRefAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleAccessAssignmentStatementTypeSignatureStrategy()
+                    .getTupleAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTupleAccessRefAssignmentStatementTypeSignatureStrategy()
+                    .getTupleAccessRefAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getModuleAccessAssignmentStatementTypeSignatureStrategy()
+                    .getModuleAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getModuleAccessRefAssignmentStatementTypeSignatureStrategy()
+                    .getModuleAccessRefAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_EXPRESSION_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getExpressionStatementTypeSignatureStrategy()
+                    .getExpressionStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_CONTROL_FLOW_CONDITION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getConditionTypeSignatureStrategy()
+                    .getConditionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTControlFlowConditionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FOR_IN_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getForStatementTypeSignatureStrategy()
+                    .getForStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTForInStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_WHILE_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getWhileStatementTypeSignatureStrategy()
+                    .getWhileStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTWhileStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TRY_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getTryStatementTypeSignatureStrategy()
+                    .getTryStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTryStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_IF_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    ->getIfStatementTypeSignatureStrategy()
+                    .getIfStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTIfStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
-                    ->getImportTypeSignatureStrategy()
+                    .getImportTypeSignatureStrategy()
                     ->assignAndAddToScope(std::dynamic_pointer_cast<ASTImportSingleModuleDeclarationNode>(node), context, typeSignatureScope, this);
             break;
         default:
@@ -526,13 +526,13 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
 void TypeSignatureStrategyProvider::assignInitialTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope) {
     switch (node->getNodeType()) {
         case AST_FUNCTION_DECLARATION_NODE:
-            _typeSignatureStrategyMap->getFunctionTypeSignatureStrategy()->assignInitial(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node), context, scope, this);
+            _typeSignatureStrategyMap.getFunctionTypeSignatureStrategy()->assignInitial(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node), context, scope, this);
             return;
         case AST_PROCEDURE_DECLARATION_NODE:
-            _typeSignatureStrategyMap->getProcedureTypeSignatureStrategy()->assignInitial(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node), context, scope, this);
+            _typeSignatureStrategyMap.getProcedureTypeSignatureStrategy()->assignInitial(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node), context, scope, this);
             return;
         case AST_ENUM_DECLARATION_NODE:
-            _typeSignatureStrategyMap->getEnumTypeSignatureStrategy()->assign(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node), context, scope, this);
+            _typeSignatureStrategyMap.getEnumTypeSignatureStrategy()->assign(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node), context, scope, this);
             return;
         default:
             return;
@@ -543,7 +543,7 @@ void TypeSignatureStrategyProvider::assignPostInitialTypeSignatureFor(std::share
     auto typeSignatureScope = scope.value_or(TypeSignatureLookupTableFactory::create());
     switch (node->getNodeType()) {
         case AST_CLASS_DECLARATION_NODE:
-            _typeSignatureStrategyMap->getClassTypeSignatureStrategy()->assignPostInitial(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node), context, typeSignatureScope, this);
+            _typeSignatureStrategyMap.getClassTypeSignatureStrategy()->assignPostInitial(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node), context, typeSignatureScope, this);
             return;
         default:
             return;
@@ -551,11 +551,11 @@ void TypeSignatureStrategyProvider::assignPostInitialTypeSignatureFor(std::share
 }
 
 std::shared_ptr<ParameterListItemTypeSignature> TypeSignatureStrategyProvider::generateLambdaExpressionScopeParameter(std::set<std::string>* capturedVariableIds) {
-    return this->_typeSignatureStrategyMap->getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(capturedVariableIds);
+    return this->_typeSignatureStrategyMap.getLambdaExpressionScopeParameterTypeSignatureStrategy()->create(capturedVariableIds);
 }
 
 std::shared_ptr<ParameterListItemTypeSignature> TypeSignatureStrategyProvider::generateClassScopeParameter(std::shared_ptr<ClassTypeSignature> classTypeSignature) {
-    return this->_typeSignatureStrategyMap->getClassScopeParameterTypeSignatureStrategy()->create(classTypeSignature);
+    return this->_typeSignatureStrategyMap.getClassScopeParameterTypeSignatureStrategy()->create(classTypeSignature);
 }
 
 std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findArrayPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType) {

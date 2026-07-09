@@ -41,11 +41,11 @@ bool ASTControlFlowBlockNode::hasReturnExpression() {
    return !_returnStatements.empty();
 }
 
-Position* ASTControlFlowBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTControlFlowBlockNode::getStartPosition() {
     return _blockStartNode->getStartPosition();
 }
 
-Position* ASTControlFlowBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTControlFlowBlockNode::getEndPosition() {
     return _blockEndNode->getEndPosition();
 }
 

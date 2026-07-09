@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTObjectAccessAssignmentStatementNode::getEx
     return _expression;
 }
 
-Position* ASTObjectAccessAssignmentStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTObjectAccessAssignmentStatementNode::getStartPosition() {
     return _objectAccessAssignment->getStartPosition();
 }
 
-Position* ASTObjectAccessAssignmentStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTObjectAccessAssignmentStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

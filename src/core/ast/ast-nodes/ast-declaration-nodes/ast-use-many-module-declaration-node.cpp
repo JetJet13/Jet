@@ -33,11 +33,11 @@ std::shared_ptr<ASTImportPathNode> ASTUseManyModuleDeclarationNode::getPath() {
     return _path;
 }
 
-Position* ASTUseManyModuleDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTUseManyModuleDeclarationNode::getStartPosition() {
     return _useKeyword->getStartPosition();
 }
 
-Position* ASTUseManyModuleDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTUseManyModuleDeclarationNode::getEndPosition() {
     return _path->getEndPosition();
 }
 

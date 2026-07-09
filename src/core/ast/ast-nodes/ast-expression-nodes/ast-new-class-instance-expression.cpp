@@ -58,11 +58,11 @@ std::shared_ptr<NewClassInstanceTypeSignature> ASTNewClassInstanceExpressionNode
     return std::dynamic_pointer_cast<NewClassInstanceTypeSignature>(_typeSignature);
 }
 
-Position* ASTNewClassInstanceExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTNewClassInstanceExpressionNode::getStartPosition() {
     return _new->getStartPosition();
 }
 
-Position* ASTNewClassInstanceExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTNewClassInstanceExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

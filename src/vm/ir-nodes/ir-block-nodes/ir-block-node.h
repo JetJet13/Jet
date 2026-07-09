@@ -63,7 +63,7 @@ public:
     std::optional<std::shared_ptr<IRFunctionReturnExpressionNode>> getReturnExpression();
     void createChild();
     std::vector<std::shared_ptr<IRBlockNode>>* getSuccessors();
-    std::set<std::shared_ptr<IRBlockNode>>* getAllSuccessors();
+    std::shared_ptr<std::set<std::shared_ptr<IRBlockNode>>> getAllSuccessors();
     std::set<std::shared_ptr<IRBlockNode>> getAllChildrenThatReturn();
     std::vector<std::shared_ptr<IRBlockNode>>* getNestedBlocks();
     bool hasNestedBlocks();

@@ -58,11 +58,11 @@ std::shared_ptr<ArgumentListTypeSignature> ASTFunctionArgumentListNode::getArgum
     return std::dynamic_pointer_cast<ArgumentListTypeSignature>(_typeSignature);
 }
 
-Position* ASTFunctionArgumentListNode::getStartPosition() {
+std::shared_ptr<Position> ASTFunctionArgumentListNode::getStartPosition() {
     return _functionArgumentListStartNode->getStartPosition();
 }
 
-Position* ASTFunctionArgumentListNode::getEndPosition() {
+std::shared_ptr<Position> ASTFunctionArgumentListNode::getEndPosition() {
     return _functionArgumentListEndNode->getEndPosition();
 }
 

@@ -14,11 +14,11 @@ std::shared_ptr<ASTExpressionNode> ASTExpressionStatementNode::getExpression() {
     return _expression;
 }
 
-Position* ASTExpressionStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTExpressionStatementNode::getStartPosition() {
     return _expression->getStartPosition();
 }
 
-Position* ASTExpressionStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTExpressionStatementNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

@@ -58,11 +58,11 @@ std::shared_ptr<TypeSignature> IRNewClassInstanceExpressionNode::getTypeSignatur
     return _node->getTypeSignature();
 }
 
-Position* IRNewClassInstanceExpressionNode::getStartPosition() {
+std::shared_ptr<Position> IRNewClassInstanceExpressionNode::getStartPosition() {
     return _node->getStartPosition();
 }
 
-Position* IRNewClassInstanceExpressionNode::getEndPosition() {
+std::shared_ptr<Position> IRNewClassInstanceExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 

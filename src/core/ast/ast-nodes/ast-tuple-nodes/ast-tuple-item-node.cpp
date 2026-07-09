@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTTupleItemNode::getItem() {
     return _item;
 }
 
-Position* ASTTupleItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleItemNode::getStartPosition() {
     return _item->getStartPosition();
 }
 
-Position* ASTTupleItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleItemNode::getEndPosition() {
     return _item->getEndPosition();
 }
 

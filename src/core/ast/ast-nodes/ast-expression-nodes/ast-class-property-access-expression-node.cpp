@@ -22,11 +22,11 @@ std::string ASTClassPropertyAccessExpressionNode::getPropertyName() {
     return propertyName;
 }
 
-Position* ASTClassPropertyAccessExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassPropertyAccessExpressionNode::getStartPosition() {
     return _propertyAccess->getStartPosition();
 }
 
-Position* ASTClassPropertyAccessExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassPropertyAccessExpressionNode::getEndPosition() {
     return _propertyAccess->getEndPosition();
 }
 

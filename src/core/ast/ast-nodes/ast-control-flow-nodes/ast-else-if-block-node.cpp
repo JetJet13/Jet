@@ -26,11 +26,11 @@ std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* ASTElseIfBlockNod
     return _block->getReturnStatements();
 }
 
-Position* ASTElseIfBlockNode::getStartPosition() {
+std::shared_ptr<Position> ASTElseIfBlockNode::getStartPosition() {
     return _elseIfKeyword->getStartPosition();
 }
 
-Position* ASTElseIfBlockNode::getEndPosition() {
+std::shared_ptr<Position> ASTElseIfBlockNode::getEndPosition() {
     return _block->getEndPosition();
 }
 

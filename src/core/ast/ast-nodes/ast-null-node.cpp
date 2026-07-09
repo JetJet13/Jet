@@ -13,12 +13,12 @@ std::string ASTNullNode::toString() {
     return "NULL";
 }
 
-Position* ASTNullNode::getStartPosition() {
-    return new Position();
+std::shared_ptr<Position> ASTNullNode::getStartPosition() {
+    return std::make_shared<Position>();
 }
 
-Position* ASTNullNode::getEndPosition() {
-    return new Position();
+std::shared_ptr<Position> ASTNullNode::getEndPosition() {
+    return std::make_shared<Position>();
 }
 
 bool ASTNullNode::isSameAs(std::shared_ptr<ASTNode> other) {

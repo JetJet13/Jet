@@ -19,11 +19,11 @@ std::shared_ptr<ASTIfNode> ASTElseIfNode::getIf() {
     return _if;
 }
 
-Position* ASTElseIfNode::getStartPosition() {
+std::shared_ptr<Position> ASTElseIfNode::getStartPosition() {
     return _else->getStartPosition();
 }
 
-Position* ASTElseIfNode::getEndPosition() {
+std::shared_ptr<Position> ASTElseIfNode::getEndPosition() {
     return _if->getEndPosition();
 }
 

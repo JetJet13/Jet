@@ -18,11 +18,11 @@ std::shared_ptr<ASTInterfaceNameNode> ASTInterfaceDefinitionNode::getName() {
     return _name;
 }
 
-Position* ASTInterfaceDefinitionNode::getStartPosition() {
+std::shared_ptr<Position> ASTInterfaceDefinitionNode::getStartPosition() {
     return _interfaceKeyword->getStartPosition();
 }
 
-Position* ASTInterfaceDefinitionNode::getEndPosition() {
+std::shared_ptr<Position> ASTInterfaceDefinitionNode::getEndPosition() {
     return _name->getEndPosition();
 }
 

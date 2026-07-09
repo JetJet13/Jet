@@ -24,11 +24,11 @@ std::shared_ptr<TypeSignature> ASTLiteralNode::getTypeSignature() {
     return _typeSignature;
 }
 
-Position* ASTLiteralNode::getStartPosition() {
+std::shared_ptr<Position> ASTLiteralNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTLiteralNode::getEndPosition() {
+std::shared_ptr<Position> ASTLiteralNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

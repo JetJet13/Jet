@@ -25,11 +25,11 @@ std::shared_ptr<ASTImportPathNode> ASTImportSingleModuleDeclarationNode::getPath
     return _path;
 }
 
-Position* ASTImportSingleModuleDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportSingleModuleDeclarationNode::getStartPosition() {
     return _importKeyword->getStartPosition();
 }
 
-Position* ASTImportSingleModuleDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportSingleModuleDeclarationNode::getEndPosition() {
     return _path->getEndPosition();
 }
 

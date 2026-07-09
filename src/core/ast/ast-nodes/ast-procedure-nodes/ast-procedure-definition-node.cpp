@@ -27,11 +27,11 @@ unsigned long ASTProcedureDefinitionNode::numParameters() {
     return _parameters->numParameters();
 }
 
-Position* ASTProcedureDefinitionNode::getStartPosition() {
+std::shared_ptr<Position> ASTProcedureDefinitionNode::getStartPosition() {
     return _procedureKeyword->getStartPosition();
 }
 
-Position* ASTProcedureDefinitionNode::getEndPosition() {
+std::shared_ptr<Position> ASTProcedureDefinitionNode::getEndPosition() {
     return _parameters->getEndPosition();
 }
 

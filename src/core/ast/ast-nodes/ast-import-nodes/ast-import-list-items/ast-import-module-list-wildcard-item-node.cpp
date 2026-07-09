@@ -13,11 +13,11 @@ Lexeme* ASTImportModuleListWildcardItemNode::getLexeme() {
     return _lexeme;
 }
 
-Position* ASTImportModuleListWildcardItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportModuleListWildcardItemNode::getStartPosition() {
     return _lexeme->getStartPosition();
 }
 
-Position* ASTImportModuleListWildcardItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportModuleListWildcardItemNode::getEndPosition() {
     return _lexeme->getEndPosition();
 }
 

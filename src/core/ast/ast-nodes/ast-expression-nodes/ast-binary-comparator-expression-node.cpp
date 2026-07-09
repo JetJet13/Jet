@@ -44,11 +44,11 @@ std::shared_ptr<ASTBinaryComparatorOperatorNode> ASTBinaryComparatorExpressionNo
     return _binaryOperator;
 }
 
-Position* ASTBinaryComparatorExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTBinaryComparatorExpressionNode::getStartPosition() {
     return _leftNode->getStartPosition();
 }
 
-Position* ASTBinaryComparatorExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTBinaryComparatorExpressionNode::getEndPosition() {
     return _rightNode->getEndPosition();
 }
 

@@ -25,11 +25,11 @@ std::shared_ptr<ASTImportPathNode> ASTImportManyByWildcardModuleDeclarationNode:
     return _path;
 }
 
-Position* ASTImportManyByWildcardModuleDeclarationNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportManyByWildcardModuleDeclarationNode::getStartPosition() {
     return _importKeyword->getStartPosition();
 }
 
-Position* ASTImportManyByWildcardModuleDeclarationNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportManyByWildcardModuleDeclarationNode::getEndPosition() {
     return _path->getEndPosition();
 }
 

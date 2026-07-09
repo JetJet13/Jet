@@ -23,11 +23,11 @@ std::shared_ptr<ASTExpressionNode> ASTStructKeyValueNode::getValue() {
     return _value;
 }
 
-Position* ASTStructKeyValueNode::getStartPosition() {
+std::shared_ptr<Position> ASTStructKeyValueNode::getStartPosition() {
     return _key->getStartPosition();
 }
 
-Position* ASTStructKeyValueNode::getEndPosition() {
+std::shared_ptr<Position> ASTStructKeyValueNode::getEndPosition() {
     return _value->getEndPosition();
 }
 

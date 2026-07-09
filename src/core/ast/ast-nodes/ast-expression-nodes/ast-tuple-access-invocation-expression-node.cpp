@@ -37,11 +37,11 @@ unsigned long ASTTupleAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 
-Position* ASTTupleAccessInvocationExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTTupleAccessInvocationExpressionNode::getStartPosition() {
     return _tupleAccess->getStartPosition();
 }
 
-Position* ASTTupleAccessInvocationExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTTupleAccessInvocationExpressionNode::getEndPosition() {
     return _arguments->getEndPosition();
 }
 

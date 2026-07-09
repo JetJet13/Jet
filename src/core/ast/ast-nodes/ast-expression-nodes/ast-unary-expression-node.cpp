@@ -22,11 +22,11 @@ std::shared_ptr<ASTUnaryOperatorNode> ASTUnaryExpressionNode::getUnaryOperatorNo
     return _unaryOperator;
 }
 
-Position* ASTUnaryExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTUnaryExpressionNode::getStartPosition() {
     return _unaryOperator->getStartPosition();
 }
 
-Position* ASTUnaryExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTUnaryExpressionNode::getEndPosition() {
     return _expression->getEndPosition();
 }
 

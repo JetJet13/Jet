@@ -22,6 +22,6 @@ unsigned long Position::getColumn() {
     return _column;
 }
 
-bool Position::isEqual(Position* otherPosition) {
+bool Position::isEqual(std::shared_ptr<Position> otherPosition) {
     return _line == otherPosition->getLine() && _column == otherPosition->getColumn();
 }

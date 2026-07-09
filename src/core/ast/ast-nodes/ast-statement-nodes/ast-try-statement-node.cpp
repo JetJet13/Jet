@@ -36,11 +36,11 @@ std::optional<std::shared_ptr<ASTFinallyBlockNode>> ASTTryStatementNode::getFina
     return _finallyBlock;
 }
 
-Position* ASTTryStatementNode::getStartPosition() {
+std::shared_ptr<Position> ASTTryStatementNode::getStartPosition() {
     return _tryBlock->getStartPosition();
 }
 
-Position* ASTTryStatementNode::getEndPosition() {
+std::shared_ptr<Position> ASTTryStatementNode::getEndPosition() {
     if (_finallyBlock) {
         return _finallyBlock.value()->getEndPosition();
     }

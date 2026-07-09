@@ -21,11 +21,11 @@ std::shared_ptr<ASTThisAccessNode> ASTClassAccessNode::getThisAccess() {
     return _thisAccess;
 }
 
-Position* ASTClassAccessNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassAccessNode::getStartPosition() {
     return _this->getStartPosition();
 }
 
-Position* ASTClassAccessNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassAccessNode::getEndPosition() {
     return _thisAccess->getEndPosition();
 }
 

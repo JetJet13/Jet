@@ -14,11 +14,11 @@ std::shared_ptr<ASTImportModuleNameNode> ASTImportModuleListNormalItemNode::getM
     return _moduleName;
 }
 
-Position* ASTImportModuleListNormalItemNode::getStartPosition() {
+std::shared_ptr<Position> ASTImportModuleListNormalItemNode::getStartPosition() {
     return _moduleName->getStartPosition();
 }
 
-Position* ASTImportModuleListNormalItemNode::getEndPosition() {
+std::shared_ptr<Position> ASTImportModuleListNormalItemNode::getEndPosition() {
     return _moduleName->getEndPosition();
 }
 

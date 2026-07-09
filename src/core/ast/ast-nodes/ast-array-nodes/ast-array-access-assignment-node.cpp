@@ -21,11 +21,11 @@ std::shared_ptr<TypeSignature> ASTArrayAccessAssignmentNode::getTypeSignature() 
     return _arrayAccessExpression->getTypeSignature();
 }
 
-Position* ASTArrayAccessAssignmentNode::getStartPosition() {
+std::shared_ptr<Position> ASTArrayAccessAssignmentNode::getStartPosition() {
     return _arrayAccessExpression->getStartPosition();
 }
 
-Position* ASTArrayAccessAssignmentNode::getEndPosition() {
+std::shared_ptr<Position> ASTArrayAccessAssignmentNode::getEndPosition() {
     return _assignmentOperator->getEndPosition();
 }
 

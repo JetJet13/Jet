@@ -29,11 +29,11 @@ bool ASTClassMethodDefinitionNode::isStatic() {
     return _staticKeyword.has_value();
 }
 
-Position* ASTClassMethodDefinitionNode::getStartPosition() {
+std::shared_ptr<Position> ASTClassMethodDefinitionNode::getStartPosition() {
     return _accessModifier->getStartPosition();
 }
 
-Position* ASTClassMethodDefinitionNode::getEndPosition() {
+std::shared_ptr<Position> ASTClassMethodDefinitionNode::getEndPosition() {
     return _methodName->getEndPosition();
 }
 

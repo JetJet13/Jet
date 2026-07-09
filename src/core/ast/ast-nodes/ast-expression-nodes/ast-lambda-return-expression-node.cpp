@@ -21,11 +21,11 @@ std::shared_ptr<ASTExpressionNode> ASTLambdaReturnExpressionNode::getExpression(
     return _returnExpression;
 }
 
-Position* ASTLambdaReturnExpressionNode::getStartPosition() {
+std::shared_ptr<Position> ASTLambdaReturnExpressionNode::getStartPosition() {
     return _fatArrowNode->getStartPosition();
 }
 
-Position* ASTLambdaReturnExpressionNode::getEndPosition() {
+std::shared_ptr<Position> ASTLambdaReturnExpressionNode::getEndPosition() {
     return _returnExpression->getEndPosition();
 }
 
