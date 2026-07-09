@@ -45,7 +45,6 @@
 #include "ir-injector-strategies/class-ir-injector-strategy/class-ir-injector-strategy.h"
 #include "../../shared/utils/logger/logger.h"
 
-
 IRInjector::IRInjector() {
     _injectorMap = std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>>();
     _stringIRInjector = std::make_shared<StringIRInjectorStrategy>();
@@ -60,31 +59,31 @@ IRInjector::IRInjector() {
     _enumIRInjector = std::make_shared<EnumIRInjectorStrategy>();
     _newClassInstanceIRInjectorStrategy = std::make_shared<NewClassInstanceIRInjectorStrategy>();
     _classInstanceIRInjectorStrategy = std::make_shared<ClassInstanceIRInjectorStrategy>();
-    _variableIRInjector = new VariableIRInjectorStrategy();
-    _functionReturnIRInjector = new FunctionReturnIRInjectorStrategy();
-    _variableAssignmentIRInjectorStrategy = new VariableAssignmentIRInjectorStrategy();
-    _arrayAccessAssignmentIRInjectorStrategy = new ArrayAccessAssignmentIRInjectorStrategy();
-    _arrayAccessRefAssignmentIRInjectorStrategy = new ArrayAccessRefAssignmentIRInjectorStrategy();
-    _objectAccessAssignmentIRInjectorStrategy = new ObjectAccessAssignmentIRInjectorStrategy();
-    _objectAccessRefAssignmentIRInjectorStrategy = new ObjectAccessRefAssignmentIRInjectorStrategy();
-    _tupleAccessAssignmentIRInjectorStrategy = new TupleAccessAssignmentIRInjectorStrategy();
-    _tupleAccessRefAssignmentIRInjectorStrategy = new TupleAccessRefAssignmentIRInjectorStrategy();
-    _moduleAccessAssignmentIRInjectorStrategy = new ModuleAccessAssignmentIRInjectorStrategy();
-    _moduleAccessRefAssignmentIRInjectorStrategy = new ModuleAccessRefAssignmentIRInjectorStrategy();
-    _classStaticPropertyAssignmentIRInjectorStrategy = new ClassStaticPropertyAssignmentIRInjectorStrategy();
-    _classStaticPropertyRefAssignmentIRInjectorStrategy = new ClassStaticPropertyRefAssignmentIRInjectorStrategy();
-    _classPropertyAssignmentIRInjectorStrategy = new ClassPropertyAssignmentIRInjectorStrategy();
-    _classPropertyRefValueAssignmentIRInjectorStrategy = new ClassPropertyRefValueAssignmentIRInjectorStrategy();
-    _refValueAssignmentIRInjectorStrategy = new RefValueAssignmentIRInjectorStrategy();
-    _ifStatementIRInjectorStrategy = new IfStatementIRInjectorStrategy();
-    _whileStatementIRInjectorStrategy = new WhileStatementIRInjectorStrategy();
-    _forInStatementIRInjectorStrategy = new ForInStatementIRInjectorStrategy();
-    _expressionStatementIRInjectorStrategy = new ExpressionStatementIRInjectorStrategy();
-    _procedureDeclarationIRInjectorStrategy = new ProcedureDeclarationIRInjectorStrategy();
-    _functionDeclarationIRInjectorStrategy = new FunctionDeclarationIRInjectorStrategy();
-    _typeValueIRInjectorStrategy = new TypeValueIRInjectorStrategy();
-    _blockIRInjectorStrategy = new BlockIRInjectorStrategy();
-    _classIRInjectorStrategy = new ClassIRInjectorStrategy();
+    _variableIRInjector = std::make_shared<VariableIRInjectorStrategy>();
+    _functionReturnIRInjector = std::make_shared<FunctionReturnIRInjectorStrategy>();
+    _variableAssignmentIRInjectorStrategy = std::make_shared<VariableAssignmentIRInjectorStrategy>();
+    _arrayAccessAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessAssignmentIRInjectorStrategy>();
+    _arrayAccessRefAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessRefAssignmentIRInjectorStrategy>();
+    _objectAccessAssignmentIRInjectorStrategy = std::make_shared<ObjectAccessAssignmentIRInjectorStrategy>();
+    _objectAccessRefAssignmentIRInjectorStrategy = std::make_shared<ObjectAccessRefAssignmentIRInjectorStrategy>();
+    _tupleAccessAssignmentIRInjectorStrategy = std::make_shared<TupleAccessAssignmentIRInjectorStrategy>();
+    _tupleAccessRefAssignmentIRInjectorStrategy = std::make_shared<TupleAccessRefAssignmentIRInjectorStrategy>();
+    _moduleAccessAssignmentIRInjectorStrategy = std::make_shared<ModuleAccessAssignmentIRInjectorStrategy>();
+    _moduleAccessRefAssignmentIRInjectorStrategy = std::make_shared<ModuleAccessRefAssignmentIRInjectorStrategy>();
+    _classStaticPropertyAssignmentIRInjectorStrategy = std::make_shared<ClassStaticPropertyAssignmentIRInjectorStrategy>();
+    _classStaticPropertyRefAssignmentIRInjectorStrategy = std::make_shared<ClassStaticPropertyRefAssignmentIRInjectorStrategy>();
+    _classPropertyAssignmentIRInjectorStrategy = std::make_shared<ClassPropertyAssignmentIRInjectorStrategy>();
+    _classPropertyRefValueAssignmentIRInjectorStrategy = std::make_shared<ClassPropertyRefValueAssignmentIRInjectorStrategy>();
+    _refValueAssignmentIRInjectorStrategy = std::make_shared<RefValueAssignmentIRInjectorStrategy>();
+    _ifStatementIRInjectorStrategy = std::make_shared<IfStatementIRInjectorStrategy>();
+    _whileStatementIRInjectorStrategy = std::make_shared<WhileStatementIRInjectorStrategy>();
+    _forInStatementIRInjectorStrategy = std::make_shared<ForInStatementIRInjectorStrategy>();
+    _expressionStatementIRInjectorStrategy = std::make_shared<ExpressionStatementIRInjectorStrategy>();
+    _procedureDeclarationIRInjectorStrategy = std::make_shared<ProcedureDeclarationIRInjectorStrategy>();
+    _functionDeclarationIRInjectorStrategy = std::make_shared<FunctionDeclarationIRInjectorStrategy>();
+    _typeValueIRInjectorStrategy = std::make_shared<TypeValueIRInjectorStrategy>();
+    _blockIRInjectorStrategy = std::make_shared<BlockIRInjectorStrategy>();
+    _classIRInjectorStrategy = std::make_shared<ClassIRInjectorStrategy>();
     this->init();
 }
 
@@ -108,10 +107,9 @@ void IRInjector::init() {
     _injectorMap[VOID_TYPE_SOURCE] = _voidIRInjector;
 }
 
-std::pair<TypeSource, IRInjectorStrategy*> IRInjector::insert(TypeSource typeSignature, IRInjectorStrategy* injector) {
+std::pair<TypeSource, std::shared_ptr<IRInjectorStrategy>> IRInjector::insert(TypeSource typeSignature, std::shared_ptr<IRInjectorStrategy> injector) {
     return std::pair { typeSignature, injector };
 }
-
 
 void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irNode->isDeclaration()) {

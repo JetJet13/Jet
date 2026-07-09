@@ -7,7 +7,7 @@
 
 BinaryArithmeticDSU::BinaryArithmeticDSU(llvm::Value* irValue) {
     _irValue = irValue;
-    _children = std::vector<BinaryArithmeticDSU*>();
+    _children = std::vector<std::shared_ptr<BinaryArithmeticDSU>>();
 }
 
 llvm::Value* BinaryArithmeticDSU::getValue() {
@@ -17,11 +17,11 @@ llvm::Value* BinaryArithmeticDSU::getValue() {
     return _irValue;
 }
 
-void BinaryArithmeticDSU::merge(BinaryArithmeticDSU* other) {
-    other->setParent(this);
+void BinaryArithmeticDSU::merge(std::shared_ptr<BinaryArithmeticDSU> other) {
+    other->setParent(shared_from_this());
     _children.push_back(other);
 }
 
-void BinaryArithmeticDSU::setParent(BinaryArithmeticDSU* parent) {
+void BinaryArithmeticDSU::setParent(std::shared_ptr<BinaryArithmeticDSU> parent) {
     _parent = parent;
 }

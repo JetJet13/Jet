@@ -72,7 +72,7 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryComp
     binaryExpression->setTypeSignature(resultTypeSignature.value());
 }
 
-std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperatorNode) {
+std::optional<std::shared_ptr<BinaryExpressionTypeCombination>> BinaryExpressionTypeSignatureStrategy::findCombination(std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperatorNode) {
     for (auto combination : _arithmeticCombinations) {
         if (binaryOperatorNode->getOperator()->getToken()->getSymbol()->isSameAs(combination->getOperator())) {
             return combination;
@@ -81,7 +81,7 @@ std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStr
     return {};
 }
 
-std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStrategy::findCombination(std::shared_ptr<ASTBinaryComparatorOperatorNode> binaryOperatorNode) {
+std::optional<std::shared_ptr<BinaryExpressionTypeCombination>> BinaryExpressionTypeSignatureStrategy::findCombination(std::shared_ptr<ASTBinaryComparatorOperatorNode> binaryOperatorNode) {
     for (auto combination : _comparatorCombinations) {
         if (binaryOperatorNode->getOperator()->getToken()->getSymbol()->isSameAs(combination->getOperator())) {
             return combination;
@@ -91,30 +91,30 @@ std::optional<BinaryExpressionTypeCombination*> BinaryExpressionTypeSignatureStr
 }
 
 void BinaryExpressionTypeSignatureStrategy::initCombinations() {
-    _arithmeticCombinations = std::vector<BinaryExpressionTypeCombination*>({
-        new BinaryExpressionTypeCombination(SymbolFactory::createPlusSymbol(), {
+    _arithmeticCombinations = std::vector<std::shared_ptr<BinaryExpressionTypeCombination>>({
+        std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createPlusSymbol(), std::vector<BinaryComboResultType> {
                 { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createMinusSymbol(), {
+        std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createMinusSymbol(), std::vector<BinaryComboResultType> {
                 { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createStarSymbol(), {
+        std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createStarSymbol(), std::vector<BinaryComboResultType> {
                 { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createSlashSymbol(), {
+        std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createSlashSymbol(), std::vector<BinaryComboResultType> {
                 { INT_LITERAL_TYPE_SOURCE,   INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
                 { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<FloatLiteralTypeSignature>() },
         }),
-        new BinaryExpressionTypeCombination(SymbolFactory::createModuloSymbol(), {
+        std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createModuloSymbol(), std::vector<BinaryComboResultType> {
                 { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<IntLiteralTypeSignature>() },
         }),
     });
 
-    _comparatorCombinations = std::vector<BinaryExpressionTypeCombination*>({
-            new BinaryExpressionTypeCombination(SymbolFactory::createEqualEqualSymbol(), {
+    _comparatorCombinations = std::vector<std::shared_ptr<BinaryExpressionTypeCombination>>({
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createEqualEqualSymbol(), std::vector<BinaryComboResultType> {
                     {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
                     {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      std::make_shared<BoolLiteralTypeSignature>() },
                     {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
@@ -137,7 +137,7 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                     {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
                     {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
             }),
-            new BinaryExpressionTypeCombination(SymbolFactory::createBangEqualSymbol(), {
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createBangEqualSymbol(), std::vector<BinaryComboResultType> {
                     {INT_LITERAL_TYPE_SOURCE,        INT_LITERAL_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
                     {FLOAT_LITERAL_TYPE_SOURCE,      FLOAT_LITERAL_TYPE_SOURCE,      std::make_shared<BoolLiteralTypeSignature>() },
                     {CHAR_LITERAL_TYPE_SOURCE,       CHAR_LITERAL_TYPE_SOURCE,       std::make_shared<BoolLiteralTypeSignature>() },
@@ -160,22 +160,22 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                     {ENUM_ACCESS_TYPE_SOURCE,        ENUM_ACCESS_TYPE_SOURCE,        std::make_shared<BoolLiteralTypeSignature>() },
                     {ENUM_ACCESS_TYPE_SOURCE,        ENUM_TYPE_SOURCE,               std::make_shared<BoolLiteralTypeSignature>() },
             }),
-            new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanSymbol(), {
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createGreaterThanSymbol(), std::vector<BinaryComboResultType> {
                     { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
-            new BinaryExpressionTypeCombination(SymbolFactory::createLessThanSymbol(), {
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createLessThanSymbol(), std::vector<BinaryComboResultType> {
                     { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
-            new BinaryExpressionTypeCombination(SymbolFactory::createGreaterThanOrEqualSymbol(), {
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createGreaterThanOrEqualSymbol(), std::vector<BinaryComboResultType> {
                     { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
             }),
-            new BinaryExpressionTypeCombination(SymbolFactory::createLessThanOrEqualSymbol(), {
+            std::make_shared<BinaryExpressionTypeCombination>(SymbolFactory::createLessThanOrEqualSymbol(), std::vector<BinaryComboResultType> {
                     { INT_LITERAL_TYPE_SOURCE, INT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { FLOAT_LITERAL_TYPE_SOURCE, FLOAT_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     { CHAR_LITERAL_TYPE_SOURCE, CHAR_LITERAL_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },

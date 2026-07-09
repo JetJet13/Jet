@@ -10,11 +10,11 @@
 #include "../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 
-void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, ASTLookupTable* fileScope) {
+void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, std::shared_ptr<ASTLookupTable> fileScope) {
     auto astTraverser = ASTTraverser();
-    auto scope = new ASTLookupTable();
+    auto scope = std::make_shared<ASTLookupTable>();
     scope->inherit(fileScope);
-    auto scopeStack = std::stack<ASTLookupTable*>();
+    auto scopeStack = std::stack<std::shared_ptr<ASTLookupTable>>();
     scopeStack.push(scope);
     astTraverser.init(startNode);
     auto nextNode = astTraverser.next();
@@ -31,16 +31,16 @@ void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, ASTLookupTable*
             auto forInVariableNode = std::dynamic_pointer_cast<ASTForInVariableNode>(node);
             currentScope->insert(forInVariableNode->getVariable()->getId(), node);
         } else if (node->is(AST_CONTROL_FLOW_BLOCK_NODE)) {
-            auto blockScope = new ASTLookupTable(currentScope);
+            auto blockScope = std::make_shared<ASTLookupTable>(currentScope);
             scopeStack.push(blockScope);
             currentScope = scopeStack.top();
         } else if (node->is(AST_LAMBDA_EXPRESSION_NODE)) {
-            auto lambdaScope = new ASTLookupTable(currentScope);
+            auto lambdaScope = std::make_shared<ASTLookupTable>(currentScope);
             lambdaScope->bindLambda(std::dynamic_pointer_cast<ASTLambdaExpressionNode>(node));
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
         } else if (node->is(AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE)) {
-            auto lambdaScope = new ASTLookupTable(currentScope);
+            auto lambdaScope = std::make_shared<ASTLookupTable>(currentScope);
             lambdaScope->bindLambdaFatArrow(std::dynamic_pointer_cast<ASTLambdaWithFatArrowExpressionNode>(node));
             scopeStack.push(lambdaScope);
             currentScope = scopeStack.top();
@@ -82,7 +82,7 @@ void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, ASTLookupTable*
 }
 
 void ScopeAnalyzer::process(std::shared_ptr<ASTFileNode> fileNode) {
-    auto fileScope = new ASTLookupTable();
+    auto fileScope = std::make_shared<ASTLookupTable>();
     for (auto node : *fileNode->getBody()) {
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
             auto globalVariable = std::dynamic_pointer_cast<ASTDeclarationNode>(node);

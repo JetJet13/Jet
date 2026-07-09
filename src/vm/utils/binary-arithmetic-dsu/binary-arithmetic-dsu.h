@@ -9,16 +9,16 @@
 #include "../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 
 // Binary Arithmetic Disjoint-Set-Union
-class BinaryArithmeticDSU {
+class BinaryArithmeticDSU : public std::enable_shared_from_this<BinaryArithmeticDSU> {
 private:
     llvm::Value* _irValue;
-    std::optional<BinaryArithmeticDSU*> _parent;
-    std::vector<BinaryArithmeticDSU*> _children;
+    std::optional<std::shared_ptr<BinaryArithmeticDSU>> _parent;
+    std::vector<std::shared_ptr<BinaryArithmeticDSU>> _children;
 public:
     BinaryArithmeticDSU(llvm::Value* irValue);
     llvm::Value* getValue();
-    void merge(BinaryArithmeticDSU* other);
-    void setParent(BinaryArithmeticDSU* parent);
+    void merge(std::shared_ptr<BinaryArithmeticDSU> other);
+    void setParent(std::shared_ptr<BinaryArithmeticDSU> parent);
 };
 
 #endif //JETLANG_BINARY_ARITHMETIC_DSU_H

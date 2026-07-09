@@ -6,10 +6,10 @@
 #include <stack>
 #include "../../shared/utils/logger/logger.h"
 
-ASTLookupTable::ASTLookupTable(std::optional<ASTLookupTable*> outerScope) {
+ASTLookupTable::ASTLookupTable(std::optional<std::shared_ptr<ASTLookupTable>> outerScope) {
     _globalScope = std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>>();
     _scope = std::unordered_map<std::string, std::shared_ptr<ASTNode>>();
-    _childScopes = std::unordered_map<std::string, ASTLookupTable*>();
+    _childScopes = std::unordered_map<std::string, std::shared_ptr<ASTLookupTable>>();
     _outerScope = outerScope;
 }
 
@@ -17,16 +17,16 @@ std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>> ASTLookupTa
     return _globalScope;
 }
 
-void ASTLookupTable::inherit(ASTLookupTable* otherScope) {
+void ASTLookupTable::inherit(std::shared_ptr<ASTLookupTable> otherScope) {
     _globalScope = otherScope->getGlobalScope();
 }
 
-ASTLookupTable* ASTLookupTable::insert(std::string key, std::shared_ptr<ASTNode> value) {
+std::shared_ptr<ASTLookupTable> ASTLookupTable::insert(std::string key, std::shared_ptr<ASTNode> value) {
     _scope[key] = value;
-    return this;
+    return shared_from_this();
 }
 
-ASTLookupTable* ASTLookupTable::capture(std::shared_ptr<ASTNode> node) {
+std::shared_ptr<ASTLookupTable> ASTLookupTable::capture(std::shared_ptr<ASTNode> node) {
     if (_lambda) {
         _lambda.value()->addCapturedValueId(node->getId());
     }
@@ -38,7 +38,7 @@ ASTLookupTable* ASTLookupTable::capture(std::shared_ptr<ASTNode> node) {
     if (_outerScope && _outerScope.value()->isLambdaScope() && !_outerScope.value()->findWithin(node->getId())) {
         _outerScope.value()->capture(node);
     }
-    return this;
+    return shared_from_this();
 }
 
 void ASTLookupTable::bindLambda(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpressionNode) {
@@ -88,14 +88,14 @@ std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findAcrossScopes(std::st
     return this->findGlobalVariable(key);
 }
 
-ASTLookupTable* ASTLookupTable::insertGlobalVariable(std::string key, std::shared_ptr<ASTDeclarationNode> value) {
+std::shared_ptr<ASTLookupTable> ASTLookupTable::insertGlobalVariable(std::string key, std::shared_ptr<ASTDeclarationNode> value) {
     _globalScope[key] = value;
-    return this;
+    return shared_from_this();
 }
 
-ASTLookupTable* ASTLookupTable::insertChildScope(std::string key, ASTLookupTable* value) {
+std::shared_ptr<ASTLookupTable> ASTLookupTable::insertChildScope(std::string key, std::shared_ptr<ASTLookupTable> value) {
     _childScopes[key] = value;
-    return this;
+    return shared_from_this();
 }
 
 std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findGlobalVariable(std::string key) {
@@ -110,7 +110,7 @@ std::optional<std::shared_ptr<ASTNode>> ASTLookupTable::findGlobalVariable(std::
     }
 }
 
-std::optional<ASTLookupTable*> ASTLookupTable::findChildScope(std::string key) {
+std::optional<std::shared_ptr<ASTLookupTable>> ASTLookupTable::findChildScope(std::string key) {
     auto result = _childScopes.find(key);
     if (result == _childScopes.end()) {
         return {};
@@ -119,13 +119,13 @@ std::optional<ASTLookupTable*> ASTLookupTable::findChildScope(std::string key) {
     }
 }
 
-std::optional<ASTLookupTable*> ASTLookupTable::getOuterScope() {
+std::optional<std::shared_ptr<ASTLookupTable>> ASTLookupTable::getOuterScope() {
     return _outerScope;
 }
 
 void ASTLookupTable::dumpFromRootScope() {
-    auto stack = std::stack<ASTLookupTable*>();
-    stack.push(this);
+    auto stack = std::stack<std::shared_ptr<ASTLookupTable>>();
+    stack.push(shared_from_this());
     auto outerScope = _outerScope;
     while (outerScope.has_value()) {
         stack.push(outerScope.value());

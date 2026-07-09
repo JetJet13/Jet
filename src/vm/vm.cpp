@@ -13,10 +13,10 @@
 VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector) {
     _irGenerator = irGenerator;
     _irInjector = irInjector;
-    _jetFileMap = std::unordered_map<std::string, IRJetFile*>();
+    _jetFileMap = std::unordered_map<std::string, std::shared_ptr<IRJetFile>>();
 }
 
-std::optional<IRJetFile*> VM::findCompiledJetFile(std::string id) {
+std::optional<std::shared_ptr<IRJetFile>> VM::findCompiledJetFile(std::string id) {
     auto result = _jetFileMap.find(id);
     if (result == _jetFileMap.end()) {
         return {};
@@ -24,11 +24,11 @@ std::optional<IRJetFile*> VM::findCompiledJetFile(std::string id) {
     return result->second;
 }
 
-void VM::addCompiledJetFile(IRJetFile* irJetFile) {
+void VM::addCompiledJetFile(std::shared_ptr<IRJetFile> irJetFile) {
     _jetFileMap.insert(std::pair(irJetFile->getFile()->getId(), irJetFile));
 }
 
-std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule) {
+std::shared_ptr<IRFunctionNode> VM::compile(std::shared_ptr<IRJetFile> irJetFile, std::shared_ptr<IRModuleNode> irModule) {
     auto scope = irJetFile->getScope();
     auto jetFile = irJetFile->getFile();
     auto irMainFunction = _irGenerator->generateMainFunction(jetFile->getFile()->getPath().filename().string(), irModule);
@@ -53,7 +53,7 @@ std::shared_ptr<IRFunctionNode> VM::compile(IRJetFile* irJetFile, std::shared_pt
     return irMainFunction;
 }
 
-IRJetFile* VM::compileMain(std::shared_ptr<JetFile> jetFile) {
+std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     auto dependencyGraph = DependencyGraph();
     dependencyGraph.insert(jetFile);
     dependencyGraph.prioritize();
@@ -71,7 +71,7 @@ IRJetFile* VM::compileMain(std::shared_ptr<JetFile> jetFile) {
         Logger::log("Compiling", jetFileToCompile->getId());
         auto jetFileScope = std::make_shared<IRLookupTable>(jetFileToCompile->getFile()->getModuleName());
         auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());
-        auto irJetFileToCompile = new IRJetFile(jetFileToCompile, jetFileIRModule, jetFileScope);
+        auto irJetFileToCompile = std::make_shared<IRJetFile>(jetFileToCompile, jetFileIRModule, jetFileScope);
         jetFileIRModule->linkTo(irCoreModule);
         for (auto importedFile : *jetFileToCompile->getImportedFiles()) {
             auto compiledJetFile = this->findCompiledJetFile(importedFile->getId()).value();
@@ -99,7 +99,7 @@ IRJetFile* VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     return this->findCompiledJetFile(jetFile->getId()).value();
 }
 
-void VM::linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination) {
+void VM::linkJetFiles(std::shared_ptr<IRJetFile> jetFileToLink, std::shared_ptr<IRJetFile> destination) {
     Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId(), "to", destination->getFile()->getId());
     destination->getScope()->link(jetFileToLink->getScope());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {

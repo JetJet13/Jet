@@ -11,22 +11,22 @@
 #include "../ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h"
 #include "../ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.h"
 
-class ASTLookupTable {
+class ASTLookupTable : public std::enable_shared_from_this<ASTLookupTable> {
 private:
     std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>> _globalScope;
     std::unordered_map<std::string, std::shared_ptr<ASTNode>> _scope;
-    std::unordered_map<std::string, ASTLookupTable*> _childScopes;
-    std::optional<ASTLookupTable*> _outerScope;
+    std::unordered_map<std::string, std::shared_ptr<ASTLookupTable>> _childScopes;
+    std::optional<std::shared_ptr<ASTLookupTable>> _outerScope;
     std::optional<std::shared_ptr<ASTLambdaExpressionNode>> _lambda = {};
     std::optional<std::shared_ptr<ASTLambdaWithFatArrowExpressionNode>> _lambdaFatArrow = {};
 public:
-    explicit ASTLookupTable(std::optional<ASTLookupTable*> outerScope = {});
+    explicit ASTLookupTable(std::optional<std::shared_ptr<ASTLookupTable>> outerScope = {});
     std::unordered_map<std::string, std::shared_ptr<ASTDeclarationNode>> getGlobalScope();
-    void inherit(ASTLookupTable* otherScope);
-    ASTLookupTable* insert(std::string key, std::shared_ptr<ASTNode> value);
-    ASTLookupTable* insertGlobalVariable(std::string key, std::shared_ptr<ASTDeclarationNode> value);
-    ASTLookupTable* insertChildScope(std::string key, ASTLookupTable* value);
-    ASTLookupTable* capture(std::shared_ptr<ASTNode> node);
+    void inherit(std::shared_ptr<ASTLookupTable> otherScope);
+    std::shared_ptr<ASTLookupTable> insert(std::string key, std::shared_ptr<ASTNode> value);
+    std::shared_ptr<ASTLookupTable> insertGlobalVariable(std::string key, std::shared_ptr<ASTDeclarationNode> value);
+    std::shared_ptr<ASTLookupTable> insertChildScope(std::string key, std::shared_ptr<ASTLookupTable> value);
+    std::shared_ptr<ASTLookupTable> capture(std::shared_ptr<ASTNode> node);
     void bindLambda(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpressionNode);
     bool isLambdaScope();
     void bindLambdaFatArrow(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaWithFatArrowExpressionNode);
@@ -35,8 +35,8 @@ public:
     std::optional<std::shared_ptr<ASTNode>> findInOuterScope(std::string key);
     std::optional<std::shared_ptr<ASTNode>> findAcrossScopes(std::string key);
     std::optional<std::shared_ptr<ASTNode>> findGlobalVariable(std::string key);
-    std::optional<ASTLookupTable*> findChildScope(std::string key);
-    std::optional<ASTLookupTable*> getOuterScope();
+    std::optional<std::shared_ptr<ASTLookupTable>> findChildScope(std::string key);
+    std::optional<std::shared_ptr<ASTLookupTable>> getOuterScope();
     void dumpFromRootScope();
     void dump(int indent = 0);
 };

@@ -48,7 +48,7 @@ int main (int argc, const char* argv[]) {
         auto irJetFile = vm.compileMain(jetFile);
 
         Logger::log("IR Generation & Injection is done.");
-        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
+//        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
         // Initialize the target registry etc.
         llvm::InitializeAllTargetInfos();
         llvm::InitializeAllTargets();

@@ -11,10 +11,10 @@ llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::sh
     auto irOperations = irExpression->getListOfOperations();
 
     auto irOperands = irExpression->getListOfOperands();
-    auto irOperandValues = std::vector<BinaryArithmeticDSU*>();
+    auto irOperandValues = std::vector<std::shared_ptr<BinaryArithmeticDSU>>();
     for (auto irOperand : irOperands) {
         auto irValue = irInjector->inject(irBlock, irOperand, (std::make_shared<IROperation>(IR_OPERAND_VALUE_OP))->markAsUnderlying(), irModule, scope);
-        irOperandValues.push_back(new BinaryArithmeticDSU(irValue));
+        irOperandValues.push_back(std::make_shared<BinaryArithmeticDSU>(irValue));
     }
 
     for (int i = 0; i < irOperations.size(); ++i) {
@@ -22,7 +22,7 @@ llvm::Value* LiteralIRBinaryArithmeticExpressionInjectorStrategy::inject(std::sh
         auto leftValue = irOperandValues.at(op->getLeftOperandIndex());
         auto rightValue = irOperandValues.at(op->getRightOperandIndex());
         auto result = this->calculate(irBlock, op, leftValue->getValue(), rightValue->getValue(), irModule);
-        auto resultDSU = new BinaryArithmeticDSU(result);
+        auto resultDSU = std::make_shared<BinaryArithmeticDSU>(result);
         leftValue->merge(rightValue);
         resultDSU->merge(leftValue);
     }

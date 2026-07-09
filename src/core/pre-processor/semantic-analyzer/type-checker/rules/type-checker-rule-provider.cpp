@@ -4,98 +4,98 @@
 
 #include "type-checker-rule-provider.h"
 
-NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::_noReturnExpressionTypeCheckerRule = new NoReturnExpressionTypeCheckerRule();
-RequiredReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::_requiredReturnExpressionTypeCheckerRule = new RequiredReturnExpressionTypeCheckerRule();
-AllPathsReturnTypeCheckerRule* TypeCheckerRuleProvider::_allPathsReturnTypeCheckerRule = new AllPathsReturnTypeCheckerRule();
-DefinedTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_definedTypeSignatureTypeCheckerRule = new DefinedTypeSignatureTypeCheckerRule();
-TypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::_typeSignatureMismatchTypeCheckerRule = new TypeSignatureMismatchTypeCheckerRule();
-IterableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_iterableTypeSignatureTypeCheckerRule = new IterableTypeSignatureTypeCheckerRule();
-InvocableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_invocableTypeSignatureTypeCheckerRule = new InvocableTypeSignatureTypeCheckerRule();
-UniqueScopedNamesTypeCheckerRule* TypeCheckerRuleProvider::_uniqueScopedNamesTypeCheckerRule = new UniqueScopedNamesTypeCheckerRule();
-UniqueTypeSignatureKeysTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignatureKeysTypeCheckerRule = new UniqueTypeSignatureKeysTypeCheckerRule();
-UniqueTypeSignatureWithIdTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignatureWithIdTypeCheckerRule = new UniqueTypeSignatureWithIdTypeCheckerRule();
-UniqueTypeSignaturesTypeCheckerRule* TypeCheckerRuleProvider::_uniqueTypeSignaturesTypeCheckerRule = new UniqueTypeSignaturesTypeCheckerRule();
-ReturnTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_returnTypeSignatureTypeCheckerRule = new ReturnTypeSignatureTypeCheckerRule();
-MatchArgumentListCountWithParameterListCountTypeCheckerRule* TypeCheckerRuleProvider::_matchArgumentListCountWithParameterListCountTypeCheckerRule = new MatchArgumentListCountWithParameterListCountTypeCheckerRule();
-ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::_argumentListTypeSignatureMismatchTypeCheckerRule = new ArgumentListTypeSignatureMismatchTypeCheckerRule();
-DrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_drefTypeSignatureTypeCheckerRule = new DrefTypeSignatureTypeCheckerRule();
-RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::_refTypeSignatureTypeCheckerRule = new RefTypeSignatureTypeCheckerRule();
-RefValueAssignmentTypeCheckerRule* TypeCheckerRuleProvider::_refValueAssignmentTypeCheckerRule = new RefValueAssignmentTypeCheckerRule();
-ClassSelfReferenceTypeCheckerRule* TypeCheckerRuleProvider::_classSelfReferenceTypeCheckerRule = new ClassSelfReferenceTypeCheckerRule();
-ClassCircularReferenceTypeCheckerRule* TypeCheckerRuleProvider::_classCircularReferenceTypeCheckerRule = new ClassCircularReferenceTypeCheckerRule();
+std::shared_ptr<NoReturnExpressionTypeCheckerRule> TypeCheckerRuleProvider::_noReturnExpressionTypeCheckerRule = std::make_shared<NoReturnExpressionTypeCheckerRule>();
+std::shared_ptr<RequiredReturnExpressionTypeCheckerRule> TypeCheckerRuleProvider::_requiredReturnExpressionTypeCheckerRule = std::make_shared<RequiredReturnExpressionTypeCheckerRule>();
+std::shared_ptr<AllPathsReturnTypeCheckerRule> TypeCheckerRuleProvider::_allPathsReturnTypeCheckerRule = std::make_shared<AllPathsReturnTypeCheckerRule>();
+std::shared_ptr<DefinedTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_definedTypeSignatureTypeCheckerRule = std::make_shared<DefinedTypeSignatureTypeCheckerRule>();
+std::shared_ptr<TypeSignatureMismatchTypeCheckerRule> TypeCheckerRuleProvider::_typeSignatureMismatchTypeCheckerRule = std::make_shared<TypeSignatureMismatchTypeCheckerRule>();
+std::shared_ptr<IterableTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_iterableTypeSignatureTypeCheckerRule = std::make_shared<IterableTypeSignatureTypeCheckerRule>();
+std::shared_ptr<InvocableTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_invocableTypeSignatureTypeCheckerRule = std::make_shared<InvocableTypeSignatureTypeCheckerRule>();
+std::shared_ptr<UniqueScopedNamesTypeCheckerRule> TypeCheckerRuleProvider::_uniqueScopedNamesTypeCheckerRule = std::make_shared<UniqueScopedNamesTypeCheckerRule>();
+std::shared_ptr<UniqueTypeSignatureKeysTypeCheckerRule> TypeCheckerRuleProvider::_uniqueTypeSignatureKeysTypeCheckerRule = std::make_shared<UniqueTypeSignatureKeysTypeCheckerRule>();
+std::shared_ptr<UniqueTypeSignatureWithIdTypeCheckerRule> TypeCheckerRuleProvider::_uniqueTypeSignatureWithIdTypeCheckerRule = std::make_shared<UniqueTypeSignatureWithIdTypeCheckerRule>();
+std::shared_ptr<UniqueTypeSignaturesTypeCheckerRule> TypeCheckerRuleProvider::_uniqueTypeSignaturesTypeCheckerRule = std::make_shared<UniqueTypeSignaturesTypeCheckerRule>();
+std::shared_ptr<ReturnTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_returnTypeSignatureTypeCheckerRule = std::make_shared<ReturnTypeSignatureTypeCheckerRule>();
+std::shared_ptr<MatchArgumentListCountWithParameterListCountTypeCheckerRule> TypeCheckerRuleProvider::_matchArgumentListCountWithParameterListCountTypeCheckerRule = std::make_shared<MatchArgumentListCountWithParameterListCountTypeCheckerRule>();
+std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> TypeCheckerRuleProvider::_argumentListTypeSignatureMismatchTypeCheckerRule = std::make_shared<ArgumentListTypeSignatureMismatchTypeCheckerRule>();
+std::shared_ptr<DrefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_drefTypeSignatureTypeCheckerRule = std::make_shared<DrefTypeSignatureTypeCheckerRule>();
+std::shared_ptr<RefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_refTypeSignatureTypeCheckerRule = std::make_shared<RefTypeSignatureTypeCheckerRule>();
+std::shared_ptr<RefValueAssignmentTypeCheckerRule> TypeCheckerRuleProvider::_refValueAssignmentTypeCheckerRule = std::make_shared<RefValueAssignmentTypeCheckerRule>();
+std::shared_ptr<ClassSelfReferenceTypeCheckerRule> TypeCheckerRuleProvider::_classSelfReferenceTypeCheckerRule = std::make_shared<ClassSelfReferenceTypeCheckerRule>();
+std::shared_ptr<ClassCircularReferenceTypeCheckerRule> TypeCheckerRuleProvider::_classCircularReferenceTypeCheckerRule = std::make_shared<ClassCircularReferenceTypeCheckerRule>();
 
-NoReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule() {
+std::shared_ptr<NoReturnExpressionTypeCheckerRule> TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule() {
     return _noReturnExpressionTypeCheckerRule;
 }
 
-RequiredReturnExpressionTypeCheckerRule* TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule() {
+std::shared_ptr<RequiredReturnExpressionTypeCheckerRule> TypeCheckerRuleProvider::getRequiredReturnExpressionTypeCheckerRule() {
     return _requiredReturnExpressionTypeCheckerRule;
 }
 
-AllPathsReturnTypeCheckerRule* TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule() {
+std::shared_ptr<AllPathsReturnTypeCheckerRule> TypeCheckerRuleProvider::getAllPathsReturnTypeCheckerRule() {
     return _allPathsReturnTypeCheckerRule;
 }
 
-DefinedTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule() {
+std::shared_ptr<DefinedTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule() {
     return _definedTypeSignatureTypeCheckerRule;
 }
 
-TypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule() {
+std::shared_ptr<TypeSignatureMismatchTypeCheckerRule> TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule() {
     return _typeSignatureMismatchTypeCheckerRule;
 }
 
-IterableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule() {
+std::shared_ptr<IterableTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule() {
     return _iterableTypeSignatureTypeCheckerRule;
 }
 
-InvocableTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getInvocableTypeSignatureTypeCheckerRule() {
+std::shared_ptr<InvocableTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getInvocableTypeSignatureTypeCheckerRule() {
     return _invocableTypeSignatureTypeCheckerRule;
 }
 
-UniqueScopedNamesTypeCheckerRule* TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule() {
+std::shared_ptr<UniqueScopedNamesTypeCheckerRule> TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule() {
     return _uniqueScopedNamesTypeCheckerRule;
 }
 
-UniqueTypeSignatureKeysTypeCheckerRule* TypeCheckerRuleProvider::getUniqueTypeSignatureKeysTypeCheckerRule() {
+std::shared_ptr<UniqueTypeSignatureKeysTypeCheckerRule> TypeCheckerRuleProvider::getUniqueTypeSignatureKeysTypeCheckerRule() {
     return _uniqueTypeSignatureKeysTypeCheckerRule;
 }
 
-UniqueTypeSignatureWithIdTypeCheckerRule* TypeCheckerRuleProvider::getUniqueTypeSignatureWithIdTypeCheckerRule() {
+std::shared_ptr<UniqueTypeSignatureWithIdTypeCheckerRule> TypeCheckerRuleProvider::getUniqueTypeSignatureWithIdTypeCheckerRule() {
     return _uniqueTypeSignatureWithIdTypeCheckerRule;
 }
 
-UniqueTypeSignaturesTypeCheckerRule* TypeCheckerRuleProvider::getUniqueTypeSignaturesTypeCheckerRule() {
+std::shared_ptr<UniqueTypeSignaturesTypeCheckerRule> TypeCheckerRuleProvider::getUniqueTypeSignaturesTypeCheckerRule() {
     return _uniqueTypeSignaturesTypeCheckerRule;
 }
 
-ReturnTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule() {
+std::shared_ptr<ReturnTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getReturnTypeSignatureTypeCheckerRule() {
     return _returnTypeSignatureTypeCheckerRule;
 }
 
-MatchArgumentListCountWithParameterListCountTypeCheckerRule* TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule() {
+std::shared_ptr<MatchArgumentListCountWithParameterListCountTypeCheckerRule> TypeCheckerRuleProvider::getMatchArgumentListCountWithParameterListCountTypeCheckerRule() {
     return _matchArgumentListCountWithParameterListCountTypeCheckerRule;
 }
 
-ArgumentListTypeSignatureMismatchTypeCheckerRule* TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule() {
+std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> TypeCheckerRuleProvider::getArgumentListTypeSignatureMismatchTypeCheckerRule() {
     return _argumentListTypeSignatureMismatchTypeCheckerRule;
 }
 
-DrefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule() {
+std::shared_ptr<DrefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule() {
     return _drefTypeSignatureTypeCheckerRule;
 }
 
-RefTypeSignatureTypeCheckerRule* TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule() {
+std::shared_ptr<RefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule() {
     return _refTypeSignatureTypeCheckerRule;
 }
 
-RefValueAssignmentTypeCheckerRule* TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule() {
+std::shared_ptr<RefValueAssignmentTypeCheckerRule> TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule() {
     return _refValueAssignmentTypeCheckerRule;
 }
 
-ClassSelfReferenceTypeCheckerRule* TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule() {
+std::shared_ptr<ClassSelfReferenceTypeCheckerRule> TypeCheckerRuleProvider::getClassSelfReferenceTypeCheckerRule() {
     return _classSelfReferenceTypeCheckerRule;
 }
 
-ClassCircularReferenceTypeCheckerRule* TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule() {
+std::shared_ptr<ClassCircularReferenceTypeCheckerRule> TypeCheckerRuleProvider::getClassCircularReferenceTypeCheckerRule() {
     return _classCircularReferenceTypeCheckerRule;
 }

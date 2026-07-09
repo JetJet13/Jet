@@ -14,14 +14,14 @@ class VM {
 private:
     std::shared_ptr<IRGenerator> _irGenerator;
     std::shared_ptr<IRInjector> _irInjector;
-    std::unordered_map<std::string, IRJetFile*> _jetFileMap;
-    std::optional<IRJetFile*> findCompiledJetFile(std::string id);
-    void addCompiledJetFile(IRJetFile* irJetFile);
+    std::unordered_map<std::string, std::shared_ptr<IRJetFile>> _jetFileMap;
+    std::optional<std::shared_ptr<IRJetFile>> findCompiledJetFile(std::string id);
+    void addCompiledJetFile(std::shared_ptr<IRJetFile> irJetFile);
 public:
     VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector);
-    std::shared_ptr<IRFunctionNode> compile(IRJetFile* irJetFile, std::shared_ptr<IRModuleNode> irModule);
-    IRJetFile* compileMain(std::shared_ptr<JetFile> jetFile);
-    void linkJetFiles(IRJetFile* jetFileToLink, IRJetFile* destination);
+    std::shared_ptr<IRFunctionNode> compile(std::shared_ptr<IRJetFile> irJetFile, std::shared_ptr<IRModuleNode> irModule);
+    std::shared_ptr<IRJetFile> compileMain(std::shared_ptr<JetFile> jetFile);
+    void linkJetFiles(std::shared_ptr<IRJetFile> jetFileToLink, std::shared_ptr<IRJetFile> destination);
 };
 
 #endif //JETLANG_VM_H

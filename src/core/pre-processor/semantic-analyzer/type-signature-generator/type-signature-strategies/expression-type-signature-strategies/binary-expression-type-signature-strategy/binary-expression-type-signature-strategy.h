@@ -13,11 +13,11 @@
 
 class BinaryExpressionTypeSignatureStrategy {
 private:
-    std::vector<BinaryExpressionTypeCombination*> _arithmeticCombinations;
-    std::vector<BinaryExpressionTypeCombination*> _comparatorCombinations;
+    std::vector<std::shared_ptr<BinaryExpressionTypeCombination>> _arithmeticCombinations;
+    std::vector<std::shared_ptr<BinaryExpressionTypeCombination>> _comparatorCombinations;
     void initCombinations();
-    std::optional<BinaryExpressionTypeCombination*> findCombination(std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperatorNode);
-    std::optional<BinaryExpressionTypeCombination*> findCombination(std::shared_ptr<ASTBinaryComparatorOperatorNode> binaryOperatorNode);
+    std::optional<std::shared_ptr<BinaryExpressionTypeCombination>> findCombination(std::shared_ptr<ASTBinaryArithmeticOperatorNode> binaryOperatorNode);
+    std::optional<std::shared_ptr<BinaryExpressionTypeCombination>> findCombination(std::shared_ptr<ASTBinaryComparatorOperatorNode> binaryOperatorNode);
 public:
     BinaryExpressionTypeSignatureStrategy();
     void assign(std::shared_ptr<ASTBinaryArithmeticExpressionNode> binaryExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap);
