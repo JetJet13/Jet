@@ -4,7 +4,6 @@
 
 #include "copy-array-ir-function.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../types/ir-type-id.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 

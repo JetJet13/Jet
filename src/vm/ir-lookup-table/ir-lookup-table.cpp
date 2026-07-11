@@ -10,7 +10,6 @@ IRLookupTable::IRLookupTable(std::optional<std::shared_ptr<IRLookupTable>> outer
     _globalScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
     _scope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
     _arcScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
-    _loadedScope = std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>>();
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
@@ -22,7 +21,6 @@ IRLookupTable::IRLookupTable(std::string moduleId, std::optional<std::shared_ptr
     _globalScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
     _scope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
     _arcScope = std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>>();
-    _loadedScope = std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>>();
     _outerScope = outerScope;
     _typeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     _globalTypeScope = std::unordered_map<std::string, std::shared_ptr<IRType>>();
@@ -74,12 +72,6 @@ std::shared_ptr<IRLookupTable> IRLookupTable::insertArc(std::string key, std::sh
     return shared_from_this();
 }
 
-
-std::shared_ptr<IRLookupTable> IRLookupTable::insert(std::string key, std::shared_ptr<IRLoadInstructionNode> value) {
-    _loadedScope[key] = value;
-    return shared_from_this();
-}
-
 std::shared_ptr<IRLookupTable> IRLookupTable::insert(std::string key, std::shared_ptr<IRType> value) {
     value->setModuleId(_moduleId);
     _typeScope[key] = value;
@@ -109,18 +101,6 @@ std::optional<std::shared_ptr<IRInstructionNode>> IRLookupTable::findArc(std::st
     if (result == _arcScope.end()) {
         if (_outerScope) {
             return _outerScope.value()->findArc(key);
-        }
-        return {};
-    } else {
-        return result->second;
-    }
-}
-
-std::optional<std::shared_ptr<IRLoadInstructionNode>> IRLookupTable::findLoaded(std::string key) {
-    auto result = _loadedScope.find(key);
-    if (result == _loadedScope.end()) {
-        if (_outerScope) {
-            return _outerScope.value()->findLoaded(key);
         }
         return {};
     } else {
@@ -252,9 +232,6 @@ void IRLookupTable::dump() {
     Logger::log("======== IRLookupTable DUMP ========");
     for (auto keyValue : _scope) {
         Logger::log("KEY - ", keyValue.first);
-    }
-    for (auto keyValue : _loadedScope) {
-        Logger::log("LOADED KEY - ", keyValue.first);
     }
     for (auto keyValue : _globalScope) {
         Logger::log("GLOBAL KEY - ", keyValue.first);

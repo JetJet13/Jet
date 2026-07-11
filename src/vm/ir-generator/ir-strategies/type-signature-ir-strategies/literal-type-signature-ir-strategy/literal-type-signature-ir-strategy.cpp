@@ -5,7 +5,6 @@
 
 #include "literal-type-signature-ir-strategy.h"
 #include "../../../../types/ir-type-id.h"
-#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 std::shared_ptr<IRType> LiteralTypeSignatureIRStrategy::generate(std::shared_ptr<LiteralTypeSignature> literalTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (literalTypeSignature->typeSourceIs(INT_LITERAL_TYPE_SOURCE)) {

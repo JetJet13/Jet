@@ -13,7 +13,7 @@ llvm::Value* StringIRStringLiteralExpressionInjectorStrategy::inject(std::shared
     InstructionIRInjectorHelper::injectStore(irExpression->getValue(), arrayAllocation, irBlock, irExpression->getSourceAggregateAllocation()->getIRType()->getUnderlyingType());
     auto array = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irArrayPointerType, irExpression->getValue()->getType()->getArrayNumElements(),
                                                      irExpression->getSourceAggregateAllocation(),
-                                                     irExpression->getAggregatePointerAllocation())->getValue();
+                                                     irExpression->getAggregatePointerAllocation());
     if (irOperation->isOperandPointer()) {
         return irExpression->getAggregatePointerAllocation()->getValue();
     }

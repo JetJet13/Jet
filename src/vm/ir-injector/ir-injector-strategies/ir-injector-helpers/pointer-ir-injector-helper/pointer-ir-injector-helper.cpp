@@ -14,7 +14,7 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockN
     auto newPointer = irBlock->getBuilder()->get()->CreateAlloca(irPointerType->getType());
     if (irPointerType->getUnderlyingType()->isArrayPointerType()) {
         auto loadedArrayPointer = ArrayIRInjectorHelper::injectArrayPointer(irBlock, sourceValueAllocation, irModule, irInjector);
-        InstructionIRInjectorHelper::injectStore(loadedArrayPointer->getValue(), newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getUnderlyingType());
+        InstructionIRInjectorHelper::injectStore(loadedArrayPointer, newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getUnderlyingType());
     } else if (irPointerType->getUnderlyingType()->isStructType()) {
         auto loadedNestedStruct = StructIRInjectorHelper::injectStructRef(irBlock, sourceValueAllocation, irModule,
                                                                           irInjector);
@@ -34,7 +34,7 @@ llvm::Value* PointerIRInjectorHelper::injectPointerCopy(std::shared_ptr<IRBlockN
         auto arrayPointerType = std::dynamic_pointer_cast<IRArrayPointerType>(irPointerType->getUnderlyingType());
         auto arrayPointerAllocation = IRInstructionNodeFactory::create(IRPointerType::create(arrayPointerType));
         auto loadedArrayPointer = ArrayIRInjectorHelper::injectArrayCopy(irBlock, arrayPointerType, arrayPointerType->getElementIRType(), irModule,  loadedValue, arrayPointerAllocation, irInjector);
-        InstructionIRInjectorHelper::injectStore(loadedArrayPointer->getValue(), newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getSourceType());
+        InstructionIRInjectorHelper::injectStore(loadedArrayPointer, newValueAllocation->getValue(), irBlock, newValueAllocation->getIRType()->getSourceType());
     } else if (irPointerType->getUnderlyingType()->isStructRefType()) {
         auto structRefType = std::dynamic_pointer_cast<IRStructRefType>(irPointerType->getSourceType());
         auto loadedNestedStruct = StructIRInjectorHelper::injectStructRefCopy(irBlock, structRefType, loadedValue,

@@ -3,7 +3,6 @@
 //
 
 #include "ref-value-assignment-ir-injector-strategy.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-ref-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"

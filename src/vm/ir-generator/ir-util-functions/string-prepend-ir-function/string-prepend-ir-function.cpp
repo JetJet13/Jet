@@ -3,7 +3,6 @@
 //
 
 #include "string-prepend-ir-function.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string StringPrependIRFunction::getStringPrependIRFunctionName() {

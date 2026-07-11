@@ -9,7 +9,6 @@
 #include <optional>
 #include "../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../ir-nodes/ir-instruction-node.h"
-#include "../ir-nodes/ir-load-instruction-node.h"
 
 class IRLookupTable : public std::enable_shared_from_this<IRLookupTable> {
 private:
@@ -17,7 +16,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _globalScope;
     std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _scope;
     std::unordered_map<std::string, std::shared_ptr<IRInstructionNode>> _arcScope;
-    std::unordered_map<std::string, std::shared_ptr<IRLoadInstructionNode>> _loadedScope;
     std::optional<std::shared_ptr<IRLookupTable>> _outerScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _typeScope;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _globalTypeScope;
@@ -34,12 +32,10 @@ public:
     void link(std::shared_ptr<IRLookupTable> otherScope);
     std::shared_ptr<IRLookupTable> insert(std::string key, std::shared_ptr<IRInstructionNode> value);
     std::shared_ptr<IRLookupTable> insertArc(std::string key, std::shared_ptr<IRInstructionNode> value);
-    std::shared_ptr<IRLookupTable> insert(std::string key, std::shared_ptr<IRLoadInstructionNode> value);
     std::shared_ptr<IRLookupTable> insert(std::string key, std::shared_ptr<IRType> value);
     std::shared_ptr<IRLookupTable> insertGlobalType(std::string key, std::shared_ptr<IRType> value);
     std::optional<std::shared_ptr<IRInstructionNode>> find(std::string key);
     std::optional<std::shared_ptr<IRInstructionNode>> findArc(std::string key);
-    std::optional<std::shared_ptr<IRLoadInstructionNode>> findLoaded(std::string key);
     std::optional<std::shared_ptr<IRInstructionNode>> findAcrossScopes(std::string key);
     std::optional<std::shared_ptr<IRInstructionNode>> findAcrossScopes(std::string moduleId, std::string key);
     std::optional<std::shared_ptr<IRType>> findType(std::string key);

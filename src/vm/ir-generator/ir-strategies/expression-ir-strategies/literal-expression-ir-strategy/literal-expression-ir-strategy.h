@@ -12,7 +12,6 @@
 #include "../../../../ir-nodes/ir-expression-nodes/ir-literal-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.h"
 #include "../../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 class LiteralExpressionIRStrategy {
 private:

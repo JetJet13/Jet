@@ -3,7 +3,6 @@
 //
 
 #include "string-append-ir-function.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 

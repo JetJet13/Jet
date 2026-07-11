@@ -3,7 +3,6 @@
 //
 
 #include "instruction-ir-injector-helper.h"
-#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 llvm::Value* InstructionIRInjectorHelper::inject(std::shared_ptr<IRTypeValueInstructionNode> irTypeValueInstructionNode, std::shared_ptr<IRBlockNode> irBlock, std::string name) {
     auto value = irBlock->getBuilder()->get()->Insert(irTypeValueInstructionNode->getValue(), name);

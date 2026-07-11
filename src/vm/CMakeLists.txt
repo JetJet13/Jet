@@ -49,8 +49,6 @@ add_library(jet-vm
         ir-type/ir-type.h
         utils/address-space-generator/address-space-generator.cpp
         utils/address-space-generator/address-space-generator.h
-        utils/data-alignment-generator/data-alignment-generator.cpp
-        utils/data-alignment-generator/data-alignment-generator.h
         ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.cpp
         ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.h
         ir-generator/ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.cpp
@@ -211,8 +209,6 @@ add_library(jet-vm
         types/ir-operation-type.h
         ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.h
-        ir-nodes/ir-load-instruction-node.cpp
-        ir-nodes/ir-load-instruction-node.h
         ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.cpp
         ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.h
         ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.cpp

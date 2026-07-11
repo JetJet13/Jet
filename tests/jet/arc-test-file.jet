@@ -184,10 +184,10 @@ proc testClass() {
 testClass();
 
 //proc testSyntax() {
-//    const x = unique 10;
-//    const z = shared x;
-//    const a = shared (x + 1);
-//    const b = shared new MyClass(40);
-//    myFunction(shared 5, shared Foo::Create());
+//    const x = uniq 10;
+//    const z = share x;
+//    const a = share (x + 1);
+//    const b = share new MyClass(40);
+//    myFunction(shared 5, share Foo::Create());
 //    const y: shared<int> = shared 5;
 //}

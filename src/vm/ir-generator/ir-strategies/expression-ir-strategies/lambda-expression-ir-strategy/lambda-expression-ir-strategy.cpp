@@ -4,7 +4,6 @@
 
 #include "lambda-expression-ir-strategy.h"
 #include "../../../../utils/address-space-generator/address-space-generator.h"
-#include "../../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../../../core/ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"

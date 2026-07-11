@@ -6,7 +6,6 @@
 
 #include <utility>
 #include "../address-space-generator/address-space-generator.h"
-#include "../data-alignment-generator/data-alignment-generator.h"
 
 std::shared_ptr<IRInstructionNode> IRInstructionNodeFactory::create(llvm::GlobalVariable* globalVariable) {
     return std::make_shared<IRInstructionNode>(globalVariable, IRPointerType::create(globalVariable));

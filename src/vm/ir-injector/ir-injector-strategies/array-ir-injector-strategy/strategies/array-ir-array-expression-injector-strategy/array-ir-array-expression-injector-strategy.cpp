@@ -20,7 +20,7 @@ llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(std::shared_ptr<IRAr
 
     auto loadedArray = ArrayIRInjectorHelper::injectArrayPointer(irBlock, irExpression->getIRArrayPointerType(), numElements,
                                                      irExpression->getSourceAggregateAllocation(),
-                                                     irExpression->getAggregatePointerAllocation())->getValue();
+                                                     irExpression->getAggregatePointerAllocation());
     if (irOperation->isOperandPointer()) {
         return irExpression->getAggregatePointerAllocation()->getValue();
     }

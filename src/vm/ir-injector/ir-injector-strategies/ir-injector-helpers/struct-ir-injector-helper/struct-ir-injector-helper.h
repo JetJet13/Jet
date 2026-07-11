@@ -6,7 +6,6 @@
 #define JETLANG_STRUCT_IR_INJECTOR_HELPER_H
 
 #include <llvm/IR/IRBuilder.h>
-#include "../../../../ir-nodes/ir-load-instruction-node.h"
 #include "../../../../ir-nodes/ir-instruction-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-expression-node.h"

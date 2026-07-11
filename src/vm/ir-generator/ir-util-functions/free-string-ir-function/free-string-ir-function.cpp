@@ -4,7 +4,6 @@
 
 #include "free-string-ir-function.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 
 std::string FreeStringIRFunction::getFreeStringIRFunctionName() {
     return "jet.free.string";

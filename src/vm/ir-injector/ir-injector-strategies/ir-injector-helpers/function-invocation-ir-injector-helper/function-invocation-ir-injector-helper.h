@@ -6,7 +6,6 @@
 #define JETLANG_FUNCTION_INVOCATION_IR_INJECTOR_HELPER_H
 
 #include <llvm/IR/IRBuilder.h>
-#include "../../../../ir-nodes/ir-load-instruction-node.h"
 #include "../../../../ir-nodes/ir-instruction-node.h"
 #include "../../../ir-injector.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.h"

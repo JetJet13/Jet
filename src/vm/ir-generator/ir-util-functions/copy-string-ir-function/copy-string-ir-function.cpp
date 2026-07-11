@@ -5,7 +5,6 @@
 #include "copy-string-ir-function.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
-#include "../../../utils/data-alignment-generator/data-alignment-generator.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 std::string CopyStringIRFunction::getCopyStringIRFunctionName() {
