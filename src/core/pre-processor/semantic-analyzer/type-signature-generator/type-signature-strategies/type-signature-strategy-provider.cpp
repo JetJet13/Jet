@@ -33,11 +33,13 @@
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
+#include "expression-type-signature-strategies/share-expression-type-signature-strategy/share-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
+#include "type-type-signature-strategy/base-type-type-signature-strategies/shared-type-type-signature-strategy/shared-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.h"
@@ -201,6 +203,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
                     .getRefTypeTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTRefTypeNode>(node), context, typeSignatureScope, this);
             break;
+        case AST_SHARED_TYPE_NODE:
+            this->_typeSignatureStrategyMap
+                    .getSharedTypeTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTSharedTypeNode>(node), context, typeSignatureScope, this);
+            break;
         case AST_MODULE_TYPE_NODE:
             this->_typeSignatureStrategyMap
                     .getModuleTypeTypeSignatureStrategy()
@@ -360,6 +367,11 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
             this->_typeSignatureStrategyMap
                     .getModuleAccessExpressionTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleAccessExpressionNode>(node), context, typeSignatureScope, this);
+            break;
+        case AST_SHARE_EXPRESSION_NODE:
+            this->_typeSignatureStrategyMap
+                    .getShareExpressionTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTShareExpressionNode>(node), context, typeSignatureScope, this);
             break;
         case AST_REF_EXPRESSION_NODE:
             this->_typeSignatureStrategyMap

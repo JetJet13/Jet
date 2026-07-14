@@ -148,46 +148,18 @@ func getRefArray(y: [int]): ref<[int]> {
     return ref y;
 }
 
-proc testClass() {
-    const mySimpleClass = new SimpleClass(100);
-    const staticResult = 200 + SimpleClass.staticValue;
-    assert(staticResult == 300);
-
-    SimpleClass.staticValue = 150;
-    assert(SimpleClass.staticValue == 150);
-
-    const myComplexClass = new ComplexClass(18);
-    assert(myComplexClass.getAge() == 18);
-    assert(myComplexClass.getName() == "Joe");
-    assert(myComplexClass.getHairColor() == "Black");
-    assert(myComplexClass.age == 18);
-    assert(myComplexClass.name == "Joe");
-    assert(myComplexClass.hairColor == "Black");
-
-    const myOtherComplexClass = new ComplexClass(28, "Roger", "Brown");
-    assert(myOtherComplexClass.getAge() == 28);
-    assert(myOtherComplexClass.getName() == "Roger");
-    assert(myOtherComplexClass.getHairColor() == "Brown");
-    assert(myOtherComplexClass.age == 28);
-    assert(myOtherComplexClass.name == "Roger");
-    assert(myOtherComplexClass.hairColor == "Brown");
-
-    const myStaticComplexClass = ComplexClass.create();
-    assert(myStaticComplexClass.getAge() == 2);
-    assert(myStaticComplexClass.getName() == "Joe");
-    assert(myStaticComplexClass.getHairColor() == "Black");
-    assert(myStaticComplexClass.age == 2);
-    assert(myStaticComplexClass.name == "Joe");
-    assert(myStaticComplexClass.hairColor == "Black");
-
+proc testShare() {
+    const x = share 5;
+    assert(x == 5);
+    //print("X", x);
 }
-testClass();
+testShare();
 
 //proc testSyntax() {
 //    const x = uniq 10;
+//    const y: shared<int> = shared 5;
 //    const z = share x;
 //    const a = share (x + 1);
 //    const b = share new MyClass(40);
 //    myFunction(shared 5, share Foo::Create());
-//    const y: shared<int> = shared 5;
 //}

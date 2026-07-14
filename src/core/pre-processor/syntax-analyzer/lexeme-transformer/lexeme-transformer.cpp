@@ -71,6 +71,7 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
+#include "../../../ast/ast-nodes/ast-share-nodes/ast-share-node.h"
 
 std::optional<std::shared_ptr<ASTNode>> LexemeTransformer::transform(std::optional<std::shared_ptr<Lexeme>> lexeme) {
     if (lexeme) {
@@ -206,6 +207,10 @@ std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> le
         return std::make_shared<ASTNewNode>(lexeme);
     } else if (symbol->isExport()) {
         return std::make_shared<ASTExportNode>(lexeme);
+    } else if (symbol->isShare()) {
+        return std::make_shared<ASTShareNode>(lexeme);
+    } else if (symbol->isShared()) {
+        return std::make_shared<ASTSharedNode>(lexeme);
     } else if (symbol->isRef()) {
         return std::make_shared<ASTRefBaseNode>(lexeme);
     } else if (symbol->isDref()) {

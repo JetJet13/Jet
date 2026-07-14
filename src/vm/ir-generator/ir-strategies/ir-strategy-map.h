@@ -51,6 +51,7 @@ class VariableAssignmentStatementIRStrategy;
 class IfStatementIRStrategy;
 class WhileStatementIRStrategy;
 class ForInStatementIRStrategy;
+class ShareExpressionIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
@@ -82,6 +83,7 @@ class EnumAccessTypeSignatureIRStrategy;
 class ModuleTypeSignatureIRStrategy;
 class PointerTypeSignatureIRStrategy;
 class RefTypeSignatureIRStrategy;
+class SharedTypeSignatureIRStrategy;
 class FunctionInvocationTypeSignatureIRStrategy;
 class ClassMethodTypeSignatureIRStrategy;
 class ClassPropertyTypeSignatureIRStrategy;
@@ -136,6 +138,7 @@ private:
     std::shared_ptr<IfStatementIRStrategy> _ifStatementIRStrategy;
     std::shared_ptr<WhileStatementIRStrategy> _whileStatementIRStrategy;
     std::shared_ptr<ForInStatementIRStrategy> _forInStatementIRStrategy;
+    std::shared_ptr<ShareExpressionIRStrategy> _shareExpressionIRStrategy;
     std::shared_ptr<RefExpressionIRStrategy> _refExpressionIRStrategy;
     std::shared_ptr<DrefExpressionIRStrategy> _drefExpressionIRStrategy;
     std::shared_ptr<ArrayAccessAssignmentStatementIRStrategy> _arrayAccessAssignmentStatementIRStrategy;
@@ -166,6 +169,7 @@ private:
     std::shared_ptr<ModuleTypeSignatureIRStrategy> _moduleTypeSignatureStrategy;
     std::shared_ptr<PointerTypeSignatureIRStrategy> _pointerTypeSignatureStrategy;
     std::shared_ptr<RefTypeSignatureIRStrategy> _refTypeSignatureStrategy;
+    std::shared_ptr<SharedTypeSignatureIRStrategy> _sharedTypeSignatureStrategy;
     std::shared_ptr<FunctionInvocationTypeSignatureIRStrategy> _functionInvocationTypeSignatureIRStrategy;
     std::shared_ptr<ClassMethodTypeSignatureIRStrategy> _classMethodTypeSignatureIRStrategy;
     std::shared_ptr<ClassPropertyTypeSignatureIRStrategy> _classPropertyTypeSignatureIRStrategy;
@@ -229,6 +233,7 @@ public:
     std::shared_ptr<IfStatementIRStrategy> getIfStatementIRStrategy();
     std::shared_ptr<WhileStatementIRStrategy> getWhileStatementIRStrategy();
     std::shared_ptr<ForInStatementIRStrategy> getForInStatementIRStrategy();
+    std::shared_ptr<ShareExpressionIRStrategy> getShareExpressionIRStrategy();
     std::shared_ptr<RefExpressionIRStrategy> getRefExpressionIRStrategy();
     std::shared_ptr<DrefExpressionIRStrategy> getDrefExpressionIRStrategy();
 
@@ -249,6 +254,7 @@ public:
     std::shared_ptr<ModuleTypeSignatureIRStrategy> getModuleTypeSignatureIRStrategy();
     std::shared_ptr<PointerTypeSignatureIRStrategy> getPointerTypeSignatureIRStrategy();
     std::shared_ptr<RefTypeSignatureIRStrategy> getRefTypeSignatureIRStrategy();
+    std::shared_ptr<SharedTypeSignatureIRStrategy> getSharedTypeSignatureIRStrategy();
     std::shared_ptr<FunctionInvocationTypeSignatureIRStrategy> getFunctionInvocationTypeSignatureIRStrategy();
     std::shared_ptr<ClassMethodTypeSignatureIRStrategy> getClassMethodTypeSignatureIRStrategy();
     std::shared_ptr<ClassPropertyTypeSignatureIRStrategy> getClassPropertyTypeSignatureIRStrategy();

@@ -10,10 +10,12 @@
 #include "../../../ir-nodes/ir-block-nodes/ir-block-node.h"
 #include "strategies/pointer-ir-ref-expression-injector-strategy/pointer-ir-ref-expression-injector-strategy.h"
 #include "strategies/pointer-ir-identifier-expression-injector-strategy/pointer-ir-identifier-expression-injector-strategy.h"
+#include "strategies/pointer-ir-share-expression-injector-strategy/pointer-ir-share-expression-injector-strategy.h"
 
 class PointerIRInjectorStrategy : public IRInjectorStrategy {
     using IRInjectorStrategy::IRInjectorStrategy;
 private:
+    PointerIRShareExpressionInjectorStrategy _pointerIRShareExpressionInjectorStrategy = PointerIRShareExpressionInjectorStrategy();
     PointerIRRefExpressionInjectorStrategy _pointerIRRefExpressionInjectorStrategy = PointerIRRefExpressionInjectorStrategy();
     PointerIRIdentifierExpressionInjectorStrategy _pointerIRIdentifierExpressionInjectorStrategy = PointerIRIdentifierExpressionInjectorStrategy();
 public:

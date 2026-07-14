@@ -92,6 +92,8 @@ public:
     bool isConstructor();
     bool isNew();
     bool isExport();
+    bool isShare();
+    bool isShared();
     bool isRef();
     bool isDref();
     bool isConcat();

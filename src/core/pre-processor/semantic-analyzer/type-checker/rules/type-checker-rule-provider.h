@@ -24,6 +24,7 @@
 #include "type-checker-rules/ref-value-assignment-type-checker-rule/ref-value-assignment-type-checker-rule.h"
 #include "type-checker-rules/class-self-reference-type-checker-rule/class-self-reference-type-checker-rule.h"
 #include "type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.h"
+#include "type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.h"
 
 class TypeCheckerRuleProvider {
 private:
@@ -43,6 +44,7 @@ private:
     static std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> _argumentListTypeSignatureMismatchTypeCheckerRule;
     static std::shared_ptr<DrefTypeSignatureTypeCheckerRule> _drefTypeSignatureTypeCheckerRule;
     static std::shared_ptr<RefTypeSignatureTypeCheckerRule> _refTypeSignatureTypeCheckerRule;
+    static std::shared_ptr<SharedTypeSignatureTypeCheckerRule> _sharedTypeSignatureTypeCheckerRule;
     static std::shared_ptr<RefValueAssignmentTypeCheckerRule> _refValueAssignmentTypeCheckerRule;
     static std::shared_ptr<ClassSelfReferenceTypeCheckerRule> _classSelfReferenceTypeCheckerRule;
     static std::shared_ptr<ClassCircularReferenceTypeCheckerRule> _classCircularReferenceTypeCheckerRule;
@@ -63,6 +65,7 @@ public:
     static std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> getArgumentListTypeSignatureMismatchTypeCheckerRule();
     static std::shared_ptr<DrefTypeSignatureTypeCheckerRule> getDrefTypeSignatureTypeCheckerRule();
     static std::shared_ptr<RefTypeSignatureTypeCheckerRule> getRefTypeSignatureTypeCheckerRule();
+    static std::shared_ptr<SharedTypeSignatureTypeCheckerRule> getSharedTypeSignatureTypeCheckerRule();
     static std::shared_ptr<RefValueAssignmentTypeCheckerRule> getRefValueAssignmentTypeCheckerRule();
     static std::shared_ptr<ClassSelfReferenceTypeCheckerRule> getClassSelfReferenceTypeCheckerRule();
     static std::shared_ptr<ClassCircularReferenceTypeCheckerRule> getClassCircularReferenceTypeCheckerRule();

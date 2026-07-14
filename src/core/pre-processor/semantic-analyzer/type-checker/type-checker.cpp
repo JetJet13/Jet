@@ -60,6 +60,7 @@
 #include "policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.h"
 #include "policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.h"
 #include "policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.h"
+#include "policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.h"
 
 namespace TypeChecker {
     void applyPolicyTo(std::shared_ptr<ASTNode> node, TypeCheckerResult* typeCheckerResult) {
@@ -225,6 +226,9 @@ namespace TypeChecker {
                 break;
             case AST_UNARY_EXPRESSION_NODE:
                 UnaryExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTUnaryExpressionNode>(node), typeCheckerResult);
+                break;
+            case AST_SHARE_EXPRESSION_NODE:
+                ShareExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTShareExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_REF_EXPRESSION_NODE:
                 RefExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTRefExpressionNode>(node), typeCheckerResult);

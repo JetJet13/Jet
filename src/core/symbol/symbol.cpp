@@ -321,6 +321,14 @@ bool Symbol::isExport() {
     return _type == SYM_EXPORT;
 }
 
+bool Symbol::isShare() {
+    return _type == SYM_SHARE;
+}
+
+bool Symbol::isShared() {
+    return _type == SYM_SHARED;
+}
+
 bool Symbol::isRef() {
     return _type == SYM_REF;
 }

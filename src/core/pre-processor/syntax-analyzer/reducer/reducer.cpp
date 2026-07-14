@@ -133,6 +133,8 @@
 #include "reducer-strategies/tuple-access-ref-assignment-statement-reducer-strategy/tuple-access-ref-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.h"
 #include "reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/share-expression-reducer-strategy/share-expression-reducer-strategy.h"
+#include "reducer-strategies/shared-type-reducer-strategy/shared-type-reducer-strategy.h"
 
 Reducer::Reducer() {
     _strategies = std::unordered_map<ASTNodeType, std::shared_ptr<ReducerStrategy>, std::hash<int>>();
@@ -254,10 +256,12 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE, std::make_shared<NewClassInstanceExpressionReducerStrategy>());
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, std::make_shared<ClassPropertyAccessExpressionReducerStrategy>());
     this->addStrategy(AST_THIS_EXPRESSION_NODE, std::make_shared<ThisExpressionReducerStrategy>());
+    this->addStrategy(AST_SHARE_EXPRESSION_NODE, std::make_shared<ShareExpressionReducerStrategy>());
     this->addStrategy(AST_REF_EXPRESSION_NODE, std::make_shared<RefExpressionReducerStrategy>());
     this->addStrategy(AST_DREF_EXPRESSION_NODE, std::make_shared<DrefExpressionReducerStrategy>());
     this->addStrategy(AST_CONCAT_EXPRESSION_NODE, std::make_shared<ConcatExpressionReducerStrategy>());
     this->addStrategy(AST_REF_TYPE_NODE, std::make_shared<RefTypeReducerStrategy>());
+    this->addStrategy(AST_SHARED_TYPE_NODE, std::make_shared<SharedTypeReducerStrategy>());
     this->addStrategy(AST_INTERFACE_DEFINITION_NODE, std::make_shared<InterfaceDefinitionReducerStrategy>());
     this->addStrategy(AST_INTERFACE_PROPERTY_NODE, std::make_shared<InterfacePropertyReducerStrategy>());
     this->addStrategy(AST_INTERFACE_PROPERTY_LIST_NODE, std::make_shared<InterfacePropertyListReducerStrategy>());

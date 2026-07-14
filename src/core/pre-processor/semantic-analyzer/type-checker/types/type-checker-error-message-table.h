@@ -238,6 +238,9 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda RefExpressionTypeInvalid(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "ref expression cannot have type ref"); };
     }
+    static ErrorMessageLambda ShareExpressionTypeInvalid(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "share expression cannot have type shared"); };
+    }
     static ErrorMessageLambda InterfacePropertyTypeUnknown(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "interface property type is unknown"); };
     }

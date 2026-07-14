@@ -1446,6 +1446,28 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.h
+        ast/ast-nodes/ast-share-nodes/ast-share-node.cpp
+        ast/ast-nodes/ast-share-nodes/ast-share-node.h
+        ast/ast-nodes/ast-share-nodes/ast-shared-node.cpp
+        ast/ast-nodes/ast-share-nodes/ast-shared-node.h
+        ast/ast-nodes/ast-expression-nodes/ast-share-expression-node.cpp
+        ast/ast-nodes/ast-expression-nodes/ast-share-expression-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/share-expression-reducer-strategy/share-expression-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/share-expression-reducer-strategy/share-expression-reducer-strategy.h
+        ast/ast-nodes/ast-type-nodes/ast-shared-type-node.cpp
+        ast/ast-nodes/ast-type-nodes/ast-shared-type-node.h
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/shared-type-reducer-strategy/shared-type-reducer-strategy.cpp
+        pre-processor/syntax-analyzer/reducer/reducer-strategies/shared-type-reducer-strategy/shared-type-reducer-strategy.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/share-expression-type-signature-strategy/share-expression-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/share-expression-type-signature-strategy/share-expression-type-signature-strategy.h
+        type-signature/shared-type-signature/shared-type-signature.cpp
+        type-signature/shared-type-signature/shared-type-signature.h
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/shared-type-type-signature-strategy/shared-type-type-signature-strategy.cpp
+        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/shared-type-type-signature-strategy/shared-type-type-signature-strategy.h
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.cpp
+        pre-processor/semantic-analyzer/type-checker/policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.h
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.cpp
+        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.h
 
 )
 

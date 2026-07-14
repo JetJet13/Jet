@@ -65,6 +65,9 @@ void SyntaxDfa::init() {
     auto drefKeyword = DFANodeFactory::Once::create(AST_DREF_NODE);
     auto refExpression = DFANodeFactory::Once::create(AST_REF_EXPRESSION_NODE);
     auto drefExpression = DFANodeFactory::Once::create(AST_DREF_EXPRESSION_NODE);
+    auto shareKeyword = DFANodeFactory::Once::create(AST_SHARE_NODE);
+    auto sharedKeyword = DFANodeFactory::Once::create(AST_SHARED_NODE);
+    auto shareExpression = DFANodeFactory::Once::create(AST_SHARE_EXPRESSION_NODE);
     auto functionDeclaration = DFANodeFactory::Once::create(AST_FUNCTION_DECLARATION_NODE);
     auto functionDefinition = DFANodeFactory::Once::create(AST_FUNCTION_DEFINITION_NODE);
     auto functionKeyword = DFANodeFactory::Once::create(AST_FUNCTION_NODE);
@@ -291,6 +294,7 @@ void SyntaxDfa::init() {
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_CURRY_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
@@ -315,6 +319,7 @@ void SyntaxDfa::init() {
             AST_ARRAY_ACCESS_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
@@ -343,6 +348,7 @@ void SyntaxDfa::init() {
             AST_ARRAY_ACCESS_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
@@ -369,6 +375,7 @@ void SyntaxDfa::init() {
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_CURRY_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
@@ -389,6 +396,7 @@ void SyntaxDfa::init() {
             AST_ARRAY_ACCESS_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
@@ -766,6 +774,7 @@ void SyntaxDfa::init() {
             AST_BINARY_COMPARATOR_EXPRESSION_NODE,
             AST_LOGICAL_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
@@ -851,10 +860,52 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
     });
 
+    shareKeyword
+    ->markAlwaysReduceSelf();
+
+    this->setupTransitionsWithTarget(shareKeyword, AST_SHARE_EXPRESSION_NODE, {
+            AST_LITERAL_EXPRESSION_NODE,
+            AST_IDENTIFIER_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_EXPRESSION_NODE,
+            AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
+            AST_MODULE_ACCESS_EXPRESSION_NODE,
+            AST_LAMBDA_EXPRESSION_NODE,
+            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
+            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
+            AST_CURRY_EXPRESSION_NODE,
+            AST_ARRAY_EXPRESSION_NODE,
+            AST_ARRAY_ACCESS_EXPRESSION_NODE,
+            AST_STRUCT_EXPRESSION_NODE,
+            AST_TUPLE_EXPRESSION_NODE,
+            AST_TUPLE_ACCESS_EXPRESSION_NODE,
+            AST_BINARY_ARITHMETIC_EXPRESSION_NODE,
+            AST_BINARY_COMPARATOR_EXPRESSION_NODE,
+            AST_LOGICAL_EXPRESSION_NODE,
+            AST_UNARY_EXPRESSION_NODE,
+            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
+            AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
+            AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
+            AST_THIS_EXPRESSION_NODE,
+            AST_CONCAT_EXPRESSION_NODE,
+            AST_DREF_EXPRESSION_NODE
+    });
+
+    sharedKeyword
+    ->markAlwaysReduceSelf();
+
+    sharedKeyword
+    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
+    ->addTransition(
+        DFATransitionFactory::create(
+            DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_SHARED_TYPE_NODE)
+    ));
 
     refKeyword
     ->markAlwaysReduceSelf();
@@ -912,7 +963,8 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE
+            AST_REF_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
     });
 
     functionReturnExpression
@@ -1419,6 +1471,7 @@ void SyntaxDfa::init() {
             AST_CONCAT_EXPRESSION_NODE,
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
             AST_REF_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE
     });
 
@@ -2010,6 +2063,9 @@ void SyntaxDfa::init() {
     ->insertStartNode(drefKeyword)
     ->insertStartNode(refExpression)
     ->insertStartNode(drefExpression)
+    ->insertStartNode(shareKeyword)
+    ->insertStartNode(sharedKeyword)
+    ->insertStartNode(shareExpression)
     ->insertStartNode(interfaceKeyword)
     ->insertStartNode(interfaceName)
     ->insertStartNode(interfaceDefinition)
@@ -2061,6 +2117,7 @@ void SyntaxDfa::init() {
                             AST_LITERAL_EXPRESSION_NODE,
                             AST_IDENTIFIER_EXPRESSION_NODE,
                             AST_REF_EXPRESSION_NODE,
+                            AST_SHARE_EXPRESSION_NODE,
                             AST_ARRAY_EXPRESSION_NODE,
                             AST_CONCAT_EXPRESSION_NODE
     }))
@@ -2175,6 +2232,9 @@ void SyntaxDfa::initVarInit(std::shared_ptr<DFANode> varInitNode, ASTNodeType ta
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_REF_EXPRESSION_NODE, targetNodeType)))
+            ->addTransition(
+                    DFATransitionFactory::create(
+                            DFANodeFactory::Once::createWithTarget(AST_SHARE_EXPRESSION_NODE, targetNodeType)))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_DREF_EXPRESSION_NODE, targetNodeType)))

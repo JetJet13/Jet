@@ -209,6 +209,10 @@ bool IRType::isRefType() {
     return false;
 }
 
+bool IRType::isSharedType() {
+    return false;
+}
+
 bool IRType::isVoidType() {
     return _type->isVoidTy();
 }

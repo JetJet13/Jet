@@ -86,11 +86,12 @@ namespace SymbolFactory {
     std::shared_ptr<Symbol> createExportSymbol();
     std::shared_ptr<Symbol> createRefSymbol();
     std::shared_ptr<Symbol> createDrefSymbol();
+    std::shared_ptr<Symbol> createShareSymbol();
+    std::shared_ptr<Symbol> createSharedSymbol();
     std::shared_ptr<Symbol> createConcatSymbol();
     std::shared_ptr<Symbol> createInterfaceSymbol();
     std::shared_ptr<Symbol> createImplementsSymbol();
     std::shared_ptr<Symbol> createTypeSymbol();
-    std::shared_ptr<Symbol> createPrintSymbol();
 }
 
 

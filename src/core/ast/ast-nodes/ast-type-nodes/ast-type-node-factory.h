@@ -17,6 +17,7 @@
 #include "../ast-void-node.h"
 #include "ast-tuple-type-nodes/ast-tuple-type-node.h"
 #include "ast-module-type-nodes/ast-module-type-node.h"
+#include "ast-shared-type-node.h"
 
 namespace ASTTypeNodeFactory {
     std::shared_ptr<ASTTypeNode> createCustomTypeNode(std::shared_ptr<Lexeme> lexeme, std::string id);
@@ -26,6 +27,7 @@ namespace ASTTypeNodeFactory {
     std::shared_ptr<ASTTypeNode> createArrayTypeNode(std::shared_ptr<ASTArrayTypeNode> arrayTypeNode);
     std::shared_ptr<ASTTypeNode> createStructTypeNode(std::shared_ptr<ASTStructTypeNode> structTypeNode);
     std::shared_ptr<ASTTypeNode> createRefTypeNode(std::shared_ptr<ASTRefTypeNode> refTypeNode);
+    std::shared_ptr<ASTTypeNode> createSharedTypeNode(std::shared_ptr<ASTSharedTypeNode> sharedTypeNode);
     std::shared_ptr<ASTTypeNode> createModuleTypeNode(std::shared_ptr<ASTModuleTypeNode> moduleTypeNode);
     std::shared_ptr<ASTTypeNode> createThisTypeNode(std::shared_ptr<ASTThisNode> thisNode);
     std::shared_ptr<ASTTypeNode> createVoidTypeNode(std::shared_ptr<ASTVoidNode> voidNode);

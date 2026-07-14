@@ -315,6 +315,14 @@ namespace SymbolFactory {
         return std::make_shared<Symbol>(SYM_DREF, "dref");
     }
 
+    std::shared_ptr<Symbol> createShareSymbol()  {
+        return std::make_shared<Symbol>(SYM_SHARE, "share");
+    }
+
+    std::shared_ptr<Symbol> createSharedSymbol()  {
+        return std::make_shared<Symbol>(SYM_SHARED, "shared");
+    }
+
     std::shared_ptr<Symbol> createConcatSymbol()  {
         return std::make_shared<Symbol>(SYM_CONCAT, "++");
     }

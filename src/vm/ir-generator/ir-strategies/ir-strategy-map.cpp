@@ -30,6 +30,7 @@
 #include "./expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "./expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "./expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
+#include "./expression-ir-strategies/share-expression-ir-strategy/share-expression-ir-strategy.h"
 #include "./expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "./expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
@@ -76,6 +77,7 @@
 #include "./type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
+#include "./type-signature-ir-strategies/shared-type-signature-ir-strategy/shared-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "./type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
@@ -138,6 +140,7 @@ IRStrategyMap::IRStrategyMap() {
     _ifStatementIRStrategy = std::make_shared<IfStatementIRStrategy>();
     _whileStatementIRStrategy = std::make_shared<WhileStatementIRStrategy>();
     _forInStatementIRStrategy = std::make_shared<ForInStatementIRStrategy>();
+    _shareExpressionIRStrategy = std::make_shared<ShareExpressionIRStrategy>();
     _refExpressionIRStrategy = std::make_shared<RefExpressionIRStrategy>();
     _drefExpressionIRStrategy = std::make_shared<DrefExpressionIRStrategy>();
 
@@ -157,6 +160,7 @@ IRStrategyMap::IRStrategyMap() {
     _moduleTypeSignatureStrategy = std::make_shared<ModuleTypeSignatureIRStrategy>();
     _pointerTypeSignatureStrategy = std::make_shared<PointerTypeSignatureIRStrategy>();
     _refTypeSignatureStrategy = std::make_shared<RefTypeSignatureIRStrategy>();
+    _sharedTypeSignatureStrategy = std::make_shared<SharedTypeSignatureIRStrategy>();
     _functionInvocationTypeSignatureIRStrategy = std::make_shared<FunctionInvocationTypeSignatureIRStrategy>();
     _classMethodTypeSignatureIRStrategy = std::make_shared<ClassMethodTypeSignatureIRStrategy>();
     _classPropertyTypeSignatureIRStrategy = std::make_shared<ClassPropertyTypeSignatureIRStrategy>();
@@ -382,6 +386,10 @@ std::shared_ptr<ForInStatementIRStrategy> IRStrategyMap::getForInStatementIRStra
     return _forInStatementIRStrategy;
 }
 
+std::shared_ptr<ShareExpressionIRStrategy> IRStrategyMap::getShareExpressionIRStrategy() {
+    return _shareExpressionIRStrategy;
+}
+
 std::shared_ptr<RefExpressionIRStrategy> IRStrategyMap::getRefExpressionIRStrategy() {
     return _refExpressionIRStrategy;
 }
@@ -452,6 +460,10 @@ std::shared_ptr<PointerTypeSignatureIRStrategy> IRStrategyMap::getPointerTypeSig
 
 std::shared_ptr<RefTypeSignatureIRStrategy> IRStrategyMap::getRefTypeSignatureIRStrategy() {
     return _refTypeSignatureStrategy;
+}
+
+std::shared_ptr<SharedTypeSignatureIRStrategy> IRStrategyMap::getSharedTypeSignatureIRStrategy() {
+    return _sharedTypeSignatureStrategy;
 }
 
 std::shared_ptr<FunctionInvocationTypeSignatureIRStrategy> IRStrategyMap::getFunctionInvocationTypeSignatureIRStrategy() {

@@ -18,7 +18,7 @@ TypeCheckerResult SemanticAnalyzer::analyze(std::shared_ptr<ASTFileNode> fileNod
     this->runTypeChecker(fileNode, &typeCheckerResult);
     return typeCheckerResult;
 }
-// TODO - continue shared_ptr migration by replacing 'scope.get()' with scope
+
 void SemanticAnalyzer::generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {
     auto typeSignatureContext = std::make_shared<TypeSignatureContext>();
     auto declarations = std::vector<std::shared_ptr<ASTDeclarationNode>>();

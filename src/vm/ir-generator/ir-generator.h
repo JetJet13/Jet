@@ -62,6 +62,7 @@
 #include "../ir-type/ir-type-value-type.h"
 #include "../ir-type/ir-ref-type.h"
 #include "../../core/type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../core/type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../core/type-signature/interface-type-signature/interface-type-signature.h"
 #include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
 #include "../../core/ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.h"
@@ -73,6 +74,7 @@
 #include "../ir-type/ir-struct-ref-type.h"
 #include "../ir-nodes/ir-function-nodes/ir-function-argument-node.h"
 #include "../ir-type/ir-class-instance-type.h"
+#include "../ir-type/ir-shared-ptr-type.h"
 
 class IRGenerator : public std::enable_shared_from_this<IRGenerator> {
 private:
@@ -83,6 +85,7 @@ private:
     llvm::StructType* _structRefType;
     llvm::StructType* _typeValueType;
     llvm::StructType* _refType;
+    llvm::StructType* _sharedPtrType;
     llvm::StructType* _invocableType;
     std::shared_ptr<IRClassInstanceType> _genericClassInstanceIRType;
 public:
@@ -112,6 +115,7 @@ public:
     std::shared_ptr<IRClassType> generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRPointerType> generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRRefType> generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
+    std::shared_ptr<IRSharedPtrType> generateTypeFor(std::shared_ptr<SharedTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     llvm::Type* getVoidType();
     std::shared_ptr<IRType> generateVoidType();
     std::shared_ptr<IRPointerType> generateIRInvocableCleanupType();
@@ -124,6 +128,7 @@ public:
     llvm::Constant* generatePlaceholderValueForIRType(std::shared_ptr<IRType> irType);
     llvm::Constant* generateInitialValueForIRType(std::shared_ptr<IRType> irType);
     std::shared_ptr<IRRefType> generateIrRefType(std::shared_ptr<IRType> type);
+    std::shared_ptr<IRSharedPtrType> generateIrSharedPtrType(std::shared_ptr<IRType> type);
     llvm::StructType* getFunctionParameterType();
     std::shared_ptr<IRArrayType> generateIRArrayType(std::shared_ptr<IRType> elementType, unsigned long size);
     std::string getArrayPrototypeFunctionName(std::string id);

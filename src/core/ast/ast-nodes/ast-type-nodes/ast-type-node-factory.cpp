@@ -35,6 +35,10 @@ namespace ASTTypeNodeFactory {
         return std::make_shared<ASTTypeNode>(refTypeNode);
     }
 
+    std::shared_ptr<ASTTypeNode> createSharedTypeNode(std::shared_ptr<ASTSharedTypeNode> sharedTypeNode) {
+        return std::make_shared<ASTTypeNode>(sharedTypeNode);
+    }
+
     std::shared_ptr<ASTTypeNode> createModuleTypeNode(std::shared_ptr<ASTModuleTypeNode> moduleTypeNode) {
         return std::make_shared<ASTTypeNode>(moduleTypeNode);
     }

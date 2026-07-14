@@ -107,6 +107,8 @@ void ReservedKeywords::init() {
     this->add("export", SymbolFactory::createExportSymbol());
     this->add("ref", SymbolFactory::createRefSymbol());
     this->add("dref", SymbolFactory::createDrefSymbol());
+    this->add("share", SymbolFactory::createShareSymbol());
+    this->add("shared", SymbolFactory::createSharedSymbol());
     this->add("++", SymbolFactory::createConcatSymbol());
     this->add("interface", SymbolFactory::createInterfaceSymbol());
     this->add("implements", SymbolFactory::createImplementsSymbol());

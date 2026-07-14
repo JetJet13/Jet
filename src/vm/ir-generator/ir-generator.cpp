@@ -32,6 +32,7 @@
 #include "ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
+#include "ir-strategies/expression-ir-strategies/share-expression-ir-strategy/share-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
@@ -77,6 +78,7 @@
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
+#include "ir-strategies/type-signature-ir-strategies/shared-type-signature-ir-strategy/shared-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h"
@@ -181,6 +183,10 @@ IRGenerator::IRGenerator(std::shared_ptr<IRInjector> irInjector) {
             this->generatePointerType(),
             this->generatePointerType()
     }, "Ref");
+    _sharedPtrType = llvm::StructType::create(*_context, {
+            this->generatePointerType(),
+            this->generatePointerType()
+    }, "SharedPtr");
     _invocableType = llvm::StructType::create(*_context, {
             this->generatePointerType(),
             this->generatePointerType(),
@@ -326,6 +332,8 @@ std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTEx
         return this->_irStrategyMap.getClassMethodInvocationExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassMethodInvocationExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
+    } else if (node->is(AST_SHARE_EXPRESSION_NODE)) {
+        return this->_irStrategyMap.getShareExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTShareExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_REF_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getRefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
@@ -448,6 +456,9 @@ std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignatu
         case REF_TYPE_SOURCE:
             return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<RefTypeSignature>(typeSignature),
                                                                                 shared_from_this(), scope, irContext);
+        case SHARED_TYPE_SOURCE:
+            return _irStrategyMap.getSharedTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<SharedTypeSignature>(typeSignature),
+                                                                            shared_from_this(), scope, irContext);
         case FUNCTION_INVOCATION_TYPE_SOURCE:
             return _irStrategyMap.getFunctionInvocationTypeSignatureIRStrategy()->generate(
                     std::dynamic_pointer_cast<FunctionInvocationTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
@@ -519,6 +530,10 @@ std::shared_ptr<IRPointerType> IRGenerator::generateTypeFor(std::shared_ptr<Poin
 
 std::shared_ptr<IRRefType> IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
+}
+
+std::shared_ptr<IRSharedPtrType> IRGenerator::generateTypeFor(std::shared_ptr<SharedTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
+    return _irStrategyMap.getSharedTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
 llvm::Type* IRGenerator::getVoidType() {
@@ -614,8 +629,11 @@ llvm::Constant* IRGenerator::generateInitialValueForIRType(std::shared_ptr<IRTyp
 }
 
 std::shared_ptr<IRRefType> IRGenerator::generateIrRefType(std::shared_ptr<IRType> underlyingIRType) {
-    auto irRefType = std::make_shared<IRRefType>(_refType, std::make_shared<IRType>(this->generateIntType()), underlyingIRType);
-    return irRefType;
+    return std::make_shared<IRRefType>(_refType, std::make_shared<IRType>(this->generateIntType()), underlyingIRType);
+}
+
+std::shared_ptr<IRSharedPtrType> IRGenerator::generateIrSharedPtrType(std::shared_ptr<IRType> underlyingIRType) {
+    return std::make_shared<IRSharedPtrType>(_sharedPtrType, std::make_shared<IRType>(this->generateIntType()), underlyingIRType);
 }
 
 llvm::StructType* IRGenerator::getFunctionParameterType() {
