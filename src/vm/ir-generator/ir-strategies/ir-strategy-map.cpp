@@ -35,17 +35,17 @@
 #include "./expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "./expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "./class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
-#include "./class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h"
-#include "./ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h"
+#include "./class-property-shared-value-assignment-statement-ir-strategy/class-property-shared-value-assignment-statement-ir-strategy.h"
+#include "./shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.h"
 #include "./variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "./array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
-#include "./array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.h"
+#include "./array-access-shared-value-assignment-statement-ir-strategy/array-access-shared-value-assignment-statement-ir-strategy.h"
 #include "./object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
-#include "./object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.h"
+#include "./object-access-shared-value-assignment-statement-ir-strategy/object-access-shared-value-assignment-statement-ir-strategy.h"
 #include "./tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.h"
-#include "./tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.h"
+#include "./tuple-access-shared-value-assignment-statement-ir-strategy/tuple-access-shared-value-assignment-statement-ir-strategy.h"
 #include "./module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.h"
-#include "./module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.h"
+#include "./module-access-shared-value-assignment-statement-ir-strategy/module-access-shared-value-assignment-statement-ir-strategy.h"
 #include "./variable-declaration-ir-strategy/variable-declaration-ir-strategy.h"
 #include "./function-declaration-ir-strategy/function-declaration-ir-strategy.h"
 #include "./function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.h"
@@ -128,15 +128,15 @@ IRStrategyMap::IRStrategyMap() {
     _classPropertyAssignmentStatementIRStrategy = std::make_shared<ClassPropertyAssignmentStatementIRStrategy>();
     _variableAssignmentStatementIRStrategy = std::make_shared<VariableAssignmentStatementIRStrategy>();
     _arrayAccessAssignmentStatementIRStrategy = std::make_shared<ArrayAccessAssignmentStatementIRStrategy>();
-    _arrayAccessRefAssignmentStatementIRStrategy = std::make_shared<ArrayAccessRefAssignmentStatementIRStrategy>();
+    _arrayAccessSharedValueAssignmentStatementIRStrategy = std::make_shared<ArrayAccessSharedValueAssignmentStatementIRStrategy>();
     _objectAccessAssignmentStatementIRStrategy = std::make_shared<ObjectAccessAssignmentStatementIRStrategy>();
-    _objectAccessRefAssignmentStatementIRStrategy = std::make_shared<ObjectAccessRefAssignmentStatementIRStrategy>();
+    _objectAccessSharedValueAssignmentStatementIRStrategy = std::make_shared<ObjectAccessSharedValueAssignmentStatementIRStrategy>();
     _tupleAccessAssignmentStatementIRStrategy = std::make_shared<TupleAccessAssignmentStatementIRStrategy>();
-    _tupleAccessRefAssignmentStatementIRStrategy = std::make_shared<TupleAccessRefAssignmentStatementIRStrategy>();
+    _tupleAccessSharedValueAssignmentStatementIRStrategy = std::make_shared<TupleAccessSharedValueAssignmentStatementIRStrategy>();
     _moduleAccessAssignmentStatementIRStrategy = std::make_shared<ModuleAccessAssignmentStatementIRStrategy>();
-    _moduleAccessRefAssignmentStatementIRStrategy = std::make_shared<ModuleAccessRefAssignmentStatementIRStrategy>();
-    _classPropertyRefValueAssignmentStatementIRStrategy = std::make_shared<ClassPropertyRefValueAssignmentStatementIRStrategy>();
-    _refValueAssignmentStatementIRStrategy = std::make_shared<RefValueAssignmentStatementIRStrategy>();
+    _moduleAccessSharedValueAssignmentStatementIRStrategy = std::make_shared<ModuleAccessSharedValueAssignmentStatementIRStrategy>();
+    _classPropertySharedValueAssignmentStatementIRStrategy = std::make_shared<ClassPropertySharedValueAssignmentStatementIRStrategy>();
+    _sharedValueAssignmentStatementIRStrategy = std::make_shared<SharedValueAssignmentStatementIRStrategy>();
     _ifStatementIRStrategy = std::make_shared<IfStatementIRStrategy>();
     _whileStatementIRStrategy = std::make_shared<WhileStatementIRStrategy>();
     _forInStatementIRStrategy = std::make_shared<ForInStatementIRStrategy>();
@@ -338,40 +338,40 @@ std::shared_ptr<ArrayAccessAssignmentStatementIRStrategy> IRStrategyMap::getArra
     return _arrayAccessAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<ArrayAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getArrayAccessRefAssignmentStatementIRStrategy() {
-    return _arrayAccessRefAssignmentStatementIRStrategy;
+std::shared_ptr<ArrayAccessSharedValueAssignmentStatementIRStrategy> IRStrategyMap::getArrayAccessSharedValueAssignmentStatementIRStrategy() {
+    return _arrayAccessSharedValueAssignmentStatementIRStrategy;
 }
 
 std::shared_ptr<ObjectAccessAssignmentStatementIRStrategy> IRStrategyMap::getObjectAccessAssignmentStatementIRStrategy() {
     return _objectAccessAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<ObjectAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getObjectAccessRefAssignmentStatementIRStrategy() {
-    return _objectAccessRefAssignmentStatementIRStrategy;
+std::shared_ptr<ObjectAccessSharedValueAssignmentStatementIRStrategy> IRStrategyMap::getObjectAccessSharedValueAssignmentStatementIRStrategy() {
+    return _objectAccessSharedValueAssignmentStatementIRStrategy;
 }
 
 std::shared_ptr<TupleAccessAssignmentStatementIRStrategy> IRStrategyMap::getTupleAccessAssignmentStatementIRStrategy() {
     return _tupleAccessAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<TupleAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getTupleAccessRefAssignmentStatementIRStrategy() {
-    return _tupleAccessRefAssignmentStatementIRStrategy;
+std::shared_ptr<TupleAccessSharedValueAssignmentStatementIRStrategy> IRStrategyMap::getTupleAccessSharedValueAssignmentStatementIRStrategy() {
+    return _tupleAccessSharedValueAssignmentStatementIRStrategy;
 }
 
 std::shared_ptr<ModuleAccessAssignmentStatementIRStrategy> IRStrategyMap::getModuleAccessAssignmentStatementIRStrategy() {
     return _moduleAccessAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<ModuleAccessRefAssignmentStatementIRStrategy> IRStrategyMap::getModuleAccessRefAssignmentStatementIRStrategy() {
-    return _moduleAccessRefAssignmentStatementIRStrategy;
+std::shared_ptr<ModuleAccessSharedValueAssignmentStatementIRStrategy> IRStrategyMap::getModuleAccessSharedValueAssignmentStatementIRStrategy() {
+    return _moduleAccessSharedValueAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<ClassPropertyRefValueAssignmentStatementIRStrategy> IRStrategyMap::getClassPropertyRefValueAssignmentStatementIRStrategy() {
-    return _classPropertyRefValueAssignmentStatementIRStrategy;
+std::shared_ptr<ClassPropertySharedValueAssignmentStatementIRStrategy> IRStrategyMap::getClassPropertySharedValueAssignmentStatementIRStrategy() {
+    return _classPropertySharedValueAssignmentStatementIRStrategy;
 }
 
-std::shared_ptr<RefValueAssignmentStatementIRStrategy> IRStrategyMap::getRefValueAssignmentStatementIRStrategy() {
-    return _refValueAssignmentStatementIRStrategy;
+std::shared_ptr<SharedValueAssignmentStatementIRStrategy> IRStrategyMap::getSharedValueAssignmentStatementIRStrategy() {
+    return _sharedValueAssignmentStatementIRStrategy;
 }
 
 std::shared_ptr<IfStatementIRStrategy> IRStrategyMap::getIfStatementIRStrategy() {

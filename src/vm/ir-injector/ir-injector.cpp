@@ -21,19 +21,19 @@
 #include "ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-property-shared-value-assignment-ir-injector-strategy/class-property-shared-value-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/array-access-shared-value-assignment-ir-injector-strategy/array-access-shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/object-access-shared-value-assignment-ir-injector-strategy/object-access-shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/tuple-access-shared-value-assignment-ir-injector-strategy/tuple-access-shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/module-access-shared-value-assignment-ir-injector-strategy/module-access-shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.h"
-#include "ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.h"
+#include "ir-injector-strategies/class-static-property-shared-value-assignment-ir-injector-strategy/class-static-property-shared-value-assignment-ir-injector-strategy.h"
 #include "ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.h"
 #include "ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.h"
@@ -65,18 +65,18 @@ IRInjector::IRInjector() {
     _functionReturnIRInjector = std::make_shared<FunctionReturnIRInjectorStrategy>();
     _variableAssignmentIRInjectorStrategy = std::make_shared<VariableAssignmentIRInjectorStrategy>();
     _arrayAccessAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessAssignmentIRInjectorStrategy>();
-    _arrayAccessRefAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessRefAssignmentIRInjectorStrategy>();
+    _arrayAccessSharedValueAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessSharedValueAssignmentIRInjectorStrategy>();
     _objectAccessAssignmentIRInjectorStrategy = std::make_shared<ObjectAccessAssignmentIRInjectorStrategy>();
-    _objectAccessRefAssignmentIRInjectorStrategy = std::make_shared<ObjectAccessRefAssignmentIRInjectorStrategy>();
+    _objectAccessSharedValueAssignmentIRInjectorStrategy = std::make_shared<ObjectAccessSharedValueAssignmentIRInjectorStrategy>();
     _tupleAccessAssignmentIRInjectorStrategy = std::make_shared<TupleAccessAssignmentIRInjectorStrategy>();
-    _tupleAccessRefAssignmentIRInjectorStrategy = std::make_shared<TupleAccessRefAssignmentIRInjectorStrategy>();
+    _tupleAccessSharedValueAssignmentIRInjectorStrategy = std::make_shared<TupleAccessSharedValueAssignmentIRInjectorStrategy>();
     _moduleAccessAssignmentIRInjectorStrategy = std::make_shared<ModuleAccessAssignmentIRInjectorStrategy>();
-    _moduleAccessRefAssignmentIRInjectorStrategy = std::make_shared<ModuleAccessRefAssignmentIRInjectorStrategy>();
+    _moduleAccessSharedValueAssignmentIRInjectorStrategy = std::make_shared<ModuleAccessSharedValueAssignmentIRInjectorStrategy>();
     _classStaticPropertyAssignmentIRInjectorStrategy = std::make_shared<ClassStaticPropertyAssignmentIRInjectorStrategy>();
-    _classStaticPropertyRefAssignmentIRInjectorStrategy = std::make_shared<ClassStaticPropertyRefAssignmentIRInjectorStrategy>();
+    _classStaticPropertySharedValueAssignmentIRInjectorStrategy = std::make_shared<ClassStaticPropertySharedValueAssignmentIRInjectorStrategy>();
     _classPropertyAssignmentIRInjectorStrategy = std::make_shared<ClassPropertyAssignmentIRInjectorStrategy>();
-    _classPropertyRefValueAssignmentIRInjectorStrategy = std::make_shared<ClassPropertyRefValueAssignmentIRInjectorStrategy>();
-    _refValueAssignmentIRInjectorStrategy = std::make_shared<RefValueAssignmentIRInjectorStrategy>();
+    _classPropertySharedValueAssignmentIRInjectorStrategy = std::make_shared<ClassPropertySharedValueAssignmentIRInjectorStrategy>();
+    _sharedValueAssignmentIRInjectorStrategy = std::make_shared<SharedValueAssignmentIRInjectorStrategy>();
     _ifStatementIRInjectorStrategy = std::make_shared<IfStatementIRInjectorStrategy>();
     _whileStatementIRInjectorStrategy = std::make_shared<WhileStatementIRInjectorStrategy>();
     _forInStatementIRInjectorStrategy = std::make_shared<ForInStatementIRInjectorStrategy>();
@@ -143,32 +143,32 @@ void IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IR
         _functionReturnIRInjector->inject(std::dynamic_pointer_cast<IRFunctionReturnExpressionNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _classPropertyAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassPropertyAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        _classPropertyRefValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassPropertyRefValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        _refValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRRefValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _classPropertySharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassPropertySharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _sharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRSharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
         _variableAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRVariableAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _arrayAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRArrayAccessAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _arrayAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRArrayAccessRefAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _arrayAccessSharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRArrayAccessSharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _objectAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRObjectAccessAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _objectAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRObjectAccessRefAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _objectAccessSharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRObjectAccessSharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _tupleAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRTupleAccessAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _tupleAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRTupleAccessRefAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _tupleAccessSharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRTupleAccessSharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         _moduleAccessAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRModuleAccessAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _moduleAccessRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRModuleAccessRefAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _moduleAccessSharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRModuleAccessSharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         _classStaticPropertyAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassStaticPropertyAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
-    } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        _classStaticPropertyRefAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassStaticPropertyRefAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
+    } else if (irStatement->is(IR_CLASS_STATIC_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        _classStaticPropertySharedValueAssignmentIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRClassStaticPropertySharedValueAssignmentStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_IF_STATEMENT_NODE)) {
         _ifStatementIRInjectorStrategy->inject(std::dynamic_pointer_cast<IRIfStatementNode>(irStatement), irBlock, shared_from_this(), irModule, scope);
     } else if (irStatement->is(IR_WHILE_STATEMENT_NODE)) {

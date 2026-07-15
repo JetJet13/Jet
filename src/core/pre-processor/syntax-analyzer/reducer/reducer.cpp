@@ -118,21 +118,21 @@
 #include "reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.h"
-#include "reducer-strategies/ref-value-assignment-statement-reducer-strategy/ref-value-assignment-statement-reducer-strategy.h"
-#include "reducer-strategies/ref-value-assignment-reducer-strategy/ref-value-assignment-reducer-strategy.h"
-#include "reducer-strategies/class-property-ref-value-assignment-reducer-strategy/class-property-ref-value-assignment-reducer-strategy.h"
-#include "reducer-strategies/class-property-ref-value-assignment-statement-reducer-strategy/class-property-ref-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/shared-value-assignment-statement-reducer-strategy/shared-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/shared-value-assignment-reducer-strategy/shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/class-property-shared-value-assignment-reducer-strategy/class-property-shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/class-property-shared-value-assignment-statement-reducer-strategy/class-property-shared-value-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.h"
-#include "reducer-strategies/array-access-ref-assignment-reducer-strategy/array-access-ref-assignment-reducer-strategy.h"
-#include "reducer-strategies/array-access-ref-assignment-statement-reducer-strategy/array-access-ref-assignment-statement-reducer-strategy.h"
-#include "reducer-strategies/object-access-ref-assignment-reducer-strategy/object-access-ref-assignment-reducer-strategy.h"
-#include "reducer-strategies/object-access-ref-assignment-statement-reducer-strategy/object-access-ref-assignment-statement-reducer-strategy.h"
-#include "reducer-strategies/tuple-access-ref-assignment-reducer-strategy/tuple-access-ref-assignment-reducer-strategy.h"
-#include "reducer-strategies/tuple-access-ref-assignment-statement-reducer-strategy/tuple-access-ref-assignment-statement-reducer-strategy.h"
-#include "reducer-strategies/module-access-ref-assignment-reducer-strategy/module-access-ref-assignment-reducer-strategy.h"
-#include "reducer-strategies/module-access-ref-assignment-statement-reducer-strategy/module-access-ref-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/array-access-shared-value-assignment-reducer-strategy/array-access-shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/array-access-shared-value-assignment-statement-reducer-strategy/array-access-shared-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/object-access-shared-value-assignment-reducer-strategy/object-access-shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/object-access-shared-value-assignment-statement-reducer-strategy/object-access-shared-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-shared-value-assignment-reducer-strategy/tuple-access-shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/tuple-access-shared-value-assignment-statement-reducer-strategy/tuple-access-shared-value-assignment-statement-reducer-strategy.h"
+#include "reducer-strategies/module-access-shared-value-assignment-reducer-strategy/module-access-shared-value-assignment-reducer-strategy.h"
+#include "reducer-strategies/module-access-shared-value-assignment-statement-reducer-strategy/module-access-shared-value-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/share-expression-reducer-strategy/share-expression-reducer-strategy.h"
 #include "reducer-strategies/shared-type-reducer-strategy/shared-type-reducer-strategy.h"
 
@@ -158,15 +158,15 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_ARRAY_ACCESS_NODE, std::make_shared<ArrayAccessReducerStrategy>());
     this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_NODE, std::make_shared<ArrayAccessAssignmentReducerStrategy>());
     this->addStrategy(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ArrayAccessAssignmentStatementReducerStrategy>());
-    this->addStrategy(AST_ARRAY_ACCESS_REF_ASSIGNMENT_NODE, std::make_shared<ArrayAccessRefAssignmentReducerStrategy>());
-    this->addStrategy(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ArrayAccessRefAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<ArrayAccessSharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ArrayAccessSharedValueAssignmentStatementReducerStrategy>());
     this->addStrategy(AST_ARRAY_EXPRESSION_NODE, std::make_shared<ArrayExpressionReducerStrategy>());
     this->addStrategy(AST_STRUCT_KEY_VALUE_NODE, std::make_shared<StructKeyValueReducerStrategy>());
     this->addStrategy(AST_STRUCT_EXPRESSION_NODE, std::make_shared<StructExpressionReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_NODE, std::make_shared<ObjectAccessAssignmentReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ObjectAccessAssignmentStatementReducerStrategy>());
-    this->addStrategy(AST_OBJECT_ACCESS_REF_ASSIGNMENT_NODE, std::make_shared<ObjectAccessRefAssignmentReducerStrategy>());
-    this->addStrategy(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ObjectAccessRefAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<ObjectAccessSharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ObjectAccessSharedValueAssignmentStatementReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_EXPRESSION_NODE, std::make_shared<ObjectAccessExpressionReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE, std::make_shared<ObjectAccessInvocationExpressionReducerStrategy>());
     this->addStrategy(AST_MODULE_ACCESS_EXPRESSION_NODE, std::make_shared<ModuleAccessExpressionReducerStrategy>());
@@ -191,8 +191,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE, std::make_shared<TupleAccessInvocationExpressionReducerStrategy>());
     this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_NODE, std::make_shared<TupleAccessAssignmentReducerStrategy>());
     this->addStrategy(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE, std::make_shared<TupleAccessAssignmentStatementReducerStrategy>());
-    this->addStrategy(AST_TUPLE_ACCESS_REF_ASSIGNMENT_NODE, std::make_shared<TupleAccessRefAssignmentReducerStrategy>());
-    this->addStrategy(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, std::make_shared<TupleAccessRefAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<TupleAccessSharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<TupleAccessSharedValueAssignmentStatementReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_SOURCE_NODE, std::make_shared<ObjectAccessSourceReducerStrategy>());
     this->addStrategy(AST_OBJECT_ACCESS_TARGET_NODE, std::make_shared<ObjectAccessTargetReducerStrategy>());
     this->addStrategy(AST_MODULE_ACCESS_SOURCE_NODE, std::make_shared<ModuleAccessSourceReducerStrategy>());
@@ -227,8 +227,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_MODULE_DECLARATION_NODE, std::make_shared<ModuleDeclarationReducerStrategy>());
     this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_NODE, std::make_shared<ModuleAccessAssignmentReducerStrategy>());
     this->addStrategy(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ModuleAccessAssignmentStatementReducerStrategy>());
-    this->addStrategy(AST_MODULE_ACCESS_REF_ASSIGNMENT_NODE, std::make_shared<ModuleAccessRefAssignmentReducerStrategy>());
-    this->addStrategy(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ModuleAccessRefAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<ModuleAccessSharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ModuleAccessSharedValueAssignmentStatementReducerStrategy>());
     this->addStrategy(AST_USE_SINGLE_MODULE_DECLARATION_NODE, std::make_shared<UseSingleModuleDeclarationReducerStrategy>());
     this->addStrategy(AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE, std::make_shared<ImportSingleModuleDeclarationReducerStrategy>());
     this->addStrategy(AST_IMPORT_MANY_MODULE_DECLARATION_NODE, std::make_shared<ImportManyModuleDeclarationReducerStrategy>());
@@ -270,10 +270,10 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_STRUCT_TYPE_NODE, std::make_shared<StructTypeReducerStrategy>());
     this->addStrategy(AST_IMPLEMENTS_INTERFACE_LIST_NODE, std::make_shared<ImplementsInterfaceListReducerStrategy>());
     this->addStrategy(AST_CUSTOM_TYPE_DECLARATION_NODE, std::make_shared<CustomTypeDeclarationReducerStrategy>());
-    this->addStrategy(AST_REF_VALUE_ASSIGNMENT_NODE, std::make_shared<RefValueAssignmentReducerStrategy>());
-    this->addStrategy(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<RefValueAssignmentStatementReducerStrategy>());
-    this->addStrategy(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_NODE, std::make_shared<ClassPropertyRefValueAssignmentReducerStrategy>());
-    this->addStrategy(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ClassPropertyRefValueAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<SharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<SharedValueAssignmentStatementReducerStrategy>());
+    this->addStrategy(AST_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_NODE, std::make_shared<ClassPropertySharedValueAssignmentReducerStrategy>());
+    this->addStrategy(AST_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE, std::make_shared<ClassPropertySharedValueAssignmentStatementReducerStrategy>());
 }
 
 void Reducer::addStrategy(ASTNodeType astNodeType, std::shared_ptr<ReducerStrategy> reducerStrategy) {

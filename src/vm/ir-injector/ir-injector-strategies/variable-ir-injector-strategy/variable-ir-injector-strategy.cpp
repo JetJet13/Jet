@@ -40,7 +40,7 @@ void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNod
 
 std::shared_ptr<IROperation> VariableIRInjectorStrategy::determineOperationType(std::shared_ptr<IRVariableDeclarationNode> irVariableDeclaration) {
     auto operation = irVariableDeclaration->getIRExpression()->is(IR_SHARE_EXPRESSION_NODE)
-            ? std::make_shared<IROperation>(IR_REF_ASSIGNMENT_OP)
+            ? std::make_shared<IROperation>(IR_SHARED_VALUE_ASSIGNMENT_OP)
             : std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
     if (irVariableDeclaration->getGlobalVariable()) {
         operation->markAsGlobal();

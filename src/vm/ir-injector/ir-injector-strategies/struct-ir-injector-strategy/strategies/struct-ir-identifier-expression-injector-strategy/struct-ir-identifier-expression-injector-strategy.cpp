@@ -8,7 +8,7 @@
 #include "../../../../../ir-type/ir-struct-ref-type.h"
 
 llvm::Value* StructIRIdentifierExpressionInjectorStrategy::inject(std::shared_ptr<IRIdentifierExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    if (irOperation->isRefAssignment()) {
+    if (irOperation->isSharedValueAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irOperation->isCopy() || irOperation->isFunctionArgument() || irOperation->isFunctionReturn()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);

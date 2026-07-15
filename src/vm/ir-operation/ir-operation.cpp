@@ -43,12 +43,12 @@ bool IROperation::isCopyGlobal() {
     return _type == IR_COPY_ASSIGNMENT_OP && _global;
 }
 
-bool IROperation::isRefAssignment() {
-    return _type == IR_REF_ASSIGNMENT_OP;
+bool IROperation::isSharedValueAssignment() {
+    return _type == IR_SHARED_VALUE_ASSIGNMENT_OP;
 }
 
 bool IROperation::isRefGlobalAssignment() {
-    return _type == IR_REF_ASSIGNMENT_OP && _global;
+    return _type == IR_SHARED_VALUE_ASSIGNMENT_OP && _global;
 }
 
 bool IROperation::isFunctionArgument() {

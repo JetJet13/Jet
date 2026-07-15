@@ -37,17 +37,17 @@
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
-#include "ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h"
-#include "ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h"
+#include "ir-strategies/class-property-shared-value-assignment-statement-ir-strategy/class-property-shared-value-assignment-statement-ir-strategy.h"
+#include "ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.h"
 #include "ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.h"
-#include "ir-strategies/array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.h"
+#include "ir-strategies/array-access-shared-value-assignment-statement-ir-strategy/array-access-shared-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.h"
-#include "ir-strategies/object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.h"
+#include "ir-strategies/object-access-shared-value-assignment-statement-ir-strategy/object-access-shared-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.h"
-#include "ir-strategies/tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.h"
+#include "ir-strategies/tuple-access-shared-value-assignment-statement-ir-strategy/tuple-access-shared-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.h"
-#include "ir-strategies/module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.h"
+#include "ir-strategies/module-access-shared-value-assignment-statement-ir-strategy/module-access-shared-value-assignment-statement-ir-strategy.h"
 #include "ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.h"
 #include "ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.h"
 #include "ir-strategies/for-in-statement-ir-strategy/for-in-statement-ir-strategy.h"
@@ -221,28 +221,28 @@ std::shared_ptr<IRStatementNode> IRGenerator::generateFor(std::shared_ptr<ASTSta
         return this->_irStrategyMap.getExpressionStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getClassPropertyAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getClassPropertyRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getRefValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getClassPropertySharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTClassPropertySharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getSharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTSharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getVariableAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getArrayAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getArrayAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getArrayAccessSharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTArrayAccessSharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getObjectAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getObjectAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getObjectAccessSharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTObjectAccessSharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getTupleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getTupleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getTupleAccessSharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTTupleAccessSharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE)) {
         return this->_irStrategyMap.getModuleAccessAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
-    } else if (node->is(AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE)) {
-        return this->_irStrategyMap.getModuleAccessRefAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
+    } else if (node->is(AST_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE)) {
+        return this->_irStrategyMap.getModuleAccessSharedValueAssignmentStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTModuleAccessSharedValueAssignmentStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_IF_STATEMENT_NODE)) {
         return this->_irStrategyMap.getIfStatementIRStrategy()->generate(std::dynamic_pointer_cast<ASTIfStatementNode>(node),  shared_from_this(), scope, irContext);
     } else if (node->is(AST_WHILE_STATEMENT_NODE)) {

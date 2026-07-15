@@ -37,34 +37,34 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda VariableAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match expression type");  };
     }
-    static ErrorMessageLambda RefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda SharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable ref value type does not match expression type"); };
     }
-    static ErrorMessageLambda RefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda SharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type is not ref type"); };
     }
-    static ErrorMessageLambda ArrayAccessRefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ArrayAccessSharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type does not match expression type. Expected ref type"); };
     }
-    static ErrorMessageLambda ArrayAccessRefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ArrayAccessSharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "array element type is not ref type"); };
     }
-    static ErrorMessageLambda ObjectAccessRefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ObjectAccessSharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "property type does not match expression type. Expected ref type"); };
     }
-    static ErrorMessageLambda ObjectAccessRefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ObjectAccessSharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "property type is not ref type"); };
     }
-    static ErrorMessageLambda TupleAccessRefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda TupleAccessSharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "tuple property type does not match expression type. Expected ref type"); };
     }
-    static ErrorMessageLambda TupleAccessRefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda TupleAccessSharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "tuple property type is not ref type"); };
     }
-    static ErrorMessageLambda ModuleAccessRefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ModuleAccessSharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "module export type does not match expression type. Expected ref type"); };
     }
-    static ErrorMessageLambda ModuleAccessRefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ModuleAccessSharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "module export type is not ref type"); };
     }
     static ErrorMessageLambda ProcedureHasReturnExpression(std::shared_ptr<ASTNode> node) {
@@ -127,10 +127,10 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ClassPropertyAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type does not match expression type"); };
     }
-    static ErrorMessageLambda ClassPropertyRefValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ClassPropertySharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property ref value type does not match expression type"); };
     }
-    static ErrorMessageLambda ClassPropertyRefValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
+    static ErrorMessageLambda ClassPropertySharedValueAssignmentTypeInvalid(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::string { return TypeCheckerErrorMessageTable::generateMessage(node, "class property type is not ref type"); };
     }
     static ErrorMessageLambda ClassPropertyInitializerTypeMismatch(std::shared_ptr<ASTNode> node) {

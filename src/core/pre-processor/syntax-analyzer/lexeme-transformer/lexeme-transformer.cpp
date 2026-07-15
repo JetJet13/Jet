@@ -68,7 +68,7 @@
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-implements-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.h"
-#include "../../../ast/ast-nodes/ast-operator-nodes/ast-ref-value-assignment-operator-node.h"
+#include "../../../ast/ast-nodes/ast-operator-nodes/ast-shared-value-assignment-operator-node.h"
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
 #include "../../../ast/ast-nodes/ast-share-nodes/ast-share-node.h"
@@ -91,7 +91,7 @@ std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> le
     } else if (symbol->isEqual()) {
         return std::make_shared<ASTAssignmentOperatorNode>(lexeme);
     } else if (symbol->isColonEqual()) {
-        return std::make_shared<ASTRefValueAssignmentOperatorNode>(lexeme);
+        return std::make_shared<ASTSharedValueAssignmentOperatorNode>(lexeme);
     } else if (symbol->isInt()) {
         return std::make_shared<ASTIntLiteralNode>(lexeme);
     } else if (symbol->isFloat()) {

@@ -691,18 +691,18 @@ add_library(jet-vm
         utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.cpp
         ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h
-        ir-generator/ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/ref-value-assignment-statement-ir-strategy/ref-value-assignment-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-ref-value-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-ref-value-assignment-statement-node.h
-        ir-nodes/ir-statement-nodes/ir-class-property-ref-value-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-class-property-ref-value-assignment-statement-node.h
-        ir-generator/ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/class-property-ref-value-assignment-statement-ir-strategy/class-property-ref-value-assignment-statement-ir-strategy.h
-        ir-injector/ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/class-property-ref-value-assignment-ir-injector-strategy/class-property-ref-value-assignment-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/ref-value-assignment-ir-injector-strategy/ref-value-assignment-ir-injector-strategy.h
+        ir-generator/ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-shared-value-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-class-property-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-property-shared-value-assignment-statement-node.h
+        ir-generator/ir-strategies/class-property-shared-value-assignment-statement-ir-strategy/class-property-shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/class-property-shared-value-assignment-statement-ir-strategy/class-property-shared-value-assignment-statement-ir-strategy.h
+        ir-injector/ir-injector-strategies/class-property-shared-value-assignment-ir-injector-strategy/class-property-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-property-shared-value-assignment-ir-injector-strategy/class-property-shared-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.h
         ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.cpp
         ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.cpp
@@ -824,34 +824,34 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-tuple-access-expression-injector-strategy/ref-ir-tuple-access-expression-injector-strategy.h
-        ir-nodes/ir-statement-nodes/ir-array-access-ref-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-array-access-ref-assignment-statement-node.h
-        ir-nodes/ir-statement-nodes/ir-object-access-ref-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-object-access-ref-assignment-statement-node.h
-        ir-nodes/ir-statement-nodes/ir-tuple-access-ref-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-tuple-access-ref-assignment-statement-node.h
-        ir-nodes/ir-statement-nodes/ir-module-access-ref-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-module-access-ref-assignment-statement-node.h
-        ir-generator/ir-strategies/array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/array-access-ref-assignment-statement-ir-strategy/array-access-ref-assignment-statement-ir-strategy.h
-        ir-generator/ir-strategies/object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/object-access-ref-assignment-statement-ir-strategy/object-access-ref-assignment-statement-ir-strategy.h
-        ir-nodes/ir-statement-nodes/ir-class-static-property-ref-assignment-statement-node.cpp
-        ir-nodes/ir-statement-nodes/ir-class-static-property-ref-assignment-statement-node.h
-        ir-generator/ir-strategies/module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/module-access-ref-assignment-statement-ir-strategy/module-access-ref-assignment-statement-ir-strategy.h
-        ir-generator/ir-strategies/tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.cpp
-        ir-generator/ir-strategies/tuple-access-ref-assignment-statement-ir-strategy/tuple-access-ref-assignment-statement-ir-strategy.h
-        ir-injector/ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/array-access-ref-assignment-ir-injector-strategy/array-access-ref-assignment-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/object-access-ref-assignment-ir-injector-strategy/object-access-ref-assignment-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/module-access-ref-assignment-ir-injector-strategy/module-access-ref-assignment-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/tuple-access-ref-assignment-ir-injector-strategy/tuple-access-ref-assignment-ir-injector-strategy.h
-        ir-injector/ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.cpp
-        ir-injector/ir-injector-strategies/class-static-property-ref-assignment-ir-injector-strategy/class-static-property-ref-assignment-ir-injector-strategy.h
+        ir-nodes/ir-statement-nodes/ir-array-access-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-array-access-shared-value-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-object-access-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-object-access-shared-value-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-tuple-access-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-tuple-access-shared-value-assignment-statement-node.h
+        ir-nodes/ir-statement-nodes/ir-module-access-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-module-access-shared-value-assignment-statement-node.h
+        ir-generator/ir-strategies/array-access-shared-value-assignment-statement-ir-strategy/array-access-shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/array-access-shared-value-assignment-statement-ir-strategy/array-access-shared-value-assignment-statement-ir-strategy.h
+        ir-generator/ir-strategies/object-access-shared-value-assignment-statement-ir-strategy/object-access-shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/object-access-shared-value-assignment-statement-ir-strategy/object-access-shared-value-assignment-statement-ir-strategy.h
+        ir-nodes/ir-statement-nodes/ir-class-static-property-shared-value-assignment-statement-node.cpp
+        ir-nodes/ir-statement-nodes/ir-class-static-property-shared-value-assignment-statement-node.h
+        ir-generator/ir-strategies/module-access-shared-value-assignment-statement-ir-strategy/module-access-shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/module-access-shared-value-assignment-statement-ir-strategy/module-access-shared-value-assignment-statement-ir-strategy.h
+        ir-generator/ir-strategies/tuple-access-shared-value-assignment-statement-ir-strategy/tuple-access-shared-value-assignment-statement-ir-strategy.cpp
+        ir-generator/ir-strategies/tuple-access-shared-value-assignment-statement-ir-strategy/tuple-access-shared-value-assignment-statement-ir-strategy.h
+        ir-injector/ir-injector-strategies/array-access-shared-value-assignment-ir-injector-strategy/array-access-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/array-access-shared-value-assignment-ir-injector-strategy/array-access-shared-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/object-access-shared-value-assignment-ir-injector-strategy/object-access-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/object-access-shared-value-assignment-ir-injector-strategy/object-access-shared-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/module-access-shared-value-assignment-ir-injector-strategy/module-access-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/module-access-shared-value-assignment-ir-injector-strategy/module-access-shared-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/tuple-access-shared-value-assignment-ir-injector-strategy/tuple-access-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/tuple-access-shared-value-assignment-ir-injector-strategy/tuple-access-shared-value-assignment-ir-injector-strategy.h
+        ir-injector/ir-injector-strategies/class-static-property-shared-value-assignment-ir-injector-strategy/class-static-property-shared-value-assignment-ir-injector-strategy.cpp
+        ir-injector/ir-injector-strategies/class-static-property-shared-value-assignment-ir-injector-strategy/class-static-property-shared-value-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-module-access-expression-injector-strategy/ref-ir-module-access-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-module-access-expression-injector-strategy/ref-ir-module-access-expression-injector-strategy.h
         ir-nodes/ir-expression-nodes/ir-share-expression-node.cpp

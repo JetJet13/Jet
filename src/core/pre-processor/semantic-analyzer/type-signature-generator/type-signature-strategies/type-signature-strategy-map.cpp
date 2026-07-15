@@ -52,7 +52,7 @@
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
-#include "class-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
@@ -61,7 +61,7 @@
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
-#include "ref-value-assignment-statement-type-signature-strategy/ref-value-assignment-statement-type-signature-strategy.h"
+#include "shared-value-assignment-statement-type-signature-strategy/shared-value-assignment-statement-type-signature-strategy.h"
 #include "block-type-signature-strategy/block-type-signature-strategy.h"
 #include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
 #include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
@@ -77,13 +77,13 @@
 #include "argument-list-type-signature-strategy/argument-list-type-signature-strategy.h"
 #include "expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
-#include "array-access-ref-assignment-statement-type-signature-strategy/array-access-ref-assignment-statement-type-signature-strategy.h"
+#include "array-access-shared-value-assignment-statement-type-signature-strategy/array-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
-#include "object-access-ref-assignment-statement-type-signature-strategy/object-access-ref-assignment-statement-type-signature-strategy.h"
+#include "object-access-shared-value-assignment-statement-type-signature-strategy/object-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
-#include "tuple-access-ref-assignment-statement-type-signature-strategy/tuple-access-ref-assignment-statement-type-signature-strategy.h"
+#include "tuple-access-shared-value-assignment-statement-type-signature-strategy/tuple-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h"
-#include "module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.h"
+#include "module-access-shared-value-assignment-statement-type-signature-strategy/module-access-shared-value-assignment-statement-type-signature-strategy.h"
 
 TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _argumentListTypeSignatureStrategy = std::make_shared<ArgumentListTypeSignatureStrategy>();
@@ -95,7 +95,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _classMethodInvocationExpressionTypeSignatureStrategy = std::make_shared<ClassMethodInvocationExpressionTypeSignatureStrategy>();
     _classPropertyAccessExpressionTypeSignatureStrategy = std::make_shared<ClassPropertyAccessExpressionTypeSignatureStrategy>();
     _classPropertyAssignmentStatementTypeSignatureStrategy = std::make_shared<ClassPropertyAssignmentStatementTypeSignatureStrategy>();
-    _classPropertyRefValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy>();
+    _classPropertySharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ClassPropertySharedValueAssignmentStatementTypeSignatureStrategy>();
     _curryExpressionTypeSignatureStrategy = std::make_shared<CurryExpressionTypeSignatureStrategy>();
     _functionInvocationExpressionTypeSignatureStrategy = std::make_shared<FunctionInvocationExpressionTypeSignatureStrategy>();
     _functionReturnExpressionTypeSignatureStrategy = std::make_shared<FunctionReturnExpressionTypeSignatureStrategy>();
@@ -146,7 +146,7 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _literalTypeSignatureStrategy = std::make_shared<LiteralTypeSignatureStrategy>();
     _accessModifierTypeSignatureStrategy = std::make_shared<AccessModifierTypeSignatureStrategy>();
     _variableAssignmentStatementTypeSignatureStrategy = std::make_shared<VariableAssignmentStatementTypeSignatureStrategy>();
-    _refValueAssignmentStatementTypeSignatureStrategy = std::make_shared<RefValueAssignmentStatementTypeSignatureStrategy>();
+    _sharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<SharedValueAssignmentStatementTypeSignatureStrategy>();
     _blockTypeSignatureStrategy = std::make_shared<BlockTypeSignatureStrategy>();
     _expressionStatementTypeSignatureStrategy = std::make_shared<ExpressionStatementTypeSignatureStrategy>();
     _conditionTypeSignatureStrategy = std::make_shared<ConditionTypeSignatureStrategy>();
@@ -160,13 +160,13 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _interfacePropertyTypeSignatureStrategy = std::make_shared<InterfacePropertyTypeSignatureStrategy>();
     _customTypeDeclarationTypeSignatureStrategy = std::make_shared<CustomTypeDeclarationTypeSignatureStrategy>();
     _arrayAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ArrayAccessAssignmentStatementTypeSignatureStrategy>();
-    _arrayAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ArrayAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _arrayAccessSharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ArrayAccessSharedValueAssignmentStatementTypeSignatureStrategy>();
     _objectAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ObjectAccessAssignmentStatementTypeSignatureStrategy>();
-    _objectAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ObjectAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _objectAccessSharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ObjectAccessSharedValueAssignmentStatementTypeSignatureStrategy>();
     _tupleAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<TupleAccessAssignmentStatementTypeSignatureStrategy>();
-    _tupleAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<TupleAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _tupleAccessSharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<TupleAccessSharedValueAssignmentStatementTypeSignatureStrategy>();
     _moduleAccessAssignmentStatementTypeSignatureStrategy = std::make_shared<ModuleAccessAssignmentStatementTypeSignatureStrategy>();
-    _moduleAccessRefAssignmentStatementTypeSignatureStrategy = std::make_shared<ModuleAccessRefAssignmentStatementTypeSignatureStrategy>();
+    _moduleAccessSharedValueAssignmentStatementTypeSignatureStrategy = std::make_shared<ModuleAccessSharedValueAssignmentStatementTypeSignatureStrategy>();
 }
 
 std::shared_ptr<ArgumentListTypeSignatureStrategy> TypeSignatureStrategyMap::getArgumentListTypeSignatureStrategy() {
@@ -201,8 +201,8 @@ std::shared_ptr<ClassPropertyAccessExpressionTypeSignatureStrategy> TypeSignatur
     return _classPropertyAccessExpressionTypeSignatureStrategy;
 }
 
-std::shared_ptr<ClassPropertyRefValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy() {
-    return _classPropertyRefValueAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<ClassPropertySharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertySharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _classPropertySharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<ClassPropertyAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getClassPropertyAssignmentStatementTypeSignatureStrategy() {
@@ -409,40 +409,40 @@ std::shared_ptr<VariableAssignmentStatementTypeSignatureStrategy> TypeSignatureS
     return _variableAssignmentStatementTypeSignatureStrategy;
 }
 
-std::shared_ptr<RefValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getRefValueAssignmentStatementTypeSignatureStrategy() {
-    return _refValueAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<SharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getSharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _sharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<ArrayAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessAssignmentStatementTypeSignatureStrategy() {
     return _arrayAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-std::shared_ptr<ArrayAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessRefAssignmentStatementTypeSignatureStrategy() {
-    return _arrayAccessRefAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<ArrayAccessSharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getArrayAccessSharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _arrayAccessSharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<ObjectAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessAssignmentStatementTypeSignatureStrategy() {
     return _objectAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-std::shared_ptr<ObjectAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessRefAssignmentStatementTypeSignatureStrategy() {
-    return _objectAccessRefAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<ObjectAccessSharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getObjectAccessSharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _objectAccessSharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<TupleAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessAssignmentStatementTypeSignatureStrategy() {
     return _tupleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-std::shared_ptr<TupleAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessRefAssignmentStatementTypeSignatureStrategy() {
-    return _tupleAccessRefAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<TupleAccessSharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleAccessSharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _tupleAccessSharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<ModuleAccessAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessAssignmentStatementTypeSignatureStrategy() {
     return _moduleAccessAssignmentStatementTypeSignatureStrategy;
 }
 
-std::shared_ptr<ModuleAccessRefAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessRefAssignmentStatementTypeSignatureStrategy() {
-    return _moduleAccessRefAssignmentStatementTypeSignatureStrategy;
+std::shared_ptr<ModuleAccessSharedValueAssignmentStatementTypeSignatureStrategy> TypeSignatureStrategyMap::getModuleAccessSharedValueAssignmentStatementTypeSignatureStrategy() {
+    return _moduleAccessSharedValueAssignmentStatementTypeSignatureStrategy;
 }
 
 std::shared_ptr<BlockTypeSignatureStrategy> TypeSignatureStrategyMap::getBlockTypeSignatureStrategy() {

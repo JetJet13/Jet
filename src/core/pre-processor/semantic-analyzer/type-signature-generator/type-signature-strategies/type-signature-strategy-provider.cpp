@@ -53,7 +53,7 @@
 #include "class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.h"
-#include "class-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy/class-property-ref-value-assignment-statement-type-signature-strategy.h"
+#include "class-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy.h"
 #include "class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.h"
 #include "parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.h"
@@ -62,15 +62,15 @@
 #include "literal-type-signature-strategy/literal-type-signature-strategy.h"
 #include "access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.h"
 #include "variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h"
-#include "ref-value-assignment-statement-type-signature-strategy/ref-value-assignment-statement-type-signature-strategy.h"
+#include "shared-value-assignment-statement-type-signature-strategy/shared-value-assignment-statement-type-signature-strategy.h"
 #include "array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h"
-#include "array-access-ref-assignment-statement-type-signature-strategy/array-access-ref-assignment-statement-type-signature-strategy.h"
+#include "array-access-shared-value-assignment-statement-type-signature-strategy/array-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.h"
-#include "object-access-ref-assignment-statement-type-signature-strategy/object-access-ref-assignment-statement-type-signature-strategy.h"
+#include "object-access-shared-value-assignment-statement-type-signature-strategy/object-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.h"
-#include "tuple-access-ref-assignment-statement-type-signature-strategy/tuple-access-ref-assignment-statement-type-signature-strategy.h"
+#include "tuple-access-shared-value-assignment-statement-type-signature-strategy/tuple-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.h"
-#include "module-access-ref-assignment-statement-type-signature-strategy/module-access-ref-assignment-statement-type-signature-strategy.h"
+#include "module-access-shared-value-assignment-statement-type-signature-strategy/module-access-shared-value-assignment-statement-type-signature-strategy.h"
 #include "block-type-signature-strategy/block-type-signature-strategy.h"
 #include "if-statement-type-signature-strategy/if-statement-type-signature-strategy.h"
 #include "try-statement-type-signature-strategy/try-statement-type-signature-strategy.h"
@@ -138,10 +138,10 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
                     .getClassPropertyAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+        case AST_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getClassPropertyRefValueAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getClassPropertySharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTClassPropertySharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_FUNCTION_DECLARATION_NODE:
             this->_typeSignatureStrategyMap
@@ -450,50 +450,50 @@ void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNo
                     .getVariableAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
+        case AST_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getRefValueAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getSharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTSharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     .getArrayAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+        case AST_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getArrayAccessRefAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getArrayAccessSharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTArrayAccessSharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     .getObjectAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+        case AST_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getObjectAccessRefAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getObjectAccessSharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTObjectAccessSharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     .getTupleAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+        case AST_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getTupleAccessRefAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getTupleAccessSharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTTupleAccessSharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
                     .getModuleAccessAssignmentStatementTypeSignatureStrategy()
                     ->assign(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
-        case AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
+        case AST_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
             this->_typeSignatureStrategyMap
-                    .getModuleAccessRefAssignmentStatementTypeSignatureStrategy()
-                    ->assign(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node), context, typeSignatureScope, this);
+                    .getModuleAccessSharedValueAssignmentStatementTypeSignatureStrategy()
+                    ->assign(std::dynamic_pointer_cast<ASTModuleAccessSharedValueAssignmentStatementNode>(node), context, typeSignatureScope, this);
             break;
         case AST_EXPRESSION_STATEMENT_NODE:
             this->_typeSignatureStrategyMap

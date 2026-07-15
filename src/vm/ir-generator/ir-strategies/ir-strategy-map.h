@@ -55,15 +55,15 @@ class ShareExpressionIRStrategy;
 class RefExpressionIRStrategy;
 class DrefExpressionIRStrategy;
 class ArrayAccessAssignmentStatementIRStrategy;
-class ArrayAccessRefAssignmentStatementIRStrategy;
+class ArrayAccessSharedValueAssignmentStatementIRStrategy;
 class ObjectAccessAssignmentStatementIRStrategy;
-class ObjectAccessRefAssignmentStatementIRStrategy;
+class ObjectAccessSharedValueAssignmentStatementIRStrategy;
 class TupleAccessAssignmentStatementIRStrategy;
-class TupleAccessRefAssignmentStatementIRStrategy;
+class TupleAccessSharedValueAssignmentStatementIRStrategy;
 class ModuleAccessAssignmentStatementIRStrategy;
-class ModuleAccessRefAssignmentStatementIRStrategy;
-class ClassPropertyRefValueAssignmentStatementIRStrategy;
-class RefValueAssignmentStatementIRStrategy;
+class ModuleAccessSharedValueAssignmentStatementIRStrategy;
+class ClassPropertySharedValueAssignmentStatementIRStrategy;
+class SharedValueAssignmentStatementIRStrategy;
 
 // Type Signature IR Strategies
 class ArrayTypeSignatureIRStrategy;
@@ -142,15 +142,15 @@ private:
     std::shared_ptr<RefExpressionIRStrategy> _refExpressionIRStrategy;
     std::shared_ptr<DrefExpressionIRStrategy> _drefExpressionIRStrategy;
     std::shared_ptr<ArrayAccessAssignmentStatementIRStrategy> _arrayAccessAssignmentStatementIRStrategy;
-    std::shared_ptr<ArrayAccessRefAssignmentStatementIRStrategy> _arrayAccessRefAssignmentStatementIRStrategy;
+    std::shared_ptr<ArrayAccessSharedValueAssignmentStatementIRStrategy> _arrayAccessSharedValueAssignmentStatementIRStrategy;
     std::shared_ptr<ObjectAccessAssignmentStatementIRStrategy> _objectAccessAssignmentStatementIRStrategy;
-    std::shared_ptr<ObjectAccessRefAssignmentStatementIRStrategy> _objectAccessRefAssignmentStatementIRStrategy;
+    std::shared_ptr<ObjectAccessSharedValueAssignmentStatementIRStrategy> _objectAccessSharedValueAssignmentStatementIRStrategy;
     std::shared_ptr<TupleAccessAssignmentStatementIRStrategy> _tupleAccessAssignmentStatementIRStrategy;
-    std::shared_ptr<TupleAccessRefAssignmentStatementIRStrategy> _tupleAccessRefAssignmentStatementIRStrategy;
+    std::shared_ptr<TupleAccessSharedValueAssignmentStatementIRStrategy> _tupleAccessSharedValueAssignmentStatementIRStrategy;
     std::shared_ptr<ModuleAccessAssignmentStatementIRStrategy> _moduleAccessAssignmentStatementIRStrategy;
-    std::shared_ptr<ModuleAccessRefAssignmentStatementIRStrategy> _moduleAccessRefAssignmentStatementIRStrategy;
-    std::shared_ptr<ClassPropertyRefValueAssignmentStatementIRStrategy> _classPropertyRefValueAssignmentStatementIRStrategy;
-    std::shared_ptr<RefValueAssignmentStatementIRStrategy> _refValueAssignmentStatementIRStrategy;
+    std::shared_ptr<ModuleAccessSharedValueAssignmentStatementIRStrategy> _moduleAccessSharedValueAssignmentStatementIRStrategy;
+    std::shared_ptr<ClassPropertySharedValueAssignmentStatementIRStrategy> _classPropertySharedValueAssignmentStatementIRStrategy;
+    std::shared_ptr<SharedValueAssignmentStatementIRStrategy> _sharedValueAssignmentStatementIRStrategy;
 
     // Type Signature IR Strategies
     std::shared_ptr<ArrayTypeSignatureIRStrategy> _arrayTypeSignatureIRStrategy;
@@ -221,15 +221,15 @@ public:
     std::shared_ptr<ClassPropertyAssignmentStatementIRStrategy> getClassPropertyAssignmentStatementIRStrategy();
     std::shared_ptr<VariableAssignmentStatementIRStrategy> getVariableAssignmentStatementIRStrategy();
     std::shared_ptr<ArrayAccessAssignmentStatementIRStrategy> getArrayAccessAssignmentStatementIRStrategy();
-    std::shared_ptr<ArrayAccessRefAssignmentStatementIRStrategy> getArrayAccessRefAssignmentStatementIRStrategy();
+    std::shared_ptr<ArrayAccessSharedValueAssignmentStatementIRStrategy> getArrayAccessSharedValueAssignmentStatementIRStrategy();
     std::shared_ptr<ObjectAccessAssignmentStatementIRStrategy> getObjectAccessAssignmentStatementIRStrategy();
-    std::shared_ptr<ObjectAccessRefAssignmentStatementIRStrategy> getObjectAccessRefAssignmentStatementIRStrategy();
+    std::shared_ptr<ObjectAccessSharedValueAssignmentStatementIRStrategy> getObjectAccessSharedValueAssignmentStatementIRStrategy();
     std::shared_ptr<TupleAccessAssignmentStatementIRStrategy> getTupleAccessAssignmentStatementIRStrategy();
-    std::shared_ptr<TupleAccessRefAssignmentStatementIRStrategy> getTupleAccessRefAssignmentStatementIRStrategy();
+    std::shared_ptr<TupleAccessSharedValueAssignmentStatementIRStrategy> getTupleAccessSharedValueAssignmentStatementIRStrategy();
     std::shared_ptr<ModuleAccessAssignmentStatementIRStrategy> getModuleAccessAssignmentStatementIRStrategy();
-    std::shared_ptr<ModuleAccessRefAssignmentStatementIRStrategy> getModuleAccessRefAssignmentStatementIRStrategy();
-    std::shared_ptr<ClassPropertyRefValueAssignmentStatementIRStrategy> getClassPropertyRefValueAssignmentStatementIRStrategy();
-    std::shared_ptr<RefValueAssignmentStatementIRStrategy> getRefValueAssignmentStatementIRStrategy();
+    std::shared_ptr<ModuleAccessSharedValueAssignmentStatementIRStrategy> getModuleAccessSharedValueAssignmentStatementIRStrategy();
+    std::shared_ptr<ClassPropertySharedValueAssignmentStatementIRStrategy> getClassPropertySharedValueAssignmentStatementIRStrategy();
+    std::shared_ptr<SharedValueAssignmentStatementIRStrategy> getSharedValueAssignmentStatementIRStrategy();
     std::shared_ptr<IfStatementIRStrategy> getIfStatementIRStrategy();
     std::shared_ptr<WhileStatementIRStrategy> getWhileStatementIRStrategy();
     std::shared_ptr<ForInStatementIRStrategy> getForInStatementIRStrategy();

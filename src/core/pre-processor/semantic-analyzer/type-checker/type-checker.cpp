@@ -53,13 +53,13 @@
 #include "policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.h"
 #include "policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.h"
 #include "policies/argument-list-type-checker-policy/argument-list-type-checker-policy.h"
-#include "policies/ref-value-assignment-statement-type-checker-policy/ref-value-assignment-statement-type-checker-policy.h"
-#include "policies/class-property-ref-value-assignment-statement-type-checker-policy/class-property-ref-value-assignment-statement-type-checker-policy.h"
+#include "policies/shared-value-assignment-statement-type-checker-policy/shared-value-assignment-statement-type-checker-policy.h"
+#include "policies/class-property-shared-value-assignment-statement-type-checker-policy/class-property-shared-value-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.h"
-#include "policies/array-access-ref-assignment-statement-type-checker-policy/array-access-ref-assignment-statement-type-checker-policy.h"
-#include "policies/object-access-ref-assignment-statement-type-checker-policy/object-access-ref-assignment-statement-type-checker-policy.h"
-#include "policies/tuple-access-ref-assignment-statement-type-checker-policy/tuple-access-ref-assignment-statement-type-checker-policy.h"
-#include "policies/module-access-ref-assignment-statement-type-checker-policy/module-access-ref-assignment-statement-type-checker-policy.h"
+#include "policies/array-access-shared-value-assignment-statement-type-checker-policy/array-access-shared-value-assignment-statement-type-checker-policy.h"
+#include "policies/object-access-shared-value-assignment-statement-type-checker-policy/object-access-shared-value-assignment-statement-type-checker-policy.h"
+#include "policies/tuple-access-shared-value-assignment-statement-type-checker-policy/tuple-access-shared-value-assignment-statement-type-checker-policy.h"
+#include "policies/module-access-shared-value-assignment-statement-type-checker-policy/module-access-shared-value-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.h"
 
 namespace TypeChecker {
@@ -92,32 +92,32 @@ namespace TypeChecker {
             case AST_VARIABLE_ASSIGNMENT_STATEMENT_NODE:
                 VariableAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTVariableAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
-                RefValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTRefValueAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                SharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTSharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ARRAY_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ArrayAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_ARRAY_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ArrayAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessRefAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                ArrayAccessSharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTArrayAccessSharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_OBJECT_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ObjectAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_OBJECT_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ObjectAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessRefAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_OBJECT_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                ObjectAccessSharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTObjectAccessSharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_TUPLE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 TupleAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_TUPLE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                TupleAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessRefAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_TUPLE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                TupleAccessSharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTTupleAccessSharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_MODULE_ACCESS_ASSIGNMENT_STATEMENT_NODE:
                 ModuleAccessAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_MODULE_ACCESS_REF_ASSIGNMENT_STATEMENT_NODE:
-                ModuleAccessRefAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessRefAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_MODULE_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                ModuleAccessSharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTModuleAccessSharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_ENUM_DECLARATION_NODE:
                 EnumDeclarationTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node), typeCheckerResult);
@@ -152,8 +152,8 @@ namespace TypeChecker {
             case AST_CLASS_PROPERTY_ASSIGNMENT_STATEMENT_NODE:
                 ClassPropertyAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertyAssignmentStatementNode>(node), typeCheckerResult);
                 break;
-            case AST_CLASS_PROPERTY_REF_VALUE_ASSIGNMENT_STATEMENT_NODE:
-                ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertyRefValueAssignmentStatementNode>(node), typeCheckerResult);
+            case AST_CLASS_PROPERTY_SHARED_VALUE_ASSIGNMENT_STATEMENT_NODE:
+                ClassPropertySharedValueAssignmentStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTClassPropertySharedValueAssignmentStatementNode>(node), typeCheckerResult);
                 break;
             case AST_EXPRESSION_STATEMENT_NODE:
                 ExpressionStatementTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTExpressionStatementNode>(node), typeCheckerResult);

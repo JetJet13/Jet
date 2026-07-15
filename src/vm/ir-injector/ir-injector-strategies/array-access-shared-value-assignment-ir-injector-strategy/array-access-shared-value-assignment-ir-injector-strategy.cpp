@@ -1,0 +1,36 @@
+//
+// Created by Johny Georges on 2026-06-27.
+//
+
+#include "array-access-shared-value-assignment-ir-injector-strategy.h"
+#include "../../../ir-type/ir-array-pointer-type.h"
+#include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.h"
+#include "../../../ir-type/ir-ref-type.h"
+
+void ArrayAccessSharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRArrayAccessSharedValueAssignmentStatementNode> irArrayAccessSharedValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+    auto pointerToIndexedElement = ArrayIRInjectorHelper::getPointerToIndexedElement(irBlock, irArrayAccessSharedValueAssignmentStatement->getIRArrayAccessExpression(), irModule, irInjector, scope);
+    auto newValue = irInjector->inject(
+            irBlock,
+            irArrayAccessSharedValueAssignmentStatement->getIRExpression(),
+            std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP),
+            irModule,
+            scope
+    );
+    auto irType = irArrayAccessSharedValueAssignmentStatement->getIRExpression()->getUnderlyingIRType();
+    auto newValueMalloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            {
+                irBlock->getBuilder()->get()->getInt64(1),
+                irBlock->getBuilder()->get()->getInt64(irType->getSizeInBytes())
+            }
+    );
+    InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
+    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irArrayAccessSharedValueAssignmentStatement->getIRArrayAccessExpression()->getIRType()->getSourceType());
+    auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
+    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+    irBlock->getBuilder()->get()->CreateCall(
+            irModule->getSetRefValueFunction(),
+            { pointerToIndexedElement, newValueMalloc,  loadedTypeValue }
+    );
+}

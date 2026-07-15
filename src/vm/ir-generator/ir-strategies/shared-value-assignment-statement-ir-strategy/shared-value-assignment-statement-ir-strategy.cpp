@@ -1,0 +1,18 @@
+//
+// Created by Johny Georges on 2026-02-20.
+//
+
+#include "shared-value-assignment-statement-ir-strategy.h"
+#include "../../../ir-nodes/ir-statement-nodes/ir-shared-value-assignment-statement-node.h"
+#include "../../../../shared/utils/logger/logger.h"
+
+std::shared_ptr<IRStatementNode> SharedValueAssignmentStatementIRStrategy::generate(std::shared_ptr<ASTSharedValueAssignmentStatementNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
+    auto isGlobal = scope->findGlobalVariable(node->getVariableAssignment()->getIdentifierNode()->getId()).has_value();
+    auto irOperation = std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
+    if (isGlobal) {
+        irOperation->markAsGlobal();
+    }
+    auto irExpression = irGenerator->generateFor(node->getExpression(), scope, irContext, irOperation);
+    irExpression->markAsAssigned();
+    return std::make_shared<IRSharedValueAssignmentStatementNode>(node, irExpression);
+}

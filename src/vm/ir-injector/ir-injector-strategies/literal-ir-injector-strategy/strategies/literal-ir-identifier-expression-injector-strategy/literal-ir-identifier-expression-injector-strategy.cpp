@@ -6,7 +6,7 @@
 #include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 llvm::Value* LiteralIRIdentifierExpressionInjectorStrategy::inject(std::shared_ptr<IRIdentifierExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    if (irOperation->isRefAssignment()) {
+    if (irOperation->isSharedValueAssignment()) {
         return this->injectRef(irExpression, irBlock, irInjector, irOperation, irModule, scope);
     } else if (irOperation->isCopy()) {
         return this->injectCopy(irExpression, irBlock, irInjector, irOperation, irModule, scope);
