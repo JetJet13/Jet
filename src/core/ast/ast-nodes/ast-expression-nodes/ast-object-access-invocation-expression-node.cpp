@@ -6,6 +6,7 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 #include "../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 ASTObjectAccessInvocationExpressionNode::ASTObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {
     _objectAccess = objectAccess;
@@ -44,9 +45,9 @@ unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
 
 bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
     auto sourceTypeSignature = this->getSource()->getSource()->getTypeSignature();
-    if (sourceTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
-        sourceTypeSignature = refTypeSignature->getUnderlyingType();
+    if (sourceTypeSignature->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
+        sourceTypeSignature = sharedTypeSignature->getUnderlyingType();
     }
     return sourceTypeSignature->typeTargetIs(ARRAY_TYPE_SOURCE)
            && this->getObjectAccess()->getTypeSignature()->isPrototype();
@@ -54,16 +55,16 @@ bool ASTObjectAccessInvocationExpressionNode::isArrayPrototypeInvocation() {
 
 bool ASTObjectAccessInvocationExpressionNode::isStringPrototypeInvocation() {
     auto sourceTypeSignature = this->getSource()->getSource()->getTypeSignature();
-    if (sourceTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
-        sourceTypeSignature = refTypeSignature->getUnderlyingType();
+    if (sourceTypeSignature->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature->getTargetTypeSignature());
+        sourceTypeSignature = sharedTypeSignature->getUnderlyingType();
     }
     return sourceTypeSignature->typeTargetIs(STRING_LITERAL_TYPE_SOURCE)
            && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 
 bool ASTObjectAccessInvocationExpressionNode::isRefPrototypeInvocation() {
-    return this->getSource()->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
+    return this->getSource()->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
             && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 

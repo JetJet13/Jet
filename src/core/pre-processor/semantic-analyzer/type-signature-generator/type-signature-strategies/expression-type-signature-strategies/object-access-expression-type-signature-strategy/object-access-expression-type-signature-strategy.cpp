@@ -6,15 +6,15 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), context, scope);
     auto sourceTypeSignature = objectAccessExpression->getSource()->getSource()->getTypeSignature();
-    if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeTargetIs(STRUCT_TYPE_SOURCE)) {
@@ -58,13 +58,13 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
             objectAccessExpression->setTypeSignature(classStaticProperty.value()->convertToVariableTypeSignature());
             return;
         }
-    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
-        auto refSource = std::dynamic_pointer_cast<RefTypeSignature>(objectAccessExpression->getSource()->getSource()->getTypeSignature());
-        auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(
+    } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        auto sharedSource = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessExpression->getSource()->getSource()->getTypeSignature());
+        auto sharedPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(
                 objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
-                refSource->getUnderlyingType());
-        if (refPrototypeTypeSignature) {
-            objectAccessExpression->setTypeSignature(refPrototypeTypeSignature.value());
+                sharedSource->getUnderlyingType());
+        if (sharedPrototypeTypeSignature) {
+            objectAccessExpression->setTypeSignature(sharedPrototypeTypeSignature.value());
         }
         return;
     }

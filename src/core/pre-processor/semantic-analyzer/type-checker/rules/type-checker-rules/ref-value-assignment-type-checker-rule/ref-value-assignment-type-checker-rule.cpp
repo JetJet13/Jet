@@ -6,12 +6,12 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void RefValueAssignmentTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
-    if (!typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
+    if (!typeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
         typeCheckerResult->addError(invalidMessage());
     }
 }
 
-void RefValueAssignmentTypeCheckerRule::enforce(std::shared_ptr<RefTypeSignature> sourceTypeSignature, std::shared_ptr<TypeSignature> valueTypeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
+void RefValueAssignmentTypeCheckerRule::enforce(std::shared_ptr<SharedTypeSignature> sourceTypeSignature, std::shared_ptr<TypeSignature> valueTypeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
     if (!sourceTypeSignature->getUnderlyingType()->isEquivalentTo(valueTypeSignature)) {
         typeCheckerResult->addError(invalidMessage());
     }

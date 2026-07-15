@@ -37,9 +37,9 @@ export class BigClass {
     private bigChar = 'a';
     private bigString = "hello world";
     private bigArray = [1, 2, 3];
-    private bigStruct = ref { foo: 1, bar: false };
-    private bigTuple = ref { 1, false };
-    private bigClass = ref new SmallClass();
+    private bigStruct = share { foo: 1, bar: false };
+    private bigTuple = share { 1, false };
+    private bigClass = share new SmallClass();
     private bigIntEnum = IntEnum.Alpha;
     private bigStringEnum = StringEnum.Alpha;
     private bigEmptyInt: int;
@@ -51,9 +51,9 @@ export class BigClass {
     private static bigStaticChar = 'a';
     private static bigStaticString = "hello world";
     private static bigStaticArray = [1, 2, 3];
-    private static bigStaticStruct = ref { foo: 1, bar: false };
-    private static bigStaticTuple = ref { 1, false };
-    private static bigStaticClass = ref new SmallClass();
+    private static bigStaticStruct = share { foo: 1, bar: false };
+    private static bigStaticTuple = share { 1, false };
+    private static bigStaticClass = share new SmallClass();
     private static bigStaticIntEnum = IntEnum.Alpha;
     private static bigStaticStringEnum = StringEnum.Alpha;
 
@@ -85,11 +85,11 @@ export class BigClass {
         return this.bigArray;
     }
 
-    public getBigStruct(): ref<BigStruct> {
+    public getBigStruct(): shared<BigStruct> {
         return this.bigStruct;
     }
 
-    public getBigTuple(): ref<BigTuple> {
+    public getBigTuple(): shared<BigTuple> {
         return this.bigTuple;
     }
 
@@ -101,7 +101,7 @@ export class BigClass {
         return dref this.bigTuple;
     }
 
-    public getBigClass(): ref<SmallClass> {
+    public getBigClass(): shared<SmallClass> {
         return this.bigClass;
     }
 
@@ -192,15 +192,15 @@ export class BigClass {
         return BigClass.bigStaticArray;
     }
 
-    public static getBigStaticStruct(): ref<BigStruct> {
+    public static getBigStaticStruct(): shared<BigStruct> {
         return BigClass.bigStaticStruct;
     }
 
-    public static getBigStaticTuple(): ref<BigTuple> {
+    public static getBigStaticTuple(): shared<BigTuple> {
         return BigClass.bigStaticTuple;
     }
 
-    public static getBigStaticClass(): ref<SmallClass> {
+    public static getBigStaticClass(): shared<SmallClass> {
         return BigClass.bigStaticClass;
     }
 
@@ -249,22 +249,22 @@ export class BigCalculator {
 
     constructor() {}
 
-    public setValue(newValue: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+    public setValue(newValue: int, instance: shared<BigCalculator>): shared<BigCalculator> {
         this.value = newValue;
         return instance;
     }
 
-    public add(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+    public add(value: int, instance: shared<BigCalculator>): shared<BigCalculator> {
         this.value = this.value + value;
         return instance;
     }
 
-    public subtract(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+    public subtract(value: int, instance: shared<BigCalculator>): shared<BigCalculator> {
         this.value = this.value - value;
         return instance;
     }
 
-    public multiply(value: int, instance: ref<BigCalculator>): ref<BigCalculator> {
+    public multiply(value: int, instance: shared<BigCalculator>): shared<BigCalculator> {
         this.value = this.value * value;
         return instance;
     }
@@ -278,7 +278,7 @@ export func BigFunction(): int {
     return 500;
 }
 
-export proc BigProcedure(x: ref<int>) {
+export proc BigProcedure(x: shared<int>) {
     x := 100;
 }
 
@@ -294,8 +294,8 @@ export const BIG_STRING = "big string!";
 export const BIG_ARRAY = [1, 2, 3];
 export const BIG_STRUCT = { foo: 1, bar: true, mars: 2 };
 export const BIG_TUPLE = { 1, false, 2 };
-export const BIG_STRUCT_REF = ref { foo: ref 1, bar: ref true, mars: ref 2 };
-export const BIG_TUPLE_REF = ref { ref 1, ref false, ref 2 };
+export const BIG_STRUCT_REF = share { foo: share 1, bar: share true, mars: share 2 };
+export const BIG_TUPLE_REF = share { share 1, share false, share 2 };
 export const BIG_CLASS = new SmallClass();
 export const BIG_INT_ENUM = IntEnum.Alpha;
 export const BIG_STRING_ENUM = StringEnum.Alpha;

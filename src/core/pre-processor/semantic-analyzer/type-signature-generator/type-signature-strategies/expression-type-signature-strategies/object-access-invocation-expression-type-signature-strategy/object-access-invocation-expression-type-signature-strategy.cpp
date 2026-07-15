@@ -6,7 +6,7 @@
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
@@ -14,20 +14,20 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), context, scope);
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
 
-    if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refSource = std::dynamic_pointer_cast<RefTypeSignature>(objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
+    if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedSource = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
-        auto refPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(id, refSource->getUnderlyingType());
-        if (refPrototypeTypeSignature) {
-            objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(refPrototypeTypeSignature.value());
-            objectAccessInvocationExpression->setTypeSignature(refPrototypeTypeSignature.value()->getReturnType());
+        auto sharedPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(id, sharedSource->getUnderlyingType());
+        if (sharedPrototypeTypeSignature) {
+            objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(sharedPrototypeTypeSignature.value());
+            objectAccessInvocationExpression->setTypeSignature(sharedPrototypeTypeSignature.value()->getReturnType());
             return;
         }
     }
 
     auto sourceTypeSignature = objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
-    if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeSourceIs(STRUCT_TYPE_SOURCE)) {

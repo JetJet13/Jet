@@ -40,10 +40,10 @@ namespace ObjectAccessRefAssignmentStatementTypeCheckerPolicy {
                         typeCheckerResult
                 );
 
-        if (!objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        if (!objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature());
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessRefAssignmentStatementNode->getObjectAccessAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ObjectAccessRefValueAssignmentTypeMismatch(objectAccessRefAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
                 ->enforce(

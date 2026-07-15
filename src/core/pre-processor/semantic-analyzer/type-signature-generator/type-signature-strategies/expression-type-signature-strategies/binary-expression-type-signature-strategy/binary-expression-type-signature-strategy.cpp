@@ -5,7 +5,7 @@
 #include "binary-expression-type-signature-strategy.h"
 #include "../../../../../../symbol/symbol-factory.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 BinaryExpressionTypeSignatureStrategy::BinaryExpressionTypeSignatureStrategy() {
@@ -20,12 +20,12 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryArit
         throw std::invalid_argument("unknown binary arithmetic operator..aborting.");
     }
 
-    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                    ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
+    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
+                                    ? (std::dynamic_pointer_cast<SharedTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
                                     : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
 
-    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                    ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
+    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
+                                    ? (std::dynamic_pointer_cast<SharedTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
                                     : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
 
 
@@ -50,12 +50,12 @@ void BinaryExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTBinaryComp
         throw std::invalid_argument("unknown binary comparator operator..aborting.");
     }
 
-    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                 ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
+    auto leftNodeTypeSignature = binaryExpression->getLeftNode()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
+                                 ? (std::dynamic_pointer_cast<SharedTypeSignature>(binaryExpression->getLeftNode()->getTypeSignature())->getUnderlyingType())
                                  : binaryExpression->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
 
-    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)
-                                  ? (std::dynamic_pointer_cast<RefTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
+    auto rightNodeTypeSignature = binaryExpression->getRightNode()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
+                                  ? (std::dynamic_pointer_cast<SharedTypeSignature>(binaryExpression->getRightNode()->getTypeSignature())->getUnderlyingType())
                                   : binaryExpression->getRightNode()->getTypeSignature()->getTargetTypeSignature();
 
 
@@ -123,7 +123,7 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                     {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
                     {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
                     {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
-                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                std::make_shared<BoolLiteralTypeSignature>() },
+                    {SHARED_TYPE_SOURCE,             SHARED_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
                     {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
                     {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
@@ -146,7 +146,7 @@ void BinaryExpressionTypeSignatureStrategy::initCombinations() {
                     {ARRAY_TYPE_SOURCE,              ARRAY_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
                     {STRUCT_TYPE_SOURCE,             STRUCT_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
                     {TUPLE_TYPE_SOURCE,              TUPLE_TYPE_SOURCE,              std::make_shared<BoolLiteralTypeSignature>() },
-                    {REF_TYPE_SOURCE,                REF_TYPE_SOURCE,                std::make_shared<BoolLiteralTypeSignature>() },
+                    {SHARED_TYPE_SOURCE,             SHARED_TYPE_SOURCE,             std::make_shared<BoolLiteralTypeSignature>() },
                     {CLASS_INSTANCE_TYPE_SOURCE,     CLASS_INSTANCE_TYPE_SOURCE,     std::make_shared<BoolLiteralTypeSignature>() },
                     {NEW_CLASS_INSTANCE_TYPE_SOURCE, NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },
                     {CLASS_INSTANCE_TYPE_SOURCE,     NEW_CLASS_INSTANCE_TYPE_SOURCE, std::make_shared<BoolLiteralTypeSignature>() },

@@ -5,15 +5,15 @@
 #include "tuple-access-invocation-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/tuple-type-signature/tuple-type-signature.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 void TupleAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> tupleAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getSource()->getSource(), context, scope);
     strategyMap->assignTypeSignatureFor(tupleAccessInvocationExpression->getArguments(), context, scope);
 
     auto sourceTypeSignature = tupleAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature();
-    if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        sourceTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
     }
 
     if (sourceTypeSignature->typeSourceIs(TUPLE_TYPE_SOURCE)) {

@@ -20,6 +20,8 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRType> irType,
         return this->inject(std::dynamic_pointer_cast<IRPointerType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isRefType()) {
         return this->inject(std::dynamic_pointer_cast<IRRefType>(irType), irBlock, irInjector, irModule);
+    } else if (irType->isSharedType()) {
+        return this->inject(std::dynamic_pointer_cast<IRSharedPtrType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isCapturedVariableType()) {
         return this->inject(std::dynamic_pointer_cast<IRCapturedVariableType>(irType), irBlock, irInjector, irModule);
     } else if (irType->isLambdaType()) {
@@ -90,6 +92,15 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRRefType> irRe
     auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irRefTypeValue, irTypeValueType->getAllocIndex());
     InstructionIRInjectorHelper::injectStore(refValueTypeValue, allocPointer, irBlock, irTypeValueType);
     return irRefTypeValue;
+}
+
+llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRSharedPtrType> irSharedPtrType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
+    auto irSharedPtrTypeValue = InstructionIRInjectorHelper::inject(irSharedPtrType->getValue(), irBlock);
+    auto sharedValueTypeValue = this->inject(irSharedPtrType->getSharedValueIRType(), irBlock, irInjector, irModule);
+    auto irTypeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irSharedPtrType->getValue()->getIRType()->getSourceType());
+    auto allocPointer = irBlock->getBuilder()->get()->CreateStructGEP(irTypeValueType->getType(), irSharedPtrTypeValue, irTypeValueType->getAllocIndex());
+    InstructionIRInjectorHelper::injectStore(sharedValueTypeValue, allocPointer, irBlock, irTypeValueType);
+    return irSharedPtrTypeValue;
 }
 
 llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRCapturedVariableType> irCapturedVariableType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {

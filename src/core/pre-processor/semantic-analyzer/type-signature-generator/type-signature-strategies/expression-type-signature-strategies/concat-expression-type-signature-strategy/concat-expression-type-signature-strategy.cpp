@@ -4,7 +4,7 @@
 
 #include "concat-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 
 void ConcatExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTConcatExpressionNode> concatExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
@@ -13,14 +13,14 @@ void ConcatExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTConcatExpr
     auto leftTypeSignature = concatExpression->getLeftNode()->getTypeSignature();
     auto rightTypeSignature = concatExpression->getRightNode()->getTypeSignature();
 
-    if (leftTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(leftTypeSignature->getTargetTypeSignature());
-        leftTypeSignature = refTypeSignature->getUnderlyingType();
+    if (leftTypeSignature->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(leftTypeSignature->getTargetTypeSignature());
+        leftTypeSignature = sharedTypeSignature->getUnderlyingType();
     }
 
-    if (rightTypeSignature->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(rightTypeSignature->getTargetTypeSignature());
-        rightTypeSignature = refTypeSignature->getUnderlyingType();
+    if (rightTypeSignature->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(rightTypeSignature->getTargetTypeSignature());
+        rightTypeSignature = sharedTypeSignature->getUnderlyingType();
     }
 
 

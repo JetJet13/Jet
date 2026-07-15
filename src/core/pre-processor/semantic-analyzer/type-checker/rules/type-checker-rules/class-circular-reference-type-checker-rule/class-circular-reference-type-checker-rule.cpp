@@ -4,13 +4,13 @@
 
 #include "class-circular-reference-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
 void ClassCircularReferenceTypeCheckerRule::enforce(std::shared_ptr<ClassTypeSignature> classTypeSignature, std::shared_ptr<ClassPropertyTypeSignature> classPropertyTypeSignature, ErrorMessageLambda& message, TypeCheckerResult* typeCheckerResult) {
     auto propertyTypeSignature = classPropertyTypeSignature->getType();
-    if (propertyTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        propertyTypeSignature = (std::dynamic_pointer_cast<RefTypeSignature>(propertyTypeSignature)->getUnderlyingType());
+    if (propertyTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        propertyTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(propertyTypeSignature)->getUnderlyingType());
     }
 
     if (propertyTypeSignature->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {

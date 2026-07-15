@@ -64,8 +64,8 @@ std::shared_ptr<IRType> IRExpressionNode::getUnderlyingIRType() {
 
 TypeSource IRExpressionNode::getInjectorTypeSource() {
     auto typeSignature = this->getTypeSignature();
-    if (typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
-        return REF_TYPE_SOURCE;
+    if (typeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        return SHARED_TYPE_SOURCE;
     }
     return typeSignature->getTypeTarget();
 }

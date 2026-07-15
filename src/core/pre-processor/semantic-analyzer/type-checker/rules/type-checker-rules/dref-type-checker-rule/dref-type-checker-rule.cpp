@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void DrefTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<TypeSignature> typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
-    if (!typeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
+    if (!typeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
         typeCheckerResult->addError(invalidMessage());
     }
 }

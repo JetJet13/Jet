@@ -40,10 +40,10 @@ namespace RefValueAssignmentStatementTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        if (!refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        if (!refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature());
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(refValueAssignmentStatementNode->getVariableAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::RefValueAssignmentTypeMismatch(refValueAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
         ->enforce(

@@ -253,6 +253,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_STRUCT_TYPE_NODE:
         case AST_TUPLE_TYPE_NODE:
         case AST_REF_TYPE_NODE:
+        case AST_SHARED_TYPE_NODE:
         case AST_TUPLE_EXPRESSION_NODE:
         case AST_MODULE_LIST_NODE:
         case AST_IMPORT_MODULE_LIST_NODE:

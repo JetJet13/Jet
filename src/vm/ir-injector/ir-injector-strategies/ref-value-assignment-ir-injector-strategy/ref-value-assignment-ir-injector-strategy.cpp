@@ -6,6 +6,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-type/ir-ref-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
+#include "../../../ir-type/ir-shared-ptr-type.h"
 
 void RefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRRefValueAssignmentStatementNode> irRefValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto irType = irRefValueAssignmentStatement->getIRExpression()->getUnderlyingIRType();
@@ -35,9 +36,9 @@ void RefValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRRefValueAssi
         );
     } else {
         auto variable = scope->find(irRefValueAssignmentStatement->getVariableName()).value();
-        auto irRefType = std::dynamic_pointer_cast<IRRefType>(variable->getIRType()->getSourceType());
-        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        auto irSharedPtrType = std::dynamic_pointer_cast<IRSharedPtrType>(variable->getIRType()->getSourceType());
+        auto typeValue = irInjector->inject(irBlock, irSharedPtrType->getUnderlyingType(), irModule);
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irSharedPtrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         DebugIRInjectorHelper::injectLog(irBlock, "REF VALUE ASSIGNMENT - FREEING CURRENT VALUE", irInjector, irModule);
         irBlock->getBuilder()->get()->CreateCall(
                 irModule->getSetRefValueFunction(),

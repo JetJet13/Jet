@@ -13,7 +13,7 @@ namespace ForInStatementTypeCheckerPolicy {
         auto notIterableMessage = TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource());
 
         auto sourceTypeSignature = forStatementNode->getSource()->getTypeSignature();
-        if (sourceTypeSignature->typeSourceIs(REF_TYPE_SOURCE)) {
+        if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
             auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature);
             sourceTypeSignature = refTypeSignature->getUnderlyingType();
         }

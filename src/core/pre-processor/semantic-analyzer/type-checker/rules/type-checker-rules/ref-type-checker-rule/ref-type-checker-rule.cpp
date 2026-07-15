@@ -6,7 +6,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 void RefTypeSignatureTypeCheckerRule::enforce(std::shared_ptr<RefTypeSignature> typeSignature, ErrorMessageLambda& invalidMessage, TypeCheckerResult* typeCheckerResult) {
-    if (typeSignature->getUnderlyingType()->typeSourceIs(REF_TYPE_SOURCE)) {
+    if (typeSignature->getUnderlyingType()->typeSourceIs(SHARED_TYPE_SOURCE)) {
         typeCheckerResult->addError(invalidMessage());
     }
 }

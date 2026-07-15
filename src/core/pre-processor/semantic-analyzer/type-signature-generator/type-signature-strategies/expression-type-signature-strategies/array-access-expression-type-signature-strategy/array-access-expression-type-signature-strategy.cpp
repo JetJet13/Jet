@@ -6,16 +6,16 @@
 #include "array-access-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
 #include "../../../../../../type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../../../type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 void ArrayAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTArrayAccessExpressionNode> arrayAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(arrayAccessExpression->getSource(), context, scope);
     strategyMap->assignTypeSignatureFor(arrayAccessExpression->getIndex()->getIndex(), context, scope);
 
-    if (arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(REF_TYPE_SOURCE)) {
-        auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(arrayAccessExpression->getSource()->getTypeSignature()->getTargetTypeSignature());
-        if (refTypeSignature->getUnderlyingType()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
-            auto arrayTypeSignature = std::dynamic_pointer_cast<ArrayTypeSignature>(refTypeSignature->getUnderlyingType()->getTargetTypeSignature());
+    if (arrayAccessExpression->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)) {
+        auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(arrayAccessExpression->getSource()->getTypeSignature()->getTargetTypeSignature());
+        if (sharedTypeSignature->getUnderlyingType()->typeTargetIs(ARRAY_TYPE_SOURCE)) {
+            auto arrayTypeSignature = std::dynamic_pointer_cast<ArrayTypeSignature>(sharedTypeSignature->getUnderlyingType()->getTargetTypeSignature());
             arrayAccessExpression->setTypeSignature(arrayTypeSignature->getElementType());
             return;
         }

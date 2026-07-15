@@ -604,6 +604,11 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(std::shared_ptr<I
                 this->generateConstantPointer(),
                 this->generateConstantPointer()
         });
+    } else if (irType->isSharedType()) {
+        return llvm::ConstantStruct::get(_sharedPtrType, {
+                this->generateConstantPointer(),
+                this->generateConstantPointer()
+        });
     } else if (irType->isInvocableType()) {
         return llvm::ConstantStruct::get(_invocableType, {
                 this->generateConstantPointer(),

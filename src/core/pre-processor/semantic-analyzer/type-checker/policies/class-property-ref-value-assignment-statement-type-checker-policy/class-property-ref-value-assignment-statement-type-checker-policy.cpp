@@ -40,10 +40,10 @@ namespace ClassPropertyRefValueAssignmentStatementTypeCheckerPolicy {
                 typeCheckerResult
         );
 
-        if (!classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        if (!classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature());
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(classPropertyRefValueAssignmentStatementNode->getPropertyAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ClassPropertyRefValueAssignmentTypeMismatch(classPropertyRefValueAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
         ->enforce(

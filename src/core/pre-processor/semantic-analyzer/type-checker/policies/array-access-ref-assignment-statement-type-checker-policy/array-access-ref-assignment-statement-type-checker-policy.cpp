@@ -40,10 +40,10 @@ namespace ArrayAccessRefAssignmentStatementTypeCheckerPolicy {
                         typeCheckerResult
                 );
 
-        if (!arrayAccessRefAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature()->typeSourceIs(REF_TYPE_SOURCE)) {
+        if (!arrayAccessRefAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
             return;
         }
-        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(arrayAccessRefAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature());
+        auto assignmentRefTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(arrayAccessRefAssignmentStatementNode->getArrayAccessAssignment()->getTypeSignature());
         auto assignmentTypeMismatchMessage = TypeCheckerErrorMessageTable::ArrayAccessRefValueAssignmentTypeMismatch(arrayAccessRefAssignmentStatementNode);
         TypeCheckerRuleProvider::getRefValueAssignmentTypeCheckerRule()
                 ->enforce(
