@@ -2,22 +2,23 @@
 // Created by Johny Georges on 2026-02-16.
 //
 
-#include "set-ref-value-ir-function.h"
+#include "set-shared-value-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../types/ir-type-id.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 
-std::string SetRefValueIRFunction::getSetRefValueIRFunctionName() {
-    return "jet.set.ref.value";
+std::string SetSharedValueIRFunction::getSetSharedValueIRFunctionName() {
+    return "jet.set.shared.value";
 }
 
-void SetRefValueIRFunction::generateSetRefValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void SetSharedValueIRFunction::generateSetSharedValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();
     auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, SetRefValueIRFunction::getSetRefValueIRFunctionName(), irModuleNode->getModule()->get());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
+                                           SetSharedValueIRFunction::getSetSharedValueIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 

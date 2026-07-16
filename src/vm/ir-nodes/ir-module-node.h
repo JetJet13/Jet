@@ -83,10 +83,9 @@ private:
     std::string _arraySizeFunctionName;
     std::string _arrayEmptyFunctionName;
     std::string _memcpyFunctionName;
-    std::string _setupRefFunctionName;
+    std::string _setupSharedPtrFunctionName;
     std::string _setupRefForStructFunctionName;
-    std::string _refOfFunctionName;
-    std::string _sameRefAsFunctionName;
+    std::string _sharesWithFunctionName;
     std::string _setRefValueFunctionName;
     std::string _incrementRefCountFunctionName;
     std::string _incrementLambdaRefCountFunctionName;
@@ -165,11 +164,10 @@ public:
                  std::string arraySizeFunctionName,
                  std::string arrayEmptyFunctionName,
                  std::string memcpyFunctionName,
-                 std::string setupRefFunctionName,
+                 std::string setupSharedPtrFunctionName,
                  std::string setupRefForStructFunctionName,
-                 std::string refOfFunctionName,
-                 std::string sameRefAsFunctionName,
-                 std::string _setRefValueFunctionName,
+                 std::string sharesWithFunctionName,
+                 std::string setRefValueFunctionName,
                  std::string incrementRefCountFunctionName,
                  std::string incrementLambdaRefCountFunctionName,
                  std::string incrementRefCountIfNecessaryFunctionName,
@@ -249,10 +247,9 @@ public:
     llvm::Function* getArraySizeFunction();
     llvm::Function* getArrayEmptyFunction();
     llvm::Function* getMemcpyFunction();
-    llvm::Function* getSetupRefFunction();
+    llvm::Function* getSetupSharedPtrFunction();
     llvm::Function* getSetupRefForStructFunction();
-    llvm::Function* getRefOfFunction();
-    llvm::Function* getSameRefAsFunction();
+    llvm::Function* getSharesWithFunction();
     llvm::Function* getSetRefValueFunction();
     llvm::Function* getIncrementRefCountFunction();
     llvm::Function* getIncrementLambdaRefCountFunction();

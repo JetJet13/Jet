@@ -9,7 +9,7 @@ IRSharedPtrType::IRSharedPtrType(llvm::StructType* type, std::shared_ptr<IRType>
     _sharedCounterIRType = sharedCounterIRType;
     _sharedIRType = sharedIRType;
     _sharedValueIndex = 0;
-    _sharedCounterIndex = 1;
+    _refCounterIndex = 1;
 }
 
 llvm::StructType* IRSharedPtrType::getType() {
@@ -20,17 +20,16 @@ unsigned int IRSharedPtrType::getSharedValueIndex() const {
     return _sharedValueIndex;
 }
 
-unsigned int IRSharedPtrType::getSharedCounterIndex() const {
-    return _sharedCounterIndex;
+unsigned int IRSharedPtrType::getRefCounterIndex() const {
+    return _refCounterIndex;
 }
-
 
 llvm::PointerType* IRSharedPtrType::getSharedValueType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_sharedValueIndex));
 }
 
 llvm::PointerType* IRSharedPtrType::getSharedCounterType() {
-    return llvm::cast<llvm::PointerType>(_type->getElementType(_sharedCounterIndex));
+    return llvm::cast<llvm::PointerType>(_type->getElementType(_refCounterIndex));
 }
 
 std::shared_ptr<IRType> IRSharedPtrType::getSharedCounterIRType() {

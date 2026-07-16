@@ -106,7 +106,7 @@
 #include "ir-util-functions/free-string-ir-function/free-string-ir-function.h"
 #include "ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.h"
 #include "ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.h"
-#include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
+#include "ir-util-functions/setup-shared-ptr-ir-function/setup-shared-ptr-ir-function.h"
 #include "ir-util-functions/range-ir-function/range-ir-function.h"
 #include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
 #include "ir-util-functions/array-head-ir-function/array-head-ir-function.h"
@@ -127,8 +127,7 @@
 #include "ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
 #include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
 #include "ir-prototypes/ir-shared-ptr-prototype-map.h"
-#include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
-#include "ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
+#include "ir-util-functions/shares-with-ir-function/shares-with-ir-function.h"
 #include "ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.h"
 #include "ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h"
 #include "ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h"
@@ -145,7 +144,7 @@
 #include "ir-internal-modules/ir-core-internal-module/ir-core-internal-module.h"
 #include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
-#include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
+#include "ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.h"
 #include "ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.h"
 #include "ir-prototypes/ir-string-prototype-map.h"
 #include "ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
@@ -1314,11 +1313,10 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             ArraySizeIRFunction::getArraySizeIRFunctionName(),
             ArrayEmptyIRFunction::getArrayEmptyIRFunctionName(),
             MemcpyIRFunction::getMemcpyIRFunctionName(),
-            SetupRefIRFunction::getSetupRefIRFunctionName(),
+            SetupSharedPtrIRFunction::getSetupSharedPtrIRFunctionName(),
             SetupRefForStructIRFunction::getSetupRefForStructIRFunctionName(),
-            RefOfIRFunction::getRefOfIRFunctionName(),
-            SameRefAsIRFunction::getSameRefAsIRFunctionName(),
-            SetRefValueIRFunction::getSetRefValueIRFunctionName(),
+            SharesWithIRFunction::getSharesWithIRFunctionName(),
+            SetSharedValueIRFunction::getSetSharedValueIRFunctionName(),
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
             IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
             IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecessaryIRFunctionName(),

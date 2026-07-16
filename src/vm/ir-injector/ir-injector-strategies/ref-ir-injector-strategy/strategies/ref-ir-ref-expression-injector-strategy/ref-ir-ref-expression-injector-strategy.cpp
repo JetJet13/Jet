@@ -51,7 +51,7 @@ llvm::Value* RefIRRefExpressionInjectorStrategy::setupRef(llvm::Value* allocatio
         );
         InstructionIRInjectorHelper::injectStore(value, malloc, irBlock, irType->getSourceType());
         irBlock->getBuilder()->get()->CreateCall(
-                irModule->getSetupRefFunction(),
+                irModule->getSetupSharedPtrFunction(),
                 { allocation, malloc, valueArc }
         );
 

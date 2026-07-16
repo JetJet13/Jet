@@ -35,9 +35,8 @@
 #include "../../ir-util-functions/memcpy-ir-function/memcpy-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.h"
 #include "../../ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.h"
-#include "../../ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
-#include "../../ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
-#include "../../ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
+#include "../../ir-util-functions/shares-with-ir-function/shares-with-ir-function.h"
+#include "../../ir-util-functions/setup-shared-ptr-ir-function/setup-shared-ptr-ir-function.h"
 #include "../../ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.h"
 #include "../../ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "../../ir-util-functions/string-concat-ir-function/string-concat-ir-function.h"
@@ -56,7 +55,7 @@
 #include "../../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
 #include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
-#include "../../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
+#include "../../ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.h"
 #include "../../ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.h"
 #include "../../ir-util-functions/string-drop-ir-function/string-drop-ir-function.h"
 #include "../../ir-util-functions/string-drop-last-ir-function/string-drop-last-ir-function.h"
@@ -139,11 +138,10 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     IncrementRefCountIRFunction::generateIncrementRefCountFunction(irGenerator, context, irModule);
     IncrementLambdaRefCountIRFunction::generateIncrementLambdaRefCountFunction(irGenerator, context, irModule);
     IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessaryFunction(irGenerator, context, irModule);
-    RefOfIRFunction::generateRefOfFunction(irGenerator, context, irModule);
-    SameRefAsIRFunction::generateSameRefAsFunction(irGenerator, context, irModule);
+    SharesWithIRFunction::generateSharesWithFunction(irGenerator, context, irModule);
     FreeSharedPtrValueIRFunction::generateFreeSharedPtrValueFunction(irGenerator, context, irModule);
-    SetRefValueIRFunction::generateSetRefValueFunction(irGenerator, context, irModule);
-    SetupRefIRFunction::generateSetupRefFunction(irGenerator, context, irModule);
+    SetSharedValueIRFunction::generateSetSharedValueFunction(irGenerator, context, irModule);
+    SetupSharedPtrIRFunction::generateSetupSharedPtrFunction(irGenerator, context, irModule);
     SetupRefForStructIRFunction::generateSetupRefForStructFunction(irGenerator, context, irModule);
     CopyValueIRFunction::generateCopyValueFunction(irGenerator, context, irModule);
     CopyArrayIRFunction::generateCopyArrayFunction(irGenerator, context, irModule);

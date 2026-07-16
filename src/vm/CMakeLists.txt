@@ -472,8 +472,8 @@ add_library(jet-vm
         ir-generator/ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.h
         ir-generator/ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.cpp
         ir-generator/ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.h
-        ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.cpp
-        ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
+        ir-generator/ir-util-functions/setup-shared-ptr-ir-function/setup-shared-ptr-ir-function.cpp
+        ir-generator/ir-util-functions/setup-shared-ptr-ir-function/setup-shared-ptr-ir-function.h
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.h
         ir-generator/ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.cpp
@@ -586,12 +586,10 @@ add_library(jet-vm
         ir-generator/ir-prototypes/ir-shared-ptr-prototype-map.cpp
         ir-generator/ir-prototypes/ir-shared-ptr-prototype-map.h
         types/ir-shared-ptr-prototype-function.h
-        ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.cpp
-        ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.h
         ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.h
-        ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp
-        ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
+        ir-generator/ir-util-functions/shares-with-ir-function/shares-with-ir-function.cpp
+        ir-generator/ir-util-functions/shares-with-ir-function/shares-with-ir-function.h
         ir-type/ir-invocable-parameter-list-type.cpp
         ir-type/ir-invocable-parameter-list-type.h
         ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.cpp
@@ -689,8 +687,8 @@ add_library(jet-vm
         ir-nodes/ir-binary-operator-node.h
         utils/binary-arithmetic-dsu/binary-arithmetic-dsu.cpp
         utils/binary-arithmetic-dsu/binary-arithmetic-dsu.h
-        ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.cpp
-        ir-generator/ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h
+        ir-generator/ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.cpp
+        ir-generator/ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.h
         ir-generator/ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.cpp
         ir-generator/ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.h
         ir-nodes/ir-statement-nodes/ir-shared-value-assignment-statement-node.cpp

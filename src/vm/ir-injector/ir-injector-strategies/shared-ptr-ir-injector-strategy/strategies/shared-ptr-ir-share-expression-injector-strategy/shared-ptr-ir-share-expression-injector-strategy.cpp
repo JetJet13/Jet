@@ -51,7 +51,7 @@ llvm::Value* SharedPtrIRShareExpressionInjectorStrategy::setupSharedPtr(llvm::Va
         );
         InstructionIRInjectorHelper::injectStore(value, malloc, irBlock, irType->getSourceType());
         irBlock->getBuilder()->get()->CreateCall(
-                irModule->getSetupRefFunction(),
+                irModule->getSetupSharedPtrFunction(),
                 { allocation, malloc, valueArc }
         );
 
