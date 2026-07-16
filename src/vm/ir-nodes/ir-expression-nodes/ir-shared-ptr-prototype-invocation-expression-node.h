@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2025-10-25.
 //
 
-#ifndef JETLANG_IR_REF_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H
-#define JETLANG_IR_REF_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H
+#ifndef JETLANG_IR_SHARED_PTR_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H
+#define JETLANG_IR_SHARED_PTR_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H
 
 #include <llvm/IR/Value.h>
 #include "ir-expression-node.h"
@@ -12,7 +12,7 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 #include "../ir-function-nodes/ir-function-argument-node.h"
 
-class IRRefPrototypeInvocationExpressionNode : public IRExpressionNode {
+class IRSharedPtrPrototypeInvocationExpressionNode : public IRExpressionNode {
 private:
     std::shared_ptr<ASTObjectAccessInvocationExpressionNode> _node;
     llvm::CallInst* _irCallInstruction;
@@ -22,7 +22,7 @@ private:
     std::shared_ptr<IRType> _type;
     std::shared_ptr<IRExpressionNode> _irRef;
 public:
-    IRRefPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irRef);
+    IRSharedPtrPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irRef);
     void markAsGlobal() override;
     std::shared_ptr<IRExpressionNode> getIRRefValue();
     std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
@@ -38,4 +38,4 @@ public:
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;
 };
 
-#endif //JETLANG_IR_REF_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H
+#endif //JETLANG_IR_SHARED_PTR_PROTOTYPE_INVOCATION_EXPRESSION_NODE_H

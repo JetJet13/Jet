@@ -92,7 +92,7 @@ TypeSignatureStrategyProvider::TypeSignatureStrategyProvider() {
     _literalTypeSignatureLookupTable = LiteralTypeSignatureLookupTable();
     _arrayPrototypeSignatureMap = ArrayPrototypeTypeSignatureMap();
     _stringPrototypeSignatureMap = StringPrototypeTypeSignatureMap();
-    _refPrototypeSignatureMap = RefPrototypeTypeSignatureMap();
+    _sharedPtrPrototypeSignatureMap = SharedPtrPrototypeTypeSignatureMap();
 }
 
 void TypeSignatureStrategyProvider::assignTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::optional<std::shared_ptr<TypeSignatureLookupTable>> scope) {
@@ -578,6 +578,6 @@ std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvi
     return _stringPrototypeSignatureMap.find(id);
 }
 
-std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findRefPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> refType) {
-    return _refPrototypeSignatureMap.find(id, refType);
+std::optional<std::shared_ptr<FunctionTypeSignature>> TypeSignatureStrategyProvider::findSharedPtrPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> refType) {
+    return _sharedPtrPrototypeSignatureMap.find(id, refType);
 }

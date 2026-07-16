@@ -2,25 +2,25 @@
 // Created by Johny Georges on 2025-05-14.
 //
 
-#include "copy-ref-ir-function.h"
+#include "copy-shared-ptr-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
-std::string CopyRefIRFunction::getCopyRefIRFunctionName() {
-    return "jet.copy.ref";
+std::string CopySharedPtrIRFunction::getCopySharedPtrIRFunctionName() {
+    return "jet.copy.shared.ptr";
 }
 
-void CopyRefIRFunction::declareCopyRefFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void CopySharedPtrIRFunction::declareCopySharedPtrFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(pointerType->getType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopyRefIRFunction::getCopyRefIRFunctionName(), irModuleNode->getModule()->get());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, CopySharedPtrIRFunction::getCopySharedPtrIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void CopyRefIRFunction::generateCopyRefFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void CopySharedPtrIRFunction::generateCopySharedPtrFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto refType = irGenerator->generateIrRefType(pointerType);
 
-    auto function = irModuleNode->getCopyRefFunction();
+    auto function = irModuleNode->getCopySharedPtrFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
     auto pointerToNewRefValue = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());

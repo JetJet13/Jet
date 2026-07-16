@@ -32,7 +32,7 @@ void SetRefValueIRFunction::generateSetRefValueFunction(std::shared_ptr<IRGenera
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() });
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), typeValueType->getSizeInBytesIndex());
     functionBlock->getBuilder()->get()->CreateCall(
-            irModuleNode->getFreeRefValueFunction(),
+            irModuleNode->getFreeSharedPtrValueFunction(),
             { loadedPointerToRefValue, function->getArg(2) }
     );
     functionBlock->getBuilder()->get()->CreateBr(structRefIfBlock->getBlock());

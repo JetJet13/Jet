@@ -207,7 +207,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRString
     return result;
 }
 
-llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRRefPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
+llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRSharedPtrPrototypeInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
 
     auto numArgs = irExpression->getIRArguments()->size();
     for (unsigned long i = 0; i < numArgs; ++i) {

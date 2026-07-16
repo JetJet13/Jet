@@ -151,7 +151,9 @@ func getRefArray(y: [int]): ref<[int]> {
 proc testShare() {
     const x = share 5;
     assert(x == 5);
-    //print("X", x);
+    print("X", x);
+    const y = x;
+    assert(y.sharesWith(x));
 }
 testShare();
 

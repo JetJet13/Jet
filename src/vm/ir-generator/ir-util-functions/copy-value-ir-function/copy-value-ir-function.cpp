@@ -80,8 +80,7 @@ void CopyValueIRFunction::generateCopyValueFunction(std::shared_ptr<IRGenerator>
     );
     refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getCopyRefFunction()->getFunctionType(),
-            irContext->getIRModule()->getCopyRefFunction(),
+            irContext->getIRModule()->getCopySharedPtrFunction(),
             {
                 function->getArg(0),
                 function->getArg(1),

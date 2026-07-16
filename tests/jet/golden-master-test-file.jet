@@ -1370,14 +1370,14 @@ proc testRefPrototype() {
     const bar = foo;
     const mars = bar;
     const vv = ref dref mars;
-    assert(foo.sameRefAs(bar));
-    assert(foo.sameRefAs(mars));
-    assert(bar.sameRefAs(mars));
-    assert(mars.sameRefAs(bar));
-    assert(foo.sameRefAs(ref 500) == false);
-    assert(vv.sameRefAs(ref 500) == false);
-    assert(foo.sameRefAs(vv) == false);
-    assert(vv.sameRefAs(foo) == false);
+    assert(foo.sharesWith(bar));
+    assert(foo.sharesWith(mars));
+    assert(bar.sharesWith(mars));
+    assert(mars.sharesWith(bar));
+    assert(foo.sharesWith(ref 500) == false);
+    assert(vv.sharesWith(ref 500) == false);
+    assert(foo.sharesWith(vv) == false);
+    assert(vv.sharesWith(foo) == false);
 }
 testRefPrototype();
 

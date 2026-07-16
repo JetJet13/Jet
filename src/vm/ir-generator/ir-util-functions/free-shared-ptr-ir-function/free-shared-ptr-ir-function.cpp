@@ -2,27 +2,27 @@
 // Created by Johny Georges on 2025-05-14.
 //
 
-#include "free-ref-ir-function.h"
+#include "free-shared-ptr-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../types/ir-type-id.h"
 
-std::string FreeRefIRFunction::getFreeRefIRFunctionName() {
-    return "jet.free.ref";
+std::string FreeSharedPtrIRFunction::getFreeSharedPtrIRFunctionName() {
+    return "jet.free.shared.ptr";
 }
 
-void FreeRefIRFunction::declareFreeRefFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeSharedPtrIRFunction::declareFreeSharedPtrFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), typeValueType->getType() }, false);
-    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeRefIRFunction::getFreeRefIRFunctionName(), irModuleNode->getModule()->get());
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeSharedPtrIRFunction::getFreeSharedPtrIRFunctionName(), irModuleNode->getModule()->get());
 }
 
-void FreeRefIRFunction::generateFreeRefFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeSharedPtrIRFunction::generateFreeSharedPtrFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto refType = irGenerator->generateIrRefType(pointerType);
 
-    auto function = irModuleNode->getFreeRefFunction();
+    auto function = irModuleNode->getFreeSharedPtrFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 

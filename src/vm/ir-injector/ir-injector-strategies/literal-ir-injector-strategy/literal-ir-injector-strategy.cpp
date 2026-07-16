@@ -46,8 +46,8 @@ llvm::Value* LiteralIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode>
         return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRArrayPrototypeInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_STRING_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRStringPrototypeInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
-    } else if (irExpression->is(IR_REF_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
-        return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRRefPrototypeInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_SHARED_PTR_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
+        return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRSharedPtrPrototypeInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRTupleAccessInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE)) {

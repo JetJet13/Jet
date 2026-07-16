@@ -2,21 +2,21 @@
 // Created by Johny Georges on 2026-02-24.
 //
 
-#include "free-ref-value-ir-function.h"
+#include "free-shared-ptr-value-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../types/ir-type-id.h"
 
-std::string FreeRefValueIRFunction::getFreeRefValueIRFunctionName() {
-    return "jet.free.ref.value";
+std::string FreeSharedPtrValueIRFunction::getFreeSharedPtrValueIRFunctionName() {
+    return "jet.free.shared.ptr.value";
 }
 
-void FreeRefValueIRFunction::generateFreeRefValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
+void FreeSharedPtrValueIRFunction::generateFreeSharedPtrValueFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), typeValueType->getType() }, false);
-    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeRefValueIRFunction::getFreeRefValueIRFunctionName(), irModuleNode->getModule()->get());
+    auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, FreeSharedPtrValueIRFunction::getFreeSharedPtrValueIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
 

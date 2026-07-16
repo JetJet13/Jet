@@ -468,10 +468,10 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-ref-expression-injector-strategy/ref-ir-ref-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-identifier-expression-injector-strategy/ref-ir-identifier-expression-injector-strategy.h
-        ir-generator/ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.cpp
-        ir-generator/ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h
-        ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.cpp
-        ir-generator/ir-util-functions/free-ref-ir-function/free-ref-ir-function.h
+        ir-generator/ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.cpp
+        ir-generator/ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.h
+        ir-generator/ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.cpp
+        ir-generator/ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.h
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.cpp
         ir-generator/ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h
         ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp
@@ -583,13 +583,13 @@ add_library(jet-vm
         ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.h
         ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.cpp
         ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.h
-        ir-generator/ir-prototypes/ir-ref-prototype-map.cpp
-        ir-generator/ir-prototypes/ir-ref-prototype-map.h
-        types/ir-ref-prototype-function.h
+        ir-generator/ir-prototypes/ir-shared-ptr-prototype-map.cpp
+        ir-generator/ir-prototypes/ir-shared-ptr-prototype-map.h
+        types/ir-shared-ptr-prototype-function.h
         ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.cpp
         ir-generator/ir-util-functions/ref-of-ir-function/ref-of-ir-function.h
-        ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.cpp
-        ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.h
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.cpp
         ir-generator/ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h
         ir-type/ir-invocable-parameter-list-type.cpp
@@ -703,8 +703,8 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/class-property-shared-value-assignment-ir-injector-strategy/class-property-shared-value-assignment-ir-injector-strategy.h
         ir-injector/ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.cpp
         ir-injector/ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.h
-        ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.cpp
-        ir-generator/ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h
+        ir-generator/ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.cpp
+        ir-generator/ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.h
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/ref-ir-injector-strategy/strategies/ref-ir-function-invocation-expression-injector-strategy/ref-ir-function-invocation-expression-injector-strategy.h
         ir-nodes/ir-class-nodes/ir-class-static-property-node.cpp

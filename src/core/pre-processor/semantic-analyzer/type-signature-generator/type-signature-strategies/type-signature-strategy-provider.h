@@ -29,7 +29,7 @@
 #include "../../../../ast/ast-nodes/ast-statement-nodes/ast-statement-node.h"
 #include "../../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "array-prototype-type-signature-map/array-prototype-type-signature-map.h"
-#include "ref-prototype-type-signature-map/ref-prototype-type-signature-map.h"
+#include "shared-ptr-prototype-type-signature-map/shared-ptr-prototype-type-signature-map.h"
 #include "../type-signature-context.h"
 #include "string-prototype-type-signature-map/string-prototype-type-signature-map.h"
 
@@ -40,7 +40,7 @@ private:
     TypeSignatureStrategyMap _typeSignatureStrategyMap;
     ArrayPrototypeTypeSignatureMap _arrayPrototypeSignatureMap;
     StringPrototypeTypeSignatureMap _stringPrototypeSignatureMap;
-    RefPrototypeTypeSignatureMap _refPrototypeSignatureMap;
+    SharedPtrPrototypeTypeSignatureMap _sharedPtrPrototypeSignatureMap;
 public:
     TypeSignatureStrategyProvider();
     void assignTypeSignatureFor(std::shared_ptr<ASTNode> node, std::shared_ptr<TypeSignatureContext> context, std::optional<std::shared_ptr<TypeSignatureLookupTable>> scope = {});
@@ -50,7 +50,7 @@ public:
     std::shared_ptr<ParameterListItemTypeSignature> generateClassScopeParameter(std::shared_ptr<ClassTypeSignature> classTypeSignature);
     std::optional<std::shared_ptr<FunctionTypeSignature>> findArrayPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType);
     std::optional<std::shared_ptr<FunctionTypeSignature>> findStringPrototypeTypeSignature(std::string id);
-    std::optional<std::shared_ptr<FunctionTypeSignature>> findRefPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType);
+    std::optional<std::shared_ptr<FunctionTypeSignature>> findSharedPtrPrototypeTypeSignature(std::string id, std::shared_ptr<TypeSignature> elementType);
 };
 
 #endif //JETLANG_TYPE_SIGNATURE_STRATEGY_PROVIDER_H

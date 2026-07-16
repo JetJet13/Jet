@@ -17,7 +17,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)) {
         auto sharedSource = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
-        auto sharedPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(id, sharedSource->getUnderlyingType());
+        auto sharedPrototypeTypeSignature = strategyMap->findSharedPtrPrototypeTypeSignature(id, sharedSource->getUnderlyingType());
         if (sharedPrototypeTypeSignature) {
             objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(sharedPrototypeTypeSignature.value());
             objectAccessInvocationExpression->setTypeSignature(sharedPrototypeTypeSignature.value()->getReturnType());

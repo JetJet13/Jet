@@ -104,8 +104,8 @@
 #include "ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.h"
 #include "ir-util-functions/free-struct-ir-function/free-struct-ir-function.h"
 #include "ir-util-functions/free-string-ir-function/free-string-ir-function.h"
-#include "ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h"
-#include "ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
+#include "ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.h"
+#include "ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.h"
 #include "ir-util-functions/setup-ref-ir-function/setup-ref-ir-function.h"
 #include "ir-util-functions/range-ir-function/range-ir-function.h"
 #include "ir-util-functions/array-concat-ir-function/array-concat-ir-function.h"
@@ -126,7 +126,7 @@
 #include "ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h"
 #include "ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
 #include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
-#include "ir-prototypes/ir-ref-prototype-map.h"
+#include "ir-prototypes/ir-shared-ptr-prototype-map.h"
 #include "ir-util-functions/ref-of-ir-function/ref-of-ir-function.h"
 #include "ir-util-functions/same-ref-as-ir-function/same-ref-as-ir-function.h"
 #include "ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.h"
@@ -146,7 +146,7 @@
 #include "ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
-#include "ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
+#include "ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.h"
 #include "ir-prototypes/ir-string-prototype-map.h"
 #include "ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.h"
 #include "ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.h"
@@ -658,8 +658,8 @@ std::string IRGenerator::getStringPrototypeFunctionName(std::string id) {
     return StringPrototypeMap::getIRName(id);
 }
 
-std::optional<std::string> IRGenerator::getRefPrototypeFunctionName(std::string id) {
-    return RefPrototypeMap::getIRName(id);
+std::optional<std::string> IRGenerator::getSharedPtrPrototypeFunctionName(std::string id) {
+    return SharedPtrPrototypeMap::getIRName(id);
 }
 
 std::string IRGenerator::getJetUtilsFunctionName(std::string id, unsigned long numArgs) {
@@ -1254,7 +1254,7 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             CopyStructRefIRFunction::getCopyStructRefIRFunctionName(),
             CopyValueIRFunction::getCopyValueIRFunctionName(),
             CopyStringIRFunction::getCopyStringIRFunctionName(),
-            CopyRefIRFunction::getCopyRefIRFunctionName(),
+            CopySharedPtrIRFunction::getCopySharedPtrIRFunctionName(),
             FreeArrayIRFunction::getFreeArrayIRFunctionName(),
             FreePointerIRFunction::getFreePointerIRFunctionName(),
             FreeLambdaIRFunction::getFreeLambdaIRFunctionName(),
@@ -1263,8 +1263,8 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             FreeStructRefIRFunction::getFreeStructRefIRFunctionName(),
             FreeValueIRFunction::getFreeValueIRFunctionName(),
             FreeStringIRFunction::getFreeStringIRFunctionName(),
-            FreeRefIRFunction::getFreeRefIRFunctionName(),
-            FreeRefValueIRFunction::getFreeRefValueIRFunctionName(),
+            FreeSharedPtrIRFunction::getFreeSharedPtrIRFunctionName(),
+            FreeSharedPtrValueIRFunction::getFreeSharedPtrValueIRFunctionName(),
             FreeCapturedVariableIRFunction::getFreeCapturedVariableIRFunctionName(),
             FreeClassPropertyIRFunction::getFreeClassPropertyIRFunctionName(),
             PrintIRFunction::getPrintIRFunctionName(),

@@ -5,9 +5,8 @@
 #include "object-access-invocation-expression-ir-strategy.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-ref-prototype-invocation-expression-node.h"
+#include "../../../../ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.h"
@@ -31,21 +30,21 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
     auto irReturnType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
 
 
-    if (node->isRefPrototypeInvocation() && irGenerator->getRefPrototypeFunctionName(node->getName())) {
+    if (node->isSharedPtrPrototypeInvocation() && irGenerator->getSharedPtrPrototypeFunctionName(node->getName())) {
         auto irExpression = irGenerator->generateFor(node->getSource()->getSource(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
-        auto function = irContext->getModule()->getFunction(irGenerator->getRefPrototypeFunctionName(node->getName()).value());
+        auto function = irContext->getModule()->getFunction(irGenerator->getSharedPtrPrototypeFunctionName(node->getName()).value());
         auto irFunctionType = irGenerator->generateFunctionIrType(function->getFunctionType());
-        auto refPrototypeArgList = std::vector<llvm::Value*>();
-        refPrototypeArgList.push_back(irGenerator->generateConstantPointer());
+        auto sharedPtrPrototypeArgList = std::vector<llvm::Value*>();
+        sharedPtrPrototypeArgList.push_back(irGenerator->generateConstantPointer());
         for (int i = 0; i < arguments.size(); ++i) {
-            refPrototypeArgList.push_back(irGenerator->generateConstantPointer());
+            sharedPtrPrototypeArgList.push_back(irGenerator->generateConstantPointer());
         }
 
-        if (function->getFunctionType()->getNumParams() > refPrototypeArgList.size()) {
-            refPrototypeArgList.push_back(irGenerator->generatePlaceholderTypeValueArgument());
+        if (function->getFunctionType()->getNumParams() > sharedPtrPrototypeArgList.size()) {
+            sharedPtrPrototypeArgList.push_back(irGenerator->generatePlaceholderTypeValueArgument());
         }
-        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, refPrototypeArgList);
-        return std::make_shared<IRRefPrototypeInvocationExpressionNode>(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
+        auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, sharedPtrPrototypeArgList);
+        return std::make_shared<IRSharedPtrPrototypeInvocationExpressionNode>(node, function, callInstruction, irFunctionType, arguments, irReturnType, irExpression);
     }
 
     if (node->isArrayPrototypeInvocation()) {

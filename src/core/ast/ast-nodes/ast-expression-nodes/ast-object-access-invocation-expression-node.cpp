@@ -63,7 +63,7 @@ bool ASTObjectAccessInvocationExpressionNode::isStringPrototypeInvocation() {
            && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }
 
-bool ASTObjectAccessInvocationExpressionNode::isRefPrototypeInvocation() {
+bool ASTObjectAccessInvocationExpressionNode::isSharedPtrPrototypeInvocation() {
     return this->getSource()->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)
             && this->getObjectAccess()->getTypeSignature()->isPrototype();
 }

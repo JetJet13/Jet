@@ -60,7 +60,7 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
         }
     } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
         auto sharedSource = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessExpression->getSource()->getSource()->getTypeSignature());
-        auto sharedPrototypeTypeSignature = strategyMap->findRefPrototypeTypeSignature(
+        auto sharedPrototypeTypeSignature = strategyMap->findSharedPtrPrototypeTypeSignature(
                 objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId(),
                 sharedSource->getUnderlyingType());
         if (sharedPrototypeTypeSignature) {

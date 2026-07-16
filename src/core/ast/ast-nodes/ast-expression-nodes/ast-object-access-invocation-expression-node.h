@@ -29,7 +29,7 @@ public:
     unsigned long numArguments();
     bool isArrayPrototypeInvocation();
     bool isStringPrototypeInvocation();
-    bool isRefPrototypeInvocation();
+    bool isSharedPtrPrototypeInvocation();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

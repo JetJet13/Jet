@@ -11,7 +11,7 @@
 #include "../../ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.h"
 #include "../../ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.h"
 #include "../../ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.h"
-#include "../../ir-util-functions/copy-ref-ir-function/copy-ref-ir-function.h"
+#include "../../ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.h"
 #include "../../ir-util-functions/equal-value-ir-function/equal-value-ir-function.h"
 #include "../../ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
 #include "../../ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
@@ -26,7 +26,7 @@
 #include "../../ir-util-functions/free-struct-ir-function/free-struct-ir-function.h"
 #include "../../ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.h"
 #include "../../ir-util-functions/free-string-ir-function/free-string-ir-function.h"
-#include "../../ir-util-functions/free-ref-ir-function/free-ref-ir-function.h"
+#include "../../ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.h"
 #include "../../ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.h"
 #include "../../ir-util-functions/array-access-ir-function/array-access-ir-function.h"
 #include "../../ir-util-functions/malloc-ir-function/malloc-ir-function.h"
@@ -57,7 +57,7 @@
 #include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "../../ir-util-functions/set-ref-value-ir-function/set-ref-value-ir-function.h"
-#include "../../ir-util-functions/free-ref-value-ir-function/free-ref-value-ir-function.h"
+#include "../../ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.h"
 #include "../../ir-util-functions/string-drop-ir-function/string-drop-ir-function.h"
 #include "../../ir-util-functions/string-drop-last-ir-function/string-drop-last-ir-function.h"
 #include "../../ir-util-functions/string-empty-ir-function/string-empty-ir-function.h"
@@ -99,7 +99,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     CopyLambdaIRFunction::declareCopyLambdaFunction(irGenerator, context, irModule);
     CopyStructIRFunction::declareCopyStructFunction(irGenerator, context, irModule);
     CopyStructRefIRFunction::declareCopyStructRefFunction(irGenerator, context, irModule);
-    CopyRefIRFunction::declareCopyRefFunction(irGenerator, context, irModule);
+    CopySharedPtrIRFunction::declareCopySharedPtrFunction(irGenerator, context, irModule);
     EqualValueIRFunction::declareEqualValueFunction(irGenerator, context, irModule);
     EqualArrayIRFunction::declareEqualArrayFunction(irGenerator, context, irModule);
     EqualStringIRFunction::declareEqualStringFunction(irGenerator, context, irModule);
@@ -117,7 +117,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     FreeStructIRFunction::declareFreeStructFunction(irGenerator, context, irModule);
     FreeStructRefIRFunction::declareFreeStructRefFunction(irGenerator, context, irModule);
     FreeStringIRFunction::declareFreeStringFunction(irGenerator, context, irModule);
-    FreeRefIRFunction::declareFreeRefFunction(irGenerator, context, irModule);
+    FreeSharedPtrIRFunction::declareFreeSharedPtrFunction(irGenerator, context, irModule);
     FreeCapturedVariableIRFunction::declareFreeCapturedVariableFunction(irGenerator, context, irModule);
     PrintIRFunction::declarePrintDebugMarkerFunction(irGenerator, context, irModule);
     PrintIRFunction::declarePrintDebugPointerFunction(irGenerator, context, irModule);
@@ -141,7 +141,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     IncrementRefCountIfNecessaryIRFunction::generateIncrementRefCountIfNecessaryFunction(irGenerator, context, irModule);
     RefOfIRFunction::generateRefOfFunction(irGenerator, context, irModule);
     SameRefAsIRFunction::generateSameRefAsFunction(irGenerator, context, irModule);
-    FreeRefValueIRFunction::generateFreeRefValueFunction(irGenerator, context, irModule);
+    FreeSharedPtrValueIRFunction::generateFreeSharedPtrValueFunction(irGenerator, context, irModule);
     SetRefValueIRFunction::generateSetRefValueFunction(irGenerator, context, irModule);
     SetupRefIRFunction::generateSetupRefFunction(irGenerator, context, irModule);
     SetupRefForStructIRFunction::generateSetupRefForStructFunction(irGenerator, context, irModule);
@@ -152,7 +152,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     CopyStructIRFunction::generateCopyStructFunction(irGenerator, context, irModule);
     CopyStructRefIRFunction::generateCopyStructRefFunction(irGenerator, context, irModule);
     CopyStringIRFunction::generateCopyStringFunction(irGenerator, context, irModule);
-    CopyRefIRFunction::generateCopyRefFunction(irGenerator, context, irModule);
+    CopySharedPtrIRFunction::generateCopySharedPtrFunction(irGenerator, context, irModule);
     EqualValueIRFunction::generateEqualValueFunction(irGenerator, context, irModule);
     EqualArrayIRFunction::generateEqualArrayFunction(irGenerator, context, irModule);
     EqualStringIRFunction::generateEqualStringFunction(irGenerator, context, irModule);
@@ -170,7 +170,7 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     FreeStructIRFunction::generateFreeStructFunction(irGenerator, context, irModule);
     FreeStructRefIRFunction::generateFreeStructRefFunction(irGenerator, context, irModule);
     FreeStringIRFunction::generateFreeStringFunction(irGenerator, context, irModule);
-    FreeRefIRFunction::generateFreeRefFunction(irGenerator, context, irModule);
+    FreeSharedPtrIRFunction::generateFreeSharedPtrFunction(irGenerator, context, irModule);
     FreeCapturedVariableIRFunction::generateFreeCapturedVariableFunction(irGenerator, context, irModule);
     FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(irGenerator, context, irModule);
     PrintIRFunction::generatePrintDebugGlobals(irGenerator, context, irModule);

@@ -81,8 +81,8 @@ void FreeValueIRFunction::generateFreeValueFunction(std::shared_ptr<IRGenerator>
     );
     refIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeRef, refIfThenBlock->getBlock(), structRefIfBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateCall(
-            irContext->getIRModule()->getFreeRefFunction()->getFunctionType(),
-            irContext->getIRModule()->getFreeRefFunction(),
+            irContext->getIRModule()->getFreeSharedPtrFunction()->getFunctionType(),
+            irContext->getIRModule()->getFreeSharedPtrFunction(),
             {
                 function->getArg(0),
                 function->getArg(1)

@@ -23,7 +23,7 @@ private:
     std::string _copyStructRefFunctionName;
     std::string _copyValueFunctionName;
     std::string _copyStringFunctionName;
-    std::string _copyRefFunctionName;
+    std::string _copySharedPtrFunctionName;
     std::string _freeArrayFunctionName;
     std::string _freePointerFunctionName;
     std::string _freeLambdaFunctionName;
@@ -32,10 +32,10 @@ private:
     std::string _freeStructRefFunctionName;
     std::string _freeValueFunctionName;
     std::string _freeStringFunctionName;
-    std::string _freeRefFunctionName;
+    std::string _freeSharedPtrFunctionName;
     std::string _freeCapturedVariableFunctionName;
     std::string _freeClassPropertyFunctionName;
-    std::string _freeRefValueFunctionName;
+    std::string _freeSharedPtrValueFunctionName;
     std::string _printFunctionName;
     std::string _printIntFunctionName;
     std::string _printFloatFunctionName;
@@ -105,7 +105,7 @@ public:
                  std::string copyStructRefFunctionName,
                  std::string copyValueFunctionName,
                  std::string copyStringFunctionName,
-                 std::string copyRefFunctionName,
+                 std::string copySharedPtrFunctionName,
                  std::string freeArrayFunctionName,
                  std::string freePointerFunctionName,
                  std::string freeLambdaFunctionName,
@@ -114,8 +114,8 @@ public:
                  std::string freeStructRefFunctionName,
                  std::string freeValueFunctionName,
                  std::string freeStringFunctionName,
-                 std::string freeRefFunctionName,
-                 std::string freeRefValueFunctionName,
+                 std::string freeSharedPtrFunctionName,
+                 std::string freeSharedPtrValueFunctionName,
                  std::string freeCapturedVariableFunctionName,
                  std::string freeClassPropertyFunctionName,
                  std::string printFunctionName,
@@ -189,7 +189,7 @@ public:
     llvm::Function* getCopyStructRefFunction();
     llvm::Function* getCopyValueFunction();
     llvm::Function* getCopyStringFunction();
-    llvm::Function* getCopyRefFunction();
+    llvm::Function* getCopySharedPtrFunction();
     llvm::Function* getFreeArrayFunction();
     llvm::Function* getFreePointerFunction();
     llvm::Function* getFreeLambdaFunction();
@@ -198,8 +198,8 @@ public:
     llvm::Function* getFreeStructRefFunction();
     llvm::Function* getFreeValueFunction();
     llvm::Function* getFreeStringFunction();
-    llvm::Function* getFreeRefFunction();
-    llvm::Function* getFreeRefValueFunction();
+    llvm::Function* getFreeSharedPtrFunction();
+    llvm::Function* getFreeSharedPtrValueFunction();
     llvm::Function* getFreeCapturedVariableFunction();
     llvm::Function* getFreeClassPropertyFunction();
     llvm::Function* getPrintFunction();
