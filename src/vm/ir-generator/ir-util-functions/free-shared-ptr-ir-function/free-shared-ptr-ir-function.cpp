@@ -4,7 +4,6 @@
 
 #include "free-shared-ptr-ir-function.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
-#include "../../../types/ir-type-id.h"
 
 std::string FreeSharedPtrIRFunction::getFreeSharedPtrIRFunctionName() {
     return "jet.free.shared.ptr";
@@ -20,7 +19,7 @@ void FreeSharedPtrIRFunction::declareFreeSharedPtrFunction(std::shared_ptr<IRGen
 void FreeSharedPtrIRFunction::generateFreeSharedPtrFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto refType = irGenerator->generateIrRefType(pointerType);
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(pointerType);
 
     auto function = irModuleNode->getFreeSharedPtrFunction();
     auto functionBlock = irGenerator->generateFunctionBlock(function);
@@ -31,12 +30,12 @@ void FreeSharedPtrIRFunction::generateFreeSharedPtrFunction(std::shared_ptr<IRGe
     auto freeValueElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     auto freeValueEndBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
-    auto refValueIndex = refType->getRefValueIndex();
-    auto refCounterIndex = refType->getRefCounterIndex();
+    auto sharedValueIndex = sharedPtrType->getSharedValueIndex();
+    auto refCounterIndex = sharedPtrType->getRefCounterIndex();
 
-    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refCounterIndex);
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), refCounterIndex);
     auto refCounterPointer = functionBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefCounterPointer);
-    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
+    auto currentRefCount = functionBlock->getBuilder()->get()->CreateLoad(sharedPtrType->getRefCounterIRType()->getType(), refCounterPointer, "currentRefCount");
     DebugIRInjectorHelper::injectLog(functionBlock, currentRefCount, irGenerator->getInjector(), irModuleNode);
     functionBlock->getBuilder()->get()->CreateBr(freeValueIfBlock->getBlock());
 
@@ -50,7 +49,7 @@ void FreeSharedPtrIRFunction::generateFreeSharedPtrFunction(std::shared_ptr<IRGe
 
     auto underlyingTypePointer = freeValueIfThenBlock->getBuilder()->get()->CreateExtractValue(function->getArg(1), { typeValueType->getAllocIndex() });
     auto loadedUnderlyingType = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(typeValueType->getType(), underlyingTypePointer);
-    auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refValueIndex);
+    auto pointerToRefValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), sharedValueIndex);
     auto refValuePointer = freeValueIfThenBlock->getBuilder()->get()->CreateLoad(pointerType->getType(), pointerToRefValuePointer);
     freeValueIfThenBlock->getBuilder()->get()->CreateCall(
         irContext->getIRModule()->getFreeValueFunction(),

@@ -59,7 +59,6 @@ public:
     virtual bool isClassInstanceType();
     virtual bool isNewClassInstanceType();
     virtual bool isTypeValueType();
-    virtual bool isRefType();
     virtual bool isSharedType();
     virtual bool isVoidType();
     virtual bool isCapturedVariableType();

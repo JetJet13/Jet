@@ -20,11 +20,11 @@ private:
     std::shared_ptr<IRType> _irFunctionType;
     std::vector<std::shared_ptr<IRFunctionArgumentNode>> _arguments;
     std::shared_ptr<IRType> _type;
-    std::shared_ptr<IRExpressionNode> _irRef;
+    std::shared_ptr<IRExpressionNode> _irSharedValue;
 public:
     IRSharedPtrPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irRef);
     void markAsGlobal() override;
-    std::shared_ptr<IRExpressionNode> getIRRefValue();
+    std::shared_ptr<IRExpressionNode> getIRSharedValue();
     std::vector<std::shared_ptr<IRFunctionArgumentNode>>* getIRArguments();
     llvm::CallInst* getValue() override;
     llvm::Value* getFunctionValue();

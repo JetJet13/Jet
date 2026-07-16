@@ -5,14 +5,14 @@
 #include "ir-shared-ptr-prototype-invocation-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
 
-IRSharedPtrPrototypeInvocationExpressionNode::IRSharedPtrPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irRef) {
+IRSharedPtrPrototypeInvocationExpressionNode::IRSharedPtrPrototypeInvocationExpressionNode(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, llvm::Value* irFunction, llvm::CallInst* irCallInstruction, std::shared_ptr<IRType> irFunctionType, std::vector<std::shared_ptr<IRFunctionArgumentNode>> arguments, std::shared_ptr<IRType> type, std::shared_ptr<IRExpressionNode> irSharedValue) {
     _node = node;
     _irCallInstruction = irCallInstruction;
     _irFunction = irFunction;
     _irFunctionType = irFunctionType;
     _arguments = arguments;
     _type = type;
-    _irRef = irRef;
+    _irSharedValue = irSharedValue;
 }
 
 void IRSharedPtrPrototypeInvocationExpressionNode::markAsGlobal() {
@@ -22,8 +22,8 @@ void IRSharedPtrPrototypeInvocationExpressionNode::markAsGlobal() {
     }
 }
 
-std::shared_ptr<IRExpressionNode> IRSharedPtrPrototypeInvocationExpressionNode::getIRRefValue() {
-    return _irRef;
+std::shared_ptr<IRExpressionNode> IRSharedPtrPrototypeInvocationExpressionNode::getIRSharedValue() {
+    return _irSharedValue;
 }
 
 std::vector<std::shared_ptr<IRFunctionArgumentNode>>* IRSharedPtrPrototypeInvocationExpressionNode::getIRArguments() {

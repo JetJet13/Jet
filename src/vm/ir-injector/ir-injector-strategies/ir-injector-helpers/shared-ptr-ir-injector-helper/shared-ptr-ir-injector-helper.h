@@ -7,7 +7,6 @@
 
 #include <llvm/IR/IRBuilder.h>
 #include "../../../ir-injector.h"
-#include "../../../../ir-type/ir-ref-type.h"
 #include "../../../../ir-type/ir-shared-ptr-type.h"
 
 class SharedPtrIRInjectorHelper {

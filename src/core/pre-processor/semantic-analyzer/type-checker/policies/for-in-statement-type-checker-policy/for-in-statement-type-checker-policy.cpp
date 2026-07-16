@@ -14,8 +14,8 @@ namespace ForInStatementTypeCheckerPolicy {
 
         auto sourceTypeSignature = forStatementNode->getSource()->getTypeSignature();
         if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
-            auto refTypeSignature = std::dynamic_pointer_cast<RefTypeSignature>(sourceTypeSignature);
-            sourceTypeSignature = refTypeSignature->getUnderlyingType();
+            auto sharedTypeSignature = std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature);
+            sourceTypeSignature = sharedTypeSignature->getUnderlyingType();
         }
         TypeCheckerRuleProvider::getIterableTypeSignatureTypeCheckerRule()
         ->enforce(

@@ -1067,40 +1067,18 @@ add_library(jet-core
         type-signature/argument-list-type-signature/argument-list-type-signature.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.h
-        ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.cpp
-        ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h
-        ast/ast-nodes/ast-base-nodes/ast-ref-base-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h
         ast/ast-nodes/ast-dref-node.cpp
         ast/ast-nodes/ast-dref-node.h
         ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.h
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h
-        pre-processor/semantic-analyzer/type-checker/policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.cpp
-        pre-processor/semantic-analyzer/type-checker/policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.h
-        ast/ast-nodes/ast-type-nodes/ast-ref-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-ref-type-node.h
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.cpp
-        pre-processor/syntax-analyzer/reducer/reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.h
-        ast/ast-nodes/ast-ref-node.cpp
-        ast/ast-nodes/ast-ref-node.h
-        ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.cpp
-        pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h
-        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.cpp
-        pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h
         ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.cpp
         ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.h
         ast/ast-nodes/ast-array-nodes/ast-array-access-assignment-node.cpp
@@ -1117,8 +1095,6 @@ add_library(jet-core
         post-processor/post-processor.h
         ast-lookup-table/ast-lookup-table.cpp
         ast-lookup-table/ast-lookup-table.h
-        type-signature/ref-type-signature/ref-type-signature.cpp
-        type-signature/ref-type-signature/ref-type-signature.h
         ast/ast-nodes/ast-concat-node.cpp
         ast/ast-nodes/ast-concat-node.h
         ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.cpp

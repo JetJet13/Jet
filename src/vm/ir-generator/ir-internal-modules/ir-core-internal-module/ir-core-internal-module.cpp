@@ -18,7 +18,7 @@
 #include "../../ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h"
 #include "../../ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.h"
 #include "../../ir-util-functions/free-value-ir-function/free-value-ir-function.h"
-#include "../../ir-util-functions/equal-ref-ir-function/equal-ref-ir-function.h"
+#include "../../ir-util-functions/equal-shared-ptr-ir-function/equal-shared-ptr-ir-function.h"
 #include "../../ir-util-functions/free-array-ir-function/free-array-ir-function.h"
 #include "../../ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.h"
 #include "../../ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.h"
@@ -105,9 +105,9 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     EqualStructIRFunction::declareEqualStructFunction(irGenerator, context, irModule);
     EqualStructRefIRFunction::declareEqualStructRefFunction(irGenerator, context, irModule);
     EqualLambdaIRFunction::declareEqualLambdaFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::declareEqualRefFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::declareEqualRefLeftOnlyFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::declareEqualRefRightOnlyFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::declareEqualSharedPtrFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::declareEqualSharedPtrLeftOnlyFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::declareEqualSharedPtrRightOnlyFunction(irGenerator, context, irModule);
     FreeValueIRFunction::declareFreeValueFunction(irGenerator, context, irModule);
     FreeArrayIRFunction::declareFreeArrayFunction(irGenerator, context, irModule);
     FreePointerIRFunction::declareFreePointerFunction(irGenerator, context, irModule);
@@ -157,9 +157,9 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     EqualStructIRFunction::generateEqualStructFunction(irGenerator, context, irModule);
     EqualStructRefIRFunction::generateEqualStructRefFunction(irGenerator, context, irModule);
     EqualLambdaIRFunction::generateEqualLambdaFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::generateEqualRefFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::generateEqualRefLeftOnlyFunction(irGenerator, context, irModule);
-    EqualRefIRFunction::generateEqualRefRightOnlyFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::generateEqualSharedPtrFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::generateEqualSharedPtrLeftOnlyFunction(irGenerator, context, irModule);
+    EqualSharedPtrIRFunction::generateEqualSharedPtrRightOnlyFunction(irGenerator, context, irModule);
     FreeValueIRFunction::generateFreeValueFunction(irGenerator, context, irModule);
     FreeArrayIRFunction::generateFreeArrayFunction(irGenerator, context, irModule);
     FreePointerIRFunction::generateFreePointerFunction(irGenerator, context, irModule);

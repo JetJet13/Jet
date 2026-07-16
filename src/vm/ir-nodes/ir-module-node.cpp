@@ -334,15 +334,15 @@ llvm::Function* IRModuleNode::getEqualLambdaFunction() {
     return this->findFunction(_equalLambdaFunctionName);
 }
 
-llvm::Function* IRModuleNode::getEqualRefFunction() {
+llvm::Function* IRModuleNode::getEqualSharedPtrFunction() {
     return this->findFunction(_equalRefFunctionName);
 }
 
-llvm::Function* IRModuleNode::getEqualRefLeftOnlyFunction() {
+llvm::Function* IRModuleNode::getEqualSharedPtrLeftOnlyFunction() {
     return this->findFunction(_equalRefLeftOnlyFunctionName);
 }
 
-llvm::Function* IRModuleNode::getEqualRefRightOnlyFunction() {
+llvm::Function* IRModuleNode::getEqualSharedPtrRightOnlyFunction() {
     return this->findFunction(_equalRefRightOnlyFunctionName);
 }
 
@@ -414,7 +414,7 @@ llvm::Function* IRModuleNode::getSharesWithFunction() {
     return this->findFunction(_sharesWithFunctionName);
 }
 
-llvm::Function* IRModuleNode::getSetRefValueFunction() {
+llvm::Function* IRModuleNode::getSetSharedValueFunction() {
     return this->findFunction(_setRefValueFunctionName);
 }
 

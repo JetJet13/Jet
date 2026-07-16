@@ -4,7 +4,6 @@
 
 #include "shared-value-assignment-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-type/ir-ref-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../ir-type/ir-shared-ptr-type.h"
 
@@ -27,11 +26,11 @@ void SharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRSharedVal
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
     if (globalVariable) {
-        auto irRefType = std::dynamic_pointer_cast<IRRefType>(globalVariable.value()->getIRType()->getSourceType());
-        auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
-        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+        auto irSharedPtrType = std::dynamic_pointer_cast<IRSharedPtrType>(globalVariable.value()->getIRType()->getSourceType());
+        auto typeValue = irInjector->inject(irBlock, irSharedPtrType->getUnderlyingType(), irModule);
+        auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irSharedPtrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         irBlock->getBuilder()->get()->CreateCall(
-            irModule->getSetRefValueFunction(),
+                irModule->getSetSharedValueFunction(),
             { globalVariable.value()->getValue(), newValueMalloc, loadedTypeValue }
         );
     } else {
@@ -41,7 +40,7 @@ void SharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRSharedVal
         auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irSharedPtrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
         DebugIRInjectorHelper::injectLog(irBlock, "SHARED VALUE ASSIGNMENT - FREEING CURRENT VALUE", irInjector, irModule);
         irBlock->getBuilder()->get()->CreateCall(
-                irModule->getSetRefValueFunction(),
+                irModule->getSetSharedValueFunction(),
                 { variable->getValue(), newValueMalloc,  loadedTypeValue }
         );
     }

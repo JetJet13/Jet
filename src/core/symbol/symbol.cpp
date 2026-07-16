@@ -329,10 +329,6 @@ bool Symbol::isShared() {
     return _type == SYM_SHARED;
 }
 
-bool Symbol::isRef() {
-    return _type == SYM_REF;
-}
-
 bool Symbol::isDref() {
     return _type == SYM_DREF;
 }

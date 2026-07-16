@@ -60,10 +60,7 @@ void SyntaxDfa::init() {
     auto typeColon = DFANodeFactory::Once::create(AST_TYPE_COLON_NODE);
     auto structColon = DFANodeFactory::Once::create(AST_STRUCT_COLON_NODE);
     auto period = DFANodeFactory::Once::create(AST_PERIOD_NODE);
-    auto refKeyword = DFANodeFactory::Once::create(AST_REF_NODE);
-    auto refTypeKeyword = DFANodeFactory::Once::create(AST_REF_TYPE_KEYWORD_NODE);
     auto drefKeyword = DFANodeFactory::Once::create(AST_DREF_NODE);
-    auto refExpression = DFANodeFactory::Once::create(AST_REF_EXPRESSION_NODE);
     auto drefExpression = DFANodeFactory::Once::create(AST_DREF_EXPRESSION_NODE);
     auto shareKeyword = DFANodeFactory::Once::create(AST_SHARE_NODE);
     auto sharedKeyword = DFANodeFactory::Once::create(AST_SHARED_NODE);
@@ -295,7 +292,6 @@ void SyntaxDfa::init() {
             AST_CURRY_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
     });
@@ -320,7 +316,6 @@ void SyntaxDfa::init() {
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
@@ -349,7 +344,6 @@ void SyntaxDfa::init() {
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
@@ -376,7 +370,6 @@ void SyntaxDfa::init() {
             AST_CURRY_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
     });
@@ -397,7 +390,6 @@ void SyntaxDfa::init() {
             AST_TUPLE_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
     });
@@ -417,8 +409,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -455,8 +445,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -472,8 +460,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
@@ -488,8 +474,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -516,8 +500,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -545,8 +527,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -571,8 +551,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -597,8 +575,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -623,8 +599,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -652,8 +626,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -712,8 +684,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -723,7 +693,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
     ->addTransition(DFATransitionFactory::create(concatOperator));
 
-    refExpression
+    shareExpression
     ->backtrackWhenLastReducedNodeIsOneOf({
         AST_UNARY_OPERATOR_NODE,
     })
@@ -734,10 +704,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
     ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_FOR_IN_SOURCE_NODE, std::vector {AST_FOR_IN_NODE }, std::vector {AST_CONTROL_FLOW_START_NODE }))
@@ -799,7 +765,6 @@ void SyntaxDfa::init() {
             AST_LOGICAL_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
             AST_LAMBDA_EXPRESSION_NODE,
@@ -883,7 +848,6 @@ void SyntaxDfa::init() {
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
@@ -928,45 +892,6 @@ void SyntaxDfa::init() {
             DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_SHARED_TYPE_NODE)
     ));
 
-    refKeyword
-    ->markAlwaysReduceSelf();
-
-    this->setupTransitionsWithTarget(refKeyword, AST_REF_EXPRESSION_NODE, {
-            AST_LITERAL_EXPRESSION_NODE,
-            AST_IDENTIFIER_EXPRESSION_NODE,
-            AST_OBJECT_ACCESS_EXPRESSION_NODE,
-            AST_OBJECT_ACCESS_INVOCATION_EXPRESSION_NODE,
-            AST_ARRAY_ACCESS_INVOCATION_EXPRESSION_NODE,
-            AST_TUPLE_ACCESS_INVOCATION_EXPRESSION_NODE,
-            AST_MODULE_ACCESS_EXPRESSION_NODE,
-            AST_LAMBDA_EXPRESSION_NODE,
-            AST_LAMBDA_WITH_FAT_ARROW_EXPRESSION_NODE,
-            AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
-            AST_CURRY_EXPRESSION_NODE,
-            AST_ARRAY_EXPRESSION_NODE,
-            AST_ARRAY_ACCESS_EXPRESSION_NODE,
-            AST_STRUCT_EXPRESSION_NODE,
-            AST_TUPLE_EXPRESSION_NODE,
-            AST_TUPLE_ACCESS_EXPRESSION_NODE,
-            AST_BINARY_ARITHMETIC_EXPRESSION_NODE,
-            AST_BINARY_COMPARATOR_EXPRESSION_NODE,
-            AST_LOGICAL_EXPRESSION_NODE,
-            AST_UNARY_EXPRESSION_NODE,
-            AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
-            AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
-            AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
-            AST_THIS_EXPRESSION_NODE,
-            AST_CONCAT_EXPRESSION_NODE,
-            AST_DREF_EXPRESSION_NODE
-    });
-
-    refTypeKeyword
-    ->reduceSelfWhenNextNodeIsOneOf({ AST_TYPE_PARAMETER_LIST_START_NODE })
-    ->addTransition(
-        DFATransitionFactory::create(
-            DFANodeFactory::Once::createWithTarget(AST_TYPE_PARAMETER_LIST_NODE, AST_REF_TYPE_NODE)
-    ));
-
     drefKeyword
     ->markAlwaysReduceSelf();
 
@@ -984,7 +909,6 @@ void SyntaxDfa::init() {
             AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE,
             AST_CLASS_METHOD_INVOCATION_EXPRESSION_NODE,
             AST_THIS_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
     });
 
@@ -1002,8 +926,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -1029,8 +951,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -1097,8 +1017,6 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -1467,7 +1385,7 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(binaryComparatorOperator));
 
     typeParameterList
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_REF_TYPE_KEYWORD_NODE, AST_SHARED_NODE });
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_SHARED_NODE });
 
     lambdaTypeFatArrow
     ->markAlwaysReduceSelf();
@@ -1497,7 +1415,6 @@ void SyntaxDfa::init() {
             AST_UNARY_EXPRESSION_NODE,
             AST_CONCAT_EXPRESSION_NODE,
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE,
-            AST_REF_EXPRESSION_NODE,
             AST_SHARE_EXPRESSION_NODE,
             AST_DREF_EXPRESSION_NODE
     });
@@ -1772,15 +1689,13 @@ void SyntaxDfa::init() {
     ->addTransition(DFATransitionFactory::create(DFANodeFactory::createAny(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE)));
 
     classPropertyAccessExpression
-    ->backtrackWhenLastReducedNodeIsOneOf({ AST_UNARY_OPERATOR_NODE, AST_DREF_NODE, AST_REF_NODE, AST_SHARE_NODE })
+    ->backtrackWhenLastReducedNodeIsOneOf({ AST_UNARY_OPERATOR_NODE, AST_DREF_NODE, AST_SHARE_NODE })
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_ARITHMETIC_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_CONCAT_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_DREF_NODE, AST_LOGICAL_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
-    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_REF_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_BINARY_COMPARATOR_OPERATOR_NODE, AST_LOGICAL_OPERATOR_NODE))
@@ -2087,10 +2002,7 @@ void SyntaxDfa::init() {
     ->insertStartNode(classMethodDefinition)
     ->insertStartNode(classMethod)
     ->insertStartNode(exportKeyword)
-    ->insertStartNode(refKeyword)
-    ->insertStartNode(refTypeKeyword)
     ->insertStartNode(drefKeyword)
-    ->insertStartNode(refExpression)
     ->insertStartNode(drefExpression)
     ->insertStartNode(shareKeyword)
     ->insertStartNode(sharedKeyword)
@@ -2145,7 +2057,6 @@ void SyntaxDfa::init() {
                       ->backtrackWhenLastReducedNodeIsOneOf({
                             AST_LITERAL_EXPRESSION_NODE,
                             AST_IDENTIFIER_EXPRESSION_NODE,
-                            AST_REF_EXPRESSION_NODE,
                             AST_SHARE_EXPRESSION_NODE,
                             AST_ARRAY_EXPRESSION_NODE,
                             AST_CONCAT_EXPRESSION_NODE
@@ -2258,9 +2169,6 @@ void SyntaxDfa::initVarInit(std::shared_ptr<DFANode> varInitNode, ASTNodeType ta
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, targetNodeType)))
-            ->addTransition(
-                    DFATransitionFactory::create(
-                            DFANodeFactory::Once::createWithTarget(AST_REF_EXPRESSION_NODE, targetNodeType)))
             ->addTransition(
                     DFATransitionFactory::create(
                             DFANodeFactory::Once::createWithTarget(AST_SHARE_EXPRESSION_NODE, targetNodeType)))

@@ -12,12 +12,12 @@ std::string GetRefCountIRFunction::getGetRefCountIRFunctionName() {
 void GetRefCountIRFunction::generateGetRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto pointerType = irGenerator->generatePointerType();
-    auto irRefType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto irSharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(intType, { pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, GetRefCountIRFunction::getGetRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    auto pointerToRefCountPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irRefType->getType(), function->getArg(0), irRefType->getRefCounterIndex());
+    auto pointerToRefCountPointer = functionBlock->getBuilder()->get()->CreateStructGEP(irSharedPtrType->getType(), function->getArg(0), irSharedPtrType->getRefCounterIndex());
     auto loadedRefCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, functionBlock);
     functionBlock->getBuilder()->get()->CreateRet(
         InstructionIRInjectorHelper::injectLoad(intType, loadedRefCountPointer, functionBlock)

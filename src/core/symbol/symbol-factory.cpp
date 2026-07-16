@@ -307,10 +307,6 @@ namespace SymbolFactory {
         return std::make_shared<Symbol>(SYM_EXPORT, "export");
     }
 
-    std::shared_ptr<Symbol> createRefSymbol()  {
-        return std::make_shared<Symbol>(SYM_REF, "ref");
-    }
-
     std::shared_ptr<Symbol> createDrefSymbol()  {
         return std::make_shared<Symbol>(SYM_DREF, "dref");
     }

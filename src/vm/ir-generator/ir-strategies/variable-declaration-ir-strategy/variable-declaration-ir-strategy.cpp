@@ -56,9 +56,9 @@ std::shared_ptr<IRVariableDeclarationNode> VariableDeclarationIRStrategy::genera
 
 std::shared_ptr<IROperation> VariableDeclarationIRStrategy::determineOperationType(std::shared_ptr<ASTVariableDeclarationNode> node) {
     if (node->isGlobal()) {
-        return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? (std::make_shared<IROperation>(IR_SHARED_VALUE_ASSIGNMENT_OP))->markAsGlobal() : (std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP))->markAsGlobal();
+        return node->getInitializerNode()->is(AST_SHARE_EXPRESSION_NODE) ? (std::make_shared<IROperation>(IR_SHARED_VALUE_ASSIGNMENT_OP))->markAsGlobal() : (std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP))->markAsGlobal();
     }
-    return node->getInitializerNode()->is(AST_REF_EXPRESSION_NODE) ? std::make_shared<IROperation>(IR_SHARED_VALUE_ASSIGNMENT_OP) : std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
+    return node->getInitializerNode()->is(AST_SHARE_EXPRESSION_NODE) ? std::make_shared<IROperation>(IR_SHARED_VALUE_ASSIGNMENT_OP) : std::make_shared<IROperation>(IR_COPY_ASSIGNMENT_OP);
 }
 
 std::shared_ptr<IRInstructionNode> VariableDeclarationIRStrategy::generateVariableAllocation(std::shared_ptr<ASTVariableDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRType> irType, std::shared_ptr<IRContext> irContext) {

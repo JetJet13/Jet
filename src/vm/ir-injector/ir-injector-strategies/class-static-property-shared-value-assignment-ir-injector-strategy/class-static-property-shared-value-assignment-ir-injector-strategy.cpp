@@ -5,7 +5,7 @@
 #include "class-static-property-shared-value-assignment-ir-injector-strategy.h"
 #include "../ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-type/ir-ref-type.h"
+#include "../../../ir-type/ir-shared-ptr-type.h"
 
 void ClassStaticPropertySharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRClassStaticPropertySharedValueAssignmentStatementNode> irClassStaticPropertySharedValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto pointerToTarget = ClassPropertyAccessIRInjectorHelper::inject(irClassStaticPropertySharedValueAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode(),irBlock, irInjector, irModule, scope, std::make_shared<IROperation>(IR_OPERAND_POINTER_OP));
@@ -25,11 +25,11 @@ void ClassStaticPropertySharedValueAssignmentIRInjectorStrategy::inject(std::sha
             }
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
-    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irClassStaticPropertySharedValueAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode()->getIRType()->getSourceType());
-    auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
-    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+    auto irSharedPtrType = std::dynamic_pointer_cast<IRSharedPtrType>(irClassStaticPropertySharedValueAssignmentStatement->getIRClassStaticPropertyAccessExpressionNode()->getIRType()->getSourceType());
+    auto typeValue = irInjector->inject(irBlock, irSharedPtrType->getUnderlyingType(), irModule);
+    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irSharedPtrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getSetRefValueFunction(),
+            irModule->getSetSharedValueFunction(),
             { pointerToTarget, newValueMalloc,  loadedTypeValue }
     );
 }

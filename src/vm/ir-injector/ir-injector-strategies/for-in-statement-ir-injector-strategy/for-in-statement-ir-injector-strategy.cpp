@@ -4,7 +4,7 @@
 
 #include "for-in-statement-ir-injector-strategy.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-type/ir-ref-type.h"
+#include "../../../ir-type/ir-shared-ptr-type.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
@@ -21,8 +21,8 @@ void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNo
 
     // setup
     DebugIRInjectorHelper::injectLog(setupBlock, "START", irInjector, irModule);
-    auto arrayPointerType = sourceIrType->isRefType()
-            ? std::dynamic_pointer_cast<IRArrayPointerType>(std::dynamic_pointer_cast<IRRefType>(sourceIrType)->getUnderlyingType())
+    auto arrayPointerType = sourceIrType->isSharedType()
+            ? std::dynamic_pointer_cast<IRArrayPointerType>(std::dynamic_pointer_cast<IRSharedPtrType>(sourceIrType)->getUnderlyingType())
             : std::dynamic_pointer_cast<IRArrayPointerType>(sourceIrType);
     auto sourceValue = this->getSourceValue(irForInStatement, arrayPointerType, setupBlock, irInjector, irModule);
     DebugIRInjectorHelper::injectLog(setupBlock, "END", irInjector, irModule);
@@ -91,7 +91,7 @@ void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNo
 
 llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     auto sourceIrType = irForInStatement->getSource()->getIRType()->getSourceType();
-    if (sourceIrType->isRefType()) {
+    if (sourceIrType->isSharedType()) {
         return irInjector->inject(irBlock, irForInStatement->getSource(), (std::make_shared<IROperation>(IR_OPERAND_POINTER_OP))->markAsUnderlying(), irModule, irBlock->getScope());
     }
 

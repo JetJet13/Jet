@@ -320,8 +320,8 @@ void EqualValueIRFunction::generateEqualValueFunction(std::shared_ptr<IRGenerato
     refIfBlock->getBuilder()->get()->CreateCondBr(areBothValueTypesRef, refIfThenBlock->getBlock(), refLeftOnlyIfBlock->getBlock());
     refIfThenBlock->getBuilder()->get()->CreateRet(
             refIfThenBlock->getBuilder()->get()->CreateCall(
-                    irContext->getIRModule()->getEqualRefFunction()->getFunctionType(),
-                    irContext->getIRModule()->getEqualRefFunction(),
+                    irContext->getIRModule()->getEqualSharedPtrFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualSharedPtrFunction(),
                     {
                         function->getArg(0),
                         function->getArg(1),
@@ -340,8 +340,8 @@ void EqualValueIRFunction::generateEqualValueFunction(std::shared_ptr<IRGenerato
     refLeftOnlyIfBlock->getBuilder()->get()->CreateCondBr(isLeftOnlyValueTypeRef, refLeftOnlyIfThenBlock->getBlock(), refRightOnlyIfBlock->getBlock());
     refLeftOnlyIfThenBlock->getBuilder()->get()->CreateRet(
             refLeftOnlyIfThenBlock->getBuilder()->get()->CreateCall(
-                    irContext->getIRModule()->getEqualRefLeftOnlyFunction()->getFunctionType(),
-                    irContext->getIRModule()->getEqualRefLeftOnlyFunction(),
+                    irContext->getIRModule()->getEqualSharedPtrLeftOnlyFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualSharedPtrLeftOnlyFunction(),
                     {
                         function->getArg(0),
                         function->getArg(1),
@@ -358,8 +358,8 @@ void EqualValueIRFunction::generateEqualValueFunction(std::shared_ptr<IRGenerato
     refRightOnlyIfBlock->getBuilder()->get()->CreateCondBr(isRightOnlyValueTypeRef, refRightOnlyIfThenBlock->getBlock(), endBlock->getBlock());
     refRightOnlyIfThenBlock->getBuilder()->get()->CreateRet(
             refRightOnlyIfThenBlock->getBuilder()->get()->CreateCall(
-                    irContext->getIRModule()->getEqualRefRightOnlyFunction()->getFunctionType(),
-                    irContext->getIRModule()->getEqualRefRightOnlyFunction(),
+                    irContext->getIRModule()->getEqualSharedPtrRightOnlyFunction()->getFunctionType(),
+                    irContext->getIRModule()->getEqualSharedPtrRightOnlyFunction(),
                     {
                         function->getArg(0),
                         function->getArg(1),

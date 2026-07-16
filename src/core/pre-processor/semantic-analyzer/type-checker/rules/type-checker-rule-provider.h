@@ -18,7 +18,6 @@
 #include "type-checker-rules/match-argument-list-count-with-parameter-list-count-type-checker-rule/match-argument-list-count-with-parameter-list-count-type-checker-rule.h"
 #include "type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.h"
 #include "type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.h"
-#include "type-checker-rules/ref-type-checker-rule/ref-type-checker-rule.h"
 #include "type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.h"
 #include "type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.h"
 #include "type-checker-rules/shared-value-assignment-type-checker-rule/shared-value-assignment-type-checker-rule.h"
@@ -43,7 +42,6 @@ private:
     static std::shared_ptr<MatchArgumentListCountWithParameterListCountTypeCheckerRule> _matchArgumentListCountWithParameterListCountTypeCheckerRule;
     static std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> _argumentListTypeSignatureMismatchTypeCheckerRule;
     static std::shared_ptr<DrefTypeSignatureTypeCheckerRule> _drefTypeSignatureTypeCheckerRule;
-    static std::shared_ptr<RefTypeSignatureTypeCheckerRule> _refTypeSignatureTypeCheckerRule;
     static std::shared_ptr<SharedTypeSignatureTypeCheckerRule> _sharedTypeSignatureTypeCheckerRule;
     static std::shared_ptr<SharedValueAssignmentTypeCheckerRule> _sharedValueAssignmentTypeCheckerRule;
     static std::shared_ptr<ClassSelfReferenceTypeCheckerRule> _classSelfReferenceTypeCheckerRule;
@@ -64,7 +62,6 @@ public:
     static std::shared_ptr<MatchArgumentListCountWithParameterListCountTypeCheckerRule> getMatchArgumentListCountWithParameterListCountTypeCheckerRule();
     static std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> getArgumentListTypeSignatureMismatchTypeCheckerRule();
     static std::shared_ptr<DrefTypeSignatureTypeCheckerRule> getDrefTypeSignatureTypeCheckerRule();
-    static std::shared_ptr<RefTypeSignatureTypeCheckerRule> getRefTypeSignatureTypeCheckerRule();
     static std::shared_ptr<SharedTypeSignatureTypeCheckerRule> getSharedTypeSignatureTypeCheckerRule();
     static std::shared_ptr<SharedValueAssignmentTypeCheckerRule> getSharedValueAssignmentTypeCheckerRule();
     static std::shared_ptr<ClassSelfReferenceTypeCheckerRule> getClassSelfReferenceTypeCheckerRule();

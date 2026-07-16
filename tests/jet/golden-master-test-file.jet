@@ -19,7 +19,7 @@ import BigModule from "./big-module.jet";
 
 class SimpleClass {
     public static staticValue: int = 100;
-    public static staticRefValue: ref<int> = ref 101;
+    public static staticSharedValue: shared<int> = share 101;
     public value: int;
 
     constructor(value: int) {
@@ -69,26 +69,26 @@ class ComplexClass {
     }
 }
 
-//class CircularReferenceClassA {
-//    private b: CircularReferenceClassB;
+//class CircularSharederenceClassA {
+//    private b: CircularSharederenceClassB;
 //
-//    constructor(otherB: CircularReferenceClassB) {
+//    constructor(otherB: CircularSharederenceClassB) {
 //        this.b = otherB;
 //    }
 //
-//    public getB(): CircularReferenceClassB {
+//    public getB(): CircularSharederenceClassB {
 //        return this.b;
 //    }
 //}
 
-//class CircularReferenceClassB {
-//    private a: CircularReferenceClassA;
+//class CircularSharederenceClassB {
+//    private a: CircularSharederenceClassA;
 //
-//    constructor(otherA: CircularReferenceClassA) {
+//    constructor(otherA: CircularSharederenceClassA) {
 //        this.a = otherA;
 //    }
 //
-//    public getA(): CircularReferenceClassA {
+//    public getA(): CircularSharederenceClassA {
 //        return this.a;
 //    }
 //}
@@ -129,8 +129,8 @@ func getArray(y: [int]): [int] {
     return y;
 }
 
-func getRefArray(y: [int]): ref<[int]> {
-    return ref y;
+func getSharedArray(y: [int]): shared<[int]> {
+    return share y;
 }
 
 const globalConstantInteger = 100;
@@ -1011,172 +1011,172 @@ proc arrayAccessTest() {
     assert(intArray[0] == 1);
     assert(intArray[1] == 2);
     assert(intArray[2] == 3);
-    assert(ref intArray[0] == 1);
-    assert(ref intArray[1] == 2);
-    assert(ref intArray[2] == 3);
+    assert(share intArray[0] == 1);
+    assert(share intArray[1] == 2);
+    assert(share intArray[2] == 3);
 
-    const refIntArray = [ref 1, ref 2, ref 3];
-    assert(refIntArray[0] == 1);
-    assert(refIntArray[1] == 2);
-    assert(refIntArray[2] == 3);
-    assert(dref refIntArray[0] == 1);
-    assert(dref refIntArray[1] == 2);
-    assert(dref refIntArray[2] == 3);
+    const sharedIntArray = [share 1, share 2, share 3];
+    assert(sharedIntArray[0] == 1);
+    assert(sharedIntArray[1] == 2);
+    assert(sharedIntArray[2] == 3);
+    assert(dref sharedIntArray[0] == 1);
+    assert(dref sharedIntArray[1] == 2);
+    assert(dref sharedIntArray[2] == 3);
 
     const floatArray = [1.21, 2.25, 3.65];
     assert(floatArray[0] == 1.21);
     assert(floatArray[1] == 2.25);
     assert(floatArray[2] == 3.65);
-    assert(ref floatArray[0] == 1.21);
-    assert(ref floatArray[1] == 2.25);
-    assert(ref floatArray[2] == 3.65);
+    assert(share floatArray[0] == 1.21);
+    assert(share floatArray[1] == 2.25);
+    assert(share floatArray[2] == 3.65);
 
-    const refFloatArray = [ref 1.21, ref 2.25, ref 3.65];
-    assert(refFloatArray[0] == 1.21);
-    assert(refFloatArray[1] == 2.25);
-    assert(refFloatArray[2] == 3.65);
-    assert(dref refFloatArray[0] == 1.21);
-    assert(dref refFloatArray[1] == 2.25);
-    assert(dref refFloatArray[2] == 3.65);
+    const sharedFloatArray = [share 1.21, share 2.25, share 3.65];
+    assert(sharedFloatArray[0] == 1.21);
+    assert(sharedFloatArray[1] == 2.25);
+    assert(sharedFloatArray[2] == 3.65);
+    assert(dref sharedFloatArray[0] == 1.21);
+    assert(dref sharedFloatArray[1] == 2.25);
+    assert(dref sharedFloatArray[2] == 3.65);
 
     const boolArray = [true, false, true];
     assert(boolArray[0] == true);
     assert(boolArray[1] == false);
     assert(boolArray[2] == true);
-    assert(ref boolArray[0] == true);
-    assert(ref boolArray[1] == false);
-    assert(ref boolArray[2] == true);
+    assert(share boolArray[0] == true);
+    assert(share boolArray[1] == false);
+    assert(share boolArray[2] == true);
 
-    const refBoolArray = [ref true, ref false, ref true];
-    assert(refBoolArray[0] == true);
-    assert(refBoolArray[1] == false);
-    assert(refBoolArray[2] == true);
-    assert(dref refBoolArray[0] == true);
-    assert(dref refBoolArray[1] == false);
-    assert(dref refBoolArray[2] == true);
+    const sharedBoolArray = [share true, share false, share true];
+    assert(sharedBoolArray[0] == true);
+    assert(sharedBoolArray[1] == false);
+    assert(sharedBoolArray[2] == true);
+    assert(dref sharedBoolArray[0] == true);
+    assert(dref sharedBoolArray[1] == false);
+    assert(dref sharedBoolArray[2] == true);
 
     const charArray = ['a', 'b', 'c'];
     assert(charArray[0] == 'a');
     assert(charArray[1] == 'b');
     assert(charArray[2] == 'c');
-    assert(ref charArray[0] == 'a');
-    assert(ref charArray[1] == 'b');
-    assert(ref charArray[2] == 'c');
+    assert(share charArray[0] == 'a');
+    assert(share charArray[1] == 'b');
+    assert(share charArray[2] == 'c');
 
-    const refCharArray = [ref 'a', ref 'b', ref 'c'];
-    assert(refCharArray[0] == 'a');
-    assert(refCharArray[1] == 'b');
-    assert(refCharArray[2] == 'c');
-    assert(dref refCharArray[0] == 'a');
-    assert(dref refCharArray[1] == 'b');
-    assert(dref refCharArray[2] == 'c');
+    const sharedCharArray = [share 'a', share 'b', share 'c'];
+    assert(sharedCharArray[0] == 'a');
+    assert(sharedCharArray[1] == 'b');
+    assert(sharedCharArray[2] == 'c');
+    assert(dref sharedCharArray[0] == 'a');
+    assert(dref sharedCharArray[1] == 'b');
+    assert(dref sharedCharArray[2] == 'c');
 
     const stringArray = ["hi", "hello"];
     assert(stringArray[0] == "hi");
     assert(stringArray[1] == "hello");
-    assert(ref stringArray[0] == "hi");
-    assert(ref stringArray[1] == "hello");
+    assert(share stringArray[0] == "hi");
+    assert(share stringArray[1] == "hello");
 
-    const refStringArray = [ ref "hi", ref "hello"];
-    assert(refStringArray[0] == "hi");
-    assert(refStringArray[1] == "hello");
-    assert(dref refStringArray[0] == "hi");
-    assert(dref refStringArray[1] == "hello");
+    const sharedStringArray = [ share "hi", share "hello"];
+    assert(sharedStringArray[0] == "hi");
+    assert(sharedStringArray[1] == "hello");
+    assert(dref sharedStringArray[0] == "hi");
+    assert(dref sharedStringArray[1] == "hello");
 
     const arrayArray = [ [1,2], [3,4] ];
     assert(arrayArray[0] == [1,2]);
     assert(arrayArray[1] == [3,4]);
-    assert(ref arrayArray[0] == [1,2]);
-    assert(ref arrayArray[1] == [3,4]);
+    assert(share arrayArray[0] == [1,2]);
+    assert(share arrayArray[1] == [3,4]);
 
-    const refArrayArray = [ ref [1,2], ref [3,4] ];
-    assert(refArrayArray[0] == [1,2]);
-    assert(refArrayArray[1] == [3,4]);
-    assert(dref refArrayArray[0] == [1,2]);
-    assert(dref refArrayArray[1] == [3,4]);
+    const sharedArrayArray = [ share [1,2], share [3,4] ];
+    assert(sharedArrayArray[0] == [1,2]);
+    assert(sharedArrayArray[1] == [3,4]);
+    assert(dref sharedArrayArray[0] == [1,2]);
+    assert(dref sharedArrayArray[1] == [3,4]);
 
     const simpleEnumArray = [ SimpleEnum.Alpha, SimpleEnum.Beta ];
     assert(simpleEnumArray[0] == SimpleEnum.Alpha);
     assert(simpleEnumArray[1] == SimpleEnum.Beta);
-    assert(ref simpleEnumArray[0] == SimpleEnum.Alpha);
-    assert(ref simpleEnumArray[1] == SimpleEnum.Beta);
+    assert(share simpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(share simpleEnumArray[1] == SimpleEnum.Beta);
 
-    const refSimpleEnumArray = [ ref SimpleEnum.Alpha, ref SimpleEnum.Beta ];
-    assert(refSimpleEnumArray[0] == SimpleEnum.Alpha);
-    assert(refSimpleEnumArray[1] == SimpleEnum.Beta);
-    assert(dref refSimpleEnumArray[0] == SimpleEnum.Alpha);
-    assert(dref refSimpleEnumArray[1] == SimpleEnum.Beta);
+    const sharedSimpleEnumArray = [ share SimpleEnum.Alpha, share SimpleEnum.Beta ];
+    assert(sharedSimpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(sharedSimpleEnumArray[1] == SimpleEnum.Beta);
+    assert(dref sharedSimpleEnumArray[0] == SimpleEnum.Alpha);
+    assert(dref sharedSimpleEnumArray[1] == SimpleEnum.Beta);
 
     const stringEnumArray = [ StringEnum.Alpha, StringEnum.Beta ];
     assert(stringEnumArray[0] == StringEnum.Alpha);
     assert(stringEnumArray[1] == StringEnum.Beta);
-    assert(ref stringEnumArray[0] == StringEnum.Alpha);
-    assert(ref stringEnumArray[1] == StringEnum.Beta);
+    assert(share stringEnumArray[0] == StringEnum.Alpha);
+    assert(share stringEnumArray[1] == StringEnum.Beta);
 
-    const refStringEnumArray = [ ref StringEnum.Alpha, ref StringEnum.Beta ];
-    assert(refStringEnumArray[0] == StringEnum.Alpha);
-    assert(refStringEnumArray[1] == StringEnum.Beta);
-    assert(dref refStringEnumArray[0] == StringEnum.Alpha);
-    assert(dref refStringEnumArray[1] == StringEnum.Beta);
+    const sharedStringEnumArray = [ share StringEnum.Alpha, share StringEnum.Beta ];
+    assert(sharedStringEnumArray[0] == StringEnum.Alpha);
+    assert(sharedStringEnumArray[1] == StringEnum.Beta);
+    assert(dref sharedStringEnumArray[0] == StringEnum.Alpha);
+    assert(dref sharedStringEnumArray[1] == StringEnum.Beta);
 
     const structArray = [ { foo: true }, { foo: false } ];
     assert(structArray[0] == { foo: true });
     assert(structArray[0].foo == true);
     assert(structArray[1] == { foo: false });
     assert(structArray[1].foo == false);
-    assert(ref structArray[0] == { foo: true });
-    assert(ref structArray[0].foo == true);
-    assert(ref structArray[1] == { foo: false });
-    assert(ref structArray[1].foo == false);
+    assert(share structArray[0] == { foo: true });
+    assert(share structArray[0].foo == true);
+    assert(share structArray[1] == { foo: false });
+    assert(share structArray[1].foo == false);
 
-    const refStructArray = [ ref { foo: true }, ref { foo: false } ];
-    assert(refStructArray[0] == { foo: true });
-    assert(refStructArray[0].foo == true);
-    assert(refStructArray[1] == { foo: false });
-    assert(refStructArray[1].foo == false);
-    assert(dref refStructArray[0] == { foo: true });
-    assert(dref refStructArray[1] == { foo: false });
+    const sharedStructArray = [ share { foo: true }, share { foo: false } ];
+    assert(sharedStructArray[0] == { foo: true });
+    assert(sharedStructArray[0].foo == true);
+    assert(sharedStructArray[1] == { foo: false });
+    assert(sharedStructArray[1].foo == false);
+    assert(dref sharedStructArray[0] == { foo: true });
+    assert(dref sharedStructArray[1] == { foo: false });
 
     const tupleArray = [ { true, 10 }, { false, 12 } ];
     assert(tupleArray[0] == { true, 10 });
     assert(tupleArray[0].0 == true);
     assert(tupleArray[1] == { false, 12 });
     assert(tupleArray[1].0 == false);
-    assert(ref tupleArray[0] == { true, 10 });
-    assert(ref tupleArray[0].0 == true);
-    assert(ref tupleArray[1] == { false, 12 });
-    assert(ref tupleArray[1].0 == false);
+    assert(share tupleArray[0] == { true, 10 });
+    assert(share tupleArray[0].0 == true);
+    assert(share tupleArray[1] == { false, 12 });
+    assert(share tupleArray[1].0 == false);
 
-    const refTupleArray = [ ref { true, 10 }, ref { false, 12 } ];
-    assert(refTupleArray[0] == { true, 10 });
-    assert(refTupleArray[0].0 == true);
-    assert(refTupleArray[1] == { false, 12 });
-    assert(refTupleArray[1].0 == false);
-    assert(dref refTupleArray[0] == { true, 10 });
-    assert(dref refTupleArray[1] == { false, 12 });
+    const sharedTupleArray = [ share { true, 10 }, share { false, 12 } ];
+    assert(sharedTupleArray[0] == { true, 10 });
+    assert(sharedTupleArray[0].0 == true);
+    assert(sharedTupleArray[1] == { false, 12 });
+    assert(sharedTupleArray[1].0 == false);
+    assert(dref sharedTupleArray[0] == { true, 10 });
+    assert(dref sharedTupleArray[1] == { false, 12 });
 
-    const refArray = [ ref 500, ref 300 ];
-    assert(refArray[0] == 500);
-    assert(dref refArray[0] == 500);
-    assert(dref refArray[1] == 300);
+    const sharedArray = [ share 500, share 300 ];
+    assert(sharedArray[0] == 500);
+    assert(dref sharedArray[0] == 500);
+    assert(dref sharedArray[1] == 300);
 
     const classArray = [ new SimpleClass(10), new SimpleClass(20) ];
     assert(classArray[0] == new SimpleClass(10));
     assert(classArray[0].getValue() == 10);
     assert(classArray[1] == new SimpleClass(20));
     assert(classArray[1].getValue() == 20);
-    assert(ref classArray[0] == new SimpleClass(10));
-    assert(ref classArray[0].getValue() == 10);
-    assert(ref classArray[1] == new SimpleClass(20));
-    assert(ref classArray[1].getValue() == 20);
+    assert(share classArray[0] == new SimpleClass(10));
+    assert(share classArray[0].getValue() == 10);
+    assert(share classArray[1] == new SimpleClass(20));
+    assert(share classArray[1].getValue() == 20);
 
-    const refClassArray = [ ref new SimpleClass(10), ref new SimpleClass(20) ];
-    assert(refClassArray[0] == new SimpleClass(10));
-    assert(refClassArray[0].getValue() == 10);
-    assert(refClassArray[1] == new SimpleClass(20));
-    assert(refClassArray[1].getValue() == 20);
-    assert(dref refClassArray[0] == new SimpleClass(10));
-    assert(dref refClassArray[1] == new SimpleClass(20));
+    const sharedClassArray = [ share new SimpleClass(10), share new SimpleClass(20) ];
+    assert(sharedClassArray[0] == new SimpleClass(10));
+    assert(sharedClassArray[0].getValue() == 10);
+    assert(sharedClassArray[1] == new SimpleClass(20));
+    assert(sharedClassArray[1].getValue() == 20);
+    assert(dref sharedClassArray[0] == new SimpleClass(10));
+    assert(dref sharedClassArray[1] == new SimpleClass(20));
 
     const lambdaArrowArray = [ () => 10, () => 20, () => 30 ];
     assert(lambdaArrowArray[0]() == 10);
@@ -1196,21 +1196,21 @@ proc arrayAccessTest() {
     assert(moduleArray[0] == MySecondModule::MySecondGlobalInt);
     assert(moduleArray[1] == MyThirdModule::MyThirdGlobalInt);
     assert(moduleArray[2] == MyFourthModule::MyFourthGlobalInt);
-    assert(ref moduleArray[0] == MySecondModule::MySecondGlobalInt);
-    assert(ref moduleArray[1] == MyThirdModule::MyThirdGlobalInt);
-    assert(ref moduleArray[2] == MyFourthModule::MyFourthGlobalInt);
+    assert(share moduleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(share moduleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(share moduleArray[2] == MyFourthModule::MyFourthGlobalInt);
 
-    const refModuleArray = [
-        ref MySecondModule::MySecondGlobalInt,
-        ref MyThirdModule::MyThirdGlobalInt,
-        ref MyFourthModule::MyFourthGlobalInt
+    const sharedModuleArray = [
+        share MySecondModule::MySecondGlobalInt,
+        share MyThirdModule::MyThirdGlobalInt,
+        share MyFourthModule::MyFourthGlobalInt
     ];
-    assert(refModuleArray[0] == MySecondModule::MySecondGlobalInt);
-    assert(refModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
-    assert(refModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
-    assert(dref refModuleArray[0] == MySecondModule::MySecondGlobalInt);
-    assert(dref refModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
-    assert(dref refModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
+    assert(sharedModuleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(sharedModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(sharedModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
+    assert(dref sharedModuleArray[0] == MySecondModule::MySecondGlobalInt);
+    assert(dref sharedModuleArray[1] == MyThirdModule::MyThirdGlobalInt);
+    assert(dref sharedModuleArray[2] == MyFourthModule::MyFourthGlobalInt);
 }
 arrayAccessTest();
 
@@ -1265,22 +1265,22 @@ proc testArrayPrototype() {
 }
 testArrayPrototype();
 
-proc testRefPrototype() {
-    const x = ref 5;
-    const y = ref 6;
+proc testSharedPrototype() {
+    const x = share 5;
+    const y = share 6;
     assert(x.refCount() == 1);
     if x < 10 {
-        let xRef = x;
-        assert(xRef == x && xRef == 5);
-        xRef := 100;
-        assert(xRef == 100);
+        let xShared = x;
+        assert(xShared == x && xShared == 5);
+        xShared := 100;
+        assert(xShared == 100);
         assert(x == 100);
         assert(x.refCount() == 2);
         assert(y.refCount() == 1);
-        xRef = y;
-        assert(xRef == y && xRef == 6);
-        xRef := 600;
-        assert(xRef == 600);
+        xShared = y;
+        assert(xShared == y && xShared == 6);
+        xShared := 600;
+        assert(xShared == 600);
         assert(y == 600);
         assert(x.refCount() == 1);
         assert(y.refCount() == 2);
@@ -1291,18 +1291,18 @@ proc testRefPrototype() {
     const myStruct = { a: 10, b: { c: true, nested: { d: 'm' } } };
     assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
-    const refMyStruct = ref myStruct;
+    const sharedMyStruct = share myStruct;
     assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
-    const refMyInnerStruct = ref myStruct.b;
+    const sharedMyInnerStruct = share myStruct.b;
 
     assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
-    refMyInnerStruct := { c: false, nested: { d: 'o' } };
-    assert(refMyInnerStruct.c == false);
-    assert(refMyInnerStruct.nested.d == 'o');
+    sharedMyInnerStruct := { c: false, nested: { d: 'o' } };
+    assert(sharedMyInnerStruct.c == false);
+    assert(sharedMyInnerStruct.nested.d == 'o');
     assertDebugStructRefCount(myStruct, 0);
     assertDebugStructRefCount(myStruct.b, 0);
     assertDebugStructRefCount(myStruct.b.nested, 0);
@@ -1312,21 +1312,21 @@ proc testRefPrototype() {
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    const refMyTuple = ref myTuple;
+    const sharedMyTuple = share myTuple;
     assertDebugTupleRefCount(myTuple, 0);
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    const refMyInnerTuple = ref myTuple.2;
+    const sharedMyInnerTuple = share myTuple.2;
     assertDebugTupleRefCount(myTuple, 0);
     assertDebugTupleRefCount(myTuple.2, 0);
     assertDebugStructRefCount(myTuple.2.2, 0);
     assertDebugTupleRefCount(myTuple.2.2.b, 0);
-    refMyInnerTuple := { "mika", 'n', { a: false, b: { 190, 19100, true } } };
-    assert(refMyInnerTuple.0 == "mika");
-    assert(refMyInnerTuple.1 == 'n');
-    assert(refMyInnerTuple.2.a == false);
-    assert(refMyInnerTuple.2.b == { 190, 19100, true });
+    sharedMyInnerTuple := { "mika", 'n', { a: false, b: { 190, 19100, true } } };
+    assert(sharedMyInnerTuple.0 == "mika");
+    assert(sharedMyInnerTuple.1 == 'n');
+    assert(sharedMyInnerTuple.2.a == false);
+    assert(sharedMyInnerTuple.2.b == { 190, 19100, true });
     assert(myTuple.2.0 == "boo");
     assert(myTuple.2.1 == 'c');
     assert(myTuple.2.2.a == true);
@@ -1339,115 +1339,115 @@ proc testRefPrototype() {
     const myClass = new SimpleClass(5);
     assert(myClass.getValue() == 5);
     assertDebugClassRefCount(myClass, 0);
-    const refMyClass = ref myClass;
-    assert(refMyClass.getValue() == 5);
+    const sharedMyClass = share myClass;
+    assert(sharedMyClass.getValue() == 5);
     assertDebugClassRefCount(myClass, 0);
-    refMyClass := new SimpleClass(10);
-    assert(refMyClass.getValue() == 10);
+    sharedMyClass := new SimpleClass(10);
+    assert(sharedMyClass.getValue() == 10);
     assert(myClass.getValue() == 5);
     assertDebugClassRefCount(myClass, 0);
-    assert(refMyClass.refCount() == 1);
+    assert(sharedMyClass.refCount() == 1);
 
     const myArray = [1, 2, 3];
     assert(myArray == [1, 2, 3]);
-    const refMyArray = ref myArray;
-    assert(refMyArray == [1, 2, 3]);
-    assert(refMyArray.refCount() == 1);
-    refMyArray := [4, 5, 6];
-    assert(refMyArray == [4, 5, 6]);
+    const sharedMyArray = share myArray;
+    assert(sharedMyArray == [1, 2, 3]);
+    assert(sharedMyArray.refCount() == 1);
+    sharedMyArray := [4, 5, 6];
+    assert(sharedMyArray == [4, 5, 6]);
     assert(myArray == [1, 2, 3]);
-    assert(refMyClass.refCount() == 1);
+    assert(sharedMyClass.refCount() == 1);
 
-    const structWithRefValue = { a: ref 109, b: ref true };
-    assertDebugStructRefCount(structWithRefValue, 0);
-    const structARef = structWithRefValue.a;
-    assert(structARef == 109);
-    assert(structARef.refCount() == 2);
-    assert(structWithRefValue.a.refCount() == 2);
-    assert(structWithRefValue.b.refCount() == 1);
+    const structWithSharedValue = { a: share 109, b: share true };
+    assertDebugStructRefCount(structWithSharedValue, 0);
+    const structAShared = structWithSharedValue.a;
+    assert(structAShared == 109);
+    assert(structAShared.refCount() == 2);
+    assert(structWithSharedValue.a.refCount() == 2);
+    assert(structWithSharedValue.b.refCount() == 1);
 
-    const foo = ref 500;
+    const foo = share 500;
     const bar = foo;
     const mars = bar;
-    const vv = ref dref mars;
+    const vv = share dref mars;
     assert(foo.sharesWith(bar));
     assert(foo.sharesWith(mars));
     assert(bar.sharesWith(mars));
     assert(mars.sharesWith(bar));
-    assert(foo.sharesWith(ref 500) == false);
-    assert(vv.sharesWith(ref 500) == false);
+    assert(foo.sharesWith(share 500) == false);
+    assert(vv.sharesWith(share 500) == false);
     assert(foo.sharesWith(vv) == false);
     assert(vv.sharesWith(foo) == false);
 }
-testRefPrototype();
+testSharedPrototype();
 
-proc testPassDownStructRef(s: ref<{ a: int, b: bool }>) {
+proc testPassDownStructShared(s: shared<{ a: int, b: bool }>) {
     assertDebugRefCount(s, 2);
-    const localArgRef = s;
-    print("localArgRef", s.a);
+    const localArgShared = s;
+    print("localArgShared", s.a);
     assertDebugRefCount(s, 3);
 }
 
 proc testArcPassDown() {
     const s = { a: 100, b: false };
-    testPassDownStructRef(ref s);
+    testPassDownStructShared(share s);
     assertDebugStructRefCount(s, 0);
-    const refS = ref s;
-    assertDebugRefCount(refS, 1);
+    const sharedS = share s;
+    assertDebugRefCount(sharedS, 1);
 }
 testArcPassDown();
 
-func testPassUpInt(): ref<int> {
+func testPassUpInt(): shared<int> {
     const x = 121;
-    return ref x;
+    return share x;
 }
 
-func testDoublePassUpInt(): ref<int> {
+func testDoublePassUpInt(): shared<int> {
     return testPassUpInt();
 }
 
-func testPassUpIntAlt(): ref<int> {
-    const x = ref 121;
+func testPassUpIntAlt(): shared<int> {
+    const x = share 121;
     return x;
 }
 
-func testDoublePassUpIntAlt(): ref<int> {
+func testDoublePassUpIntAlt(): shared<int> {
     return testPassUpIntAlt();
 }
 
-proc testPassInIntRef(x: ref<int>, refCount: int) {
-    assertDebugRefCount(x, refCount);
+proc testPassInIntShared(x: shared<int>, sharedCount: int) {
+    assertDebugRefCount(x, sharedCount);
 }
 
 proc testArcPassUp() {
     assertDebugRefCount(testPassUpIntAlt(), 1);
-    testPassInIntRef(testPassUpIntAlt(), 2);
+    testPassInIntShared(testPassUpIntAlt(), 2);
     const passedUpXAlt = testPassUpIntAlt();
     assertDebugRefCount(passedUpXAlt, 1);
-    testPassInIntRef(passedUpXAlt, 2);
+    testPassInIntShared(passedUpXAlt, 2);
 
     assertDebugRefCount(testDoublePassUpIntAlt(), 1);
-    testPassInIntRef(testDoublePassUpIntAlt(), 2);
+    testPassInIntShared(testDoublePassUpIntAlt(), 2);
     const doublePassedUpXAlt = testDoublePassUpIntAlt();
     assertDebugRefCount(doublePassedUpXAlt, 1);
-    testPassInIntRef(doublePassedUpXAlt, 2);
+    testPassInIntShared(doublePassedUpXAlt, 2);
 
     assertDebugRefCount(testPassUpInt(), 1);
-    testPassInIntRef(testPassUpInt(), 2);
+    testPassInIntShared(testPassUpInt(), 2);
     const passedUpX = testPassUpInt();
     assertDebugRefCount(passedUpX, 1);
-    testPassInIntRef(passedUpX, 2);
+    testPassInIntShared(passedUpX, 2);
     const anotherX = passedUpX;
     assertDebugRefCount(passedUpX, 2);
-    testPassInIntRef(passedUpX, 3);
-    testPassInIntRef(anotherX, 3);
+    testPassInIntShared(passedUpX, 3);
+    testPassInIntShared(anotherX, 3);
     assert(passedUpX == 121);
 
     assertDebugRefCount(testDoublePassUpInt(), 1);
-    testPassInIntRef(testDoublePassUpInt(), 2);
+    testPassInIntShared(testDoublePassUpInt(), 2);
     const doublePassedUpX = testDoublePassUpInt();
     assertDebugRefCount(doublePassedUpX, 1);
-    testPassInIntRef(doublePassedUpX, 2);
+    testPassInIntShared(doublePassedUpX, 2);
 }
 testArcPassUp();
 
@@ -1468,8 +1468,8 @@ func testDoublePassUpLambdaAlt(): () => int {
     return testPassUpLambdaAlt();
 }
 
-proc testPassInLambda(x: () => int, refCount: int) {
-    assertDebugLambdaRefCount(x, refCount);
+proc testPassInLambda(x: () => int, sharedCount: int) {
+    assertDebugLambdaRefCount(x, sharedCount);
 }
 
 proc testLambdaPassUp() {
@@ -1511,11 +1511,11 @@ proc testWhileLoops() {
     }
     assert(value == 0);
 
-    let refValue = ref 10;
-    while refValue > 0 {
-        refValue := refValue - 1;
+    let sharedValue = share 10;
+    while sharedValue > 0 {
+        sharedValue := sharedValue - 1;
     }
-    assert(refValue == 0);
+    assert(sharedValue == 0);
 
     let boolValue = true;
     let boolCounter = 0;
@@ -1661,11 +1661,11 @@ proc testForLoops() {
     }
     assert(value == 0);
 
-    let refValue = ref 10;
-    for i in range(dref refValue) {
-        refValue := refValue - 1;
+    let sharedValue = share 10;
+    for i in range(dref sharedValue) {
+        sharedValue := sharedValue - 1;
     }
-    assert(refValue == 0);
+    assert(sharedValue == 0);
 
     let numIterations = 0;
     for i in range(10) {
@@ -1715,32 +1715,32 @@ proc testForLoops() {
     }
     assert(myStructValueTotal == 777);
 
-    const refMyArray = ref [1,2,3,4,5,6];
-    let refMyArrayTotal = 0;
-    for i in dref refMyArray {
-        refMyArrayTotal = refMyArrayTotal + i;
+    const sharedMyArray = share [1,2,3,4,5,6];
+    let sharedMyArrayTotal = 0;
+    for i in dref sharedMyArray {
+        sharedMyArrayTotal = sharedMyArrayTotal + i;
     }
-    assert(refMyArrayTotal == 21);
+    assert(sharedMyArrayTotal == 21);
 
-    const refMyStructWithArray = ref { foo: [1,2,3,4,5,6,8] };
-    let refMyStructWithArrayTotal = 0;
-    for i in refMyStructWithArray.foo {
-        refMyStructWithArrayTotal = refMyStructWithArrayTotal + i;
+    const sharedMyStructWithArray = share { foo: [1,2,3,4,5,6,8] };
+    let sharedMyStructWithArrayTotal = 0;
+    for i in sharedMyStructWithArray.foo {
+        sharedMyStructWithArrayTotal = sharedMyStructWithArrayTotal + i;
     }
-    assert(refMyStructWithArrayTotal == 29);
+    assert(sharedMyStructWithArrayTotal == 29);
 
-    const refMyTupleWithArray = ref { [1,2,3,4,5,6,8,9,10] };
-    let refMyTupleWithArrayTotal = 0;
-    for i in refMyTupleWithArray.0 {
-        refMyTupleWithArrayTotal = refMyTupleWithArrayTotal + i;
+    const sharedMyTupleWithArray = share { [1,2,3,4,5,6,8,9,10] };
+    let sharedMyTupleWithArrayTotal = 0;
+    for i in sharedMyTupleWithArray.0 {
+        sharedMyTupleWithArrayTotal = sharedMyTupleWithArrayTotal + i;
     }
-    assert(refMyTupleWithArrayTotal == 48);
+    assert(sharedMyTupleWithArrayTotal == 48);
 
-    let refDrefArrayTotal = 0;
-    for i in dref ref [1,3,5,7,9] {
-        refDrefArrayTotal = refDrefArrayTotal + i;
+    let sharedDrefArrayTotal = 0;
+    for i in dref share [1,3,5,7,9] {
+        sharedDrefArrayTotal = sharedDrefArrayTotal + i;
     }
-    assert(refDrefArrayTotal == 25);
+    assert(sharedDrefArrayTotal == 25);
 
     const myLambdaArray = () => [20,30,40,50];
     let myLambdaArrayTotal = 0;
@@ -1755,18 +1755,18 @@ proc testForLoops() {
     }
     assert(myGetArrayTotal == 627);
 
-    let myGetRefArrayTotal = 0;
-    for i in dref getRefArray([109,209,309,409]) {
-        myGetRefArrayTotal = myGetRefArrayTotal + i;
+    let myGetSharedArrayTotal = 0;
+    for i in dref getSharedArray([109,209,309,409]) {
+        myGetSharedArrayTotal = myGetSharedArrayTotal + i;
     }
-    assert(myGetRefArrayTotal == 1036);
+    assert(myGetSharedArrayTotal == 1036);
 
-    const myLambdaRefArray = () => ref [20,30,40,50,60];
-    let myLambdaRefArrayTotal = 0;
-    for i in dref myLambdaRefArray() {
-        myLambdaRefArrayTotal = myLambdaRefArrayTotal + i;
+    const myLambdaSharedArray = () => share [20,30,40,50,60];
+    let myLambdaSharedArrayTotal = 0;
+    for i in dref myLambdaSharedArray() {
+        myLambdaSharedArrayTotal = myLambdaSharedArrayTotal + i;
     }
-    assert(myLambdaRefArrayTotal == 200);
+    assert(myLambdaSharedArrayTotal == 200);
 
     const modifiedArray = [1,2,3,4,5];
     const modifiedArrayTotal = 0;
@@ -1777,14 +1777,14 @@ proc testForLoops() {
     assert(modifiedArray == [1,2]);
     assert(modifiedArrayTotal == 6);
 
-    const modifiedRefArray = ref [1,2,3,4,5];
-    const modifiedRefArrayTotal = 0;
-    for i in modifiedRefArray {
-        modifiedRefArrayTotal = modifiedRefArrayTotal + i;
-        modifiedRefArray.dropLast(4);
+    const modifiedSharedArray = share [1,2,3,4,5];
+    const modifiedSharedArrayTotal = 0;
+    for i in modifiedSharedArray {
+        modifiedSharedArrayTotal = modifiedSharedArrayTotal + i;
+        modifiedSharedArray.dropLast(4);
     }
-    assert(modifiedRefArray == [1]);
-    assert(modifiedRefArrayTotal == 1);
+    assert(modifiedSharedArray == [1]);
+    assert(modifiedSharedArrayTotal == 1);
 
     const modifiedArrayEmptyResult = [1,2,3,4,5];
     const modifiedArrayEmptyResultTotal = 0;
@@ -1795,12 +1795,12 @@ proc testForLoops() {
     assert(modifiedArrayEmptyResult == [1]);
     assert(modifiedArrayEmptyResultTotal == 1);
 
-    const modifiedArrayWithRef = [1,2,3,4,5];
-    const modifiedArrayWithRefTotal = 0;
-    for i in ref modifiedArrayWithRef {
-        modifiedArrayWithRefTotal = modifiedArrayWithRefTotal + i;
+    const modifiedArrayWithShared = [1,2,3,4,5];
+    const modifiedArrayWithSharedTotal = 0;
+    for i in share modifiedArrayWithShared {
+        modifiedArrayWithSharedTotal = modifiedArrayWithSharedTotal + i;
     }
-    assert(modifiedArrayWithRefTotal == 15);
+    assert(modifiedArrayWithSharedTotal == 15);
 }
 testForLoops();
 
@@ -1878,24 +1878,24 @@ proc testFunctionsAsLambdas() {
 }
 testFunctionsAsLambdas();
 
-proc procUsedAsLambda(x: ref<int>) {
+proc procUsedAsLambda(x: shared<int>) {
     x := x + 1;
 }
 
-proc procUsedAsLambda(x: ref<int>, y: ref<int>) {
+proc procUsedAsLambda(x: shared<int>, y: shared<int>) {
     x := x + 1 + y;
 }
 
 proc testProceduresAsLambdas() {
-    const lambdaUsingProcedure = (x: ref<int>, l: (ref<int>) => void) {
+    const lambdaUsingProcedure = (x: shared<int>, l: (shared<int>) => void) {
         x := x + 10;
         l(x);
     };
 
-    const x = ref 1;
+    const x = share 1;
     lambdaUsingProcedure(x, procUsedAsLambda);
     assert(x == 12);
-    procUsedAsLambda(x, ref 20);
+    procUsedAsLambda(x, share 20);
     assert(x == 33);
 }
 testProceduresAsLambdas();
@@ -2168,7 +2168,7 @@ proc testBigModule() {
     const bigFunctionResult = BigModule::BigFunction();
     assert(bigFunctionResult == 500);
 
-    const x = ref 190;
+    const x = share 190;
     BigModule::BigProcedure(x);
     assert(x == 100);
 
@@ -2190,10 +2190,10 @@ proc testBigModule() {
     const bigArray = BigModule::BigClass.getBigStaticArray();
     assert(bigArray == [1, 2, 3]);
 
-    const bigStruct: ref<BigModule::BigStruct> = BigModule::BigClass.getBigStaticStruct();
+    const bigStruct: shared<BigModule::BigStruct> = BigModule::BigClass.getBigStaticStruct();
     assert(bigStruct == { foo: 1, bar: false });
 
-    const bigTuple: ref<BigModule::BigTuple> = BigModule::BigClass.getBigStaticTuple();
+    const bigTuple: shared<BigModule::BigTuple> = BigModule::BigClass.getBigStaticTuple();
     assert(bigTuple == { 1, false });
 
     const bigStaticClass = BigModule::BigClass.getBigStaticClass();
@@ -2238,7 +2238,7 @@ proc testBigModule() {
     const a = myLambda(20, BigModule::BigIntFunction);
     assert(a == 40);
 
-    const myLambdaStruct = (x: ref<BigModule::BigStruct>) => x.foo;
+    const myLambdaStruct = (x: shared<BigModule::BigStruct>) => x.foo;
     const lambdaStructResult = myLambdaStruct(BigModule::BigClass.getBigStaticStruct());
     assert(lambdaStructResult == 1);
 
@@ -2290,12 +2290,12 @@ proc testBigModule() {
     copyBigLambdaBlock = (y: int) { return 900 + y; };
     assert(copyBigLambdaBlock != BigModule::BIG_LAMBDA_BLOCK);
 
-    const smallInstance = ref new BigModule::SmallClass();
+    const smallInstance = share new BigModule::SmallClass();
     assert(smallInstance == smallInstance.getSelf());
     print(smallInstance);
     smallInstance.print();
 
-    const bigCalculator = ref new BigModule::BigCalculator();
+    const bigCalculator = share new BigModule::BigCalculator();
     bigCalculator
     .setValue(1, bigCalculator)
     .add(2, bigCalculator)
@@ -2307,7 +2307,7 @@ proc testBigModule() {
 testBigModule();
 
 proc testBigModule2() {
-    const myLambda = (x: ref<BigModule::BigStruct>) => x.foo;
+    const myLambda = (x: shared<BigModule::BigStruct>) => x.foo;
     const result = myLambda(BigModule::BigClass.getBigStaticStruct());
     assert(result == 1);
 }
@@ -2329,13 +2329,13 @@ func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => {
     return { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
 }
 
-func testRefTupleInvocation(): ref<{ int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } }> {
+func testSharedTupleInvocation(): shared<{ int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } }> {
     const x: { () => int } = { () => 5 };
     const y: { int } = { 5 };
     const z: { int, bool } = { 10, true };
     const a: { TestType } = { [1,2,3] };
     const b: { TestType, bool } = { [1,2,3,4], false };
-    return ref { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
+    return share { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
 }
 
 func testTupleReturnTypeTest1(): { () => string } {
@@ -2362,17 +2362,17 @@ func testTupleReturnTypeTest6(): [{ TestType, int }] {
     return [{ [1,2,3], 900 }];
 }
 
-type MyTestTuple = { ref<int>, ref<bool> };
+type MyTestTuple = { shared<int>, shared<bool> };
 
 func passDownTuple(): MyTestTuple {
-    return { ref 5, ref false };
+    return { share 5, share false };
 }
 
-proc updateTuple(a: ref<int>, b: ref<bool>) {
-    const anotherRefA = a;
+proc updateTuple(a: shared<int>, b: shared<bool>) {
+    const anotherSharedA = a;
     a := 50;
     b := true;
-    assert(anotherRefA == 50);
+    assert(anotherSharedA == 50);
 }
 
 proc testTuples() {
@@ -2383,16 +2383,16 @@ proc testTuples() {
     print("invocationResult", invocationResult);
     assert(invocationResult == "hello");
 
-    const refInvocationResult = testRefTupleInvocation().3();
-    print("refInvocationResult", refInvocationResult);
-    assert(refInvocationResult == "hello");
+    const sharedInvocationResult = testSharedTupleInvocation().3();
+    print("sharedInvocationResult", sharedInvocationResult);
+    assert(sharedInvocationResult == "hello");
 
     const passedDownTuple = passDownTuple();
     assert(passedDownTuple.0 == 5);
     assert(passedDownTuple.1 == false);
-    const refA = passedDownTuple.0;
-    const refB = passedDownTuple.1;
-    updateTuple(refA, refB);
+    const sharedA = passedDownTuple.0;
+    const sharedB = passedDownTuple.1;
+    updateTuple(sharedA, sharedB);
     assert(passedDownTuple.0 == 50);
     assert(passedDownTuple.1 == true);
 }
@@ -2412,13 +2412,13 @@ func testStructInvocation(): { a: int, b: TestType, c: bool, d: () => string, e:
     return { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
 }
 
-func testRefStructInvocation(): ref<{ a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } }> {
+func testSharedStructInvocation(): shared<{ a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } }> {
     const x: { a: () => int } = { a: () => 5 };
     const y: { a: int } = { a: 5 };
     const z: { a: int, b: bool } = { a: 10, b: true };
     const a: { a: TestType } = { a: [1,2,3] };
     const b: { a: TestType, b: bool } = { a: [1,2,3,4], b: false };
-    return ref { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
+    return share { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
 }
 
 func testStructReturnTypeTest1(): { a: () => string } {
@@ -2445,16 +2445,16 @@ func testStructReturnTypeTest6(): [{ a: TestType, b: int }] {
     return [{ a: [1,2,3], b: 900 }];
 }
 
-type MyTestStruct = { a: ref<int>, b: ref<bool> };
+type MyTestStruct = { a: shared<int>, b: shared<bool> };
 func passDownStruct(): MyTestStruct {
-    return { a: ref 5, b: ref false };
+    return { a: share 5, b: share false };
 }
 
-proc updateStruct(a: ref<int>, b: ref<bool>) {
-    const anotherRefA = a;
+proc updateStruct(a: shared<int>, b: shared<bool>) {
+    const anotherSharedA = a;
     a := 50;
     b := true;
-    assert(anotherRefA == 50);
+    assert(anotherSharedA == 50);
 }
 
 proc testStructs() {
@@ -2463,15 +2463,15 @@ proc testStructs() {
     const invocationResult = testStructInvocation().d();
     assert(invocationResult == "hello");
 
-    const refInvocationResult = testRefStructInvocation().d();
-    assert(refInvocationResult == "hello");
+    const sharedInvocationResult = testSharedStructInvocation().d();
+    assert(sharedInvocationResult == "hello");
 
     const passedDownStruct = passDownStruct();
     assert(passedDownStruct.a == 5);
     assert(passedDownStruct.b == false);
-    const refA = passedDownStruct.a;
-    const refB = passedDownStruct.b;
-    updateStruct(refA, refB);
+    const sharedA = passedDownStruct.a;
+    const sharedB = passedDownStruct.b;
+    updateStruct(sharedA, sharedB);
 }
 testStructs();
 
@@ -2484,154 +2484,154 @@ proc assignParameterTest(val: int, expectedVal: int) {
 }
 assignParameterTest(4, 5);
 
-proc testRefValueAssignment() {
-    const myArrayWithRefs = [ ref 1, ref 2, ref 3, ref 4 ];
-    assert(myArrayWithRefs[0] == 1);
-    myArrayWithRefs[0] := 190;
-    assert(myArrayWithRefs[0] == 190);
+proc testSharedValueAssignment() {
+    const myArrayWithSharedValues = [ share 1, share 2, share 3, share 4 ];
+    assert(myArrayWithSharedValues[0] == 1);
+    myArrayWithSharedValues[0] := 190;
+    assert(myArrayWithSharedValues[0] == 190);
 
-    const myStructWithRefs = {
-        a: ref 5,
-        b: ref 10.01,
-        c: ref false,
-        d: ref 'z',
-        e: ref "hello",
-        f: ref [1,2,3],
-        g: ref { a: ref 5, b: ref false },
-        h: ref { ref 5, ref false },
-        i: ref new SimpleClass(40),
-        j: ref BigModule::BIG_INT,
-        k: ref SimpleEnum.Alpha,
-        l: ref StringEnum.Alpha
+    const myStructWithSharedValues = {
+        a: share 5,
+        b: share 10.01,
+        c: share false,
+        d: share 'z',
+        e: share "hello",
+        f: share [1,2,3],
+        g: share { a: share 5, b: share false },
+        h: share { share 5, share false },
+        i: share new SimpleClass(40),
+        j: share BigModule::BIG_INT,
+        k: share SimpleEnum.Alpha,
+        l: share StringEnum.Alpha
     };
 
-    assert(myStructWithRefs.a == 5);
-    myStructWithRefs.a := 50;
-    assert(myStructWithRefs.a == 50);
+    assert(myStructWithSharedValues.a == 5);
+    myStructWithSharedValues.a := 50;
+    assert(myStructWithSharedValues.a == 50);
 
-    assert(myStructWithRefs.b == 10.01);
-    myStructWithRefs.b := 100.01;
-    assert(myStructWithRefs.b == 100.01);
+    assert(myStructWithSharedValues.b == 10.01);
+    myStructWithSharedValues.b := 100.01;
+    assert(myStructWithSharedValues.b == 100.01);
 
-    assert(myStructWithRefs.c == false);
-    myStructWithRefs.c := true;
-    assert(myStructWithRefs.c == true);
+    assert(myStructWithSharedValues.c == false);
+    myStructWithSharedValues.c := true;
+    assert(myStructWithSharedValues.c == true);
 
-    assert(myStructWithRefs.d == 'z');
-    myStructWithRefs.d := 'n';
-    assert(myStructWithRefs.d == 'n');
+    assert(myStructWithSharedValues.d == 'z');
+    myStructWithSharedValues.d := 'n';
+    assert(myStructWithSharedValues.d == 'n');
 
-    assert(myStructWithRefs.e == "hello");
-    myStructWithRefs.e := "world";
-    assert(myStructWithRefs.e == "world");
+    assert(myStructWithSharedValues.e == "hello");
+    myStructWithSharedValues.e := "world";
+    assert(myStructWithSharedValues.e == "world");
 
-    assert(myStructWithRefs.f == [1,2,3]);
-    myStructWithRefs.f := [4,5,6];
-    assert(myStructWithRefs.f == [4,5,6]);
+    assert(myStructWithSharedValues.f == [1,2,3]);
+    myStructWithSharedValues.f := [4,5,6];
+    assert(myStructWithSharedValues.f == [4,5,6]);
 
-    assert(myStructWithRefs.g.a == 5);
-    assert(myStructWithRefs.g.b == false);
-    myStructWithRefs.g.a := 51;
-    myStructWithRefs.g.b := true;
-    assert(myStructWithRefs.g.a == 51);
-    assert(myStructWithRefs.g.b == true);
+    assert(myStructWithSharedValues.g.a == 5);
+    assert(myStructWithSharedValues.g.b == false);
+    myStructWithSharedValues.g.a := 51;
+    myStructWithSharedValues.g.b := true;
+    assert(myStructWithSharedValues.g.a == 51);
+    assert(myStructWithSharedValues.g.b == true);
 
-    print(myStructWithRefs.h.0);
-    assert(myStructWithRefs.h.0 == 5);
-    assert(myStructWithRefs.h.1 == false);
-    myStructWithRefs.h.0 := 52;
-    myStructWithRefs.h.1 := true;
-    assert(myStructWithRefs.h.0 == 52);
-    assert(myStructWithRefs.h.1 == true);
+    print(myStructWithSharedValues.h.0);
+    assert(myStructWithSharedValues.h.0 == 5);
+    assert(myStructWithSharedValues.h.1 == false);
+    myStructWithSharedValues.h.0 := 52;
+    myStructWithSharedValues.h.1 := true;
+    assert(myStructWithSharedValues.h.0 == 52);
+    assert(myStructWithSharedValues.h.1 == true);
 
-    assert(myStructWithRefs.i == new SimpleClass(40));
-    myStructWithRefs.i := new SimpleClass(80);
-    assert(myStructWithRefs.i == new SimpleClass(80));
+    assert(myStructWithSharedValues.i == new SimpleClass(40));
+    myStructWithSharedValues.i := new SimpleClass(80);
+    assert(myStructWithSharedValues.i == new SimpleClass(80));
 
-    assert(myStructWithRefs.j == BigModule::BIG_INT);
-    myStructWithRefs.j := BigModule::BIG_SECOND_INT;
-    assert(myStructWithRefs.j == BigModule::BIG_SECOND_INT);
+    assert(myStructWithSharedValues.j == BigModule::BIG_INT);
+    myStructWithSharedValues.j := BigModule::BIG_SECOND_INT;
+    assert(myStructWithSharedValues.j == BigModule::BIG_SECOND_INT);
 
-    assert(myStructWithRefs.k == SimpleEnum.Alpha);
-    myStructWithRefs.k := SimpleEnum.Beta;
-    assert(myStructWithRefs.k == SimpleEnum.Beta);
+    assert(myStructWithSharedValues.k == SimpleEnum.Alpha);
+    myStructWithSharedValues.k := SimpleEnum.Beta;
+    assert(myStructWithSharedValues.k == SimpleEnum.Beta);
 
-    assert(myStructWithRefs.l == StringEnum.Alpha);
-    myStructWithRefs.l := StringEnum.Beta;
-    assert(myStructWithRefs.l == StringEnum.Beta);
+    assert(myStructWithSharedValues.l == StringEnum.Alpha);
+    myStructWithSharedValues.l := StringEnum.Beta;
+    assert(myStructWithSharedValues.l == StringEnum.Beta);
 
-    const myTupleWithRefs = {
-        ref 5,
-        ref 10.01,
-        ref false,
-        ref 'z',
-        ref "hello",
-        ref [1,2,3],
-        ref { a: ref 5, b: ref false },
-        ref { ref 5, ref false },
-        ref new SimpleClass(40),
-        ref BigModule::BIG_INT,
-        ref SimpleEnum.Alpha,
-        ref StringEnum.Alpha
+    const myTupleWithSharedValues = {
+        share 5,
+        share 10.01,
+        share false,
+        share 'z',
+        share "hello",
+        share [1,2,3],
+        share { a: share 5, b: share false },
+        share { share 5, share false },
+        share new SimpleClass(40),
+        share BigModule::BIG_INT,
+        share SimpleEnum.Alpha,
+        share StringEnum.Alpha
     };
 
-    assert(myTupleWithRefs.0 == 5);
-    myTupleWithRefs.0 := 50;
-    assert(myTupleWithRefs.0 == 50);
+    assert(myTupleWithSharedValues.0 == 5);
+    myTupleWithSharedValues.0 := 50;
+    assert(myTupleWithSharedValues.0 == 50);
 
-    assert(myTupleWithRefs.1 == 10.01);
-    myTupleWithRefs.1 := 100.01;
-    assert(myTupleWithRefs.1 == 100.01);
+    assert(myTupleWithSharedValues.1 == 10.01);
+    myTupleWithSharedValues.1 := 100.01;
+    assert(myTupleWithSharedValues.1 == 100.01);
 
-    assert(myTupleWithRefs.2 == false);
-    myTupleWithRefs.2 := true;
-    assert(myTupleWithRefs.2 == true);
+    assert(myTupleWithSharedValues.2 == false);
+    myTupleWithSharedValues.2 := true;
+    assert(myTupleWithSharedValues.2 == true);
 
-    assert(myTupleWithRefs.3 == 'z');
-    myTupleWithRefs.3 := 'n';
-    assert(myTupleWithRefs.3 == 'n');
+    assert(myTupleWithSharedValues.3 == 'z');
+    myTupleWithSharedValues.3 := 'n';
+    assert(myTupleWithSharedValues.3 == 'n');
 
-    assert(myTupleWithRefs.4 == "hello");
-    myTupleWithRefs.4 := "world";
-    assert(myTupleWithRefs.4 == "world");
+    assert(myTupleWithSharedValues.4 == "hello");
+    myTupleWithSharedValues.4 := "world";
+    assert(myTupleWithSharedValues.4 == "world");
 
-    assert(myTupleWithRefs.5 == [1,2,3]);
-    myTupleWithRefs.5 := [4,5,6];
-    assert(myTupleWithRefs.5 == [4,5,6]);
+    assert(myTupleWithSharedValues.5 == [1,2,3]);
+    myTupleWithSharedValues.5 := [4,5,6];
+    assert(myTupleWithSharedValues.5 == [4,5,6]);
 
-    assert(myTupleWithRefs.6.a == 5);
-    assert(myTupleWithRefs.6.b == false);
-    myTupleWithRefs.6.a := 51;
-    myTupleWithRefs.6.b := true;
-    assert(myTupleWithRefs.6.a == 51);
-    assert(myTupleWithRefs.6.b == true);
+    assert(myTupleWithSharedValues.6.a == 5);
+    assert(myTupleWithSharedValues.6.b == false);
+    myTupleWithSharedValues.6.a := 51;
+    myTupleWithSharedValues.6.b := true;
+    assert(myTupleWithSharedValues.6.a == 51);
+    assert(myTupleWithSharedValues.6.b == true);
 
-    assert(myTupleWithRefs.7.0 == 5);
-    assert(myTupleWithRefs.7.1 == false);
-    myTupleWithRefs.7.0 := 52;
-    myTupleWithRefs.7.1 := true;
-    assert(myTupleWithRefs.7.0 == 52);
-    assert(myTupleWithRefs.7.1 == true);
+    assert(myTupleWithSharedValues.7.0 == 5);
+    assert(myTupleWithSharedValues.7.1 == false);
+    myTupleWithSharedValues.7.0 := 52;
+    myTupleWithSharedValues.7.1 := true;
+    assert(myTupleWithSharedValues.7.0 == 52);
+    assert(myTupleWithSharedValues.7.1 == true);
 
-    assert(myTupleWithRefs.8 == new SimpleClass(40));
-    myTupleWithRefs.8 := new SimpleClass(80);
-    assert(myTupleWithRefs.8 == new SimpleClass(80));
+    assert(myTupleWithSharedValues.8 == new SimpleClass(40));
+    myTupleWithSharedValues.8 := new SimpleClass(80);
+    assert(myTupleWithSharedValues.8 == new SimpleClass(80));
 
-    assert(myTupleWithRefs.9 == BigModule::BIG_INT);
-    myTupleWithRefs.9 := BigModule::BIG_SECOND_INT;
-    assert(myTupleWithRefs.9 == BigModule::BIG_SECOND_INT);
+    assert(myTupleWithSharedValues.9 == BigModule::BIG_INT);
+    myTupleWithSharedValues.9 := BigModule::BIG_SECOND_INT;
+    assert(myTupleWithSharedValues.9 == BigModule::BIG_SECOND_INT);
 
-    assert(myTupleWithRefs.10 == SimpleEnum.Alpha);
-    myTupleWithRefs.10 := SimpleEnum.Beta;
-    assert(myTupleWithRefs.10 == SimpleEnum.Beta);
+    assert(myTupleWithSharedValues.10 == SimpleEnum.Alpha);
+    myTupleWithSharedValues.10 := SimpleEnum.Beta;
+    assert(myTupleWithSharedValues.10 == SimpleEnum.Beta);
 
-    assert(myTupleWithRefs.11 == StringEnum.Alpha);
-    myTupleWithRefs.11 := StringEnum.Beta;
-    assert(myTupleWithRefs.11 == StringEnum.Beta);
+    assert(myTupleWithSharedValues.11 == StringEnum.Alpha);
+    myTupleWithSharedValues.11 := StringEnum.Beta;
+    assert(myTupleWithSharedValues.11 == StringEnum.Beta);
 
-    assert(SimpleClass.staticRefValue == 101);
-    SimpleClass.staticRefValue := 202;
-    assert(SimpleClass.staticRefValue == 202);
+    assert(SimpleClass.staticSharedValue == 101);
+    SimpleClass.staticSharedValue := 202;
+    assert(SimpleClass.staticSharedValue == 202);
 
     assert(BigModule::BIG_STRUCT_REF.foo == 1);
     BigModule::BIG_STRUCT_REF.foo := 20;
@@ -2645,7 +2645,7 @@ proc testRefValueAssignment() {
     BigModule::BIG_STRUCT_REF.mars := 290;
     assert(BigModule::BIG_STRUCT_REF.mars == 290);
 
-    BigModule::BIG_STRUCT_REF := { foo: ref 3, bar: ref true, mars: ref 5 };
+    BigModule::BIG_STRUCT_REF := { foo: share 3, bar: share true, mars: share 5 };
     assert(BigModule::BIG_STRUCT_REF == {
         foo: BigModule::BIG_STRUCT_REF.foo,
         bar: BigModule::BIG_STRUCT_REF.bar,
@@ -2664,11 +2664,11 @@ proc testRefValueAssignment() {
     BigModule::BIG_TUPLE_REF.2 := 290;
     assert(BigModule::BIG_TUPLE_REF.2 == 290);
 
-    BigModule::BIG_TUPLE_REF := { ref 3, ref true, ref 5 };
+    BigModule::BIG_TUPLE_REF := { share 3, share true, share 5 };
     assert(BigModule::BIG_TUPLE_REF == {
         BigModule::BIG_TUPLE_REF.0,
         BigModule::BIG_TUPLE_REF.1,
         BigModule::BIG_TUPLE_REF.2
     });
 }
-testRefValueAssignment();
+testSharedValueAssignment();

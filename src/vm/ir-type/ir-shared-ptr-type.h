@@ -13,16 +13,16 @@ private:
     llvm::StructType* _type;
     unsigned int _sharedValueIndex;
     unsigned int _refCounterIndex;
-    std::shared_ptr<IRType> _sharedCounterIRType;
+    std::shared_ptr<IRType> _refCounterIRType;
     std::shared_ptr<IRType> _sharedIRType;
 public:
-    explicit IRSharedPtrType(llvm::StructType* type, std::shared_ptr<IRType> sharedCounterIRType, std::shared_ptr<IRType> sharedIRType);
+    explicit IRSharedPtrType(llvm::StructType* type, std::shared_ptr<IRType> refCounterIRType, std::shared_ptr<IRType> sharedIRType);
     llvm::StructType* getType() override;
     [[nodiscard]] unsigned int getSharedValueIndex() const;
     [[nodiscard]] unsigned int getRefCounterIndex() const;
     llvm::PointerType* getSharedValueType();
-    llvm::PointerType* getSharedCounterType();
-    std::shared_ptr<IRType> getSharedCounterIRType();
+    llvm::PointerType* getRefCounterType();
+    std::shared_ptr<IRType> getRefCounterIRType();
     std::shared_ptr<IRType> getSharedValueIRType();
     std::shared_ptr<IRType> getUnderlyingType() override;
     uint64_t getSizeInBytes() override;

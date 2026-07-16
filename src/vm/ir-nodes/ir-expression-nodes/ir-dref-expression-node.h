@@ -10,7 +10,6 @@
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
 #include "../ir-literal-nodes/ir-literal-node.h"
 #include "../../ir-type/ir-pointer-type.h"
-#include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 
 class IRDrefExpressionNode : public IRExpressionNode {

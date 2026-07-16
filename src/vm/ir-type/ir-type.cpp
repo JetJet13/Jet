@@ -114,7 +114,7 @@ llvm::Align IRType::getAlignment() {
         return llvm::Align(8);
     }
 
-    if (this->isStructRefType() || this->isArrayPointerType() || this->isTypeValueType() || this->isRefType() || this->isPointerType()) {
+    if (this->isStructRefType() || this->isArrayPointerType() || this->isTypeValueType() || this->isSharedType() || this->isPointerType()) {
         return llvm::Align(8);
     }
 
@@ -202,10 +202,6 @@ bool IRType::isNewClassInstanceType() {
 }
 
 bool IRType::isTypeValueType() {
-    return false;
-}
-
-bool IRType::isRefType() {
     return false;
 }
 

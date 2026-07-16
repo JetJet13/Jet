@@ -60,8 +60,6 @@
 #include "../../core/ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.h"
 #include "../ir-nodes/ir-context.h"
 #include "../ir-type/ir-type-value-type.h"
-#include "../ir-type/ir-ref-type.h"
-#include "../../core/type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../core/type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../core/type-signature/interface-type-signature/interface-type-signature.h"
 #include "../ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.h"
@@ -114,7 +112,6 @@ public:
     std::shared_ptr<IRModuleType> generateTypeFor(std::shared_ptr<ModuleTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRClassType> generateTypeFor(std::shared_ptr<ClassTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRPointerType> generateTypeFor(std::shared_ptr<PointerTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
-    std::shared_ptr<IRRefType> generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     std::shared_ptr<IRSharedPtrType> generateTypeFor(std::shared_ptr<SharedTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     llvm::Type* getVoidType();
     std::shared_ptr<IRType> generateVoidType();
@@ -127,7 +124,6 @@ public:
     llvm::Constant* generatePlaceholderArrayPointerArgument();
     llvm::Constant* generatePlaceholderValueForIRType(std::shared_ptr<IRType> irType);
     llvm::Constant* generateInitialValueForIRType(std::shared_ptr<IRType> irType);
-    std::shared_ptr<IRRefType> generateIrRefType(std::shared_ptr<IRType> type);
     std::shared_ptr<IRSharedPtrType> generateIrSharedPtrType(std::shared_ptr<IRType> type);
     llvm::StructType* getFunctionParameterType();
     std::shared_ptr<IRArrayType> generateIRArrayType(std::shared_ptr<IRType> elementType, unsigned long size);
@@ -186,7 +182,7 @@ public:
     std::shared_ptr<IRType> generateIRArcType();
     std::shared_ptr<IRInstructionNode> generateArcAllocationForInvocable(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count);
     std::shared_ptr<IRInstructionNode> generateArcAllocationForStructRef(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count);
-    std::shared_ptr<IRInstructionNode> generateArcAllocationForRef(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count);
+    std::shared_ptr<IRInstructionNode> generateArcAllocationForSharedPtr(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count);
     std::shared_ptr<IRInstructionNode> generateArcAllocation(std::shared_ptr<IRContext> irContext, std::shared_ptr<IRType> irType, llvm::Value* source, unsigned long count = 0);
     std::shared_ptr<IRInstructionNode> generateArcAllocation(std::shared_ptr<IRContext> irContext, unsigned long initialCount = 0);
     std::shared_ptr<IRCapturedVariableType> generateIRCapturedVariableType(std::shared_ptr<IRType> variableIrType);

@@ -4,6 +4,7 @@
 
 #include "ast-class-property-definition-node.h"
 #include "../../../../shared/utils/logger/logger.h"
+#include "../../types/source-code-builder/source-code-builder.h"
 
 
 ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(std::shared_ptr<ASTAccessModifierNode> accessModifier, std::shared_ptr<ASTClassPropertyNameNode> propertyName, std::optional<std::shared_ptr<ASTStaticNode>> staticKeyword, std::optional<std::shared_ptr<ASTConstNode>> constKeyword) {
@@ -12,13 +13,13 @@ ASTClassPropertyDefinitionNode::ASTClassPropertyDefinitionNode(std::shared_ptr<A
     _staticKeyword = staticKeyword;
     _constKeyword = constKeyword;
     _children.push_back(_accessModifier);
-    _children.push_back(_propertyName);
     if (_staticKeyword){
         _children.push_back(_staticKeyword.value());
     }
     if (_constKeyword){
         _children.push_back(_constKeyword.value());
     }
+    _children.push_back(_propertyName);
 }
 
 std::shared_ptr<ASTAccessModifierNode> ASTClassPropertyDefinitionNode::getAccessModifier() {
@@ -81,4 +82,17 @@ void ASTClassPropertyDefinitionNode::print() {
     Logger::log("isStatic -", this->isStatic());
     Logger::log("isConstant -", this->isConstant());
     Logger::log("----------");
+}
+
+std::string ASTClassPropertyDefinitionNode::toSourceCode() {
+    auto sourceCodeBuilder = SourceCodeBuilder();
+    sourceCodeBuilder.add(_accessModifier);
+    if (_staticKeyword){
+        sourceCodeBuilder.add(_staticKeyword.value());
+    }
+    if (_constKeyword){
+        sourceCodeBuilder.add(_constKeyword.value());
+    }
+    sourceCodeBuilder.add(_propertyName);
+    return sourceCodeBuilder.build();
 }

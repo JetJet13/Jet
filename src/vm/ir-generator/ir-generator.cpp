@@ -33,7 +33,6 @@
 #include "ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/share-expression-ir-strategy/share-expression-ir-strategy.h"
-#include "ir-strategies/expression-ir-strategies/ref-expression-ir-strategy/ref-expression-ir-strategy.h"
 #include "ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.h"
 #include "ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.h"
 #include "ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.h"
@@ -77,7 +76,6 @@
 #include "ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.h"
-#include "ir-strategies/type-signature-ir-strategies/ref-type-signature-ir-strategy/ref-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/shared-type-signature-ir-strategy/shared-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.h"
 #include "ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.h"
@@ -122,7 +120,7 @@
 #include "ir-util-functions/array-size-ir-function/array-size-ir-function.h"
 #include "ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
 #include "ir-util-functions/equal-value-ir-function/equal-value-ir-function.h"
-#include "ir-util-functions/equal-ref-ir-function/equal-ref-ir-function.h"
+#include "ir-util-functions/equal-shared-ptr-ir-function/equal-shared-ptr-ir-function.h"
 #include "ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.h"
 #include "ir-util-functions/equal-array-ir-function/equal-array-ir-function.h"
 #include "ir-util-functions/equal-string-ir-function/equal-string-ir-function.h"
@@ -333,8 +331,6 @@ std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTEx
         return this->_irStrategyMap.getNewClassInstanceExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTNewClassInstanceExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_SHARE_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getShareExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTShareExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
-    } else if (node->is(AST_REF_EXPRESSION_NODE)) {
-        return this->_irStrategyMap.getRefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTRefExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_DREF_EXPRESSION_NODE)) {
         return this->_irStrategyMap.getDrefExpressionIRStrategy()->generate(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node),  shared_from_this(), scope, irContext, irOperation);
     } else if (node->is(AST_MODULE_ACCESS_EXPRESSION_NODE)) {
@@ -452,9 +448,6 @@ std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignatu
         case POINTER_TYPE_SOURCE:
             return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<PointerTypeSignature>(typeSignature),
                                                                                 shared_from_this(), scope, irContext);
-        case REF_TYPE_SOURCE:
-            return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<RefTypeSignature>(typeSignature),
-                                                                                shared_from_this(), scope, irContext);
         case SHARED_TYPE_SOURCE:
             return _irStrategyMap.getSharedTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<SharedTypeSignature>(typeSignature),
                                                                             shared_from_this(), scope, irContext);
@@ -527,10 +520,6 @@ std::shared_ptr<IRPointerType> IRGenerator::generateTypeFor(std::shared_ptr<Poin
     return _irStrategyMap.getPointerTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
 
-std::shared_ptr<IRRefType> IRGenerator::generateTypeFor(std::shared_ptr<RefTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
-    return _irStrategyMap.getRefTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
-}
-
 std::shared_ptr<IRSharedPtrType> IRGenerator::generateTypeFor(std::shared_ptr<SharedTypeSignature> typeSignature, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     return _irStrategyMap.getSharedTypeSignatureIRStrategy()->generate(typeSignature, shared_from_this(), scope, irContext);
 }
@@ -598,11 +587,6 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(std::shared_ptr<I
                 this->generateConstantPointer(),
                 this->generateConstantPointer()
         });
-    } else if (irType->isRefType()) {
-        return llvm::ConstantStruct::get(_refType, {
-                this->generateConstantPointer(),
-                this->generateConstantPointer()
-        });
     } else if (irType->isSharedType()) {
         return llvm::ConstantStruct::get(_sharedPtrType, {
                 this->generateConstantPointer(),
@@ -630,10 +614,6 @@ llvm::Constant* IRGenerator::generatePlaceholderValueForIRType(std::shared_ptr<I
 
 llvm::Constant* IRGenerator::generateInitialValueForIRType(std::shared_ptr<IRType> irType) {
     return llvm::Constant::getNullValue(irType->getType());
-}
-
-std::shared_ptr<IRRefType> IRGenerator::generateIrRefType(std::shared_ptr<IRType> underlyingIRType) {
-    return std::make_shared<IRRefType>(_refType, std::make_shared<IRType>(this->generateIntType()), underlyingIRType);
 }
 
 std::shared_ptr<IRSharedPtrType> IRGenerator::generateIrSharedPtrType(std::shared_ptr<IRType> underlyingIRType) {
@@ -774,9 +754,7 @@ llvm::IntegerType* IRGenerator::generatePointerIntType() {
 }
 
 std::shared_ptr<IRTypeValueInstructionNode> IRGenerator::generateIRTypeValueFor(std::shared_ptr<IRType> irType, std::shared_ptr<IRContext> irContext) {
-    if (irType->isRefType()) {
-        return this->_irStrategyMap.getRefTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRRefType>(irType), shared_from_this(), irContext);
-    } else if (irType->isStructType()) {
+    if (irType->isStructType()) {
         return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructType>(irType), shared_from_this(), irContext);
     } else if (irType->isStructRefType()) {
         return this->_irStrategyMap.getStructTypeSignatureIRStrategy()->generateTypeValue(std::dynamic_pointer_cast<IRStructRefType>(irType), shared_from_this(), irContext);
@@ -1068,12 +1046,12 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForStructRe
     }
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForRef(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForSharedPtr(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count) {
     auto irType = this->generateIRArcType();
-    auto refType = this->generateIrRefType(irType);
+    auto irSharedPtrType = this->generateIrSharedPtrType(irType);
     auto ancestorValues = std::vector<llvm::Value*>();
     if (source->getType()->isPointerTy()) {
-        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(refType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(refType->getRefCounterIndex()) });
+        auto pointerToArcPointer = llvm::GetElementPtrInst::Create(irSharedPtrType->getType(), source, { this->generateIntConstant(0), this->generateIntConstant(irSharedPtrType->getRefCounterIndex()) });
         ancestorValues.push_back(pointerToArcPointer);
         if (count > 0) {
             auto loadedArcPointerForCount = this->generateLoadInstruction(pointerToArcPointer, this->generateIrPointerType(irType));
@@ -1091,7 +1069,7 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForRef(std:
                 ancestorValues
         );
     } else {
-        auto arcPointer = llvm::ExtractValueInst::Create(source, { refType->getRefCounterIndex() });
+        auto arcPointer = llvm::ExtractValueInst::Create(source, { irSharedPtrType->getRefCounterIndex() });
         ancestorValues.push_back(arcPointer);
         if (count > 0) {
             auto currentArcValue = this->generateLoadInstruction(arcPointer, irType);
@@ -1112,8 +1090,8 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForRef(std:
 std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::shared_ptr<IRContext> irContext, std::shared_ptr<IRType> irType, llvm::Value* source, unsigned long count) {
     if (irType->isInvocableType()) {
         return this->generateArcAllocationForInvocable(irContext, source, count);
-    } else if (irType->isRefType()) {
-        return this->generateArcAllocationForRef(irContext, source, count);
+    } else if (irType->isSharedType()) {
+        return this->generateArcAllocationForSharedPtr(irContext, source, count);
     }
     return this->generateArcAllocationForStructRef(irContext, source, count);
 }
@@ -1296,9 +1274,9 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             EqualStructIRFunction::getEqualStructIRFunctionName(),
             EqualStructRefIRFunction::getEqualStructRefIRFunctionName(),
             EqualLambdaIRFunction::getEqualLambdaIRFunctionName(),
-            EqualRefIRFunction::getEqualRefIRFunctionName(),
-            EqualRefIRFunction::getEqualRefLeftOnlyIRFunctionName(),
-            EqualRefIRFunction::getEqualRefRightOnlyIRFunctionName(),
+            EqualSharedPtrIRFunction::getEqualSharedPtrIRFunctionName(),
+            EqualSharedPtrIRFunction::getEqualSharedPtrLeftOnlyIRFunctionName(),
+            EqualSharedPtrIRFunction::getEqualSharedPtrRightOnlyIRFunctionName(),
             StringConcatIRFunction::getStringConcatIRFunctionName(),
             ArrayAppendIRFunction::getArrayAppendIRFunctionName(),
             ArrayPrependIRFunction::getArrayPrependIRFunctionName(),

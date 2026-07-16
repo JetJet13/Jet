@@ -62,7 +62,6 @@
 #include "../../../ast/ast-nodes/ast-class-nodes/ast-new-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../ast/ast-nodes/ast-export-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h"
 #include "../../../ast/ast-nodes/ast-dref-node.h"
 #include "../../../ast/ast-nodes/ast-concat-node.h"
 #include "../../../ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
@@ -211,8 +210,6 @@ std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> le
         return std::make_shared<ASTShareNode>(lexeme);
     } else if (symbol->isShared()) {
         return std::make_shared<ASTSharedNode>(lexeme);
-    } else if (symbol->isRef()) {
-        return std::make_shared<ASTRefBaseNode>(lexeme);
     } else if (symbol->isDref()) {
         return std::make_shared<ASTDrefNode>(lexeme);
     } else if (symbol->isConcat()) {

@@ -95,9 +95,7 @@
 #include "reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.h"
 #include "reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.h"
 #include "reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.h"
-#include "reducer-strategies/ref-expression-reducer-strategy/ref-expression-reducer-strategy.h"
 #include "reducer-strategies/dref-expression-strategy/dref-expression-strategy.h"
-#include "reducer-strategies/ref-type-reducer-strategy/ref-type-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.h"
 #include "reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.h"
 #include "reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.h"
@@ -257,10 +255,8 @@ void Reducer::initStrategies() {
     this->addStrategy(AST_CLASS_PROPERTY_ACCESS_EXPRESSION_NODE, std::make_shared<ClassPropertyAccessExpressionReducerStrategy>());
     this->addStrategy(AST_THIS_EXPRESSION_NODE, std::make_shared<ThisExpressionReducerStrategy>());
     this->addStrategy(AST_SHARE_EXPRESSION_NODE, std::make_shared<ShareExpressionReducerStrategy>());
-    this->addStrategy(AST_REF_EXPRESSION_NODE, std::make_shared<RefExpressionReducerStrategy>());
     this->addStrategy(AST_DREF_EXPRESSION_NODE, std::make_shared<DrefExpressionReducerStrategy>());
     this->addStrategy(AST_CONCAT_EXPRESSION_NODE, std::make_shared<ConcatExpressionReducerStrategy>());
-    this->addStrategy(AST_REF_TYPE_NODE, std::make_shared<RefTypeReducerStrategy>());
     this->addStrategy(AST_SHARED_TYPE_NODE, std::make_shared<SharedTypeReducerStrategy>());
     this->addStrategy(AST_INTERFACE_DEFINITION_NODE, std::make_shared<InterfaceDefinitionReducerStrategy>());
     this->addStrategy(AST_INTERFACE_PROPERTY_NODE, std::make_shared<InterfacePropertyReducerStrategy>());

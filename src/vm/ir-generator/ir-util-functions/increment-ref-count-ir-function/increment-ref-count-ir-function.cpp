@@ -12,14 +12,14 @@ std::string IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName() {
 
 void IncrementRefCountIRFunction::generateIncrementRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto pointerType = irGenerator->generateIrPointerType();
-    auto refType = irGenerator->generateIrRefType(pointerType);
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(pointerType);
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
 
-    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    auto pointerToRefCounterPointer = functionBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), sharedPtrType->getRefCounterIndex());
     auto refCounterPointer = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounterPointer, functionBlock);
-    auto currentRefCount = InstructionIRInjectorHelper::injectLoad(refType->getRefCounterIRType()->getType(), refCounterPointer, functionBlock);
+    auto currentRefCount = InstructionIRInjectorHelper::injectLoad(sharedPtrType->getRefCounterIRType()->getType(), refCounterPointer, functionBlock);
     auto newRefCount = functionBlock->getBuilder()->get()->CreateBinOp(
             llvm::Instruction::BinaryOps::Add,
             currentRefCount,

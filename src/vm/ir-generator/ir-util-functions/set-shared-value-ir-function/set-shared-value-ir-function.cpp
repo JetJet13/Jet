@@ -15,7 +15,7 @@ void SetSharedValueIRFunction::generateSetSharedValueFunction(std::shared_ptr<IR
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto structRefType = irGenerator->generateIRStructRefType();
-    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { pointerType->getType(), pointerType->getType(), typeValueType->getType() }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0,
                                            SetSharedValueIRFunction::getSetSharedValueIRFunctionName(), irModuleNode->getModule()->get());
@@ -28,8 +28,8 @@ void SetSharedValueIRFunction::generateSetSharedValueFunction(std::shared_ptr<IR
     auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     DebugIRInjectorHelper::injectLog(functionBlock, "SET REF VALUE FUNCTION!", irGenerator->getInjector(), irModuleNode);
-    auto pointerToRefValue = functionBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefValueIndex());
-    auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(refType->getRefValueType(), pointerToRefValue, functionBlock);
+    auto pointerToRefValue = functionBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), sharedPtrType->getSharedValueIndex());
+    auto loadedPointerToRefValue = InstructionIRInjectorHelper::injectLoad(sharedPtrType->getSharedValueType(), pointerToRefValue, functionBlock);
     auto typeValueId = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), { typeValueType->getIdIndex() });
     auto sizeInBytes = functionBlock->getBuilder()->get()->CreateExtractValue(function->getArg(2), typeValueType->getSizeInBytesIndex());
     functionBlock->getBuilder()->get()->CreateCall(

@@ -18,7 +18,7 @@ std::shared_ptr<Lexeme> ASTLessThanBaseNode::getLexeme() {
 std::shared_ptr<ASTNode> ASTLessThanBaseNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode,
                                                     std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_REF_TYPE_KEYWORD_NODE, AST_SHARED_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({ AST_FUNCTION_NODE, AST_PROCEDURE_NODE, AST_TUPLE_NODE, AST_SHARED_NODE })) {
         return std::make_shared<ASTTypeParameterListStartNode>(this->getLexeme());
     }
 

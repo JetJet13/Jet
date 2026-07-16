@@ -166,7 +166,7 @@ void AssertIRFunction::generateAssertWithMessageFunction(std::shared_ptr<IRGener
 void AssertIRFunction::generateAssertDebugRefCountFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto voidType = irGenerator->getVoidType();
-    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
     auto functionType = llvm::FunctionType::get(voidType, { pointerType, intType, pointerType }, false);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0,
@@ -179,7 +179,7 @@ void AssertIRFunction::generateAssertDebugRefCountFunction(std::shared_ptr<IRGen
     auto isRefCountMatchIfThenBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
     auto isRefCountMatchIfElseBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     functionBlock->getBuilder()->get()->CreateBr(isRefCountMatchTrueIfBlock->getBlock());
-    auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    auto pointerToRefCountPointer = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), sharedPtrType->getRefCounterIndex());
     auto refCountPointer = InstructionIRInjectorHelper::injectLoad(pointerType, pointerToRefCountPointer, isRefCountMatchTrueIfBlock);
     auto refCount = InstructionIRInjectorHelper::injectLoad(intType, refCountPointer, isRefCountMatchTrueIfBlock);
     auto isValueTrue = isRefCountMatchTrueIfBlock->getBuilder()->get()->CreateICmp(

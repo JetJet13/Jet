@@ -5,7 +5,6 @@
 #include "ast-object-access-invocation-expression-node.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
-#include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 ASTObjectAccessInvocationExpressionNode::ASTObjectAccessInvocationExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccess, std::shared_ptr<ASTFunctionArgumentListNode> arguments) {

@@ -41,7 +41,6 @@
 #include "policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.h"
 #include "policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.h"
 #include "policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.h"
-#include "policies/expressions/ref-expression-type-checker-policy/ref-expression-type-checker-policy.h"
 #include "policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.h"
 #include "policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h"
 #include "policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.h"
@@ -229,9 +228,6 @@ namespace TypeChecker {
                 break;
             case AST_SHARE_EXPRESSION_NODE:
                 ShareExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTShareExpressionNode>(node), typeCheckerResult);
-                break;
-            case AST_REF_EXPRESSION_NODE:
-                RefExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTRefExpressionNode>(node), typeCheckerResult);
                 break;
             case AST_DREF_EXPRESSION_NODE:
                 DrefExpressionTypeCheckerPolicy::apply(std::dynamic_pointer_cast<ASTDrefExpressionNode>(node), typeCheckerResult);

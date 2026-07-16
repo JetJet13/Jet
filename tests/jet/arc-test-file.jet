@@ -9,7 +9,7 @@ import BigModule from "./big-module.jet";
 
 class SimpleClass {
     public static staticValue: int = 100;
-    public static staticRefValue: ref<int> = ref 101;
+    public static staticSharedValue: shared<int> = share 101;
     public value: int;
 
     constructor(value: int) {
@@ -144,8 +144,8 @@ func getArray(y: [int]): [int] {
     return y;
 }
 
-func getRefArray(y: [int]): ref<[int]> {
-    return ref y;
+func getRefArray(y: [int]): shared<[int]> {
+    return share y;
 }
 
 proc testShare() {

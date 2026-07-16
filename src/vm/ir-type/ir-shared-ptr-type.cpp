@@ -4,9 +4,9 @@
 
 #include "ir-shared-ptr-type.h"
 
-IRSharedPtrType::IRSharedPtrType(llvm::StructType* type, std::shared_ptr<IRType> sharedCounterIRType, std::shared_ptr<IRType> sharedIRType) : IRType(type) {
+IRSharedPtrType::IRSharedPtrType(llvm::StructType* type, std::shared_ptr<IRType> refCounterIRType, std::shared_ptr<IRType> sharedIRType) : IRType(type) {
     _type = type;
-    _sharedCounterIRType = sharedCounterIRType;
+    _refCounterIRType = refCounterIRType;
     _sharedIRType = sharedIRType;
     _sharedValueIndex = 0;
     _refCounterIndex = 1;
@@ -28,12 +28,12 @@ llvm::PointerType* IRSharedPtrType::getSharedValueType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_sharedValueIndex));
 }
 
-llvm::PointerType* IRSharedPtrType::getSharedCounterType() {
+llvm::PointerType* IRSharedPtrType::getRefCounterType() {
     return llvm::cast<llvm::PointerType>(_type->getElementType(_refCounterIndex));
 }
 
-std::shared_ptr<IRType> IRSharedPtrType::getSharedCounterIRType() {
-    return _sharedCounterIRType;
+std::shared_ptr<IRType> IRSharedPtrType::getRefCounterIRType() {
+    return _refCounterIRType;
 }
 
 std::shared_ptr<IRType> IRSharedPtrType::getSharedValueIRType() {
@@ -54,7 +54,7 @@ uint64_t IRSharedPtrType::getSizeInBytes() {
 void IRSharedPtrType::setAlignmentOverride(llvm::Align alignmentOverride) {
     _alignmentOverride = alignmentOverride;
     _sharedIRType->setAlignmentOverride(alignmentOverride);
-    _sharedCounterIRType->setAlignmentOverride(alignmentOverride);
+    _refCounterIRType->setAlignmentOverride(alignmentOverride);
 }
 
 
@@ -64,7 +64,7 @@ bool IRSharedPtrType::containsTypeThatRequiresFreeing() {
 
 std::shared_ptr<IRType> IRSharedPtrType::clone() {
     auto sharedIRTypeClone = _sharedIRType->clone();
-    auto sharedCounterIRTypeClone = _sharedCounterIRType->clone();
+    auto sharedCounterIRTypeClone = _refCounterIRType->clone();
     auto clone = std::make_shared<IRSharedPtrType>(_type, sharedCounterIRTypeClone, sharedIRTypeClone);
     this->initClone(clone);
     return clone;

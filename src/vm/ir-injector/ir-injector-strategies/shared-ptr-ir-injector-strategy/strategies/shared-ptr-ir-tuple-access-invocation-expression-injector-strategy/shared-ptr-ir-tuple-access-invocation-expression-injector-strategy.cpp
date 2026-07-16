@@ -3,7 +3,6 @@
 //
 
 #include "shared-ptr-ir-tuple-access-invocation-expression-injector-strategy.h"
-#include "../../../../../ir-type/ir-ref-type.h"
 #include "../../../ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.h"
 #include "../../../ir-injector-helpers/shared-ptr-ir-injector-helper/shared-ptr-ir-injector-helper.h"
 

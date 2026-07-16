@@ -31,13 +31,11 @@
 #include "expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/share-expression-type-signature-strategy/share-expression-type-signature-strategy.h"
-#include "expression-type-signature-strategies/ref-expression-type-signature-strategy/ref-expression-type-signature-strategy.h"
 #include "expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.h"
-#include "type-type-signature-strategy/base-type-type-signature-strategies/ref-type-type-signature-strategy/ref-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/shared-type-type-signature-strategy/shared-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.h"
 #include "type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.h"
@@ -116,7 +114,6 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _unaryExpressionTypeSignatureStrategy = std::make_shared<UnaryExpressionTypeSignatureStrategy>();
     _moduleAccessExpressionTypeSignatureStrategy = std::make_shared<ModuleAccessExpressionTypeSignatureStrategy>();
     _shareExpressionTypeSignatureStrategy = std::make_shared<ShareExpressionTypeSignatureStrategy>();
-    _refExpressionTypeSignatureStrategy = std::make_shared<RefExpressionTypeSignatureStrategy>();
     _drefExpressionTypeSignatureStrategy = std::make_shared<DrefExpressionTypeSignatureStrategy>();
     _lambdaExpressionScopeParameterTypeSignatureStrategy = std::make_shared<LambdaExpressionScopeParameterTypeSignatureStrategy>();
     _classScopeParameterTypeSignatureStrategy = std::make_shared<ClassScopeParameterTypeSignatureStrategy>();
@@ -126,7 +123,6 @@ TypeSignatureStrategyMap::TypeSignatureStrategyMap() {
     _arrayTypeTypeSignatureStrategy = std::make_shared<ArrayTypeTypeSignatureStrategy>();
     _structTypeTypeSignatureStrategy = std::make_shared<StructTypeTypeSignatureStrategy>();
     _tupleTypeTypeSignatureStrategy = std::make_shared<TupleTypeTypeSignatureStrategy>();
-    _refTypeTypeSignatureStrategy = std::make_shared<RefTypeTypeSignatureStrategy>();
     _sharedTypeTypeSignatureStrategy = std::make_shared<SharedTypeTypeSignatureStrategy>();
     _moduleTypeTypeSignatureStrategy = std::make_shared<ModuleTypeTypeSignatureStrategy>();
     _lambdaTypeTypeSignatureStrategy = std::make_shared<LambdaTypeTypeSignatureStrategy>();
@@ -289,10 +285,6 @@ std::shared_ptr<ShareExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::
     return _shareExpressionTypeSignatureStrategy;
 }
 
-std::shared_ptr<RefExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getRefExpressionTypeSignatureStrategy() {
-    return _refExpressionTypeSignatureStrategy;
-}
-
 std::shared_ptr<DrefExpressionTypeSignatureStrategy> TypeSignatureStrategyMap::getDrefExpressionTypeSignatureStrategy() {
     return _drefExpressionTypeSignatureStrategy;
 }
@@ -327,10 +319,6 @@ std::shared_ptr<StructTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getSt
 
 std::shared_ptr<TupleTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getTupleTypeTypeSignatureStrategy() {
     return _tupleTypeTypeSignatureStrategy;
-}
-
-std::shared_ptr<RefTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getRefTypeTypeSignatureStrategy() {
-    return _refTypeTypeSignatureStrategy;
 }
 
 std::shared_ptr<SharedTypeTypeSignatureStrategy> TypeSignatureStrategyMap::getSharedTypeTypeSignatureStrategy() {

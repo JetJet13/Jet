@@ -4,7 +4,6 @@
 
 #include "scope-analyzer.h"
 #include "../../ast-traverser/ast-traverser.h"
-#include "../../ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.h"

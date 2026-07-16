@@ -39,7 +39,6 @@ class TupleExpressionTypeSignatureStrategy;
 class UnaryExpressionTypeSignatureStrategy;
 class ModuleAccessExpressionTypeSignatureStrategy;
 class ShareExpressionTypeSignatureStrategy;
-class RefExpressionTypeSignatureStrategy;
 class DrefExpressionTypeSignatureStrategy;
 class TypeTypeSignatureStrategy;
 class PrimitiveTypeTypeSignatureStrategy;
@@ -50,7 +49,6 @@ class TupleTypeTypeSignatureStrategy;
 class LambdaTypeTypeSignatureStrategy;
 class VoidTypeTypeSignatureStrategy;
 class ThisTypeTypeSignatureStrategy;
-class RefTypeTypeSignatureStrategy;
 class SharedTypeTypeSignatureStrategy;
 class ModuleTypeTypeSignatureStrategy;
 class EnumKeyValueTypeSignatureStrategy;
@@ -123,7 +121,6 @@ private:
     std::shared_ptr<UnaryExpressionTypeSignatureStrategy> _unaryExpressionTypeSignatureStrategy;
     std::shared_ptr<ModuleAccessExpressionTypeSignatureStrategy> _moduleAccessExpressionTypeSignatureStrategy;
     std::shared_ptr<ShareExpressionTypeSignatureStrategy> _shareExpressionTypeSignatureStrategy;
-    std::shared_ptr<RefExpressionTypeSignatureStrategy> _refExpressionTypeSignatureStrategy;
     std::shared_ptr<DrefExpressionTypeSignatureStrategy> _drefExpressionTypeSignatureStrategy;
     std::shared_ptr<LambdaExpressionScopeParameterTypeSignatureStrategy> _lambdaExpressionScopeParameterTypeSignatureStrategy;
     std::shared_ptr<ClassScopeParameterTypeSignatureStrategy> _classScopeParameterTypeSignatureStrategy;
@@ -133,7 +130,6 @@ private:
     std::shared_ptr<ArrayTypeTypeSignatureStrategy> _arrayTypeTypeSignatureStrategy;
     std::shared_ptr<StructTypeTypeSignatureStrategy> _structTypeTypeSignatureStrategy;
     std::shared_ptr<TupleTypeTypeSignatureStrategy> _tupleTypeTypeSignatureStrategy;
-    std::shared_ptr<RefTypeTypeSignatureStrategy> _refTypeTypeSignatureStrategy;
     std::shared_ptr<SharedTypeTypeSignatureStrategy> _sharedTypeTypeSignatureStrategy;
     std::shared_ptr<ModuleTypeTypeSignatureStrategy> _moduleTypeTypeSignatureStrategy;
     std::shared_ptr<LambdaTypeTypeSignatureStrategy> _lambdaTypeTypeSignatureStrategy;
@@ -206,7 +202,6 @@ public:
     std::shared_ptr<UnaryExpressionTypeSignatureStrategy> getUnaryExpressionTypeSignatureStrategy();
     std::shared_ptr<ModuleAccessExpressionTypeSignatureStrategy> getModuleAccessExpressionTypeSignatureStrategy();
     std::shared_ptr<ShareExpressionTypeSignatureStrategy> getShareExpressionTypeSignatureStrategy();
-    std::shared_ptr<RefExpressionTypeSignatureStrategy> getRefExpressionTypeSignatureStrategy();
     std::shared_ptr<DrefExpressionTypeSignatureStrategy> getDrefExpressionTypeSignatureStrategy();
     std::shared_ptr<LambdaExpressionScopeParameterTypeSignatureStrategy> getLambdaExpressionScopeParameterTypeSignatureStrategy();
     std::shared_ptr<ClassScopeParameterTypeSignatureStrategy> getClassScopeParameterTypeSignatureStrategy();
@@ -216,7 +211,6 @@ public:
     std::shared_ptr<ArrayTypeTypeSignatureStrategy> getArrayTypeTypeSignatureStrategy();
     std::shared_ptr<StructTypeTypeSignatureStrategy> getStructTypeTypeSignatureStrategy();
     std::shared_ptr<TupleTypeTypeSignatureStrategy> getTupleTypeTypeSignatureStrategy();
-    std::shared_ptr<RefTypeTypeSignatureStrategy> getRefTypeTypeSignatureStrategy();
     std::shared_ptr<SharedTypeTypeSignatureStrategy> getSharedTypeTypeSignatureStrategy();
     std::shared_ptr<ModuleTypeTypeSignatureStrategy> getModuleTypeTypeSignatureStrategy();
     std::shared_ptr<LambdaTypeTypeSignatureStrategy> getLambdaTypeTypeSignatureStrategy();

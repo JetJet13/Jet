@@ -78,7 +78,6 @@ typedef enum {
     SYM_CONSTRUCTOR,
     SYM_NEW,
     SYM_EXPORT,
-    SYM_REF,
     SYM_SHARE,
     SYM_SHARED,
     SYM_DREF,

@@ -768,7 +768,7 @@ void PrintIRFunction::generatePrintStringFunction(std::shared_ptr<IRGenerator> i
 void PrintIRFunction::generatePrintRefFunction(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> irModuleNode) {
     auto intType = irGenerator->generateIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto pointerType = irGenerator->generatePointerType();
     auto printf = irModuleNode->getModule()->get()->getOrInsertFunction("printf", llvm::FunctionType::get(irGenerator->generateInt32Type(), { pointerType }, true));
     auto function = irModuleNode->getPrintRefFunction();
@@ -796,13 +796,13 @@ void PrintIRFunction::generatePrintRefFunction(std::shared_ptr<IRGenerator> irGe
 
     auto forLoopIndexValue = InstructionIRInjectorHelper::injectLoad(intType, function->getArg(2), functionBlock);
     auto pointerToTypeValueAtIndex = functionBlock->getBuilder()->get()->CreateInBoundsGEP(typeValueType->getType(), function->getArg(1), { forLoopIndexValue });
-    auto refTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, functionBlock, typeValueType);
-    auto refValueTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(refTypeValue, { typeValueType->getAllocIndex() }, "refValueTypeValue");
+    auto sharedPtrTypeValue = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, functionBlock, typeValueType);
+    auto refValueTypeValuePointer = functionBlock->getBuilder()->get()->CreateExtractValue(sharedPtrTypeValue, { typeValueType->getAllocIndex() }, "refValueTypeValue");
     auto refValueTypeValueIdPointer = functionBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), refValueTypeValuePointer, typeValueType->getIdIndex());
     auto refValueTypeId = InstructionIRInjectorHelper::injectLoad(intType, refValueTypeValueIdPointer, functionBlock);
     auto loadedPointer = InstructionIRInjectorHelper::injectLoad(pointerType, function->getArg(0), functionBlock);
-    auto loadedRef = InstructionIRInjectorHelper::injectLoad(refType->getType(), loadedPointer, functionBlock);
-    auto pointerToRefValue = functionBlock->getBuilder()->get()->CreateExtractValue(loadedRef, { refType->getRefValueIndex() });
+    auto loadedRef = InstructionIRInjectorHelper::injectLoad(sharedPtrType->getType(), loadedPointer, functionBlock);
+    auto pointerToRefValue = functionBlock->getBuilder()->get()->CreateExtractValue(loadedRef, { sharedPtrType->getSharedValueIndex() });
     auto refValueAlloc = functionBlock->getBuilder()->get()->CreateAlloca(pointerType);
     InstructionIRInjectorHelper::injectStore(pointerToRefValue, refValueAlloc, functionBlock);
     // forLoopIndexArgumentAlloc is for printRef and printArray calls only
@@ -912,7 +912,7 @@ void PrintIRFunction::generatePrintArrayFunction(std::shared_ptr<IRGenerator> ir
     auto intType = irGenerator->generateIntType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);
@@ -1134,7 +1134,7 @@ void PrintIRFunction::generatePrintStructFunction(std::shared_ptr<IRGenerator> i
     auto intType = irGenerator->generateIntType();
     auto pointerIntType = irGenerator->generatePointerIntType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
-    auto refType = irGenerator->generateIrRefType(irGenerator->generateVoidType());
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(irGenerator->generateVoidType());
     auto charType = std::make_shared<IRType>(irGenerator->generateCharType());
     auto pointerType = irGenerator->generatePointerType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(charType);

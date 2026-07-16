@@ -215,8 +215,8 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRShared
         auto argumentValue = irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope);
         irExpression->getValue()->setArgOperand(i + 1, argumentValue);
     }
-    auto refValue = irInjector->inject(irBlock, irExpression->getIRRefValue(), std::make_shared<IROperation>(IR_OPERAND_POINTER_OP), irModule, scope);
-    irExpression->getValue()->setArgOperand(0, refValue);
+    auto sharedValue = irInjector->inject(irBlock, irExpression->getIRSharedValue(), std::make_shared<IROperation>(IR_OPERAND_POINTER_OP), irModule, scope);
+    irExpression->getValue()->setArgOperand(0, sharedValue);
     auto result = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
 
     if (irOperation->isOperandPointer() && !result->getType()->isPointerTy()) {

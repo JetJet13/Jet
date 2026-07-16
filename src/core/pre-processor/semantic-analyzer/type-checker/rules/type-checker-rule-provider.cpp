@@ -19,7 +19,6 @@ std::shared_ptr<ReturnTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_re
 std::shared_ptr<MatchArgumentListCountWithParameterListCountTypeCheckerRule> TypeCheckerRuleProvider::_matchArgumentListCountWithParameterListCountTypeCheckerRule = std::make_shared<MatchArgumentListCountWithParameterListCountTypeCheckerRule>();
 std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> TypeCheckerRuleProvider::_argumentListTypeSignatureMismatchTypeCheckerRule = std::make_shared<ArgumentListTypeSignatureMismatchTypeCheckerRule>();
 std::shared_ptr<DrefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_drefTypeSignatureTypeCheckerRule = std::make_shared<DrefTypeSignatureTypeCheckerRule>();
-std::shared_ptr<RefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_refTypeSignatureTypeCheckerRule = std::make_shared<RefTypeSignatureTypeCheckerRule>();
 std::shared_ptr<SharedTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::_sharedTypeSignatureTypeCheckerRule = std::make_shared<SharedTypeSignatureTypeCheckerRule>();
 std::shared_ptr<SharedValueAssignmentTypeCheckerRule> TypeCheckerRuleProvider::_sharedValueAssignmentTypeCheckerRule = std::make_shared<SharedValueAssignmentTypeCheckerRule>();
 std::shared_ptr<ClassSelfReferenceTypeCheckerRule> TypeCheckerRuleProvider::_classSelfReferenceTypeCheckerRule = std::make_shared<ClassSelfReferenceTypeCheckerRule>();
@@ -83,10 +82,6 @@ std::shared_ptr<ArgumentListTypeSignatureMismatchTypeCheckerRule> TypeCheckerRul
 
 std::shared_ptr<DrefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getDrefTypeSignatureTypeCheckerRule() {
     return _drefTypeSignatureTypeCheckerRule;
-}
-
-std::shared_ptr<RefTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getRefTypeSignatureTypeCheckerRule() {
-    return _refTypeSignatureTypeCheckerRule;
 }
 
 std::shared_ptr<SharedTypeSignatureTypeCheckerRule> TypeCheckerRuleProvider::getSharedTypeSignatureTypeCheckerRule() {

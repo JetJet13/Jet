@@ -230,9 +230,9 @@ public:
     llvm::Function* getEqualStructFunction();
     llvm::Function* getEqualStructRefFunction();
     llvm::Function* getEqualLambdaFunction();
-    llvm::Function* getEqualRefFunction();
-    llvm::Function* getEqualRefLeftOnlyFunction();
-    llvm::Function* getEqualRefRightOnlyFunction();
+    llvm::Function* getEqualSharedPtrFunction();
+    llvm::Function* getEqualSharedPtrLeftOnlyFunction();
+    llvm::Function* getEqualSharedPtrRightOnlyFunction();
     llvm::Function* getStringConcatFunction();
     llvm::Function* getArrayAppendFunction();
     llvm::Function* getArrayPrependFunction();
@@ -250,7 +250,7 @@ public:
     llvm::Function* getSetupSharedPtrFunction();
     llvm::Function* getSetupRefForStructFunction();
     llvm::Function* getSharesWithFunction();
-    llvm::Function* getSetRefValueFunction();
+    llvm::Function* getSetSharedValueFunction();
     llvm::Function* getIncrementRefCountFunction();
     llvm::Function* getIncrementLambdaRefCountFunction();
     llvm::Function* getIncrementRefCountIfNecessaryFunction();

@@ -35,6 +35,7 @@ public:
     std::string toString() override;
     bool isSameAs(std::shared_ptr<ASTNode> other) override;
     void print() override;
+    std::string toSourceCode() override;
 };
 
 #endif //JETLANG_AST_CLASS_PROPERTY_DEFINITION_NODE_H

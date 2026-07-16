@@ -21,7 +21,7 @@ void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(std::shared_
     auto pointerType = irGenerator->generateIrPointerType();
     auto typeValueType = irGenerator->generateIrTypeValueType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto refType = irGenerator->generateIrRefType(pointerType);
+    auto sharedPtrType = irGenerator->generateIrSharedPtrType(pointerType);
     auto structRefType = irGenerator->generateIRStructRefType();
     auto invocableType = irGenerator->generateIRInvocableType();
 
@@ -84,7 +84,7 @@ void FreeClassPropertyIRFunction::generateFreeClassPropertyFunction(std::shared_
             irGenerator->generateIntConstant(IR_TYPE_ID.REF)
     );
     isClassPropertyRefIfBlock->getBuilder()->get()->CreateCondBr(isClassPropertyRef, isClassPropertyRefIfThenBlock->getBlock(), isClassPropertyStructRefIfBlock->getBlock());
-    auto pointerToRefCounter = isClassPropertyRefIfThenBlock->getBuilder()->get()->CreateStructGEP(refType->getType(), function->getArg(0), refType->getRefCounterIndex());
+    auto pointerToRefCounter = isClassPropertyRefIfThenBlock->getBuilder()->get()->CreateStructGEP(sharedPtrType->getType(), function->getArg(0), sharedPtrType->getRefCounterIndex());
     auto loadedPointerToRefCounter = InstructionIRInjectorHelper::injectLoad(pointerType->getType(), pointerToRefCounter, isClassPropertyRefIfThenBlock);
     auto isPointerToRefCounterNull = isClassPropertyRefIfThenBlock->getBuilder()->get()->CreateIsNull(loadedPointerToRefCounter);
     isClassPropertyRefIfThenBlock->getBuilder()->get()->CreateCondBr(isPointerToRefCounterNull, endBlock->getBlock(), freeBlock->getBlock());

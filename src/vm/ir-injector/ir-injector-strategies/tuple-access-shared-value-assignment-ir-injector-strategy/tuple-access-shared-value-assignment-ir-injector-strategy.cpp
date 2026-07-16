@@ -5,7 +5,7 @@
 #include "tuple-access-shared-value-assignment-ir-injector-strategy.h"
 #include "../ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../ir-type/ir-ref-type.h"
+#include "../../../ir-type/ir-shared-ptr-type.h"
 
 void TupleAccessSharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRTupleAccessSharedValueAssignmentStatementNode> irTupleAccessSharedValueAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto objectAccess = irTupleAccessSharedValueAssignmentStatement->getIRTupleAccessExpression();
@@ -27,11 +27,11 @@ void TupleAccessSharedValueAssignmentIRInjectorStrategy::inject(std::shared_ptr<
             }
     );
     InstructionIRInjectorHelper::injectStore(newValue, newValueMalloc, irBlock, irType);
-    auto irRefType = std::dynamic_pointer_cast<IRRefType>(irTupleAccessSharedValueAssignmentStatement->getIRTupleAccessExpression()->getIRType()->getSourceType());
-    auto typeValue = irInjector->inject(irBlock, irRefType->getUnderlyingType(), irModule);
-    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irRefType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
+    auto irSharedPtrType = std::dynamic_pointer_cast<IRSharedPtrType>(irTupleAccessSharedValueAssignmentStatement->getIRTupleAccessExpression()->getIRType()->getSourceType());
+    auto typeValue = irInjector->inject(irBlock, irSharedPtrType->getUnderlyingType(), irModule);
+    auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(irSharedPtrType->getUnderlyingType()->getValue()->getAllocatedType(), typeValue, irBlock);
     irBlock->getBuilder()->get()->CreateCall(
-            irModule->getSetRefValueFunction(),
+            irModule->getSetSharedValueFunction(),
             { pointerToTarget, newValueMalloc,  loadedTypeValue }
     );
 }

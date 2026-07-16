@@ -10,7 +10,6 @@
 #include "ast-primitive-type-node.h"
 #include "ast-array-type-nodes/ast-array-type-node.h"
 #include "../ast-class-nodes/ast-this-node.h"
-#include "ast-ref-type-node.h"
 #include "ast-struct-type-nodes/ast-struct-type-node.h"
 #include "ast-lambda-type-nodes/ast-lambda-type-node.h"
 #include "ast-void-type-node.h"
@@ -26,7 +25,6 @@ namespace ASTTypeNodeFactory {
     std::shared_ptr<ASTTypeNode> createTupleTypeNode(std::shared_ptr<ASTTupleTypeNode> tupleTypeNode);
     std::shared_ptr<ASTTypeNode> createArrayTypeNode(std::shared_ptr<ASTArrayTypeNode> arrayTypeNode);
     std::shared_ptr<ASTTypeNode> createStructTypeNode(std::shared_ptr<ASTStructTypeNode> structTypeNode);
-    std::shared_ptr<ASTTypeNode> createRefTypeNode(std::shared_ptr<ASTRefTypeNode> refTypeNode);
     std::shared_ptr<ASTTypeNode> createSharedTypeNode(std::shared_ptr<ASTSharedTypeNode> sharedTypeNode);
     std::shared_ptr<ASTTypeNode> createModuleTypeNode(std::shared_ptr<ASTModuleTypeNode> moduleTypeNode);
     std::shared_ptr<ASTTypeNode> createThisTypeNode(std::shared_ptr<ASTThisNode> thisNode);

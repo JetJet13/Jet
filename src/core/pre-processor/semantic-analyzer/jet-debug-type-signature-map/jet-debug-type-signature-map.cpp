@@ -3,12 +3,12 @@
 //
 
 #include "jet-debug-type-signature-map.h"
-#include "../../../type-signature/ref-type-signature/ref-type-signature.h"
 #include "../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../type-signature/struct-type-signature/struct-type-signature.h"
 #include "../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 #include "../../../type-signature/tuple-type-signature/tuple-type-signature.h"
 #include "../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../type-signature/shared-type-signature/shared-type-signature.h"
 
 std::string JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignatureKey() {
     return "assertDebugRefCount";
@@ -33,7 +33,7 @@ std::string JetDebugTypeSignatureMap::getAssertDebugLambdaRefCountTypeSignatureK
 std::shared_ptr<FunctionTypeSignature> JetDebugTypeSignatureMap::getAssertDebugRefCountTypeSignature() {
     auto assertDebugRefCountTypeSignature = std::make_shared<FunctionTypeSignature>(
         std::make_shared<ParameterListTypeSignature>(std::vector {
-            std::make_shared<ParameterListItemTypeSignature>("refValue", (std::make_shared<RefTypeSignature>(std::make_shared<VoidTypeSignature>()))->markAsGeneric()),
+            std::make_shared<ParameterListItemTypeSignature>("sharedValue", (std::make_shared<SharedTypeSignature>(std::make_shared<VoidTypeSignature>()))->markAsGeneric()),
             std::make_shared<ParameterListItemTypeSignature>("expectedRefCount", std::make_shared<IntLiteralTypeSignature>()),
         }),
         std::make_shared<VoidTypeSignature>()

@@ -23,7 +23,6 @@ class StructIRInjectorStrategy;
 class TupleIRInjectorStrategy;
 class PointerIRInjectorStrategy;
 class VoidIRInjectorStrategy;
-class RefIRInjectorStrategy;
 class SharedPtrIRInjectorStrategy;
 class VariableIRInjectorStrategy;
 class ModuleIRInjectorStrategy;
@@ -67,7 +66,6 @@ private:
     std::shared_ptr<TupleIRInjectorStrategy> _tupleIRInjector;
     std::shared_ptr<PointerIRInjectorStrategy> _pointerIRInjector;
     std::shared_ptr<VoidIRInjectorStrategy> _voidIRInjector;
-    std::shared_ptr<RefIRInjectorStrategy> _refIRInjector;
     std::shared_ptr<SharedPtrIRInjectorStrategy> _sharedPtrIRInjector;
     std::shared_ptr<LambdaIRInjectorStrategy> _lambdaIRInjector;
     std::shared_ptr<EnumIRInjectorStrategy> _enumIRInjector;
