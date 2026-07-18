@@ -1444,6 +1444,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.h
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.cpp
         pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.h
+        pre-processor/semantic-analyzer/types/type-check-error/type-check-error.cpp
+        pre-processor/semantic-analyzer/types/type-check-error/type-check-error.h
 
 )
 

@@ -550,10 +550,10 @@ proc testLiteralExpressions() {
     assert(intLogicAnd == true);
     const intLogicOr = 1 || 2;
     assert(intLogicOr == true);
-    const intLogicAnd = !1 && 2;
-    assert(intLogicAnd == false);
-    const intLogicOr = 1 || !2;
-    assert(intLogicOr == true);
+    const intLogicAndWithNot = !1 && 2;
+    assert(intLogicAndWithNot == false);
+    const intLogicOrWithNot = 1 || !2;
+    assert(intLogicOrWithNot == true);
     const doubleBang = !1 && !2;
     assert(doubleBang == false);
     const tripleBang = !'a' && !'b' || !'c';
@@ -582,8 +582,8 @@ proc testLiteralExpressions() {
     assert(encloseUnary == false);
     const encloseDoubleUnary = !(!true);
     assert(encloseDoubleUnary == true);
-    const encloseUnary = !(!true) && !(!false);
-    assert(encloseUnary == false);
+    const encloseUnaryWithNot = !(!true) && !(!false);
+    assert(encloseUnaryWithNot == false);
     const encloseBinary = (1 + ((2 + 3) + 4));
     assert(encloseBinary == 10);
     const encloseLogical = (true && ((true || true) && true));
@@ -641,8 +641,8 @@ proc testBedmas() {
     assert(bedmasIdQuad == 3);
     const bedmasIdQuint = one * two - three + four / twentyFour;
     assert(bedmasIdQuint == -1);
-    const bedmasIdQuintWithBrackets = one * two - (three + four) / twentyFour;
-    assert(bedmasIdQuintWithBrackets == 2);
+    const bedmasIdQuintWithBracketsExtra = one * two - (three + four) / twentyFour;
+    assert(bedmasIdQuintWithBracketsExtra == 2);
     const bedmasUnary = +1 * 2 / -3;
     assert(bedmasUnary == 0);
     const bedmasUnaryQuad = +1 * 2 - -3 + 4;

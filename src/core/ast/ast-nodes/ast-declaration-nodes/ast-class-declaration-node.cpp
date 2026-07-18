@@ -112,6 +112,5 @@ std::string ASTClassDeclarationNode::toSourceCode() {
     if (_implementsInterfaceList) {
         sourceCodeBuilder.add(_implementsInterfaceList.value());
     }
-    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

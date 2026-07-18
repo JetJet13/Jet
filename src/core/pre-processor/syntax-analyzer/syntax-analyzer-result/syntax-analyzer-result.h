@@ -16,7 +16,7 @@ public:
     std::shared_ptr<FileScope> getFileScope();
     std::vector<std::string>* getErrors();
     bool ok();
-    void printErrors();
+    void printErrors(std::string filePath);
 };
 
 #endif //JETLANG_SYNTAX_ANALYZER_RESULT_H

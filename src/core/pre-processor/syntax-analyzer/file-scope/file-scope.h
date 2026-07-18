@@ -7,16 +7,19 @@
 
 #include <vector>
 #include <optional>
+#include <filesystem>
 #include "../../../ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.h"
 #include "../../../ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.h"
 
 class FileScope {
 private:
+    std::string _filePath;
     std::vector<std::shared_ptr<ASTNode>> _scope = std::vector<std::shared_ptr<ASTNode>>();
     std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>> _imports = std::vector<std::shared_ptr<ASTImportSingleModuleDeclarationNode>>();
     std::optional<std::shared_ptr<ASTModuleDeclarationNode>> _module = {};
 public:
-    FileScope();
+    FileScope(std::string filePath);
+    std::string getFilePath();
     void addToScope(std::shared_ptr<ASTNode> node);
     std::vector<std::shared_ptr<ASTNode>> getScope();
     void setModule(std::shared_ptr<ASTModuleDeclarationNode> node);

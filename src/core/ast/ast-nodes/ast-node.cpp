@@ -11,8 +11,17 @@ std::string ASTNode::getId() {
     return _id;
 }
 
+std::string ASTNode::getFilePath() {
+    return _filePath;
+}
+
 std::shared_ptr<ASTNode> ASTNode::setId(std::string id) {
     _id = id;
+    return shared_from_this();
+}
+
+std::shared_ptr<ASTNode> ASTNode::setFilePath(std::string filePath) {
+    _filePath = filePath;
     return shared_from_this();
 }
 

@@ -7,16 +7,18 @@
 
 #include <vector>
 #include <string>
+#include "../../../types/type-check-error/type-check-error.h"
 
 class TypeCheckerResult {
 private:
-    std::vector<std::string> _errors;
+    std::vector<std::shared_ptr<TypeCheckError>> _errors;
 public:
     TypeCheckerResult();
-    TypeCheckerResult(std::vector<std::string> errors);
-    TypeCheckerResult* addError(std::string error);
+    TypeCheckerResult(std::vector<std::shared_ptr<TypeCheckError>> errors);
+    TypeCheckerResult* addError(std::shared_ptr<TypeCheckError> error);
+    TypeCheckerResult* merge(TypeCheckerResult* other);
     bool ok();
-    std::vector<std::string>* getErrors();
+    std::vector<std::shared_ptr<TypeCheckError>>* getErrors();
     TypeCheckerResult* combine(TypeCheckerResult other);
     void printErrors();
 };

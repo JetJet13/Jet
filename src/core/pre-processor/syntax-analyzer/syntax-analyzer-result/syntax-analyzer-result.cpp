@@ -22,8 +22,12 @@ bool SyntaxAnalyzerResult::ok() {
     return _syntaxErrors.empty();
 }
 
-void SyntaxAnalyzerResult::printErrors() {
+void SyntaxAnalyzerResult::printErrors(std::string filePath) {
+    Logger::log("\n");
+    auto canonicalPath = std::filesystem::canonical(filePath).string();
     for (auto syntaxError : _syntaxErrors) {
+        Logger::log("File", canonicalPath);
         Logger::log("SyntaxError", syntaxError);
     }
+    Logger::log("\n");
 }

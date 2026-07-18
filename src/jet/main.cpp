@@ -36,9 +36,9 @@ int main (int argc, const char* argv[]) {
         auto semanticAnalyzer = std::make_shared<SemanticAnalyzer>();
         auto preProcessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
         auto jetFile = preProcessor.process(filePath);
-        if (!jetFile->getTypeCheckerResult()->ok()) {
-            jetFile->getTypeCheckerResult()->printErrors();
-            throw std::logic_error("type check errors found");
+        if (!preProcessor.getTypeCheckerResult()->ok()) {
+            preProcessor.getTypeCheckerResult()->printErrors();
+            exit(EXIT_STATUS_GENERIC_ERROR);
         }
         auto postProcessor = PostProcessor();
         postProcessor.process(jetFile);
@@ -46,7 +46,7 @@ int main (int argc, const char* argv[]) {
         auto irGenerator = std::make_shared<IRGenerator>(irInjector);
 
         // using new here avoids llvm 'use after deletion' errors from
-        // being thrown (likely due to the destruction of the VM instance being problematic)
+        // being thrown
         auto vm = new VM(irGenerator, irInjector);
 
         auto irJetFile = vm->compileMain(jetFile);

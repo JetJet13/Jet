@@ -24,7 +24,7 @@ SyntaxAnalyzer::SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shar
 }
 
 std::shared_ptr<SyntaxAnalyzerResult> SyntaxAnalyzer::analyze(std::string &filePath) {
-    auto fileScope = std::make_shared<FileScope>();
+    auto fileScope = std::make_shared<FileScope>(filePath);
     _recognizeStack.push(std::stack<std::shared_ptr<ASTNode>>());
     _modeStack.push(SA_NORMAL_MODE);
     _lexicalAnalyzer->start(filePath);
@@ -82,6 +82,7 @@ void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerRe
     Logger::log("reduce");
     Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
+    reducedNode->setFilePath(fileScope->getFilePath());
     _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
         Logger::log("pushing new Scope to scope stack and creating new recognize stack");

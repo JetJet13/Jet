@@ -4,7 +4,13 @@
 
 #include "file-scope.h"
 
-FileScope::FileScope() {}
+FileScope::FileScope(std::string filePath) {
+    _filePath = std::filesystem::canonical(filePath);
+}
+
+std::string FileScope::getFilePath() {
+    return _filePath;
+}
 
 void FileScope::addToScope(std::shared_ptr<ASTNode> node) {
     _scope.push_back(node);

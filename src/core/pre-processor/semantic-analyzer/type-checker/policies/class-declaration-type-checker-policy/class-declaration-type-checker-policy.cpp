@@ -13,6 +13,7 @@ void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclaratio
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()->enforce(classDeclarationNode, typeCheckerResult);
     if (!classDeclarationNode->getClassTypeSignature()->satisfiesImplementInterfaces()) {
         typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode)());
     }
@@ -53,8 +54,7 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(std
     auto namesNotUniqueErrorMessage = TypeCheckerErrorMessageTable::ClassPropertyNamesNotUnique(classDeclarationNode);
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
-        &classPropertyNames,
-        namesNotUniqueErrorMessage,
+        classDeclarationNode->getBlock()->getInstanceProperties(),
         typeCheckerResult
     );
 }

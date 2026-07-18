@@ -5,9 +5,11 @@
 #include "pre-processor.h"
 #include "../jet-file/jet-file-id-generator/jet-file-id-generator.h"
 #include "semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
+#include "../../shared/types/exit-status.enum.h"
 
 PreProcessor::PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::shared_ptr<SemanticAnalyzer> semanticAnalyzer) {
     _processedFileMap = PreProcessorMap();
+    _typeCheckerResult = TypeCheckerResult();
     _scopeAnalyzer = ScopeAnalyzer();
     _syntaxAnalyzer = syntaxAnalyzer;
     _semanticAnalyzer = semanticAnalyzer;
@@ -21,6 +23,10 @@ std::shared_ptr<ASTFileNode> PreProcessor::buildFile(std::string filePath, std::
     return fileNode;
 }
 
+TypeCheckerResult* PreProcessor::getTypeCheckerResult() {
+    return &_typeCheckerResult;
+}
+
 std::shared_ptr<JetFile> PreProcessor::process(std::string filePath) {
     auto processedFile = _processedFileMap.findByFilePath(filePath);
     if (processedFile) {
@@ -28,8 +34,8 @@ std::shared_ptr<JetFile> PreProcessor::process(std::string filePath) {
     }
     auto syntaxResult = _syntaxAnalyzer->analyze(filePath);
     if (!syntaxResult->ok()) {
-        syntaxResult->printErrors();
-        throw std::logic_error("syntax analyzer has errors: " + filePath);
+        syntaxResult->printErrors(filePath);
+        exit(EXIT_STATUS_GENERIC_ERROR);
     }
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
     _scopeAnalyzer.process(fileNode);
@@ -37,11 +43,10 @@ std::shared_ptr<JetFile> PreProcessor::process(std::string filePath) {
     auto typeSignatureScope = TypeSignatureLookupTableFactory::createForDebugModule(fileNode->getModuleName());
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
-    if (!typeCheckerResult.ok()) {
-        typeCheckerResult.printErrors();
-        throw std::logic_error("type checker has errors: " + filePath);
-    }
-    return std::make_shared<JetFile>(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
+    auto jetFile = std::make_shared<JetFile>(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);
+    _processedFileMap.insert(jetFile);
+    _typeCheckerResult.merge(jetFile->getTypeCheckerResult());
+    return jetFile;
 }
 
 std::set<std::shared_ptr<JetFile>> PreProcessor::resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope) {

@@ -124,6 +124,5 @@ std::string ASTClassMethodDeclarationNode::toSourceCode() {
         .add(_typeColon.value())
         ->add(_returnType.value());
     }
-    sourceCodeBuilder.add(_block);
     return sourceCodeBuilder.build();
 }

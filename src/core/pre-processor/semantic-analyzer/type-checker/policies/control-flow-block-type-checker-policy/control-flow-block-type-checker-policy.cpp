@@ -10,23 +10,17 @@
 
 namespace ControlFlowBlockTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTControlFlowBlockNode> controlFlowBlockNode, TypeCheckerResult* typeCheckerResult) {
-        auto scopedVariableDeclarationNames = std::vector<std::shared_ptr<ASTIdentifierNode>>();
+        auto variableDeclarations = std::vector<std::shared_ptr<ASTVariableDeclarationNode>>();
         for (auto statement : *controlFlowBlockNode->getContents()) {
             TypeChecker::applyPolicyTo(statement, typeCheckerResult);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
-                scopedVariableDeclarationNames.push_back(
-                    (std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement))
-                    ->getVarInitNode()
-                    ->getIdentifierNode()
-                );
+                variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement));
             }
         }
 
-        auto variableNamesNotUniqueMessage = TypeCheckerErrorMessageTable::VariableNamesNotUnique(controlFlowBlockNode);
         TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
         ->enforce(
-            &scopedVariableDeclarationNames,
-            variableNamesNotUniqueMessage,
+            &variableDeclarations,
             typeCheckerResult
         );
     }

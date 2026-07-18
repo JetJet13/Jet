@@ -16,6 +16,7 @@
 class PreProcessor {
 private:
     PreProcessorMap _processedFileMap;
+    TypeCheckerResult _typeCheckerResult;
     ScopeAnalyzer _scopeAnalyzer;
     std::shared_ptr<SyntaxAnalyzer> _syntaxAnalyzer;
     std::shared_ptr<SemanticAnalyzer> _semanticAnalyzer;
@@ -23,6 +24,7 @@ private:
     std::set<std::shared_ptr<JetFile>> resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
 public:
     PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::shared_ptr<SemanticAnalyzer> semanticAnalyzer);
+    TypeCheckerResult* getTypeCheckerResult();
     std::shared_ptr<JetFile> process(std::string filePath);
 };
 

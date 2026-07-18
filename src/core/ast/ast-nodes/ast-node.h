@@ -17,12 +17,15 @@ protected:
     ASTNodeType _nodeType;
     unsigned int _priority = 1;
     std::string _id;
+    std::string _filePath;
     std::vector<std::shared_ptr<ASTNode>> _children = {};
     bool _isGlobal = false;
     bool _isGrouped = false;
 public:
     std::string getId();
+    std::string getFilePath();
     std::shared_ptr<ASTNode> setId(std::string id);
+    std::shared_ptr<ASTNode> setFilePath(std::string filePath);
     std::optional<std::shared_ptr<ASTNode>> getParentNode();
     void setParentNode(std::shared_ptr<ASTNode> parentNode);
     void markAsGlobal();
