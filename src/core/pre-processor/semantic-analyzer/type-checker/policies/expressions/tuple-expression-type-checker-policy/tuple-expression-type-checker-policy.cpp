@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace TupleExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTTupleExpressionNode> tupleExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTTupleExpressionNode> tupleExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(tupleExpression);
@@ -23,7 +23,7 @@ namespace TupleExpressionTypeCheckerPolicy {
 
         for (unsigned long i = 0; i < tupleExpression->numItems(); ++i) {
             auto tupleItem = tupleExpression->getItems()->at(i);
-            TypeChecker::applyPolicyTo(tupleItem->getItem(), typeCheckerResult);
+            TypeChecker::applyPolicyTo(tupleItem->getItem(), typeCheckerResult, fileScope);
         }
     }
 }

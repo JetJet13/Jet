@@ -7,9 +7,10 @@
 
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h"
+#include "../../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace CurryExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTCurryExpressionNode> curryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTCurryExpressionNode> curryExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 

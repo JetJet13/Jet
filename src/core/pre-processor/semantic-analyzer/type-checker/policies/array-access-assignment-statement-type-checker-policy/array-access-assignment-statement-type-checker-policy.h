@@ -7,9 +7,10 @@
 
 #include "../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.h"
+#include "../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace ArrayAccessAssignmentStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayAccessAssignmentStatementNode> arrayAccessAssignmentStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 

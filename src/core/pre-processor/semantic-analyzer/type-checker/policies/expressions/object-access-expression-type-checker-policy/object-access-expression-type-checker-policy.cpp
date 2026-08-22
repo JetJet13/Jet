@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace ObjectAccessExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(objectAccessExpression);

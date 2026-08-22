@@ -7,9 +7,10 @@
 
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.h"
+#include "../../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace ClassPropertyAccessExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTClassPropertyAccessExpressionNode> classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTClassPropertyAccessExpressionNode> classPropertyAccessExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 

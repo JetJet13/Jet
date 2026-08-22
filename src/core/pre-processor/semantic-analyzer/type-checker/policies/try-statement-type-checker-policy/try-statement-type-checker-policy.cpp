@@ -6,12 +6,12 @@
 #include "../../type-checker.h"
 
 namespace TryStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult) {
-        TypeChecker::applyPolicyTo(tryStatementNode->getTryBlock()->getBlock(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(tryStatementNode->getCatchBlock()->getBlock(), typeCheckerResult);
+    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(tryStatementNode->getTryBlock()->getBlock(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(tryStatementNode->getCatchBlock()->getBlock(), typeCheckerResult, fileScope);
 
         if (tryStatementNode->getFinallyBlock()) {
-            TypeChecker::applyPolicyTo(tryStatementNode->getFinallyBlock().value()->getBlock(), typeCheckerResult);
+            TypeChecker::applyPolicyTo(tryStatementNode->getFinallyBlock().value()->getBlock(), typeCheckerResult, fileScope);
         }
     }
 }

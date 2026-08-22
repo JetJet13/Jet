@@ -14,12 +14,21 @@
 #include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.h"
 #include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
+#include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.h"
+#include "../../../../../../ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
+#include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
+#include "../../../../../../ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
 
 class UniqueScopedNamesTypeCheckerRule : public TypeCheckerRule {
 public:
     void enforce(std::shared_ptr<ASTClassDeclarationNode> classDeclaration, TypeCheckerResult* typeCheckerResult);
     void enforce(std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* classProperties, TypeCheckerResult* typeCheckerResult);
     void enforce(std::vector<std::shared_ptr<ASTVariableDeclarationNode>>* names, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTClassDeclarationNode>>* classes, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTEnumDeclarationNode>>* enums, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTCustomTypeDeclarationNode>>* customTypes, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTFunctionDeclarationNode>>* functions, TypeCheckerResult* typeCheckerResult);
+    void enforce(std::vector<std::shared_ptr<ASTProcedureDeclarationNode>>* procedures, TypeCheckerResult* typeCheckerResult);
     TypeCheckerRuleType getType() override;
     std::string toString() override;
     bool isEqualTo(TypeCheckerRule* other) override;

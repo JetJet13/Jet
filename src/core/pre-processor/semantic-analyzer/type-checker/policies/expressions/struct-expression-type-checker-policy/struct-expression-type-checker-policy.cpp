@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace StructExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTStructExpressionNode> structExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTStructExpressionNode> structExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(structExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(structExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(structExpression);
@@ -23,7 +23,7 @@ namespace StructExpressionTypeCheckerPolicy {
         );
 
         for (auto keyValuePair : structExpression->getKeyValuePairs()) {
-            TypeChecker::applyPolicyTo(keyValuePair->getValue(), typeCheckerResult);
+            TypeChecker::applyPolicyTo(keyValuePair->getValue(), typeCheckerResult, fileScope);
         }
 
     }

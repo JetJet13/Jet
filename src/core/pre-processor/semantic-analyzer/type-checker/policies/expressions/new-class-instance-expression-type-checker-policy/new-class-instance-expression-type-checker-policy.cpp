@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace NewClassInstanceExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTNewClassInstanceExpressionNode> newClassInstanceExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTNewClassInstanceExpressionNode> newClassInstanceExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(newClassInstanceExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(newClassInstanceExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(newClassInstanceExpression);
@@ -29,6 +29,6 @@ namespace NewClassInstanceExpressionTypeCheckerPolicy {
             typeCheckerResult->addError(TypeCheckerErrorMessageTable::NewClassInstanceNoMatchingConstructor(newClassInstanceExpression)());
         }
 
-        TypeChecker::applyPolicyTo(newClassInstanceExpression->getArguments(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(newClassInstanceExpression->getArguments(), typeCheckerResult, fileScope);
     }
 }

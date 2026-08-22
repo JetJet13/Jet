@@ -9,9 +9,9 @@
 #include "../../../../../../type-signature/invocable-type-signature/invocable-type-signature.h"
 
 namespace ArrayAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> arrayAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
-        TypeChecker::applyPolicyTo(arrayAccessInvocationExpression->getArrayAccess(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(arrayAccessInvocationExpression->getArguments(), typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayAccessInvocationExpressionNode> arrayAccessInvocationExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(arrayAccessInvocationExpression->getArrayAccess(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(arrayAccessInvocationExpression->getArguments(), typeCheckerResult, fileScope);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

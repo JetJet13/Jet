@@ -9,8 +9,8 @@
 #include "../../../type-checker.h"
 
 namespace TupleAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
-        TypeChecker::applyPolicyTo(tupleAccessInvocationExpression->getArguments(), typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleAccessInvocationExpressionNode> tupleAccessInvocationExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(tupleAccessInvocationExpression->getArguments(), typeCheckerResult, fileScope);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(tupleAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(tupleAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

@@ -7,7 +7,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 
 namespace ThisExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTThisExpressionNode> thisExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTThisExpressionNode> thisExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(thisExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(thisExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(thisExpression);

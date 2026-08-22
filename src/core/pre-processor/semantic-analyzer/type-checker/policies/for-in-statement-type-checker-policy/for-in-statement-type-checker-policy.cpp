@@ -8,8 +8,8 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace ForInStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeCheckerResult* typeCheckerResult) {
-        TypeChecker::applyPolicyTo(forStatementNode->getBlock(), typeCheckerResult);
+    void apply(std::shared_ptr<ASTForInStatementNode> forStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(forStatementNode->getBlock(), typeCheckerResult, fileScope);
         auto notIterableMessage = TypeCheckerErrorMessageTable::ForInStatementSourceNotIterable(forStatementNode->getSource());
 
         auto sourceTypeSignature = forStatementNode->getSource()->getTypeSignature();

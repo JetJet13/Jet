@@ -163,6 +163,8 @@ void IRBlockNode::setInsertionPointBeforeLastInstruction() {
 }
 
 void IRBlockNode::setInsertionPointBeforeFirstInstruction() {
+    auto insertionPoint = this->getBlock()->getFirstInsertionPt();
+    if (this->getBlock()->empty()) return;
     this->getBuilder()->get()->SetInsertPoint(&*this->getBlock()->getFirstInsertionPt());
 }
 

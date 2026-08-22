@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace DrefExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTDrefExpressionNode> drefExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTDrefExpressionNode> drefExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(drefExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(drefExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(drefExpression);
@@ -27,6 +27,6 @@ namespace DrefExpressionTypeCheckerPolicy {
             drefInvalidMessage,
             typeCheckerResult
         );
-        TypeChecker::applyPolicyTo(drefExpression->getExpressionNode(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(drefExpression->getExpressionNode(), typeCheckerResult, fileScope);
     }
 }

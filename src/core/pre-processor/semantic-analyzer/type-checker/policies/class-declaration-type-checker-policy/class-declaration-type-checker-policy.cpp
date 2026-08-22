@@ -4,15 +4,13 @@
 
 #include "class-declaration-type-checker-policy.h"
 #include "../../rules/type-checker-rule-provider.h"
-#include "../../types/type-checker-error-message-table.h"
 #include "../../type-checker.h"
 #include "../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 
-void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(classDeclarationNode, typeCheckerResult);
-    ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult);
-    ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult);
+    ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(classDeclarationNode, typeCheckerResult, fileScope);
+    ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(classDeclarationNode, typeCheckerResult, fileScope);
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()->enforce(classDeclarationNode, typeCheckerResult);
     if (!classDeclarationNode->getClassTypeSignature()->satisfiesImplementInterfaces()) {
         typeCheckerResult->addError(TypeCheckerErrorMessageTable::ClassDoesNotImplementInterface(classDeclarationNode)());
@@ -20,6 +18,7 @@ void ClassDeclarationTypeCheckerPolicy::apply(std::shared_ptr<ASTClassDeclaratio
 }
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassProperties(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+
     ClassDeclarationTypeCheckerPolicy::verifyClassPropertiesWithInitializer(classDeclarationNode, typeCheckerResult);
     ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(classDeclarationNode, typeCheckerResult);
 }
@@ -59,12 +58,12 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassPropertyNamesAreUnique(std
     );
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(classDeclarationNode, typeCheckerResult);
 
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
-        TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult, fileScope);
         if (!classMethod->getMethodTypeSignature()->getReturnType()->isVoid()) {
             auto unknownMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(classMethod);
             auto invalidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(classMethod);
@@ -120,11 +119,11 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shar
     );
 }
 
-void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(classDeclarationNode, typeCheckerResult);
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
-        TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult, fileScope);
         auto noReturnExpressionMessage = TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(classConstructor);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             classConstructor->getBlock(),

@@ -9,10 +9,10 @@
 #include "../../types/type-checker-error-message-table.h"
 
 namespace FunctionBlockTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionBlockNode> functionBlockNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto variableDeclarations = std::vector<std::shared_ptr<ASTVariableDeclarationNode>>();
         for (auto statement : *functionBlockNode->getContents()) {
-            TypeChecker::applyPolicyTo(statement, typeCheckerResult);
+            TypeChecker::applyPolicyTo(statement, typeCheckerResult, fileScope);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
                 variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement));
             }

@@ -9,7 +9,7 @@
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace LambdaExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);
@@ -21,7 +21,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             voidMessage,
             typeCheckerResult
         );
-        TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult, fileScope);
         if (lambdaExpression->getLambdaTypeSignature()->getReturnType()->isVoid()) {
             auto notAllPathsReturn = TypeCheckerErrorMessageTable::LambdaExpressionNotAllPathsReturn(lambdaExpression);
             TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
@@ -53,10 +53,10 @@ namespace LambdaExpressionTypeCheckerPolicy {
                 typeCheckerResult
             );
         }
-        TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(lambdaExpression->getBlock(), typeCheckerResult, fileScope);
     }
 
-    void apply(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(lambdaExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(lambdaExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(lambdaExpression);
@@ -68,7 +68,7 @@ namespace LambdaExpressionTypeCheckerPolicy {
             voidMessage,
             typeCheckerResult
         );
-        TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(lambdaExpression->getReturnExpression()->getExpression(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(lambdaExpression->getParameters(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(lambdaExpression->getReturnExpression()->getExpression(), typeCheckerResult, fileScope);
     }
 }

@@ -7,9 +7,10 @@
 
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.h"
+#include "../../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace TupleAccessExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTupleAccessExpressionNode> tupleAccessExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 

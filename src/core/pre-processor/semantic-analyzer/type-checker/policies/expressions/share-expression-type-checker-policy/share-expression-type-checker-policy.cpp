@@ -8,7 +8,7 @@
 #include "../../../type-checker.h"
 
 namespace ShareExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTShareExpressionNode> shareExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTShareExpressionNode> shareExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(shareExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(shareExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(shareExpression);
@@ -27,6 +27,6 @@ namespace ShareExpressionTypeCheckerPolicy {
                         shareExpressionInvalidMessage,
                         typeCheckerResult
                 );
-        TypeChecker::applyPolicyTo(shareExpression->getExpressionNode(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(shareExpression->getExpressionNode(), typeCheckerResult, fileScope);
     }
 }

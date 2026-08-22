@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ArrayAccessSharedValueAssignmentStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTArrayAccessSharedValueAssignmentStatementNode> arrayAccessSharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTArrayAccessSharedValueAssignmentStatementNode> arrayAccessSharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto statementUnknownMessage = TypeCheckerErrorMessageTable::ArrayElementTypeUnknown(arrayAccessSharedValueAssignmentStatementNode);
         auto statementInvalidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeInvalid(arrayAccessSharedValueAssignmentStatementNode);
         auto statementVoidMessage = TypeCheckerErrorMessageTable::ArrayElementTypeVoid(arrayAccessSharedValueAssignmentStatementNode);

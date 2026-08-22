@@ -2376,7 +2376,7 @@ proc updateTuple(a: shared<int>, b: shared<bool>) {
     assert(anotherSharedA == 50);
 }
 
-proc testTuples() {
+proc testTuplesAgain() {
     const accessResult = testTupleAccess();
     print("accessResult", accessResult);
     assert(accessResult == "hello");
@@ -2397,7 +2397,7 @@ proc testTuples() {
     assert(passedDownTuple.0 == 50);
     assert(passedDownTuple.1 == true);
 }
-testTuples();
+testTuplesAgain();
 
 func testStructAccess(): string {
     const x = { a: 1, b: false, c: "hello" };

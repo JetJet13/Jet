@@ -7,9 +7,10 @@
 
 #include "../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-array-access-shared-value-assignment-statement-node.h"
+#include "../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace ArrayAccessSharedValueAssignmentStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTArrayAccessSharedValueAssignmentStatementNode> arrayAccessSharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTArrayAccessSharedValueAssignmentStatementNode> arrayAccessSharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 }
 
 #endif //JETLANG_ARRAY_ACCESS_SHARED_VALUE_ASSIGNMENT_STATEMENT_TYPE_CHECKER_POLICY_H

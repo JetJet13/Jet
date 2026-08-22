@@ -6,9 +6,9 @@
 #include "../../type-checker.h"
 
 namespace ParameterListTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         for (auto parameter : functionParameterList->getParameters()) {
-            TypeChecker::applyPolicyTo(parameter, typeCheckerResult);
+            TypeChecker::applyPolicyTo(parameter, typeCheckerResult, fileScope);
         }
     }
 }

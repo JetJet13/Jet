@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace VariableAssignmentStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTVariableAssignmentStatementNode> variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTVariableAssignmentStatementNode> variableAssignmentStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::VariableTypeUnknown(variableAssignmentStatementNode);
         auto invalidMessage = TypeCheckerErrorMessageTable::VariableTypeInvalid(variableAssignmentStatementNode);
         auto voidMessage = TypeCheckerErrorMessageTable::VariableTypeVoid(variableAssignmentStatementNode);

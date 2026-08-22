@@ -7,9 +7,10 @@
 
 #include "../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.h"
+#include "../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace TryStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTTryStatementNode> tryStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 #endif //JETLANG_TRY_STATEMENT_TYPE_CHECKER_POLICY_H

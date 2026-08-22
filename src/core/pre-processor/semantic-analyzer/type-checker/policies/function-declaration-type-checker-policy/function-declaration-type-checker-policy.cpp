@@ -5,13 +5,14 @@
 #include "function-declaration-type-checker-policy.h"
 #include "../../type-checker.h"
 #include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
+#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 namespace FunctionDeclarationTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto functionTypeSignature = functionDeclarationNode->getFunctionTypeSignature();
 
-        TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult);
+        TypeChecker::applyPolicyTo(functionDeclarationNode->getParameters(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(functionDeclarationNode->getBlock(), typeCheckerResult, fileScope);
         auto unknownMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeUnknown(functionDeclarationNode->getDefinition());
         auto invalidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeInvalid(functionDeclarationNode->getDefinition());
         auto voidMessage = TypeCheckerErrorMessageTable::FunctionReturnTypeVoid(functionDeclarationNode->getDefinition());
@@ -42,5 +43,4 @@ namespace FunctionDeclarationTypeCheckerPolicy {
         }
 
     }
-
 }

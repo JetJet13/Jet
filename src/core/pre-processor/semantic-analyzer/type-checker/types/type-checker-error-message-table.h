@@ -23,6 +23,21 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ProcedureNameConflictsWithBuiltInFunctionName(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure name conflicts with built-in function"); };
     }
+    static ErrorMessageLambda FunctionTypeSignatureConflictsWithAnotherFunction(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "function type signature conflicts with another function"); };
+    }
+    static ErrorMessageLambda ProcedureTypeSignatureConflictsWithAnotherProcedure(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "procedure type signature conflicts with another procedure"); };
+    }
+    static ErrorMessageLambda ClassNameConflictsWithAnotherClass(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class name conflicts with another class declaration"); };
+    }
+    static ErrorMessageLambda EnumNameConflictsWithAnotherEnum(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "enum name conflicts with another enum declaration"); };
+    }
+    static ErrorMessageLambda CustomTypeNameConflictsWithAnotherCustomType(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "type name conflicts with another type declaration"); };
+    }
     static ErrorMessageLambda VariableTypeMismatch(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match initializer type"); };
     } 

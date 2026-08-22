@@ -29,15 +29,22 @@ llvm::Value* NewClassInstanceIRInjectorStrategy::inject(std::shared_ptr<IRNewCla
     auto pointerToCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getType(), classInstanceAllocation, irStructRefType->getCounterIndex());
     auto arc = InstructionIRInjectorHelper::inject(irExpression->getArc().value(), irBlock);
     InstructionIRInjectorHelper::injectStore(arc, pointerToCounterPointer, irBlock);
+    auto hasClassScopeParameterType = irExpression->getIRClassInstanceType()->getIRClassType()->getClassScopeParameterType().has_value();
 
-    auto preConstructorFunction = irModule->getModule()->get()->getFunction(irExpression->getIRClassInstanceType()->getIRClassType()->getPreConstructorName());
-    irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
+    if (hasClassScopeParameterType) {
+        auto preConstructorFunction = irModule->getModule()->get()->getFunction(irExpression->getIRClassInstanceType()->getIRClassType()->getPreConstructorName());
+        irBlock->getBuilder()->get()->CreateCall(preConstructorFunction, { classInstanceAllocation });
+    }
 
     auto arguments = std::vector<llvm::Value*>();
     for (auto argument : *irExpression->getIRArguments()) {
         arguments.push_back(irInjector->inject(irBlock, argument->getArgument(), argument->getOperation(), irModule, scope));
     }
-    arguments.push_back(classInstanceAllocation);
+
+    if (hasClassScopeParameterType) {
+        arguments.push_back(classInstanceAllocation);
+    }
+
     auto constructorFunction = irModule->getModule()->get()->getFunction(irExpression->getConstructorId());
     irBlock->getBuilder()->get()->CreateCall(
             constructorFunction,

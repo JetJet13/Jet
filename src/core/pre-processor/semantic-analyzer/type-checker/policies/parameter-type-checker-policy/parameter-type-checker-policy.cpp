@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ParameterTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTFunctionParameterNode> functionParameter, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTFunctionParameterNode> functionParameter, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ParameterTypeUnknown(functionParameter);
         auto invalidMessage = TypeCheckerErrorMessageTable::ParameterTypeInvalid(functionParameter);
         auto voidMessage = TypeCheckerErrorMessageTable::ParameterTypeVoid(functionParameter);

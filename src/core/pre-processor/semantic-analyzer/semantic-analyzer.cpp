@@ -5,6 +5,7 @@
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "type-checker/rules/type-checker-rule-provider.h"
+#include "../../ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 
 SemanticAnalyzer::SemanticAnalyzer() {
     _typeSignatureGenerator = TypeSignatureGenerator();
@@ -16,7 +17,7 @@ TypeCheckerResult SemanticAnalyzer::analyze(std::shared_ptr<ASTFileNode> fileNod
     this->generateInitialTypeSignaturesFor(fileNode, fileScope);
     this->generateDeclarationTypeSignaturesFor(fileNode, fileScope);
     this->generateTypeSignatureForModule(fileNode, fileScope);
-    this->runTypeChecker(fileNode, &typeCheckerResult);
+    this->runTypeChecker(fileNode, &typeCheckerResult, fileScope);
     return typeCheckerResult;
 }
 
@@ -66,17 +67,62 @@ void SemanticAnalyzer::generateTypeSignatureForModule(std::shared_ptr<ASTFileNod
     }
 }
 
-void SemanticAnalyzer::runTypeChecker(std::shared_ptr<ASTFileNode> fileNode, TypeCheckerResult* typeCheckerResults) {
+void SemanticAnalyzer::runTypeChecker(std::shared_ptr<ASTFileNode> fileNode, TypeCheckerResult* typeCheckerResults, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     auto variableDeclarations = std::vector<std::shared_ptr<ASTVariableDeclarationNode>>();
+    auto functionDeclarations = std::vector<std::shared_ptr<ASTFunctionDeclarationNode>>();
+    auto procedureDeclarations = std::vector<std::shared_ptr<ASTProcedureDeclarationNode>>();
+    auto classDeclarations = std::vector<std::shared_ptr<ASTClassDeclarationNode>>();
+    auto enumDeclarations = std::vector<std::shared_ptr<ASTEnumDeclarationNode>>();
+    auto customTypeDeclarations = std::vector<std::shared_ptr<ASTCustomTypeDeclarationNode>>();
     for (auto node : *fileNode->getBody()) {
-        TypeChecker::applyPolicyTo(node, typeCheckerResults);
+        TypeChecker::applyPolicyTo(node, typeCheckerResults, fileScope);
         if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
             variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node));
+        }
+        if (node->is(AST_FUNCTION_DECLARATION_NODE)) {
+            functionDeclarations.push_back(std::dynamic_pointer_cast<ASTFunctionDeclarationNode>(node));
+        }
+        if (node->is(AST_PROCEDURE_DECLARATION_NODE)) {
+            procedureDeclarations.push_back(std::dynamic_pointer_cast<ASTProcedureDeclarationNode>(node));
+        }
+        if (node->is(AST_CLASS_DECLARATION_NODE)) {
+            classDeclarations.push_back(std::dynamic_pointer_cast<ASTClassDeclarationNode>(node));
+        }
+        if (node->is(AST_ENUM_DECLARATION_NODE)) {
+            enumDeclarations.push_back(std::dynamic_pointer_cast<ASTEnumDeclarationNode>(node));
+        }
+        if (node->is(AST_CUSTOM_TYPE_DECLARATION_NODE)) {
+            customTypeDeclarations.push_back(std::dynamic_pointer_cast<ASTCustomTypeDeclarationNode>(node));
         }
     }
     TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
     ->enforce(
         &variableDeclarations,
+        typeCheckerResults
+    );
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &functionDeclarations,
+        typeCheckerResults
+    );
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &procedureDeclarations,
+        typeCheckerResults
+    );
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &classDeclarations,
+        typeCheckerResults
+    );
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &enumDeclarations,
+        typeCheckerResults
+    );
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &customTypeDeclarations,
         typeCheckerResults
     );
 }

@@ -4,11 +4,10 @@
 
 #include "array-expression-type-checker-policy.h"
 #include "../../../rules/type-checker-rule-provider.h"
-#include "../../../types/type-checker-error-message-table.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace ArrayExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTArrayExpressionNode> arrayExpression, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTArrayExpressionNode> arrayExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(arrayExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(arrayExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(arrayExpression);

@@ -7,7 +7,7 @@
 #include "../../rules/type-checker-rule-provider.h"
 
 namespace ClassPropertySharedValueAssignmentStatementTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> classPropertySharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult) {
+    void apply(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> classPropertySharedValueAssignmentStatementNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto unknownMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeUnknown(classPropertySharedValueAssignmentStatementNode);
         auto invalidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeInvalid(classPropertySharedValueAssignmentStatementNode);
         auto voidMessage = TypeCheckerErrorMessageTable::ClassPropertyTypeVoid(classPropertySharedValueAssignmentStatementNode);

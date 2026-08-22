@@ -7,9 +7,10 @@
 
 #include "../../../../../ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.h"
 #include "../../types/type-checker-result/type-checker-result.h"
+#include "../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace ParameterListTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 

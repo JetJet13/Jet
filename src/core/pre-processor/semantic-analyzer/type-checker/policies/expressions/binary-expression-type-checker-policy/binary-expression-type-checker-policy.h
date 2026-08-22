@@ -8,10 +8,11 @@
 #include "../../../types/type-checker-result/type-checker-result.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
 #include "../../../../../../ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h"
+#include "../../../../type-signature-lookup-table/type-signature-lookup-table.h"
 
 namespace BinaryExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTBinaryArithmeticExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult);
-    void apply(std::shared_ptr<ASTBinaryComparatorExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult);
+    void apply(std::shared_ptr<ASTBinaryArithmeticExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
+    void apply(std::shared_ptr<ASTBinaryComparatorExpressionNode> binaryExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 
 #endif //JETLANG_BINARY_EXPRESSION_TYPE_CHECKER_POLICY_H

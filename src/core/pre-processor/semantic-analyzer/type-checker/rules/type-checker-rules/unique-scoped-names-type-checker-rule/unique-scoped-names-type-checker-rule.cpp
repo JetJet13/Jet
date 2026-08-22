@@ -4,6 +4,7 @@
 
 #include "unique-scoped-names-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void UniqueScopedNamesTypeCheckerRule::enforce(std::shared_ptr<ASTClassDeclarationNode> classDeclaration, TypeCheckerResult* typeCheckerResult) {
     // populate sets of names
@@ -89,6 +90,74 @@ void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTVa
         }
     }
 }
+
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTClassDeclarationNode>>* classes, TypeCheckerResult* typeCheckerResult) {
+    auto seenNames = std::set<std::string>();
+    for (auto classDeclaration : *classes) {
+        if (seenNames.find(classDeclaration->getId()) != seenNames.end()) {
+            auto variableNamesNotUniqueMessage = TypeCheckerErrorMessageTable::ClassNameConflictsWithAnotherClass(classDeclaration);
+            typeCheckerResult->addError(variableNamesNotUniqueMessage());
+            return;
+        } else {
+            seenNames.insert(classDeclaration->getId());
+        }
+    }
+}
+
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTEnumDeclarationNode>>* enums, TypeCheckerResult* typeCheckerResult) {
+    auto seenNames = std::set<std::string>();
+    for (auto enumDeclaration : *enums) {
+        if (seenNames.find(enumDeclaration->getId()) != seenNames.end()) {
+            auto variableNamesNotUniqueMessage = TypeCheckerErrorMessageTable::EnumNameConflictsWithAnotherEnum(enumDeclaration);
+            typeCheckerResult->addError(variableNamesNotUniqueMessage());
+            return;
+        } else {
+            seenNames.insert(enumDeclaration->getId());
+        }
+    }
+}
+
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTCustomTypeDeclarationNode>>* customTypes, TypeCheckerResult* typeCheckerResult) {
+    auto seenCustomTypes = std::set<std::string>();
+    for (auto customType : *customTypes) {
+        if (seenCustomTypes.find(customType->getId()) != seenCustomTypes.end()) {
+            auto typeNameConflictsMessage = TypeCheckerErrorMessageTable::CustomTypeNameConflictsWithAnotherCustomType(customType);
+            typeCheckerResult->addError(typeNameConflictsMessage());
+            return;
+        } else {
+            seenCustomTypes.insert(customType->getId());
+        }
+    }
+}
+
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTFunctionDeclarationNode>>* functions, TypeCheckerResult* typeCheckerResult) {
+    auto seenFunctions = std::set<std::string>();
+    for (auto function : *functions) {
+        auto identifier = FunctionIdGenerator::generateFor(function);
+        if (seenFunctions.find(identifier) != seenFunctions.end()) {
+            auto functionConflictMessage = TypeCheckerErrorMessageTable::FunctionTypeSignatureConflictsWithAnotherFunction(function->getDefinition());
+            typeCheckerResult->addError(functionConflictMessage());
+            return;
+        } else {
+            seenFunctions.insert(identifier);
+        }
+    }
+}
+
+void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTProcedureDeclarationNode>>* procedures, TypeCheckerResult* typeCheckerResult) {
+    auto seenProcedures = std::set<std::string>();
+    for (auto procedure : *procedures) {
+        auto identifier = FunctionIdGenerator::generateFor(procedure);
+        if (seenProcedures.find(identifier) != seenProcedures.end()) {
+            auto procedureConflictMessage = TypeCheckerErrorMessageTable::ProcedureTypeSignatureConflictsWithAnotherProcedure(procedure->getDefinition());
+            typeCheckerResult->addError(procedureConflictMessage());
+            return;
+        } else {
+            seenProcedures.insert(identifier);
+        }
+    }
+}
+
 
 TypeCheckerRuleType UniqueScopedNamesTypeCheckerRule::getType() {
     return UNIQUE_SCOPED_NAMES_TCR;

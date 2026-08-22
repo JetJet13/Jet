@@ -8,9 +8,9 @@
 #include "../../../type-checker.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
-    void apply(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult) {
-        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getSource()->getSource(), typeCheckerResult);
-        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult);
+    void apply(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getSource()->getSource(), typeCheckerResult, fileScope);
+        TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult, fileScope);
         objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->print();
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
