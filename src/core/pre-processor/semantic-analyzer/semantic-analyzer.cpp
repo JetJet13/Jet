@@ -4,6 +4,7 @@
 
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
+#include "type-checker/rules/type-checker-rule-provider.h"
 
 SemanticAnalyzer::SemanticAnalyzer() {
     _typeSignatureGenerator = TypeSignatureGenerator();
@@ -66,7 +67,16 @@ void SemanticAnalyzer::generateTypeSignatureForModule(std::shared_ptr<ASTFileNod
 }
 
 void SemanticAnalyzer::runTypeChecker(std::shared_ptr<ASTFileNode> fileNode, TypeCheckerResult* typeCheckerResults) {
+    auto variableDeclarations = std::vector<std::shared_ptr<ASTVariableDeclarationNode>>();
     for (auto node : *fileNode->getBody()) {
         TypeChecker::applyPolicyTo(node, typeCheckerResults);
+        if (node->is(AST_VARIABLE_DECLARATION_NODE)) {
+            variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(node));
+        }
     }
+    TypeCheckerRuleProvider::getUniqueScopedNamesTypeCheckerRule()
+    ->enforce(
+        &variableDeclarations,
+        typeCheckerResults
+    );
 }

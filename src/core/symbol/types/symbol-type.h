@@ -50,7 +50,6 @@ typedef enum {
     SYM_RETURN,
     SYM_PROCEDURE,
     SYM_ENUM,
-    SYM_TUPLE,
     SYM_IF,
     SYM_ELSE,
     SYM_FOR,

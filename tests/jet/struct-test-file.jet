@@ -1,7 +1,107 @@
-import BigModule from "./big-module.jet";
+let counter = 0;
 
-proc testTupleInvocation() {
-    print("BigModule::BIG_STRUCT_REF.foo", BigModule::BIG_STRUCT_REF.foo);
-    assert(BigModule::BIG_STRUCT_REF.foo == 1);
+while counter < 100 {
+  print("count", counter);
+  counter = counter + 1;
 }
-testTupleInvocation();
+
+// prints "count" 0
+// prints "count" 1
+// prints "count" 2
+// ...
+// prints "count" 98
+// prints "count" 99
+
+
+proc process() {
+  let counter = 0;
+
+  while counter < 100 {
+
+    print("count", counter);
+    if counter == 10 {
+      return; // return early
+    }
+    counter = counter + 1;
+  }
+}
+
+process();
+
+func otherIfStatements(x: int, y: int, z: int): int {
+    const a = [1,2,3,4];
+    if x > y {
+        const b = [1,2,3,4];
+        if x == 10 {
+            const c = [1,2,3,4];
+            return 10;
+        } else {
+            const d = [1,2,3,4];
+            if y > 0 {
+                const e = [1,2,3,4];
+                return 9;
+            }
+            const f = [1,2,3,4];
+            return 8;
+        }
+        const g = [1,2,3,4];
+    } else if x == y {
+        const h = [1,2,3,4];
+        if z == 0 {
+            const i = [1,2,3,4];
+            return 7;
+        }
+        const j = [1,2,3,4];
+        return 6;
+    } else {
+        const k = [1,2,3,4];
+        if z > 100 {
+            const l = [1,2,3,4];
+            return 5;
+        }
+        const m = [1,2,3,4];
+        return 4;
+    }
+    const n = [1,2,3,4];
+}
+
+assert(otherIfStatements(10, -15, 0) == 10);
+assert(otherIfStatements(9, 5, 0) == 9);
+assert(otherIfStatements(9, -9, 0) == 8);
+assert(otherIfStatements(9, 9, 0) == 7);
+assert(otherIfStatements(9, 9, 1) == 6);
+assert(otherIfStatements(5, 15, 105) == 5);
+assert(otherIfStatements(5, 15, 97) == 4);
+
+proc testSharedPrototype() {
+    const x = share 5;
+    const y = share 6;
+    assert(x.refCount() == 1);
+    if x < 10 {
+        let xShared = x;
+        assert(xShared == x && xShared == 5);
+        xShared := 100;
+        assert(xShared == 100);
+        assert(x == 100);
+        assert(x.refCount() == 2);
+        assert(y.refCount() == 1);
+        xShared = y;
+        assert(xShared == y && xShared == 6);
+        xShared := 600;
+        assert(xShared == 600);
+        assert(y == 600);
+        assert(x.refCount() == 1);
+        assert(y.refCount() == 2);
+    }
+    assert(x.refCount() == 1);
+    assert(y.refCount() == 1);
+
+}
+testSharedPrototype();
+
+// prints "count" 1
+// prints "count" 2
+// prints "count" 3
+// ...
+// prints "count" 9
+// prints "count" 10

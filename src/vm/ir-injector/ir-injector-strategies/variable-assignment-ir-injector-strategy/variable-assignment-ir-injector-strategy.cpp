@@ -6,7 +6,7 @@
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
 
 void VariableAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRVariableAssignmentStatementNode> irVariableAssignmentStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
-    auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
+    auto variable = scope->find(irVariableAssignmentStatement->getVariableName());
     auto newVariableValue = irInjector->inject(
                     irBlock,
                     irVariableAssignmentStatement->getIRExpression(),
@@ -14,7 +14,19 @@ void VariableAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRVariableAssi
                     irModule,
                     scope
     );
-    if (globalVariable) {
+    if (variable) {
+        if (variable.value()->getIRType()->getSourceType()->containsTypeThatRequiresFreeing()) {
+            auto typeValue = irInjector->inject(irBlock, variable.value()->getIRType()->getSourceType(), irModule);
+            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable.value()->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
+            irBlock->getBuilder()->get()->CreateCall(
+                    irModule->getFreeValueFunction(),
+                    { variable.value()->getValue(), loadedTypeValue }
+            );
+        }
+        InstructionIRInjectorHelper::injectStore(newVariableValue, variable.value()->getValue(), irBlock, variable.value()->getIRType());
+
+    } else {
+        auto globalVariable = scope->findGlobalVariable(irVariableAssignmentStatement->getVariableName());
         auto globalVariableIrType = globalVariable.value()->getIRType()->getSourceType();
         auto newValueAlloc = irBlock->getBuilder()->get()->CreateAlloca(globalVariableIrType->getType());
         InstructionIRInjectorHelper::injectStore(newVariableValue, newValueAlloc, irBlock, globalVariableIrType);
@@ -33,16 +45,6 @@ void VariableAssignmentIRInjectorStrategy::inject(std::shared_ptr<IRVariableAssi
                 globalVariableIrType->getAlignment(),
                 globalVariableIrType->getSizeInBytes()
         );
-    } else {
-        auto variable = scope->find(irVariableAssignmentStatement->getVariableName()).value();
-        if (variable->getIRType()->getSourceType()->containsTypeThatRequiresFreeing()) {
-            auto typeValue = irInjector->inject(irBlock, variable->getIRType()->getSourceType(), irModule);
-            auto loadedTypeValue = InstructionIRInjectorHelper::injectLoad(variable->getIRType()->getSourceType()->getValue()->getAllocatedType(), typeValue, irBlock);
-            irBlock->getBuilder()->get()->CreateCall(
-                    irModule->getFreeValueFunction(),
-                    { variable->getValue(), loadedTypeValue }
-            );
-        }
-        InstructionIRInjectorHelper::injectStore(newVariableValue, variable->getValue(), irBlock, variable->getIRType());
+
     }
 }

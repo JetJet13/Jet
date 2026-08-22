@@ -48,6 +48,10 @@ bool IRBlockNode::isAllowedToFreeNodes() {
     return _allowedToFreeNodes;
 }
 
+bool IRBlockNode::isRealBlock() {
+    return _representsRealBlock;
+}
+
 void IRBlockNode::preventFreeingNodes() {
     _allowedToFreeNodes = false;
 }
@@ -220,6 +224,35 @@ bool IRBlockNode::hasNestedBlocks() {
     return !_nestedBlocks.empty();
 }
 
+bool IRBlockNode::shouldFreeNodes() {
+    return (!this->getNestedParentsNodesToFree().empty() || this->hasNodesToFree())
+    && (this->isAllowedToFreeNodes() || this->hasReturnStatement());
+}
+
+bool IRBlockNode::needsToFreeItsNodes() {
+    auto hasNestedElseBlock = false;
+    for (auto nestedBlock : _nestedBlocks) {
+        if (nestedBlock->getNestedParentBlock() != shared_from_this()) {
+            continue;
+        }
+        if (nestedBlock->canReturn() && !nestedBlock->getLastChildOrSelf()->hasReturnInstruction()) {
+            return false;
+        }
+        if (nestedBlock->is(IR_IF_ELSE_BT) && nestedBlock->isRealBlock()) {
+            hasNestedElseBlock = true;
+        }
+    }
+
+    if (hasNestedElseBlock) {
+        // all immediate nested blocks return & one of the
+        // immediate nested blocks is an else block,
+        // so there is no need for the block to free its nodes
+        return false;
+    }
+
+    return !_nodesToFree.empty();
+}
+
 bool IRBlockNode::allImmediateNestedBlocksReturn() {
     for (auto nestedBlock : _nestedBlocks) {
         if (nestedBlock->getNestedParentBlock() != shared_from_this()) {
@@ -255,6 +288,10 @@ std::shared_ptr<IRBlockNode> IRBlockNode::getLastChildOrSelf() {
         return shared_from_this();
     }
     return _childBlocks.back();
+}
+
+std::optional<std::shared_ptr<IRBlockNode>> IRBlockNode::getParentBlock() {
+    return _parentBlock;
 }
 
 std::optional<std::shared_ptr<IRBlockNode>> IRBlockNode::getNestedParentBlock() {

@@ -181,10 +181,6 @@ bool Symbol::isEnum() {
     return _type == SYM_ENUM;
 }
 
-bool Symbol::isTuple() {
-    return _type == SYM_TUPLE;
-}
-
 bool Symbol::isIf() {
     return _type == SYM_IF;
 }

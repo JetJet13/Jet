@@ -29,7 +29,6 @@
 #include "../../../ast/ast-nodes/ast-function-nodes/ast-function-node.h"
 #include "../../../ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.h"
 #include "../../../ast/ast-nodes/ast-enum-nodes/ast-enum-node.h"
-#include "../../../ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-if-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-else-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/ast-while-node.h"
@@ -146,8 +145,6 @@ std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> le
         return std::make_shared<ASTProcedureNode>(lexeme);
     } else if (symbol->isEnum()) {
         return std::make_shared<ASTEnumNode>(lexeme);
-    } else if (symbol->isTuple()) {
-        return std::make_shared<ASTTupleNode>(lexeme);
     } else if (symbol->isIf()) {
         return std::make_shared<ASTIfNode>(lexeme);
     } else if (symbol->isElse()) {

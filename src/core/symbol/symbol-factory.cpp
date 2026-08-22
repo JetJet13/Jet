@@ -167,10 +167,6 @@ namespace SymbolFactory {
         return std::make_shared<Symbol>(SYM_ENUM, "enum");
     }
 
-    std::shared_ptr<Symbol> createTupleSymbol() {
-        return std::make_shared<Symbol>(SYM_TUPLE, "tuple");
-    }
-
     std::shared_ptr<Symbol> createIfSymbol() {
         return std::make_shared<Symbol>(SYM_IF, "if");
     }

@@ -154,8 +154,10 @@ proc testShare() {
     print("X", x);
     const y = x;
     assert(y.sharesWith(x));
+    assert(y == x);
 }
 testShare();
+
 
 //proc testSyntax() {
 //    const x = uniq 10;

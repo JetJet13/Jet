@@ -4,11 +4,10 @@
 
 #include "vm.h"
 #include "../shared/utils/logger/logger.h"
-#include "ir-nodes/ir-context.h"
 #include "../shared/utils/function-id-generator/function-id-generator.h"
 #include "utils/dependency-graph/dependency-graph.h"
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
-#include "../core/ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.h"
+#include "ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector) {
     _irGenerator = irGenerator;
@@ -45,11 +44,12 @@ std::shared_ptr<IRFunctionNode> VM::compile(std::shared_ptr<IRJetFile> irJetFile
         generatedIRNodes.push_back(_irGenerator->generateFor(node, scope, irContext));
     }
     for (auto irNode : generatedIRNodes) {
-        _irInjector->inject(irMainFunctionBlock, irNode, irModule, scope);
+        _irInjector->inject(irMainFunctionBlock->getLastChildOrSelf(), irNode, irModule, scope);
     }
     DebugIRInjectorHelper::injectFunctionEnterLog(irMainFunctionBlock, jetFile->getFile()->getModuleName(), _irInjector, irModule);
     DebugIRInjectorHelper::injectFunctionExitLog(irMainFunctionBlock, jetFile->getFile()->getModuleName(), _irInjector, irModule);
-    irMainFunctionBlock->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
+    FreeIRInjectorHelper::freeFunctionBlockNodes(irMainFunctionBlock, _irInjector, irModule, scope);
+    irMainFunctionBlock->getLastChildOrSelf()->getBuilder()->get()->CreateRet(irMainFunctionBlock->getBuilder()->get()->getInt32(0));
     return irMainFunction;
 }
 

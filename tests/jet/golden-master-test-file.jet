@@ -545,7 +545,7 @@ proc testLiteralExpressions() {
     const andLogicOr = true && false || true;
     assert(andLogicOr == true);
     const andLogicOrBang = !true && false || true;
-    assert(andLogicOrBang == false);
+    assert(andLogicOrBang == true);
     const intLogicAnd = 1 && 2;
     assert(intLogicAnd == true);
     const intLogicOr = 1 || 2;
@@ -2116,6 +2116,7 @@ func factorial(x: int): int {
     }
     return x * factorial(x - 1);
 }
+
 assert(factorial(3) == 6);
 assert(factorial(4) == 24);
 assert(factorial(10) == 3628800);

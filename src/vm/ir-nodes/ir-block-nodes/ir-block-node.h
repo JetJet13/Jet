@@ -39,6 +39,7 @@ public:
     bool isReachable();
     bool isUnreachable();
     bool isAllowedToFreeNodes();
+    bool isRealBlock();
     void preventFreeingNodes();
     std::shared_ptr<IRBlockNode> markAsFakeBlock();
     std::shared_ptr<IRLookupTable> getScope();
@@ -67,9 +68,12 @@ public:
     std::set<std::shared_ptr<IRBlockNode>> getAllChildrenThatReturn();
     std::vector<std::shared_ptr<IRBlockNode>>* getNestedBlocks();
     bool hasNestedBlocks();
+    bool shouldFreeNodes();
+    bool needsToFreeItsNodes();
     bool allImmediateNestedBlocksReturn();
     void nest(std::shared_ptr<IRBlockNode> irBlock);
     std::shared_ptr<IRBlockNode> getLastChildOrSelf();
+    std::optional<std::shared_ptr<IRBlockNode>> getParentBlock();
     std::optional<std::shared_ptr<IRBlockNode>> getNestedParentBlock();
     bool is(IRBlockType blockType);
     bool isOneOf(std::vector<IRBlockType> blockTypes);

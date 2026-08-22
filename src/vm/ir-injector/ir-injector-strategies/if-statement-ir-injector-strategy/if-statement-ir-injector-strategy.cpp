@@ -3,9 +3,9 @@
 //
 
 #include "if-statement-ir-injector-strategy.h"
-#include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 void IfStatementIRInjectorStrategy::inject(std::shared_ptr<IRIfStatementNode> irIfStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+    irBlock->getLastChildOrSelf()->getBuilder()->get()->CreateBr(irIfStatement->getIfElseNode()->getIfBlock()->getBlock());
     auto endBlock = irIfStatement->getIfElseNode()->getEndBlock();
     std::optional<std::shared_ptr<IRIfElseNode>> currentIfElseNode = irIfStatement->getIfElseNode();
     while (currentIfElseNode) {
@@ -39,5 +39,21 @@ void IfStatementIRInjectorStrategy::inject(std::shared_ptr<IRIfStatementNode> ir
         }
 
         currentIfElseNode = currentIfElseNode.value()->getNext();
+    }
+
+    auto parentBlock = irBlock->getParentBlock().value_or(irBlock);
+    irIfStatement->getIfElseNode()->nestIn(parentBlock);
+    if (irIfStatement->getElseNode()) {
+        parentBlock->nest(irIfStatement->getElseNode().value());
+    }
+
+    if (!endBlock->hasReturnInstruction() && endBlock->isReachable()) {
+        parentBlock->createChild();
+        irIfStatement->getIfElseNode()->getEndBlock()->getBuilder()->get()->CreateBr(
+                parentBlock->getLastChildOrSelf()->getBlock()
+        );
+        parentBlock->getLastChildOrSelf()->getBlock()->moveAfter(irIfStatement->getIfElseNode()->getEndBlock()->getBlock());
+    } else if (endBlock->isUnreachable()) {
+        irIfStatement->getIfElseNode()->getEndBlock()->addVoidReturn();
     }
 }

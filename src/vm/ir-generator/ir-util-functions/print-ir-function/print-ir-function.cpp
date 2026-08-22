@@ -329,7 +329,7 @@ void PrintIRFunction::generatePrintGlobals(std::shared_ptr<IRGenerator> irGenera
             stringFormatString,
             PrintIRFunction::getGlobalStringFormatStringName()
     );
-    auto refStartFormatString = irGenerator->generateRawString("ref<");
+    auto refStartFormatString = irGenerator->generateRawString("shared<");
     new llvm::GlobalVariable(
             *irModuleNode->getModule()->get(),
             refStartFormatString->getType(),

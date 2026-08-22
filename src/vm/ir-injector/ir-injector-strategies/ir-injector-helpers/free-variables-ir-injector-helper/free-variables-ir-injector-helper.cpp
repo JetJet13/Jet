@@ -11,7 +11,7 @@
 void FreeIRInjectorHelper::freeFunctionBlockNodes(std::shared_ptr<IRBlockNode> functionBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto index = 0;
     for (auto nestedBlock : *functionBlock->getNestedBlocks()) {
-        if ((functionBlock->hasNodesToFree() || nestedBlock->hasNodesToFree()) && nestedBlock->isAllowedToFreeNodes()) {
+        if (nestedBlock->shouldFreeNodes()) {
             FreeIRInjectorHelper::freeNestedBlockNodes(
                     nestedBlock,
                     irInjector,
@@ -76,12 +76,8 @@ void FreeIRInjectorHelper::freeNestedBlockNodes(std::shared_ptr<IRBlockNode> irB
         }
     }
 
-    if (irBlockNode->hasNestedBlocks() && irBlockNode->allImmediateNestedBlocksReturn()) {
-        return;
-    }
-
     auto lastBlock = irBlockNode->getLastChildOrSelf();
-    if (!blockNodesToFree->empty() && !lastBlock->hasReturnInstruction()) {
+    if (irBlockNode->needsToFreeItsNodes() && allChildrenThatReturn.empty()) {
         lastBlock->setInsertionPointBeforeLastInstruction();
         for (auto irNodeToFree : *blockNodesToFree) {
             if (!irNodeToFree->comesBefore(lastBlock, &dominator)) {

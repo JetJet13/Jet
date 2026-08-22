@@ -64,7 +64,6 @@ public:
     bool isVarTypeQualifier();
     bool isProcedure();
     bool isEnum();
-    bool isTuple();
     bool isIf();
     bool isElse();
     bool isFor();

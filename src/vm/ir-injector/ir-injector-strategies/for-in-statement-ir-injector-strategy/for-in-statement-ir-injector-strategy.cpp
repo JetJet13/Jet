@@ -10,6 +10,8 @@
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
+    irBlock->getLastChildOrSelf()->getBuilder()->get()->CreateBr(irForInStatement->getSetupBlock()->getBlock());
+
     auto setupBlock = irForInStatement->getSetupBlock();
     auto forInBlock = irForInStatement->getForInBlock();
     auto bodyBlock = irForInStatement->getBodyBlock();
@@ -77,6 +79,7 @@ void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNo
     irBlock->adoptNodesToFreeFrom(setupBlock);
 
     if (lastBodyBlock->hasReturnInstruction()) {
+        this->finalize(irForInStatement, irBlock);
         return;
     }
 
@@ -87,6 +90,8 @@ void ForInStatementIRInjectorStrategy::inject(std::shared_ptr<IRForInStatementNo
     auto newIndexValue = lastBodyBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, currentIndex, one);
     lastBodyBlock->getBuilder()->get()->CreateStore(newIndexValue, indexAllocation);
     lastBodyBlock->getBuilder()->get()->CreateBr(forInBlock->getBlock());
+
+    this->finalize(irForInStatement, irBlock);
 }
 
 llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRArrayPointerType> arrayPointerType, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
@@ -96,4 +101,14 @@ llvm::Value* ForInStatementIRInjectorStrategy::getSourceValue(std::shared_ptr<IR
     }
 
     return irInjector->inject(irBlock, irForInStatement->getSource(), std::make_shared<IROperation>(IR_OPERAND_POINTER_OP), irModule, irBlock->getScope());
+}
+
+void ForInStatementIRInjectorStrategy::finalize(std::shared_ptr<IRForInStatementNode> irForInStatement, std::shared_ptr<IRBlockNode> irBlock) {
+    auto parentBlock = irBlock->getParentBlock().value_or(irBlock);
+    irForInStatement->nestIn(parentBlock);
+    parentBlock->createChild();
+    irForInStatement->getEndBlock()->getBuilder()->get()->CreateBr(
+            parentBlock->getLastChildOrSelf()->getBlock()
+    );
+    parentBlock->getLastChildOrSelf()->getBlock()->moveAfter(irForInStatement->getEndBlock()->getBlock());
 }

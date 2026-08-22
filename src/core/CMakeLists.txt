@@ -272,8 +272,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.h
         ast/ast-nodes/ast-function-nodes/ast-function-call-node.cpp
         ast/ast-nodes/ast-function-nodes/ast-function-call-node.h
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.cpp
-        ast/ast-nodes/ast-tuple-nodes/ast-tuple-node.h
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.cpp
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.h
         ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.cpp
@@ -426,8 +424,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.h
-        ast/ast-nodes/ast-type-nodes/ast-tuple-type-node.cpp
-        ast/ast-nodes/ast-type-nodes/ast-tuple-type-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.h
         ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-node.cpp
