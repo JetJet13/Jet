@@ -53,6 +53,18 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda VariableAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "variable type does not match expression type");  };
     }
+    static ErrorMessageLambda VariableAssignmentNotAllowed(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "variable cannot be re-assigned because it was declared as a constant");  };
+    }
+    static ErrorMessageLambda ModuleAccessAssignmentNotAllowed(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "module variable cannot be re-assigned because it was declared as a constant");  };
+    }
+    static ErrorMessageLambda ClassPropertyAssignmentNotAllowed(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be re-assigned because it was declared as a constant");  };
+    }
+    static ErrorMessageLambda ClassPropertyIsPrivate(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be accessed or re-assigned because it is private");  };
+    }
     static ErrorMessageLambda SharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "variable ref value type does not match expression type"); };
     }

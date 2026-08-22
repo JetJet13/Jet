@@ -17,6 +17,8 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<std::shared_ptr
     _globalFunctionOverrideLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<FunctionVarArgTypeSignatureMap>>>();
     _outerScope = outerScope;
     _linkedScopes = std::make_shared<std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>>();
+    _variableContextLookupTable = std::unordered_map<std::string, std::shared_ptr<VariableContext>>();
+    _globalVariableContextLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<VariableContext>>>();
 }
 
 TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::optional<std::shared_ptr<TypeSignatureLookupTable>> outerScope) {
@@ -27,6 +29,8 @@ TypeSignatureLookupTable::TypeSignatureLookupTable(std::string moduleName, std::
     _globalFunctionOverrideLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<FunctionVarArgTypeSignatureMap>>>();
     _outerScope = outerScope;
     _linkedScopes = std::make_shared<std::unordered_map<std::string, std::shared_ptr<TypeSignatureLookupTable>>>();
+    _variableContextLookupTable = std::unordered_map<std::string, std::shared_ptr<VariableContext>>();
+    _globalVariableContextLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<VariableContext>>>();
 }
 
 std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insert(std::string key, std::shared_ptr<TypeSignature> typeSignature) {
@@ -63,11 +67,35 @@ std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobal
     return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
 }
 
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertVariableContext(std::string variableName, std::shared_ptr<VariableContext> variableContext) {
+    _variableContextLookupTable.insert_or_assign(
+            variableName,
+            variableContext
+    );
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
+}
+
+std::shared_ptr<TypeSignatureLookupTable> TypeSignatureLookupTable::insertGlobalVariableContext(std::string variableName, std::shared_ptr<VariableContext> variableContext) {
+    _globalVariableContextLookupTable->insert_or_assign(
+            variableName,
+            variableContext
+    );
+    return std::dynamic_pointer_cast<TypeSignatureLookupTable>(shared_from_this());
+}
+
 std::string TypeSignatureLookupTable::getModuleName() {
     if (_outerScope) {
         return _outerScope.value()->getModuleName();
     }
     return _moduleName;
+}
+
+void TypeSignatureLookupTable::markAsClassScope() {
+    _isClassScope = true;
+}
+
+bool TypeSignatureLookupTable::isClassScope() {
+    return _isClassScope;
 }
 
 void TypeSignatureLookupTable::link(std::shared_ptr<TypeSignatureLookupTable> otherScope) {
@@ -163,6 +191,51 @@ std::optional<std::shared_ptr<InvocableTypeSignature>> TypeSignatureLookupTable:
     return scope->second->findGlobalFunction(name, key);
 }
 
+std::optional<std::shared_ptr<VariableContext>> TypeSignatureLookupTable::findVariableContext(std::string variableName) {
+    auto result = _variableContextLookupTable.find(variableName);
+    if (result == _variableContextLookupTable.end()) {
+        if (_outerScope) {
+            return _outerScope.value()->findVariableContext(variableName);
+        }
+        return this->findGlobalVariableContext(variableName);
+    } else {
+        return result->second;
+    }
+}
+
+std::optional<std::shared_ptr<VariableContext>> TypeSignatureLookupTable::findVariableContext(std::string moduleId, std::string variableName) {
+    if (moduleId == _moduleName) {
+        return this->findVariableContext(variableName);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findVariableContext(variableName);
+}
+
+std::optional<std::shared_ptr<VariableContext>> TypeSignatureLookupTable::findGlobalVariableContext(std::string variableName) {
+    auto result = _globalVariableContextLookupTable->find(variableName);
+    if (result == _globalVariableContextLookupTable->end()) {
+        return {};
+    } else {
+        return result->second;
+    }
+}
+
+std::optional<std::shared_ptr<VariableContext>> TypeSignatureLookupTable::findGlobalVariableContext(std::string moduleId, std::string variableName) {
+    if (moduleId == _moduleName) {
+        return this->findGlobalVariableContext(variableName);
+    }
+
+    auto scope = _linkedScopes->find(moduleId);
+    if (scope == _linkedScopes->end()) {
+        return {};
+    }
+    return scope->second->findGlobalVariableContext(variableName);
+}
+
 std::optional<std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>> TypeSignatureLookupTable::getGlobalFunction(std::string name) {
     auto globalFunction = _globalInvocableTypeSignatureLookupTable->find(name);
     if (globalFunction == _globalInvocableTypeSignatureLookupTable->end()) {
@@ -210,6 +283,10 @@ std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<std::unordered_m
     return _globalInvocableTypeSignatureLookupTable;
 }
 
+std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<VariableContext>>> TypeSignatureLookupTable::getGlobalVariableContext() {
+    return _globalVariableContextLookupTable;
+}
+
 std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<FunctionVarArgTypeSignatureMap>>> TypeSignatureLookupTable::getGlobalOverrideScope() {
     return _globalFunctionOverrideLookupTable;
 }
@@ -219,6 +296,7 @@ void TypeSignatureLookupTable::inheritGlobalScope(std::shared_ptr<TypeSignatureL
     _globalTypeSignatureLookupTable = otherScope->getGlobalScope();
     _globalFunctionOverrideLookupTable = otherScope->getGlobalOverrideScope();
     _globalInvocableTypeSignatureLookupTable = otherScope->getGlobalInvocableScope();
+    _globalVariableContextLookupTable = otherScope->getGlobalVariableContext();
 }
 
 void TypeSignatureLookupTable::dumpLinkedScope(std::string moduleId) {
@@ -239,6 +317,9 @@ void TypeSignatureLookupTable::dump() {
     for (auto keyValue : _typeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
     }
+    for (auto keyValue : _variableContextLookupTable) {
+        Logger::log("VARIABLE CONTEXT KEY - ", keyValue.first);
+    }
     Logger::log("======== OUTER SCOPE DUMP ========");
     if (_outerScope) {
         _outerScope.value()->dump();
@@ -246,6 +327,9 @@ void TypeSignatureLookupTable::dump() {
     Logger::log("======== GLOBAL SCOPE DUMP ========");
     for (auto keyValue : *_globalTypeSignatureLookupTable) {
         Logger::log("KEY - ", keyValue.first, "VALUE - ", keyValue.second->toString());
+    }
+    for (auto keyValue : *_globalVariableContextLookupTable) {
+        Logger::log("GLOBAL VARIABLE CONTEXT KEY - ", keyValue.first);
     }
     for (auto keyValue : *_globalInvocableTypeSignatureLookupTable) {
         Logger::log("NAME - ", keyValue.first);

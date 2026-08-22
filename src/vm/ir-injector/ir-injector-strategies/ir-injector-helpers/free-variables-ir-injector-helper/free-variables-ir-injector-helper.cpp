@@ -153,7 +153,7 @@ void FreeIRInjectorHelper::freeFunctionParameters(std::shared_ptr<IRBlockNode> i
         childBlock->setInsertionPointBeforeLastInstruction();
         for (auto parameter : *functionParameterList->getParameters()) {
             if (parameter->getParameterType()->getIRType()->getUnderlyingType()->isInvocableType()) {
-                DebugIRInjectorHelper::injectLog(irBlockNode, "[free-invocable-parameter] " + parameter->getParameterType()->getName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
+                DebugIRInjectorHelper::injectLog(childBlock, "[free-invocable-parameter] " + parameter->getParameterType()->getName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
                 childBlock->getBuilder()->get()->CreateCall(
                         irModule->getFreeInvocableFunction(),
                         {
@@ -166,7 +166,7 @@ void FreeIRInjectorHelper::freeFunctionParameters(std::shared_ptr<IRBlockNode> i
                         parameter->getParameterType()->getIRType()->getValue()->getAllocatedType(), typeValue,
                         childBlock
                 );
-                DebugIRInjectorHelper::injectLog(irBlockNode, "[free-parameter] " + parameter->getParameterType()->getName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
+                DebugIRInjectorHelper::injectLog(childBlock, "[free-parameter] " + parameter->getParameterType()->getName() + " - " + irBlockNode->getBlock()->getParent()->getName().str(), irInjector, irModule);
                 childBlock->getBuilder()->get()->CreateCall(
                         irModule->getFreeValueFunction(),
                         {

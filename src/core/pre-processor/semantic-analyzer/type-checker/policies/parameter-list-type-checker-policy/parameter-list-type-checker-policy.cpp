@@ -9,6 +9,8 @@ namespace ParameterListTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTFunctionParameterListNode> functionParameterList, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         for (auto parameter : functionParameterList->getParameters()) {
             TypeChecker::applyPolicyTo(parameter, typeCheckerResult, fileScope);
+            fileScope->insert(parameter->getIdentifier()->getId(), parameter->getTypeSignature());
+            fileScope->insertVariableContext(parameter->getIdentifier()->getId(), std::make_shared<VariableContext>());
         }
     }
 }

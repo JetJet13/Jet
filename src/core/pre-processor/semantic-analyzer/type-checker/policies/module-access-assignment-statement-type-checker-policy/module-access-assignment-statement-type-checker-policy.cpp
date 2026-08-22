@@ -12,33 +12,41 @@ namespace ModuleAccessAssignmentStatementTypeCheckerPolicy {
         auto statementInvalidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeInvalid(moduleAccessAssignmentStatementNode);
         auto statementVoidMessage = TypeCheckerErrorMessageTable::ObjectPropertyTypeVoid(moduleAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature(),
-                        statementUnknownMessage,
-                        statementInvalidMessage,
-                        statementVoidMessage,
-                        typeCheckerResult
-                );
+        ->enforce(
+            moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature(),
+            statementUnknownMessage,
+            statementInvalidMessage,
+            statementVoidMessage,
+            typeCheckerResult
+        );
 
         auto expressionUnknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(moduleAccessAssignmentStatementNode);
         auto expressionInvalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(moduleAccessAssignmentStatementNode);
         auto expressionVoidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(moduleAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()
-                ->enforce(
-                        moduleAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
-                        expressionUnknownMessage,
-                        expressionInvalidMessage,
-                        expressionVoidMessage,
-                        typeCheckerResult
-                );
+        ->enforce(
+            moduleAccessAssignmentStatementNode->getExpression()->getTypeSignature(),
+            expressionUnknownMessage,
+            expressionInvalidMessage,
+            expressionVoidMessage,
+            typeCheckerResult
+        );
 
         auto mismatchMessage = TypeCheckerErrorMessageTable::ModuleAccessAssignmentTypeMismatch(moduleAccessAssignmentStatementNode);
         TypeCheckerRuleProvider::getTypeSignatureMismatchTypeCheckerRule()
-                ->enforce(
-                        moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature(),
-                        moduleAccessAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
-                        mismatchMessage,
-                        typeCheckerResult
-                );
+        ->enforce(
+            moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getTypeSignature(),
+            moduleAccessAssignmentStatementNode->getExpression()->getTypeSignature()->getTargetTypeSignature(),
+            mismatchMessage,
+            typeCheckerResult
+        );
+
+        auto moduleName = moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getModuleAccess()->getModuleName();
+        auto targetName = moduleAccessAssignmentStatementNode->getModuleAccessAssignment()->getModuleAccess()->getModuleTargetName();
+        auto variableContext = fileScope->findVariableContext(moduleName, targetName);
+        if (variableContext.value()->isConstant()) {
+            auto variableAssignmentNotAllowedMessage = TypeCheckerErrorMessageTable::ModuleAccessAssignmentNotAllowed(moduleAccessAssignmentStatementNode);
+            typeCheckerResult->addError(variableAssignmentNotAllowedMessage());
+        }
     }
 }

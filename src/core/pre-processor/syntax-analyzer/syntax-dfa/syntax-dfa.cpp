@@ -502,6 +502,14 @@ void SyntaxDfa::init() {
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
     ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
     ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
+    ->addTransition(DFATransitionFactory::create(logicalOperator));
+
+    tupleExpression
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_BINARY_COMPARATOR_OPERATOR_NODE))
+    ->addBacktrackToPredecessorRule(std::make_shared<BacktrackToPredecessorRule>(AST_SHARE_NODE, AST_LOGICAL_OPERATOR_NODE))
+    ->addReduceToTargetMapForPrevNodeAndNextNode(std::make_shared<ReduceToTargetDualMap>(AST_CONTROL_FLOW_CONDITION_NODE, std::vector { AST_IF_NODE, AST_ELSE_IF_NODE, AST_WHILE_NODE }, std::vector { AST_CONTROL_FLOW_START_NODE }))
+    ->addTransition(DFATransitionFactory::create(binaryComparatorOperator))
     ->addTransition(DFATransitionFactory::create(logicalOperator));
 
     objectAccessExpression
@@ -1073,6 +1081,7 @@ void SyntaxDfa::init() {
             AST_BINARY_COMPARATOR_EXPRESSION_NODE,
             AST_LOGICAL_EXPRESSION_NODE,
             AST_UNARY_EXPRESSION_NODE,
+            AST_SHARE_EXPRESSION_NODE,
             AST_FUNCTION_INVOCATION_EXPRESSION_NODE,
             AST_NEW_CLASS_INSTANCE_EXPRESSION_NODE
     });

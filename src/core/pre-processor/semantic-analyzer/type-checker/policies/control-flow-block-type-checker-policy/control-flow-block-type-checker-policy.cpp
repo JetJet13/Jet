@@ -11,10 +11,18 @@
 namespace ControlFlowBlockTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTControlFlowBlockNode> controlFlowBlockNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
         auto variableDeclarations = std::vector<std::shared_ptr<ASTVariableDeclarationNode>>();
+        auto blockScope = std::make_shared<TypeSignatureLookupTable>(fileScope);
         for (auto statement : *controlFlowBlockNode->getContents()) {
-            TypeChecker::applyPolicyTo(statement, typeCheckerResult, fileScope);
+            TypeChecker::applyPolicyTo(statement, typeCheckerResult, blockScope);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
-                variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement));
+                auto variable = std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement);
+                auto variableContext = std::make_shared<VariableContext>();
+                if (variable->isConst()) {
+                    variableContext->markAsConstant();
+                }
+                blockScope->insert(variable->getId(), variable->getTypeSignature());
+                blockScope->insertVariableContext(variable->getId(), variableContext);
+                variableDeclarations.push_back(variable);
             }
         }
 

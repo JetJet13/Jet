@@ -62,8 +62,9 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<AS
     ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(classDeclarationNode, typeCheckerResult);
 
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
-        TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult, fileScope);
-        TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult, fileScope);
+        auto classMethodScope = ClassDeclarationTypeCheckerPolicy::generateClassScope(classDeclarationNode, fileScope);
+        TypeChecker::applyPolicyTo(classMethod->getParameters(), typeCheckerResult, classMethodScope);
+        TypeChecker::applyPolicyTo(classMethod->getBlock(), typeCheckerResult, classMethodScope);
         if (!classMethod->getMethodTypeSignature()->getReturnType()->isVoid()) {
             auto unknownMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeUnknown(classMethod);
             auto invalidMessage = TypeCheckerErrorMessageTable::ClassMethodReturnTypeInvalid(classMethod);
@@ -122,8 +123,9 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shar
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
     ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(classDeclarationNode, typeCheckerResult);
     for (auto classConstructor : *classDeclarationNode->getBlock()->getConstructors()) {
-        TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult, fileScope);
-        TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult, fileScope);
+        auto classConstructorScope = ClassDeclarationTypeCheckerPolicy::generateClassScope(classDeclarationNode, fileScope);
+        TypeChecker::applyPolicyTo(classConstructor->getParameters(), typeCheckerResult, classConstructorScope);
+        TypeChecker::applyPolicyTo(classConstructor->getBlock(), typeCheckerResult, classConstructorScope);
         auto noReturnExpressionMessage = TypeCheckerErrorMessageTable::ClassConstructorHasReturnExpression(classConstructor);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             classConstructor->getBlock(),
@@ -146,4 +148,28 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassConstructorsAreUnique(std:
                     classConstructorsNotUnique,
                     typeCheckerResult
             );
+}
+
+std::shared_ptr<TypeSignatureLookupTable> ClassDeclarationTypeCheckerPolicy::generateClassScope(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+    auto classScope = std::make_shared<TypeSignatureLookupTable>();
+    classScope->markAsClassScope();
+    classScope->inheritGlobalScope(fileScope);
+    for (auto property : *classDeclarationNode->getBlock()->getProperties()) {
+        auto propertyContext = std::make_shared<VariableContext>();
+        if (property->isConstant()) {
+            propertyContext->markAsConstant();
+        }
+        classScope->insert(property->getId(), property->getPropertyTypeSignature()->getType());
+        classScope->insertVariableContext(property->getId(), propertyContext);
+    }
+
+    for (auto property : *classDeclarationNode->getBlock()->getStaticProperties()) {
+        auto propertyContext = std::make_shared<VariableContext>();
+        if (property->isConstant()) {
+            propertyContext->markAsConstant();
+        }
+        classScope->insert(property->getId(), property->getPropertyTypeSignature()->getType());
+        classScope->insertVariableContext(property->getId(), propertyContext);
+    }
+    return classScope;
 }

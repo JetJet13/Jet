@@ -40,5 +40,13 @@ namespace VariableAssignmentStatementTypeCheckerPolicy {
           typeMismatchMessage,
           typeCheckerResult
         );
+
+        auto id = variableAssignmentStatementNode->getVariableAssignment()->getIdentifierNode()->getId();
+        auto variableContext = fileScope->findVariableContext(id);
+        if (variableContext.value()->isConstant()) {
+            auto variableAssignmentNotAllowedMessage = TypeCheckerErrorMessageTable::VariableAssignmentNotAllowed(variableAssignmentStatementNode);
+            typeCheckerResult->addError(variableAssignmentNotAllowedMessage());
+        }
+
     }
 }

@@ -74,7 +74,7 @@ std::shared_ptr<IRExpressionNode> FunctionInvocationExpressionIRStrategy::genera
 
     auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irType);
     auto irFunctionId = FunctionIdGenerator::generateFor(node->getFunction()->getModuleId(), node->getFunction()->getId(), std::dynamic_pointer_cast<InvocableTypeSignature>(node->getFunction()->getTypeSignature()));
-    auto function = irContext->getModule()->getFunction(irFunctionId);
+    auto function = irGenerator->generatePlaceholderValueForIRType(irFunctionType);
     auto irFunction = IRInstructionNodeFactory::create(function, irGenerator->generateIrPointerType(irFunctionType));
     auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), function, argList);
     return std::make_shared<IRFunctionInvocationExpressionNode>(node, irFunction, callInstruction, irType, arguments, irReturnType, varArgsTypeValueArgument);

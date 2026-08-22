@@ -14,7 +14,14 @@ namespace FunctionBlockTypeCheckerPolicy {
         for (auto statement : *functionBlockNode->getContents()) {
             TypeChecker::applyPolicyTo(statement, typeCheckerResult, fileScope);
             if (statement->is(AST_VARIABLE_DECLARATION_NODE)) {
-                variableDeclarations.push_back(std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement));
+                auto variable = std::dynamic_pointer_cast<ASTVariableDeclarationNode>(statement);
+                auto variableContext = std::make_shared<VariableContext>();
+                if (variable->isConst()) {
+                    variableContext->markAsConstant();
+                }
+                fileScope->insert(variable->getId(), variable->getTypeSignature());
+                fileScope->insertVariableContext(variable->getId(), variableContext);
+                variableDeclarations.push_back(variable);
             }
         }
 

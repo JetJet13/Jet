@@ -5,12 +5,13 @@
 #include "procedure-declaration-type-checker-policy.h"
 #include "../../type-checker.h"
 #include "../../../jet-utils-type-signature-map/jet-utils-type-signature-map.h"
-#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 namespace ProcedureDeclarationTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTProcedureDeclarationNode> procedureDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
-        TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult, fileScope);
-        TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult, fileScope);
+        auto procedureScope = std::make_shared<TypeSignatureLookupTable>();
+        procedureScope->inheritGlobalScope(fileScope);
+        TypeChecker::applyPolicyTo(procedureDeclarationNode->getParameters(), typeCheckerResult, procedureScope);
+        TypeChecker::applyPolicyTo(procedureDeclarationNode->getBlock(), typeCheckerResult, procedureScope);
         auto returnExpressionMessage = TypeCheckerErrorMessageTable::ProcedureHasReturnExpression(procedureDeclarationNode);
         TypeCheckerRuleProvider::getNoReturnExpressionTypeCheckerRule()->enforce(
             procedureDeclarationNode->getBlock(),

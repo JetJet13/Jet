@@ -1769,7 +1769,7 @@ proc testForLoops() {
     assert(myLambdaSharedArrayTotal == 200);
 
     const modifiedArray = [1,2,3,4,5];
-    const modifiedArrayTotal = 0;
+    let modifiedArrayTotal = 0;
     for i in modifiedArray {
         modifiedArrayTotal = modifiedArrayTotal + i;
         modifiedArray.dropLast(1);
@@ -1778,7 +1778,7 @@ proc testForLoops() {
     assert(modifiedArrayTotal == 6);
 
     const modifiedSharedArray = share [1,2,3,4,5];
-    const modifiedSharedArrayTotal = 0;
+    let modifiedSharedArrayTotal = 0;
     for i in modifiedSharedArray {
         modifiedSharedArrayTotal = modifiedSharedArrayTotal + i;
         modifiedSharedArray.dropLast(4);
@@ -1787,7 +1787,7 @@ proc testForLoops() {
     assert(modifiedSharedArrayTotal == 1);
 
     const modifiedArrayEmptyResult = [1,2,3,4,5];
-    const modifiedArrayEmptyResultTotal = 0;
+    let modifiedArrayEmptyResultTotal = 0;
     for i in modifiedArrayEmptyResult {
         modifiedArrayEmptyResultTotal = modifiedArrayEmptyResultTotal + i;
         modifiedArrayEmptyResult.dropLast(4);
@@ -1796,7 +1796,7 @@ proc testForLoops() {
     assert(modifiedArrayEmptyResultTotal == 1);
 
     const modifiedArrayWithShared = [1,2,3,4,5];
-    const modifiedArrayWithSharedTotal = 0;
+    let modifiedArrayWithSharedTotal = 0;
     for i in share modifiedArrayWithShared {
         modifiedArrayWithSharedTotal = modifiedArrayWithSharedTotal + i;
     }

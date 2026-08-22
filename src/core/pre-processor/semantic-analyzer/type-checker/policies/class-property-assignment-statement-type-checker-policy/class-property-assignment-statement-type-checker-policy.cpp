@@ -40,5 +40,12 @@ namespace ClassPropertyAssignmentStatementTypeCheckerPolicy {
             assignmentTypeMismatchMessage,
             typeCheckerResult
         );
+
+        auto id = classPropertyAssignmentStatementNode->getPropertyAssignment()->getProperty()->getId();
+        auto variableContext = fileScope->findVariableContext(id);
+        if (variableContext.value()->isConstant()) {
+            auto classPropertyAssignmentNotAllowedMessage = TypeCheckerErrorMessageTable::ClassPropertyAssignmentNotAllowed(classPropertyAssignmentStatementNode);
+            typeCheckerResult->addError(classPropertyAssignmentNotAllowedMessage());
+        }
     }
 }

@@ -221,7 +221,7 @@ void ClassDeclarationIRStrategy::declareStaticProperty(std::shared_ptr<ASTClassP
     auto globalVariable = new llvm::GlobalVariable(
             *irContext->getModule(),
             irType.value()->getType(),
-            node->isConstant(),
+            false,
             isExportable
             ? llvm::GlobalValue::ExternalLinkage
             : llvm::GlobalValue::PrivateLinkage,

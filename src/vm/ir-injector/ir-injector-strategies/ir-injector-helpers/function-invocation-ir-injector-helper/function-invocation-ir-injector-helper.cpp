@@ -9,6 +9,7 @@
 #include "../../../../ir-type/ir-array-pointer-type.h"
 #include "../../../../ir-type/ir-type-value-type.h"
 #include "../../../../../shared/utils/logger/logger.h"
+#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFunctionInvocationExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IROperation> irOperation) {
     auto functionTypeSignature = irExpression->getInvocationTypeSignature()->getFunctionType();
@@ -114,6 +115,11 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFuncti
         return value;
     }
 
+    if (!functionTypeSignature->isBuiltIn()) {
+        auto irFunctionId = FunctionIdGenerator::generateFor(functionTypeSignature->getModuleId(), functionTypeSignature->getId(), functionTypeSignature);
+        auto function = irModule->getModule()->get()->getFunction(irFunctionId);
+        irExpression->getValue()->setCalledOperand(function);
+    }
     auto value = irBlock->getBuilder()->get()->Insert(irExpression->getValue());
     if (irOperation->isOperandPointer()) {
         auto pointerToValue = irBlock->getBuilder()->get()->CreateAlloca(value->getType());

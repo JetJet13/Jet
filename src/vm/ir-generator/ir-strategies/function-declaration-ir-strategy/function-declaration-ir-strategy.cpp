@@ -14,7 +14,7 @@ std::shared_ptr<IRFunctionDeclarationNode> FunctionDeclarationIRStrategy::genera
     auto functionTypeNode = irGenerator->generateTypeFor(node->getTypeSignature(), functionScope, irContext);
     auto functionType = llvm::cast<llvm::FunctionType>(functionTypeNode->getType());
 
-    auto linkage = node->isExportable() ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
+    auto linkage = node->isExportable() ? llvm::Function::ExternalLinkage : llvm::Function::InternalLinkage;
     auto irFunctionId = FunctionIdGenerator::generateFor(node->getId(), node->getFunctionTypeSignature());
     auto irFunction = llvm::Function::Create(functionType, linkage, irFunctionId, irContext->getModule());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);

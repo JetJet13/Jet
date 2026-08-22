@@ -18,6 +18,7 @@ private:
     static void verifyAllClassMethodsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
     static void verifyAllClassConstructors(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
     static void verifyAllClassConstructorsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult);
+    static std::shared_ptr<TypeSignatureLookupTable> generateClassScope(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 public:
     static void apply(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
