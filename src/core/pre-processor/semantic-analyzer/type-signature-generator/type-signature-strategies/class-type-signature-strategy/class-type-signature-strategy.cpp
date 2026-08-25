@@ -5,6 +5,7 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
+#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void ClassTypeSignatureStrategy::assign(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getClassTypeSignature();
@@ -68,8 +69,9 @@ void ClassTypeSignatureStrategy::assignPropertyTypeSignatures(std::shared_ptr<AS
 void ClassTypeSignatureStrategy::assignMethodTypeSignatures(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, std::shared_ptr<ClassTypeSignature> classTypeSignature, TypeSignatureStrategyProvider* strategyMap) {
     for (auto method : *node->getBlock()->getMethods()) {
         strategyMap->assignTypeSignatureFor(method, context, scope);
+        auto methodId = FunctionIdGenerator::generateFor(method);
         classTypeSignature->addMethod(
-                method->getId(),
+                methodId,
                 method->getMethodTypeSignature()
         );
     }

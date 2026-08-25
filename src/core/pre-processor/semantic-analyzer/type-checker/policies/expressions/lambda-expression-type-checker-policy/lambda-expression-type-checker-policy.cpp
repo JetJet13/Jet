@@ -6,7 +6,6 @@
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../type-checker.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
 
 namespace LambdaExpressionTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTLambdaExpressionNode> lambdaExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {

@@ -119,6 +119,6 @@ std::string ASTLambdaExpressionNode::toSourceCode() {
         .add(_typeColon.value())
         ->add(_returnType.value());
     }
-    sourceCodeBuilder.add(_block);
+    sourceCodeBuilder.add(_block->getStartNode());
     return sourceCodeBuilder.build();
 }

@@ -5,6 +5,7 @@
 #include "class-declaration-ir-strategy.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRClassDeclarationNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getClassTypeSignature(), scope, irContext);
@@ -132,9 +133,10 @@ std::shared_ptr<IRClassConstructorNode> ClassDeclarationIRStrategy::generate(std
 std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassMethodDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
     auto methodScope = std::make_shared<IRLookupTable>();
     methodScope->inherit(scope);
-    auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
+    auto methodId = FunctionIdGenerator::generateFor(node);
+    auto methodTypeNode = irClassType->getIRTypeForMethod(methodId).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
+    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(methodId);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
@@ -160,9 +162,10 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::sha
 std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
     auto methodScope = std::make_shared<IRLookupTable>();
     methodScope->inherit(scope);
-    auto methodTypeNode = irClassType->getIRTypeForStaticMethod(node->getId()).value();
+    auto methodId = FunctionIdGenerator::generateFor(node);
+    auto methodTypeNode = irClassType->getIRTypeForStaticMethod(methodId).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
-    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
+    auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(methodId);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
     if (irClassType->getClassScopeParameterType()) {
         auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
@@ -196,17 +199,19 @@ std::shared_ptr<IRClassStaticPropertyNode> ClassDeclarationIRStrategy::generateS
 }
 
 void ClassDeclarationIRStrategy::declareMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
-    auto methodTypeNode = irClassType->getIRTypeForMethod(node->getId()).value();
+    auto id = FunctionIdGenerator::generateFor(node);
+    auto methodTypeNode = irClassType->getIRTypeForMethod(id).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+    llvm::Function::Create(functionType, linkage, 0, id, irContext->getModule());
 }
 
 void ClassDeclarationIRStrategy::declareStaticMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
-    auto methodTypeNode = irClassType->getIRTypeForStaticMethod(node->getId()).value();
+    auto id = FunctionIdGenerator::generateFor(node);
+    auto methodTypeNode = irClassType->getIRTypeForStaticMethod(id).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
-    llvm::Function::Create(functionType, linkage, 0, node->getId(), irContext->getModule());
+    llvm::Function::Create(functionType, linkage, 0, id, irContext->getModule());
 }
 
 void ClassDeclarationIRStrategy::declareConstructor(std::shared_ptr<ASTClassConstructorDeclarationNode> node, bool isExportable, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {

@@ -10,6 +10,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.h"
+#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
@@ -83,17 +84,19 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
     auto sourceType = sourceValue->getUnderlyingIRType();
     if (sourceType->isClassInstanceType()) {
         auto classInstanceType = std::dynamic_pointer_cast<IRClassInstanceType>(sourceType);
-        auto irFunctionType = classInstanceType->getIRTypeForMethod(node->getName()).value();
-        auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(node->getName()));
+        auto methodId = FunctionIdGenerator::generateFor(node->getName(), node->getArguments()->getArgumentListTypeSignature()->toDetailString());
+        auto irFunctionType = classInstanceType->getIRTypeForMethod(methodId).value();
+        auto irFunction = irContext->getModule()->getFunction(classInstanceType->getIRMethodName(methodId));
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction, argList);
         return std::make_shared<IRObjectAccessInvocationExpressionNode>(node, sourceValue, callInstruction, irFunctionType, 0, arguments, irReturnType, sourceValue);
     }
 
     if (sourceType->isClassType()) {
         auto irClassType = std::dynamic_pointer_cast<IRClassType>(sourceType);
-        auto functionName = irClassType->getIRMethodName(node->getName());
+        auto methodId = FunctionIdGenerator::generateFor(node->getName(), node->getArguments()->getArgumentListTypeSignature()->toDetailString());
+        auto functionName = irClassType->getIRMethodName(methodId);
         auto irFunctionType = irClassType->getIRTypeForStaticMethod(functionName).value();
-        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(node->getName())), irGenerator->generateIrPointerType(irFunctionType));
+        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(methodId)), irGenerator->generateIrPointerType(irFunctionType));
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
         return std::make_shared<IRClassStaticMethodInvocationExpressionNode>(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
     }

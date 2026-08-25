@@ -25,7 +25,7 @@ namespace ObjectAccessAssignmentStatementTypeCheckerPolicy {
             }
 
             if (!fileScope->isClassScope() && classProperty && classProperty.value()->getAccessModifier()->isPrivate()) {
-                auto classPropertyIsPrivateMessage = TypeCheckerErrorMessageTable::ClassPropertyIsPrivate(objectAccessAssignmentStatementNode);
+                auto classPropertyIsPrivateMessage = TypeCheckerErrorMessageTable::PrivateClassPropertyAssignmentNotAllowed(objectAccessAssignmentStatementNode);
                 typeCheckerResult->addError(classPropertyIsPrivateMessage());
             }
 
@@ -39,7 +39,7 @@ namespace ObjectAccessAssignmentStatementTypeCheckerPolicy {
             }
 
             if (!fileScope->isClassScope() && classStaticProperty && classStaticProperty.value()->getAccessModifier()->isPrivate()) {
-                auto classPropertyIsPrivateMessage = TypeCheckerErrorMessageTable::ClassPropertyIsPrivate(objectAccessAssignmentStatementNode);
+                auto classPropertyIsPrivateMessage = TypeCheckerErrorMessageTable::PrivateClassPropertyAssignmentNotAllowed(objectAccessAssignmentStatementNode);
                 typeCheckerResult->addError(classPropertyIsPrivateMessage());
             }
         }

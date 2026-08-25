@@ -9,6 +9,7 @@
 
 namespace UnaryExpressionTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTUnaryExpressionNode> unaryExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        TypeChecker::applyPolicyTo(unaryExpression->getExpressionNode(), typeCheckerResult, fileScope);
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(unaryExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(unaryExpression);
         auto voidMessage = TypeCheckerErrorMessageTable::ExpressionTypeVoid(unaryExpression);
@@ -21,6 +22,5 @@ namespace UnaryExpressionTypeCheckerPolicy {
             typeCheckerResult
         );
 
-        TypeChecker::applyPolicyTo(unaryExpression->getExpressionNode(), typeCheckerResult, fileScope);
     }
 }

@@ -62,8 +62,11 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ClassPropertyAssignmentNotAllowed(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be re-assigned because it was declared as a constant");  };
     }
+    static ErrorMessageLambda PrivateClassPropertyAssignmentNotAllowed(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be re-assigned outside of its class because it is private");  };
+    }
     static ErrorMessageLambda ClassPropertyIsPrivate(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be accessed or re-assigned because it is private");  };
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property cannot be accessed outside of its class because it is private");  };
     }
     static ErrorMessageLambda SharedValueAssignmentTypeMismatch(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "variable ref value type does not match expression type"); };

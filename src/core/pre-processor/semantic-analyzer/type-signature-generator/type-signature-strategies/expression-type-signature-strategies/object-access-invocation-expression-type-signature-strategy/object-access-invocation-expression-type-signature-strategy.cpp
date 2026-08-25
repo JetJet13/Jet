@@ -38,15 +38,15 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
         objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getReturnType());
         return;
     } else if (sourceTypeSignature->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
-        auto id = objectAccessInvocationExpression->getName();
         auto classInstanceSource = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(sourceTypeSignature);
+        auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression->getName(), objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString());
         auto classMethodTypeSignature = std::dynamic_pointer_cast<LambdaTypeSignature>(classInstanceSource->getKeyValuePairs()->find(id).value_or(std::make_shared<LambdaTypeSignature>()));
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(classMethodTypeSignature->getReturnType());
         return;
     } else if (sourceTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classSource = std::dynamic_pointer_cast<ClassTypeSignature>(sourceTypeSignature);
-        auto id = classSource->addClassNameToKey(objectAccessInvocationExpression->getName());
+        auto id = classSource->addClassNameToKey(FunctionIdGenerator::generateFor(objectAccessInvocationExpression->getName(), objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString()));
         auto classStaticMethod = classSource->getStaticMethods()->find(id);
         if (classStaticMethod) {
             auto classStaticMethodTypeSignature = std::dynamic_pointer_cast<ClassMethodTypeSignature>(classStaticMethod.value());

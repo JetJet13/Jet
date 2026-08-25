@@ -44,6 +44,10 @@ bool ASTFunctionBlockNode::hasReturnExpression() {
     return !_returnStatements.empty();
 }
 
+std::shared_ptr<ASTBlockStartNode> ASTFunctionBlockNode::getStartNode() {
+    return _blockStartNode;
+}
+
 std::shared_ptr<Position> ASTFunctionBlockNode::getStartPosition() {
     return _blockStartNode->getStartPosition();
 }
