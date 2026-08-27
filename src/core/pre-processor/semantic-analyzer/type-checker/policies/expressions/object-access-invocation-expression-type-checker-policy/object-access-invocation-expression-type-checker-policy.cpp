@@ -6,12 +6,44 @@
 #include "../../../types/type-checker-error-message-table.h"
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../type-checker.h"
+#include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {
+        auto objectAccessExpression = objectAccessInvocationExpression->getObjectAccess();
+        auto sourceTypeSignature = objectAccessExpression->getSource()->getSource()->getTypeSignature();
+        if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+            sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+        }
+
+        if (sourceTypeSignature->typeTargetIs(CLASS_INSTANCE_TYPE_SOURCE)) {
+            auto classInstanceSource = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(sourceTypeSignature);
+            auto methodName = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+            auto methodId = FunctionIdGenerator::generateFor(methodName, objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString());
+            auto id = classInstanceSource->getClass()->addClassNameToKey(methodId);
+            auto classMethod = classInstanceSource->getClass()->getInstanceMethods()->find(id);
+
+            if (!fileScope->isClassScope() && classMethod && classMethod.value()->getAccessModifier()->isPrivate()) {
+                auto classMethodIsPrivateMessage = TypeCheckerErrorMessageTable::ClassMethodIsPrivate(objectAccessInvocationExpression);
+                typeCheckerResult->addError(classMethodIsPrivateMessage());
+            }
+
+        } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
+            auto classSource = std::dynamic_pointer_cast<ClassTypeSignature>(sourceTypeSignature);
+            auto methodName = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+            auto methodId = FunctionIdGenerator::generateFor(methodName, objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString());
+            auto id = classSource->addClassNameToKey(methodId);
+            auto classStaticMethod = classSource->getStaticMethods()->find(id);
+
+            if (!fileScope->isClassScope() && classStaticMethod && classStaticMethod.value()->getAccessModifier()->isPrivate()) {
+                auto classMethodIsPrivateMessage = TypeCheckerErrorMessageTable::ClassMethodIsPrivate(objectAccessInvocationExpression);
+                typeCheckerResult->addError(classMethodIsPrivateMessage());
+            }
+        }
+
         TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getSource()->getSource(), typeCheckerResult, fileScope);
         TypeChecker::applyPolicyTo(objectAccessInvocationExpression->getArguments(), typeCheckerResult, fileScope);
-        objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->print();
         auto unknownMessage = TypeCheckerErrorMessageTable::ExpressionTypeUnknown(objectAccessInvocationExpression);
         auto invalidMessage = TypeCheckerErrorMessageTable::ExpressionTypeInvalid(objectAccessInvocationExpression);
         TypeCheckerRuleProvider::getDefinedTypeSignatureTypeCheckerRule()

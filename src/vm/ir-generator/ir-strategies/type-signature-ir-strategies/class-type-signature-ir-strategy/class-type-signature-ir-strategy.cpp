@@ -29,9 +29,12 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_
 
     auto constructorReturnType = irGenerator->getVoidType();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
-        auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
-        ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
-        : irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext);
+        auto constructorParameters = irGenerator->generateParameterList(
+                keyValue.second->getParameterList(),
+                scope,
+                irContext,
+                classTypeSignature->getClassScopeParameter()
+        );
         irClassType->addConstructor(
             keyValue.first,
             std::make_shared<IRFunctionType>(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false))
@@ -41,9 +44,12 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_
     for (unsigned long i = 0; i < classTypeSignature->getInstanceMethods()->size(); ++i) {
         auto keyValue = classTypeSignature->getInstanceMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType()->convertToVariableTypeSignature(), scope, irContext);
-        auto methodParameters = classTypeSignature->isClassScopeParameterNecessary()
-                                ? irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext, classTypeSignature->getClassScopeParameter())
-                                : irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
+        auto methodParameters = irGenerator->generateParameterList(
+                keyValue.second->getParameters(),
+                scope,
+                irContext,
+                classTypeSignature->getClassScopeParameter()
+        );
         irClassType->addMethod(
             keyValue.first,
             std::make_shared<IRFunctionType>(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false))
@@ -85,24 +91,25 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generatePostInitial(s
     auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(classTypeSignature->getId()).value());
     auto constructorReturnType = irGenerator->getVoidType();
     for (auto keyValue : classTypeSignature->getConstructors()->getKeyValues()) {
-        auto constructorParameters = classTypeSignature->isClassScopeParameterNecessary()
-                                     ? irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext, classTypeSignature->getClassScopeParameter())
-                                     : irGenerator->generateParameterList(keyValue.second->getParameterList(), scope, irContext);
+        auto constructorParameters = irGenerator->generateParameterList(
+                keyValue.second->getParameterList(),
+                scope,
+                irContext,
+                classTypeSignature->getClassScopeParameter()
+        );
         irClassType->addConstructor(
                 keyValue.first,
                 std::make_shared<IRFunctionType>(llvm::FunctionType::get(constructorReturnType, constructorParameters->getParameterTypes(), false))
         );
     }
 
-    if (classTypeSignature->isClassScopeParameterNecessary()) {
-        auto classScopeIRType = irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext);
-        auto classScopeIRStructRefType = std::dynamic_pointer_cast<IRStructRefType>(classScopeIRType->getIRType()->getSourceType());
-        classScopeIRStructRefType->setId(classTypeSignature->getId());
-        classScopeIRStructRefType->getStructIRType()->setId(classTypeSignature->getId());
-        irClassType->setClassScopeType(classScopeIRType);
-        auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
-        llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
-    }
+    auto classScopeIRType = irGenerator->generateParameterType(classTypeSignature->getClassScopeParameter(), scope, irContext);
+    auto classScopeIRStructRefType = std::dynamic_pointer_cast<IRStructRefType>(classScopeIRType->getIRType()->getSourceType());
+    classScopeIRStructRefType->setId(classTypeSignature->getId());
+    classScopeIRStructRefType->getStructIRType()->setId(classTypeSignature->getId());
+    irClassType->setClassScopeType(classScopeIRType);
+    auto functionType = llvm::FunctionType::get(irGenerator->getVoidType(), { irGenerator->generatePointerType() }, false);
+    llvm::Function::Create(functionType, llvm::GlobalValue::InternalLinkage, 0, irClassType->getPreConstructorName(), irContext->getModule());
 
     return irClassType;
 }

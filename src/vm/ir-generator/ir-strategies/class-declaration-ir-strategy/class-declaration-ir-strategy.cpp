@@ -66,9 +66,6 @@ std::shared_ptr<IRClassDeclarationNode> ClassDeclarationIRStrategy::generate(std
 }
 
 std::optional<std::shared_ptr<IRClassPreConstructorNode>> ClassDeclarationIRStrategy::generatePreConstructor(std::shared_ptr<ASTClassDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
-    if (!irClassType->getClassScopeParameterType()) {
-        return {};
-    }
     auto pointerType = irGenerator->generatePointerType();
     auto preConstructorScope = std::make_shared<IRLookupTable>();
     preConstructorScope->inherit(scope);
@@ -108,12 +105,10 @@ std::shared_ptr<IRClassConstructorNode> ClassDeclarationIRStrategy::generate(std
     constructorScope->inherit(scope);
     auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(node->getId());
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), constructorScope, irContext, irFunction);
-    if (irClassType->getClassScopeParameterType()) {
-        auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
-        functionParameterList->addClassScopeParameter(scopeParameter);
-        constructorScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
-    }
+    auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
+    auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+    functionParameterList->addClassScopeParameter(scopeParameter);
+    constructorScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
 
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, constructorScope);
 
@@ -138,12 +133,10 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::sha
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(methodId);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
-    if (irClassType->getClassScopeParameterType()) {
-        auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
-        functionParameterList->addClassScopeParameter(scopeParameter);
-        methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
-    }
+    auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
+    auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+    functionParameterList->addClassScopeParameter(scopeParameter);
+    methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, methodScope);
 
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
@@ -167,12 +160,10 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(st
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto irFunction = irContext->getIRModule()->getModule()->get()->getFunction(methodId);
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), methodScope, irContext, irFunction);
-    if (irClassType->getClassScopeParameterType()) {
-        auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
-        auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
-        functionParameterList->addClassScopeParameter(scopeParameter);
-        methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
-    }
+    auto argument = new llvm::Argument(irClassType->getClassScopeParameterType().value()->getType(), irClassType->getClassScopeParameterType().value()->getName(), irFunction, 0);
+    auto scopeParameter = std::make_shared<IRFunctionParameterNode>(argument, irClassType->getClassScopeParameterType().value(), irGenerator->generateFunctionParameterAllocation(irClassType->getClassScopeParameterType().value()->getIRType()));
+    functionParameterList->addClassScopeParameter(scopeParameter);
+    methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, methodScope);
 
     for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {

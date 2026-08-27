@@ -22,6 +22,8 @@ llvm::Value* VoidIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode> ir
         return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRArrayAccessInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     } else if (irExpression->is(IR_SHARED_PTR_PROTOTYPE_INVOCATION_EXPRESSION_NODE)) {
         return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRSharedPtrPrototypeInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_CLASS_STATIC_METHOD_INVOCATION_EXPRESSION_NODE)) {
+        return FunctionInvocationIRInjectorHelper::inject(std::dynamic_pointer_cast<IRClassStaticMethodInvocationExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     }
     throw std::logic_error("VoidIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }

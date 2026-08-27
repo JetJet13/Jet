@@ -1,0 +1,40 @@
+class SimpleClass {
+    constructor() {}
+
+    public mick() {
+        print("mick");
+    }
+
+    private mack() {
+        print("mack");
+    }
+
+    public static foo() {
+        print("foo");
+    }
+
+    private static bar() {
+        print("bar");
+    }
+}
+
+SimpleClass.foo();
+SimpleClass.bar();
+
+const x = new SimpleClass();
+x.mick();
+x.mack();
+
+class BadClass {
+    public foo = 5;
+    private bar = 10;
+    public static mars = 100;
+    private static fuzz = 200;
+    constructor() {}
+}
+
+const mo = new BadClass();
+print(mo.foo);
+print(mo.bar);
+print(BadClass.mars);
+print(BadClass.fuzz);
