@@ -3,6 +3,7 @@
 //
 
 #include "class-method-invocation-expression-ir-strategy.h"
+#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();
@@ -22,7 +23,8 @@ std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpr
 
     auto irFunctionType = std::dynamic_pointer_cast<IRFunctionType>(irGenerator->generateTypeFor(node->getName()->getTypeSignature(), scope, irContext));
     auto irReturnType = irGenerator->generateTypeFor(node->getName()->getMethodTypeSignature()->getReturnType(), scope, irContext);
-    auto function = irContext->getModule()->getFunction(node->getName()->getId());
+    auto methodId = FunctionIdGenerator::generateFor(node->getName()->getId(), node->getArguments()->getArgumentListTypeSignature()->toDetailString());
+    auto function = irContext->getModule()->getFunction(methodId);
     auto argList = irGenerator->generateArgumentPlaceholderList(irFunctionType, &arguments);
 
     // for class scope argument

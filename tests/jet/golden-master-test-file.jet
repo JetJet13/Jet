@@ -2673,3 +2673,9 @@ proc testSharedValueAssignment() {
     });
 }
 testSharedValueAssignment();
+
+class VoidClass {}
+class EmptyClass {
+    constructor() {}
+}
+const emptyClassInstance = new EmptyClass();
