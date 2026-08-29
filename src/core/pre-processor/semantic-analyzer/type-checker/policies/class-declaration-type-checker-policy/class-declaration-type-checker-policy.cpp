@@ -102,13 +102,23 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethods(std::shared_ptr<AS
 
 void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shared_ptr<ASTClassDeclarationNode> classDeclarationNode, TypeCheckerResult* typeCheckerResult) {
     auto classMethodNameAndTypeSignatureList = std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>();
+    auto classStaticMethodNameAndTypeSignatureList = std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>();
     for (auto classMethod : *classDeclarationNode->getBlock()->getMethods()) {
-        classMethodNameAndTypeSignatureList.emplace_back(
-            std::pair(
-                classMethod->getClassMethodDefinition()->getMethodName()->getId(),
-                classMethod->getTypeSignature()
-            )
-        );
+        if (classMethod->isStatic()) {
+            classStaticMethodNameAndTypeSignatureList.emplace_back(
+                std::pair(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getId(),
+                    classMethod->getTypeSignature()
+                )
+            );
+        } else {
+            classMethodNameAndTypeSignatureList.emplace_back(
+                std::pair(
+                    classMethod->getClassMethodDefinition()->getMethodName()->getId(),
+                    classMethod->getTypeSignature()
+                )
+            );
+        }
     }
 
     auto methodNamesNotUniqueMessage = TypeCheckerErrorMessageTable::ClassMethodNamesAndTypeSignaturesNotUnique(classDeclarationNode);
@@ -116,6 +126,14 @@ void ClassDeclarationTypeCheckerPolicy::verifyAllClassMethodsAreUnique(std::shar
     ->enforce(
         &classMethodNameAndTypeSignatureList,
         methodNamesNotUniqueMessage,
+        typeCheckerResult
+    );
+
+    auto staticMethodNamesNotUniqueMessage = TypeCheckerErrorMessageTable::ClassStaticMethodNamesAndTypeSignaturesNotUnique(classDeclarationNode);
+    TypeCheckerRuleProvider::getUniqueTypeSignatureWithIdTypeCheckerRule()
+    ->enforce(
+        &classStaticMethodNameAndTypeSignatureList,
+        staticMethodNamesNotUniqueMessage,
         typeCheckerResult
     );
 }

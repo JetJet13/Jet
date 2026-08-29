@@ -11,6 +11,9 @@
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.h"
+#include "../ir-injector-helpers/class-method-access-ir-injector-helper/class-method-access-ir-injector-helper.h"
+#include "../../../ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.h"
 
 llvm::Value* LambdaIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irExpression->is(IR_IDENTIFIER_EXPRESSION_NODE)) {
@@ -37,6 +40,10 @@ llvm::Value* LambdaIRInjectorStrategy::inject(std::shared_ptr<IRExpressionNode> 
         return this->_arrayAccessExpressionInjector.inject(std::dynamic_pointer_cast<IRArrayAccessExpressionNode>(irExpression), irBlock, irInjector, irOperation, irModule, scope);
     } else if (irExpression->is(IR_MODULE_ACCESS_EXPRESSION_NODE)) {
         return this->_moduleAccessExpressionInjector.inject(std::dynamic_pointer_cast<IRModuleAccessExpressionNode>(irExpression), irBlock, irInjector, irOperation, irModule, scope);
+    } else if (irExpression->is(IR_CLASS_STATIC_METHOD_ACCESS_EXPRESSION_NODE)) {
+        return ClassMethodAccessIRInjectorHelper::inject(std::dynamic_pointer_cast<IRClassStaticMethodAccessExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
+    } else if (irExpression->is(IR_CLASS_INSTANCE_METHOD_ACCESS_EXPRESSION_NODE)) {
+        return ClassMethodAccessIRInjectorHelper::inject(std::dynamic_pointer_cast<IRClassInstanceMethodAccessExpressionNode>(irExpression), irBlock, irInjector, irModule, scope, irOperation);
     }
     throw std::logic_error("LambdaIRInjectorStrategy - ir-injector expression type mismatch: " + irExpression->toString());
 }

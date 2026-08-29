@@ -1,36 +1,39 @@
 class SimpleClass {
-    constructor() {}
+    public value = 10;
 
-    public mick() {
-        print("mick");
+    constructor() { }
+
+    public increment() {
+        this.value = this.value + 1;
     }
 
-    private mack() {
-        print("mack");
+    public increment(newValue: int) {
+        this.value = newValue;
     }
 
-    public static foo() {
-        print("foo");
+    public print() {
+        print("value", this.value);
     }
 
-    private static bar() {
-        print("bar");
+// in order to support this, you need to
+// ensure unique method names in llvm by adding
+// a suffix like 'static'
+    public static increment() {
+        print("STATIC INCREMENT!");
     }
 }
 
-SimpleClass.foo();
-SimpleClass.bar();
+const mySimpleClass = new SimpleClass();
+mySimpleClass.print();
 
-const x = new SimpleClass();
-x.mick();
-x.mack();
+const myLambda = (x: () => void) {
+    print("magic");
+    x();
+};
 
-class EmptyClass {
-    constructor() {}
-}
-
-const emptyClassInstance = new EmptyClass();
-print(mo.foo);
-print(mo.bar);
-print(BadClass.mars);
-print(BadClass.fuzz);
+print(mySimpleClass.print);
+myLambda(mySimpleClass.increment);
+//myLambda(SimpleClass.increment);
+SimpleClass.increment();
+mySimpleClass.print();
+myLambda(() => print("Boo!"));

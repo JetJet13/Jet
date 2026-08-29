@@ -9,6 +9,8 @@
 #include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessExpression->getSource()->getSource(), context, scope);
@@ -50,12 +52,47 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
             objectAccessExpression->setTypeSignature(classProperty.value()->convertToVariableTypeSignature());
             return;
         }
+
+        if (context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {
+            auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(context->getTypeSignature().value());
+            auto methodId = classInstanceSource->getClass()->addClassNameToKey(FunctionIdGenerator::generateFor(id, invocableTypeSignature));
+            auto methodTypeSignature = classInstanceSource->getClass()->getInstanceMethods()->find(methodId);
+            if (methodTypeSignature) {
+                objectAccessExpression->setTypeSignature(methodTypeSignature.value()->convertToVariableTypeSignature());
+                return;
+            }
+        }
+
+        auto methodTypeSignatureMap = classInstanceSource->getClass()->findInstanceMethodsByName(id);
+        // if there is only 1 method type signature for the name provided, then use it
+        if (methodTypeSignatureMap && methodTypeSignatureMap.value()->size() == 1) {
+            objectAccessExpression->setTypeSignature(methodTypeSignatureMap.value()->begin()->second->convertToVariableTypeSignature());
+            return;
+        }
+
     } else if (sourceTypeSignature->typeTargetIs(CLASS_TYPE_SOURCE)) {
         auto classSource = std::dynamic_pointer_cast<ClassTypeSignature>(sourceTypeSignature);
-        auto id = classSource->addClassNameToKey(objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId());
-        auto classStaticProperty = classSource->getStaticProperties()->find(id);
+        auto id = objectAccessExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto classStaticProperty = classSource->getStaticProperties()->find(classSource->addClassNameToKey(id));
         if (classStaticProperty) {
             objectAccessExpression->setTypeSignature(classStaticProperty.value()->convertToVariableTypeSignature());
+            return;
+        }
+
+        if (context->getTypeSignature() && context->getTypeSignature().value()->isInvocable()) {
+            auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(context->getTypeSignature().value());
+            auto methodId = classSource->addClassNameToKey(FunctionIdGenerator::generateFor(id, invocableTypeSignature));
+            auto methodTypeSignature = classSource->getStaticMethods()->find(methodId);
+            if (methodTypeSignature) {
+                objectAccessExpression->setTypeSignature(methodTypeSignature.value()->convertToVariableTypeSignature());
+                return;
+            }
+        }
+
+        auto methodTypeSignatureMap = classSource->findStaticMethodsByName(id);
+        // if there is only 1 method type signature for the name provided, then use it
+        if (methodTypeSignatureMap && methodTypeSignatureMap.value()->size() == 1) {
+            objectAccessExpression->setTypeSignature(methodTypeSignatureMap.value()->begin()->second->convertToVariableTypeSignature());
             return;
         }
     } else if (objectAccessExpression->getSource()->getSource()->getTypeSignature()->typeSourceIs(SHARED_TYPE_SOURCE)) {
@@ -65,8 +102,8 @@ void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObje
                 sharedSource->getUnderlyingType());
         if (sharedPrototypeTypeSignature) {
             objectAccessExpression->setTypeSignature(sharedPrototypeTypeSignature.value());
+            return;
         }
-        return;
     }
     objectAccessExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());
 }

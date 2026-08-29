@@ -149,7 +149,25 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::sha
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock);
+    auto globalVariableIRType = irGenerator->generateIRInvocableType();
+    auto globalVariable = new llvm::GlobalVariable(
+            *irContext->getModule(),
+            globalVariableIRType->getType(),
+            false,
+            node->isExportable()
+            ? llvm::GlobalValue::ExternalLinkage
+            : llvm::GlobalValue::PrivateLinkage,
+            irGenerator->generatePlaceholderValueForIRType(globalVariableIRType),
+            methodId
+    );
+    auto irGlobalVariable = IRInstructionNodeFactory::create(
+            globalVariable,
+            irGenerator->generateIrPointerType(globalVariableIRType)
+    );
+
+    auto irClassMethodNode = std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
+    methodScope->insertGlobalVariable(methodId, irGlobalVariable);
+    return irClassMethodNode;
 }
 
 std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(std::shared_ptr<ASTClassMethodDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
@@ -176,7 +194,25 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(st
         functionBlock->insert(irGenerator->generateFor(statement, functionBlock->getScope(), irContext));
     }
 
-    return std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock);
+    auto globalVariableIRType = irGenerator->generateIRInvocableType();
+    auto globalVariable = new llvm::GlobalVariable(
+            *irContext->getModule(),
+            globalVariableIRType->getType(),
+            false,
+            node->isExportable()
+            ? llvm::GlobalValue::ExternalLinkage
+            : llvm::GlobalValue::PrivateLinkage,
+            irGenerator->generatePlaceholderValueForIRType(globalVariableIRType),
+            methodId
+    );
+    auto irGlobalVariable = IRInstructionNodeFactory::create(
+            globalVariable,
+            irGenerator->generateIrPointerType(globalVariableIRType)
+    );
+
+    auto irClassMethodNode = std::make_shared<IRClassMethodNode>(node, irFunction, functionParameterList, functionBlock, irGlobalVariable);
+    methodScope->insertGlobalVariable(methodId, irGlobalVariable);
+    return irClassMethodNode;
 }
 
 std::shared_ptr<IRClassStaticPropertyNode> ClassDeclarationIRStrategy::generateStaticProperty(std::shared_ptr<ASTClassPropertyDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {

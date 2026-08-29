@@ -23,7 +23,7 @@ public:
     static std::string generateFor(std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
     static std::string generateFor(std::string moduleId, std::string name, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
     static std::string generateFor(std::shared_ptr<InvocableTypeSignature> invocableTypeSignature);
-    static std::string generateFor(std::string functionName, std::string parameterDetailString);
+    static std::string generateFor(std::string functionName, std::string parameterDetailString = "");
 };
 
 #endif //JETLANG_FUNCTION_ID_GENERATOR_H

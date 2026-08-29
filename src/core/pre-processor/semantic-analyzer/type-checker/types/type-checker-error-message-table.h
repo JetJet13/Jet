@@ -191,18 +191,12 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ClassPropertyNameConflictsWithStaticMethodName(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must not conflict with static method names"); };
     }
-    static ErrorMessageLambda ClassMethodNameConflictsWithStaticPropertyName(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class method names must not conflict with static property names"); };
-    }
-    static ErrorMessageLambda ClassMethodNameConflictsWithStaticMethodName(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class method names must not conflict with static method names"); };
-    }
-    static ErrorMessageLambda ClassStaticPropertyNameConflictsWithStaticMethodName(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class static property names must not conflict with static method names"); };
-    }
     static ErrorMessageLambda ClassMethodNamesAndTypeSignaturesNotUnique(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "one or more class methods have the same name and type-signature"); };
-    } 
+    }
+    static ErrorMessageLambda ClassStaticMethodNamesAndTypeSignaturesNotUnique(std::shared_ptr<ASTNode> node) {
+        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "one or more static class methods have the same name and type-signature"); };
+    }
     static ErrorMessageLambda ClassConstructorsNotUnique(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class constructors must have unique parameter lists"); };
     }

@@ -10,15 +10,19 @@
 #include "../ast-node.h"
 #include "ast-this-access-node.h"
 #include "ast-this-node.h"
+#include "../../../type-signature/class-type-signature/class-type-signature.h"
 
 class ASTClassAccessNode : public ASTNode {
 private:
     std::shared_ptr<ASTThisNode> _this;
     std::shared_ptr<ASTThisAccessNode> _thisAccess;
+    std::shared_ptr<ClassTypeSignature> _typeSignature = std::make_shared<ClassTypeSignature>();
 public:
     ASTClassAccessNode(std::shared_ptr<ASTThisNode> thisNode, std::shared_ptr<ASTThisAccessNode> thisAccess);
     std::shared_ptr<ASTThisNode> getThis();
     std::shared_ptr<ASTThisAccessNode> getThisAccess();
+    void setTypeSignature(std::shared_ptr<ClassTypeSignature> typeSignature);
+    std::shared_ptr<ClassTypeSignature> getClassTypeSignature();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

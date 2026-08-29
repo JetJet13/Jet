@@ -8,13 +8,16 @@
 #include "new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../struct-type-signature/struct-type-signature.h"
 #include "class-instance-type-signature/class-instance-type-signature.h"
+#include "../../../shared/utils/function-id-generator/function-id-generator.h"
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<std::shared_ptr<ClassConstructorTypeSignature>>();
     _staticProperties = TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>();
     _instanceProperties = TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>();
     _staticMethods = TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>();
+    _staticMethodLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>>>();
     _instanceMethods = TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>();
+    _instanceMethodLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>>>();
     _implements = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
     _interface = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
     _classScopeParameter = ParameterListItemTypeSignature::createClassScopeParameter();
@@ -44,6 +47,22 @@ TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>* ClassTypeSignature:
     return &_instanceMethods;
 }
 
+std::optional<std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>> ClassTypeSignature::findInstanceMethodsByName(std::string name) {
+    auto instanceMethodMap = _instanceMethodLookupTable->find(name);
+    if (instanceMethodMap == _instanceMethodLookupTable->end()) {
+        return {};
+    }
+    return instanceMethodMap->second;
+}
+
+std::optional<std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>> ClassTypeSignature::findStaticMethodsByName(std::string name) {
+    auto staticMethodMap = _staticMethodLookupTable->find(name);
+    if (staticMethodMap == _staticMethodLookupTable->end()) {
+        return {};
+    }
+    return staticMethodMap->second;
+}
+
 TypeSignatureMap<std::shared_ptr<TypeSignature>>* ClassTypeSignature::getImplements() {
     return &_implements;
 }
@@ -71,15 +90,35 @@ std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addProperty(std::string 
 }
 
 std::shared_ptr<ClassTypeSignature> ClassTypeSignature::addMethod(std::string key, std::shared_ptr<ClassMethodTypeSignature> classMethodTypeSignature) {
+    auto methodName = FunctionIdGenerator::getNameFromId(this->stripClassNameFromKey(key));
+
     if (classMethodTypeSignature->isStatic()) {
         _staticMethods.insert(key, classMethodTypeSignature);
+        auto existing = _staticMethodLookupTable->find(methodName);
+        if (existing == _staticMethodLookupTable->end()) {
+            auto staticMethodLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>();
+            staticMethodLookupTable->insert_or_assign(key, classMethodTypeSignature);
+            _staticMethodLookupTable->insert_or_assign(methodName, staticMethodLookupTable);
+        } else {
+            existing->second->insert_or_assign(key, classMethodTypeSignature);
+        }
     } else {
         _instanceMethods.insert(key, classMethodTypeSignature);
+        auto existing = _instanceMethodLookupTable->find(methodName);
+        if (existing == _instanceMethodLookupTable->end()) {
+            auto instanceMethodLookupTable = std::make_shared<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>();
+            instanceMethodLookupTable->insert_or_assign(key, classMethodTypeSignature);
+            _instanceMethodLookupTable->insert_or_assign(methodName, instanceMethodLookupTable);
+        } else {
+            existing->second->insert_or_assign(key, classMethodTypeSignature);
+        }
     }
+
     if (classMethodTypeSignature->getAccessModifier()->isPublic()) {
         auto interfaceKey = this->stripClassNameFromKey(key);
         _interface.insert(interfaceKey, classMethodTypeSignature->convertToVariableTypeSignature());
     }
+
     return std::dynamic_pointer_cast<ClassTypeSignature>(shared_from_this());
 }
 

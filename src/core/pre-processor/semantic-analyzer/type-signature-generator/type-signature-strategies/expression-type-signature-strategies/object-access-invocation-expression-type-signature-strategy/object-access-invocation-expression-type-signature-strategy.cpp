@@ -12,7 +12,6 @@
 
 void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getSource()->getSource(), context, scope);
-    strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
 
     if (objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->typeTargetIs(SHARED_TYPE_SOURCE)) {
         auto sharedSource = std::dynamic_pointer_cast<SharedTypeSignature>(objectAccessInvocationExpression->getSource()->getSource()->getTypeSignature()->getTargetTypeSignature());
@@ -21,6 +20,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
         if (sharedPrototypeTypeSignature) {
             objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(sharedPrototypeTypeSignature.value());
             objectAccessInvocationExpression->setTypeSignature(sharedPrototypeTypeSignature.value()->getReturnType());
+            strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(objectAccessInvocationExpression->getInvocableTypeSignature()->getParameterTypes()), scope);
             return;
         }
     }
@@ -36,9 +36,11 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
         auto functionTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(structSource->getTypeSignatureForKey(id));
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(functionTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(functionTypeSignature->getReturnType());
+        strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(objectAccessInvocationExpression->getInvocableTypeSignature()->getParameterTypes()), scope);
         return;
     } else if (sourceTypeSignature->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)) {
         auto classInstanceSource = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(sourceTypeSignature);
+        strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
         auto id = FunctionIdGenerator::generateFor(objectAccessInvocationExpression->getName(), objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString());
         auto classMethodTypeSignature = std::dynamic_pointer_cast<LambdaTypeSignature>(classInstanceSource->getKeyValuePairs()->find(id).value_or(std::make_shared<LambdaTypeSignature>()));
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(classMethodTypeSignature);
@@ -46,6 +48,7 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
         return;
     } else if (sourceTypeSignature->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classSource = std::dynamic_pointer_cast<ClassTypeSignature>(sourceTypeSignature);
+        strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), context, scope);
         auto id = classSource->addClassNameToKey(FunctionIdGenerator::generateFor(objectAccessInvocationExpression->getName(), objectAccessInvocationExpression->getArguments()->getArgumentListTypeSignature()->toDetailString()));
         auto classStaticMethod = classSource->getStaticMethods()->find(id);
         if (classStaticMethod) {
@@ -60,12 +63,14 @@ void ObjectAccessInvocationExpressionTypeSignatureStrategy::assign(std::shared_p
         auto arrayPrototypeTypeSignature = strategyMap->findArrayPrototypeTypeSignature(id, arraySource->getElementType()).value_or(std::make_shared<FunctionTypeSignature>());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
+        strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(objectAccessInvocationExpression->getInvocableTypeSignature()->getParameterTypes()), scope);
         return;
     } else if (sourceTypeSignature->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto id = objectAccessInvocationExpression->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto arrayPrototypeTypeSignature = strategyMap->findStringPrototypeTypeSignature(id).value_or(std::make_shared<FunctionTypeSignature>());
         objectAccessInvocationExpression->getObjectAccess()->setTypeSignature(arrayPrototypeTypeSignature);
         objectAccessInvocationExpression->setTypeSignature(arrayPrototypeTypeSignature->getReturnType());
+        strategyMap->assignTypeSignatureFor(objectAccessInvocationExpression->getArguments(), std::make_shared<TypeSignatureContext>(objectAccessInvocationExpression->getInvocableTypeSignature()->getParameterTypes()), scope);
         return;
     }
     objectAccessInvocationExpression->setTypeSignature(std::make_shared<InvalidTypeSignature>());

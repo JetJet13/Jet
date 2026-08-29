@@ -45,24 +45,7 @@ void UniqueScopedNamesTypeCheckerRule::enforce(std::shared_ptr<ASTClassDeclarati
             typeCheckerResult->addError(propertyNameConflictsWithStaticMethodMessage());
         }
     }
-    for (auto classMethod : *classDeclaration->getBlock()->getInstanceMethods()) {
-        auto name = classMethod->getClassMethodDefinition()->getMethodName()->getId();
-        if (classStaticPropertyNames.find(name) != classStaticPropertyNames.end()) {
-            auto methodNameConflictsWithStaticPropertyMessage = TypeCheckerErrorMessageTable::ClassMethodNameConflictsWithStaticPropertyName(classMethod);
-            typeCheckerResult->addError(methodNameConflictsWithStaticPropertyMessage());
-        }
-        if (classStaticMethodNames.find(name) != classStaticMethodNames.end()) {
-            auto methodNameConflictsWithStaticMethodMessage = TypeCheckerErrorMessageTable::ClassMethodNameConflictsWithStaticMethodName(classMethod);
-            typeCheckerResult->addError(methodNameConflictsWithStaticMethodMessage());
-        }
-    }
-    for (auto classStaticProperty : *classDeclaration->getBlock()->getStaticProperties()) {
-        auto name = classStaticProperty->getPropertyName()->getId();
-        if (classStaticMethodNames.find(name) != classStaticMethodNames.end()) {
-            auto staticPropertyNameConflictsWithStaticMethodMessage = TypeCheckerErrorMessageTable::ClassStaticPropertyNameConflictsWithStaticMethodName(classStaticProperty);
-            typeCheckerResult->addError(staticPropertyNameConflictsWithStaticMethodMessage());
-        }
-    }
+
 }
 
 void UniqueScopedNamesTypeCheckerRule::enforce(std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>>* classProperties, TypeCheckerResult* typeCheckerResult) {

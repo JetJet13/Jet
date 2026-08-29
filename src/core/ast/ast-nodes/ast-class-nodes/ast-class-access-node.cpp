@@ -21,6 +21,14 @@ std::shared_ptr<ASTThisAccessNode> ASTClassAccessNode::getThisAccess() {
     return _thisAccess;
 }
 
+void ASTClassAccessNode::setTypeSignature(std::shared_ptr<ClassTypeSignature> typeSignature) {
+    _typeSignature = typeSignature;
+}
+
+std::shared_ptr<ClassTypeSignature> ASTClassAccessNode::getClassTypeSignature() {
+    return _typeSignature;
+}
+
 std::shared_ptr<Position> ASTClassAccessNode::getStartPosition() {
     return _this->getStartPosition();
 }

@@ -20,7 +20,9 @@ private:
     TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>> _staticProperties;
     TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>> _instanceProperties;
     TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>> _staticMethods;
+    std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>>> _staticMethodLookupTable;
     TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>> _instanceMethods;
+    std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>>> _instanceMethodLookupTable;
     TypeSignatureMap<std::shared_ptr<TypeSignature>> _implements;
     TypeSignatureMap<std::shared_ptr<TypeSignature>> _interface;
     std::shared_ptr<ParameterListItemTypeSignature> _classScopeParameter;
@@ -32,6 +34,8 @@ public:
     TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>* getInstanceProperties();
     TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>* getStaticMethods();
     TypeSignatureMap<std::shared_ptr<ClassMethodTypeSignature>>* getInstanceMethods();
+    std::optional<std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>> findInstanceMethodsByName(std::string name);
+    std::optional<std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<InvocableTypeSignature>>>> findStaticMethodsByName(std::string name);
     TypeSignatureMap<std::shared_ptr<TypeSignature>>* getImplements();
     TypeSignatureMap<std::shared_ptr<TypeSignature>>* getInterface();
     std::shared_ptr<ClassTypeSignature> addConstructor(std::string key, std::shared_ptr<ClassConstructorTypeSignature> classConstructorTypeSignature);

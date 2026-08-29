@@ -17,12 +17,15 @@ private:
     llvm::Function* _irValue;
     std::shared_ptr<IRBlockNode> _irBlock;
     std::shared_ptr<IRFunctionParameterListNode> _irParameters;
+    std::shared_ptr<IRInstructionNode> _globalVariable;
 public:
-    IRClassMethodNode(std::shared_ptr<ASTClassMethodDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameters, std::shared_ptr<IRBlockNode> irBlock);
+    IRClassMethodNode(std::shared_ptr<ASTClassMethodDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameters, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> globalVariable);
     std::shared_ptr<ASTClassMethodDeclarationNode> getNode();
     llvm::Function* getFunction();
     std::shared_ptr<IRFunctionParameterListNode> getParameters();
+    std::shared_ptr<IRInstructionNode> getGlobalVariable();
     std::shared_ptr<IRBlockNode> getBlock();
+
 };
 
 #endif //JETLANG_IR_CLASS_METHOD_NODE_H

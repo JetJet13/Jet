@@ -4,7 +4,6 @@
 
 #include "ir-class-property-access-expression-node.h"
 #include "../../../shared/utils/logger/logger.h"
-#include "../../ir-type/ir-struct-ref-type.h"
 
 IRClassPropertyAccessExpressionNode::IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, std::shared_ptr<IRInstructionNode> irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;

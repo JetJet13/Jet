@@ -852,6 +852,14 @@ add_library(jet-vm
         ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-tuple-access-expression-injector-strategy/shared-ptr-ir-tuple-access-expression-injector-strategy.h
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-share-expression-injector-strategy/pointer-ir-share-expression-injector-strategy.cpp
         ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-share-expression-injector-strategy/pointer-ir-share-expression-injector-strategy.h
+        ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.h
+        ir-injector/ir-injector-strategies/ir-injector-helpers/class-method-access-ir-injector-helper/class-method-access-ir-injector-helper.cpp
+        ir-injector/ir-injector-strategies/ir-injector-helpers/class-method-access-ir-injector-helper/class-method-access-ir-injector-helper.h
+        ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.h
+        ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.cpp
+        ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.h
 )
 
 target_link_libraries(jet-vm

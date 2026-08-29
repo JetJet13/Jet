@@ -6,6 +6,7 @@
 #include "../ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 #include "../ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../ir-type/ir-invocable-type.h"
 
 void ClassIRInjectorStrategy::inject(std::shared_ptr<IRClassDeclarationNode> irClassDeclarationNode, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irClassDeclarationNode->getPreConstructor()) {
@@ -70,6 +71,24 @@ void ClassIRInjectorStrategy::injectMethod(std::shared_ptr<IRClassMethodNode> ir
     if (!irClassMethodNode->getNode()->getReturnType()) {
         irClassMethodNode->getBlock()->addVoidReturn();
     }
+
+    auto irType = std::dynamic_pointer_cast<IRInvocableType>(irClassMethodNode->getGlobalVariable()->getIRType()->getSourceType());
+    auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irClassMethodNode->getGlobalVariable()->getValue(), irType->getFunctionIndex());
+    InstructionIRInjectorHelper::injectStore(irClassMethodNode->getFunction(), functionPointer, irBlock, irType);
+    auto refCounterPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irClassMethodNode->getGlobalVariable()->getValue(), irType->getFunctionRefCounterIndex());
+    auto refCounterAlloc = irBlock->getBuilder()->get()->CreateCall(
+            irModule->getMallocFunction(),
+            {
+                irBlock->getBuilder()->get()->getInt64(1),
+                irBlock->getBuilder()->get()->getInt64(irType->getRefCounterSizeInBytes()),
+            }
+    );
+    auto refCounterValue = irBlock->getBuilder()->get()->getInt64(1);
+    InstructionIRInjectorHelper::injectStore(refCounterValue, refCounterAlloc, irBlock);
+    InstructionIRInjectorHelper::injectStore(refCounterAlloc, refCounterPointer, irBlock);
+
+    auto isPerpetualPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irClassMethodNode->getGlobalVariable()->getValue(), irType->getIsPerpetualIndex());
+    InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getTrue(), isPerpetualPointer, irBlock);
 
     FreeIRInjectorHelper::freeFunctionBlockNodes(irClassMethodNode->getBlock(), irInjector, irModule, irClassMethodNode->getBlock()->getScope());
     FreeIRInjectorHelper::freeFunctionParameters(irClassMethodNode->getBlock(), irClassMethodNode->getParameters(), irInjector, irModule, irClassMethodNode->getBlock()->getScope());
