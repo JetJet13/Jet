@@ -7,6 +7,10 @@ export func myThirdIntFunction(x: int): int {
     return -1;
 }
 
+export func myThirdIntFunction(): int {
+    return -100;
+}
+
 export let MyThirdGlobalInt = 303;
 
 export const MyThirdConstInt = 909;

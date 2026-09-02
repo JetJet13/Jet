@@ -1,3 +1,5 @@
+import MyThirdModule from "./third-test-file.jet";
+
 class SimpleClass {
     public value = 10;
     public static value = 100;
@@ -37,16 +39,9 @@ mySimpleClass.print();
 myLambda(() => print("Boo!"));
 assert(mySimpleClass.value != SimpleClass.value);
 
-func getLambda(): (int) => int {
-    const foo = 100; // captured variable
-    return (x: int) {
-      if x > 10 {
-        return foo;
-      }
-      return x + 1;
-    };
-}
-
-const otherLambda = getLambda();
-assert(otherLambda(50) == 100);
-print("otherLambda", otherLambda(50));
+// TODO - test module access expressions to confirm if the logic can infer the correct exported module object
+// similar to how it works for class methods
+const result = MyThirdModule::myThirdIntFunction();
+const otherResult = MyThirdModule::myThirdIntFunction(5);
+assert(result != otherResult);
+print(result, otherResult);

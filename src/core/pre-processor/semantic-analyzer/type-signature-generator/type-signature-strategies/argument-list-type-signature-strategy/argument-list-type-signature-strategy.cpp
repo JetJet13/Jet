@@ -7,6 +7,7 @@
 void ArgumentListTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionArgumentListNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto argumentTypes = std::vector<std::shared_ptr<TypeSignature>>();
     if (context->getTypeSignatures() && context->getTypeSignatures().value()->size() != node->numArguments()) {
+        argumentTypes.push_back(std::make_shared<UnknownTypeSignature>());
         node->setTypeSignature(std::make_shared<ArgumentListTypeSignature>(argumentTypes));
         return;
     }
