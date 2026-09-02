@@ -15,9 +15,6 @@ class SimpleClass {
         print("value", this.value);
     }
 
-// in order to support this, you need to
-// ensure unique method names in llvm by adding
-// a suffix like 'static'
     public static increment() {
         print("STATIC INCREMENT!");
     }
@@ -33,7 +30,7 @@ const myLambda = (x: () => void) {
 
 print(mySimpleClass.print);
 myLambda(mySimpleClass.increment);
-//myLambda(SimpleClass.increment);
+myLambda(SimpleClass.increment);
 SimpleClass.increment();
 mySimpleClass.print();
 myLambda(() => print("Boo!"));

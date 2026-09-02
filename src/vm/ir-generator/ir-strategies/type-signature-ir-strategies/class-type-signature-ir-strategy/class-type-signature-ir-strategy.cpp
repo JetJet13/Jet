@@ -65,7 +65,7 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType()->convertToVariableTypeSignature(), scope, irContext);
         auto methodParameters = irGenerator->generateParameterList(keyValue.second->getParameters(), scope, irContext);
         irClassType->addStaticMethod(
-                keyValue.first,
+                irClassType->addStaticSuffix(keyValue.first),
                 std::make_shared<IRFunctionType>(llvm::FunctionType::get(methodReturnType->getType(), methodParameters->getParameterTypes(), false))
         );
     }

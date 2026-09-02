@@ -16,13 +16,14 @@ std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std
     if (node->getSource()->getSource()->getTypeSignature()->typeSourceIs(CLASS_TYPE_SOURCE)) {
         auto classTypeSignature = std::dynamic_pointer_cast<ClassTypeSignature>(node->getSource()->getSource()->getTypeSignature());
         auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
+        auto irClassType = std::dynamic_pointer_cast<IRClassType>(irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature(), scope, irContext));
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
         auto classStaticProperty = scope->findGlobalVariable(classTypeSignature->addClassNameToKey(targetKey));
         if (classStaticProperty) {
             return std::make_shared<IRClassStaticPropertyAccessExpressionNode>(node, classStaticProperty.value(), irType);
         }
         auto invocableTypeSignature = std::dynamic_pointer_cast<InvocableTypeSignature>(node->getTypeSignature());
-        auto methodId = classTypeSignature->addClassNameToKey(FunctionIdGenerator::generateFor(targetKey, invocableTypeSignature));
+        auto methodId = irClassType->getIRStaticMethodName(FunctionIdGenerator::generateFor(targetKey, invocableTypeSignature));
         auto classStaticMethod = scope->findAcrossScopes(methodId);
         return std::make_shared<IRClassStaticMethodAccessExpressionNode>(node, classStaticMethod.value(), irType);
     }

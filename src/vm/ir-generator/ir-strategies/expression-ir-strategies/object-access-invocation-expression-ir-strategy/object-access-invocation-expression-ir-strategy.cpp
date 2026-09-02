@@ -94,9 +94,9 @@ std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::ge
     if (sourceType->isClassType()) {
         auto irClassType = std::dynamic_pointer_cast<IRClassType>(sourceType);
         auto methodId = FunctionIdGenerator::generateFor(node->getName(), node->getArguments()->getArgumentListTypeSignature()->toDetailString());
-        auto functionName = irClassType->getIRMethodName(methodId);
+        auto functionName = irClassType->getIRStaticMethodName(methodId);
         auto irFunctionType = irClassType->getIRTypeForStaticMethod(functionName).value();
-        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(irClassType->getIRMethodName(methodId)), irGenerator->generateIrPointerType(irFunctionType));
+        auto irFunction = IRInstructionNodeFactory::create(irContext->getModule()->getFunction(functionName), irGenerator->generateIrPointerType(irFunctionType));
         auto callInstruction = llvm::CallInst::Create(irFunctionType->getType(), irFunction->getValue(), argList);
         return std::make_shared<IRClassStaticMethodInvocationExpressionNode>(node, irFunction, callInstruction, irFunctionType, arguments, irReturnType);
     }

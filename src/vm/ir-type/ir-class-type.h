@@ -28,6 +28,8 @@ public:
     std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForStaticMethod(std::string propertyName);
     std::optional<std::shared_ptr<IRType>> getIRTypeForStaticProperty(std::string propertyName);
     std::string getIRMethodName(std::string methodName);
+    std::string getIRStaticMethodName(std::string methodName);
+    std::string addStaticSuffix(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
     llvm::Type* getValueType();
     std::shared_ptr<IRStructRefType> getClassProperties();
@@ -39,7 +41,6 @@ public:
     void addMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType);
     void addStaticMethod(std::string methodName, std::shared_ptr<IRFunctionType> irType);
     void addConstructor(std::string constructorName, std::shared_ptr<IRFunctionType> irType);
-    std::string stripClassNameFromKey(std::string key);
     llvm::Type* getType() override;
     bool isClassType() override;
     bool containsTypeThatRequiresFreeing() override;

@@ -68,6 +68,14 @@ std::string IRClassType::getIRMethodName(std::string methodName) {
     return this->getName() + "." + methodName;
 }
 
+std::string IRClassType::getIRStaticMethodName(std::string methodName) {
+    return this->addStaticSuffix(this->getIRMethodName(methodName));
+}
+
+std::string IRClassType::addStaticSuffix(std::string methodName) {
+    return methodName + ".static";
+}
+
 std::string IRClassType::getIRPropertyName(std::string propertyName) {
     return this->getName() + "." + propertyName;
 }
@@ -112,11 +120,6 @@ void IRClassType::addStaticMethod(std::string methodName, std::shared_ptr<IRFunc
 
 void IRClassType::addConstructor(std::string constructorName, std::shared_ptr<IRFunctionType> irType) {
     _classConstructors[constructorName] = irType;
-}
-
-std::string IRClassType::stripClassNameFromKey(std::string key) {
-    key.erase(0, this->getName().size() + 1);
-    return key;
 }
 
 llvm::Type* IRClassType::getType() {
