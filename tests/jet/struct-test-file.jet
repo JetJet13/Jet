@@ -1,5 +1,6 @@
 class SimpleClass {
     public value = 10;
+    public static value = 100;
 
     constructor() { }
 
@@ -34,3 +35,4 @@ myLambda(SimpleClass.increment);
 SimpleClass.increment();
 mySimpleClass.print();
 myLambda(() => print("Boo!"));
+assert(mySimpleClass.value != SimpleClass.value);

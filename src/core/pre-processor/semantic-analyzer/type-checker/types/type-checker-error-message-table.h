@@ -185,12 +185,6 @@ namespace TypeCheckerErrorMessageTable {
     static ErrorMessageLambda ClassPropertyNameConflictsWithMethodName(std::shared_ptr<ASTNode> node) {
         return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must not conflict with method names"); };
     }
-    static ErrorMessageLambda ClassPropertyNameConflictsWithStaticPropertyName(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must not conflict with static property names"); };
-    }
-    static ErrorMessageLambda ClassPropertyNameConflictsWithStaticMethodName(std::shared_ptr<ASTNode> node) {
-        return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "class property names must not conflict with static method names"); };
-    }
     static ErrorMessageLambda ClassMethodNamesAndTypeSignaturesNotUnique(std::shared_ptr<ASTNode> node) {
       return [node]() -> std::shared_ptr<TypeCheckError> { return TypeCheckerErrorMessageTable::generateMessage(node, "one or more class methods have the same name and type-signature"); };
     }

@@ -8,7 +8,6 @@
 #include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.h"
 #include "../../../../../core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
-#include "../../../../ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.h"
 
 
@@ -18,7 +17,7 @@ std::shared_ptr<IRExpressionNode> ObjectAccessExpressionIRStrategy::generate(std
         auto targetKey = node->getTarget()->getTarget()->getIdentifierNode()->getId();
         auto irClassType = std::dynamic_pointer_cast<IRClassType>(irGenerator->generateTypeFor(node->getSource()->getSource()->getTypeSignature(), scope, irContext));
         auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
-        auto classStaticProperty = scope->findGlobalVariable(classTypeSignature->addClassNameToKey(targetKey));
+        auto classStaticProperty = scope->findGlobalVariable(irClassType->getIRStaticPropertyName(targetKey));
         if (classStaticProperty) {
             return std::make_shared<IRClassStaticPropertyAccessExpressionNode>(node, classStaticProperty.value(), irType);
         }

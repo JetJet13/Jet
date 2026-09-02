@@ -219,7 +219,7 @@ std::shared_ptr<IRClassStaticPropertyNode> ClassDeclarationIRStrategy::generateS
     auto irType = irClassType->getIRTypeForStaticProperty(node->getId());
     return std::make_shared<IRClassStaticPropertyNode>(
             node,
-            irContext->getIRModule()->getModule()->get()->getNamedGlobal(node->getId()),
+            irContext->getIRModule()->getModule()->get()->getNamedGlobal(irClassType->addStaticSuffix(node->getId())),
             irGenerator->generateFor(node->getInitializer().value(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP)),
             irType.value()
     );
@@ -234,7 +234,7 @@ void ClassDeclarationIRStrategy::declareMethod(std::shared_ptr<ASTClassMethodDec
 }
 
 void ClassDeclarationIRStrategy::declareStaticMethod(std::shared_ptr<ASTClassMethodDeclarationNode> node, bool isExportable, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IRClassType> irClassType) {
-    auto id = FunctionIdGenerator::generateFor(node) + ".static";
+    auto id = irClassType->addStaticSuffix(FunctionIdGenerator::generateFor(node));
     auto methodTypeNode = irClassType->getIRTypeForStaticMethod(id).value();
     auto functionType = llvm::cast<llvm::FunctionType>(methodTypeNode->getType());
     auto linkage = isExportable ? llvm::GlobalValue::ExternalLinkage : llvm::GlobalValue::InternalLinkage;
@@ -258,7 +258,7 @@ void ClassDeclarationIRStrategy::declareStaticProperty(std::shared_ptr<ASTClassP
             ? llvm::GlobalValue::ExternalLinkage
             : llvm::GlobalValue::PrivateLinkage,
             irGenerator->generatePlaceholderValueForIRType(irType.value()),
-            node->getId()
+            irClassType->addStaticSuffix(node->getId())
     );
-    scope->insertGlobalVariable(node->getId(), IRInstructionNodeFactory::create(globalVariable));
+    scope->insertGlobalVariable(irClassType->addStaticSuffix(node->getId()), IRInstructionNodeFactory::create(globalVariable));
 }

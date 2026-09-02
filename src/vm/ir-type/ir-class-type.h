@@ -29,8 +29,9 @@ public:
     std::optional<std::shared_ptr<IRType>> getIRTypeForStaticProperty(std::string propertyName);
     std::string getIRMethodName(std::string methodName);
     std::string getIRStaticMethodName(std::string methodName);
-    std::string addStaticSuffix(std::string methodName);
+    std::string addStaticSuffix(std::string name);
     std::string getIRPropertyName(std::string propertyName);
+    std::string getIRStaticPropertyName(std::string propertyName);
     llvm::Type* getValueType();
     std::shared_ptr<IRStructRefType> getClassProperties();
     std::string getPreConstructorName();

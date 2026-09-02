@@ -72,14 +72,17 @@ std::string IRClassType::getIRStaticMethodName(std::string methodName) {
     return this->addStaticSuffix(this->getIRMethodName(methodName));
 }
 
-std::string IRClassType::addStaticSuffix(std::string methodName) {
-    return methodName + ".static";
+std::string IRClassType::addStaticSuffix(std::string name) {
+    return name + ".static";
 }
 
 std::string IRClassType::getIRPropertyName(std::string propertyName) {
     return this->getName() + "." + propertyName;
 }
 
+std::string IRClassType::getIRStaticPropertyName(std::string propertyName) {
+    return this->addStaticSuffix(this->getIRPropertyName(propertyName));
+}
 
 llvm::Type* IRClassType::getValueType() {
     return this->getType()->getStructElementType(0);
