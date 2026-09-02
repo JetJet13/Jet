@@ -20,6 +20,7 @@ import BigModule from "./big-module.jet";
 class SimpleClass {
     public static staticValue: int = 100;
     public static staticSharedValue: shared<int> = share 101;
+    public static value: int = 1111;
     public value: int;
 
     constructor(value: int) {
@@ -852,6 +853,19 @@ proc testLambdas() {
     assert(structWithLambda.foo() == 901);
 }
 testLambdas();
+
+func getSomeLambda(): (int) => int {
+    const foo = 100; // captured variable
+    return (x: int) {
+      if x > 10 {
+        return foo;
+      }
+      return x + 1;
+    };
+}
+
+const someLambda = getSomeLambda();
+assert(someLambda(50) == 100);
 
 proc testLambdaLambdaReturn() {
     const lambdaLambdaIntArrow = () => (x: int) => 10 + x;
@@ -1828,6 +1842,7 @@ proc testClass() {
 
     SimpleClass.staticValue = 150;
     assert(SimpleClass.staticValue == 150);
+    assert(SimpleClass.value != mySimpleClass.value);
 
     const myComplexClass = new ComplexClass(18);
     assert(myComplexClass.getAge() == 18);

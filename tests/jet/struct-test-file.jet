@@ -36,3 +36,17 @@ SimpleClass.increment();
 mySimpleClass.print();
 myLambda(() => print("Boo!"));
 assert(mySimpleClass.value != SimpleClass.value);
+
+func getLambda(): (int) => int {
+    const foo = 100; // captured variable
+    return (x: int) {
+      if x > 10 {
+        return foo;
+      }
+      return x + 1;
+    };
+}
+
+const otherLambda = getLambda();
+assert(otherLambda(50) == 100);
+print("otherLambda", otherLambda(50));

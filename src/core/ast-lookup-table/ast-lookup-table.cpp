@@ -46,7 +46,15 @@ void ASTLookupTable::bindLambda(std::shared_ptr<ASTLambdaExpressionNode> lambdaE
 }
 
 bool ASTLookupTable::isLambdaScope() {
-    return _lambda.has_value() || _lambdaFatArrow.has_value();
+    if (_lambda.has_value() || _lambdaFatArrow.has_value()) {
+        return true;
+    }
+
+    if (_outerScope) {
+        return _outerScope.value()->isLambdaScope();
+    }
+
+    return false;
 }
 
 void ASTLookupTable::bindLambdaFatArrow(std::shared_ptr<ASTLambdaWithFatArrowExpressionNode> lambdaWithFatArrowExpressionNode) {
