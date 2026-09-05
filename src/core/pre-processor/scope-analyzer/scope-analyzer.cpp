@@ -50,17 +50,17 @@ void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, std::shared_ptr
                 auto capturedVariable = std::dynamic_pointer_cast<ASTVariableDeclarationNode>(outsideNode.value());
                 capturedVariable->markAsCaptured();
                 currentScope->capture(capturedVariable);
-                Logger::log("CAPTURED VARIABLE!", capturedVariable->getId());
+                Logger::debugLog(_debugMode, "CAPTURED VARIABLE!", capturedVariable->getId());
             } else if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_FUNCTION_PARAMETER_NODE)) {
                 auto capturedParameter = std::dynamic_pointer_cast<ASTFunctionParameterNode>(outsideNode.value());
                 capturedParameter->markAsCaptured();
                 currentScope->capture(capturedParameter);
-                Logger::log("CAPTURED PARAMETER!", capturedParameter->getIdentifier()->getId());
+                Logger::debugLog(_debugMode, "CAPTURED PARAMETER!", capturedParameter->getIdentifier()->getId());
             } else if (!insideNode && outsideNode.has_value() && outsideNode.value()->is(AST_FOR_IN_VARIABLE_NODE)) {
                 auto capturedForInVariable = std::dynamic_pointer_cast<ASTForInVariableNode>(outsideNode.value());
                 capturedForInVariable->markAsCaptured();
                 currentScope->capture(capturedForInVariable);
-                Logger::log("CAPTURED FOR IN VARIABLE!", capturedForInVariable->getVariable()->getId());
+                Logger::debugLog(_debugMode, "CAPTURED FOR IN VARIABLE!", capturedForInVariable->getVariable()->getId());
             }
         } else if (node->isOneOf({ AST_BLOCK_END_NODE, AST_TERMINATOR_NODE })) {
             scopeStack.pop();
@@ -78,6 +78,10 @@ void ScopeAnalyzer::traverse(std::shared_ptr<ASTNode> startNode, std::shared_ptr
         }
         nextNode = astTraverser.next();
     }
+}
+
+void ScopeAnalyzer::switchToDebugMode() {
+    _debugMode = true;
 }
 
 void ScopeAnalyzer::process(std::shared_ptr<ASTFileNode> fileNode) {

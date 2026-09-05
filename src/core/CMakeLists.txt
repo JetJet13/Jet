@@ -1087,8 +1087,6 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.h
-        post-processor/post-processor.cpp
-        post-processor/post-processor.h
         ast-lookup-table/ast-lookup-table.cpp
         ast-lookup-table/ast-lookup-table.h
         ast/ast-nodes/ast-concat-node.cpp

@@ -20,6 +20,7 @@ private:
     std::shared_ptr<TokenTable> _tokenTable;
     int _tokenValueIdCursor;
     bool _hasMore;
+    bool _debugMode;
     std::optional<std::shared_ptr<Token>> _prevToken;
     std::optional<std::shared_ptr<Token>> buildNextToken();
     std::optional<std::shared_ptr<Token>> peekNextToken();
@@ -30,6 +31,7 @@ private:
     void resetAfterPeek(Cursor cursor, int numAdvances);
 public:
     LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<ReservedKeywords> reservedKeywords);
+    void switchToDebugMode();
     void start(std::string &filePath);
     void stop();
     std::optional<std::shared_ptr<Lexeme>> next();

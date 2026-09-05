@@ -39,8 +39,7 @@ mySimpleClass.print();
 myLambda(() => print("Boo!"));
 assert(mySimpleClass.value != SimpleClass.value);
 
-// TODO - test module access expressions to confirm if the logic can infer the correct exported module object
-// similar to how it works for class methods
+
 const result = MyThirdModule::myThirdIntFunction();
 const otherResult = MyThirdModule::myThirdIntFunction(5);
 assert(result != otherResult);

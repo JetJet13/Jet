@@ -15,5 +15,11 @@ namespace Logger {
         ((std::cout << args << WHITE_SPACE), ...);
         std::cout << std::endl;
     }
-};
+    template <typename... Types>
+    void debugLog(bool debug, Types... args) {
+        if (!debug) return;
+        ((std::cout << args << WHITE_SPACE), ...);
+        std::cout << std::endl;
+    }
+}
 #endif //JETLANG_LOGGER_H

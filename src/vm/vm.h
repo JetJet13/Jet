@@ -12,6 +12,7 @@
 
 class VM {
 private:
+    bool _debugMode;
     std::shared_ptr<IRGenerator> _irGenerator;
     std::shared_ptr<IRInjector> _irInjector;
     std::unordered_map<std::string, std::shared_ptr<IRJetFile>> _jetFileMap;
@@ -19,6 +20,7 @@ private:
     void addCompiledJetFile(std::shared_ptr<IRJetFile> irJetFile);
 public:
     VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector);
+    void switchToDebugMode();
     std::shared_ptr<IRFunctionNode> compile(std::shared_ptr<IRJetFile> irJetFile, std::shared_ptr<IRModuleNode> irModule);
     std::shared_ptr<IRJetFile> compileMain(std::shared_ptr<JetFile> jetFile);
     void linkJetFiles(std::shared_ptr<IRJetFile> jetFileToLink, std::shared_ptr<IRJetFile> destination);

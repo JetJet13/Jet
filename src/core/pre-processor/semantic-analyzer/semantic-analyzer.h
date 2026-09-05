@@ -15,6 +15,7 @@
 
 class SemanticAnalyzer {
 private:
+    bool _debugMode;
     TypeSignatureGenerator _typeSignatureGenerator;
     void generateInitialTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
     void generateDeclarationTypeSignaturesFor(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
@@ -22,6 +23,7 @@ private:
     void runTypeChecker(std::shared_ptr<ASTFileNode> fileNode, TypeCheckerResult* typeCheckerResults, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 public:
     SemanticAnalyzer();
+    void switchToDebugMode();
     TypeCheckerResult analyze(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope);
 };
 

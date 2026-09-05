@@ -21,7 +21,9 @@ private:
     bool _handleNewLine;
     bool _isOpen;
     unsigned long _numAdvances;
+    bool _debugMode = false;
 public:
+    void switchToDebugMode();
     void open(std::string &filePath);
     void close();
     std::optional<char> peek();

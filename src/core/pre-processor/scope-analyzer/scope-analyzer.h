@@ -14,8 +14,10 @@
 
 class ScopeAnalyzer {
 private:
+    bool _debugMode = false;
     void traverse(std::shared_ptr<ASTNode> startNode, std::shared_ptr<ASTLookupTable> startScope);
 public:
+    void switchToDebugMode();
     void process(std::shared_ptr<ASTFileNode> fileNode);
 };
 

@@ -2009,6 +2009,7 @@ proc testModules() {
     assert(MyOtherModule::myOtherGlobalLambda(109) == 109);
     assert(MyOtherModule::myOtherGlobalLambda(2) == -1);
     assert(MyFourthModule::myFourthIntFunction(MyFourthModule::MyFourthGlobalInt) == 7799);
+    assert(MyThirdModule::myThirdIntFunction() != MyThirdModule::myThirdIntFunction(5));
 }
 testModules();
 

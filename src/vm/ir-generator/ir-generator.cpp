@@ -88,7 +88,6 @@
 #include "ir-util-functions/copy-string-ir-function/copy-string-ir-function.h"
 #include "ir-util-functions/print-ir-function/print-ir-function.h"
 #include "ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
-#include "../../shared/utils/logger/logger.h"
 #include "ir-util-functions/malloc-ir-function/malloc-ir-function.h"
 #include "ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.h"
 #include "ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.h"
@@ -477,8 +476,6 @@ std::shared_ptr<IRType> IRGenerator::generateTypeFor(std::shared_ptr<TypeSignatu
         case LITERAL_TYPE_SOURCE:
             return _irStrategyMap.getLiteralTypeSignatureIRStrategy()->generate(std::dynamic_pointer_cast<LiteralTypeSignature>(typeSignature), shared_from_this(), scope, irContext);
         default:
-            Logger::log("UH OH");
-            typeSignature->print();
             throw std::logic_error("unable to generate llvm type for type-signature " + typeSignature->toString());
     }
 }

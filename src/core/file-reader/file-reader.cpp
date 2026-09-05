@@ -10,6 +10,10 @@
 #include "../../shared/utils/logger/logger.h"
 #include "../../shared/types/exit-status.enum.h"
 
+void FileReader::switchToDebugMode() {
+    _debugMode = true;
+}
+
 void FileReader::open(std::string &filePath) {
     _filePath = filePath;
     _fileStream = FileIO::readFile(filePath);
@@ -25,7 +29,7 @@ void FileReader::open(std::string &filePath) {
 void FileReader::close() {
     _fileStream.close();
     _isOpen = false;
-    Logger::log("file closed", _filePath);
+    Logger::debugLog(_debugMode, "file closed", _filePath);
 }
 
 std::optional<char> FileReader::peek() {
@@ -35,14 +39,14 @@ std::optional<char> FileReader::peek() {
 
     auto peekCharacter = _fileStream.peek();
     if (_fileStream.fail()) {
-        Logger::log("fileStream failed", _fileStream.failbit, _fileStream.bad(), _fileStream.badbit);
+        Logger::debugLog(_debugMode, "fileStream failed", _fileStream.failbit, _fileStream.bad(), _fileStream.badbit);
         _fileStream.clear();
         _fileStream.seekg(_numAdvances);
         peekCharacter = _fileStream.peek();
     }
     if (!_isOpen || peekCharacter == EOF) {
         if (peekCharacter == EOF) {
-            Logger::log("peekCharacter is EOF");
+            Logger::debugLog(_debugMode, "peekCharacter is EOF");
         }
         return {};
     }
@@ -57,7 +61,7 @@ std::optional<char> FileReader::advance() {
     auto nextCharacter = _fileStream.get();
     _numAdvances++;
     if (nextCharacter == EOF) {
-        Logger::log("nextCharacter is EOF!");
+        Logger::debugLog(_debugMode, "nextCharacter is EOF!");
         return {};
     }
     if (nextCharacter == NEW_LINE) {

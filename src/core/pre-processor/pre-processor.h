@@ -18,12 +18,14 @@ private:
     PreProcessorMap _processedFileMap;
     TypeCheckerResult _typeCheckerResult;
     ScopeAnalyzer _scopeAnalyzer;
+    bool _debugMode;
     std::shared_ptr<SyntaxAnalyzer> _syntaxAnalyzer;
     std::shared_ptr<SemanticAnalyzer> _semanticAnalyzer;
     std::shared_ptr<ASTFileNode> buildFile(std::string filePath, std::shared_ptr<FileScope> fileScope);
     std::set<std::shared_ptr<JetFile>> resolveModuleImports(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> scope);
 public:
     PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::shared_ptr<SemanticAnalyzer> semanticAnalyzer);
+    void switchToDebugMode();
     TypeCheckerResult* getTypeCheckerResult();
     std::shared_ptr<JetFile> process(std::string filePath);
 };

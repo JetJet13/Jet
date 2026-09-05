@@ -53,6 +53,5 @@ void FunctionInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<A
             return;
         }
     }
-    Logger::log("UH OH!!", functionInvocationExpression->getFunction()->getId());
     functionInvocationExpression->setTypeSignature(std::make_shared<FunctionInvocationTypeSignature>());
 }

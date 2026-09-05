@@ -13,8 +13,14 @@ LexicalAnalyzer::LexicalAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::sh
     _charTable = CharTable();
     _tokenTable = tokenTable;
     _hasMore = false;
+    _debugMode = false;
     _tokenValueIdCursor = INT_MIN;
     _prevToken = std::optional<std::shared_ptr<Token>>();
+}
+
+void LexicalAnalyzer::switchToDebugMode() {
+    _debugMode = true;
+    _fileReader.switchToDebugMode();
 }
 
 void LexicalAnalyzer::start(std::string &filePath) {
@@ -486,7 +492,7 @@ void LexicalAnalyzer::skipComments() {
 
 void LexicalAnalyzer::stopIfNecessary() {
     if (!_fileReader.peek()) {
-        Logger::log("peek return NOTHING...stopping");
+        Logger::debugLog(_debugMode, "peek return NOTHING...stopping");
         stop();
     }
 }

@@ -50,6 +50,7 @@ private:
     std::stack<std::stack<std::shared_ptr<ASTNode>>> _recognizeStack;
     std::vector<std::string> _syntaxErrorList;
     bool _shiftDisabled;
+    bool _debugMode;
     std::shared_ptr<RecognizerResult> recognizeHandle();
     void shift();
     void reduceHandle(std::shared_ptr<RecognizerResult> recognizerResult, std::shared_ptr<FileScope> fileScope);
@@ -59,6 +60,7 @@ private:
     void handleSyntaxErrors();
 public:
     SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shared_ptr<LexicalAnalyzer> lexicalAnalyzer);
+    void switchToDebugMode();
     std::shared_ptr<SyntaxAnalyzerResult> analyze(std::string &filePath);
 };
 

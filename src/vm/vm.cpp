@@ -10,9 +10,15 @@
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"
 
 VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irInjector) {
+    _debugMode = false;
     _irGenerator = irGenerator;
     _irInjector = irInjector;
     _jetFileMap = std::unordered_map<std::string, std::shared_ptr<IRJetFile>>();
+}
+
+void VM::switchToDebugMode() {
+    _debugMode = true;
+    _irInjector->switchToDebugMode();
 }
 
 std::optional<std::shared_ptr<IRJetFile>> VM::findCompiledJetFile(std::string id) {
@@ -57,7 +63,9 @@ std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     auto dependencyGraph = DependencyGraph();
     dependencyGraph.insert(jetFile);
     dependencyGraph.prioritize();
-    dependencyGraph.dump();
+    if (_debugMode) {
+        dependencyGraph.dump();
+    }
     auto irCoreModule = _irGenerator->generateCoreModule();
     _irGenerator->augmentUtilInternalModule(irCoreModule);
     _irGenerator->augmentDebugInternalModule(irCoreModule);
@@ -68,7 +76,7 @@ std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     auto irMainFunctionBlock = _irGenerator->generateFunctionBlock(irMainFunction->getFunction());
     auto prioritizedList = dependencyGraph.getPrioritizedList();
     for (auto jetFileToCompile : *prioritizedList) {
-        Logger::log("Compiling", jetFileToCompile->getId());
+        Logger::debugLog(_debugMode, "Compiling", jetFileToCompile->getId());
         auto jetFileScope = std::make_shared<IRLookupTable>(jetFileToCompile->getFile()->getModuleName());
         auto jetFileIRModule = _irGenerator->generateModule(jetFileToCompile->getId());
         auto irJetFileToCompile = std::make_shared<IRJetFile>(jetFileToCompile, jetFileIRModule, jetFileScope);
@@ -100,7 +108,7 @@ std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
 }
 
 void VM::linkJetFiles(std::shared_ptr<IRJetFile> jetFileToLink, std::shared_ptr<IRJetFile> destination) {
-    Logger::log("Linking JetFiles", jetFileToLink->getFile()->getId(), "to", destination->getFile()->getId());
+    Logger::debugLog(_debugMode, "Linking JetFiles", jetFileToLink->getFile()->getId(), "to", destination->getFile()->getId());
     destination->getScope()->link(jetFileToLink->getScope());
     for (auto exportedDeclaration : *jetFileToLink->getFile()->getFile()->getModule().value()->getExports()) {
         if (exportedDeclaration->getTypeSignature()->isOneOf({ FUNCTION_TYPE_SOURCE, PROCEDURE_TYPE_SOURCE })) {

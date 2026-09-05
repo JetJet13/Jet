@@ -18,7 +18,6 @@ std::shared_ptr<RecognizerResult> Recognizer::recognize(Handle* handle) {
     auto startNode = _syntaxDfa.findStartNode(handle->first());
 
     if (handle->isEmpty() && this->isEndNode(handle->getLastReducedNode(), handle->getPeekNode())) {
-        Logger::log("found end node...popping");
         return std::make_shared<RecognizerResult>(RECOGNIZER_ACTION_POP);
     } else if (handle->isArrayEnclosed()) {
         return std::make_shared<RecognizerResult>(RECOGNIZER_ACTION_REDUCE, handle->size(), AST_ARRAY_NODE);

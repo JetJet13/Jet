@@ -46,6 +46,7 @@
 #include "../../shared/utils/logger/logger.h"
 
 IRInjector::IRInjector() {
+    _debugMode = false;
     _injectorMap = std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>>();
     _stringIRInjector = std::make_shared<StringIRInjectorStrategy>();
     _literalIRInjector = std::make_shared<LiteralIRInjectorStrategy>();
@@ -85,6 +86,10 @@ IRInjector::IRInjector() {
     _blockIRInjectorStrategy = std::make_shared<BlockIRInjectorStrategy>();
     _classIRInjectorStrategy = std::make_shared<ClassIRInjectorStrategy>();
     this->init();
+}
+
+void IRInjector::switchToDebugMode() {
+    _debugMode = true;
 }
 
 void IRInjector::init() {
@@ -190,19 +195,16 @@ llvm::Value* IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::share
 llvm::Value* IRInjector::inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     auto injector = _injectorMap.find(irExpression->getInjectorTypeSource());
     if (injector == _injectorMap.end()) {
-        irExpression->getTypeSignature()->print();
-        Logger::log(irExpression->toString());
+        if (_debugMode) {
+            irExpression->getTypeSignature()->print();
+            Logger::log(irExpression->toString());
+        }
         throw std::invalid_argument("unable to find injector for expression with type signature: " + std::to_string(irExpression->getInjectorTypeSource()));
     }
     if (irExpression->needsToBeFreed()) {
-        Logger::log("found ir-expression that needs to be freed!", irExpression->toString(), irExpression->isAssigned());
         irBlock->addExpressionToFree(irExpression);
     }
     return injector->second.get()->inject(irExpression, irBlock, shared_from_this(), irOperation, irModule, scope);
-}
-
-void IRInjector::injectVoidReturnType(std::shared_ptr<IRBlockNode> irBlock) {
-    irBlock->getBuilder()->get()->CreateRet(irBlock->getBuilder()->get()->getInt64(0));
 }
 
 llvm::Value* IRInjector::injectStringGlobalVariable(std::shared_ptr<IRBlockNode> irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule) {

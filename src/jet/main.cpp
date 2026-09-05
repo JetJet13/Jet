@@ -1,7 +1,6 @@
 //
-// Created by Johny Georges on 2023-12-19.
+// Created by Johny Georges on 2026-09-05.
 //
-
 
 #include "main.h"
 #include "../core/lexeme/lexeme.h"
@@ -13,7 +12,6 @@
 #include "../vm/ir-generator/ir-generator.h"
 #include "../core/pre-processor/pre-processor.h"
 #include "../vm/vm.h"
-#include "../core/post-processor/post-processor.h"
 
 // we need to add support for
 // macOS x64
@@ -23,12 +21,8 @@
 // Windows x64
 // Windows arm64
 int main (int argc, const char* argv[]) {
-    if (argc == 1) {
-        Logger::log("no file provided...starting REPL");
-        Logger::log("nevermind...REPL is not ready...exiting.");
-    } else if (argc == 2) {
+    if (argc == 2) {
         std::string filePath = argv[1];
-        Logger::log("executing file:", filePath);
         auto tokenTable = std::make_shared<TokenTable>();
         auto reservedKeywords = std::make_shared<ReservedKeywords>();
         auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
@@ -40,8 +34,7 @@ int main (int argc, const char* argv[]) {
             preProcessor.getTypeCheckerResult()->printErrors();
             exit(EXIT_STATUS_GENERIC_ERROR);
         }
-        auto postProcessor = PostProcessor();
-        postProcessor.process(jetFile);
+
         auto irInjector = std::make_shared<IRInjector>();
         auto irGenerator = std::make_shared<IRGenerator>(irInjector);
 
@@ -51,8 +44,6 @@ int main (int argc, const char* argv[]) {
 
         auto irJetFile = vm->compileMain(jetFile);
 
-        Logger::log("IR Generation & Injection is done.");
-        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
         // Initialize the target registry etc.
         llvm::InitializeAllTargetInfos();
         llvm::InitializeAllTargets();
@@ -79,7 +70,8 @@ int main (int argc, const char* argv[]) {
                 Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
         irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
 
-        auto Filename = "main-jet-test-file-output.o";
+
+        auto Filename = std::filesystem::path(filePath).filename().string();
         std::error_code EC;
         llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
 
@@ -93,17 +85,14 @@ int main (int argc, const char* argv[]) {
 
         if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
             Logger::log("TheTargetMachine can't emit a file of this type");
-            return 1;
+            return EXIT_STATUS_GENERIC_ERROR;
         }
 
         pass.run(*irJetFile->getIRModule()->getModule()->get());
         dest.flush();
-        Logger::log("Target Triple", TargetTriple);
-        Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
-        Logger::log("Wrote ", Filename, "\n");
 
     } else {
-        Logger::log("too many arguments..exiting");
+        Logger::log("no jet file path provided..exiting");
     }
 
     return EXIT_STATUS_OK;

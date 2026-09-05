@@ -58,6 +58,7 @@ class ClassIRInjectorStrategy;
 
 class IRInjector : public std::enable_shared_from_this<IRInjector> {
 private:
+    bool _debugMode;
     std::unordered_map<TypeSource, std::shared_ptr<IRInjectorStrategy>, std::hash<int>> _injectorMap;
     std::shared_ptr<StringIRInjectorStrategy> _stringIRInjector;
     std::shared_ptr<LiteralIRInjectorStrategy> _literalIRInjector;
@@ -102,13 +103,13 @@ private:
     std::pair<TypeSource, std::shared_ptr<IRInjectorStrategy>> insert(TypeSource typeSignature, std::shared_ptr<IRInjectorStrategy> injector);
 public:
     IRInjector();
+    void switchToDebugMode();
     void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRNode> irNode, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRDeclarationNode> irDeclaration, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRStatementNode> irStatement, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
     void inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRBlockNode> irNode, std::shared_ptr<IRModuleNode> irModule);
     llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRType> irType, std::shared_ptr<IRModuleNode> irModule);
     llvm::Value* inject(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRExpressionNode> irExpression, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope);
-    void injectVoidReturnType(std::shared_ptr<IRBlockNode> irBlock);
     llvm::Value* injectStringGlobalVariable(std::shared_ptr<IRBlockNode> irBlock, std::string id, std::string rawString, std::shared_ptr<IRModuleNode> irModule);
     llvm::AllocaInst* injectRawString(std::shared_ptr<IRBlockNode> irBlock, std::string rawString);
 };

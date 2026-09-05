@@ -20,7 +20,13 @@ SyntaxAnalyzer::SyntaxAnalyzer(std::shared_ptr<TokenTable> tokenTable, std::shar
     _recognizeStack = std::stack<std::stack<std::shared_ptr<ASTNode>>>();
     _lexicalAnalyzer = lexicalAnalyzer;
     _shiftDisabled = false;
+    _debugMode = false;
     _syntaxErrorList = std::vector<std::string>();
+}
+
+void SyntaxAnalyzer::switchToDebugMode() {
+    _debugMode = true;
+    _lexicalAnalyzer->switchToDebugMode();
 }
 
 std::shared_ptr<SyntaxAnalyzerResult> SyntaxAnalyzer::analyze(std::string &filePath) {
@@ -59,14 +65,16 @@ std::shared_ptr<SyntaxAnalyzerResult> SyntaxAnalyzer::analyze(std::string &fileP
 }
 
 std::shared_ptr<RecognizerResult> SyntaxAnalyzer::recognizeHandle() {
-    Logger::log("recognize");
+    Logger::debugLog(_debugMode, "recognize");
     this->prepHandleForRecognizer();
-    _handle.print();
+    if (_debugMode) {
+        _handle.print();
+    }
     return _recognizer.recognize(&_handle);
 }
 
 void SyntaxAnalyzer::shift() {
-    Logger::log("shift");
+    Logger::debugLog(_debugMode, "shift");
     auto nextLexeme = _lexicalAnalyzer->next();
     if (nextLexeme) {
         auto nextNode = _lexemeTransformer.transform(nextLexeme.value());
@@ -79,13 +87,13 @@ void SyntaxAnalyzer::shift() {
 }
 
 void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerResult, std::shared_ptr<FileScope> fileScope) {
-    Logger::log("reduce");
-    Logger::log("handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
+    Logger::debugLog(_debugMode, "reduce");
+    Logger::debugLog(_debugMode, "handle size", _handle.size(), "| num nodes to reduce:", recognizerResult->getNumReducedNodes(), " | target ast node type: ", recognizerResult->getTargetAstNodeType());
     auto reducedNode = _reducer.reduce(_handle, recognizerResult);
     reducedNode->setFilePath(fileScope->getFilePath());
     _astNodeIdAssignor->assignIdIfNecessary(reducedNode);
     if (reducedNode->is(AST_BLOCK_START_NODE)) {
-        Logger::log("pushing new Scope to scope stack and creating new recognize stack");
+        Logger::debugLog(_debugMode, "pushing new Scope to scope stack and creating new recognize stack");
         _scopeStack.push(Scope(std::dynamic_pointer_cast<ASTBlockStartNode>(reducedNode)));
         _recognizeStack.push(std::stack<std::shared_ptr<ASTNode>>());
     } else if (reducedNode->is(AST_BLOCK_END_NODE)) {
@@ -100,15 +108,15 @@ void SyntaxAnalyzer::reduceHandle(std::shared_ptr<RecognizerResult> recognizerRe
         fileScope->setModule(std::dynamic_pointer_cast<ASTModuleDeclarationNode>(reducedNode));
     } else if (ASTNodeUtils::isStatementOrReturnExpressionNode(reducedNode)) {
         if (_scopeStack.empty()) {
-            Logger::log("pushing node to file scope:", reducedNode->toString());
+            Logger::debugLog(_debugMode, "pushing node to file scope:", reducedNode->toString());
             fileScope->addToScope(reducedNode);
             reducedNode->markAsGlobal();
         } else {
-            Logger::log("pushing node to latest scope node:", reducedNode->toString());
+            Logger::debugLog(_debugMode, "pushing node to latest scope node:", reducedNode->toString());
             _scopeStack.top().add(reducedNode);
         }
     } else {
-        Logger::log("pushing node to recognize stack:", reducedNode->toString());
+        Logger::debugLog(_debugMode, "pushing node to recognize stack:", reducedNode->toString());
         _recognizeStack.top().push(reducedNode);
     }
 
@@ -122,14 +130,14 @@ void SyntaxAnalyzer::popFromStack() {
     if (_recognizeStack.top().empty()) {
         throw std::logic_error("stack is empty. Nothing to pop.");
     }
-    Logger::log("popping from recognize stack...");
+    Logger::debugLog(_debugMode, "popping from recognize stack...");
     _handle.prepend(_recognizeStack.top().top());
     _recognizeStack.top().pop();
 }
 
 void SyntaxAnalyzer::prepHandleForRecognizer() {
     if (_modeStack.empty()) {
-        Logger::log("mode stack is empty!");
+        Logger::debugLog(_debugMode, "mode stack is empty!");
         return;
     }
 
@@ -158,7 +166,7 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
     }
 
     if (_handle.isGroupEnclosed()) {
-        Logger::log("group enclosed..removing brackets and popping group mode");
+        Logger::debugLog(_debugMode, "group enclosed..removing brackets and popping group mode");
         _handle.removeFirstNode();
         _handle.removeLastNode();
         if (_handle.first()) {
@@ -171,74 +179,74 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
 void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
     switch (astNodeType) {
         case AST_BLOCK_START_NODE:
-            Logger::log("pushing mode: BLOCK_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: BLOCK_MODE");
             _modeStack.push(SA_BLOCK_MODE);
             break;
         case AST_GROUP_START_NODE:
-            Logger::log("pushing mode: GROUP_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: GROUP_MODE");
             _modeStack.push(SA_GROUP_MODE);
             break;
         case AST_STRUCT_START_NODE:
-            Logger::log("pushing mode: STRUCT_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: STRUCT_MODE");
             _modeStack.push(SA_STRUCT_MODE);
             break;
         case AST_STRUCT_TYPE_START_NODE:
-            Logger::log("pushing mode: STRUCT_TYPE_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: STRUCT_TYPE_MODE");
             _modeStack.push(SA_STRUCT_TYPE_MODE);
             break;
         case AST_TUPLE_TYPE_START_NODE:
-            Logger::log("pushing mode: TUPLE_TYPE_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: TUPLE_TYPE_MODE");
             _modeStack.push(SA_TUPLE_TYPE_MODE);
             break;
         case AST_LAMBDA_TYPE_PARAMETER_LIST_START_NODE:
-            Logger::log("pushing mode: LAMBDA_TYPE_PARAMETER_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: LAMBDA_TYPE_PARAMETER_LIST_MODE");
             _modeStack.push(SA_LAMBDA_TYPE_PARAMETER_LIST_MODE);
             break;
         case AST_FUNCTION_PARAMETER_LIST_START_NODE:
-            Logger::log("pushing mode: FUNCTION_PARAMETER_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: FUNCTION_PARAMETER_LIST_MODE");
             _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
             break;
         case AST_TYPE_PARAMETER_LIST_START_NODE:
-            Logger::log("pushing mode: TYPE_PARAMETER_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: TYPE_PARAMETER_LIST_MODE");
             _modeStack.push(SA_TYPE_PARAMETER_LIST_MODE);
             break;
         case AST_FUNCTION_ARGUMENT_LIST_START_NODE:
-            Logger::log("pushing mode: FUNCTION_ARGUMENT_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: FUNCTION_ARGUMENT_LIST_MODE");
             _modeStack.push(SA_FUNCTION_ARGUMENT_LIST_MODE);
             break;
         case AST_ENUM_KEY_VALUE_LIST_START_NODE:
-            Logger::log("pushing mode: ENUM_KEY_VALUE_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: ENUM_KEY_VALUE_LIST_MODE");
             _modeStack.push(SA_ENUM_KEY_VALUE_LIST_MODE);
             break;
         case AST_INTERFACE_START_NODE:
-            Logger::log("pushing mode: INTERFACE_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: INTERFACE_MODE");
             _modeStack.push(SA_INTERFACE_MODE);
             break;
         case AST_MODULE_LIST_START_NODE:
-            Logger::log("pushing mode: MODULE_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: MODULE_LIST_MODE");
             _modeStack.push(SA_MODULE_LIST_MODE);
             break;
         case AST_IMPORT_MODULE_LIST_START_NODE:
-            Logger::log("pushing mode: IMPORT_MODULE_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: IMPORT_MODULE_LIST_MODE");
             _modeStack.push(SA_IMPORT_MODULE_LIST_MODE);
             break;
         case AST_TUPLE_LIST_START_NODE:
-            Logger::log("pushing mode: TUPLE_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: TUPLE_LIST_MODE");
             _modeStack.push(SA_TUPLE_LIST_MODE);
             break;
         case AST_LEFT_BRACKET_NODE:
-            Logger::log("pushing mode: ARRAY_LIST_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: ARRAY_LIST_MODE");
             _modeStack.push(SA_ARRAY_LIST_MODE);
             break;
         case AST_IMPLEMENTS_NODE:
-            Logger::log("pushing mode: IMPLEMENTS INTERFACE MODE");
+            Logger::debugLog(_debugMode, "pushing mode: IMPLEMENTS INTERFACE MODE");
             _modeStack.push(SA_IMPLEMENTS_INTERFACE_MODE);
             break;
         case AST_IF_NODE:
         case AST_ELSE_IF_NODE:
         case AST_WHILE_NODE:
         case AST_FOR_IN_NODE:
-            Logger::log("pushing mode: CONTROL_FLOW_MODE");
+            Logger::debugLog(_debugMode, "pushing mode: CONTROL_FLOW_MODE");
             _modeStack.push(SA_CONTROL_FLOW_MODE);
             break;
         case AST_BLOCK_NODE:
@@ -260,7 +268,7 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
         case AST_INTERFACE_PROPERTY_LIST_NODE:
         case AST_CONTROL_FLOW_CONDITION_NODE:
         case AST_FOR_IN_SOURCE_NODE:
-            Logger::log("popping mode:", _modeStack.top());
+            Logger::debugLog(_debugMode, "popping mode:", _modeStack.top());
             _modeStack.pop();
             break;
         default:
@@ -268,25 +276,25 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
     }
 
     if (astNodeType == AST_TYPE_COLON_NODE && _modeStack.top() == SA_GROUP_MODE) {
-        Logger::log("replacing GROUP_MODE with FUNCTION_PARAMETER_LIST_MODE");
+        Logger::debugLog(_debugMode, "replacing GROUP_MODE with FUNCTION_PARAMETER_LIST_MODE");
         _modeStack.pop();
         _modeStack.push(SA_FUNCTION_PARAMETER_LIST_MODE);
     }
 
     if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_BLOCK_MODE) {
-        Logger::log("replacing BLOCK_MODE with STRUCT_MODE");
+        Logger::debugLog(_debugMode, "replacing BLOCK_MODE with STRUCT_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_MODE);
     }
 
     if (astNodeType == AST_COLON_BASE_NODE && _modeStack.top() == SA_TUPLE_LIST_MODE) {
-        Logger::log("replacing TUPLE_LIST_MODE with STRUCT_MODE");
+        Logger::debugLog(_debugMode, "replacing TUPLE_LIST_MODE with STRUCT_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_MODE);
     }
 
     if (astNodeType == AST_STRUCT_TYPE_COLON_NODE && _modeStack.top() == SA_TUPLE_TYPE_MODE) {
-        Logger::log("replacing TUPLE_TYPE_MODE with STRUCT_TYPE_MODE");
+        Logger::debugLog(_debugMode, "replacing TUPLE_TYPE_MODE with STRUCT_TYPE_MODE");
         _modeStack.pop();
         _modeStack.push(SA_STRUCT_TYPE_MODE);
     }

@@ -5,10 +5,14 @@
 #include "semantic-analyzer.h"
 #include "../../ast/ast-nodes/ast-node-utils/ast-node-utils.h"
 #include "type-checker/rules/type-checker-rule-provider.h"
-#include "../../ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.h"
 
 SemanticAnalyzer::SemanticAnalyzer() {
+    _debugMode = false;
     _typeSignatureGenerator = TypeSignatureGenerator();
+}
+
+void SemanticAnalyzer::switchToDebugMode() {
+    _debugMode = true;
 }
 
 TypeCheckerResult SemanticAnalyzer::analyze(std::shared_ptr<ASTFileNode> fileNode, std::shared_ptr<TypeSignatureLookupTable> fileScope) {

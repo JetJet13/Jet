@@ -13,6 +13,7 @@ PreProcessor::PreProcessor(std::shared_ptr<SyntaxAnalyzer> syntaxAnalyzer, std::
     _scopeAnalyzer = ScopeAnalyzer();
     _syntaxAnalyzer = syntaxAnalyzer;
     _semanticAnalyzer = semanticAnalyzer;
+    _debugMode = false;
 }
 
 std::shared_ptr<ASTFileNode> PreProcessor::buildFile(std::string filePath, std::shared_ptr<FileScope> fileScope) {
@@ -21,6 +22,13 @@ std::shared_ptr<ASTFileNode> PreProcessor::buildFile(std::string filePath, std::
     fileNode->hoistTypes({ AST_IMPORT_SINGLE_MODULE_DECLARATION_NODE });
     fileNode->setupModuleIfNecessary();
     return fileNode;
+}
+
+void PreProcessor::switchToDebugMode() {
+    _debugMode = true;
+    _syntaxAnalyzer->switchToDebugMode();
+    _semanticAnalyzer->switchToDebugMode();
+    _scopeAnalyzer.switchToDebugMode();
 }
 
 TypeCheckerResult* PreProcessor::getTypeCheckerResult() {
@@ -39,8 +47,9 @@ std::shared_ptr<JetFile> PreProcessor::process(std::string filePath) {
     }
     auto fileNode = this->buildFile(filePath, syntaxResult->getFileScope());
     _scopeAnalyzer.process(fileNode);
-    // todo - change to createForModule() once debug-mode compiler flag is setup
-    auto typeSignatureScope = TypeSignatureLookupTableFactory::createForDebugModule(fileNode->getModuleName());
+    auto typeSignatureScope = _debugMode
+            ? TypeSignatureLookupTableFactory::createForDebugModule(fileNode->getModuleName())
+            : TypeSignatureLookupTableFactory::createForModule(fileNode->getModuleName());
     auto importedJetFiles = this->resolveModuleImports(fileNode, typeSignatureScope);
     auto typeCheckerResult = _semanticAnalyzer->analyze(fileNode, typeSignatureScope);
     auto jetFile = std::make_shared<JetFile>(fileNode, typeSignatureScope, typeCheckerResult, importedJetFiles);

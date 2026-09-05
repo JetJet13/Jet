@@ -35,7 +35,6 @@ std::shared_ptr<ASTNode> ASTPlusBaseNode::transformIfNecessary(std::optional<std
             AST_CLASS_PROPERTY_ACCESS_NODE
     };
     if (prevNode && prevNode.value()->isOneOf(plusOperatorPrevNodes)) {
-        Logger::log("transforming PLUS_BASE to BINARY_OPERATOR because prevNode is", prevNode.value()->toString());
         return std::make_shared<ASTBinaryArithmeticOperatorNode>(_lexeme);
     }
 
