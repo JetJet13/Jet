@@ -20,12 +20,6 @@ int main (int argc, const char* argv[]) {
     }));
     CLI11_PARSE(app, argc, argv);
 
-    std::string configureCommand = "cmake -S . -B ./builds/debug/macos-arm64 -DCMAKE_OSX_ARCHITECTURES=arm64";
-    std::string buildCommand = "cmake --build builds/debug/macos-arm64 --target jet -j 6";
-
-    std::system(configureCommand.c_str());
-    std::system(buildCommand.c_str());
-
     std::string zigCommand = "zig build --build-file ./src/jet/cli/zig-build/build.zig -Dtarget=" + target;
     std::system(zigCommand.c_str());
 

@@ -1,0 +1,1445 @@
+const std = @import("std");
+
+pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
+    exe.addCSourceFiles(.{
+        .root = b.path("../../../core"),
+        .flags = &.{
+            "-std=c++17"
+        },
+        .files = &.{
+        
+        "lexeme/lexeme.cpp",
+        
+        "symbol/symbol.cpp",
+        "symbol/symbol-factory.cpp",
+        
+        "token/token.cpp",
+        
+        "token/token-factory.cpp",
+        
+        
+        "file-reader/file-reader.cpp",
+        
+        "reserved-keywords/reserved-keywords.cpp",
+        
+        "pre-processor/lexical-analyzer/lexical-analyzer.cpp",
+        
+        "token/token-table.cpp",
+        
+        "char-table/char-table.cpp",
+        
+        "pre-processor/syntax-analyzer/syntax-analyzer.cpp",
+        
+        "ast/ast.cpp",
+        
+        "ast/ast-nodes/ast-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-identifier-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-unary-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-boolean-literal-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-string-literal-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-file-node.cpp",
+        
+        
+        "ast/types/source-code-builder/source-code-builder.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-logical-operators/ast-logical-operator-node.cpp",
+        
+        "ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.cpp",
+        
+        "ast/ast-nodes/ast-variable-nodes/ast-variable-type-node.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-assignment-operator-node.cpp",
+        
+        "pre-processor/syntax-analyzer/recognizer-result/recognizer-result.cpp",
+        
+        "ast/ast-nodes/ast-terminator-node.cpp",
+        
+        
+        "pre-processor/syntax-analyzer/handle/handle.cpp",
+        
+        "dfa/dfa.cpp",
+        
+        "dfa/dfa-node.cpp",
+        
+        "pre-processor/syntax-analyzer/syntax-dfa/syntax-dfa.cpp",
+        
+        
+        
+        "dfa/dfa-transition-factory.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-init-reducer-strategy/variable-init-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/lexeme-transformer/lexeme-transformer.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-declaration-reducer-strategy/variable-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-literal-nodes/ast-literal-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/unary-expression-reducer-strategy/unary-expression-reducer-strategy.cpp",
+        
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-identifier-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-arithmetic-expression-reducer-strategy/binary-arithmetic-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/logical-expression-reducer-strategy/logical-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-unary-operators/ast-unary-operator-node.cpp",
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/literal-expression-reducer-strategy/literal-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/identifier-expression-reducer-strategy/identifier-expression-reducer-strategy.cpp",
+        
+        
+        "ast/ast-nodes/ast-base-nodes/ast-plus-base-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-minus-base-node.cpp",
+        
+        "ast/ast-nodes/ast-group-nodes/ast-group-start-node.cpp",
+        
+        "ast/ast-nodes/ast-group-nodes/ast-group-end-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-array-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-left-bracket-node.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-right-bracket-node.cpp",
+        
+        "ast/ast-nodes/ast-comma-node.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-array-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-node-reducer-strategy/array-node-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-expression-reducer-strategy/array-access-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-array-access-node.cpp",
+        
+        "dfa/types/reduce-to-target-map.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-reducer-strategy/array-access-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-expression-reducer-strategy/array-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-struct-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-struct-nodes/ast-struct-key-value-node.cpp",
+        
+        "ast/ast-nodes/ast-block-nodes/ast-block-start-node.cpp",
+        
+        "ast/ast-nodes/ast-block-nodes/ast-block-end-node.cpp",
+        
+        "ast/ast-nodes/ast-block-nodes/ast-block-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-key-value-reducer-strategy/struct-key-value-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-expression-reducer-strategy/struct-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-colon-base-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-expression-reducer-strategy/object-access-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-object-access-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-period-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-declaration-reducer-strategy/function-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-list-reducer-strategy/function-parameter-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-parameter-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-return-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-block-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-function-return-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-return-expression-reducer-strategy/function-return-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-parameter-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-parameter-reducer-strategy/function-parameter-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-name-node.cpp",
+        
+        "ast/ast-nodes/ast-struct-nodes/ast-struct-start-node.cpp",
+        
+        "ast/ast-nodes/ast-struct-nodes/ast-struct-end-node.cpp",
+        
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-variable-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-variable-nodes/ast-variable-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-reducer-strategy/variable-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-assignment-statement-reducer-strategy/variable-assignment-statement-reducer-strategy.cpp",
+        
+        
+        "ast/ast-nodes/ast-procedure-nodes/ast-procedure-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-declaration-reducer-strategy/procedure-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-name-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-enum-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-key-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-enum-nodes/ast-enum-key-value-list-end-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-reducer-strategy/enum-key-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-reducer-strategy/enum-key-value-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-key-value-list-reducer-strategy/enum-key-value-list-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/enum-declaration-reducer-strategy/enum-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/recognizer/recognizer.cpp",
+        
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-argument-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-argument-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-argument-list-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-argument-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-argument-list-reducer-strategy/function-argument-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-invocation-expression-reducer-strategy/function-invocation-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-expression-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/expression-statement-reducer-strategy/expression-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-call-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-item-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-expression-reducer-strategy/tuple-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-tuple-access-expression.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-expression-reducer-strategy/tuple-access-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-object-nodes/ast-object-access-source-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-source-reducer-strategy/object-access-source-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-object-nodes/ast-object-access-target-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-target-reducer-strategy/object-access-target-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-if-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-else-if-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-else-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-condition-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/control-flow-condition-reducer-strategy/control-flow-condition-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-block-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-if-block-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-else-if-block-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-else-block-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/if-block-reducer-strategy/if-block-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/else-block-reducer-strategy/else-block-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-reducer-strategy/else-if-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/else-if-block-reducer-strategy/else-if-block-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-if-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/if-statement-reducer-strategy/if-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-control-flow-start-node.cpp",
+        
+        "dfa/types/reduce-to-target-dual-map.cpp",
+        
+        "ast/ast-nodes/ast-null-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-while-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-while-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/while-statement-reducer-strategy/while-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-for-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-for-in-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-for-in-variable-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-for-in-source-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-for-in-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-variable-reducer-strategy/for-in-variable-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-source-reducer-strategy/for-in-source-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/for-in-statement-reducer-strategy/for-in-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-break-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/ast-skip-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-error-variable-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-try-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-block-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-block-node.cpp",
+        
+        "ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-block-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/try-block-reducer-strategy/try-block-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/finally-block-reducer-strategy/finally-block-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-lambda-return-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-return-expression-reducer-strategy/lambda-return-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-primitive-type-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-custom-type-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-base-node.cpp",
+        
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-parameter-list-end-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-node-factory.cpp",
+        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.cpp",
+        
+        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-callable-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/curry-expression-reducer-strategy/curry-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-type-reducer-strategy/tuple-type-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-type-reducer-strategy/array-type-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/variable-definition-reducer-strategy/variable-definition-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-variable-nodes/ast-variable-definition-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-dot-dot-dot-base-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-module-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-name-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-item-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-base-item-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-normal-item-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-spread-item-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-items/ast-module-list-alias-item-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-as-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-alias-name-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-spread-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-access-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-spread-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-from-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-path-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-name-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-alias-name-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-list-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-module-list-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-package-node/ast-use-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-import-single-module-declaration-node.cpp",
+        
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-import-many-module-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-use-single-module-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-use-many-module-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-star-base-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-reducer-strategy/module-list-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-alias-item-reducer-strategy/module-list-alias-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-list-spread-item-reducer-strategy/module-list-spread-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-declaration-reducer-strategy/module-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/use-single-module-declaration-reducer-strategy/use-single-module-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-single-module-declaration-reducer-strategy/import-single-module-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-wildcard-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-module-declaration-reducer-strategy/import-many-module-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-alias-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-base-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-wildcard-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-normal-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-spread-item-node.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-wildcard-item-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-wildcard-item-reducer-strategy/import-module-list-by-wildcard-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-module-declaration-reducer-strategy/use-many-module-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-import-nodes/ast-import-list-items/ast-import-module-list-by-group-item-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-by-group-item-reducer-strategy/import-module-list-by-group-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-alias-item-reducer-strategy/import-module-list-alias-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-spread-item-reducer-strategy/import-module-list-spread-item-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-module-list-reducer-strategy/import-module-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-access-modifier-nodes/ast-public-node.cpp",
+        
+        "ast/ast-nodes/ast-access-modifier-nodes/ast-protected-node.cpp",
+        
+        "ast/ast-nodes/ast-access-modifier-nodes/ast-private-node.cpp",
+        
+        "ast/ast-nodes/ast-symbol-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-static-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-constructor-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-this-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-name-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-block-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-class-property-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-name-node.cpp",
+        
+        "ast/ast-nodes/ast-const-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-method-name-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-this-access-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-class-method-invocation-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-method-call-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-class-constructor-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-class-property-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-this-type-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-this-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-access-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-class-property-access-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-class-declaration-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-declaration-reducer-strategy/class-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-declaration-reducer-strategy/class-property-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-access-modifier-nodes/ast-access-modifier-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-constructor-declaration-reducer-strategy/class-constructor-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-declaration-reducer-strategy/class-method-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-definition-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-reducer-strategy/class-property-definition-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-init-reducer-strategy/class-property-init-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-init-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-definition-with-type-reducer-strategy/class-property-definition-with-type-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-definition-with-type-node.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-reducer-strategy/class-property-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-reducer-strategy/class-property-access-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-access-reducer-strategy/class-access-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-access-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-assignment-statement-node/class-property-assignment-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-invocation-expression-reducer-strategy/class-method-invocation-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-new-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/new-class-instance-expression-reducer-strategy/new-class-instance-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-method-definition-reducer-strategy/class-method-definition-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-method-definition-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-access-expression-reducer-strategy/class-property-access-expression-reducer-strategy.cpp",
+        
+        
+        "type-signature/type-signature.cpp",
+        
+        
+        "type-signature/invocable-type-signature/function-type-signature/function-type-signature.cpp",
+        
+        "type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.cpp",
+        
+        "type-signature/tuple-type-signature/tuple-type-signature.cpp",
+        
+        "type-signature/array-type-signature/array-type-signature.cpp",
+        
+        "type-signature/class-type-signature/class-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-generator.cpp",
+        
+        "pre-processor/pre-processor-map/pre-processor-map.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-declaration-node.cpp",
+        
+        "pre-processor/semantic-analyzer/semantic-analyzer.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-assignor.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/variable-declaration-id-strategy/variable-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/ast-node-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-declaration-id-strategy/class-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-constructor-declaration-id-strategy/class-constructor-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-property-declaration-id-strategy/class-property-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/class-method-declaration-id-strategy/class-method-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/enum-declaration-id-strategy/enum-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/function-declaration-id-strategy/function-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/procedure-declaration-id-strategy/procedure-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-declaration-id-strategy/module-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-single-module-declaration-id-strategy/import-single-module-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-single-module-declaration-id-strategy/use-single-module-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-module-declaration-id-strategy/import-many-module-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-module-declaration-id-strategy/use-many-module-declaration-id-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.cpp",
+        
+        "type-signature/types/type-signature-map/type-signature-map.cpp",
+        
+        
+        "type-signature/class-type-signature/class-method-type-signature/class-method-type-signature.cpp",
+        
+        "type-signature/parameter-list-type-signature/parameter-list-type-signature.cpp",
+        
+        "type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.cpp",
+        
+        
+        "type-signature/class-type-signature/class-property-type-signature/class-property-type-signature.cpp",
+        
+        "type-signature/access-modifier-type-signature/access-modifier-type-signature.cpp",
+        
+        "type-signature/class-type-signature/class-constructor-type-signature/class-constructor-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-type-signature-strategy/parameter-list-type-singature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/parameter-list-type-signature-strategy/parameter-list-item-type-signature-strategy/parameter-list-item-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-signature-strategy-map.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/binary-expression-type-signature-strategy/binary-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-signature-strategy-provider.cpp",
+        
+        "type-signature/literal-type-signature/int-literal-type-signature.cpp",
+        
+        "type-signature/literal-type-signature/float-literal-type-signature.cpp",
+        
+        "type-signature/literal-type-signature/char-literal-type-signature.cpp",
+        
+        "type-signature/literal-type-signature/string-literal-type-signature.cpp",
+        
+        "type-signature/literal-type-signature/bool-literal-type-signature.cpp",
+        
+        "simple-dfa/simple-dfa.cpp",
+        
+        "simple-dfa/simple-dfa-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/binary-expression-type-signature-strategy/types/binary-expression-type-combination.cpp",
+        
+        "type-signature/invalid-type-signature/invalid-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/logical-expression-type-signature-strategy/logical-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-access-expression-type-signature-strategy/array-access-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-expression-type-signature-strategy/array-expression-type-signature-strategy.cpp",
+        
+        "type-signature/not-null-type-signature/not-null-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/class-method-invocation-expression-type-signature-strategy/class-method-invocation-expression-type-signature-strategy.cpp",
+        
+        "type-signature/unknown-type-signature/unknown-type-signature.cpp",
+        
+        "type-signature/void-type-signature/void-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/class-property-expression-type-signature-strategy/class-property-access-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/curry-expression-type-signature-strategy/curry-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/function-invocation-expression-type-signature-strategy/function-invocation-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/function-return-expression-type-signature-strategy/function-return-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/identifier-expression-type-signature-strategy/identifier-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-expression-type-signature-strategy/lambda-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/primitive-type-type-signature-strategy/primitive-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/custom-type-type-signature-strategy/custom-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/array-type-type-signature-strategy/array-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/tuple-type-type-signature-strategy/tuple-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/this-type-type-signature-strategy/this-type-type-signature-strategy.cpp",
+        
+        "ast-traverser/ast-traverser.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-return-expression-type-signature-strategy/lambda-return-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/literal-expression-type-signature-strategy/literal-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/new-class-instance-expression-type-signature-strategy/new-class-instance-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-expression-type-signature-strategy/object-access-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/struct-expression-type-signature-strategy/struct-expression-type-signature-strategy.cpp",
+        
+        "type-signature/enum-type-signature/enum-type-signature.cpp",
+        
+        "type-signature/literal-type-signature/literal-type-signature.cpp",
+        
+        "type-signature/struct-type-signature/struct-type-signature.cpp",
+        
+        "type-signature/struct-type-signature/struct-key-value-type-signature/struct-key-value-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-type-signature-strategy.cpp",
+        
+        "type-signature/enum-type-signature/default-enum-key-value-type-signature/default-enum-key-value-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/this-expression-type-signature-strategy/this-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-expression-type-signature-strategy/tuple-access-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-expression-type-signature-strategy/tuple-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/unary-expression-type-signature-strategy/unary-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/enum-type-signature-strategy/enum-key-value-type-signature-strategy/enum-key-value-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-type-signature-strategy/variable-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-type-signature-strategy/class-property-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-method-type-signature-strategy/class-method-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-constructor-type-signature-strategy/class-constructor-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/function-type-signature-strategy/function-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/procedure-type-signature-strategy/procedure-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/literal-type-signature-strategy/literal-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/access-modifier-type-signature-strategy/access-modifier-type-signature-strategy.cpp",
+        
+        "type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.cpp",
+        
+        "type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.cpp",
+        
+        "type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.cpp",
+        
+        "type-signature/invocable-type-signature/lambda-type-signature/lambda-expression-type-signature/lambda-expression-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-lookup-table/literal-type-signature-lookup-table/literal-type-signature-lookup-table.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-id-strategy/identifier-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/identifier-expression-id-strategy/identifier-expression-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-literal-node-value-assignor/ast-literal-node-value-assignor.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/this-expression-reducer-strategy/this-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/type-checker.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.cpp",
+        
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/if-statement-type-signature-strategy/if-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/condition-type-signature-strategy/condition-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/block-type-signature-strategy/block-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/while-statement-type-signature-strategy/while-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/for-in-statement-type-signature-strategy/for-in-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-statement-type-signature-strategy/expression-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-assignment-statement-type-signature-strategy/class-property-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/try-statement-type-signature-strategy/try-statement-type-signature-strategy.cpp",
+        
+        "ast/ast-nodes/ast-scoped-block-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-statement-node.cpp",
+        
+        
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/procedure-declaration-type-checker-policy/procedure-declaration-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/parameter-list-type-checker-policy/parameter-list-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/types/type-checker-result/type-checker-result.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/parameter-type-checker-policy/parameter-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/function-declaration-type-checker-policy/function-declaration-type-checker-policy.cpp",
+        
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/function-block-type-checker-policy/function-block-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/required-return-expression-type-checker-rule/required-return-expression-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/no-return-expression-type-checker-rule/no-return-expression-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rule-provider.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/all-paths-return-type-checker-rule/all-paths-return-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/function-return-expression-type-checker-policy/function-return-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/defined-type-signature-type-checker-rule/defined-type-signature-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/variable-assignment-statement-type-checker-policy/variable-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/type-signature-mismatch-type-checker-rule/type-signature-mismatch-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/enum-declaration-type-checker-policy/enum-declaration-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/class-declaration-type-checker-policy/class-declaration-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/if-statement-type-checker-policy/if-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/try-statement-type-checker-policy/try-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/for-in-statement-type-checker-policy/for-in-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/while-statement-type-checker-policy/while-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/control-flow-block-type-checker-policy/control-flow-block-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/control-flow-condition-type-checker-policy/control-flow-condition-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/iterable-type-signature-type-checker-rule/iterable-type-signature-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-scoped-names-type-checker-rule/unique-scoped-names-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-with-id-type-checker-rule/unique-type-signature-with-id-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signatures-type-checker-rule/unique-type-signatures-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/class-property-assignment-statement-type-checker-policy/class-property-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expression-statement-type-checker-policy/expression-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-expression-type-checker-policy/array-access-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/array-expression-type-checker-policy/array-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/binary-expression-type-checker-policy/binary-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/class-method-invocation-expression-type-checker-policy/class-method-invocation-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/return-type-signature-type-checker-rule/return-type-signature-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/class-property-access-expression-type-checker-policy/class-property-access-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/curry-expression-type-checker-policy/curry-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/match-argument-list-count-with-parameter-list-count-type-checker-rule/match-argument-list-count-with-parameter-list-count-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/argument-list-type-signature-mismatch-type-checker-rule/argument-list-type-signature-mismatch-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/function-invocation-expression-type-checker-policy/function-invocation-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/identifier-expression-type-checker-policy/identifier-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/lambda-expression-type-checker-policy/lambda-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/logical-expression-type-checker-policy/logical-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/new-class-instance-expression-type-checker-policy/new-class-instance-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-expression-type-checker-policy/object-access-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/struct-expression-type-checker-policy/struct-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/this-expression-type-checker-policy/this-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-expression-type-checker-policy/tuple-access-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-expression-type-checker-policy/tuple-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/unary-expression-type-checker-policy/unary-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-import-many-by-wildcard-module-declaration-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/import-many-by-wildcard-module-declaration-reducer-strategy/import-many-by-wildcard-module-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/scope/scope.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-lambda-with-fat-arrow-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-with-fat-arrow-expression-reducer-strategy/lambda-with-fat-arrow-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-declaration-nodes/ast-use-many-by-wildcard-module-declaration-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/use-many-by-wildcard-module-declaration-reducer-strategy/use-many-by-wildcard-module-declaration-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/import-many-by-wildcard-module-declaration-id-strategy/import-many-by-wildcard-module-declaration-id-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/use-many-by-wildcard-module-declaration-id-strategy/use-many-by-wildcard-module-declaration-id-strategy.cpp",
+        
+        
+        "lexeme/types/position.cpp",
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/lambda-with-fat-arrow-expression-type-signature-strategy/lambda-with-fat-arrow-expression-type-signature-strategy.cpp",
+        
+        "type-signature/invocable-type-signature/invocable-type-signature.cpp",
+        
+        "ast/ast-nodes/ast-struct-nodes/ast-struct-colon-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-colon-node.cpp",
+        
+        "type-signature/aggregate-type-signature.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-aggregate-expression-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/import-type-signature-strategy/import-type-signature-strategy.cpp",
+        
+        "ast/ast-nodes/ast-export-node.cpp",
+        
+        "ast/ast-nodes/ast-function-nodes/ast-function-definition-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/function-definition-reducer-strategy/function-definition-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-procedure-nodes/ast-procedure-definition-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/procedure-definition-reducer-strategy/procedure-definition-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/import-single-module-type-checker-policy/import-single-module-type-checker-policy.cpp",
+        
+        "type-signature/module-type-signature/module-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-type-signature-strategy/module-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/module-declaration-type-checker-policy/module-declaration-type-checker-policy.cpp",
+        
+        "pre-processor/syntax-analyzer/file-scope/file-scope.cpp",
+        
+        "pre-processor/pre-processor.cpp",
+        
+        "jet-file/jet-file.cpp",
+        
+        "jet-file/jet-file-id-generator/jet-file-id-generator.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-access-source-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-source-reducer-strategy/module-access-source-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-target-reducer-strategy/module-access-target-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-expression-reducer-strategy/module-access-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/module-access-expression-id-strategy/module-access-expression-id-strategy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/callable-identifier-expression-reducer-strategy/callable-identifier-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/module-access-expression-type-signature-strategy/module-access-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/lambda-expression-scope-parameter-type-signature-strategy/lambda-expression-scope-parameter-type-signature-strategy.cpp",
+        
+        "type-signature/pointer-type-signature/pointer-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-scope-parameter-type-signature-strategy/class-scope-parameter-type-signature-strategy.cpp",
+        
+        "type-signature/argument-list-type-signature/argument-list-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/argument-list-type-signature-strategy/argument-list-type-signature-strategy.cpp",
+        
+        "ast/ast-nodes/ast-dref-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/dref-expression-strategy/dref-expression-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/dref-expression-type-signature-strategy/dref-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/dref-expression-type-checker-policy/dref-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/dref-type-checker-rule/dref-type-checker-rule.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-array-access-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-array-access-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-statement-reducer-strategy/array-access-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-assignment-reducer-strategy/array-access-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-assignment-statement-type-signature-strategy/array-access-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/array-access-assignment-statement-type-checker-policy/array-access-assignment-statement-type-checker-policy.cpp",
+        
+        "ast-lookup-table/ast-lookup-table.cpp",
+        
+        "ast/ast-nodes/ast-concat-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/concat-expression-reducer-strategy/concat-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/concat-expression-type-signature-strategy/concat-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/concat-expression-type-checker-policy/concat-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-invocation-expression-reducer-strategy/object-access-invocation-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/object-access-invocation-expression-type-signature-strategy/object-access-invocation-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-prototype-type-signature-map/array-prototype-type-signature-map.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/object-access-invocation-expression-type-checker-policy/object-access-invocation-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-tuple-access-invocation-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-invocation-expression-reducer-strategy/tuple-access-invocation-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/tuple-access-invocation-expression-type-signature-strategy/tuple-access-invocation-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/tuple-access-invocation-expression-type-checker-policy/tuple-access-invocation-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-definition-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-property-node.cpp",
+        
+        "type-signature/interface-property-type-signature/interface-property-type-signature.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-start-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-end-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-property-list-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-definition-reducer-strategy/interface-definition-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-reducer-strategy/interface-property-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-property-list-reducer-strategy/interface-property-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.cpp",
+        
+        "ast/ast-nodes/ast-type-declaration-nodes/ast-type-declaration-node.cpp",
+        
+        "type-signature/interface-type-signature/interface-type-signature.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/interface-type-declaration-reducer-strategy/interface-type-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-property-name-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-interface-colon-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-start-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-end-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-colon-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-key-value-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-struct-type-nodes/ast-struct-type-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-reducer-strategy/struct-type-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/struct-type-key-value-reducer-strategy/struct-type-key-value-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/struct-type-type-signature-strategy/struct-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/interface-type-signature-strategy/interface-property-type-signature-strategy/interface-property-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/interface-type-checker-policy/interface-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/unique-type-signature-keys-type-checker-rule/unique-type-signature-keys-type-checker-rule.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/interface-type-declaration-id-strategy/interface-type-declaration-id-strategy.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-implements-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-node.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-implements-interface-list-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/implements-interface-list-reducer-strategy/implements-interface-list-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-interface-nodes/ast-implements-interface-name-last-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-keyword-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-name-node.cpp",
+        
+        "ast/ast-nodes/ast-type-declaration-nodes/ast-custom-type-declaration-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/custom-type-declaration-reducer-strategy/custom-type-declaration-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-type-assignment-operator-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/custom-type-declaration-type-checker-policy/custom-type-declaration-type-checker-policy.cpp",
+        
+        "pre-processor/syntax-analyzer/ast-node-id-assignor/ast-node-id-strategies/custom-type-declaration-id-strategy/custom-type-declaration-id-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/custom-type-declaration-type-signature-strategy/custom-type-declaration-type-signature-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-start-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-array-type-nodes/ast-array-type-end-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-start-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-end-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-lambda-type-nodes/ast-lambda-type-parameter-list-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-parameter-list-reducer-strategy/lambda-type-parameter-list-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-type-reducer-strategy/lambda-type-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-void-type-node.cpp",
+        
+        "ast/ast-nodes/ast-void-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/lambda-type-type-signature-strategy/lambda-type-type-signature-strategy.cpp",
+        
+        "type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/void-type-type-signature-strategy/void-type-type-signature-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/syntax-analyzer-result/syntax-analyzer-result.cpp",
+        
+        "pre-processor/semantic-analyzer/jet-utils-type-signature-map/jet-utils-type-signature-map.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.cpp",
+        
+        "type-signature/types/function-vararg-type-signature-map/function-vararg-type-signature-map.cpp",
+        
+        "ast/ast-nodes/ast-object-nodes/ast-object-access-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-reducer-strategy/object-access-assignment-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-assignment-statement-reducer-strategy/object-access-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-assignment-statement-type-signature-strategy/object-access-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/object-access-assignment-statement-type-checker-policy/object-access-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/invocable-type-signature-type-checker-rule/invocable-type-signature-type-checker-rule.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-tuple-access-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-reducer-strategy/tuple-access-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-assignment-statement-reducer-strategy/tuple-access-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/tuple-access-assignment-statement-type-checker-policy/tuple-access-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-assignment-statement-type-signature-strategy/tuple-access-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/shared-ptr-prototype-type-signature-map/shared-ptr-prototype-type-signature-map.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/argument-list-type-checker-policy/argument-list-type-checker-policy.cpp",
+        
+        
+        "pre-processor/scope-analyzer/scope-analyzer.cpp",
+        
+        "type-signature/lambda-scope-type-signature/lambda-scope-type-signature.cpp",
+        
+        "type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.cpp",
+        
+        
+        "dfa/types/backtrack-to-predecessor-rule.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-array-access-invocation-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-invocation-expression-reducer-strategy/array-access-invocation-expression-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/array-access-invocation-expression-type-signature-strategy/array-access-invocation-expression-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/array-access-invocation-expression-type-checker-policy/array-access-invocation-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-shared-value-assignment-operator-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-shared-value-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-shared-value-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/shared-value-assignment-reducer-strategy/shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/shared-value-assignment-statement-reducer-strategy/shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-class-nodes/ast-class-property-shared-value-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-shared-value-assignment-reducer-strategy/class-property-shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/class-property-shared-value-assignment-statement-reducer-strategy/class-property-shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-class-property-shared-value-assignment-statement-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/shared-value-assignment-statement-type-signature-strategy/shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/class-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy/class-property-shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/class-property-shared-value-assignment-statement-type-checker-policy/class-property-shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-value-assignment-type-checker-rule/shared-value-assignment-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/shared-value-assignment-statement-type-checker-policy/shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/binary-comparator-expression-reducer-strategy/binary-comparator-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-start-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-end-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-tuple-type-nodes/ast-tuple-type-node.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-context.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/string-prototype-type-signature-map/string-prototype-type-signature-map.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/module-access-expression-type-checker-policy/module-access-expression-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-module-access-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-access-assignment-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-reducer-strategy/module-access-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-assignment-statement-reducer-strategy/module-access-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-assignment-statement-type-signature-strategy/module-access-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/module-access-assignment-statement-type-checker-policy/module-access-assignment-statement-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-access-type-node.cpp",
+        
+        "ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-type-reducer-strategy/module-type-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/module-type-type-signature-strategy/module-type-type-signature-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-source-node.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-module-type-nodes/ast-module-type-target-node.cpp",
+        
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-self-reference-type-checker-rule/class-self-reference-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/class-circular-reference-type-checker-rule/class-circular-reference-type-checker-rule.cpp",
+        
+        "ast/ast-nodes/ast-object-nodes/ast-object-access-shared-value-assignment-node.cpp",
+        
+        "ast/ast-nodes/ast-tuple-nodes/ast-tuple-access-shared-value-assignment-node.cpp",
+        
+        "ast/ast-nodes/ast-array-nodes/ast-array-access-shared-value-assignment-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-array-access-shared-value-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-object-access-shared-value-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-tuple-access-shared-value-assignment-statement-node.cpp",
+        
+        "ast/ast-nodes/ast-module-nodes/ast-module-access-shared-value-assignment-node.cpp",
+        
+        "ast/ast-nodes/ast-statement-nodes/ast-module-access-shared-value-assignment-statement-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-shared-value-assignment-reducer-strategy/array-access-shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/array-access-shared-value-assignment-statement-reducer-strategy/array-access-shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-shared-value-assignment-reducer-strategy/object-access-shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/object-access-shared-value-assignment-statement-reducer-strategy/object-access-shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-shared-value-assignment-reducer-strategy/tuple-access-shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/tuple-access-shared-value-assignment-statement-reducer-strategy/tuple-access-shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-shared-value-assignment-reducer-strategy/module-access-shared-value-assignment-reducer-strategy.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/module-access-shared-value-assignment-statement-reducer-strategy/module-access-shared-value-assignment-statement-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/array-access-shared-value-assignment-statement-type-signature-strategy/array-access-shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/module-access-shared-value-assignment-statement-type-signature-strategy/module-access-shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/object-access-shared-value-assignment-statement-type-signature-strategy/object-access-shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/tuple-access-shared-value-assignment-statement-type-signature-strategy/tuple-access-shared-value-assignment-statement-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/array-access-shared-value-assignment-statement-type-checker-policy/array-access-shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/module-access-shared-value-assignment-statement-type-checker-policy/module-access-shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/object-access-shared-value-assignment-statement-type-checker-policy/object-access-shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/tuple-access-shared-value-assignment-statement-type-checker-policy/tuple-access-shared-value-assignment-statement-type-checker-policy.cpp",
+        
+        "ast/ast-nodes/ast-share-nodes/ast-share-node.cpp",
+        
+        "ast/ast-nodes/ast-share-nodes/ast-shared-node.cpp",
+        
+        "ast/ast-nodes/ast-expression-nodes/ast-share-expression-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/share-expression-reducer-strategy/share-expression-reducer-strategy.cpp",
+        
+        "ast/ast-nodes/ast-type-nodes/ast-shared-type-node.cpp",
+        
+        "pre-processor/syntax-analyzer/reducer/reducer-strategies/shared-type-reducer-strategy/shared-type-reducer-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/expression-type-signature-strategies/share-expression-type-signature-strategy/share-expression-type-signature-strategy.cpp",
+        
+        "type-signature/shared-type-signature/shared-type-signature.cpp",
+        
+        "pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/type-type-signature-strategy/base-type-type-signature-strategies/shared-type-type-signature-strategy/shared-type-type-signature-strategy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/policies/expressions/share-expression-type-checker-policy/share-expression-type-checker-policy.cpp",
+        
+        "pre-processor/semantic-analyzer/type-checker/rules/type-checker-rules/shared-type-checker-rule/shared-type-checker-rule.cpp",
+        
+        "pre-processor/semantic-analyzer/types/type-check-error/type-check-error.cpp",
+        
+        "pre-processor/semantic-analyzer/types/variable-context/variable-context.cpp",
+        
+        },
+    });
+}

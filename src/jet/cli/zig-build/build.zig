@@ -1,70 +1,74 @@
 const std = @import("std");
+const buildCore = @import("build-core.zig");
+const buildShared = @import("build-shared.zig");
+const buildVm = @import("build-vm.zig");
 
 pub fn build(b: *std.Build) void {
-    const supportedTargets = .{
-        "x86_64-macos",        // MacOS x64
-        "aarch64-macos",       // MacOS arm64
-        "x86_64-linux-gnu",    // Linux x64
-        "aarch64-linux-gnu",   // Linux arm64
-        "x86_64-windows-msvc", // Windows x64
-        "aarch64-windows-msvc" // Windows arm64
-    };
     const target = b.option([]const u8, "target", "specify the OS target to build for.")
         orelse "";
+    const targetTriple = std.Target.Query.parse(.{
+        .arch_os_abi = target,
+    }) catch unreachable;
 
     const optimize = b.standardOptimizeOption(.{});
 
-    if (std.mem.eql(u8, target, supportedTargets[0])) {
+    const jetExe = b.addExecutable(.{
+        .name = "jet",
+        .target = b.resolveTargetQuery(targetTriple),
+        .optimize = optimize
+    });
+    const jetCoreLib = b.addStaticLibrary(.{
+        .name = "jet-core",
+        .target = b.resolveTargetQuery(targetTriple),
+        .optimize = optimize
+    });
+    const jetSharedLib = b.addStaticLibrary(.{
+        .name = "jet-shared",
+        .target = b.resolveTargetQuery(targetTriple),
+        .optimize = optimize
+    });
+    const jetVmLib = b.addStaticLibrary(.{
+        .name = "jet-vm",
+        .target = b.resolveTargetQuery(targetTriple),
+        .optimize = optimize
+    });
 
-    } else if (std.mem.eql(u8, target, supportedTargets[1])) {
-        const exe = b.addExecutable(.{
-            .name = "jet",
-            .target = b.resolveTargetQuery(.{
-                .cpu_arch = .aarch64,
-                .os_tag = .macos,
-            }),
-            .optimize = optimize
-        });
+    // todo -  make llvm binary path dynamic based on target triple
+    jetExe.linkLibCpp();
+    jetExe.addIncludePath(b.path("target-llvm-binaries/macos-arm64/include"));
+    jetExe.addLibraryPath(b.path("target-llvm-binaries/macos-arm64/lib"));
 
-        exe.addCSourceFiles(.{
-            .files = &.{
-                "../../main.cpp",
-            },
-            .flags = &.{
-                "-std=c++17"
-            },
-        });
+    jetSharedLib.linkLibCpp();
+    buildShared.setup(jetSharedLib, b);
 
-        exe.linkLibCpp();
+    jetCoreLib.linkLibCpp();
+    jetCoreLib.linkLibrary(jetSharedLib);
+    buildCore.setup(jetCoreLib, b);
 
-        exe.addLibraryPath(b.path("../../../../builds/debug/macos-arm64/src/core"));
-        exe.linkSystemLibrary("jet-core");
-        exe.addLibraryPath(b.path("../../../../builds/debug/macos-arm64/src/shared"));
-        exe.linkSystemLibrary("jet-shared");
-        exe.addLibraryPath(b.path("../../../../builds/debug/macos-arm64/src/vm"));
-        exe.linkSystemLibrary("jet-vm");
+    jetVmLib.linkLibCpp();
+    jetVmLib.linkLibrary(jetCoreLib);
+    jetVmLib.linkLibrary(jetSharedLib);
+    jetVmLib.addIncludePath(b.path("target-llvm-binaries/macos-arm64/include"));
+    jetVmLib.addLibraryPath(b.path("target-llvm-binaries/macos-arm64/lib"));
+    buildVm.setup(jetVmLib, b);
 
-        exe.addIncludePath(b.path("target-llvm-binaries/macos-arm64/include"));
-        exe.addLibraryPath(b.path("target-llvm-binaries/macos-arm64/lib"));
+    jetExe.addCSourceFiles(.{
+        .files = &.{
+            "../../main.cpp",
+        },
+        .flags = &.{
+            "-std=c++17"
+        },
+    });
 
-        exe.linkSystemLibrary("LLVMCore");
-        exe.linkSystemLibrary("LLVMSupport");
-        exe.linkSystemLibrary("LLVMIRReader");
-        exe.linkSystemLibrary("LLVMIRPrinter");
-        exe.linkSystemLibrary("LLVMLinker");
+    jetExe.linkLibrary(jetCoreLib);
+    jetExe.linkLibrary(jetSharedLib);
+    jetExe.linkLibrary(jetVmLib);
+    jetExe.linkSystemLibrary("LLVMCore");
+    jetExe.linkSystemLibrary("LLVMSupport");
+    jetExe.linkSystemLibrary("LLVMIRReader");
+    jetExe.linkSystemLibrary("LLVMIRPrinter");
+    jetExe.linkSystemLibrary("LLVMLinker");
 
-        b.installArtifact(exe);
-    } else if (std.mem.eql(u8, target, supportedTargets[2])) {
-
-    } else if (std.mem.eql(u8, target, supportedTargets[3])) {
-
-    } else if (std.mem.eql(u8, target, supportedTargets[4])) {
-
-    } else if (std.mem.eql(u8, target, supportedTargets[5])) {
-
-    } else if (std.mem.eql(u8, target, "")) {
-        @panic("Error: You must provide a target option '-Dtarget=[target]'");
-    } else {
-        @panic("OS target provided is not supported");
-    }
+    b.installArtifact(jetExe);
 }

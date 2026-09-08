@@ -17,8 +17,8 @@ add_definitions(${LLVM_DEFINITIONS})
 llvm_map_components_to_libnames(llvm_libs support core linker irreader irprinter)
 
 add_library(jet-vm
-        ./ir-generator/ir-generator.cpp
-        ./ir-generator/ir-generator.h
+        ir-generator/ir-generator.cpp
+        ir-generator/ir-generator.h
         ir-lookup-table/ir-lookup-table.cpp
         ir-lookup-table/ir-lookup-table.h
         ir-generator/ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.cpp

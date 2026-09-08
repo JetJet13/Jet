@@ -1,0 +1,855 @@
+const std = @import("std");
+
+pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
+    exe.addCSourceFiles(.{
+        .root = b.path("../../../vm"),
+        .flags = &.{
+            "-std=c++17"
+        },
+        .files = &.{
+        "ir-generator/ir-generator.cpp",
+        
+        "ir-lookup-table/ir-lookup-table.cpp",
+        
+        "ir-generator/ir-strategies/literal-ir-strategies/int-literal-ir-strategy/int-literal-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/literal-ir-strategies/float-literal-ir-strategy/float-literal-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/literal-ir-strategies/char-literal-ir-strategy/char-literal-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/literal-ir-strategies/string-literal-ir-strategy/string-literal-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/literal-ir-strategies/bool-literal-ir-strategy/bool-literal-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/ir-strategy-map.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/binary-expression-ir-strategy/binary-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/logical-expression-ir-strategy/logical-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/array-expression-ir-strategy/array-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/array-type-signature-ir-strategy/array-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/array-access-expression-ir-strategy/array-access-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/struct-expression-ir-strategy/struct-expression-ir-strategy.cpp",
+        
+        "ir-type/ir-type.cpp",
+        
+        "utils/address-space-generator/address-space-generator.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/unary-expression-ir-strategy/unary-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/tuple-expression-ir-strategy/tuple-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/variable-declaration-ir-strategy/variable-declaration-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/identifier-expression-ir-strategy/identifier-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-node.cpp",
+        
+        
+        "ir-nodes/ir-literal-nodes/ir-bool-literal-node.cpp",
+        
+        "ir-nodes/ir-literal-nodes/ir-int-literal-node.cpp",
+        
+        "ir-nodes/ir-literal-nodes/ir-float-literal-node.cpp",
+        
+        "ir-nodes/ir-literal-nodes/ir-char-literal-node.cpp",
+        
+        "ir-nodes/ir-literal-nodes/ir-string-literal-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-identifier-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-arithmetic-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-comparison-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-logical-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-negate-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-arithmetic-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-struct-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-tuple-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-array-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-unary-expression-nodes/ir-unary-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-binary-expression-nodes/ir-binary-expression-node.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-variable-declaration-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-literal-expression-node.cpp",
+        
+        "ir-nodes/ir-literal-nodes/ir-literal-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/literal-expression-ir-strategy/literal-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-block-nodes/ir-block-node.cpp",
+        
+        "ir-nodes/ir-module-node.cpp",
+        
+        "ir-nodes/ir-function-nodes/ir-function-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-array-access-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/function-declaration-ir-strategy/function-declaration-ir-strategy.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-function-declaration-node.cpp",
+        
+        "ir-nodes/ir-function-nodes/ir-function-parameter-list-node.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-declaration-node.cpp",
+        
+        "ir-generator/ir-strategies/function-parameter-list-ir-strategy/function-parameter-list-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/literal-type-signature-ir-strategy/literal-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/tuple-type-signature-ir-strategy/tuple-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/class-type-signature-ir-strategy/class-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/struct-type-signature-ir-strategy/struct-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/enum-type-signature-ir-strategy/enum-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/function-type-signature-ir-strategy/function-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/procedure-type-signature-ir-strategy/procedure-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/invocable-type-signature-ir-strategies/lambda-type-signature-ir-strategy/lambda-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-list-type-signature-ir-strategy.cpp",
+        
+        "ir-type/ir-parameter-list-type.cpp",
+        
+        "ir-type/ir-parameter-type.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/parameter-list-type-signature-ir-strategy/parameter-type-signature-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-function-return-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/function-return-expression-ir-strategy/function-return-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-statement-node.cpp",
+        
+        "ir-nodes/ir-function-nodes/ir-function-parameter-node.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-procedure-declaration-node.cpp",
+        
+        "ir-generator/ir-strategies/procedure-declaration-ir-strategy/procedure-declaration-ir-strategy.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-enum-declaration-node.cpp",
+        
+        "ir-generator/ir-strategies/enum-declaration-ir-strategy/enum-declaration-ir-strategy.cpp",
+        
+        "ir-type/ir-struct-type.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-object-access-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/object-access-expression-ir-strategy/object-access-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-instruction-node.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/enum-access-type-signature-ir-strategy/enum-access-type-signature-ir-strategy.cpp",
+        
+        "utils/ir-instruction-node-factory/ir-instruction-node-factory.cpp",
+        
+        "ir-type/ir-enum-type.cpp",
+        
+        "ir-type/ir-pointer-type.cpp",
+        
+        "ir-type/ir-function-type.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-string-literal-expression-node.cpp",
+        
+        "ir-type/ir-array-pointer-type.cpp",
+        
+        "ir-type/ir-array-type.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/string-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/array-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/array-ir-injector-helper/array-ir-injector-helper.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/literal-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/struct-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/tuple-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector.cpp",
+        
+        "ir-injector/ir-injector-strategies/variable-ir-injector-strategy/variable-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/function-return-ir-injector-strategy/function-return-ir-injector-strategy.cpp",
+        
+        
+        "ir-nodes/ir-expression-nodes/ir-aggregate-identifier-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/struct-ir-injector-helper/struct-ir-injector-helper.cpp",
+        
+        "ir-generator/ir-util-functions/array-access-ir-function/array-access-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-string-ir-function/copy-string-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/tuple-access-expression-ir-strategy/tuple-access-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-tuple-access-expression-node.cpp",
+        
+        "ir-generator/ir-util-functions/print-ir-function/print-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/function-parameter-ir-injector-strategy/function-parameter-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/module-type-signature-ir-strategy/module-type-signature-ir-strategy.cpp",
+        
+        "ir-type/ir-module-type.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-module-declaration-node.cpp",
+        
+        "ir-generator/ir-strategies/module-declaration-ir-strategy/module-declaration-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/import-single-module-declaration-ir-strategy/import-single-module-declaration-ir-strategy.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-import-single-module-declaration-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/module-ir-injector-strategy/module-ir-injector-strategy.cpp",
+        
+        "vm.cpp",
+        
+        "ir-jet-file/ir-jet-file.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/function-invocation-expression-ir-strategy/function-invocation-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-function-invocation-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/function-invocation-ir-injector-helper/function-invocation-ir-injector-helper.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-block-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/lambda-expression-ir-strategy/lambda-expression-ir-strategy.cpp",
+        
+        "ir-type/ir-lambda-type.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-with-fat-arrow-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/pointer-type-signature-ir-strategy/pointer-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-statement-ir-strategy/expression-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-expression-statement-node.cpp",
+        
+        "ir-type/ir-invocable-type.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/function-invocation-type-signature-ir-strategy/function-invocation-type-signature-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/lambda-ir-injector-strategy.cpp",
+        
+        "ir-type/ir-class-type.cpp",
+        
+        "ir-nodes/ir-declaration-nodes/ir-class-declaration-node.cpp",
+        
+        "ir-nodes/ir-class-nodes/ir-class-constructor-node.cpp",
+        
+        "ir-nodes/ir-class-nodes/ir-class-method-node.cpp",
+        
+        "ir-generator/ir-strategies/class-declaration-ir-strategy/class-declaration-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/class-property-access-expression-ir-strategy/class-property-access-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-property-access-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/class-method-invocation-expression-ir-strategy/class-method-invocation-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-method-invocation-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/class-method-type-signature-ir-strategy/class-method-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/new-class-instance-expression-ir-strategy/new-class-instance-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-new-class-instance-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/new-class-instance-type-signature-ir-strategy/new-class-instance-type-signature-ir-strategy.cpp",
+        
+        "ir-type/ir-new-class-instance-type.cpp",
+        
+        "ir-injector/ir-injector-strategies/new-class-instance-ir-injector-strategy/new-class-instance-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/class-property-assignment-statement-ir-strategy/class-property-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-class-property-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-property-assignment-ir-injector-strategy/class-property-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/class-property-access-ir-injector-helper/class-property-access-ir-injector-helper.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-variable-assignment-statement-node.cpp",
+        
+        "ir-generator/ir-strategies/variable-assignment-statement-ir-strategy/variable-assignment-statement-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/variable-assignment-ir-injector-strategy/variable-assignment-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/if-statement-ir-strategy/if-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-statement-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-if-statement-nodes/ir-if-else-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/if-statement-ir-injector-strategy/if-statement-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/procedure-declaration-ir-injector-strategy/procedure-declaration-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/function-declaration-ir-injector-strategy/function-declaration-ir-injector-strategy.cpp",
+        
+        "ir-nodes/ir-context.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/dref-expression-ir-strategy/dref-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/array-access-assignment-statement-ir-strategy/array-access-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-array-access-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-access-assignment-ir-injector-strategy/array-access-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/enum-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/malloc-ir-function/malloc-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/malloc-free-ir-function/malloc-free-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/malloc-size-ir-function/malloc-size-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-prepend-ir-function/array-prepend-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-append-ir-function/array-append-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-identifier-expression-injector-strategy/literal-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-object-access-expression-injector-strategy/literal-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-arithmetic-expression-injector-strategy/literal-ir-binary-arithmetic-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-binary-comparison-expression-injector-strategy/literal-ir-binary-comparison-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-arithmetic-expression-injector-strategy/literal-ir-unary-arithmetic-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-unary-negate-expression-injector-strategy/literal-ir-unary-negate-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-logical-expression-injector-strategy/literal-ir-logical-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-array-access-expression-injector-strategy/literal-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-tuple-access-expression-injector-strategy/literal-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-expression-injector-strategy/array-ir-array-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-object-access-expression-injector-strategy/array-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-array-access-expression-injector-strategy/array-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-tuple-access-expression-injector-strategy/array-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-string-literal-expression-injector-strategy/string-ir-string-literal-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-object-access-expression-injector-strategy/string-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-array-access-expression-injector-strategy/string-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-tuple-access-expression-injector-strategy/string-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-class-property-access-expression-injector-strategy/string-ir-class-property-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-struct-expression-injector-strategy/struct-ir-struct-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-identifier-expression-injector-strategy/struct-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-object-access-expression-injector-strategy/struct-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-array-access-expression-injector-strategy/struct-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-tuple-access-expression-injector-strategy/struct-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-class-property-access-expression-injector-strategy/struct-ir-class-property-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-expression-injector-strategy/tuple-ir-tuple-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-identifier-expression-injector-strategy/tuple-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-tuple-access-expression-injector-strategy/tuple-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-class-property-access-expression-injector-strategy/tuple-ir-class-property-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/pointer-ir-injector-strategy.cpp",
+        
+        "ir-scope/ir-scope.cpp",
+        
+        "ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-identifier-expression-injector-strategy/pointer-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-dref-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-dref-expression-injector-strategy/literal-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/struct-ir-injector-strategy/strategies/struct-ir-dref-expression-injector-strategy/struct-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-dref-expression-injector-strategy/array-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-dref-expression-injector-strategy/string-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/pointer-ir-injector-helper/pointer-ir-injector-helper.cpp",
+        
+        "ir-generator/ir-util-functions/copy-array-ir-function/copy-array-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-pointer-ir-function/copy-pointer-ir-function.cpp",
+        
+        
+        "ir-type/ir-type-value-type.cpp",
+        
+        "ir-injector/ir-injector-strategies/type-value-ir-injector-strategy/type-value-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/memcpy-ir-function/memcpy-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-value-ir-function/copy-value-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-struct-ir-function/copy-struct-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-identifier-expression-injector-strategy/array-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-identifier-expression-injector-strategy/string-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/free-value-ir-function/free-value-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-struct-ir-function/free-struct-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-pointer-ir-function/free-pointer-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-array-ir-function/free-array-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-string-ir-function/free-string-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-shared-ptr-ir-function/copy-shared-ptr-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-shared-ptr-ir-function/free-shared-ptr-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/setup-shared-ptr-ir-function/setup-shared-ptr-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/block-ir-injector-strategy/block-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/while-statement-ir-strategy/while-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-while-statement-node/ir-while-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/while-statement-ir-injector-strategy/while-statement-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/for-in-statement-ir-strategy/for-in-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-for-in-statement-node/ir-for-in-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/for-in-statement-ir-injector-strategy/for-in-statement-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/range-ir-function/range-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-head-ir-function/array-head-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-last-ir-function/array-last-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-concat-ir-function/array-concat-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-drop-ir-function/array-drop-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-drop-last-ir-function/array-drop-last-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-tail-ir-function/array-tail-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-take-ir-function/array-take-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-take-last-ir-function/array-take-last-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/concat-expression-ir-strategy/concat-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-concat-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-ir-injector-strategy/strategies/array-ir-concat-expression-injector-strategy/array-ir-concat-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/string-ir-injector-strategy/strategies/string-ir-concat-expression-injector-strategy/string-ir-concat-expression-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/object-access-invocation-expression-ir-strategy/object-access-invocation-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-array-prototype-invocation-expression-node.cpp",
+        
+        "ir-generator/ir-prototypes/ir-array-prototype-map.cpp",
+        
+        
+        "ir-injector/ir-injector-strategies/expression-statement-ir-injector-strategy/expression-statement-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/tuple-access-invocation-expression-ir-strategy/tuple-access-invocation-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-tuple-access-invocation-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-object-access-invocation-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/dref-ir-injector-helper/dref-ir-injector-helper.cpp",
+        
+        "ir-generator/ir-strategies/interface-type-declaration-ir-strategy/interface-type-declaration-ir-strategy.cpp",
+        
+        "ir-nodes/ir-type-declaration-nodes/ir-type-declaration-node.cpp",
+        
+        "ir-nodes/ir-type-declaration-nodes/ir-interface-type-declaration-node.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/interface-type-signature-ir-strategy/interface-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/array-size-ir-function/array-size-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/array-empty-ir-function/array-empty-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/custom-type-declaration-ir-strategy/custom-type-declaration-ir-strategy.cpp",
+        
+        "ir-nodes/ir-type-declaration-nodes/ir-custom-type-declaration-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/void-ir-injector-strategy/void-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/literal-ir-injector-strategy/strategies/literal-ir-literal-expression-injector-strategy/literal-ir-literal-expression-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/object-access-assignment-statement-ir-strategy/object-access-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-object-access-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/object-access-assignment-ir-injector-strategy/object-access-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-object-access-expression-injector-strategy/tuple-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-operation/ir-operation.cpp",
+        
+        "ir-generator/ir-util-functions/equal-string-ir-function/equal-string-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/equal-array-ir-function/equal-array-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/equal-shared-ptr-ir-function/equal-shared-ptr-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/equal-struct-ir-function/equal-struct-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/equal-value-ir-function/equal-value-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/tuple-access-assignment-statement-ir-strategy/tuple-access-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-tuple-access-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-access-assignment-ir-injector-strategy/tuple-access-assignment-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/assert-ir-function/assert-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/class-property-type-signature-ir-strategy/class-property-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-prototypes/ir-shared-ptr-prototype-map.cpp",
+        
+        
+        "ir-nodes/ir-expression-nodes/ir-shared-ptr-prototype-invocation-expression-node.cpp",
+        
+        "ir-generator/ir-util-functions/shares-with-ir-function/shares-with-ir-function.cpp",
+        
+        "ir-type/ir-invocable-parameter-list-type.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/lambda-scope-type-signature-ir-strategy/lambda-scope-type-signature-ir-strategy.cpp",
+        
+        
+        "ir-nodes/ir-block-nodes/ir-control-flow-block-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.cpp",
+        
+        "ir-type/ir-captured-variable-type.cpp",
+        
+        "ir-generator/ir-util-functions/free-captured-variable-ir-function/free-captured-variable-ir-function.cpp",
+        
+        "ir-nodes/ir-type-value-instruction-node.cpp",
+        
+        "ir-generator/ir-util-functions/increment-ref-count-ir-function/increment-ref-count-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/copy-lambda-ir-function/copy-lambda-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-lambda-ir-function/free-lambda-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.cpp",
+        
+        "ir-type/ir-struct-ref-type.cpp",
+        
+        "ir-generator/ir-util-functions/setup-ref-for-struct-ir-function/setup-ref-for-struct-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/object-access-ir-injector-helper/object-access-ir-injector-helper.cpp",
+        
+        "ir-generator/ir-util-functions/copy-struct-ref-ir-function/copy-struct-ref-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/free-struct-ref-ir-function/free-struct-ref-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/equal-struct-ref-ir-function/equal-struct-ref-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/class-instance-type-signature-ir-strategy/class-instance-type-signature-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/class-instance-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-ir-injector-strategy/class-ir-injector-strategy.cpp",
+        
+        "ir-nodes/ir-class-nodes/ir-class-pre-constructor-node.cpp",
+        
+        "ir-type/ir-class-instance-type.cpp",
+        
+        "ir-generator/ir-util-functions/increment-lambda-ref-count-ir-function/increment-lambda-ref-count-ir-function.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-lambda-expression-nodes/ir-lambda-expression-node.cpp",
+        
+        "ir-generator/ir-util-functions/free-invocable-ir-function/free-invocable-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-concat-ir-function/string-concat-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/void-type-signature-ir-strategy/void-type-signature-ir-strategy.cpp",
+        
+        "ir-generator/ir-internal-modules/ir-debug-internal-module/ir-debug-internal-module.cpp",
+        
+        "ir-generator/ir-internal-modules/ir-core-internal-module/ir-core-internal-module.cpp",
+        
+        "ir-generator/ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-expression-injector-strategy/lambda-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-expression-injector-strategy/lambda-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-object-access-expression-injector-strategy/class-instance-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-tuple-access-expression-injector-strategy/class-instance-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-object-access-expression-strategy/enum-ir-object-access-expression-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-tuple-access-expression-strategy/enum-ir-tuple-access-expression-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-array-access-expression-strategy/enum-ir-array-access-expression-strategy.cpp",
+        
+        "ir-nodes/ir-captured-variable-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-expression-injector-strategy/lambda-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/array-access-invocation-expression-ir-strategy/array-access-invocation-expression-ir-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-array-access-invocation-expression-node.cpp",
+        
+        "ir-nodes/ir-function-nodes/ir-function-argument-node.cpp",
+        
+        "ir-generator/ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.cpp",
+        
+        "ir-nodes/ir-binary-arithmetic-node.cpp",
+        
+        "ir-nodes/ir-binary-operator-node.cpp",
+        
+        "utils/binary-arithmetic-dsu/binary-arithmetic-dsu.cpp",
+        
+        "ir-generator/ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.cpp",
+        
+        "ir-generator/ir-strategies/shared-value-assignment-statement-ir-strategy/shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-shared-value-assignment-statement-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-class-property-shared-value-assignment-statement-node.cpp",
+        
+        "ir-generator/ir-strategies/class-property-shared-value-assignment-statement-ir-strategy/class-property-shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-property-shared-value-assignment-ir-injector-strategy/class-property-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-value-assignment-ir-injector-strategy/shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-generator/ir-util-functions/free-shared-ptr-value-ir-function/free-shared-ptr-value-ir-function.cpp",
+        
+        "ir-nodes/ir-class-nodes/ir-class-static-property-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-static-property-access-expression-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-class-static-property-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-static-property-assignment-ir-injector-strategy/class-static-property-assignment-ir-injector-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.cpp",
+        
+        "ir-generator/ir-prototypes/ir-string-prototype-map.cpp",
+        
+        
+        "ir-generator/ir-util-functions/string-drop-ir-function/string-drop-ir-function.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.cpp",
+        
+        "ir-generator/ir-util-functions/string-drop-last-ir-function/string-drop-last-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-empty-ir-function/string-empty-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-head-ir-function/string-head-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-last-ir-function/string-last-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-size-ir-function/string-size-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-tail-ir-function/string-tail-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-take-ir-function/string-take-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-take-last-ir-function/string-take-last-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-at-ir-function/string-at-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-append-ir-function/string-append-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/string-prepend-ir-function/string-prepend-ir-function.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-module-access-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/module-access-expression-ir-strategy/module-access-expression-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/module-access-ir-injector-helper/module-access-ir-injector-helper.cpp",
+        
+        "ir-generator/ir-strategies/module-access-assignment-statement-ir-strategy/module-access-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-module-access-assignment-statement-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/module-access-assignment-ir-injector-strategy/module-access-assignment-ir-injector-strategy.cpp",
+        
+        "utils/dependency-graph/dependency-graph.cpp",
+        
+        "ir-nodes/ir-node-to-free.cpp",
+        
+        "ir-generator/ir-util-functions/free-class-property-ir-function/free-class-property-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.cpp",
+        
+        "ir-generator/ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-array-access-expression-injector-strategy/tuple-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-array-access-expression-injector-strategy/class-instance-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-ir-injector-strategy/strategies/tuple-ir-dref-expression-injector-strategy/tuple-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-dref-expression-injector-strategy/class-instance-ir-dref-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-dref-expression-strategy/enum-ir-dref-expression-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/enum-ir-injector-strategy/strategies/enum-ir-identifier-expression-strategy/enum-ir-identifier-expression-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-identifier-expression-injector-strategy/lambda-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-module-access-expression-injector-strategy/lambda-ir-module-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy/lambda-ir-lambda-with-fat-arrow-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-lambda-with-block-expression-injector-strategy/lambda-ir-lambda-with-block-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/lambda-ir-injector-helper/lambda-ir-injector-helper.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-class-static-method-invocation-expression-injector-strategy/lambda-class-static-method-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-object-access-invocation-expression-injector-strategy/lambda-ir-object-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-array-access-invocation-expression-injector-strategy/lambda-ir-array-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-function-invocation-expression-injector-strategy/lambda-ir-function-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/lambda-ir-injector-strategy/strategies/lambda-ir-tuple-access-invocation-expression-injector-strategy/lambda-ir-tuple-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-this-expression-node.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/this-expression-ir-strategy/this-expression-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-instance-ir-injector-strategy/strategies/class-instance-ir-this-expression-injector-strategy/class-instance-ir-this-expression-injector-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-array-access-shared-value-assignment-statement-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-object-access-shared-value-assignment-statement-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-tuple-access-shared-value-assignment-statement-node.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-module-access-shared-value-assignment-statement-node.cpp",
+        
+        "ir-generator/ir-strategies/array-access-shared-value-assignment-statement-ir-strategy/array-access-shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/object-access-shared-value-assignment-statement-ir-strategy/object-access-shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-nodes/ir-statement-nodes/ir-class-static-property-shared-value-assignment-statement-node.cpp",
+        
+        "ir-generator/ir-strategies/module-access-shared-value-assignment-statement-ir-strategy/module-access-shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/tuple-access-shared-value-assignment-statement-ir-strategy/tuple-access-shared-value-assignment-statement-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/array-access-shared-value-assignment-ir-injector-strategy/array-access-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/object-access-shared-value-assignment-ir-injector-strategy/object-access-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/module-access-shared-value-assignment-ir-injector-strategy/module-access-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/tuple-access-shared-value-assignment-ir-injector-strategy/tuple-access-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/class-static-property-shared-value-assignment-ir-injector-strategy/class-static-property-shared-value-assignment-ir-injector-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-share-expression-node.cpp",
+        
+        "ir-type/ir-shared-ptr-type.cpp",
+        
+        "ir-generator/ir-strategies/expression-ir-strategies/share-expression-ir-strategy/share-expression-ir-strategy.cpp",
+        
+        "ir-generator/ir-strategies/type-signature-ir-strategies/shared-type-signature-ir-strategy/shared-type-signature-ir-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/shared-ptr-ir-injector-helper/shared-ptr-ir-injector-helper.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/shared-ptr-ir-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-share-expression-injector-strategy/shared-ptr-ir-share-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-identifier-expression-injector-strategy/shared-ptr-ir-identifier-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-object-access-expression-injector-strategy/shared-ptr-ir-object-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-array-access-expression-injector-strategy/shared-ptr-ir-array-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-function-invocation-expression-injector-strategy/shared-ptr-ir-function-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-class-static-method-invocation-expression-injector-strategy/shared-ptr-ir-class-static-method-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-object-access-invocation-expression-injector-strategy/shared-ptr-ir-object-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-tuple-access-invocation-expression-injector-strategy/shared-ptr-ir-tuple-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-array-access-invocation-expression-injector-strategy/shared-ptr-ir-array-access-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-class-method-invocation-expression-injector-strategy/shared-ptr-ir-class-method-invocation-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-class-property-access-expression-injector-strategy/shared-ptr-ir-class-property-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-module-access-expression-injector-strategy/shared-ptr-ir-module-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/shared-ptr-ir-injector-strategy/strategies/shared-ptr-ir-tuple-access-expression-injector-strategy/shared-ptr-ir-tuple-access-expression-injector-strategy.cpp",
+        
+        "ir-injector/ir-injector-strategies/pointer-ir-injector-strategy/strategies/pointer-ir-share-expression-injector-strategy/pointer-ir-share-expression-injector-strategy.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.cpp",
+        
+        "ir-injector/ir-injector-strategies/ir-injector-helpers/class-method-access-ir-injector-helper/class-method-access-ir-injector-helper.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.cpp",
+        
+        "ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.cpp",
+        
+        },
+    });
+}

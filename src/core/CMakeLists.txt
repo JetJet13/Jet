@@ -7,12 +7,10 @@
 #)
 
 add_library(jet-core
-        ./lexeme/lexeme.h
-        ./lexeme/lexeme.cpp
-
-        ./symbol/symbol.h
-        ./symbol/symbol.cpp
-
+        lexeme/lexeme.h
+        lexeme/lexeme.cpp
+        symbol/symbol.h
+        symbol/symbol.cpp
         symbol/symbol-factory.cpp
         symbol/symbol-factory.h
         token/token.cpp
