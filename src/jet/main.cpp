@@ -13,13 +13,6 @@
 #include "../core/pre-processor/pre-processor.h"
 #include "../vm/vm.h"
 
-// we need to add support for
-// macOS x64
-// Linux arm64
-// Linux x64
-// macOS arm64
-// Windows x64
-// Windows arm64
 int main (int argc, const char* argv[]) {
     if (argc == 2) {
         std::string filePath = argv[1];
@@ -45,51 +38,51 @@ int main (int argc, const char* argv[]) {
         auto irJetFile = vm->compileMain(jetFile);
 
         // Initialize the target registry etc.
-        llvm::InitializeAllTargetInfos();
-        llvm::InitializeAllTargets();
-        llvm::InitializeAllTargetMCs();
-        llvm::InitializeAllAsmParsers();
-        llvm::InitializeAllAsmPrinters();
-        auto TargetTriple = llvm::sys::getDefaultTargetTriple();
-        std::string Error;
-        auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
-        // Print an error and exit if we couldn't find the requested target.
-        // This generally occurs if we've forgotten to initialise the
-        // TargetRegistry or we have a bogus target triple.
-        if (!Target) {
-            Logger::log(Error);
-            return 1;
-        }
-
-        auto CPU = "generic";
-        auto Features = "";
-
-        llvm::TargetOptions opt;
-        auto RM = std::optional<llvm::Reloc::Model>();
-        auto TheTargetMachine =
-                Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
-        irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
-
-
-        auto Filename = std::filesystem::path(filePath).filename().string();
-        std::error_code EC;
-        llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
-
-        if (EC) {
-            Logger::log("Could not open file: ", EC.message());
-            return 1;
-        }
-
-        llvm::legacy::PassManager pass;
-        auto FileType = llvm::CGFT_ObjectFile;
-
-        if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
-            Logger::log("TheTargetMachine can't emit a file of this type");
-            return EXIT_STATUS_GENERIC_ERROR;
-        }
-
-        pass.run(*irJetFile->getIRModule()->getModule()->get());
-        dest.flush();
+//        llvm::InitializeAllTargetInfos();
+//        llvm::InitializeAllTargets();
+//        llvm::InitializeAllTargetMCs();
+//        llvm::InitializeAllAsmParsers();
+//        llvm::InitializeAllAsmPrinters();
+//        auto TargetTriple = llvm::sys::getDefaultTargetTriple();
+//        std::string Error;
+//        auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
+//        // Print an error and exit if we couldn't find the requested target.
+//        // This generally occurs if we've forgotten to initialize the
+//        // TargetRegistry or we have a bogus target triple.
+//        if (!Target) {
+//            Logger::log(Error);
+//            return 1;
+//        }
+//
+//        auto CPU = "generic";
+//        auto Features = "";
+//
+//        llvm::TargetOptions opt;
+//        auto RM = std::optional<llvm::Reloc::Model>();
+//        auto TheTargetMachine =
+//                Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+//        irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
+//
+//
+//        auto Filename = std::filesystem::path(filePath).filename().string();
+//        std::error_code EC;
+//        llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
+//
+//        if (EC) {
+//            Logger::log("Could not open file: ", EC.message());
+//            return 1;
+//        }
+//
+//        llvm::legacy::PassManager pass;
+//        auto FileType = llvm::CGFT_ObjectFile;
+//
+//        if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
+//            Logger::log("TheTargetMachine can't emit a file of this type");
+//            return EXIT_STATUS_GENERIC_ERROR;
+//        }
+//
+//        pass.run(*irJetFile->getIRModule()->getModule()->get());
+//        dest.flush();
 
     } else {
         Logger::log("no jet file path provided..exiting");

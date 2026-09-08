@@ -4,3 +4,6 @@ cmake-build-debug-jet-lang-toolchain-debug
 .idea
 ir-generator-test-output.ir
 *.exe
+target-llvm-binaries
+builds
+.zig-cache

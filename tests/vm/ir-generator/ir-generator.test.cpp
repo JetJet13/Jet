@@ -17,7 +17,6 @@
 #include "../../../src/vm/ir-injector/ir-injector.h"
 #include "../../../src/vm/ir-generator/ir-internal-modules/ir-util-internal-module/ir-util-internal-module.h"
 #include "../../../src/core/pre-processor/pre-processor.h"
-#include "../../../src/core/post-processor/post-processor.h"
 
 TEST_CASE( "should create expected vm code" ) {
     std::string filePath = "./ir-generator-test-file.jet";

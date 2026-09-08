@@ -6,7 +6,6 @@
 #include "../logger/logger.h"
 #include "../../types/exit-status.enum.h"
 
-
 namespace FileIO {
     std::ifstream readFile(std::string &path) {
         std::ifstream file(path, std::ios::binary);

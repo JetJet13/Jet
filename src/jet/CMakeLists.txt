@@ -15,10 +15,18 @@ link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 llvm_map_components_to_libnames(llvm_libs support core linker irreader irprinter ${LLVM_TARGETS_TO_BUILD})
 
+Include(FetchContent)
+FetchContent_Declare(
+        cli11_proj
+        QUIET
+        GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
+        GIT_TAG cbd58a3696887b34c70949aef21a71735a0c2ad5 # v2.7.2
+)
+FetchContent_MakeAvailable(cli11_proj)
+
+
 set(CMAKE_EXE_LINKER_FLAGS "-lc++")
-add_executable(jet
-        main.cpp
-        main.h)
+add_executable(jet main.cpp main.h)
 target_compile_features(jet PRIVATE cxx_std_17)
 target_link_libraries(jet
         PRIVATE jet-vm
@@ -34,4 +42,10 @@ target_link_libraries(jet-debug
         PRIVATE jet-core
         PRIVATE jet-shared
         PRIVATE ${llvm_libs}
+)
+
+add_executable(jet-cli cli/jet-cli.cpp cli/jet-cli.h)
+target_compile_features(jet-cli PRIVATE cxx_std_17)
+target_link_libraries(jet-cli
+        PRIVATE CLI11::CLI11
 )
