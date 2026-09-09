@@ -20,7 +20,7 @@ int main (int argc, const char* argv[]) {
     }));
     CLI11_PARSE(app, argc, argv);
 
-    std::string zigCommand = "zig build --build-file ./src/jet/cli/zig-build/build.zig -Dtarget=" + target;
+    std::string zigCommand = "zig build --build-file build.zig -j8 -Dtarget=" + target;
     std::system(zigCommand.c_str());
 
     return EXIT_SUCCESS;

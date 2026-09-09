@@ -9,9 +9,9 @@
 #include "../core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../core/pre-processor/semantic-analyzer/semantic-analyzer.h"
-#include "../vm/ir-generator/ir-generator.h"
+//#include "../vm/ir-generator/ir-generator.h"
 #include "../core/pre-processor/pre-processor.h"
-#include "../vm/vm.h"
+//#include "../vm/vm.h"
 
 int main (int argc, const char* argv[]) {
     if (argc == 2) {
@@ -28,14 +28,14 @@ int main (int argc, const char* argv[]) {
             exit(EXIT_STATUS_GENERIC_ERROR);
         }
 
-        auto irInjector = std::make_shared<IRInjector>();
-        auto irGenerator = std::make_shared<IRGenerator>(irInjector);
+//        auto irInjector = std::make_shared<IRInjector>();
+//        auto irGenerator = std::make_shared<IRGenerator>(irInjector);
 
         // using new here avoids llvm 'use after deletion' errors from
         // being thrown
-        auto vm = new VM(irGenerator, irInjector);
+//        auto vm = new VM(irGenerator, irInjector);
 
-        auto irJetFile = vm->compileMain(jetFile);
+//        auto irJetFile = vm->compileMain(jetFile);
 
         // Initialize the target registry etc.
 //        llvm::InitializeAllTargetInfos();

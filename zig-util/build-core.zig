@@ -2,7 +2,7 @@ const std = @import("std");
 
 pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
     exe.addCSourceFiles(.{
-        .root = b.path("../../../core"),
+        .root = b.path("src/core"),
         .flags = &.{
             "-std=c++17"
         },

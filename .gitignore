@@ -7,3 +7,4 @@ ir-generator-test-output.ir
 target-llvm-binaries
 builds
 .zig-cache
+zig-out
