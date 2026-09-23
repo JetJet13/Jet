@@ -29,7 +29,7 @@ public:
     std::shared_ptr<Position> getEndPosition() override;
     std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
     std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;
-    unsigned long size();
+    uint64_t size();
     llvm::Value* getValue() override;
     std::shared_ptr<IRInstructionNode> getIRValue();
     std::vector<std::shared_ptr<IRExpressionNode>>* getValues();

@@ -7,8 +7,8 @@
 
 void UniqueTypeSignatureWithIdTypeCheckerRule::enforce(std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>* pairs, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto samePairs = std::vector<std::pair<std::string, std::shared_ptr<TypeSignature>>>();
-    for (unsigned long i = 0; i < pairs->size(); ++i) {
-        for (unsigned long j = i + 1; j < pairs->size(); ++j) {
+    for (uint64_t i = 0; i < pairs->size(); ++i) {
+        for (uint64_t j = i + 1; j < pairs->size(); ++j) {
             auto pair = pairs->at(i);
             auto otherPair = pairs->at(j);
             if (pair.first == otherPair.first && pair.second->isEquivalentTo(otherPair.second)) {

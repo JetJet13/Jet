@@ -25,13 +25,13 @@ public:
     ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::shared_ptr<ASTStructEndNode> structEndNode);
     ASTStructExpressionNode(std::shared_ptr<ASTStructStartNode> structStartNode, std::vector<std::shared_ptr<ASTStructKeyValueNode>> keyValuePairs, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructEndNode> structEndNode);
     std::vector<std::shared_ptr<ASTStructKeyValueNode>> getKeyValuePairs();
-    std::shared_ptr<ASTStructKeyValueNode> getKeyValuePairAt(unsigned long index);
+    std::shared_ptr<ASTStructKeyValueNode> getKeyValuePairAt(uint64_t index);
     std::shared_ptr<ASTStructExpressionNode> addKeyValuePair(std::shared_ptr<ASTStructKeyValueNode> keyValuePair);
     std::shared_ptr<ASTStructExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     std::shared_ptr<StructTypeSignature> getStructTypeSignature();
     void setTypeSignature(std::shared_ptr<StructTypeSignature> structTypeSignature);
-    unsigned long size();
+    uint64_t size();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

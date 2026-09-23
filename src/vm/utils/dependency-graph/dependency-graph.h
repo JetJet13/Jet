@@ -16,12 +16,12 @@
 class DependencyGraph {
 private:
     std::unordered_map<std::string, std::shared_ptr<std::set<std::shared_ptr<JetFile>>>> _directDependencyMap;
-    std::unordered_map<std::string, unsigned long> _totalDependencyMap;
-    std::vector<std::pair<unsigned long, std::shared_ptr<JetFile>>> _totalCounts;
+    std::unordered_map<std::string, uint64_t> _totalDependencyMap;
+    std::vector<std::pair<uint64_t, std::shared_ptr<JetFile>>> _totalCounts;
     std::vector<std::shared_ptr<JetFile>> _importFreeFiles;
-    unsigned long _priorityCounter = 1;
+    uint64_t _priorityCounter = 1;
     std::set<std::string> _visited;
-    unsigned long setAndReturnTotalDependents(std::shared_ptr<JetFile> jetFile);
+    uint64_t setAndReturnTotalDependents(std::shared_ptr<JetFile> jetFile);
 public:
     DependencyGraph();
     std::shared_ptr<std::vector<std::shared_ptr<JetFile>>> getPrioritizedList();

@@ -47,7 +47,7 @@ std::optional<std::shared_ptr<IRInstructionNode>> IRStructExpressionNode::getArc
     return _irArc;
 }
 
-unsigned long IRStructExpressionNode::size() {
+uint64_t IRStructExpressionNode::size() {
     return _irValues.size();
 }
 

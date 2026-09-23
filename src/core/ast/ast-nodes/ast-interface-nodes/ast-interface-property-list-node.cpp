@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<ASTInterfacePropertyNode>> ASTInterfacePropertyListN
     return _properties;
 }
 
-unsigned long ASTInterfacePropertyListNode::numProperties() {
+uint64_t ASTInterfacePropertyListNode::numProperties() {
     return _properties.size();
 }
 
@@ -71,7 +71,7 @@ bool ASTInterfacePropertyListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numProperties() != otherNode->numProperties()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numProperties(); i++) {
+    for (uint64_t i = 0; i < this->numProperties(); i++) {
         if (!_properties[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -92,7 +92,7 @@ std::string ASTInterfacePropertyListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_startNode);
 
-    for (unsigned long i = 0; i < _properties.size(); ++i) {
+    for (uint64_t i = 0; i < _properties.size(); ++i) {
         sourceCodeBuilder.add(_properties.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

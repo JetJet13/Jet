@@ -23,7 +23,7 @@ llvm::Value* IRTupleExpressionNode::getValue() {
     return _irValue->getValue();
 }
 
-unsigned long IRTupleExpressionNode::size() {
+uint64_t IRTupleExpressionNode::size() {
     return _irValues.size();
 }
 

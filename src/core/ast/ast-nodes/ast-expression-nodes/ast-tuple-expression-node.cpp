@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<ASTTupleItemNode>>* ASTTupleExpressionNode::getItems
     return &_items;
 }
 
-unsigned long ASTTupleExpressionNode::numItems() {
+uint64_t ASTTupleExpressionNode::numItems() {
     return _items.size();
 }
 
@@ -78,7 +78,7 @@ bool ASTTupleExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numItems() != otherNode->numItems()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numItems(); i++) {
+    for (uint64_t i = 0; i < this->numItems(); i++) {
         if (!_items[i]->isSameAs(otherNode->getItems()->at(i))) {
             return false;
         }
@@ -97,7 +97,7 @@ void ASTTupleExpressionNode::print() {
 std::string ASTTupleExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tupleListStart);
-    for (unsigned long i = 0; i < _items.size(); ++i) {
+    for (uint64_t i = 0; i < _items.size(); ++i) {
         sourceCodeBuilder.add(_items.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

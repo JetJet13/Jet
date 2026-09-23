@@ -17,7 +17,7 @@ private:
     std::vector<std::shared_ptr<ParameterListItemTypeSignature>> _parameters;
     std::vector<std::shared_ptr<TypeSignature>> _parameterTypes;
     bool _isVariableLength = false;
-    unsigned long _variableLengthStartIndex = -1;
+    uint64_t _variableLengthStartIndex = -1;
     std::optional<std::shared_ptr<ParameterListItemTypeSignature>> _variableLengthTypeSignature;
 public:
     ParameterListTypeSignature();
@@ -25,10 +25,10 @@ public:
     std::vector<std::shared_ptr<ParameterListItemTypeSignature>>* getParameters();
     std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes();
     std::string getId();
-    unsigned long numParameters();
-    void markAsVariableLength(unsigned long startIndex, std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
+    uint64_t numParameters();
+    void markAsVariableLength(uint64_t startIndex, std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
     [[nodiscard]] bool isVariableLength() const;
-    [[nodiscard]] unsigned long getVariableLengthStartIndex() const;
+    [[nodiscard]] uint64_t getVariableLengthStartIndex() const;
     std::shared_ptr<ParameterListItemTypeSignature> getVariableLengthTypeSignature();
     std::string toDetailString() override;
     std::string toString() override;

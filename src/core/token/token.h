@@ -14,17 +14,17 @@
 class Token : public std::enable_shared_from_this<Token> {
 private:
     std::shared_ptr<Symbol> _symbol;
-    std::optional<unsigned long> _valueId;
+    std::optional<uint64_t> _valueId;
     std::string _rawValue;
 public:
     explicit Token(std::shared_ptr<Symbol> symbol);
     explicit Token(std::shared_ptr<Symbol> symbol, std::string rawValue);
-    Token(std::shared_ptr<Symbol> symbol, std::string rawValue, unsigned long valueId);
+    Token(std::shared_ptr<Symbol> symbol, std::string rawValue, uint64_t valueId);
     std::shared_ptr<Symbol> getSymbol();
     SymbolType getSymbolType();
     std::string getRawValue();
-    std::optional<unsigned long> getValueId();
-    std::shared_ptr<Token> setValueId(unsigned long valueId);
+    std::optional<uint64_t> getValueId();
+    std::shared_ptr<Token> setValueId(uint64_t valueId);
     std::string toString();
     bool isEqualTo(std::shared_ptr<Token> otherToken);
 };

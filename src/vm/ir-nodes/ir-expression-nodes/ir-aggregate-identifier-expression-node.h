@@ -35,7 +35,7 @@ public:
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
-    llvm::Type* getTypeAtIndex(unsigned long index) override;
+    llvm::Type* getTypeAtIndex(uint64_t index) override;
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

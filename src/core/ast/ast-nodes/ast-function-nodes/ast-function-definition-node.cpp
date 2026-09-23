@@ -31,7 +31,7 @@ std::shared_ptr<ASTTypeNode> ASTFunctionDefinitionNode::getReturnType() {
     return _returnType;
 }
 
-unsigned long ASTFunctionDefinitionNode::numParameters() {
+uint64_t ASTFunctionDefinitionNode::numParameters() {
     return _parameters->numParameters();
 }
 

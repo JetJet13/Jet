@@ -14,11 +14,11 @@ private:
     std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> _node;
     std::shared_ptr<IRExpressionNode> _irExpression;
     std::string _propertyName;
-    unsigned long _propertyIndex;
+    uint64_t _propertyIndex;
 public:
-    IRClassPropertySharedValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::string propertyName, unsigned long propertyIndex);
+    IRClassPropertySharedValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::string propertyName, uint64_t propertyIndex);
     std::shared_ptr<IRExpressionNode> getExpression();
-    unsigned long getPropertyIndex();
+    uint64_t getPropertyIndex();
     IRNodeType getNodeType() override;
     std::string toString() override;
     void print(std::unique_ptr<llvm::raw_fd_ostream> *stream) override;

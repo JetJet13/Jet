@@ -13,7 +13,7 @@ class AggregateTypeSignature : public TypeSignature {
 public:
     virtual TypeSignatureMap<std::shared_ptr<T>>* getKeyValuePairs() = 0;
     virtual std::shared_ptr<T> getTypeSignatureForKey(std::string key) = 0;
-    virtual std::shared_ptr<T> getTypeSignatureAtIndex(unsigned long index) = 0;
+    virtual std::shared_ptr<T> getTypeSignatureAtIndex(uint64_t index) = 0;
 };
 
 #endif //JETLANG_AGGREGATE_TYPE_SIGNATURE_H

@@ -21,7 +21,7 @@ public:
     explicit ASTInterfaceTypeDeclarationNode(std::shared_ptr<ASTInterfaceDefinitionNode> interfaceDefinition, std::shared_ptr<ASTInterfacePropertyListNode> propertyList, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTInterfacePropertyListNode> getProperties();
     std::shared_ptr<ASTInterfaceNameNode> getName();
-    unsigned long numProperties();
+    uint64_t numProperties();
     bool isExportable() override;
     void setTypeSignature(std::shared_ptr<InterfaceTypeSignature> typeSignature);
     std::shared_ptr<InterfaceTypeSignature> getInterfaceTypeSignature();

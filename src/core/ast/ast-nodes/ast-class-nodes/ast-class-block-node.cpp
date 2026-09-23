@@ -123,25 +123,25 @@ bool ASTClassBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
     auto otherNode = std::dynamic_pointer_cast<ASTClassBlockNode>(other);
-    for (unsigned long i = 0; i < _instanceProperties.size(); ++i) {
+    for (uint64_t i = 0; i < _instanceProperties.size(); ++i) {
         if (!_instanceProperties[i]->isSameAs(otherNode->getInstanceProperties()->at(i))) {
             return false;
         }
     }
 
-    for (unsigned long i = 0; i < _staticProperties.size(); ++i) {
+    for (uint64_t i = 0; i < _staticProperties.size(); ++i) {
         if (!_staticProperties[i]->isSameAs(otherNode->getStaticProperties()->at(i))) {
             return false;
         }
     }
 
-    for (unsigned long i = 0; i < _methods.size(); ++i) {
+    for (uint64_t i = 0; i < _methods.size(); ++i) {
         if (!_methods[i]->isSameAs(otherNode->getMethods()->at(i))) {
             return false;
         }
     }
 
-    for (unsigned long i = 0; i < _constructors.size(); ++i) {
+    for (uint64_t i = 0; i < _constructors.size(); ++i) {
         if (!_constructors[i]->isSameAs(otherNode->getConstructors()->at(i))) {
             return false;
         }

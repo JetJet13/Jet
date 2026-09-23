@@ -89,7 +89,7 @@ std::shared_ptr<IRTypeValueInstructionNode> IRType::getValue() {
     return _value.value();
 }
 
-void IRType::setSizeInBytesOverride(unsigned long sizeInBytes) {
+void IRType::setSizeInBytesOverride(uint64_t sizeInBytes) {
     _sizeInBytesOverride = sizeInBytes;
 }
 

@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<ASTFunctionArgumentNode>>* ASTFunctionArgumentListNo
     return &_arguments;
 }
 
-unsigned long ASTFunctionArgumentListNode::numArguments() {
+uint64_t ASTFunctionArgumentListNode::numArguments() {
     return _arguments.size();
 }
 
@@ -83,7 +83,7 @@ bool ASTFunctionArgumentListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numArguments() != otherNode->numArguments()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numArguments(); i++) {
+    for (uint64_t i = 0; i < this->numArguments(); i++) {
         if (!_arguments[i]->isSameAs(otherNodeElements->at(i))) {
             return false;
         }
@@ -103,7 +103,7 @@ void ASTFunctionArgumentListNode::print() {
 std::string ASTFunctionArgumentListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionArgumentListStartNode);
-    for (unsigned long i = 0; i < _arguments.size(); ++i) {
+    for (uint64_t i = 0; i < _arguments.size(); ++i) {
         sourceCodeBuilder.add(_arguments.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

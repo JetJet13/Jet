@@ -30,7 +30,7 @@ public:
     std::shared_ptr<ASTFunctionNameNode> getName();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     std::shared_ptr<ASTProcedureDefinitionNode> getDefinition();
-    unsigned long numParameters();
+    uint64_t numParameters();
     bool isExportable() override;
     void setTypeSignature(std::shared_ptr<ProcedureTypeSignature> typeSignature);
     std::shared_ptr<ProcedureTypeSignature> getProcedureTypeSignature();

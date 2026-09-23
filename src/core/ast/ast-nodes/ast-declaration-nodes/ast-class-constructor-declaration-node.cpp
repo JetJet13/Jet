@@ -27,7 +27,7 @@ std::shared_ptr<ASTFunctionBlockNode> ASTClassConstructorDeclarationNode::getBlo
     return _block;
 }
 
-unsigned long ASTClassConstructorDeclarationNode::numParameters() {
+uint64_t ASTClassConstructorDeclarationNode::numParameters() {
     return _parameters->numParameters();
 }
 

@@ -36,6 +36,25 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vm/ir-generator/ir-generator-test-fil
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vm/ir-generator/ir-generator-test-expected-output.ir
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/golden-master-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/other-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/second-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/struct-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/third-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/fourth-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/main-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/big-module.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/jet/arc-test-file.jet
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
 
 target_compile_features(jet-test PRIVATE cxx_std_17)
 target_link_libraries(jet-test

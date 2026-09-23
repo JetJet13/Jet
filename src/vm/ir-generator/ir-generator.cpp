@@ -338,7 +338,7 @@ std::shared_ptr<IRExpressionNode> IRGenerator::generateFor(std::shared_ptr<ASTEx
     throw std::logic_error("unable to generate llvm value for expression " + node->toString());
 }
 
-std::shared_ptr<IRFunctionArgumentNode> IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, unsigned long index, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
+std::shared_ptr<IRFunctionArgumentNode> IRGenerator::generateFor(std::shared_ptr<ASTFunctionArgumentNode> node, uint64_t index, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation, std::shared_ptr<InvocableTypeSignature> invocableTypeSignature) {
     auto irExpression = this->generateFor(node->getArgument(), scope, irContext, irOperation);
     auto operation = invocableTypeSignature->isArgumentVarArg(index)
                      || invocableTypeSignature->getParameterTypes()->at(index)->isGeneric()
@@ -621,7 +621,7 @@ llvm::StructType* IRGenerator::getFunctionParameterType() {
     return _invocableType;
 }
 
-std::shared_ptr<IRArrayType> IRGenerator::generateIRArrayType(std::shared_ptr<IRType> elementType, unsigned long size) {
+std::shared_ptr<IRArrayType> IRGenerator::generateIRArrayType(std::shared_ptr<IRType> elementType, uint64_t size) {
     auto irArrayType = std::make_shared<IRArrayType>(llvm::ArrayType::get(elementType->getType(), size), elementType);
     return irArrayType;
 }
@@ -638,7 +638,7 @@ std::optional<std::string> IRGenerator::getSharedPtrPrototypeFunctionName(std::s
     return SharedPtrPrototypeMap::getIRName(id);
 }
 
-std::string IRGenerator::getJetUtilsFunctionName(std::string id, unsigned long numArgs) {
+std::string IRGenerator::getJetUtilsFunctionName(std::string id, uint64_t numArgs) {
     return IRUtilInternalModule::getIRName(id, numArgs);
 }
 
@@ -777,7 +777,7 @@ llvm::AllocaInst* IRGenerator::generateIrTypeValueTypeAllocation() {
     );
 }
 
-llvm::GetElementPtrInst* IRGenerator::generateGEP(std::shared_ptr<IRType> irType, llvm::Value* pointer, unsigned long index) {
+llvm::GetElementPtrInst* IRGenerator::generateGEP(std::shared_ptr<IRType> irType, llvm::Value* pointer, uint64_t index) {
     return llvm::GetElementPtrInst::Create(irType->getType(), pointer, { this->generateIntConstant(0), this->generateIntConstant(index) });
 }
 
@@ -825,10 +825,6 @@ llvm::ConstantInt* IRGenerator::generateIntConstant(int64_t integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer, true));
 }
 
-llvm::ConstantInt* IRGenerator::generateIntConstant(unsigned long integer) {
-    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
-}
-
 llvm::ConstantFP* IRGenerator::generateFloatConstant(double floatValue) {
     return llvm::ConstantFP::get(*_context, llvm::APFloat(floatValue));
 }
@@ -853,10 +849,6 @@ llvm::ConstantInt* IRGenerator::generateInt64Constant(unsigned int integer) {
 }
 
 llvm::ConstantInt* IRGenerator::generateInt64Constant(uint64_t integer) {
-    return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
-}
-
-llvm::ConstantInt* IRGenerator::generateInt64Constant(unsigned long integer) {
     return llvm::ConstantInt::get(*_context, llvm::APInt(64, integer));
 }
 
@@ -911,8 +903,8 @@ std::shared_ptr<IRStructRefType> IRGenerator::generateIRStructRefType() {
 std::shared_ptr<IRStructType> IRGenerator::generateIRStructType() {
     return std::make_shared<IRStructType>(
             llvm::StructType::get(*_context),
-            std::unordered_map<std::string, unsigned long>(),
-            std::unordered_map<unsigned long, std::string>(),
+            std::unordered_map<std::string, uint64_t>(),
+            std::unordered_map<uint64_t, std::string>(),
             std::unordered_map<std::string, std::shared_ptr<IRType>>()
     );
 }
@@ -961,7 +953,7 @@ std::shared_ptr<IRType> IRGenerator::generateIRArcType() {
     return std::make_shared<IRType>(this->generateIntType());
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForInvocable(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForInvocable(std::shared_ptr<IRContext> irContext, llvm::Value* source, uint64_t count) {
     auto irType = this->generateIRArcType();
     auto invocableType = this->generateIRInvocableType();
     auto ancestorValues = std::vector<llvm::Value*>();
@@ -1002,7 +994,7 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForInvocabl
     }
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForStructRef(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForStructRef(std::shared_ptr<IRContext> irContext, llvm::Value* source, uint64_t count) {
     auto irType = this->generateIRArcType();
     auto structRefType = this->generateIRStructRefType();
     auto ancestorValues = std::vector<llvm::Value*>();
@@ -1043,7 +1035,7 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForStructRe
     }
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForSharedPtr(std::shared_ptr<IRContext> irContext, llvm::Value* source, unsigned long count) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForSharedPtr(std::shared_ptr<IRContext> irContext, llvm::Value* source, uint64_t count) {
     auto irType = this->generateIRArcType();
     auto irSharedPtrType = this->generateIrSharedPtrType(irType);
     auto ancestorValues = std::vector<llvm::Value*>();
@@ -1084,7 +1076,7 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocationForSharedPt
     }
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::shared_ptr<IRContext> irContext, std::shared_ptr<IRType> irType, llvm::Value* source, unsigned long count) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::shared_ptr<IRContext> irContext, std::shared_ptr<IRType> irType, llvm::Value* source, uint64_t count) {
     if (irType->isInvocableType()) {
         return this->generateArcAllocationForInvocable(irContext, source, count);
     } else if (irType->isSharedType()) {
@@ -1093,7 +1085,7 @@ std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::share
     return this->generateArcAllocationForStructRef(irContext, source, count);
 }
 
-std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::shared_ptr<IRContext> irContext, unsigned long initialCount) {
+std::shared_ptr<IRInstructionNode> IRGenerator::generateArcAllocation(std::shared_ptr<IRContext> irContext, uint64_t initialCount) {
     auto irType = this->generateIRArcType();
     auto malloc = llvm::CallInst::Create(
             irContext->getIRModule()->getMallocFunction(),

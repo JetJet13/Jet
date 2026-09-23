@@ -33,19 +33,29 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize
     });
 
+    const llvmIncludePath = b.fmt("zig-util/target/{s}/llvm/include", .{ target });
+    const llvmLibraryPath = b.fmt("zig-util/target/{s}/llvm/lib", .{ target });
+    const ncursesIncludePath = b.fmt("zig-util/target/{s}/sysroot/ncurses/include", .{ target });
+    const ncursesLibraryPath = b.fmt("zig-util/target/{s}/sysroot/ncurses/lib", .{ target });
+    const xml2IncludePath = b.fmt("zig-util/target/{s}/sysroot/xml2/include", .{ target });
+    const xml2LibraryPath = b.fmt("zig-util/target/{s}/sysroot/xml2/lib", .{ target });
+    const zlibIncludePath = b.fmt("zig-util/target/{s}/sysroot/zlib/include", .{ target });
+    const zlibLibraryPath = b.fmt("zig-util/target/{s}/sysroot/zlib/lib", .{ target });
+    const zstdIncludePath = b.fmt("zig-util/target/{s}/sysroot/zstd/include", .{ target });
+    const zstdLibraryPath = b.fmt("zig-util/target/{s}/sysroot/zstd/lib", .{ target });
+
     // todo -  make llvm binary path dynamic based on target triple
-    jetExe.linkLibC();
     jetExe.linkLibCpp();
-    jetExe.addIncludePath(b.path("zig-util/target/macos-arm64/llvm/include"));
-    jetExe.addLibraryPath(b.path("zig-util/target/macos-arm64/llvm/lib"));
-    jetExe.addIncludePath(b.path("zig-util/target/macos-arm64/sysroot/ncurses/include"));
-    jetExe.addLibraryPath(b.path("zig-util/target/macos-arm64/sysroot/ncurses/lib"));
-    jetExe.addIncludePath(b.path("zig-util/target/macos-arm64/sysroot/xml2/include"));
-    jetExe.addLibraryPath(b.path("zig-util/target/macos-arm64/sysroot/xml2/lib"));
-    jetExe.addIncludePath(b.path("zig-util/target/macos-arm64/sysroot/zlib/include"));
-    jetExe.addLibraryPath(b.path("zig-util/target/macos-arm64/sysroot/zlib/lib"));
-    jetExe.addIncludePath(b.path("zig-util/target/macos-arm64/sysroot/zstd/include"));
-    jetExe.addLibraryPath(b.path("zig-util/target/macos-arm64/sysroot/zstd/lib"));
+    jetExe.addIncludePath(b.path(llvmIncludePath));
+    jetExe.addLibraryPath(b.path(llvmLibraryPath));
+    jetExe.addIncludePath(b.path(ncursesIncludePath));
+    jetExe.addLibraryPath(b.path(ncursesLibraryPath));
+    jetExe.addIncludePath(b.path(xml2IncludePath));
+    jetExe.addLibraryPath(b.path(xml2LibraryPath));
+    jetExe.addIncludePath(b.path(zlibIncludePath));
+    jetExe.addLibraryPath(b.path(zlibLibraryPath));
+    jetExe.addIncludePath(b.path(zstdIncludePath));
+    jetExe.addLibraryPath(b.path(zstdLibraryPath));
     jetExe.linkSystemLibrary("ncurses");
     jetExe.linkSystemLibrary("xml2");
     jetExe.linkSystemLibrary("zlib");
@@ -58,13 +68,8 @@ pub fn build(b: *std.Build) void {
     jetCoreLib.linkLibrary(jetSharedLib);
     buildCore.setup(jetCoreLib, b);
 
-    jetVmLib.addIncludePath(b.path("zig-util/target/macos-arm64/llvm/include"));
-    jetVmLib.addLibraryPath(b.path("zig-util/target/macos-arm64/llvm/lib"));
-    jetVmLib.linkSystemLibrary("LLVMSupport");
-    jetVmLib.linkSystemLibrary("LLVMCore");
-    jetVmLib.linkSystemLibrary("LLVMIRReader");
-    jetVmLib.linkSystemLibrary("LLVMIRPrinter");
-    jetVmLib.linkSystemLibrary("LLVMLinker");
+    jetVmLib.addIncludePath(b.path(llvmIncludePath));
+    jetVmLib.addLibraryPath(b.path(llvmLibraryPath));
     jetVmLib.linkLibrary(jetCoreLib);
     jetVmLib.linkLibrary(jetSharedLib);
     jetVmLib.linkLibCpp();

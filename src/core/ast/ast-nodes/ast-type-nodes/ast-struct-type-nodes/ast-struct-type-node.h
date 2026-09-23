@@ -22,7 +22,7 @@ public:
     ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode);
     ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> structTypeStartNode, std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> keyValueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTStructTypeEndNode> structTypeEndNode);
     std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> getKeyValueTypes();
-    unsigned long numKeyValueTypes();
+    uint64_t numKeyValueTypes();
     std::shared_ptr<ASTStructTypeNode> addKeyValueType(std::shared_ptr<ASTStructTypeKeyValueNode> keyValueType);
     std::shared_ptr<ASTStructTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

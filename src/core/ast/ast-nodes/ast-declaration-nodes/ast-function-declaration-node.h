@@ -31,7 +31,7 @@ public:
     std::shared_ptr<ASTTypeNode> getReturnType();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     std::shared_ptr<ASTFunctionDefinitionNode> getDefinition();
-    unsigned long numParameters();
+    uint64_t numParameters();
     bool isExportable() override;
     void setTypeSignature(std::shared_ptr<FunctionTypeSignature> typeSignature);
     std::shared_ptr<FunctionTypeSignature> getFunctionTypeSignature();

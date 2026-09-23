@@ -48,7 +48,7 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRStructType> i
     auto typeValueType = std::dynamic_pointer_cast<IRTypeValueType>(irStructType->getValue()->getIRType()->getSourceType());
     auto irStructTypeValue = InstructionIRInjectorHelper::inject(irStructType->getValue(), irBlock);
     auto allocation = irBlock->getBuilder()->get()->CreateAlloca(irStructType->getValue()->getIRType()->getType(), irBlock->getBuilder()->get()->getInt64(irStructType->size()));
-    for (unsigned long i = 0; i < irStructType->size(); ++i) {
+    for (uint64_t i = 0; i < irStructType->size(); ++i) {
         auto index = irBlock->getBuilder()->get()->getInt64(i);
         auto keyIdAtIndex = irStructType->getKeyIdForIndex(i);
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
@@ -121,7 +121,7 @@ llvm::Value* TypeValueIRInjectorStrategy::inject(std::shared_ptr<IRInvocableType
     auto pointerToReturnTypeSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), returnTypeTypeValue, typeValueType->getSizeInBytesIndex());
     InstructionIRInjectorHelper::injectStore(irBlock->getBuilder()->get()->getInt64(irInvocableType->getReturnType()->getSizeInBytes()), pointerToReturnTypeSizeInBytes, irBlock);
     InstructionIRInjectorHelper::injectStore(returnTypeTypeValue, returnTypePointer, irBlock);
-    for (unsigned long i = 0; i < parameters->size(); ++i) {
+    for (uint64_t i = 0; i < parameters->size(); ++i) {
         auto irTypeAtIndex = parameters->at(i);
         auto irTypeAtIndexValue = this->inject(irTypeAtIndex, irBlock, irInjector, irModule);
         auto pointerToSizeInBytes = irBlock->getBuilder()->get()->CreateStructGEP(typeValueType->getType(), irTypeAtIndexValue, typeValueType->getSizeInBytesIndex());

@@ -25,7 +25,7 @@ public:
     IRTupleExpressionNode(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRInstructionNode> irValue, std::shared_ptr<IRInstructionNode> irArc, std::shared_ptr<IRStructRefType> type, std::vector<std::shared_ptr<IRExpressionNode>> irValues);
     void markAsGlobal() override;
     llvm::Value* getValue() override;
-    unsigned long size();
+    uint64_t size();
     std::shared_ptr<IRInstructionNode> getIRValue();
     std::vector<std::shared_ptr<IRExpressionNode>>* getValues();
     std::optional<std::shared_ptr<IRInstructionNode>> getArc() override;

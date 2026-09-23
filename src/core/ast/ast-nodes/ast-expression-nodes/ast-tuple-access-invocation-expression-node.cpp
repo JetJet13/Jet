@@ -33,7 +33,7 @@ std::shared_ptr<InvocableTypeSignature> ASTTupleAccessInvocationExpressionNode::
     return std::dynamic_pointer_cast<InvocableTypeSignature>(_tupleAccess->getTypeSignature());
 }
 
-unsigned long ASTTupleAccessInvocationExpressionNode::numArguments() {
+uint64_t ASTTupleAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

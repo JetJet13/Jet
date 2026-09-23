@@ -22,7 +22,7 @@ public:
     ASTTypeParameterListNode(std::shared_ptr<ASTTypeParameterListStartNode> typeParameterListStartNode, std::shared_ptr<ASTTypeParameterListEndNode> typeParameterListEndNode);
     ASTTypeParameterListNode(std::shared_ptr<ASTTypeParameterListStartNode> typeParameterListStartNode, std::vector<std::shared_ptr<ASTTypeNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTypeParameterListEndNode> typeParameterListEndNode);
     std::vector<std::shared_ptr<ASTTypeNode>> getParameters();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<ASTTypeParameterListNode> addParameter(std::shared_ptr<ASTTypeNode> parameter);
     std::shared_ptr<ASTTypeParameterListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

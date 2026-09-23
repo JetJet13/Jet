@@ -62,7 +62,7 @@ bool ASTControlFlowBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
     auto otherNode = std::dynamic_pointer_cast<ASTControlFlowBlockNode>(other);
-    for (unsigned long i = 0; i < _contents.size(); ++i) {
+    for (uint64_t i = 0; i < _contents.size(); ++i) {
         if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }

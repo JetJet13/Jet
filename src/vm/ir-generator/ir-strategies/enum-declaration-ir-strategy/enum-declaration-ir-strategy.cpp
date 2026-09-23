@@ -10,7 +10,7 @@ std::shared_ptr<IREnumDeclarationNode> EnumDeclarationIRStrategy::generate(std::
 
     if (node->getEnumTypeSignature()->getType()->typeSourceIs(STRING_LITERAL_TYPE_SOURCE)) {
         auto stringArrayPointerType = irGenerator->generateIrStringArrayPointerType();
-        for (unsigned long i = 0; i < node->getValues()->numParameters(); ++i) {
+        for (uint64_t i = 0; i < node->getValues()->numParameters(); ++i) {
             auto keyValuePair = node->getValues()->getParameters()[i];
             auto enumValue = irGenerator->generateFor(keyValuePair->getValue().value(), scope, irContext);
             auto stringType = std::dynamic_pointer_cast<IRArrayType>(enumValue->getIRType());
@@ -34,7 +34,7 @@ std::shared_ptr<IREnumDeclarationNode> EnumDeclarationIRStrategy::generate(std::
             );
         }
     } else {
-        for (unsigned long i = 0; i < node->getValues()->numParameters(); ++i) {
+        for (uint64_t i = 0; i < node->getValues()->numParameters(); ++i) {
             auto keyValuePair = node->getValues()->getParameters()[i];
             if (keyValuePair->getValue()) {
                 auto enumValue = irGenerator->generateFor(keyValuePair->getValue().value(), scope, irContext);

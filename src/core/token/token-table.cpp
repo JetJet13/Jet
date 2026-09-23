@@ -5,24 +5,24 @@
 #include "token-table.h"
 
 TokenTable::TokenTable() {
-    _intMap = std::unordered_map<unsigned long, std::string>();
-    _floatMap = std::unordered_map<unsigned long, std::string>();
-    _charMap = std::unordered_map<unsigned long, char>();
-    _stringMap = std::unordered_map<unsigned long, std::string>();
-    _identifierMap = std::unordered_map<unsigned long, std::string>();
+    _intMap = std::unordered_map<uint64_t, std::string>();
+    _floatMap = std::unordered_map<uint64_t, std::string>();
+    _charMap = std::unordered_map<uint64_t, char>();
+    _stringMap = std::unordered_map<uint64_t, std::string>();
+    _identifierMap = std::unordered_map<uint64_t, std::string>();
 }
 
 
-std::string TokenTable::getInt(unsigned long key) {
+std::string TokenTable::getInt(uint64_t key) {
     auto result = _intMap.find(key);
     if (result == _intMap.end()) {
-        throw std::invalid_argument("no unsigned long value found for key");
+        throw std::invalid_argument("no uint64_t value found for key");
     } else {
         return result->second;
     }
 }
 
-std::string TokenTable::getFloat(unsigned long key) {
+std::string TokenTable::getFloat(uint64_t key) {
     auto result = _floatMap.find(key);
     if (result == _floatMap.end()) {
         throw std::invalid_argument("no float value found for key");
@@ -31,7 +31,7 @@ std::string TokenTable::getFloat(unsigned long key) {
     }
 }
 
-char TokenTable::getChar(unsigned long key) {
+char TokenTable::getChar(uint64_t key) {
     auto result = _charMap.find(key);
     if (result == _charMap.end()) {
         throw std::invalid_argument("no char value found for key");
@@ -40,7 +40,7 @@ char TokenTable::getChar(unsigned long key) {
     }
 }
 
-std::string TokenTable::getString(unsigned long key) {
+std::string TokenTable::getString(uint64_t key) {
     auto result = _stringMap.find(key);
     if (result == _stringMap.end()) {
         throw std::invalid_argument("no string value found for key");
@@ -49,7 +49,7 @@ std::string TokenTable::getString(unsigned long key) {
     }
 }
 
-std::string TokenTable::getIdentifier(unsigned long key) {
+std::string TokenTable::getIdentifier(uint64_t key) {
     auto result = _identifierMap.find(key);
     if (result == _identifierMap.end()) {
         throw std::invalid_argument("no identifier value found for key");
@@ -58,22 +58,22 @@ std::string TokenTable::getIdentifier(unsigned long key) {
     }
 }
 
-void TokenTable::setInt(unsigned long key, std::string value) {
-    _intMap.insert(std::pair<unsigned long, std::string>(key, value));
+void TokenTable::setInt(uint64_t key, std::string value) {
+    _intMap.insert(std::pair<uint64_t, std::string>(key, value));
 }
 
-void TokenTable::setFloat(unsigned long key, std::string value) {
-    _floatMap.insert(std::pair<unsigned long, std::string>(key, value));
+void TokenTable::setFloat(uint64_t key, std::string value) {
+    _floatMap.insert(std::pair<uint64_t, std::string>(key, value));
 }
 
-void TokenTable::setChar(unsigned long key, char value) {
-    _charMap.insert(std::pair<unsigned long, char>(key, value));
+void TokenTable::setChar(uint64_t key, char value) {
+    _charMap.insert(std::pair<uint64_t, char>(key, value));
 }
 
-void TokenTable::setString(unsigned long key, std::string value) {
-    _stringMap.insert(std::pair<unsigned long, std::string>(key, value));
+void TokenTable::setString(uint64_t key, std::string value) {
+    _stringMap.insert(std::pair<uint64_t, std::string>(key, value));
 }
 
-void TokenTable::setIdentifier(unsigned long key, std::string value) {
-    _identifierMap.insert(std::pair<unsigned long, std::string>(key, value));
+void TokenTable::setIdentifier(uint64_t key, std::string value) {
+    _identifierMap.insert(std::pair<uint64_t, std::string>(key, value));
 }

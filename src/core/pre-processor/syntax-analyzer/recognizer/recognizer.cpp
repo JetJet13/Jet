@@ -82,7 +82,7 @@ std::shared_ptr<RecognizerResult> Recognizer::recognize(Handle* handle) {
     }
     auto dfa = _syntaxDfa.getDFA();
     dfa->reset();
-    for (unsigned long i = 0; i < handle->size(); i++) {
+    for (uint64_t i = 0; i < handle->size(); i++) {
         auto nodeType = handle->at(i).value()->getNodeType();
         auto nextNodeType = handle->at(i+1).value_or(std::make_shared<ASTNullNode>())->getNodeType();
         if (i == 0) {

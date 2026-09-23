@@ -51,7 +51,7 @@ std::shared_ptr<IRLambdaWithFatArrowExpressionNode> LambdaExpressionIRStrategy::
 }
 
 void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressionTypeSignature> typeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, llvm::Function* irFunction, std::shared_ptr<IRFunctionParameterListNode> functionParameterList, std::shared_ptr<IRBlockNode> functionBlock, std::shared_ptr<IRContext> irContext) {
-    for (unsigned long i = 0; i < functionParameterList->getParameters()->size(); ++i) {
+    for (uint64_t i = 0; i < functionParameterList->getParameters()->size(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(
@@ -71,7 +71,7 @@ void LambdaExpressionIRStrategy::setupParameters(std::shared_ptr<LambdaExpressio
         auto storedScopeParameterArgument = irGenerator->generateStoreInstruction(loadedScopeParameterArgument, scopeParameterAllocation->getValue(), lambdaScopeParameterType->getIRType());
         scopeParameterAllocation->insertDescendentValue(loadedScopeParameterArgument);
         scopeParameterAllocation->insertDescendentValue(storedScopeParameterArgument);
-        for (unsigned long index = 0; index < scopeParameterIrType->size(); ++index) {
+        for (uint64_t index = 0; index < scopeParameterIrType->size(); ++index) {
             auto key = scopeParameterIrType->getKeyForIndex(index);
             auto irType = std::dynamic_pointer_cast<IRCapturedVariableType>(scopeParameterIrType->getIRTypeForKey(key));
             auto pointerToCapturedVariableValue = irGenerator->generateGEP(scopeParameterIrType, scopeParameterAllocation->getValue(), index);
@@ -99,7 +99,7 @@ llvm::Function* LambdaExpressionIRStrategy::generateLambdaCleanupFunction(std::s
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction);
     if (irLambdaType->getLambdaScopeType()) {
         auto lambdaScopeArgumentType = irLambdaType->getLambdaScopeType().value();
-        for (unsigned long i = 0; i < lambdaScopeArgumentType->size(); ++i) {
+        for (uint64_t i = 0; i < lambdaScopeArgumentType->size(); ++i) {
             auto key = lambdaScopeArgumentType->getKeyForIndex(i);
             auto irType = lambdaScopeArgumentType->getIRTypeForKey(key);
             auto pointerToCapturedVariable = functionBlock->getBuilder()->get()->CreateStructGEP(lambdaScopeArgumentType->getType(), irFunction->getArg(0), i);

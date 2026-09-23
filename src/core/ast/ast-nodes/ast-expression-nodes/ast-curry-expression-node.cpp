@@ -21,7 +21,7 @@ std::shared_ptr<ASTCallableExpressionNode> ASTCurryExpressionNode::getCallableEx
     return _callableExpression;
 }
 
-unsigned long ASTCurryExpressionNode::numArguments() {
+uint64_t ASTCurryExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

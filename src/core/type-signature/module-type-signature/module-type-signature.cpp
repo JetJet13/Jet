@@ -26,7 +26,7 @@ std::shared_ptr<TypeSignature> ModuleTypeSignature::getTypeSignatureForKey(std::
     return std::make_shared<UnknownTypeSignature>();
 }
 
-std::shared_ptr<TypeSignature> ModuleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> ModuleTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= _keyValuePairs.size()) {
         return std::make_shared<UnknownTypeSignature>();
     }

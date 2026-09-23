@@ -9,6 +9,7 @@
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-variable-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-arithmetic-expression-node.h"
+#include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-binary-comparator-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-logical-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-array-access-expression-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
@@ -36,509 +37,509 @@
 #include "../../../../src/core/ast/ast-nodes/ast-type-declaration-nodes/ast-interface-type-declaration-node.h"
 #include "../../../../src/core/ast/ast-nodes/ast-statement-nodes/ast-object-access-assignment-statement-node.h"
 
-std::unordered_map<int, ASTNode*> expectedNodes = {
-        {1, new ASTVariableDeclarationNode(
+std::unordered_map<int, std::shared_ptr<ASTNode>> expectedNodes = {
+        {1, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::intExpression
         )},
-        {2, new ASTVariableDeclarationNode(
+        {2, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::floatExpression
         )},
-        {3, new ASTVariableDeclarationNode(
+        {3, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::stringExpression
         )},
-        {4, new ASTVariableDeclarationNode(
+        {4, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::charExpression
         )},
-        {5, new ASTVariableDeclarationNode(
+        {5, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::trueExpression
         )},
-        {6, new ASTVariableDeclarationNode(
+        {6, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::letInit,
                 ASTNodeFactory::falseExpression
         )},
-        {7, new ASTVariableDeclarationNode(
+        {7, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::intExpression
         )},
-        {8, new ASTVariableDeclarationNode(
+        {8, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::floatExpression
         )},
-        {9, new ASTVariableDeclarationNode(
+        {9, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::stringExpression
         )},
-        {10, new ASTVariableDeclarationNode(
+        {10, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::charExpression
         )},
-        {11, new ASTVariableDeclarationNode(
+        {11, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::trueExpression
         )},
-        {12, new ASTVariableDeclarationNode(
+        {12, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::falseExpression
         )},
-        {13, new ASTVariableDeclarationNode(
+        {13, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {14, new ASTVariableDeclarationNode(
+        {14, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::plus,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                     ASTNodeFactory::intExpression,
                     ASTNodeFactory::plus,
                     ASTNodeFactory::intExpression
                 )
                 )
         )},
-        {15, new ASTVariableDeclarationNode(
+        {15, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {16, new ASTVariableDeclarationNode(
+        {16, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {17, new ASTVariableDeclarationNode(
+        {17, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {18, new ASTVariableDeclarationNode(
+        {18, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::modulo,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {19, new ASTVariableDeclarationNode(
+        {19, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::stringExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::stringExpression
                 )
         )},
-        {20, new ASTVariableDeclarationNode(
+        {20, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::negativeInt
         )},
-        {21, new ASTVariableDeclarationNode(
+        {21, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {22, new ASTVariableDeclarationNode(
+        {22, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {23, new ASTVariableDeclarationNode(
+        {23, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {24, new ASTVariableDeclarationNode(
+        {24, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {25, new ASTVariableDeclarationNode(
+        {25, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::negativeInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::positiveInt
                 )
         )},
-        {26, new ASTVariableDeclarationNode(
+        {26, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::positiveInt
         )},
-        {27, new ASTVariableDeclarationNode(
+        {27, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {28, new ASTVariableDeclarationNode(
+        {28, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::minus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {29, new ASTVariableDeclarationNode(
+        {29, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {30, new ASTVariableDeclarationNode(
+        {30, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {31, new ASTVariableDeclarationNode(
+        {31, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::positiveInt,
                         ASTNodeFactory::slash,
                         ASTNodeFactory::negativeInt
                 )
         )},
-        {32, new ASTVariableDeclarationNode(
+        {32, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTUnaryExpressionNode(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::unaryMinus,
                         ASTNodeFactory::idExpression
                 )
         )},
-        {33, new ASTVariableDeclarationNode(
+        {33, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::bangTrue
         )},
-        {34, new ASTVariableDeclarationNode(
+        {34, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::bangFalse
         )},
-        {35, new ASTVariableDeclarationNode(
+        {35, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::bangId
         )},
-        {36, new ASTVariableDeclarationNode(
+        {36, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::trueExpression,
                         ASTNodeFactory::andOperator,
                         ASTNodeFactory::falseExpression
                 )
         )},
-        {37, new ASTVariableDeclarationNode(
+        {37, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::trueExpression,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::falseExpression
                 )
         )},
-        {38, new ASTVariableDeclarationNode(
+        {38, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangId,
                         ASTNodeFactory::andOperator,
                         ASTNodeFactory::trueExpression
                 )
         )},
-        {39, new ASTVariableDeclarationNode(
+        {39, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangFalse,
                         ASTNodeFactory::andOperator,
                         ASTNodeFactory::trueExpression
                 )
         )},
-        {40, new ASTVariableDeclarationNode(
+        {40, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangId,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::trueExpression
                 )
         )},
-        {41, new ASTVariableDeclarationNode(
+        {41, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangFalse,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::trueExpression
                 )
         )},
-        {42, new ASTVariableDeclarationNode(
+        {42, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::trueExpression,
                         ASTNodeFactory::andOperator,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::falseExpression,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::trueExpression
                 )
                 )
         )},
-        {43, new ASTVariableDeclarationNode(
+        {43, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangTrue,
                         ASTNodeFactory::andOperator,
-                        new ASTLogicalExpressionNode(
+                        std::make_shared<ASTLogicalExpressionNode>(
                                 ASTNodeFactory::falseExpression,
                                 ASTNodeFactory::orOperator,
                                 ASTNodeFactory::trueExpression
                         )
                 )
         )},
-        {44, new ASTVariableDeclarationNode(
+        {44, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::andOperator,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {45, new ASTVariableDeclarationNode(
+        {45, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {46, new ASTVariableDeclarationNode(
+        {46, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::bangInt,
                         ASTNodeFactory::andOperator,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {47, new ASTVariableDeclarationNode(
+        {47, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::orOperator,
                         ASTNodeFactory::bangInt
                 )
         )},
-        {48, new ASTVariableDeclarationNode(
+        {48, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
-                        new ASTUnaryExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
+                        std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::bang,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::andOperator,
-                        new ASTUnaryExpressionNode(
+                        std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::bang,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {49, new ASTVariableDeclarationNode(
+        {49, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
-                        new ASTUnaryExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
+                        std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::bang,
                                 ASTNodeFactory::charExpression
                         ),
                         ASTNodeFactory::andOperator,
-                        new ASTLogicalExpressionNode(
-                                new ASTUnaryExpressionNode(
+                        std::make_shared<ASTLogicalExpressionNode>(
+                                std::make_shared<ASTUnaryExpressionNode>(
                                         ASTNodeFactory::bang,
                                         ASTNodeFactory::charExpression
                                 ),
                                 ASTNodeFactory::orOperator,
-                                new ASTUnaryExpressionNode(
+                                std::make_shared<ASTUnaryExpressionNode>(
                                         ASTNodeFactory::bang,
                                         ASTNodeFactory::charExpression
                                 )
                         )
                 )
         )},
-        {50, new ASTVariableDeclarationNode(
+        {50, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryComparatorExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::greaterThan,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {51, new ASTVariableDeclarationNode(
+        {51, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryComparatorExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::greaterThanOrEqual,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {52, new ASTVariableDeclarationNode(
+        {52, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryComparatorExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::lessThan,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {53, new ASTVariableDeclarationNode(
+        {53, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryComparatorExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::lessThanOrEqual,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {54, new ASTVariableDeclarationNode(
+        {54, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {55, new ASTVariableDeclarationNode(
+        {55, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {56, new ASTVariableDeclarationNode(
+        {56, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
                         ASTNodeFactory::intExpression
                 )
         )},
-        {57, new ASTVariableDeclarationNode(
+        {57, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {58, new ASTVariableDeclarationNode(
+        {58, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {59, new ASTVariableDeclarationNode(
+        {59, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::orOperator,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {60, new ASTVariableDeclarationNode(
+        {60, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTUnaryExpressionNode(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::bang,
                         ASTNodeFactory::trueExpression
                 )
         )},
-        {61, new ASTVariableDeclarationNode(
+        {61, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTUnaryExpressionNode(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::bang,
-                        new ASTUnaryExpressionNode(
+                        std::make_shared<ASTUnaryExpressionNode>(
                             ASTNodeFactory::bang,
                             ASTNodeFactory::trueExpression
                         )
                 )
         )},
-        {62, new ASTVariableDeclarationNode(
+        {62, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
-                        new ASTUnaryExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
+                        std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::bang,
-                                new ASTUnaryExpressionNode(
+                                std::make_shared<ASTUnaryExpressionNode>(
                                         ASTNodeFactory::bang,
                                         ASTNodeFactory::trueExpression
                                 )
                         ),
                         ASTNodeFactory::andOperator,
-                        new ASTUnaryExpressionNode(
+                        std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::bang,
-                                new ASTUnaryExpressionNode(
+                                std::make_shared<ASTUnaryExpressionNode>(
                                         ASTNodeFactory::bang,
                                         ASTNodeFactory::falseExpression
                                 )
                         )
                         )
         )},
-        {63, new ASTVariableDeclarationNode(
+        {63, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
-                        new ASTBinaryArithmeticExpressionNode(
-                                new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                         ASTNodeFactory::intExpression,
                                         ASTNodeFactory::plus,
                                         ASTNodeFactory::intExpression
@@ -548,13 +549,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 )
                 )
         )},
-        {64, new ASTVariableDeclarationNode(
+        {64, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::trueExpression,
                         ASTNodeFactory::andOperator,
-                        new ASTLogicalExpressionNode(
-                                new ASTLogicalExpressionNode(
+                        std::make_shared<ASTLogicalExpressionNode>(
+                                std::make_shared<ASTLogicalExpressionNode>(
                                         ASTNodeFactory::trueExpression,
                                         ASTNodeFactory::orOperator,
                                         ASTNodeFactory::trueExpression
@@ -564,19 +565,19 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {65, new ASTVariableDeclarationNode(
+        {65, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTUnaryExpressionNode(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::bang,
-                        new ASTLogicalExpressionNode(
+                        std::make_shared<ASTLogicalExpressionNode>(
                                 ASTNodeFactory::trueExpression,
                                 ASTNodeFactory::andOperator,
-                            new ASTUnaryExpressionNode(
+                            std::make_shared<ASTUnaryExpressionNode>(
                                         ASTNodeFactory::bang,
-                                new ASTLogicalExpressionNode(
-                                        new ASTUnaryExpressionNode(
+                                std::make_shared<ASTLogicalExpressionNode>(
+                                        std::make_shared<ASTUnaryExpressionNode>(
                                             ASTNodeFactory::bang,
-                                            new ASTLogicalExpressionNode(
+                                            std::make_shared<ASTLogicalExpressionNode>(
                                                     ASTNodeFactory::trueExpression,
                                                     ASTNodeFactory::orOperator,
                                                     ASTNodeFactory::trueExpression
@@ -589,22 +590,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {66, new ASTVariableDeclarationNode(
+        {66, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::plus,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {67, new ASTVariableDeclarationNode(
+        {67, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
                         ASTNodeFactory::intExpression
@@ -613,35 +614,35 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::intExpression
                 )
         )},
-        {68, new ASTVariableDeclarationNode(
+        {68, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::intExpression,
                             ASTNodeFactory::plus,
                             ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {69, new ASTVariableDeclarationNode(
+        {69, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::star,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::slash,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {70, new ASTVariableDeclarationNode(
+        {70, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
@@ -653,11 +654,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::intExpression
                 )
         )},
-        {71, new ASTVariableDeclarationNode(
+        {71, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
-                                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                         ASTNodeFactory::intExpression,
                                         ASTNodeFactory::star,
                                         ASTNodeFactory::intExpression
@@ -666,24 +667,24 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::plus,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::slash,
                                 ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {72, new ASTVariableDeclarationNode(
+        {72, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::star,
                                 ASTNodeFactory::intExpression
                         ),
                         ASTNodeFactory::minus,
-                        new ASTBinaryArithmeticExpressionNode(
-                                new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -693,22 +694,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {73, new ASTVariableDeclarationNode(
+        {73, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::plus,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
                             )
                     )
             )},
-        {74, new ASTVariableDeclarationNode(
+        {74, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
@@ -717,35 +718,35 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             ASTNodeFactory::idExpression
                     )
             )},
-        {75, new ASTVariableDeclarationNode(
+        {75, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::star,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
                             )
                     )
             )},
-        {76, new ASTVariableDeclarationNode(
+        {76, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::star,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::slash,
                                     ASTNodeFactory::idExpression
                             )
                     )
         )},
-        {77, new ASTVariableDeclarationNode(
+        {77, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
-                                    new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::star,
                                             ASTNodeFactory::idExpression
@@ -757,11 +758,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             ASTNodeFactory::idExpression
                     )
             )},
-        {78, new ASTVariableDeclarationNode(
+        {78, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
-                                    new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::star,
                                             ASTNodeFactory::idExpression
@@ -770,24 +771,24 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     ASTNodeFactory::idExpression
                             ),
                             ASTNodeFactory::plus,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::slash,
                                     ASTNodeFactory::idExpression
                             )
                     )
             )},
-        {79, new ASTVariableDeclarationNode(
+        {79, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::star,
                                     ASTNodeFactory::idExpression
                             ),
                             ASTNodeFactory::minus,
-                            new ASTBinaryArithmeticExpressionNode(
-                                    new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::plus,
                                             ASTNodeFactory::idExpression
@@ -797,30 +798,30 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             )
                     )
             )},
-            {80, new ASTVariableDeclarationNode(
+            {80, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTUnaryExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTUnaryExpressionNode>(
                                 ASTNodeFactory::unaryPlus,
                                 ASTNodeFactory::intExpression
                             ),
                             ASTNodeFactory::star,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::slash,
-                                    new ASTUnaryExpressionNode(
+                                    std::make_shared<ASTUnaryExpressionNode>(
                                             ASTNodeFactory::unaryMinus,
                                             ASTNodeFactory::intExpression
                                     )
                             )
                     )
             )},
-            {81, new ASTVariableDeclarationNode(
+            {81, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTBinaryArithmeticExpressionNode(
-                            new ASTBinaryArithmeticExpressionNode(
-                                    new ASTBinaryArithmeticExpressionNode(
-                                            new ASTUnaryExpressionNode(
+                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
+                                            std::make_shared<ASTUnaryExpressionNode>(
                                                     ASTNodeFactory::unaryPlus,
                                                     ASTNodeFactory::intExpression
                                             ),
@@ -828,7 +829,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                             ASTNodeFactory::intExpression
                                     ),
                                     ASTNodeFactory::minus,
-                                    new ASTUnaryExpressionNode(
+                                    std::make_shared<ASTUnaryExpressionNode>(
                                             ASTNodeFactory::unaryMinus,
                                             ASTNodeFactory::intExpression
                                     )
@@ -837,7 +838,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             ASTNodeFactory::intExpression
                     )
             )},
-            {82, new ASTVariableDeclarationNode(
+            {82, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
                     ASTNodeFactory::createArrayExpression(
                         {
@@ -846,16 +847,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             ASTNodeFactory::intExpression
                     })
             )},
-            {83, new ASTVariableDeclarationNode(
+            {83, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
                            ASTNodeFactory::idExpression,
                            ASTNodeFactory::createArrayAccess(ASTNodeFactory::intExpression)
                    )
             )},
-            {84, new ASTVariableDeclarationNode(
+            {84, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
                             ASTNodeFactory::createArrayExpression({
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::intExpression
@@ -865,7 +866,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             )
                     )
             )},
-            {85, new ASTVariableDeclarationNode(
+            {85, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
                     ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::createArrayExpression({ ASTNodeFactory::intExpression }),
@@ -873,25 +874,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                            ASTNodeFactory::createArrayExpression({ ASTNodeFactory::intExpression })
                     })
             )},
-            {86, new ASTVariableDeclarationNode(
+            {86, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
                     ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::createArrayExpression({
-                               new ASTBinaryArithmeticExpressionNode(
+                               std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                        ASTNodeFactory::intExpression,
                                        ASTNodeFactory::plus,
                                        ASTNodeFactory::intExpression
                                        )
                            }),
                            ASTNodeFactory::createArrayExpression({
-                                  new ASTBinaryArithmeticExpressionNode(
+                                  std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
                                           ASTNodeFactory::intExpression
                                   )
                           }),
                            ASTNodeFactory::createArrayExpression({
-                                  new ASTBinaryArithmeticExpressionNode(
+                                  std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                           ASTNodeFactory::intExpression,
                                           ASTNodeFactory::plus,
                                           ASTNodeFactory::intExpression
@@ -899,7 +900,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                           }),
                    })
             )},
-            {87, new ASTVariableDeclarationNode(
+            {87, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
                     ASTNodeFactory::createArrayExpression({
                            ASTNodeFactory::idExpression,
@@ -907,10 +908,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                            ASTNodeFactory::idExpression
                     })
             )},
-            {88, new ASTVariableDeclarationNode(
+            {88, std::make_shared<ASTVariableDeclarationNode>(
                     ASTNodeFactory::constInit,
-                    new ASTArrayAccessExpressionNode(
-                        new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
+                        std::make_shared<ASTArrayAccessExpressionNode>(
                             ASTNodeFactory::createArrayExpression({
                                ASTNodeFactory::createArrayExpression({
                                       ASTNodeFactory::intExpression,
@@ -932,11 +933,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     )
             )},
-            {89, new ASTVariableDeclarationNode(
+            {89, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTArrayAccessExpressionNode(
-                    new ASTArrayAccessExpressionNode(
-                        new ASTArrayAccessExpressionNode(
+                std::make_shared<ASTArrayAccessExpressionNode>(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
+                        std::make_shared<ASTArrayAccessExpressionNode>(
                                 ASTNodeFactory::createArrayExpression({
                                    ASTNodeFactory::createArrayExpression({
                                       ASTNodeFactory::createArrayExpression({ASTNodeFactory::intExpression}),
@@ -962,7 +963,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
             )},
-        {90, new ASTVariableDeclarationNode(
+        {90, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createStructExpression({
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
@@ -976,7 +977,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                                      ASTNodeFactory::intExpression,
                                                      ASTNodeFactory::intExpression
                                              })),
-                    ASTNodeFactory::createStructKeyValue(new ASTArrayAccessExpressionNode(
+                    ASTNodeFactory::createStructKeyValue(std::make_shared<ASTArrayAccessExpressionNode>(
                                                       ASTNodeFactory::idExpression,
                                                       ASTNodeFactory::arrayAccessInt
                                               )),
@@ -992,35 +993,35 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                               })
                     ),
                     ASTNodeFactory::createStructKeyValue(
-                                              new ASTBinaryArithmeticExpressionNode(
+                                              std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                       ASTNodeFactory::intExpression,
                                                       ASTNodeFactory::plus,
                                                       ASTNodeFactory::intExpression
                                               )),
                     ASTNodeFactory::createStructKeyValue(
-                                              new ASTLogicalExpressionNode(
+                                              std::make_shared<ASTLogicalExpressionNode>(
                                                       ASTNodeFactory::trueExpression,
                                                       ASTNodeFactory::andOperator,
                                                       ASTNodeFactory::falseExpression
                                               )),
                     ASTNodeFactory::createStructKeyValue(
-                                              new ASTUnaryExpressionNode(
+                                              std::make_shared<ASTUnaryExpressionNode>(
                                                       ASTNodeFactory::bang,
                                                       ASTNodeFactory::idExpression
                                               ))
             }))
          },
-        {91, new ASTVariableDeclarationNode(
+        {91, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createObjectAccessExpression(
                        ASTNodeFactory::objectAccessSourceId,
                        ASTNodeFactory::objectAccessTargetId
                )
         )},
-        {92, new ASTVariableDeclarationNode(
+        {92, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createObjectAccessExpression(
-                    new ASTObjectAccessSourceNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
                       ASTNodeFactory::createObjectAccessExpression(
                             ASTNodeFactory::objectAccessSourceId,
                             ASTNodeFactory::objectAccessTargetId
@@ -1028,12 +1029,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                       ASTNodeFactory::objectAccessTargetId
                 )
         )},
-        {93, new ASTVariableDeclarationNode(
+        {93, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createObjectAccessExpression(
-                  new ASTObjectAccessSourceNode(
+                  std::make_shared<ASTObjectAccessSourceNode>(
                       ASTNodeFactory::createObjectAccessExpression(
-                          new ASTObjectAccessSourceNode(
+                          std::make_shared<ASTObjectAccessSourceNode>(
                             ASTNodeFactory::createObjectAccessExpression(
                                   ASTNodeFactory::objectAccessSourceId,
                                   ASTNodeFactory::objectAccessTargetId
@@ -1043,7 +1044,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                       ASTNodeFactory::objectAccessTargetId
                 )
         )},
-        {94, new ASTVariableDeclarationNode(
+        {94, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createArrayExpression({
                     ASTNodeFactory::createStructExpression({
@@ -1056,18 +1057,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                })
         )},
-        {95, new ASTVariableDeclarationNode(
+        {95, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createObjectAccessExpression(
-                        new ASTObjectAccessSourceNode(
-                            new ASTArrayAccessExpressionNode({
+                        std::make_shared<ASTObjectAccessSourceNode>(
+                            std::make_shared<ASTArrayAccessExpressionNode>(
                                    ASTNodeFactory::idExpression,
                                    ASTNodeFactory::arrayAccessInt
-                            })),
+                            )),
                         ASTNodeFactory::objectAccessTargetId
                 )
         )},
-        {96, new ASTVariableDeclarationNode(
+        {96, std::make_shared<ASTVariableDeclarationNode>(
             ASTNodeFactory::constInit,
             ASTNodeFactory::createStructExpression({
                 ASTNodeFactory::createStructKeyValue(
@@ -1098,13 +1099,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
             })
         )},
-        {97, new ASTVariableDeclarationNode(
+        {97, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                  ASTNodeFactory::createObjectAccessExpression(
-                         new ASTObjectAccessSourceNode(
-                             new ASTArrayAccessExpressionNode(
+                         std::make_shared<ASTObjectAccessSourceNode>(
+                             std::make_shared<ASTArrayAccessExpressionNode>(
                                 ASTNodeFactory::createObjectAccessExpression(
-                                    new ASTObjectAccessSourceNode(ASTNodeFactory::idExpression),
+                                    std::make_shared<ASTObjectAccessSourceNode>(ASTNodeFactory::idExpression),
                                     ASTNodeFactory::objectAccessTargetId
                                 ),
                                 ASTNodeFactory::arrayAccessInt
@@ -1113,12 +1114,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )
             )
         },
-        {98, new ASTVariableDeclarationNode(
+        {98, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createObjectAccessExpression(
-                    new ASTObjectAccessSourceNode(
-                        new ASTArrayAccessExpressionNode(
-                                    new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
+                        std::make_shared<ASTArrayAccessExpressionNode>(
+                                    std::make_shared<ASTArrayAccessExpressionNode>(
                                             ASTNodeFactory::createObjectAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::objectAccessTargetId
@@ -1130,7 +1131,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::objectAccessTargetId
                     )
         )},
-        {99, new ASTFunctionDeclarationNode(
+        {99, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList({
@@ -1139,30 +1140,30 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                  }),
                 ASTNodeFactory::intType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTVariableDeclarationNode(
+                    std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::constInit,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
                                     )
                     ),
-                    new ASTFunctionReturnExpressionNode(
+                    std::make_shared<ASTFunctionReturnExpressionNode>(
                         ASTNodeFactory::functionReturn,
                         ASTNodeFactory::idExpression
                     )
                 })
         )},
-        {100, new ASTFunctionDeclarationNode(
+        {100, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
                 ASTNodeFactory::intType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn, ASTNodeFactory::intExpression)
+                     std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn, ASTNodeFactory::intExpression)
                  })
         )},
-        {101, new ASTFunctionDeclarationNode(
+        {101, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                         ASTNodeFactory::functionName,
                         ASTNodeFactory::createFunctionParameterList({
@@ -1171,12 +1172,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         }),
                         ASTNodeFactory::intType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(
+                    std::make_shared<ASTFunctionReturnExpressionNode>(
                         ASTNodeFactory::functionReturn,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::intExpression,
                             ASTNodeFactory::plus,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::idExpression
@@ -1185,7 +1186,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 })
         )},
-        {102, new ASTProcedureDeclarationNode(
+        {102, std::make_shared<ASTProcedureDeclarationNode>(
                 ASTNodeFactory::createProcedureDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -1194,13 +1195,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     
                 )),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTVariableDeclarationNode(
+                     std::make_shared<ASTVariableDeclarationNode>(
                              ASTNodeFactory::letInit,
                              ASTNodeFactory::intExpression
                      ),
-                     new ASTVariableAssignmentStatementNode(
+                     std::make_shared<ASTVariableAssignmentStatementNode>(
                              ASTNodeFactory::varAssignment,
-                             new ASTBinaryArithmeticExpressionNode(
+                             std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                      ASTNodeFactory::idExpression,
                                      ASTNodeFactory::plus,
                                      ASTNodeFactory::intExpression
@@ -1208,66 +1209,66 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      ),
                 })
         )},
-        {103, new ASTProcedureDeclarationNode(
+        {103, std::make_shared<ASTProcedureDeclarationNode>(
                 ASTNodeFactory::createProcedureDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList()),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTVariableDeclarationNode(
+                     std::make_shared<ASTVariableDeclarationNode>(
                         ASTNodeFactory::letInit,
                         ASTNodeFactory::intExpression
                      ),
                 })
         )},
-        {104, new ASTProcedureDeclarationNode(
+        {104, std::make_shared<ASTProcedureDeclarationNode>(
                 ASTNodeFactory::createProcedureDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList()),
                 ASTNodeFactory::createFunctionBlock({})
         )},
-        {105, new ASTEnumDeclarationNode(
+        {105, std::make_shared<ASTEnumDeclarationNode>(
                 ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
                 ASTNodeFactory::createEnumKeyValueList({
-                    new ASTEnumKeyValueNode(
+                    std::make_shared<ASTEnumKeyValueNode>(
                             ASTNodeFactory::enumKey,
                             ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     ),
-                    new ASTEnumKeyValueNode(
+                    std::make_shared<ASTEnumKeyValueNode>(
                             ASTNodeFactory::enumKey,
                             ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     ),
-                    new ASTEnumKeyValueNode(
+                    std::make_shared<ASTEnumKeyValueNode>(
                             ASTNodeFactory::enumKey,
                             ASTNodeFactory::assignment,
                             ASTNodeFactory::stringLiteral
                     )
                 })
         )},
-        {106, new ASTEnumDeclarationNode(
+        {106, std::make_shared<ASTEnumDeclarationNode>(
                 ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
                 ASTNodeFactory::createEnumKeyValueList({
-                        new ASTEnumKeyValueNode(
+                        std::make_shared<ASTEnumKeyValueNode>(
                                 ASTNodeFactory::enumKey,
                                 ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         ),
-                        new ASTEnumKeyValueNode(
+                        std::make_shared<ASTEnumKeyValueNode>(
                                 ASTNodeFactory::enumKey,
                                 ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         ),
-                        new ASTEnumKeyValueNode(
+                        std::make_shared<ASTEnumKeyValueNode>(
                                 ASTNodeFactory::enumKey,
                                 ASTNodeFactory::assignment,
                                 ASTNodeFactory::charLiteral
                         )
                 })
         )},
-        {107, new ASTEnumDeclarationNode(
+        {107, std::make_shared<ASTEnumDeclarationNode>(
                 ASTNodeFactory::enumKeyword,
                 ASTNodeFactory::enumName,
                 ASTNodeFactory::createEnumKeyValueList({
@@ -1276,9 +1277,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::enumKeyOnly
                 })
         )},
-        {108, new ASTVariableDeclarationNode(
+        {108, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTBinaryComparatorExpressionNode>(
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::equality,
                         ASTNodeFactory::createObjectAccessExpression(
@@ -1287,11 +1288,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {109, new ASTVariableDeclarationNode(
+        {109, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                         ASTNodeFactory::createObjectAccessExpression(
-                            new ASTObjectAccessSourceNode(
+                            std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createObjectAccessExpression(
                                         ASTNodeFactory::objectAccessSourceId,
                                         ASTNodeFactory::objectAccessTargetId
@@ -1305,59 +1306,59 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {110, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {110, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList()
                 )
         )},
-        {111, new ASTExpressionStatementNode(
-                new ASTLogicalExpressionNode(
-                        new ASTFunctionInvocationExpressionNode(
+        {111, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTLogicalExpressionNode>(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                         ),
                         ASTNodeFactory::andOperator,
-                        new ASTFunctionInvocationExpressionNode(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                         )
                 )
         )},
-        {112, new ASTExpressionStatementNode(
+        {112, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createObjectAccessExpression(
-                    new ASTObjectAccessSourceNode(
-                        new ASTFunctionInvocationExpressionNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                         )),
                         ASTNodeFactory::objectAccessTargetId
                 )
         )},
-        {113, new ASTExpressionStatementNode(
-                new ASTUnaryExpressionNode(
+        {113, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::bang,
-                        new ASTFunctionInvocationExpressionNode(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                         )
                 )
         )},
-        {114, new ASTExpressionStatementNode(
-                new ASTArrayAccessExpressionNode(
-                        new ASTFunctionInvocationExpressionNode(
+        {114, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTArrayAccessExpressionNode>(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                         ),
                         ASTNodeFactory::arrayAccessInt
                 )
         )},
-        {115, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {115, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(
-                                new ASTFunctionInvocationExpressionNode(
+                            std::make_shared<ASTFunctionArgumentNode>(
+                                std::make_shared<ASTFunctionInvocationExpressionNode>(
                                         ASTNodeFactory::callableIdExpression,
                                         ASTNodeFactory::createFunctionArgumentList()
                                 )
@@ -1365,16 +1366,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {116, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {116, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                                new ASTFunctionArgumentNode(
-                                        new ASTFunctionInvocationExpressionNode(
+                                std::make_shared<ASTFunctionArgumentNode>(
+                                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                                                 ASTNodeFactory::callableIdExpression,
                                                 ASTNodeFactory::createFunctionArgumentList({
-                                                        new ASTFunctionArgumentNode(
-                                                                new ASTFunctionInvocationExpressionNode(
+                                                        std::make_shared<ASTFunctionArgumentNode>(
+                                                                std::make_shared<ASTFunctionInvocationExpressionNode>(
                                                                         ASTNodeFactory::callableIdExpression,
                                                                         ASTNodeFactory::createFunctionArgumentList()
                                                                 )
@@ -1385,7 +1386,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {117, new ASTVariableDeclarationNode(
+        {117, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createTupleExpression({
                   ASTNodeFactory::stringExpression,
@@ -1393,14 +1394,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                   ASTNodeFactory::intExpression
                 })
         )},
-        {118, new ASTExpressionStatementNode(
+        {118, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createTupleAccessExpression(
                         ASTNodeFactory::objectAccessSourceId,
                         ASTNodeFactory::tupleAccess
                 )
         )},
-        {119, new ASTExpressionStatementNode(
-                new ASTBinaryArithmeticExpressionNode(
+        {119, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                         ASTNodeFactory::createTupleAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::tupleAccess
@@ -1412,11 +1413,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {120, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {120, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(
+                            std::make_shared<ASTFunctionArgumentNode>(
                                 ASTNodeFactory::createTupleAccessExpression(
                                     ASTNodeFactory::objectAccessSourceId,
                                     ASTNodeFactory::tupleAccess
@@ -1425,8 +1426,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {121, new ASTExpressionStatementNode(
-                new ASTUnaryExpressionNode(
+        {121, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTUnaryExpressionNode>(
                     ASTNodeFactory::bang,
                     ASTNodeFactory::createTupleAccessExpression(
                             ASTNodeFactory::objectAccessSourceId,
@@ -1434,11 +1435,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {122, new ASTExpressionStatementNode(
-                new ASTUnaryExpressionNode(
+        {122, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTUnaryExpressionNode>(
                         ASTNodeFactory::bang,
                         ASTNodeFactory::createObjectAccessExpression(
-                                new ASTObjectAccessSourceNode(
+                                std::make_shared<ASTObjectAccessSourceNode>(
                                         ASTNodeFactory::createObjectAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::objectAccessTargetId
@@ -1447,9 +1448,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {123, new ASTExpressionStatementNode(
+        {123, std::make_shared<ASTExpressionStatementNode>(
                     ASTNodeFactory::createTupleAccessExpression(
-                            new ASTObjectAccessSourceNode(
+                            std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createObjectAccessExpression(
                                         ASTNodeFactory::objectAccessSourceId,
                                         ASTNodeFactory::objectAccessTargetId
@@ -1457,11 +1458,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             ASTNodeFactory::tupleAccess
                     )
         )},
-        {124, new ASTExpressionStatementNode(
+        {124, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createObjectAccessExpression(
-                        new ASTObjectAccessSourceNode(
+                        std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createTupleAccessExpression(
-                                        new ASTObjectAccessSourceNode(
+                                        std::make_shared<ASTObjectAccessSourceNode>(
                                                 ASTNodeFactory::createObjectAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::objectAccessTargetId
@@ -1471,13 +1472,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::objectAccessTargetId
                 )
         )},
-        {125, new ASTExpressionStatementNode(
+        {125, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createTupleAccessExpression(
-                    new ASTObjectAccessSourceNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
                         ASTNodeFactory::createObjectAccessExpression(
-                            new ASTObjectAccessSourceNode(
+                            std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createTupleAccessExpression(
-                                        new ASTObjectAccessSourceNode(
+                                        std::make_shared<ASTObjectAccessSourceNode>(
                                                 ASTNodeFactory::createObjectAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::objectAccessTargetId
@@ -1489,11 +1490,11 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::tupleAccess
                 )
         )},
-        {126, new ASTExpressionStatementNode(
+        {126, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createTupleAccessExpression(
-                        new ASTObjectAccessSourceNode(
+                        std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createTupleAccessExpression(
-                                        new ASTObjectAccessSourceNode(
+                                        std::make_shared<ASTObjectAccessSourceNode>(
                                                 ASTNodeFactory::createTupleAccessExpression(
                                                         ASTNodeFactory::objectAccessSourceId,
                                                         ASTNodeFactory::tupleAccess
@@ -1503,15 +1504,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::tupleAccess
                 )
         )},
-        {127, new ASTExpressionStatementNode(
+        {127, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createTupleAccessExpression(
-                    new ASTObjectAccessSourceNode(
-                        new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
+                        std::make_shared<ASTArrayAccessExpressionNode>(
                             ASTNodeFactory::createObjectAccessExpression(
-                                new ASTObjectAccessSourceNode(
+                                std::make_shared<ASTObjectAccessSourceNode>(
                                     ASTNodeFactory::createTupleAccessExpression(
-                                        new ASTObjectAccessSourceNode(
-                                            new ASTArrayAccessExpressionNode(
+                                        std::make_shared<ASTObjectAccessSourceNode>(
+                                            std::make_shared<ASTArrayAccessExpressionNode>(
                                                 ASTNodeFactory::createObjectAccessExpression(
                                                     ASTNodeFactory::objectAccessSourceId,
                                                     ASTNodeFactory::objectAccessTargetId
@@ -1530,16 +1531,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::tupleAccess
                 )
         )},
-        {128, new ASTExpressionStatementNode(
+        {128, std::make_shared<ASTExpressionStatementNode>(
                 ASTNodeFactory::createTupleAccessExpression(
-                    new ASTObjectAccessSourceNode(
+                    std::make_shared<ASTObjectAccessSourceNode>(
                         ASTNodeFactory::createTupleAccessExpression(
-                            new ASTObjectAccessSourceNode(
+                            std::make_shared<ASTObjectAccessSourceNode>(
                                 ASTNodeFactory::createObjectAccessExpression(
-                                    new ASTObjectAccessSourceNode(
+                                    std::make_shared<ASTObjectAccessSourceNode>(
                                         ASTNodeFactory::createObjectAccessExpression(
-                                            new ASTObjectAccessSourceNode(
-                                                new ASTFunctionInvocationExpressionNode(
+                                            std::make_shared<ASTObjectAccessSourceNode>(
+                                                std::make_shared<ASTFunctionInvocationExpressionNode>(
                                                     ASTNodeFactory::callableIdExpression,
                                                     ASTNodeFactory::createFunctionArgumentList()
                                                 )
@@ -1556,18 +1557,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::tupleAccess
                 )
         )},
-        {129, new ASTExpressionStatementNode(
-                new ASTUnaryExpressionNode(
+        {129, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTUnaryExpressionNode>(
                     ASTNodeFactory::bang,
                     ASTNodeFactory::createTupleAccessExpression(
-                        new ASTObjectAccessSourceNode(
+                        std::make_shared<ASTObjectAccessSourceNode>(
                             ASTNodeFactory::createTupleAccessExpression(
-                                new ASTObjectAccessSourceNode(
+                                std::make_shared<ASTObjectAccessSourceNode>(
                                     ASTNodeFactory::createObjectAccessExpression(
-                                        new ASTObjectAccessSourceNode(
+                                        std::make_shared<ASTObjectAccessSourceNode>(
                                             ASTNodeFactory::createObjectAccessExpression(
-                                                new ASTObjectAccessSourceNode(
-                                                    new ASTFunctionInvocationExpressionNode(
+                                                std::make_shared<ASTObjectAccessSourceNode>(
+                                                    std::make_shared<ASTFunctionInvocationExpressionNode>(
                                                         ASTNodeFactory::callableIdExpression,
                                                         ASTNodeFactory::createFunctionArgumentList()
                                                     )
@@ -1585,159 +1586,159 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {130, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {130, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                     ASTNodeFactory::ifKeyword,
-                    new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
+                    std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::trueExpression),
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTVariableDeclarationNode(
+                        std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
                         )
                     })
                 ),
-                {
-                    new ASTElseIfBlockNode(
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>({
+                    std::make_shared<ASTElseIfBlockNode>(
                             ASTNodeFactory::elseIfKeyword,
-                            new ASTControlFlowConditionNode(
-                                new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTControlFlowConditionNode>(
+                                std::make_shared<ASTBinaryComparatorExpressionNode>(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::lessThan,
                                     ASTNodeFactory::intExpression
                                 )
                             ),
                             ASTNodeFactory::createControlFlowBlock({
-                                new ASTVariableDeclarationNode(
+                                std::make_shared<ASTVariableDeclarationNode>(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
                                 ),
-                                new ASTVariableAssignmentStatementNode(
+                                std::make_shared<ASTVariableAssignmentStatementNode>(
                                     ASTNodeFactory::varAssignment,
                                     ASTNodeFactory::intExpression
                                 )
                             })
                     ),
-                },
-                new ASTElseBlockNode(
+                }),
+                std::make_shared<ASTElseBlockNode>(
                     ASTNodeFactory::elseKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTVariableDeclarationNode(
+                        std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
                         ),
-                        new ASTVariableAssignmentStatementNode(
+                        std::make_shared<ASTVariableAssignmentStatementNode>(
                             ASTNodeFactory::varAssignment,
                             ASTNodeFactory::intExpression
                         ),
-                        new ASTVariableAssignmentStatementNode(
+                        std::make_shared<ASTVariableAssignmentStatementNode>(
                             ASTNodeFactory::varAssignment,
                             ASTNodeFactory::intExpression
                         )
                     })
                 )
         )},
-        {131, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {131, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                         ASTNodeFactory::ifKeyword,
-                        new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
+                        std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::falseExpression),
                         ASTNodeFactory::createControlFlowBlock({
-                            new ASTVariableDeclarationNode(
+                            std::make_shared<ASTVariableDeclarationNode>(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
                             )
                         })
                 ),
-                {}
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>()
         )},
-        {132, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {132, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                         ASTNodeFactory::ifKeyword,
-                        new ASTControlFlowConditionNode(ASTNodeFactory::falseExpression),
+                        std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::falseExpression),
                         ASTNodeFactory::createControlFlowBlock({
-                            new ASTVariableDeclarationNode(
+                            std::make_shared<ASTVariableDeclarationNode>(
                                 ASTNodeFactory::letInit,
                                 ASTNodeFactory::intExpression
                             )
                         })
                 ),
-                {},
-                new ASTElseBlockNode(
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>(),
+                std::make_shared<ASTElseBlockNode>(
                     ASTNodeFactory::elseKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTVariableDeclarationNode(
+                        std::make_shared<ASTVariableDeclarationNode>(
                                 ASTNodeFactory::letInit,
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTVariableAssignmentStatementNode(
+                        std::make_shared<ASTVariableAssignmentStatementNode>(
                                 ASTNodeFactory::varAssignment,
                                 ASTNodeFactory::intExpression
                         )
                     })
                 )
         )},
-        {133, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {133, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                     ASTNodeFactory::ifKeyword,
-                    new ASTControlFlowConditionNode(ASTNodeFactory::trueExpression),
+                    std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::trueExpression),
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTVariableDeclarationNode(
+                        std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
                         )
                     })
                 ),
-                {
-                    new ASTElseIfBlockNode(
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>({
+                    std::make_shared<ASTElseIfBlockNode>(
                         ASTNodeFactory::elseIfKeyword,
-                        new ASTControlFlowConditionNode(
-                            new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTControlFlowConditionNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::greaterThan,
                                 ASTNodeFactory::intExpression
                             )
                         ),
                         ASTNodeFactory::createControlFlowBlock({
-                            new ASTVariableDeclarationNode(
+                            std::make_shared<ASTVariableDeclarationNode>(
                                 ASTNodeFactory::letInit,
                                 ASTNodeFactory::intExpression
                             )
                         })
                     ),
-                    new ASTElseIfBlockNode(
+                    std::make_shared<ASTElseIfBlockNode>(
                             ASTNodeFactory::elseIfKeyword,
-                            new ASTControlFlowConditionNode(
-                                new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTControlFlowConditionNode>(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::intExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
                                 )
                             ),
                             ASTNodeFactory::createControlFlowBlock({
-                                new ASTVariableDeclarationNode(
+                                std::make_shared<ASTVariableDeclarationNode>(
                                     ASTNodeFactory::letInit,
                                     ASTNodeFactory::intExpression
                                 )
                             })
                     ),
-                },
-                new ASTElseBlockNode(
+                }),
+                std::make_shared<ASTElseBlockNode>(
                     ASTNodeFactory::elseKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTVariableDeclarationNode(
+                        std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
                         ),
                     })
                 )
         )},
-        {134, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {134, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                         ASTNodeFactory::ifKeyword,
-                        new ASTControlFlowConditionNode(
-                            new ASTBinaryArithmeticExpressionNode(
-                                    new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTControlFlowConditionNode>(
+                            std::make_shared<ASTBinaryComparatorExpressionNode>(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                         ASTNodeFactory::createObjectAccessExpression(
-                                              new ASTObjectAccessSourceNode(
+                                              std::make_shared<ASTObjectAccessSourceNode>(
                                                       ASTNodeFactory::createObjectAccessExpression(
                                                             ASTNodeFactory::objectAccessSourceId,
                                                             ASTNodeFactory::objectAccessTargetId
@@ -1745,13 +1746,13 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                               ASTNodeFactory::objectAccessTargetId
                                         ),
                                         ASTNodeFactory::plus,
-                                        new ASTBinaryArithmeticExpressionNode(
+                                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                             ASTNodeFactory::createTupleAccessExpression(
                                                 ASTNodeFactory::objectAccessSourceId,
                                                 ASTNodeFactory::tupleAccess
                                             ),
                                             ASTNodeFactory::minus,
-                                            new ASTFunctionInvocationExpressionNode(
+                                            std::make_shared<ASTFunctionInvocationExpressionNode>(
                                                     ASTNodeFactory::callableIdExpression,
                                                     ASTNodeFactory::createFunctionArgumentList()
                                             )
@@ -1761,52 +1762,52 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     )
                         ),
                         ASTNodeFactory::createControlFlowBlock({
-                                new ASTVariableDeclarationNode(
+                                std::make_shared<ASTVariableDeclarationNode>(
                                         ASTNodeFactory::letInit,
                                         ASTNodeFactory::intExpression
                                 )
                         })
                 ),
-                {}
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>({})
         )},
-        {135, new ASTWhileStatementNode(
+        {135, std::make_shared<ASTWhileStatementNode>(
                 ASTNodeFactory::whileKeyword,
-                new ASTControlFlowConditionNode(
-                        new ASTBinaryArithmeticExpressionNode(
+                std::make_shared<ASTControlFlowConditionNode>(
+                        std::make_shared<ASTBinaryComparatorExpressionNode>(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::lessThan,
                                 ASTNodeFactory::intExpression
                         )
                 ),
                 ASTNodeFactory::createControlFlowBlock({
-                    new ASTVariableDeclarationNode(
+                    std::make_shared<ASTVariableDeclarationNode>(
                         ASTNodeFactory::letInit,
                         ASTNodeFactory::intExpression
                     )
                 })
         )},
-        {136, new ASTForInStatementNode(
+        {136, std::make_shared<ASTForInStatementNode>(
                 ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
                 ASTNodeFactory::forInKeyword,
                 ASTNodeFactory::forSourceId,
                 ASTNodeFactory::createControlFlowBlock({
-                    new ASTVariableDeclarationNode(
+                    std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::letInit,
                             ASTNodeFactory::intExpression
                     )
                 })
         )},
-        {137, new ASTForInStatementNode(
+        {137, std::make_shared<ASTForInStatementNode>(
                 ASTNodeFactory::forKeyword,
                 ASTNodeFactory::forVariable,
                 ASTNodeFactory::forInKeyword,
-                new ASTForInSourceNode(
-                    new ASTFunctionInvocationExpressionNode(
+                std::make_shared<ASTForInSourceNode>(
+                    std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression),
-                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression),
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression)
                         })
                     )
                 ),
@@ -1815,34 +1816,34 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::skipStatement,
                 })
         )},
-        {138, new ASTIfStatementNode(
-                new ASTIfBlockNode(
+        {138, std::make_shared<ASTIfStatementNode>(
+                std::make_shared<ASTIfBlockNode>(
                     ASTNodeFactory::ifKeyword,
-                    new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
+                    std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::idExpression),
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTIfStatementNode(
-                            new ASTIfBlockNode(
+                        std::make_shared<ASTIfStatementNode>(
+                            std::make_shared<ASTIfBlockNode>(
                                 ASTNodeFactory::ifKeyword,
-                                new ASTControlFlowConditionNode(ASTNodeFactory::idExpression),
+                                std::make_shared<ASTControlFlowConditionNode>(ASTNodeFactory::idExpression),
                                 ASTNodeFactory::createControlFlowBlock({
                                     ASTNodeFactory::breakStatement
                                 })
                             )
                         ),
-                        new ASTExpressionStatementNode(
-                            new ASTFunctionInvocationExpressionNode(
+                        std::make_shared<ASTExpressionStatementNode>(
+                            std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                             )
                         )
                     })
                 ),
-                {},
-                new ASTElseBlockNode(
+                std::vector<std::shared_ptr<ASTElseIfBlockNode>>(),
+                std::make_shared<ASTElseBlockNode>(
                     ASTNodeFactory::elseKeyword,
                     ASTNodeFactory::createControlFlowBlock({
-                        new ASTExpressionStatementNode(
-                            new ASTFunctionInvocationExpressionNode(
+                        std::make_shared<ASTExpressionStatementNode>(
+                            std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList()
                             )
@@ -1850,88 +1851,88 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {139, new ASTTryStatementNode(
-                new ASTTryBlockNode(
+        {139, std::make_shared<ASTTryStatementNode>(
+                std::make_shared<ASTTryBlockNode>(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 ),
-                new ASTCatchBlockNode(
+                std::make_shared<ASTCatchBlockNode>(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     }),
                     ASTNodeFactory::catchErrorVariable
                 )
         )},
-        {140, new ASTTryStatementNode(
-                new ASTTryBlockNode(
+        {140, std::make_shared<ASTTryStatementNode>(
+                std::make_shared<ASTTryBlockNode>(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 ),
-                new ASTCatchBlockNode(
+                std::make_shared<ASTCatchBlockNode>(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 )
         )},
-        {141, new ASTTryStatementNode(
-                new ASTTryBlockNode(
+        {141, std::make_shared<ASTTryStatementNode>(
+                std::make_shared<ASTTryBlockNode>(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 ),
-                new ASTCatchBlockNode(
+                std::make_shared<ASTCatchBlockNode>(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     }),
                     ASTNodeFactory::catchErrorVariable
                 ),
-                new ASTFinallyBlockNode(
+                std::make_shared<ASTFinallyBlockNode>(
                     ASTNodeFactory::finallyKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 )
         )},
-        {142, new ASTTryStatementNode(
-                new ASTTryBlockNode(
+        {142, std::make_shared<ASTTryStatementNode>(
+                std::make_shared<ASTTryBlockNode>(
                     ASTNodeFactory::tryKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 ),
-                new ASTCatchBlockNode(
+                std::make_shared<ASTCatchBlockNode>(
                     ASTNodeFactory::catchKeyword,
                     ASTNodeFactory::createControlFlowBlock({
                     })
                 ),
-                new ASTFinallyBlockNode(
+                std::make_shared<ASTFinallyBlockNode>(
                     ASTNodeFactory::finallyKeyword,
                     ASTNodeFactory::createControlFlowBlock({
 
                     })
                 )
         )},
-        {143, new ASTFunctionDeclarationNode(
+        {143, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
                 ASTNodeFactory::idType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn, ASTNodeFactory::stringExpression)
+                    std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn, ASTNodeFactory::stringExpression)
                 })
         )},
-        {144, new ASTVariableDeclarationNode(
+        {144, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(
                             {
                                 ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::idType),
                                 ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::idType)
                             }
                         ),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                                 ASTNodeFactory::lambdaFatArrow,
-                                new ASTBinaryArithmeticExpressionNode(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::idExpression
@@ -1940,59 +1941,61 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
 
                 )
         )},
-        {145, new ASTVariableDeclarationNode(
+        {145, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(
                         {
                          ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                          ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                         }
                     ),
-                    new ASTLambdaReturnExpressionNode(
+                    std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryComparatorExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::greaterThan,
                                     ASTNodeFactory::idExpression
                             )
                     ),
+                    ASTNodeFactory::typeColon,
                     ASTNodeFactory::booleanType
                 )
         )},
-        {146, new ASTVariableDeclarationNode(
+        {146, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(
                         {
                             ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         }
                     ),
                     ASTNodeFactory::createFunctionBlock({
-                            new ASTFunctionReturnExpressionNode(
+                            std::make_shared<ASTFunctionReturnExpressionNode>(
                                     ASTNodeFactory::functionReturn,
-                                    new ASTBinaryArithmeticExpressionNode(
+                                    std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                             ASTNodeFactory::idExpression,
                                             ASTNodeFactory::plus,
                                             ASTNodeFactory::intExpression
                                     )
                             )
                     }),
+                    ASTNodeFactory::typeColon,
                     ASTNodeFactory::intType
                 )
         )},
-        {147, new ASTVariableDeclarationNode(
+        {147, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(
                         {
                             ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         }
                     ),
                     ASTNodeFactory::createFunctionBlock({
-                         new ASTFunctionReturnExpressionNode(
+                         std::make_shared<ASTFunctionReturnExpressionNode>(
                              ASTNodeFactory::functionReturnFatArrow,
-                             new ASTBinaryArithmeticExpressionNode(
+                             std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                  ASTNodeFactory::idExpression,
                                  ASTNodeFactory::plus,
                                  ASTNodeFactory::intExpression
@@ -2001,36 +2004,36 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {148, new ASTVariableDeclarationNode(
+        {148, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(
                         {
                             ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         }
                     ),
-                    new ASTLambdaReturnExpressionNode(
+                    std::make_shared<ASTLambdaReturnExpressionNode>(
                         ASTNodeFactory::lambdaFatArrow,
-                        new ASTLambdaWithFatArrowExpressionNode(
+                        std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                             ASTNodeFactory::createFunctionParameterList(
                                 {
                                     ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                                 }
                             ),
-                            new ASTLambdaReturnExpressionNode(
+                            std::make_shared<ASTLambdaReturnExpressionNode>(
                                 ASTNodeFactory::lambdaFatArrow,
-                                new ASTLambdaWithFatArrowExpressionNode(
+                                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                     ASTNodeFactory::createFunctionParameterList(
                                         {
                                             ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                                         }
                                     ),
-                                    new ASTLambdaReturnExpressionNode(
+                                    std::make_shared<ASTLambdaReturnExpressionNode>(
                                         ASTNodeFactory::lambdaFatArrow,
-                                        new ASTBinaryArithmeticExpressionNode(
+                                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                 ASTNodeFactory::idExpression,
                                                 ASTNodeFactory::plus,
-                                                new ASTBinaryArithmeticExpressionNode(
+                                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                         ASTNodeFactory::idExpression,
                                                         ASTNodeFactory::plus,
                                                         ASTNodeFactory::idExpression
@@ -2043,16 +2046,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {149, new ASTExpressionStatementNode(
-                new ASTLambdaWithFatArrowExpressionNode(
+        {149, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(
                         {
                             ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType),
                         }
                     ),
-                    new ASTLambdaReturnExpressionNode(
+                    std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
@@ -2060,7 +2063,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {150, new ASTFunctionDeclarationNode(
+        {150, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2073,18 +2076,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(
+                    std::make_shared<ASTFunctionReturnExpressionNode>(
                         ASTNodeFactory::functionReturn,
-                        new ASTFunctionInvocationExpressionNode(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                             ASTNodeFactory::callableIdExpression,
                             ASTNodeFactory::createFunctionArgumentList({
-                                new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                             })
                         )
                     )
                 })
         )},
-        {151, new ASTFunctionDeclarationNode(
+        {151, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2103,18 +2106,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTFunctionInvocationExpressionNode(
+                         std::make_shared<ASTFunctionInvocationExpressionNode>(
                              ASTNodeFactory::callableIdExpression,
                              ASTNodeFactory::createFunctionArgumentList({
-                                 new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                 std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                              })
                          )
                      )
                 })
         )},
-        {152, new ASTFunctionDeclarationNode(
+        {152, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2137,18 +2140,18 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTFunctionInvocationExpressionNode(
+                         std::make_shared<ASTFunctionInvocationExpressionNode>(
                              ASTNodeFactory::callableIdExpression,
                              ASTNodeFactory::createFunctionArgumentList({
-                                     new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                     std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                              })
                          )
                      )
                 })
         )},
-        {153, new ASTFunctionDeclarationNode(
+        {153, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2167,26 +2170,26 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTFunctionInvocationExpressionNode(
+                         std::make_shared<ASTFunctionInvocationExpressionNode>(
                              ASTNodeFactory::callableIdExpression,
                              ASTNodeFactory::createFunctionArgumentList()
                          )
                      )
                 })
         )},
-        {154, new ASTFunctionDeclarationNode(
+        {154, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
                 ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturnFatArrow,
-                         new ASTLambdaWithFatArrowExpressionNode(
+                         std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                              ASTNodeFactory::createFunctionParameterList(),
-                             new ASTLambdaReturnExpressionNode(
+                             std::make_shared<ASTLambdaReturnExpressionNode>(
                                 ASTNodeFactory::lambdaFatArrow,
                                 ASTNodeFactory::intExpression
                              )
@@ -2194,15 +2197,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      )
                 })
         )},
-        {155, new ASTFunctionDeclarationNode(
+        {155, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
                 ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::intType)),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTLambdaWithFatArrowExpressionNode(
+                         std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                  ASTNodeFactory::createFunctionParameterList(
 
                                      {
@@ -2210,7 +2213,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                      }
 
                                  ),
-                                new ASTLambdaReturnExpressionNode(
+                                std::make_shared<ASTLambdaReturnExpressionNode>(
                                         ASTNodeFactory::lambdaFatArrow,
                                         ASTNodeFactory::intExpression
                                 )
@@ -2218,15 +2221,15 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      )
                 })
         )},
-        {156, new ASTFunctionDeclarationNode(
+        {156, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTLogicalExpressionNode(
+                         std::make_shared<ASTLogicalExpressionNode>(
                                  ASTNodeFactory::trueExpression,
                                  ASTNodeFactory::andOperator,
                                  ASTNodeFactory::trueExpression
@@ -2234,7 +2237,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      )
                 })
         )},
-        {157, new ASTFunctionDeclarationNode(
+        {157, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2249,9 +2252,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                     new ASTFunctionReturnExpressionNode(
+                     std::make_shared<ASTFunctionReturnExpressionNode>(
                          ASTNodeFactory::functionReturn,
-                         new ASTLogicalExpressionNode(
+                         std::make_shared<ASTLogicalExpressionNode>(
                              ASTNodeFactory::trueExpression,
                              ASTNodeFactory::andOperator,
                              ASTNodeFactory::trueExpression
@@ -2259,7 +2262,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                      )
                 })
         )},
-        {158, new ASTFunctionDeclarationNode(
+        {158, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2278,22 +2281,22 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
+                    std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
-        {159, new ASTExpressionStatementNode(
-                    new ASTLambdaExpressionNode(
+        {159, std::make_shared<ASTExpressionStatementNode>(
+                    std::make_shared<ASTLambdaExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(),
                         ASTNodeFactory::createFunctionBlock({
-                            new ASTFunctionReturnExpressionNode(
+                            std::make_shared<ASTFunctionReturnExpressionNode>(
                                 ASTNodeFactory::functionReturn,
-                                new ASTLambdaWithFatArrowExpressionNode(
+                                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                     ASTNodeFactory::createFunctionParameterList(),
-                                    new ASTLambdaReturnExpressionNode(
+                                    std::make_shared<ASTLambdaReturnExpressionNode>(
                                         ASTNodeFactory::lambdaFatArrow,
-                                        new ASTLambdaWithFatArrowExpressionNode(
+                                        std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                                 ASTNodeFactory::createFunctionParameterList(),
-                                                new ASTLambdaReturnExpressionNode(
+                                                std::make_shared<ASTLambdaReturnExpressionNode>(
                                                     ASTNodeFactory::lambdaFatArrow,
                                                     ASTNodeFactory::intExpression
                                                 )
@@ -2303,23 +2306,24 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
 
                             )
                         }),
+                        ASTNodeFactory::typeColon,
                         ASTNodeFactory::createLambdaType(
                                 ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)
                         )
                     )
         )},
-        {160, new ASTExpressionStatementNode(
-                new ASTLambdaWithFatArrowExpressionNode(
+        {160, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                                 ASTNodeFactory::lambdaFatArrow,
-                                new ASTLambdaWithFatArrowExpressionNode(
+                                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                         ASTNodeFactory::createFunctionParameterList(),
-                                        new ASTLambdaReturnExpressionNode(
+                                        std::make_shared<ASTLambdaReturnExpressionNode>(
                                                 ASTNodeFactory::lambdaFatArrow,
-                                                new ASTLambdaWithFatArrowExpressionNode(
+                                                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                                         ASTNodeFactory::createFunctionParameterList(),
-                                                        new ASTLambdaReturnExpressionNode(
+                                                        std::make_shared<ASTLambdaReturnExpressionNode>(
                                                                 ASTNodeFactory::lambdaFatArrow,
                                                                 ASTNodeFactory::intExpression
                                                         )
@@ -2328,25 +2332,26 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 )
 
                         ),
+                        ASTNodeFactory::typeColon,
                         ASTNodeFactory::createLambdaType(
                                 ASTNodeFactory::createLambdaType(ASTNodeFactory::intType)
                         )
                 )
         )},
-        {161, new ASTExpressionStatementNode(
-                new ASTLambdaWithFatArrowExpressionNode(
+        {161, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTLambdaWithFatArrowExpressionNode(
+                            std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                     ASTNodeFactory::createFunctionParameterList(),
-                                    new ASTLambdaReturnExpressionNode(
+                                    std::make_shared<ASTLambdaReturnExpressionNode>(
                                             ASTNodeFactory::lambdaFatArrow,
-                                            new ASTLambdaExpressionNode(
+                                            std::make_shared<ASTLambdaExpressionNode>(
                                                 ASTNodeFactory::createFunctionParameterList(),
                                                 ASTNodeFactory::createFunctionBlock({
-                                                    new ASTExpressionStatementNode(
-                                                        new ASTBinaryArithmeticExpressionNode(
+                                                    std::make_shared<ASTExpressionStatementNode>(
+                                                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                             ASTNodeFactory::intExpression,
                                                             ASTNodeFactory::plus,
                                                             ASTNodeFactory::intExpression
@@ -2357,28 +2362,29 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                     )
                             )
                         ),
+                        ASTNodeFactory::typeColon,
                         ASTNodeFactory::createLambdaType(
                                 ASTNodeFactory::createLambdaTypeWithVoidReturn()
                         )
                 )
         )},
-        {162, new ASTVariableDeclarationNode(
+        {162, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
                             ASTNodeFactory::intExpression
                         )
                 )
         )},
-        {163, new ASTVariableDeclarationNode(
+        {163, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(),
                     ASTNodeFactory::createFunctionBlock({
-                         new ASTExpressionStatementNode(
-                            new ASTBinaryArithmeticExpressionNode(
+                         std::make_shared<ASTExpressionStatementNode>(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -2387,77 +2393,77 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 )
         )},
-        {164, new ASTVariableDeclarationNode(
+        {164, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(),
                     ASTNodeFactory::createFunctionBlock({})
                 )
         )},
-        {165, new ASTExpressionStatementNode(
-                new ASTLambdaWithFatArrowExpressionNode(
+        {165, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList(),
-                    new ASTLambdaReturnExpressionNode(
+                    std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
                             ASTNodeFactory::intExpression
                     )
                 )
         )},
-        {166, new ASTExpressionStatementNode(
-                new ASTCurryExpressionNode(
-                    new ASTFunctionInvocationExpressionNode(
+        {166, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTCurryExpressionNode>(
+                    std::make_shared<ASTFunctionInvocationExpressionNode>(
                             ASTNodeFactory::callableIdExpression,
                             ASTNodeFactory::createFunctionArgumentList({
-                                new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                             })
                     ),
                     ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                     })
                 )
         )},
-        {167, new ASTExpressionStatementNode(
-                new ASTCurryExpressionNode(
-                    new ASTCurryExpressionNode(
-                        new ASTFunctionInvocationExpressionNode(
+        {167, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTCurryExpressionNode>(
+                    std::make_shared<ASTCurryExpressionNode>(
+                        std::make_shared<ASTFunctionInvocationExpressionNode>(
                             ASTNodeFactory::callableIdExpression,
                             ASTNodeFactory::createFunctionArgumentList({
-                                new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                             })
                         ),
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                         })
                     ),
                     ASTNodeFactory::createFunctionArgumentList({
-                        new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                        std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                     })
                 )
         )},
-        {168, new ASTExpressionStatementNode(
-                new ASTCurryExpressionNode(
-                    new ASTCurryExpressionNode(
-                        new ASTCurryExpressionNode(
-                            new ASTFunctionInvocationExpressionNode(
+        {168, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTCurryExpressionNode>(
+                    std::make_shared<ASTCurryExpressionNode>(
+                        std::make_shared<ASTCurryExpressionNode>(
+                            std::make_shared<ASTFunctionInvocationExpressionNode>(
                                 ASTNodeFactory::callableIdExpression,
                                 ASTNodeFactory::createFunctionArgumentList({
-                                        new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                        std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                                 })
                             ),
                             ASTNodeFactory::createFunctionArgumentList({
-                                    new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                    std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                             })
                         ),
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                         })
                     ),
                     ASTNodeFactory::createFunctionArgumentList({
-                        new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                        std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                     })
                 )
         )},
-        {169, new ASTFunctionDeclarationNode(
+        {169, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2477,10 +2483,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
+                    std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
-        {170, new ASTFunctionDeclarationNode(
+        {170, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2512,10 +2518,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
+                    std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
-        {171, new ASTFunctionDeclarationNode(
+        {171, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                 ASTNodeFactory::functionName,
                 ASTNodeFactory::createFunctionParameterList(
@@ -2535,30 +2541,30 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ),
                 ASTNodeFactory::booleanType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
+                    std::make_shared<ASTFunctionReturnExpressionNode>(ASTNodeFactory::functionReturn,ASTNodeFactory::trueExpression)
                 })
         )},
-        {172, new ASTVariableDeclarationNode(
+        {172, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::intType),
                 ASTNodeFactory::intExpression
         )},
-        {173, new ASTVariableDeclarationNode(
+        {173, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::floatType),
                 ASTNodeFactory::floatExpression
         )},
-        {174, new ASTVariableDeclarationNode(
+        {174, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::charType),
                 ASTNodeFactory::charExpression
         )},
-        {175, new ASTVariableDeclarationNode(
+        {175, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::stringType),
                 ASTNodeFactory::stringExpression
         )},
-        {176, new ASTVariableDeclarationNode(
+        {176, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::booleanType),
                 ASTNodeFactory::trueExpression
         )},
-        {177, new ASTVariableDeclarationNode(
+        {177, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(
                     ASTNodeFactory::createArrayType(ASTNodeFactory::intType)
                 ),
@@ -2568,27 +2574,27 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::intExpression
                 })
         )},
-        {178, new ASTVariableDeclarationNode(
+        {178, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(
                         ASTNodeFactory::createLambdaType({ASTNodeFactory::intType}, ASTNodeFactory::booleanType)
                 ),
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(
                             {
                                 ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::intType)
                             }
                         ),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                                 ASTNodeFactory::lambdaFatArrow,
                                 ASTNodeFactory::trueExpression
                         )
                 )
         )},
-        {179, new ASTVariableDeclarationNode(
+        {179, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(
                         ASTNodeFactory::createLambdaTypeWithVoidReturn({ASTNodeFactory::intType})
                 ),
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList(
 
                             {
@@ -2597,8 +2603,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                             
                         ),
                         ASTNodeFactory::createFunctionBlock({
-                             new ASTExpressionStatementNode(
-                                 new ASTBinaryArithmeticExpressionNode(
+                             std::make_shared<ASTExpressionStatementNode>(
+                                 std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                      ASTNodeFactory::idExpression,
                                      ASTNodeFactory::plus,
                                      ASTNodeFactory::intExpression
@@ -2607,7 +2613,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {180, new ASTVariableDeclarationNode(
+        {180, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(
                     ASTNodeFactory::createTupleType({
                         ASTNodeFactory::intType,
@@ -2619,32 +2625,32 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::intExpression
                 })
         )},
-        {181, new ASTVariableDeclarationNode(
+        {181, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(ASTNodeFactory::idType),
                 ASTNodeFactory::stringExpression
         )},
-        {182, new ASTUseSingleModuleDeclarationNode(
+        {182, std::make_shared<ASTUseSingleModuleDeclarationNode>(
                 ASTNodeFactory::useKeyword,
                 ASTNodeFactory::importModuleName,
                 ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {183, new ASTUseManyByWildcardModuleDeclarationNode(
+        {183, std::make_shared<ASTUseManyByWildcardModuleDeclarationNode>(
                 ASTNodeFactory::useKeyword,
                 ASTNodeFactory::createImportModuleByWildcard(),
                 ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {184, new ASTImportManyByWildcardModuleDeclarationNode(
+        {184, std::make_shared<ASTImportManyByWildcardModuleDeclarationNode>(
                 ASTNodeFactory::importKeyword,
                 ASTNodeFactory::createImportModuleByWildcard(),
                 ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {185, new ASTUseManyModuleDeclarationNode(
+        {185, std::make_shared<ASTUseManyModuleDeclarationNode>(
                 ASTNodeFactory::useKeyword,
                 ASTNodeFactory::createImportModuleByGroupItem({
-                      new ASTImportModuleListItemNode(
+                      std::make_shared<ASTImportModuleListItemNode>(
                           ASTNodeFactory::createImportModuleByGroupItem({
                             ASTNodeFactory::importModuleNormalItem,
                             ASTNodeFactory::importModuleSpreadItem
@@ -2658,10 +2664,10 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {186, new ASTImportManyModuleDeclarationNode(
+        {186, std::make_shared<ASTImportManyModuleDeclarationNode>(
                 ASTNodeFactory::importKeyword,
                 ASTNodeFactory::createImportModuleByGroupItem({
-                      new ASTImportModuleListItemNode(
+                      std::make_shared<ASTImportModuleListItemNode>(
                               ASTNodeFactory::createImportModuleByGroupItem({
                                     ASTNodeFactory::importModuleNormalItem,
                                     ASTNodeFactory::importModuleSpreadItem
@@ -2675,60 +2681,60 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::fromKeyword,
                 ASTNodeFactory::importPath
         )},
-        {187, new ASTClassDeclarationNode(
+        {187, std::make_shared<ASTClassDeclarationNode>(
                 ASTNodeFactory::classKeyword,
                 ASTNodeFactory::className,
                 ASTNodeFactory::createClassBlock(
                     {
-                        new ASTClassPropertyDeclarationNode(
-                            new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                            std::make_shared<ASTClassPropertyInitNode>(
                                 ASTNodeFactory::publicModifier,
                                 ASTNodeFactory::classPropertyName,
-                                {},
-                                {},
-                                {},
+                                std::optional<std::shared_ptr<ASTStaticNode>>(),
+                                std::optional<std::shared_ptr<ASTConstNode>>(),
+                                std::optional<std::shared_ptr<ASTAssignmentOperatorNode>>(),
                                 ASTNodeFactory::typeColon,
                                 ASTNodeFactory::intType
                             )
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        {},
-                                        {},
-                                        {},
+                                        std::optional<std::shared_ptr<ASTStaticNode>>(),
+                                        std::optional<std::shared_ptr<ASTConstNode>>(),
+                                        std::optional<std::shared_ptr<ASTAssignmentOperatorNode>>(),
                                         ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        {},
-                                        {},
+                                        std::optional<std::shared_ptr<ASTStaticNode>>(),
+                                        std::optional<std::shared_ptr<ASTConstNode>>(),
                                         ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTStaticNode>>(),
                                         ASTNodeFactory::constKeyword,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTAssignmentOperatorNode>>(),
                                         ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 )
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTStaticNode>>(),
                                         ASTNodeFactory::constKeyword,
                                         ASTNodeFactory::assignment,
                                         ASTNodeFactory::typeColon,
@@ -2736,62 +2742,62 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::publicModifier,
                                         ASTNodeFactory::classPropertyName,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTStaticNode>>(),
                                         ASTNodeFactory::constKeyword,
                                         ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
                                         ASTNodeFactory::staticKeyword,
-                                        {},
-                                        {},
+                                        std::optional<std::shared_ptr<ASTConstNode>>(),
+                                        std::optional<std::shared_ptr<ASTAssignmentOperatorNode>>(),
                                         ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 )
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
                                         ASTNodeFactory::staticKeyword,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTConstNode>>(),
                                         ASTNodeFactory::assignment,
                                         ASTNodeFactory::typeColon,
                                         ASTNodeFactory::intType
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classPropertyName,
                                         ASTNodeFactory::staticKeyword,
-                                        {},
+                                        std::optional<std::shared_ptr<ASTConstNode>>(),
                                         ASTNodeFactory::assignment
                                 ),
                                 ASTNodeFactory::intExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                            new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                            std::make_shared<ASTClassPropertyInitNode>(
                                 ASTNodeFactory::privateModifier,
                                 ASTNodeFactory::classPropertyName,
                                 ASTNodeFactory::staticKeyword,
                                 ASTNodeFactory::constKeyword,
-                                {},
+                                std::optional<std::shared_ptr<ASTAssignmentOperatorNode>>(),
                                 ASTNodeFactory::typeColon,
                                 ASTNodeFactory::booleanType
                             )
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classPropertyName,
                                         ASTNodeFactory::staticKeyword,
@@ -2802,8 +2808,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 ),
                                 ASTNodeFactory::trueExpression
                         ),
-                        new ASTClassPropertyDeclarationNode(
-                                new ASTClassPropertyInitNode(
+                        std::make_shared<ASTClassPropertyDeclarationNode>(
+                                std::make_shared<ASTClassPropertyInitNode>(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classPropertyName,
                                         ASTNodeFactory::staticKeyword,
@@ -2814,8 +2820,8 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     },
                     {
-                        new ASTClassMethodDeclarationNode(
-                            new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                            std::make_shared<ASTClassMethodDefinitionNode>(
                                 ASTNodeFactory::publicModifier,
                                 ASTNodeFactory::classMethodName,
                                 ASTNodeFactory::staticKeyword
@@ -2828,30 +2834,31 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 
                             ),
                             ASTNodeFactory::createFunctionBlock({
-                                new ASTFunctionReturnExpressionNode(
+                                std::make_shared<ASTFunctionReturnExpressionNode>(
                                     ASTNodeFactory::functionReturn,
-                                    new ASTNewClassInstanceExpressionNode(
+                                    std::make_shared<ASTNewClassInstanceExpressionNode>(
                                         ASTNodeFactory::newKeyword,
                                         ASTNodeFactory::className,
                                         ASTNodeFactory::createFunctionArgumentList({
-                                            new ASTFunctionArgumentNode(ASTNodeFactory::idExpression)
+                                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::idExpression)
                                         })
                                   )
                                 )
                             }),
+                            ASTNodeFactory::typeColon,
                             ASTNodeFactory::idType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                                new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                                std::make_shared<ASTClassMethodDefinitionNode>(
                                         ASTNodeFactory::protectedModifier,
                                         ASTNodeFactory::classMethodName,
                                         ASTNodeFactory::staticKeyword
                                 ),
                                 ASTNodeFactory::createFunctionParameterList(),
                                 ASTNodeFactory::createFunctionBlock({
-                                     new ASTFunctionReturnExpressionNode(
+                                     std::make_shared<ASTFunctionReturnExpressionNode>(
                                          ASTNodeFactory::functionReturn,
-                                         new ASTNewClassInstanceExpressionNode(
+                                         std::make_shared<ASTNewClassInstanceExpressionNode>(
                                              ASTNodeFactory::newKeyword,
                                              ASTNodeFactory::className,
                                              ASTNodeFactory::createFunctionArgumentList()
@@ -2860,43 +2867,43 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 }),
                                 ASTNodeFactory::idType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                                new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                                std::make_shared<ASTClassMethodDefinitionNode>(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classMethodName,
                                         ASTNodeFactory::staticKeyword
                                 ),
                                 ASTNodeFactory::createFunctionParameterList(),
                                 ASTNodeFactory::createFunctionBlock({
-                                    new ASTFunctionReturnExpressionNode(
+                                    std::make_shared<ASTFunctionReturnExpressionNode>(
                                         ASTNodeFactory::functionReturn,
-                                        new ASTNewClassInstanceExpressionNode(
+                                        std::make_shared<ASTNewClassInstanceExpressionNode>(
                                             ASTNodeFactory::newKeyword,
                                             ASTNodeFactory::className,
                                             ASTNodeFactory::createFunctionArgumentList({
-                                                new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression)
                                             })
                                         )
                                     )
                                 }),
                                 ASTNodeFactory::idType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                            new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                            std::make_shared<ASTClassMethodDefinitionNode>(
                                     ASTNodeFactory::publicModifier,
                                     ASTNodeFactory::classMethodName
                             ),
                                 ASTNodeFactory::createFunctionParameterList(),
                                 ASTNodeFactory::createFunctionBlock({
-                                    new ASTFunctionReturnExpressionNode(
+                                    std::make_shared<ASTFunctionReturnExpressionNode>(
                                         ASTNodeFactory::functionReturn,
                                         ASTNodeFactory::classPropertyAccessExpression
                                     )
                                 }),
                                 ASTNodeFactory::booleanType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                            new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                            std::make_shared<ASTClassMethodDefinitionNode>(
                                     ASTNodeFactory::protectedModifier,
                                     ASTNodeFactory::classMethodName
                             ),
@@ -2911,39 +2918,39 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 
                             ),
                             ASTNodeFactory::createFunctionBlock({
-                                new ASTClassPropertyAssignmentStatementNode(
+                                std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                     ASTNodeFactory::classPropertyAssignment,
                                     ASTNodeFactory::idExpression
                                 ),
-                                new ASTFunctionReturnExpressionNode(
+                                std::make_shared<ASTFunctionReturnExpressionNode>(
                                     ASTNodeFactory::functionReturn,
                                     ASTNodeFactory::thisExpression
                                 )
                             }),
                             ASTNodeFactory::thisType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                            new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                            std::make_shared<ASTClassMethodDefinitionNode>(
                                     ASTNodeFactory::privateModifier,
                                     ASTNodeFactory::classMethodName
                             ),
                             ASTNodeFactory::createFunctionParameterList(),
                             ASTNodeFactory::createFunctionBlock({
-                                new ASTFunctionReturnExpressionNode(
+                                std::make_shared<ASTFunctionReturnExpressionNode>(
                                     ASTNodeFactory::functionReturn,
                                     ASTNodeFactory::stringExpression
                                 )
                             }),
                             ASTNodeFactory::stringType
                         ),
-                        new ASTClassMethodDeclarationNode(
-                                new ASTClassMethodDefinitionNode(
+                        std::make_shared<ASTClassMethodDeclarationNode>(
+                                std::make_shared<ASTClassMethodDefinitionNode>(
                                         ASTNodeFactory::privateModifier,
                                         ASTNodeFactory::classMethodName
                                 ),
                                 ASTNodeFactory::createFunctionParameterList(),
                                 ASTNodeFactory::createFunctionBlock({
-                                     new ASTClassPropertyAssignmentStatementNode(
+                                     std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::trueExpression
                                      )
@@ -2951,30 +2958,30 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                     },
                     {
-                        new ASTClassConstructorDeclarationNode(
+                        std::make_shared<ASTClassConstructorDeclarationNode>(
                                 ASTNodeFactory::classConstructor,
                                 ASTNodeFactory::createFunctionParameterList(),
                                 ASTNodeFactory::createFunctionBlock({
-                                    new ASTExpressionStatementNode(
-                                        new ASTClassMethodInvocationExpressionNode(
+                                    std::make_shared<ASTExpressionStatementNode>(
+                                        std::make_shared<ASTClassMethodInvocationExpressionNode>(
                                             ASTNodeFactory::classAccess,
                                             ASTNodeFactory::classMethodCall,
                                             ASTNodeFactory::createFunctionArgumentList({
-                                                new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression)
                                             })
                                         )
                                     ),
-                                    new ASTClassPropertyAssignmentStatementNode(
+                                    std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::intExpression
                                     ),
-                                    new ASTClassPropertyAssignmentStatementNode(
+                                    std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::trueExpression
                                     ),
                                 })
                         ),
-                        new ASTClassConstructorDeclarationNode(
+                        std::make_shared<ASTClassConstructorDeclarationNode>(
                             ASTNodeFactory::classConstructor,
                             ASTNodeFactory::createFunctionParameterList(
 
@@ -2987,20 +2994,20 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                 
                             ),
                             ASTNodeFactory::createFunctionBlock({
-                                     new ASTClassPropertyAssignmentStatementNode(
+                                     std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::idExpression
                                      ),
-                                     new ASTClassPropertyAssignmentStatementNode(
+                                     std::make_shared<ASTClassPropertyAssignmentStatementNode>(
                                          ASTNodeFactory::classPropertyAssignment,
                                          ASTNodeFactory::trueExpression
                                      ),
-                                     new ASTExpressionStatementNode(
-                                         new ASTClassMethodInvocationExpressionNode(
+                                     std::make_shared<ASTExpressionStatementNode>(
+                                         std::make_shared<ASTClassMethodInvocationExpressionNode>(
                                              ASTNodeFactory::classAccess,
                                              ASTNodeFactory::classMethodCall,
                                              ASTNodeFactory::createFunctionArgumentList({
-                                                new ASTFunctionArgumentNode(ASTNodeFactory::classPropertyAccessExpression)
+                                                std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::classPropertyAccessExpression)
                                              })
                                          )
                                      )
@@ -3009,12 +3016,12 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     }
                 )
         )},
-        {188, new ASTVariableDeclarationNode(
+        {188, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::intExpression,
                 ASTNodeFactory::exportKeyword
         )},
-        {189, new ASTFunctionDeclarationNode(
+        {189, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                     ASTNodeFactory::functionName,
                     ASTNodeFactory::createFunctionParameterList({
@@ -3022,9 +3029,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     }),
                     ASTNodeFactory::intType),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(
+                    std::make_shared<ASTFunctionReturnExpressionNode>(
                         ASTNodeFactory::functionReturn,
-                        new ASTBinaryArithmeticExpressionNode(
+                        std::make_shared<ASTBinaryArithmeticExpressionNode>(
                             ASTNodeFactory::idExpression,
                             ASTNodeFactory::plus,
                             ASTNodeFactory::intExpression
@@ -3033,138 +3040,138 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 }),
                 ASTNodeFactory::exportKeyword
         )},
-        {190, new ASTProcedureDeclarationNode(
+        {190, std::make_shared<ASTProcedureDeclarationNode>(
                 ASTNodeFactory::createProcedureDefinition(
                     ASTNodeFactory::functionName,
                     ASTNodeFactory::createFunctionParameterList({
                         ASTNodeFactory::intFunctionParameter,
                 })),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTVariableDeclarationNode(
+                    std::make_shared<ASTVariableDeclarationNode>(
                             ASTNodeFactory::constInit,
                             ASTNodeFactory::intExpression
                     )
                 }),
                 ASTNodeFactory::exportKeyword
         )},
-        {191, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {191, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableModuleAccessExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::stringExpression)
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::stringExpression)
                         })
                 )
         )},
-        {192, new ASTVariableDeclarationNode(
+        {192, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLogicalExpressionNode(
+                std::make_shared<ASTLogicalExpressionNode>(
                     ASTNodeFactory::bangId,
                     ASTNodeFactory::andOperator,
                     ASTNodeFactory::trueExpression
                 )
         )},
-        {193, new ASTVariableDeclarationNode(
+        {193, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::intExpression)
         )},
-        {194, new ASTVariableDeclarationNode(
+        {194, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::floatExpression)
         )},
-        {195, new ASTVariableDeclarationNode(
+        {195, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::stringExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::stringExpression)
         )},
-        {196, new ASTVariableDeclarationNode(
+        {196, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::trueExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::trueExpression)
         )},
-        {197, new ASTVariableDeclarationNode(
+        {197, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::charExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::charExpression)
         )},
-        {198, new ASTVariableDeclarationNode(
+        {198, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::createArrayExpression({
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::createArrayExpression({
                   ASTNodeFactory::intExpression,
                   ASTNodeFactory::intExpression,
                   ASTNodeFactory::intExpression
                 }))
         )},
-        {199, new ASTVariableDeclarationNode(
+        {199, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::createStructExpression({
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::createStructExpression({
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::trueExpression)
                 }))
         )},
-        {200, new ASTVariableDeclarationNode(
+        {200, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::createTupleExpression({
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::createTupleExpression({
                     ASTNodeFactory::stringExpression,
                     ASTNodeFactory::trueExpression,
                     ASTNodeFactory::intExpression
                 }))
         )},
-        {201, new ASTVariableDeclarationNode(
+        {201, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(ASTNodeFactory::idExpression)
+                ASTNodeFactory::createShareExpression(ASTNodeFactory::idExpression)
         )},
-        {202, new ASTVariableDeclarationNode(
+        {202, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(
+                ASTNodeFactory::createShareExpression(
                     ASTNodeFactory::createObjectAccessExpression(
                         ASTNodeFactory::objectAccessSourceId,
                         ASTNodeFactory::objectAccessTargetId
                     )
                 )
         )},
-        {203, new ASTVariableDeclarationNode(
+        {203, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(
-                    new ASTArrayAccessExpressionNode(
+                ASTNodeFactory::createShareExpression(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
                         ASTNodeFactory::idExpression,
                         ASTNodeFactory::arrayAccessInt
                     )
                 )
         )},
-        {204, new ASTVariableDeclarationNode(
+        {204, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(
+                ASTNodeFactory::createShareExpression(
                     ASTNodeFactory::createTupleAccessExpression(
                         ASTNodeFactory::objectAccessSourceId,
                         ASTNodeFactory::tupleAccess
                     )
                 )
         )},
-        {205, new ASTVariableDeclarationNode(
+        {205, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createArrayExpression({
-                  ASTNodeFactory::refIntExpression,
-                  ASTNodeFactory::refIntExpression,
-                  ASTNodeFactory::refIntExpression
+                  ASTNodeFactory::shareIntExpression,
+                  ASTNodeFactory::shareIntExpression,
+                  ASTNodeFactory::shareIntExpression
                })
         )},
-        {206, new ASTVariableDeclarationNode(
+        {206, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createStructExpression({
-                   ASTNodeFactory::createStructKeyValue(ASTNodeFactory::refIntExpression),
+                   ASTNodeFactory::createStructKeyValue(ASTNodeFactory::shareIntExpression),
                    ASTNodeFactory::createStructKeyValue(ASTNodeFactory::refCharExpression)
                })
         )},
-        {207, new ASTVariableDeclarationNode(
+        {207, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createTupleExpression({
                     ASTNodeFactory::refStringExpression,
                     ASTNodeFactory::refTrueExpression,
-                    ASTNodeFactory::refIntExpression
+                    ASTNodeFactory::shareIntExpression
                 })
         )},
-        {208, new ASTVariableDeclarationNode(
+        {208, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createDrefExpression(ASTNodeFactory::idExpression)
         )},
-        {209, new ASTVariableDeclarationNode(
+        {209, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createDrefExpression(
                     ASTNodeFactory::createObjectAccessExpression(
@@ -3173,16 +3180,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {210, new ASTVariableDeclarationNode(
+        {210, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createDrefExpression(
-                    new ASTArrayAccessExpressionNode(
+                    std::make_shared<ASTArrayAccessExpressionNode>(
                         ASTNodeFactory::idExpression,
                         ASTNodeFactory::arrayAccessInt
                     )
                 )
         )},
-        {211, new ASTVariableDeclarationNode(
+        {211, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createDrefExpression(
                     ASTNodeFactory::createTupleAccessExpression(
@@ -3191,36 +3198,36 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {212, new ASTFunctionDeclarationNode(
+        {212, std::make_shared<ASTFunctionDeclarationNode>(
                 ASTNodeFactory::createFunctionDefinition(
                     ASTNodeFactory::functionName,
                     ASTNodeFactory::createFunctionParameterList({
-                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createRefType(ASTNodeFactory::intType)),
-                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createRefType(ASTNodeFactory::booleanType)),
-                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createRefType(ASTNodeFactory::createArrayType(ASTNodeFactory::intType))),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createSharedType(ASTNodeFactory::intType)),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createSharedType(ASTNodeFactory::booleanType)),
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::createSharedType(ASTNodeFactory::createArrayType(ASTNodeFactory::intType))),
                     }),
-                    ASTNodeFactory::createRefType(ASTNodeFactory::intType)
+                    ASTNodeFactory::createSharedType(ASTNodeFactory::intType)
                 ),
                 ASTNodeFactory::createFunctionBlock({
-                    new ASTFunctionReturnExpressionNode(
+                    std::make_shared<ASTFunctionReturnExpressionNode>(
                         ASTNodeFactory::functionReturn,
-                        ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression)
+                        ASTNodeFactory::createShareExpression(ASTNodeFactory::intExpression)
                     )
                 })
         )},
-        {213, new ASTVariableDeclarationNode(
-                ASTNodeFactory::createConstInitWithType(ASTNodeFactory::createRefType(ASTNodeFactory::intType)),
+        {213, std::make_shared<ASTVariableDeclarationNode>(
+                ASTNodeFactory::createConstInitWithType(ASTNodeFactory::createSharedType(ASTNodeFactory::intType)),
                 ASTNodeFactory::idExpression
         )},
-        {214, new ASTVariableDeclarationNode(
+        {214, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaWithFatArrowExpressionNode(
+                std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                         ASTNodeFactory::createFunctionParameterList({
-                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createRefType(ASTNodeFactory::intType))
+                            ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createSharedType(ASTNodeFactory::intType))
                         }),
-                        new ASTLambdaReturnExpressionNode(
+                        std::make_shared<ASTLambdaReturnExpressionNode>(
                             ASTNodeFactory::lambdaFatArrow,
-                            new ASTBinaryArithmeticExpressionNode(
+                            std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                 ASTNodeFactory::idExpression,
                                 ASTNodeFactory::plus,
                                 ASTNodeFactory::intExpression
@@ -3228,29 +3235,30 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         )
                 )
         )},
-        {215, new ASTVariableDeclarationNode(
+        {215, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTLambdaExpressionNode(
+                std::make_shared<ASTLambdaExpressionNode>(
                     ASTNodeFactory::createFunctionParameterList({
-                        ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createRefType(ASTNodeFactory::intType)),
+                        ASTNodeFactory::createFunctionParameter(ASTNodeFactory::idExpression, ASTNodeFactory::createSharedType(ASTNodeFactory::intType)),
                     }),
                     ASTNodeFactory::createFunctionBlock({
-                        new ASTFunctionReturnExpressionNode(
+                        std::make_shared<ASTFunctionReturnExpressionNode>(
                             ASTNodeFactory::functionReturn,
-                            ASTNodeFactory::createRefExpression(
-                                new ASTBinaryArithmeticExpressionNode(
+                            ASTNodeFactory::createShareExpression(
+                                std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                     ASTNodeFactory::idExpression,
                                     ASTNodeFactory::plus,
                                     ASTNodeFactory::intExpression
                             ))
                         )
                     }),
-                    ASTNodeFactory::createRefType(ASTNodeFactory::intType)
+                    ASTNodeFactory::typeColon,
+                    ASTNodeFactory::createSharedType(ASTNodeFactory::intType)
                 )
         )},
-        {216, new ASTVariableDeclarationNode(
+        {216, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                ASTNodeFactory::createRefExpression(
+                ASTNodeFactory::createShareExpression(
                     ASTNodeFactory::createArrayExpression({
                         ASTNodeFactory::intExpression,
                         ASTNodeFactory::intExpression,
@@ -3260,14 +3268,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
         )},
 
 
-        {221, new ASTVariableDeclarationNode(
+        {221, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createConcatExpression(
                         ASTNodeFactory::stringExpression,
                         ASTNodeFactory::stringExpression
                 )
         )},
-        {222, new ASTVariableDeclarationNode(
+        {222, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createConcatExpression(
                     ASTNodeFactory::stringExpression,
@@ -3277,14 +3285,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     )
                 )
         )},
-        {223, new ASTVariableDeclarationNode(
+        {223, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createConcatExpression(
                         ASTNodeFactory::idExpression,
                         ASTNodeFactory::idExpression
                 )
         )},
-        {224, new ASTVariableDeclarationNode(
+        {224, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createConcatExpression(
                     ASTNodeFactory::createArrayExpression(
@@ -3299,23 +3307,23 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         })
                 )
         )},
-        {225, new ASTVariableDeclarationNode(
+        {225, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTObjectAccessInvocationExpressionNode(
+                std::make_shared<ASTObjectAccessInvocationExpressionNode>(
                     ASTNodeFactory::createObjectAccessExpression(
                         ASTNodeFactory::objectAccessSourceId,
                         ASTNodeFactory::objectAccessTargetCallableId
                      ),
                     ASTNodeFactory::createFunctionArgumentList({
-                       new ASTFunctionArgumentNode(ASTNodeFactory::intExpression)
+                       std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression)
                     })
                 )
         )},
-        {226, new ASTVariableDeclarationNode(
+        {226, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createStructExpression({
                    ASTNodeFactory::createStructKeyValue(
-                           new ASTLambdaWithFatArrowExpressionNode(
+                           std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                    ASTNodeFactory::createFunctionParameterList(
                                            {
                                                ASTNodeFactory::createFunctionParameter(
@@ -3324,9 +3332,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                                )
                                            }
                                    ),
-                                   new ASTLambdaReturnExpressionNode(
+                                   std::make_shared<ASTLambdaReturnExpressionNode>(
                                            ASTNodeFactory::lambdaFatArrow,
-                                           new ASTBinaryArithmeticExpressionNode(
+                                           std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                    ASTNodeFactory::idExpression,
                                                    ASTNodeFactory::plus,
                                                    ASTNodeFactory::intExpression
@@ -3335,16 +3343,16 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                            )
                    ),
                    ASTNodeFactory::createStructKeyValue(
-                           new ASTLambdaWithFatArrowExpressionNode(
+                           std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                                    ASTNodeFactory::createFunctionParameterList(),
-                                   new ASTLambdaReturnExpressionNode(
+                                   std::make_shared<ASTLambdaReturnExpressionNode>(
                                            ASTNodeFactory::lambdaFatArrow,
                                            ASTNodeFactory::intExpression
                                    )
                            )
                    ),
                    ASTNodeFactory::createStructKeyValue(
-                           new ASTLambdaExpressionNode(
+                           std::make_shared<ASTLambdaExpressionNode>(
                                    ASTNodeFactory::createFunctionParameterList({
                                        ASTNodeFactory::createFunctionParameter(
                                                ASTNodeFactory::idExpression,
@@ -3352,24 +3360,25 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                        )
                                    }),
                                    ASTNodeFactory::createFunctionBlock({
-                                       new ASTFunctionReturnExpressionNode(
+                                       std::make_shared<ASTFunctionReturnExpressionNode>(
                                            ASTNodeFactory::functionReturn,
-                                           new ASTBinaryArithmeticExpressionNode(
+                                           std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                                ASTNodeFactory::idExpression,
                                                ASTNodeFactory::plus,
                                                ASTNodeFactory::intExpression
                                            )
                                        )
                                    }),
+                                   ASTNodeFactory::typeColon,
                                    ASTNodeFactory::intType
                            )
                    )
                })
         )},
-        {227, new ASTVariableDeclarationNode(
+        {227, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createTupleExpression({
-                   new ASTLambdaWithFatArrowExpressionNode(
+                   std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                        ASTNodeFactory::createFunctionParameterList(
                                {
                                        ASTNodeFactory::createFunctionParameter(
@@ -3378,23 +3387,23 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                                        )
                                }
                        ),
-                       new ASTLambdaReturnExpressionNode(
+                       std::make_shared<ASTLambdaReturnExpressionNode>(
                                ASTNodeFactory::lambdaFatArrow,
-                               new ASTBinaryArithmeticExpressionNode(
+                               std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                        ASTNodeFactory::idExpression,
                                        ASTNodeFactory::plus,
                                        ASTNodeFactory::intExpression
                                )
                        )
                    ),
-                   new ASTLambdaWithFatArrowExpressionNode(
+                   std::make_shared<ASTLambdaWithFatArrowExpressionNode>(
                        ASTNodeFactory::createFunctionParameterList(),
-                       new ASTLambdaReturnExpressionNode(
+                       std::make_shared<ASTLambdaReturnExpressionNode>(
                            ASTNodeFactory::lambdaFatArrow,
                            ASTNodeFactory::intExpression
                        )
                    ),
-                   new ASTLambdaExpressionNode(
+                   std::make_shared<ASTLambdaExpressionNode>(
                        ASTNodeFactory::createFunctionParameterList({
                            ASTNodeFactory::createFunctionParameter(
                                ASTNodeFactory::idExpression,
@@ -3402,9 +3411,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                            )
                        }),
                        ASTNodeFactory::createFunctionBlock({
-                           new ASTFunctionReturnExpressionNode(
+                           std::make_shared<ASTFunctionReturnExpressionNode>(
                                ASTNodeFactory::functionReturn,
-                               new ASTBinaryArithmeticExpressionNode(
+                               std::make_shared<ASTBinaryArithmeticExpressionNode>(
                                    ASTNodeFactory::idExpression,
                                    ASTNodeFactory::plus,
                                    ASTNodeFactory::intExpression
@@ -3415,9 +3424,9 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                    )
            })
         )},
-        {228, new ASTVariableDeclarationNode(
+        {228, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
-                new ASTTupleAccessInvocationExpressionNode(
+                std::make_shared<ASTTupleAccessInvocationExpressionNode>(
                         ASTNodeFactory::createTupleAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::tupleAccess
@@ -3425,7 +3434,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                         ASTNodeFactory::createFunctionArgumentList()
                 )
         )},
-        {229, new ASTInterfaceTypeDeclarationNode(
+        {229, std::make_shared<ASTInterfaceTypeDeclarationNode>(
                 ASTNodeFactory::interfaceDefinition,
                 ASTNodeFactory::createInterfacePropertyList({
                     ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
@@ -3441,7 +3450,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                 })
         )},
-        {230, new ASTInterfaceTypeDeclarationNode(
+        {230, std::make_shared<ASTInterfaceTypeDeclarationNode>(
                 ASTNodeFactory::interfaceDefinition,
                 ASTNodeFactory::createInterfacePropertyList({
                         ASTNodeFactory::createInterfaceProperty(ASTNodeFactory::intType),
@@ -3480,7 +3489,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 }),
                 ASTNodeFactory::exportKeyword
         )},
-        {231, new ASTVariableDeclarationNode(
+        {231, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::createConstInitWithType(
                     ASTNodeFactory::createStructType({
                          ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::booleanType),
@@ -3492,7 +3501,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::createStructKeyValue(ASTNodeFactory::charExpression),
                 })
         )},
-        {232, new ASTProcedureDeclarationNode(
+        {232, std::make_shared<ASTProcedureDeclarationNode>(
                 ASTNodeFactory::createProcedureDefinition(
                         ASTNodeFactory::functionName,
                         ASTNodeFactory::createFunctionParameterList(
@@ -3511,7 +3520,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 )),
                 ASTNodeFactory::createFunctionBlock({})
         )},
-        {233, new ASTClassDeclarationNode(
+        {233, std::make_shared<ASTClassDeclarationNode>(
                 ASTNodeFactory::classKeyword,
                 ASTNodeFactory::className,
                 ASTNodeFactory::createClassBlock({}, {}, {}),
@@ -3519,7 +3528,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ASTNodeFactory::implementsInterfaceName
                 })
         )},
-        {234, new ASTClassDeclarationNode(
+        {234, std::make_shared<ASTClassDeclarationNode>(
                 ASTNodeFactory::classKeyword,
                 ASTNodeFactory::className,
                 ASTNodeFactory::createClassBlock({}, {}, {}),
@@ -3536,35 +3545,35 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                 ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType),
                 ASTNodeFactory::createStructTypeKeyValue(ASTNodeFactory::intType)
         }))},
-        {239, new ASTExpressionStatementNode(ASTNodeFactory::createTupleExpression({
+        {239, std::make_shared<ASTExpressionStatementNode>(ASTNodeFactory::createTupleExpression({
             ASTNodeFactory::intExpression,
             ASTNodeFactory::trueExpression
         }))},
-        {240, new ASTExpressionStatementNode(ASTNodeFactory::createStructExpression({
+        {240, std::make_shared<ASTExpressionStatementNode>(ASTNodeFactory::createStructExpression({
             ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
             ASTNodeFactory::createStructKeyValue(ASTNodeFactory::falseExpression)
         }))},
-        {242, new ASTExpressionStatementNode(
-                new ASTFunctionInvocationExpressionNode(
+        {242, std::make_shared<ASTExpressionStatementNode>(
+                std::make_shared<ASTFunctionInvocationExpressionNode>(
                         ASTNodeFactory::callableIdExpression,
                         ASTNodeFactory::createFunctionArgumentList({
-                            new ASTFunctionArgumentNode(ASTNodeFactory::intExpression),
-                            new ASTFunctionArgumentNode(ASTNodeFactory::floatExpression),
-                            new ASTFunctionArgumentNode(ASTNodeFactory::trueExpression),
-                            new ASTFunctionArgumentNode(ASTNodeFactory::createArrayExpression({
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::intExpression),
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::floatExpression),
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::trueExpression),
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::createArrayExpression({
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::intExpression,
                                 ASTNodeFactory::intExpression
                             })),
-                            new ASTFunctionArgumentNode(ASTNodeFactory::createStructExpression({
+                            std::make_shared<ASTFunctionArgumentNode>(ASTNodeFactory::createStructExpression({
                                 ASTNodeFactory::createStructKeyValue(ASTNodeFactory::stringExpression),
                                 ASTNodeFactory::createStructKeyValue(ASTNodeFactory::falseExpression)
                             }))
                         })
                 )
         )},
-        {243, new ASTObjectAccessAssignmentStatementNode(
-                    new ASTObjectAccessAssignmentNode(
+        {243, std::make_shared<ASTObjectAccessAssignmentStatementNode>(
+                    std::make_shared<ASTObjectAccessAssignmentNode>(
                             ASTNodeFactory::createObjectAccessExpression(
                                 ASTNodeFactory::objectAccessSourceId,
                                 ASTNodeFactory::objectAccessTargetId
@@ -3573,7 +3582,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     ),
                     ASTNodeFactory::intExpression
         )},
-        {244, new ASTVariableDeclarationNode(
+        {244, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createArrayExpression({
                     ASTNodeFactory::createStructExpression({
@@ -3594,7 +3603,7 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
                     })
                 })
         )},
-        {245, new ASTVariableDeclarationNode(
+        {245, std::make_shared<ASTVariableDeclarationNode>(
                 ASTNodeFactory::constInit,
                 ASTNodeFactory::createStructExpression({
                        ASTNodeFactory::createStructKeyValue(ASTNodeFactory::intExpression),
@@ -3618,14 +3627,14 @@ std::unordered_map<int, ASTNode*> expectedNodes = {
 
 TEST_CASE( "should print the expected reduced nodes" ) {
 std::string filePath = "./syntax-analyzer-test-file.jet";
-auto tokenTable = new TokenTable();
-auto reservedKeywords = new ReservedKeywords();
-auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
+auto tokenTable = std::make_shared<TokenTable>();
+auto reservedKeywords = std::make_shared<ReservedKeywords>();
+auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
 auto syntaxAnalyzer = SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
 auto syntaxAnalyzerResult = syntaxAnalyzer.analyze(filePath);
-auto expectedModuleDeclaration = new ASTModuleDeclarationNode(ASTNodeFactory::moduleKeyword, ASTNodeFactory::moduleName);
+auto expectedModuleDeclaration = std::make_shared<ASTModuleDeclarationNode>(ASTNodeFactory::moduleKeyword, ASTNodeFactory::moduleName);
 auto expectedImportDeclarations = std::vector {
-        new ASTImportSingleModuleDeclarationNode(
+        std::make_shared<ASTImportSingleModuleDeclarationNode>(
                 ASTNodeFactory::importKeyword,
                 ASTNodeFactory::importModuleName,
                 ASTNodeFactory::fromKeyword,

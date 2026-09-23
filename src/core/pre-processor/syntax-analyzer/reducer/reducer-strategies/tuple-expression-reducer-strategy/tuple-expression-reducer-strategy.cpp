@@ -10,7 +10,7 @@ std::shared_ptr<ASTNode> TupleExpressionReducerStrategy::execute(std::vector<std
             std::dynamic_pointer_cast<ASTTupleListStartNode>(nodes[0]),
             std::dynamic_pointer_cast<ASTTupleListEndNode>(nodes[nodes.size() - 1])
     );
-    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
+    for (uint64_t i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_TUPLE_ITEM_NODE)) {
             tupleExpression->addItem(std::dynamic_pointer_cast<ASTTupleItemNode>(node));

@@ -6,7 +6,7 @@
 #include "../../../shared/utils/logger/logger.h"
 #include "../../ir-type/ir-struct-ref-type.h"
 
-IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
+IRTupleAccessExpressionNode::IRTupleAccessExpressionNode(std::shared_ptr<ASTTupleAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, uint64_t targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _irTargetKeyIndex = irTargetKeyIndex;
@@ -36,7 +36,7 @@ llvm::Constant* IRTupleAccessExpressionNode::getIRTargetKeyIndex() {
     return _irTargetKeyIndex;
 }
 
-unsigned long IRTupleAccessExpressionNode::getTargetKeyIndex() {
+uint64_t IRTupleAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
 }
 

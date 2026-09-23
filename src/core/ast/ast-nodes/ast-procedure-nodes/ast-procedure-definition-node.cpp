@@ -23,7 +23,7 @@ std::shared_ptr<ASTFunctionNameNode> ASTProcedureDefinitionNode::getName() {
     return _name;
 }
 
-unsigned long ASTProcedureDefinitionNode::numParameters() {
+uint64_t ASTProcedureDefinitionNode::numParameters() {
     return _parameters->numParameters();
 }
 

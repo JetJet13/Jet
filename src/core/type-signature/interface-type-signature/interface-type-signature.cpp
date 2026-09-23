@@ -33,7 +33,7 @@ std::shared_ptr<TypeSignature> InterfaceTypeSignature::getTypeSignatureForKey(st
     return std::make_shared<UnknownTypeSignature>();
 }
 
-std::shared_ptr<TypeSignature> InterfaceTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> InterfaceTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= _properties.size()) {
         return std::make_shared<UnknownTypeSignature>();
     }

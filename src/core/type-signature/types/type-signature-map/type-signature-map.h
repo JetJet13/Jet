@@ -17,8 +17,8 @@ public:
     TypeSignatureMap();
     explicit TypeSignatureMap(std::vector<std::pair<std::string, T>> keyValuePairs);
     std::optional<T> find(std::string key);
-    unsigned long findKeyIndex(std::string key);
-    std::string findKeyByIndex(unsigned long index);
+    uint64_t findKeyIndex(std::string key);
+    std::string findKeyByIndex(uint64_t index);
     TypeSignatureMap<T>* insert(std::string key, T value);
     bool isEqualTo(TypeSignatureMap<T>* other);
     bool isEquivalentTo(TypeSignatureMap<T>* other);
@@ -26,7 +26,7 @@ public:
     std::vector<std::pair<std::string, T>> getKeyValues();
     std::vector<std::string> getKeys();
     std::vector<T> getValues();
-    unsigned long size();
+    uint64_t size();
     void print();
 };
 

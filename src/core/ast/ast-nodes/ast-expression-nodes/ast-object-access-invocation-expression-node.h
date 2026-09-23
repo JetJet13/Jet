@@ -26,7 +26,7 @@ public:
     std::shared_ptr<ASTObjectAccessTargetNode> getTarget();
     std::shared_ptr<InvocableTypeSignature> getInvocableTypeSignature();
     std::string getName();
-    unsigned long numArguments();
+    uint64_t numArguments();
     bool isArrayPrototypeInvocation();
     bool isStringPrototypeInvocation();
     bool isSharedPtrPrototypeInvocation();

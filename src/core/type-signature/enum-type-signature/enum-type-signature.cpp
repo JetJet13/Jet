@@ -39,7 +39,7 @@ std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getTypeSignatureForKey(
     return std::make_shared<LiteralTypeSignature>();
 }
 
-std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<LiteralTypeSignature> EnumTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= _keyValuePairs.size()) {
         return std::make_shared<LiteralTypeSignature>();
     }

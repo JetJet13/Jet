@@ -42,7 +42,7 @@ std::optional<std::string> ASTNewClassInstanceExpressionNode::getModuleName() {
     return {};
 }
 
-unsigned long ASTNewClassInstanceExpressionNode::numArguments() {
+uint64_t ASTNewClassInstanceExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

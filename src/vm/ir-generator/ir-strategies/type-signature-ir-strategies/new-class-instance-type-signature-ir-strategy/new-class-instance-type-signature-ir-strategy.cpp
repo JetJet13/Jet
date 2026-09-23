@@ -6,8 +6,8 @@
 
 std::shared_ptr<IRNewClassInstanceType> NewClassInstanceTypeSignatureIRStrategy::generate(std::shared_ptr<NewClassInstanceTypeSignature> newClassInstanceTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto classPropertyTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : newClassInstanceTypeSignature->getClassTypeSignature()->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);

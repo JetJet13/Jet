@@ -103,7 +103,7 @@ bool ASTFileNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
     auto otherNode = std::dynamic_pointer_cast<ASTFileNode>(other);
-    for (unsigned long i = 0; i < _body.size(); ++i) {
+    for (uint64_t i = 0; i < _body.size(); ++i) {
         if (!_body[i]->isSameAs(otherNode->getBody()->at(i))) {
             return false;
         }

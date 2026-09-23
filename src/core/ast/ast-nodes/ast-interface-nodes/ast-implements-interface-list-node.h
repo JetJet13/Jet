@@ -23,7 +23,7 @@ public:
     ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword);
     ASTImplementsInterfaceListNode(std::shared_ptr<ASTImplementsNode> implementsKeyword, std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> interfaceNames, std::vector<std::shared_ptr<ASTCommaNode>> commas);
     std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> getInterfaceNames();
-    unsigned long numInterfaces();
+    uint64_t numInterfaces();
     std::shared_ptr<ASTImplementsInterfaceListNode> addInterface(std::shared_ptr<ASTImplementsInterfaceNameNode> interfaceName);
     std::shared_ptr<ASTImplementsInterfaceListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

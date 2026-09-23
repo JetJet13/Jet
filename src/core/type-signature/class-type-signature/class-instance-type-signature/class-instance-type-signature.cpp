@@ -43,7 +43,7 @@ std::shared_ptr<TypeSignature> ClassInstanceTypeSignature::getTypeSignatureForKe
     return std::make_shared<UnknownTypeSignature>();
 }
 
-std::shared_ptr<TypeSignature> ClassInstanceTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> ClassInstanceTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= _class->getInterface()->size()) {
         return std::make_shared<UnknownTypeSignature>();
     }

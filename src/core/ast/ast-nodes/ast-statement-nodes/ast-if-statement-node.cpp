@@ -93,7 +93,7 @@ bool ASTIfStatementNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
 
-    for (unsigned long i = 0; i < _elseIfBlocks.size(); ++i) {
+    for (uint64_t i = 0; i < _elseIfBlocks.size(); ++i) {
         if (!_elseIfBlocks[i]->isSameAs(otherNode->getElseIfBlocks()->at(i))) {
             return false;
         }

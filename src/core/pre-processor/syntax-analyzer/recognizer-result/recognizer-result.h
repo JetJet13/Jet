@@ -12,9 +12,9 @@ class RecognizerResult {
 private:
     RecognizerAction _recognizerAction;
     ASTNodeType _targetAstNodeType;
-    unsigned long _numReducedNodes;
+    uint64_t _numReducedNodes;
 public:
-    RecognizerResult(RecognizerAction recognizerAction, unsigned long numReducedNodes = 0, ASTNodeType targetAstNodeType = AST_NULL_NODE);
+    RecognizerResult(RecognizerAction recognizerAction, uint64_t numReducedNodes = 0, ASTNodeType targetAstNodeType = AST_NULL_NODE);
     ASTNodeType getTargetAstNodeType();
     int getNumReducedNodes();
     bool reduce();

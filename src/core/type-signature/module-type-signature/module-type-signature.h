@@ -16,7 +16,7 @@ public:
     ModuleTypeSignature(TypeSignatureMap<std::shared_ptr<TypeSignature>> keyValuePairs);
     TypeSignatureMap<std::shared_ptr<TypeSignature>>* getKeyValuePairs() override;
     std::shared_ptr<TypeSignature> getTypeSignatureForKey(std::string key) override;
-    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
+    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(uint64_t index) override;
     void addKeyValuePair(std::string key, std::shared_ptr<TypeSignature> typeSignature);
     std::string toDetailString() override;
     std::string toString() override;

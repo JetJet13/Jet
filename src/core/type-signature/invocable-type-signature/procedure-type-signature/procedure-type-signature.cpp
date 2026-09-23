@@ -68,7 +68,7 @@ bool ProcedureTypeSignature::hasVariableLengthParameters() {
     return _parameterList->isVariableLength();
 }
 
-unsigned long ProcedureTypeSignature::getVariableLengthParametersStartIndex() {
+uint64_t ProcedureTypeSignature::getVariableLengthParametersStartIndex() {
     return _parameterList->getVariableLengthStartIndex();
 }
 

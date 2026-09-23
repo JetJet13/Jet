@@ -20,7 +20,7 @@ std::shared_ptr<IRFunctionDeclarationNode> FunctionDeclarationIRStrategy::genera
     auto functionParameterList = irGenerator->generateFor(node->getParameters(), functionScope, irContext, irFunction);
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, functionScope);
     auto irFunctionContext = irContext->clone(functionBlock);
-    for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
+    for (uint64_t i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));

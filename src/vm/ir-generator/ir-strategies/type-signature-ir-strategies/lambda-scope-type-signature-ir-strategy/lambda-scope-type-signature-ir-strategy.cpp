@@ -8,8 +8,8 @@
 
 std::shared_ptr<IRStructType> LambdaScopeTypeSignatureIRStrategy::generate(std::shared_ptr<LambdaScopeTypeSignature> lambdaScopeTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto structPropertyTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     auto capturedVariableIds = lambdaScopeTypeSignature->getCapturedVariableIds();
     int i = 0;

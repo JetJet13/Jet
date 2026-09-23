@@ -7,7 +7,7 @@
 #include "../../ir-type/ir-new-class-instance-type.h"
 #include "../../ir-type/ir-class-instance-type.h"
 
-IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
+IRObjectAccessExpressionNode::IRObjectAccessExpressionNode(std::shared_ptr<ASTObjectAccessExpressionNode> node, std::shared_ptr<IRExpressionNode> irSource, std::string targetKey, uint64_t targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation) {
     _node = node;
     _irSource = irSource;
     _targetKey = targetKey;
@@ -46,7 +46,7 @@ llvm::Constant* IRObjectAccessExpressionNode::getIRTargetKeyIndex() {
     return _irTargetKeyIndex;
 }
 
-unsigned long IRObjectAccessExpressionNode::getTargetKeyIndex() {
+uint64_t IRObjectAccessExpressionNode::getTargetKeyIndex() {
     return _targetKeyIndex;
 }
 

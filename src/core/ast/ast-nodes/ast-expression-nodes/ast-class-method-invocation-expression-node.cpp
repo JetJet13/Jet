@@ -27,7 +27,7 @@ std::shared_ptr<ASTClassAccessNode> ASTClassMethodInvocationExpressionNode::getC
     return _classAccess;
 }
 
-unsigned long ASTClassMethodInvocationExpressionNode::numArguments() {
+uint64_t ASTClassMethodInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

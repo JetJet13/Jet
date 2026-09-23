@@ -22,7 +22,7 @@ public:
     ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode);
     ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStartNode, std::vector<std::shared_ptr<ASTEnumKeyValueNode>> enumKeyValues, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEndNode);
     std::vector<std::shared_ptr<ASTEnumKeyValueNode>> getParameters();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<ASTEnumKeyValueListNode> addEnumKeyValue(std::shared_ptr<ASTEnumKeyValueNode> enumKeyValue);
     std::shared_ptr<ASTEnumKeyValueListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

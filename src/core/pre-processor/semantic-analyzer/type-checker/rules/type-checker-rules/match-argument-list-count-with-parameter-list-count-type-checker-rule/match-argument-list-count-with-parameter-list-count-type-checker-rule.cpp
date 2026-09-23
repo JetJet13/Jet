@@ -5,7 +5,7 @@
 #include "match-argument-list-count-with-parameter-list-count-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
 
-bool MatchArgumentListCountWithParameterListCountTypeCheckerRule::enforce(unsigned long numParameters, unsigned long numArguments, bool isVariableLength, ErrorMessageLambda& notEnoughArgumentsMessage, ErrorMessageLambda& tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult) {
+bool MatchArgumentListCountWithParameterListCountTypeCheckerRule::enforce(uint64_t numParameters, uint64_t numArguments, bool isVariableLength, ErrorMessageLambda& notEnoughArgumentsMessage, ErrorMessageLambda& tooManyArgumentsMessage, TypeCheckerResult* typeCheckerResult) {
     if (numArguments < numParameters) {
         typeCheckerResult->addError(notEnoughArgumentsMessage());
         return false;

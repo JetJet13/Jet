@@ -24,7 +24,7 @@ public:
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
     std::shared_ptr<ASTFunctionNameNode> getName();
     std::shared_ptr<ASTTypeNode> getReturnType();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

@@ -33,7 +33,7 @@ void ASTVariableDeclarationNode::markAsCaptured() {
     _captureCount++;
 }
 
-unsigned long ASTVariableDeclarationNode::getCaptureCount() {
+uint64_t ASTVariableDeclarationNode::getCaptureCount() {
     return _captureCount;
 }
 

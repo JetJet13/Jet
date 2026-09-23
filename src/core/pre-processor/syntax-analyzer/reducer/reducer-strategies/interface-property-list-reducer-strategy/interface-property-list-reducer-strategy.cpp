@@ -7,7 +7,7 @@
 
 std::shared_ptr<ASTNode> InterfacePropertyListReducerStrategy::execute(std::vector<std::shared_ptr<ASTNode>> nodes) {
     auto interfacePropertyListNode = std::make_shared<ASTInterfacePropertyListNode>(std::dynamic_pointer_cast<ASTInterfaceStartNode>(nodes[0]), std::dynamic_pointer_cast<ASTInterfaceEndNode>(nodes[nodes.size() - 1]));
-    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
+    for (uint64_t i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_INTERFACE_PROPERTY_NODE)) {
             interfacePropertyListNode->addProperty(std::dynamic_pointer_cast<ASTInterfacePropertyNode>(node));

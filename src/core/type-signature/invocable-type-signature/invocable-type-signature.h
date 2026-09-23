@@ -16,7 +16,7 @@ public:
     bool isArgumentVarArg(int argumentIndex);
     virtual bool hasScopeArgument();
     virtual bool hasVariableLengthParameters();
-    virtual unsigned long getVariableLengthParametersStartIndex();
+    virtual uint64_t getVariableLengthParametersStartIndex();
     virtual std::vector<std::shared_ptr<TypeSignature>>* getParameterTypes() = 0;
     virtual bool doArgumentsMatchParameters(std::shared_ptr<ArgumentListTypeSignature> argumentListTypeSignature) = 0;
     virtual std::shared_ptr<TypeSignature> getReturnType() = 0;

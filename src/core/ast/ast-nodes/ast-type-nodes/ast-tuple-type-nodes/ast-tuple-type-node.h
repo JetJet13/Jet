@@ -22,7 +22,7 @@ public:
     ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode);
     ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStartNode, std::vector<std::shared_ptr<ASTTypeNode>> keyValueTypes, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEndNode);
     std::vector<std::shared_ptr<ASTTypeNode>> getValueTypes();
-    unsigned long numValueTypes();
+    uint64_t numValueTypes();
     std::shared_ptr<ASTTupleTypeNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<ASTTupleTypeNode> addValueType(std::shared_ptr<ASTTypeNode> type);
     std::shared_ptr<Position> getStartPosition() override;

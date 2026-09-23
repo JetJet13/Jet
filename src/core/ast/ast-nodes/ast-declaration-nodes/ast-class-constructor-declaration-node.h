@@ -25,7 +25,7 @@ public:
     std::shared_ptr<ASTConstructorNode> getConstructor();
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
-    unsigned long numParameters();
+    uint64_t numParameters();
     void setTypeSignature(std::shared_ptr<ClassConstructorTypeSignature> typeSignature);
     std::shared_ptr<ClassConstructorTypeSignature> getConstructorTypeSignature();
     std::shared_ptr<TypeSignature> getTypeSignature() override;

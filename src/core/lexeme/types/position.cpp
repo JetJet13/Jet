@@ -9,16 +9,16 @@ Position::Position() {
     _column = -1;
 }
 
-Position::Position(unsigned long line, unsigned long column) {
+Position::Position(uint64_t line, uint64_t column) {
     _line = line;
     _column = column;
 }
 
-unsigned long Position::getLine() {
+uint64_t Position::getLine() {
     return _line;
 }
 
-unsigned long Position::getColumn() {
+uint64_t Position::getColumn() {
     return _column;
 }
 

@@ -29,7 +29,7 @@ std::vector<std::shared_ptr<ASTModuleListItemNode>> ASTModuleListNode::getItems(
     return _items;
 }
 
-unsigned long ASTModuleListNode::numItems() {
+uint64_t ASTModuleListNode::numItems() {
     return _items.size();
 }
 
@@ -64,7 +64,7 @@ bool ASTModuleListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numItems() != otherNode->numItems()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numItems(); i++) {
+    for (uint64_t i = 0; i < this->numItems(); i++) {
         if (!_items[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }

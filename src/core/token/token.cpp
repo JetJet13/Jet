@@ -15,7 +15,7 @@ Token::Token(std::shared_ptr<Symbol> symbol, std::string rawValue) {
     _rawValue = rawValue;
 }
 
-Token::Token(std::shared_ptr<Symbol> symbol, std::string rawValue, unsigned long valueId) {
+Token::Token(std::shared_ptr<Symbol> symbol, std::string rawValue, uint64_t valueId) {
     _symbol = symbol;
     _rawValue = rawValue;
     _valueId = valueId;
@@ -33,11 +33,11 @@ std::string Token::getRawValue() {
     return _rawValue;
 }
 
-std::optional<unsigned long> Token::getValueId() {
+std::optional<uint64_t> Token::getValueId() {
     return _valueId;
 }
 
-std::shared_ptr<Token> Token::setValueId(unsigned long valueId) {
+std::shared_ptr<Token> Token::setValueId(uint64_t valueId) {
     _valueId = valueId;
     return shared_from_this();
 }

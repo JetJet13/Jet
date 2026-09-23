@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<ASTTypeNode>> ASTTupleTypeNode::getValueTypes() {
     return _types;
 }
 
-unsigned long ASTTupleTypeNode::numValueTypes() {
+uint64_t ASTTupleTypeNode::numValueTypes() {
     return _types.size();
 }
 
@@ -67,7 +67,7 @@ bool ASTTupleTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numValueTypes() != otherNode->numValueTypes()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numValueTypes(); i++) {
+    for (uint64_t i = 0; i < this->numValueTypes(); i++) {
         if (!_types[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -87,7 +87,7 @@ void ASTTupleTypeNode::print() {
 std::string ASTTupleTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_tupleTypeStartNode);
-    for (unsigned long i = 0; i < _types.size(); ++i) {
+    for (uint64_t i = 0; i < _types.size(); ++i) {
         sourceCodeBuilder.add(_types.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

@@ -27,11 +27,11 @@ std::vector<std::shared_ptr<TypeSignature>>* ParameterListTypeSignature::getPara
     return &_parameterTypes;
 }
 
-unsigned long ParameterListTypeSignature::numParameters() {
+uint64_t ParameterListTypeSignature::numParameters() {
     return _parameters.size();
 }
 
-void ParameterListTypeSignature::markAsVariableLength(unsigned long startIndex, std::shared_ptr<ParameterListItemTypeSignature> typeSignature) {
+void ParameterListTypeSignature::markAsVariableLength(uint64_t startIndex, std::shared_ptr<ParameterListItemTypeSignature> typeSignature) {
     _isVariableLength = true;
     _variableLengthStartIndex = startIndex;
     _variableLengthTypeSignature = typeSignature;
@@ -41,7 +41,7 @@ bool ParameterListTypeSignature::isVariableLength() const {
     return _isVariableLength;
 }
 
-unsigned long ParameterListTypeSignature::getVariableLengthStartIndex() const {
+uint64_t ParameterListTypeSignature::getVariableLengthStartIndex() const {
     return _variableLengthStartIndex;
 }
 
@@ -55,7 +55,7 @@ std::shared_ptr<ParameterListItemTypeSignature> ParameterListTypeSignature::getV
 std::string ParameterListTypeSignature::toDetailString() {
     std::string detailedString;
     auto size = this->isVariableLength() ? this->getVariableLengthStartIndex() : _parameterTypes.size();
-    for (unsigned long i = 0; i < size; ++i) {
+    for (uint64_t i = 0; i < size; ++i) {
         detailedString += "_" + _parameterTypes[i]->toDetailString();
     }
     if (this->isVariableLength()) {
@@ -83,7 +83,7 @@ bool ParameterListTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherT
     if (this->numParameters() != other->numParameters()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numParameters(); i++) {
+    for (uint64_t i = 0; i < this->numParameters(); i++) {
         if (_parameters[i]->getName() != otherParameters->at(i)->getName() ||
             !_parameters[i]->getTypeSignature()->isEqualTo(otherParameters->at(i)->getTypeSignature())) {
             return false;
@@ -98,7 +98,7 @@ bool ParameterListTypeSignature::matchesWithArgumentList(std::shared_ptr<Argumen
         return false;
     }
 
-    for (unsigned long i = 0; i < this->numParameters(); ++i) {
+    for (uint64_t i = 0; i < this->numParameters(); ++i) {
         auto parameter = _parameterTypes[i];
         auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
         if (!parameter->isEquivalentTo(argument)) {
@@ -109,7 +109,7 @@ bool ParameterListTypeSignature::matchesWithArgumentList(std::shared_ptr<Argumen
     if (this->isVariableLength()) {
         auto variableLengthStartIndex = this->getVariableLengthStartIndex();
         auto variableLengthTypeSignature = this->getVariableLengthTypeSignature()->getTypeSignature();
-        for (unsigned long i = variableLengthStartIndex; i < argumentListTypeSignature->numParameters(); ++i) {
+        for (uint64_t i = variableLengthStartIndex; i < argumentListTypeSignature->numParameters(); ++i) {
             auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
             if (!variableLengthTypeSignature->isEquivalentTo(argument)) {
                 return false;

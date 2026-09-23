@@ -9,7 +9,7 @@
 llvm::Value* ArrayIRArrayExpressionInjectorStrategy::inject(std::shared_ptr<IRArrayExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     InstructionIRInjectorHelper::inject(irExpression->getSourceAggregateAllocation(), irBlock);
     auto numElements = irExpression->size();
-    for (unsigned long i = 0; i < numElements; ++i) {
+    for (uint64_t i = 0; i < numElements; ++i) {
         auto elementExpression = irExpression->getValues()->at(i);
         auto irIndex = irBlock->getBuilder()->get()->getInt64(i);
         auto pointer = irBlock->getBuilder()->get()->CreateInBoundsGEP(irExpression->getIRArrayPointerType()->getElementType(),

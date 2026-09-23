@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<ASTStructKeyValueNode>> ASTStructExpressionNode::get
     return _keyValuePairs;
 }
 
-std::shared_ptr<ASTStructKeyValueNode> ASTStructExpressionNode::getKeyValuePairAt(unsigned long index) {
+std::shared_ptr<ASTStructKeyValueNode> ASTStructExpressionNode::getKeyValuePairAt(uint64_t index) {
     return _keyValuePairs.at(index);
 }
 
@@ -74,7 +74,7 @@ std::string ASTStructExpressionNode::toString() {
     return "STRUCT_EXPRESSION";
 }
 
-unsigned long ASTStructExpressionNode::size() {
+uint64_t ASTStructExpressionNode::size() {
     return _keyValuePairs.size();
 }
 
@@ -87,7 +87,7 @@ bool ASTStructExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->size() != otherNode->size()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->size(); i++) {
+    for (uint64_t i = 0; i < this->size(); i++) {
         if (!_keyValuePairs[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -108,7 +108,7 @@ void ASTStructExpressionNode::print() {
 std::string ASTStructExpressionNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structStartNode);
-    for (unsigned long i = 0; i < _keyValuePairs.size(); ++i) {
+    for (uint64_t i = 0; i < _keyValuePairs.size(); ++i) {
         sourceCodeBuilder.add(_keyValuePairs.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

@@ -157,7 +157,7 @@ void SyntaxAnalyzer::prepHandleForRecognizer() {
         _handle.clearPeekNode();
     }
 
-    for (unsigned long i = 0; i < _handle.size(); i++) {
+    for (uint64_t i = 0; i < _handle.size(); i++) {
             _handle.replace(i,
                             _handle.at(i).value()->transformIfNecessary(
                                     _handle.getPrevNodeFor(i),
@@ -303,11 +303,11 @@ void SyntaxAnalyzer::updateModeIfNecessary(ASTNodeType astNodeType) {
 void SyntaxAnalyzer::handleSyntaxErrors() {
     auto recognizeNodes = std::vector<std::shared_ptr<ASTNode>>();
     auto numNodesInRecognizeStack = _recognizeStack.top().size();
-    for (unsigned long i = 0; i < numNodesInRecognizeStack; ++i) {
+    for (uint64_t i = 0; i < numNodesInRecognizeStack; ++i) {
         recognizeNodes.insert(recognizeNodes.begin(), _recognizeStack.top().top());
         _recognizeStack.top().pop();
     }
-    for (unsigned long i = 0; i < _handle.size(); ++i) {
+    for (uint64_t i = 0; i < _handle.size(); ++i) {
         recognizeNodes.push_back(_handle.at(i).value());
     }
     _handle.reset();
@@ -315,7 +315,7 @@ void SyntaxAnalyzer::handleSyntaxErrors() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     std::optional<std::shared_ptr<ASTNode>> startNode = {};
     auto size = recognizeNodes.size();
-    for (unsigned long i = 0; i < size; ++i) {
+    for (uint64_t i = 0; i < size; ++i) {
         auto node = recognizeNodes[i];
         if (i == recognizeNodes.size() - 1) {
             if (!startNode) {

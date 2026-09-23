@@ -36,7 +36,7 @@ void ASTArrayExpressionNode::setTypeSignature(std::shared_ptr<ArrayTypeSignature
     _typeSignature = arrayTypeSignature;
 }
 
-unsigned long ASTArrayExpressionNode::size() {
+uint64_t ASTArrayExpressionNode::size() {
     return _array->getElements()->size();
 }
 

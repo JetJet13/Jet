@@ -37,7 +37,7 @@ std::shared_ptr<ASTFunctionDefinitionNode> ASTFunctionDeclarationNode::getDefini
     return _functionDefinition;
 }
 
-unsigned long ASTFunctionDeclarationNode::numParameters() {
+uint64_t ASTFunctionDeclarationNode::numParameters() {
     return _functionDefinition->numParameters();
 }
 

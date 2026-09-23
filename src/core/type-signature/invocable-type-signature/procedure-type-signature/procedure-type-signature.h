@@ -29,7 +29,7 @@ public:
     bool isEqualTo(std::shared_ptr<TypeSignature> otherType) override;
     void copyFrom(std::shared_ptr<TypeSignature> otherType) override;
     bool hasVariableLengthParameters() override;
-    unsigned long getVariableLengthParametersStartIndex() override;
+    uint64_t getVariableLengthParametersStartIndex() override;
     void print() override;
 };
 

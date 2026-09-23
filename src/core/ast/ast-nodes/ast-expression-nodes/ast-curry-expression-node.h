@@ -17,7 +17,7 @@ public:
     explicit ASTCurryExpressionNode(std::shared_ptr<ASTCallableExpressionNode> callableExpression, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
     std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
     std::shared_ptr<ASTCallableExpressionNode> getCallableExpression();
-    unsigned long numArguments();
+    uint64_t numArguments();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

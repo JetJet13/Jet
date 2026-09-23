@@ -65,7 +65,7 @@ std::shared_ptr<Position> IRAggregateIdentifierExpressionNode::getEndPosition() 
     return _node->getEndPosition();
 }
 
-llvm::Type* IRAggregateIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
+llvm::Type* IRAggregateIdentifierExpressionNode::getTypeAtIndex(uint64_t index) {
     return _arrayAllocation->getAllocatedType()->getArrayElementType();
 }
 

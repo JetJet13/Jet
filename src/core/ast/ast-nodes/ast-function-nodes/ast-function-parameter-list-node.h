@@ -24,7 +24,7 @@ public:
     ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode);
     ASTFunctionParameterListNode(std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStartNode, std::vector<std::shared_ptr<ASTFunctionParameterNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEndNode);
     std::vector<std::shared_ptr<ASTFunctionParameterNode>> getParameters();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<ASTFunctionParameterListNode> addParameter(std::shared_ptr<ASTFunctionParameterNode> parameter);
     std::shared_ptr<ASTFunctionParameterListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     void setTypeSignature(std::shared_ptr<ParameterListTypeSignature> typeSignature);

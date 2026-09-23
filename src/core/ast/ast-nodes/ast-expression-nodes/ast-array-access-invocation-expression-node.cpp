@@ -34,7 +34,7 @@ std::shared_ptr<InvocableTypeSignature> ASTArrayAccessInvocationExpressionNode::
     return std::dynamic_pointer_cast<InvocableTypeSignature>(_arrayAccess->getTypeSignature());
 }
 
-unsigned long ASTArrayAccessInvocationExpressionNode::numArguments() {
+uint64_t ASTArrayAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

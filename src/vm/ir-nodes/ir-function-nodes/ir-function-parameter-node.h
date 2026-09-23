@@ -24,7 +24,7 @@ public:
     std::shared_ptr<IRInstructionNode> getAllocation();
     std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     bool isCaptured();
-    unsigned long getCaptureCount();
+    uint64_t getCaptureCount();
     bool needsToBeFreed();
     IRNodeType getNodeType() override;
     std::string toString() override;

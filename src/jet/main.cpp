@@ -44,7 +44,13 @@ int main (int argc, const char* argv[]) {
         llvm::InitializeAllAsmParsers();
         llvm::InitializeAllAsmPrinters();
         std::string targetLookupError;
-        auto TargetTriple = "aarch64-apple-darwin";
+        // macOS x86 = x86_64-apple-darwin
+        // macOS ARM64 = aarch64-apple-darwin
+        // Linux x86 = x86_64-unknown-linux-gnu
+        // Linux ARM64 = aarch64-unknown-linux-gnu
+        // Windows x86 = x86_64-pc-windows-msvc
+        // Windows ARM64 = aarch64-pc-windows-msvc
+        auto TargetTriple = "aarch64-unknown-linux-gnu";
         auto Target = llvm::TargetRegistry::lookupTarget(
                 TargetTriple,
                 targetLookupError

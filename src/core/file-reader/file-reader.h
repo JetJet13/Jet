@@ -9,8 +9,8 @@
 #include <optional>
 
 struct Cursor {
-    unsigned long line;
-    unsigned long column;
+    uint64_t line;
+    uint64_t column;
 };
 
 class FileReader {
@@ -20,7 +20,7 @@ private:
     Cursor _cursor;
     bool _handleNewLine;
     bool _isOpen;
-    unsigned long _numAdvances;
+    uint64_t _numAdvances;
     bool _debugMode = false;
 public:
     void switchToDebugMode();
@@ -31,9 +31,9 @@ public:
     void retreat();
     Cursor getCursor();
     void setCursor(Cursor cursor);
-    unsigned long getPeekLine();
-    unsigned long getPeekColumn();
-    unsigned long getNumAdvances() const;
+    uint64_t getPeekLine();
+    uint64_t getPeekColumn();
+    uint64_t getNumAdvances() const;
     bool isOpen() const;
 };
 

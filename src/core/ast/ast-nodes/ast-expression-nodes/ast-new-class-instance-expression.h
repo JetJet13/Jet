@@ -32,7 +32,7 @@ public:
     std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
     std::string getClassName();
     std::optional<std::string> getModuleName();
-    unsigned long numArguments();
+    uint64_t numArguments();
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     void setTypeSignature(std::shared_ptr<NewClassInstanceTypeSignature> typeSignature);
     std::shared_ptr<NewClassInstanceTypeSignature> getClassInstanceTypeSignature();

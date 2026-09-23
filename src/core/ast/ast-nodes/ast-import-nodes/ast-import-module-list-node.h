@@ -20,7 +20,7 @@ public:
     ASTImportModuleListNode(std::shared_ptr<ASTImportModuleListStartNode> importModuleListStartNode, std::shared_ptr<ASTImportModuleListEndNode> importModuleListEndNode);
     ASTImportModuleListNode(std::shared_ptr<ASTImportModuleListStartNode> importModuleListStartNode, std::vector<std::shared_ptr<ASTImportModuleListItemNode>> items, std::shared_ptr<ASTImportModuleListEndNode> importModuleListEndNode);
     std::vector<std::shared_ptr<ASTImportModuleListItemNode>> getItems();
-    unsigned long numItems();
+    uint64_t numItems();
     std::shared_ptr<ASTImportModuleListNode> addItem(std::shared_ptr<ASTImportModuleListItemNode> item);
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;

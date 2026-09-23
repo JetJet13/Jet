@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> ASTStructTypeNode::getKe
     return _keyValueTypes;
 }
 
-unsigned long ASTStructTypeNode::numKeyValueTypes() {
+uint64_t ASTStructTypeNode::numKeyValueTypes() {
     return _keyValueTypes.size();
 }
 
@@ -67,7 +67,7 @@ bool ASTStructTypeNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numKeyValueTypes() != otherNode->numKeyValueTypes()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numKeyValueTypes(); i++) {
+    for (uint64_t i = 0; i < this->numKeyValueTypes(); i++) {
         if (!_keyValueTypes[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -87,7 +87,7 @@ void ASTStructTypeNode::print() {
 std::string ASTStructTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_structTypeStartNode);
-    for (unsigned long i = 0; i < _keyValueTypes.size(); ++i) {
+    for (uint64_t i = 0; i < _keyValueTypes.size(); ++i) {
         sourceCodeBuilder.add(_keyValueTypes.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

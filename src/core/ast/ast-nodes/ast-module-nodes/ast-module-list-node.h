@@ -20,7 +20,7 @@ public:
     ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode);
     ASTModuleListNode(std::shared_ptr<ASTModuleListStartNode> moduleListStartNode, std::vector<std::shared_ptr<ASTModuleListItemNode>> items, std::shared_ptr<ASTModuleListEndNode> moduleListEndNode);
     std::vector<std::shared_ptr<ASTModuleListItemNode>> getItems();
-    unsigned long numItems();
+    uint64_t numItems();
     std::shared_ptr<ASTModuleListNode> addItem(std::shared_ptr<ASTModuleListItemNode> item);
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;

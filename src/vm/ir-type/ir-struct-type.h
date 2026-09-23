@@ -13,25 +13,25 @@
 class IRStructType : public IRType {
 protected:
     llvm::StructType* _type;
-    std::unordered_map<unsigned long, std::string> _keyIdMap;
-    std::unordered_map<std::string, unsigned long> _keyIndexMap;
+    std::unordered_map<uint64_t, std::string> _keyIdMap;
+    std::unordered_map<std::string, uint64_t> _keyIndexMap;
     std::unordered_map<std::string, std::shared_ptr<IRType>> _keyTypeMap;
 public:
     IRStructType();
-    IRStructType(llvm::StructType* type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<unsigned long, std::string> keyIdMap, std::unordered_map<std::string, std::shared_ptr<IRType>> keyTypeMap);
+    IRStructType(llvm::StructType* type, std::unordered_map<std::string, uint64_t> keyIndexMap, std::unordered_map<uint64_t, std::string> keyIdMap, std::unordered_map<std::string, std::shared_ptr<IRType>> keyTypeMap);
     llvm::StructType* getType() override;
     void makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>* context);
     void setAlignmentAndSizeForIRTypes();
-    unsigned long size();
+    uint64_t size();
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     llvm::Align getAlignment() override;
-    std::string getKeyForIndex(unsigned long index);
-    std::string getKeyIdForIndex(unsigned long index);
-    unsigned long getIndexForKey(std::string key);
-    unsigned long getIndexForKey(unsigned long key);
+    std::string getKeyForIndex(uint64_t index);
+    std::string getKeyIdForIndex(uint64_t index);
+    uint64_t getIndexForKey(std::string key);
+    uint64_t getIndexForKey(uint64_t key);
     std::shared_ptr<IRType> getIRTypeForKey(std::string key);
-    std::shared_ptr<IRType> getIRTypeByIndex(unsigned long index);
+    std::shared_ptr<IRType> getIRTypeByIndex(uint64_t index);
     bool containsTypeThatRequiresFreeing() override;
     bool isStructType() override;
     std::shared_ptr<IRType> clone() override;

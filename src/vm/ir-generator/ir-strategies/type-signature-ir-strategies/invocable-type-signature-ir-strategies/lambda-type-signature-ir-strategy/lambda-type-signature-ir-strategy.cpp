@@ -54,10 +54,11 @@ std::shared_ptr<IRInvocableParameterListType> LambdaTypeSignatureIRStrategy::gen
 std::shared_ptr<IRTypeValueInstructionNode> LambdaTypeSignatureIRStrategy::generateTypeValue(std::shared_ptr<IRInvocableType> irType, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRContext> irContext) {
     auto irTypeValueType = irGenerator->generateIrTypeValueType();
     auto typeValueTypeAllocation = irGenerator->generateIrTypeValueTypeAllocation();
+    uint64_t totalNumOfTypes = 1 + irType->getParameters()->getParameters()->size(); // return type + # of parameters
     auto initialValue = llvm::ConstantStruct::get(irTypeValueType->getType(), {
             irGenerator->generateIntConstant(IR_TYPE_ID.INVOCABLE),
             irGenerator->generateIntConstant(irType->getSizeInBytes()),
-            irGenerator->generateIntConstant(1 + irType->getParameters()->getParameters()->size()), // return type + # of parameters
+            irGenerator->generateIntConstant(totalNumOfTypes),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType()),
             llvm::ConstantPointerNull::get(irGenerator->generatePointerType())

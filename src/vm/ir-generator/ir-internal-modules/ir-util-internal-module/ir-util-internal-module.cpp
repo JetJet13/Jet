@@ -35,7 +35,7 @@ void IRUtilInternalModule::augment(std::shared_ptr<IRGenerator> irGenerator, std
     AssertIRFunction::generateAssertWithMessageFunction(irGenerator, context, coreIrModule);
 }
 
-std::string IRUtilInternalModule::getIRName(std::string id, unsigned long numArgs) {
+std::string IRUtilInternalModule::getIRName(std::string id, uint64_t numArgs) {
     if (id == JetUtilsTypeSignatureMap::getPrintTypeSignatureKey()) {
         return PrintIRFunction::getPrintIRFunctionName();
     }

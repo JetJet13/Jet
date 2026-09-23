@@ -33,7 +33,7 @@ std::string IRNewClassInstanceType::getIRPropertyName(std::string propertyName) 
     return _irClassType->getName() + "." + propertyName;
 }
 
-unsigned long IRNewClassInstanceType::getIndexForProperty(std::string propertyName) {
+uint64_t IRNewClassInstanceType::getIndexForProperty(std::string propertyName) {
     return _irClassInstancePropertiesType->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 

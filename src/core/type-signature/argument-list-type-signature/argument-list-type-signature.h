@@ -16,7 +16,7 @@ public:
     ArgumentListTypeSignature();
     ArgumentListTypeSignature(std::vector<std::shared_ptr<TypeSignature>> argumentTypes);
     std::vector<std::shared_ptr<TypeSignature>>* getArgumentTypes();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;

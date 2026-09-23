@@ -22,7 +22,7 @@ llvm::Value* LambdaIRInjectorHelper::injectDetails(std::shared_ptr<IRLambdaExpre
         auto functionArgumentIndex = irExpression->getIRLambdaType()->getLambdaVariableType()->getFunctionScopeArgumentIndex();
         auto functionArgumentPointer = irBlock->getBuilder()->get()->CreateStructGEP(irExpression->getAllocation()->getAllocatedType(), allocation, functionArgumentIndex);
         auto lambdaScopeAllocation = irBlock->getBuilder()->get()->CreateAlloca(irLambdaScopeType->getType());
-        for (unsigned long i = 0; i < irLambdaScopeType->size(); ++i) {
+        for (uint64_t i = 0; i < irLambdaScopeType->size(); ++i) {
             auto key = irLambdaScopeType->getKeyForIndex(i);
             auto irCapturedVariableType = std::dynamic_pointer_cast<IRCapturedVariableType>(irLambdaScopeType->getIRTypeForKey(key));
             auto allocationForKey = scope->find(key).value();

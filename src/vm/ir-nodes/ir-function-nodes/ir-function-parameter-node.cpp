@@ -33,7 +33,7 @@ bool IRFunctionParameterNode::isCaptured() {
     return _node.value()->isCaptured();
 }
 
-unsigned long IRFunctionParameterNode::getCaptureCount() {
+uint64_t IRFunctionParameterNode::getCaptureCount() {
     if (!_node) return 0;
     return _node.value()->getCaptureCount();
 }

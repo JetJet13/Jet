@@ -4,7 +4,7 @@
 
 #include "ir-class-pre-constructor-node.h"
 
-IRClassPreConstructorNode::IRClassPreConstructorNode(llvm::Function* irValue, std::shared_ptr<IRInstructionNode> classScopeParameter, std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>> irExpressions, std::vector<std::pair<unsigned long, llvm::Constant*>> irInitializers, std::shared_ptr<IRBlockNode> irBlock) {
+IRClassPreConstructorNode::IRClassPreConstructorNode(llvm::Function* irValue, std::shared_ptr<IRInstructionNode> classScopeParameter, std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>> irExpressions, std::vector<std::pair<uint64_t, llvm::Constant*>> irInitializers, std::shared_ptr<IRBlockNode> irBlock) {
     _irValue = irValue;
     _classScopeParameter = classScopeParameter;
     _irExpressions = irExpressions;
@@ -16,11 +16,11 @@ llvm::Function* IRClassPreConstructorNode::getFunction() {
     return _irValue;
 }
 
-std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>* IRClassPreConstructorNode::getExpressions() {
+std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>>* IRClassPreConstructorNode::getExpressions() {
     return &_irExpressions;
 }
 
-std::vector<std::pair<unsigned long, llvm::Constant*>>* IRClassPreConstructorNode::getInitializers() {
+std::vector<std::pair<uint64_t, llvm::Constant*>>* IRClassPreConstructorNode::getInitializers() {
     return &_irInitializers;
 }
 

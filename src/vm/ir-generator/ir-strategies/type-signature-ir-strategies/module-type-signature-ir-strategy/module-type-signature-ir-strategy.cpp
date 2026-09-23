@@ -7,8 +7,8 @@
 
 std::shared_ptr<IRModuleType> ModuleTypeSignatureIRStrategy::generate(std::shared_ptr<ModuleTypeSignature> moduleTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto moduleExportTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : moduleTypeSignature->getKeyValuePairs()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second->getTargetTypeSignature(), scope, irContext);

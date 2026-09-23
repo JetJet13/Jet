@@ -19,7 +19,7 @@ void ClassDeclarationIdStrategy::assign(std::shared_ptr<ASTNode> node) {
         classMethodDeclaration->setId(this->generateClassMethodId(className, classMethodDeclaration->getClassMethodDefinition()->getMethodName()));
     }
 
-    unsigned long constructorIndex = 0;
+    uint64_t constructorIndex = 0;
     for (auto constructorDeclaration : *classDeclarationNode->getBlock()->getConstructors()) {
         constructorDeclaration->setId(this->generateClassConstructorDeclarationId(className, constructorIndex, constructorDeclaration));
         constructorIndex++;
@@ -107,6 +107,6 @@ std::string ClassDeclarationIdStrategy::generateClassMethodId(std::string classN
            );
 }
 
-std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, unsigned long constructorIndex, std::shared_ptr<ASTClassConstructorDeclarationNode> constructorDeclaration) {
+std::string ClassDeclarationIdStrategy::generateClassConstructorDeclarationId(std::string className, uint64_t constructorIndex, std::shared_ptr<ASTClassConstructorDeclarationNode> constructorDeclaration) {
     return className + "_constructor_" + ToStringUtil::toString(constructorIndex);
 }

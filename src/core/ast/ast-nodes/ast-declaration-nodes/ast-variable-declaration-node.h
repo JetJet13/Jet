@@ -19,13 +19,13 @@ private:
     std::shared_ptr<ASTExpressionNode> _initializer;
     std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
     std::optional<std::shared_ptr<ASTExportNode>> _exportKeyword = {};
-    unsigned long _captureCount = 0;
+    uint64_t _captureCount = 0;
 public:
     explicit ASTVariableDeclarationNode(std::shared_ptr<ASTVariableInitNode> varInit, std::shared_ptr<ASTExpressionNode> initializer, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {});
     std::shared_ptr<ASTVariableInitNode> getVarInitNode();
     std::shared_ptr<ASTExpressionNode> getInitializerNode();
     void markAsCaptured();
-    unsigned long getCaptureCount();
+    uint64_t getCaptureCount();
     bool isConst();
     bool isExportable() override;
     bool isCaptured();

@@ -47,7 +47,7 @@ void ASTBlockNode::hoistTypes(std::vector<ASTNodeType> astNodeTypes) {
     _contents = newContent;
 }
 
-unsigned long ASTBlockNode::size() {
+uint64_t ASTBlockNode::size() {
     return _contents.size();
 }
 
@@ -96,7 +96,7 @@ bool ASTBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
     auto otherNode = std::dynamic_pointer_cast<ASTBlockNode>(other);
-    for (unsigned long i = 0; i < _contents.size(); ++i) {
+    for (uint64_t i = 0; i < _contents.size(); ++i) {
         if (!_contents[i]->isSameAs(otherNode->getContents()->at(i))) {
             return false;
         }

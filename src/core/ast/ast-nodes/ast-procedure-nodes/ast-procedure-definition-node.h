@@ -21,7 +21,7 @@ public:
     explicit ASTProcedureDefinitionNode(std::shared_ptr<ASTProcedureNode> functionKeyword, std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters);
     std::shared_ptr<ASTFunctionParameterListNode> getParameters();
     std::shared_ptr<ASTFunctionNameNode> getName();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

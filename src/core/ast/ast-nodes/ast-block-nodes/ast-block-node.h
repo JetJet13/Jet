@@ -21,7 +21,7 @@ public:
     explicit ASTBlockNode(std::shared_ptr<ASTBlockStartNode> blockStartNode, std::vector<std::shared_ptr<ASTNode>> contents, std::shared_ptr<ASTBlockEndNode> blockEndNode);
     std::shared_ptr<ASTBlockNode> addContent(std::shared_ptr<ASTNode> content);
     void hoistTypes(std::vector<ASTNodeType> astNodeTypes);
-    unsigned long size();
+    uint64_t size();
     std::vector<std::shared_ptr<ASTNode>>* getContents();
     std::vector<std::shared_ptr<ASTFunctionReturnExpressionNode>>* getReturnStatements() override;
     std::shared_ptr<ASTNode> transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) override;

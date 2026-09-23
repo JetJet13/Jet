@@ -10,10 +10,10 @@ std::shared_ptr<IRType> EnumTypeSignatureIRStrategy::generate(std::shared_ptr<En
 
 std::shared_ptr<IREnumType> EnumTypeSignatureIRStrategy::generate(std::shared_ptr<EnumTypeSignature> enumTypeSignature, std::vector<llvm::Constant*> enumValues, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto enumPropertyTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
-    for (unsigned long i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
+    for (uint64_t i = 0; i < enumTypeSignature->getKeyValuePairs()->size(); ++i) {
         auto enumPropertyType = irGenerator->generateTypeFor(enumValues[i]);
         enumPropertyTypes.push_back(enumPropertyType->getType());
         auto enumKey = enumTypeSignature->getKeyValuePairs()->getKeyValues()[i].first;

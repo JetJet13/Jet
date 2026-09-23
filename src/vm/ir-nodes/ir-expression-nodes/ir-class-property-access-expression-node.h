@@ -16,17 +16,17 @@ private:
     std::shared_ptr<ASTClassPropertyAccessExpressionNode> _node;
     std::shared_ptr<IRInstructionNode> _irSource;
     std::string _targetKey;
-    unsigned long _targetKeyIndex;
+    uint64_t _targetKeyIndex;
     llvm::Constant* _irTargetKeyIndex;
     std::shared_ptr<IRType> _irType;
     std::optional<std::shared_ptr<IRInstructionNode>> _sourceAllocation;
 public:
-    IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, std::shared_ptr<IRInstructionNode> irSource, std::string targetKey, unsigned long targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation = {});
+    IRClassPropertyAccessExpressionNode(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, std::shared_ptr<IRInstructionNode> irSource, std::string targetKey, uint64_t targetKeyIndex, llvm::Constant* irTargetKeyIndex, std::shared_ptr<IRType> irType, std::optional<std::shared_ptr<IRInstructionNode>> sourceAllocation = {});
     std::shared_ptr<ASTClassPropertyAccessExpressionNode> getNode();
     std::shared_ptr<IRInstructionNode> getSource();
     std::string* getTargetKey();
     llvm::Constant* getIRTargetKeyIndex();
-    unsigned long getTargetKeyIndex();
+    uint64_t getTargetKeyIndex();
     std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation() override;
     std::shared_ptr<IRType> getIRType() override;
     std::shared_ptr<TypeSignature> getTypeSignature() override;

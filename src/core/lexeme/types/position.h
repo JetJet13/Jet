@@ -9,13 +9,13 @@
 
 class Position {
 private:
-    unsigned long _line = 0;
-    unsigned long _column = 0;
+    uint64_t _line = 0;
+    uint64_t _column = 0;
 public:
     Position();
-    Position(unsigned long line, unsigned long column);
-    unsigned long getLine();
-    unsigned long getColumn();
+    Position(uint64_t line, uint64_t column);
+    uint64_t getLine();
+    uint64_t getColumn();
     bool isEqual(std::shared_ptr<Position> otherPosition);
 
 };

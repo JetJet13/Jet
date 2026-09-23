@@ -7,7 +7,7 @@
 
 void TupleExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignatures = std::vector<std::shared_ptr<TypeSignature>>();
-    for (unsigned long i = 0; i < node->numItems(); ++i) {
+    for (uint64_t i = 0; i < node->numItems(); ++i) {
         auto tupleItem = node->getItems()->at(i);
         strategyMap->assignTypeSignatureFor(tupleItem->getItem(), context, scope);
         auto valueTypeSignature = tupleItem->getItem()->getTypeSignature()->convertToVariableTypeSignature();

@@ -9,6 +9,7 @@
 #include "../../../../../src/core/symbol/symbol-factory.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-variable-nodes/ast-variable-init-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-literal-expression-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-share-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-int-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-float-literal-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-literal-nodes/ast-char-literal-node.h"
@@ -110,13 +111,11 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-module-nodes/ast-module-access-target-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-module-access-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-dref-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-base-nodes/ast-ref-base-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-share-nodes/ast-share-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-share-nodes/ast-shared-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-callable-identifier-expression-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-ref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-dref-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-tuple-expression-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-ref-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-ref-type-keyword-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-expression-nodes/ast-concat-expression-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-interface-nodes/ast-interface-name-node.h"
@@ -138,482 +137,483 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
 namespace ASTNodeFactory {
-    Lexeme* createLexeme(std::shared_ptr<Symbol> symbol) {
-        return new Lexeme(new Token(symbol, symbol->toString()));
+    std::shared_ptr<Lexeme> createLexeme(std::shared_ptr<Symbol> symbol) {
+        return std::make_shared<Lexeme>(std::make_shared<Token>(symbol, symbol->toString()));
     }
-    static ASTDrefNode* drefKeyword = new ASTDrefNode(createLexeme(SymbolFactory::createDrefSymbol()));
-    static ASTRefNode* refKeyword = new ASTRefNode(createLexeme(SymbolFactory::createRefSymbol()));
-    static ASTRefTypeKeywordNode* refTypeKeyword = new ASTRefTypeKeywordNode(createLexeme(SymbolFactory::createRefSymbol()));
-    static ASTExportNode* exportKeyword = new ASTExportNode(createLexeme(SymbolFactory::createExportSymbol()));
-    static ASTBlockStartNode* blockStart = new ASTBlockStartNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTBlockEndNode* blockEnd = new ASTBlockEndNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTStructStartNode* structStart = new ASTStructStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTStructEndNode* structEnd = new ASTStructEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTLeftBracketNode* leftBracket = new ASTLeftBracketNode(createLexeme(SymbolFactory::createLeftBracketSymbol()));
-    static ASTRightBracketNode* rightBracket = new ASTRightBracketNode(createLexeme(SymbolFactory::createRightBracketSymbol()));
-    static ASTFunctionParameterListStartNode* functionParameterListStart =  new ASTFunctionParameterListStartNode(createLexeme(SymbolFactory::createLeftParenSymbol()));
-    static ASTFunctionParameterListEndNode* functionParameterListEnd =  new ASTFunctionParameterListEndNode(createLexeme(SymbolFactory::createRightParenSymbol()));
-    static ASTFunctionArgumentListStartNode* functionArgumentListStart =  new ASTFunctionArgumentListStartNode(createLexeme(SymbolFactory::createLeftParenSymbol()));
-    static ASTFunctionArgumentListEndNode* functionArgumentListEnd =  new ASTFunctionArgumentListEndNode(createLexeme(SymbolFactory::createRightParenSymbol()));
-    static ASTEnumKeyValueListStartNode* enumKeyValueListStart =  new ASTEnumKeyValueListStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTEnumKeyValueListEndNode* enumKeyValueListEnd =  new ASTEnumKeyValueListEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTTupleListStartNode* tupleListStart =  new ASTTupleListStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTTupleListEndNode* tupleListEnd =  new ASTTupleListEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTTypeParameterListStartNode* typeParameterListStart = new ASTTypeParameterListStartNode(createLexeme(SymbolFactory::createLessThanSymbol()));
-    static ASTTypeParameterListEndNode* typeParameterListEnd = new ASTTypeParameterListEndNode(createLexeme(SymbolFactory::createGreaterThanSymbol()));
-    static ASTModuleListStartNode* moduleListStart = new ASTModuleListStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTModuleListEndNode* moduleListEnd = new ASTModuleListEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTImportModuleListStartNode* importModuleListStart = new ASTImportModuleListStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTImportModuleListEndNode* importModuleListEnd = new ASTImportModuleListEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTPeriodNode* period = new ASTPeriodNode(createLexeme(SymbolFactory::createPeriodSymbol()));
-    static ASTLambdaExpressionFatArrowNode* lambdaFatArrow = new ASTLambdaExpressionFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
-    static ASTLambdaTypeFatArrowNode* lambdaTypeFatArrow = new ASTLambdaTypeFatArrowNode(createLexeme(SymbolFactory::createFatArrowSymbol()));
-    static ASTVoidNode* voidNode = new ASTVoidNode(createLexeme(SymbolFactory::createVoidSymbol()));
-    static ASTLambdaTypeParameterListStartNode* lambdaTypeParameterListStart = new ASTLambdaTypeParameterListStartNode(createLexeme(SymbolFactory::createLeftParenSymbol()));
-    static ASTLambdaTypeParameterListEndNode* lambdaTypeParameterListEnd = new ASTLambdaTypeParameterListEndNode(createLexeme(SymbolFactory::createRightParenSymbol()));
-    static ASTModuleAccessNode* moduleAccess = new ASTModuleAccessNode(createLexeme(SymbolFactory::createColonColonSymbol()));
-    static ASTModuleSpreadNode* moduleSpread = new ASTModuleSpreadNode(
+    static std::shared_ptr<ASTShareNode> shareKeyword = std::make_shared<ASTShareNode>(createLexeme(SymbolFactory::createShareSymbol()));
+    static std::shared_ptr<ASTSharedNode> sharedTypeKeyword = std::make_shared<ASTSharedNode>(createLexeme(SymbolFactory::createShareSymbol()));
+    static std::shared_ptr<ASTDrefNode> drefKeyword = std::make_shared<ASTDrefNode>(createLexeme(SymbolFactory::createDrefSymbol()));
+    static std::shared_ptr<ASTExportNode> exportKeyword = std::make_shared<ASTExportNode>(createLexeme(SymbolFactory::createExportSymbol()));
+    static std::shared_ptr<ASTBlockStartNode> blockStart = std::make_shared<ASTBlockStartNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTBlockEndNode> blockEnd = std::make_shared<ASTBlockEndNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTStructStartNode> structStart = std::make_shared<ASTStructStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTStructEndNode> structEnd = std::make_shared<ASTStructEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTLeftBracketNode> leftBracket = std::make_shared<ASTLeftBracketNode>(createLexeme(SymbolFactory::createLeftBracketSymbol()));
+    static std::shared_ptr<ASTRightBracketNode> rightBracket = std::make_shared<ASTRightBracketNode>(createLexeme(SymbolFactory::createRightBracketSymbol()));
+    static std::shared_ptr<ASTFunctionParameterListStartNode> functionParameterListStart =  std::make_shared<ASTFunctionParameterListStartNode>(createLexeme(SymbolFactory::createLeftParenSymbol()));
+    static std::shared_ptr<ASTFunctionParameterListEndNode> functionParameterListEnd =  std::make_shared<ASTFunctionParameterListEndNode>(createLexeme(SymbolFactory::createRightParenSymbol()));
+    static std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStart =  std::make_shared<ASTFunctionArgumentListStartNode>(createLexeme(SymbolFactory::createLeftParenSymbol()));
+    static std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEnd =  std::make_shared<ASTFunctionArgumentListEndNode>(createLexeme(SymbolFactory::createRightParenSymbol()));
+    static std::shared_ptr<ASTEnumKeyValueListStartNode> enumKeyValueListStart =  std::make_shared<ASTEnumKeyValueListStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTEnumKeyValueListEndNode> enumKeyValueListEnd =  std::make_shared<ASTEnumKeyValueListEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTTupleListStartNode> tupleListStart =  std::make_shared<ASTTupleListStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTTupleListEndNode> tupleListEnd =  std::make_shared<ASTTupleListEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTTypeParameterListStartNode> typeParameterListStart = std::make_shared<ASTTypeParameterListStartNode>(createLexeme(SymbolFactory::createLessThanSymbol()));
+    static std::shared_ptr<ASTTypeParameterListEndNode> typeParameterListEnd = std::make_shared<ASTTypeParameterListEndNode>(createLexeme(SymbolFactory::createGreaterThanSymbol()));
+    static std::shared_ptr<ASTModuleListStartNode> moduleListStart = std::make_shared<ASTModuleListStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTModuleListEndNode> moduleListEnd = std::make_shared<ASTModuleListEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTImportModuleListStartNode> importModuleListStart = std::make_shared<ASTImportModuleListStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTImportModuleListEndNode> importModuleListEnd = std::make_shared<ASTImportModuleListEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTPeriodNode> period = std::make_shared<ASTPeriodNode>(createLexeme(SymbolFactory::createPeriodSymbol()));
+    static std::shared_ptr<ASTLambdaExpressionFatArrowNode> lambdaFatArrow = std::make_shared<ASTLambdaExpressionFatArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
+    static std::shared_ptr<ASTLambdaTypeFatArrowNode> lambdaTypeFatArrow = std::make_shared<ASTLambdaTypeFatArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
+    static std::shared_ptr<ASTVoidNode> voidNode = std::make_shared<ASTVoidNode>(createLexeme(SymbolFactory::createVoidSymbol()));
+    static std::shared_ptr<ASTLambdaTypeParameterListStartNode> lambdaTypeParameterListStart = std::make_shared<ASTLambdaTypeParameterListStartNode>(createLexeme(SymbolFactory::createLeftParenSymbol()));
+    static std::shared_ptr<ASTLambdaTypeParameterListEndNode> lambdaTypeParameterListEnd = std::make_shared<ASTLambdaTypeParameterListEndNode>(createLexeme(SymbolFactory::createRightParenSymbol()));
+    static std::shared_ptr<ASTModuleAccessNode> moduleAccess = std::make_shared<ASTModuleAccessNode>(createLexeme(SymbolFactory::createColonColonSymbol()));
+    static std::shared_ptr<ASTModuleSpreadNode> moduleSpread = std::make_shared<ASTModuleSpreadNode>(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
-    static ASTAssignmentOperatorNode* assignment = new ASTAssignmentOperatorNode(
+    static std::shared_ptr<ASTAssignmentOperatorNode> assignment = std::make_shared<ASTAssignmentOperatorNode>(
             createLexeme(SymbolFactory::createEqualSymbol())
     );
-    static ASTTupleNode* tupleKeyword = new ASTTupleNode(createLexeme(SymbolFactory::createTupleSymbol()));
-    static ASTIfNode* ifKeyword = new ASTIfNode(createLexeme(SymbolFactory::createIfSymbol()));
-    static ASTElseNode* elseKeyword = new ASTElseNode(createLexeme(SymbolFactory::createElseSymbol()));
-    static ASTElseIfNode* elseIfKeyword = new ASTElseIfNode(ASTNodeFactory::elseKeyword, ASTNodeFactory::ifKeyword);
-    static ASTTryNode* tryKeyword = new ASTTryNode(createLexeme(SymbolFactory::createTrySymbol()));
-    static ASTCatchNode* catchKeyword = new ASTCatchNode(createLexeme(SymbolFactory::createCatchSymbol()));
-    static ASTFinallyNode* finallyKeyword = new ASTFinallyNode(createLexeme(SymbolFactory::createFinallySymbol()));
-    static ASTForNode* forKeyword = new ASTForNode(createLexeme(SymbolFactory::createForSymbol()));
-    static ASTForInNode* forInKeyword = new ASTForInNode(createLexeme(SymbolFactory::createInSymbol()));
-    static ASTWhileNode* whileKeyword = new ASTWhileNode(createLexeme(SymbolFactory::createWhileSymbol()));
-    static ASTIdentifierNode* id = new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTIdentifierExpressionNode* idExpression = new ASTIdentifierExpressionNode(
-        new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+    static std::shared_ptr<ASTIfNode> ifKeyword = std::make_shared<ASTIfNode>(createLexeme(SymbolFactory::createIfSymbol()));
+    static std::shared_ptr<ASTElseNode> elseKeyword = std::make_shared<ASTElseNode>(createLexeme(SymbolFactory::createElseSymbol()));
+    static std::shared_ptr<ASTElseIfNode> elseIfKeyword = std::make_shared<ASTElseIfNode>(ASTNodeFactory::elseKeyword, ASTNodeFactory::ifKeyword);
+    static std::shared_ptr<ASTTryNode> tryKeyword = std::make_shared<ASTTryNode>(createLexeme(SymbolFactory::createTrySymbol()));
+    static std::shared_ptr<ASTCatchNode> catchKeyword = std::make_shared<ASTCatchNode>(createLexeme(SymbolFactory::createCatchSymbol()));
+    static std::shared_ptr<ASTFinallyNode> finallyKeyword = std::make_shared<ASTFinallyNode>(createLexeme(SymbolFactory::createFinallySymbol()));
+    static std::shared_ptr<ASTForNode> forKeyword = std::make_shared<ASTForNode>(createLexeme(SymbolFactory::createForSymbol()));
+    static std::shared_ptr<ASTForInNode> forInKeyword = std::make_shared<ASTForInNode>(createLexeme(SymbolFactory::createInSymbol()));
+    static std::shared_ptr<ASTWhileNode> whileKeyword = std::make_shared<ASTWhileNode>(createLexeme(SymbolFactory::createWhileSymbol()));
+    static std::shared_ptr<ASTIdentifierNode> id = std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTIdentifierExpressionNode> idExpression = std::make_shared<ASTIdentifierExpressionNode>(
+        std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
-    static ASTCallableIdentifierExpressionNode* callableIdExpression = new ASTCallableIdentifierExpressionNode(
-            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol()))
+    static std::shared_ptr<ASTCallableIdentifierExpressionNode> callableIdExpression = std::make_shared<ASTCallableIdentifierExpressionNode>(
+            std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol()))
     );
-    static ASTImportSpreadNode* importSpread = new ASTImportSpreadNode(
+    static std::shared_ptr<ASTImportSpreadNode> importSpread = std::make_shared<ASTImportSpreadNode>(
             createLexeme(SymbolFactory::createDotDotDotSymbol())
     );
-    static ASTModuleAccessSourceNode* moduleAccessSource = new ASTModuleAccessSourceNode(ASTNodeFactory::idExpression);
-    static ASTModuleAccessTargetNode* moduleAccessTarget = new ASTModuleAccessTargetNode(ASTNodeFactory::idExpression);
-    static ASTModuleAccessTargetNode* callableModuleAccessTarget = new ASTModuleAccessTargetNode(ASTNodeFactory::callableIdExpression);
-    static ASTModuleAccessExpressionNode* moduleAccessExpression = new ASTModuleAccessExpressionNode(
+    static std::shared_ptr<ASTModuleAccessSourceNode> moduleAccessSource = std::make_shared<ASTModuleAccessSourceNode>(ASTNodeFactory::idExpression);
+    static std::shared_ptr<ASTModuleAccessTargetNode> moduleAccessTarget = std::make_shared<ASTModuleAccessTargetNode>(ASTNodeFactory::idExpression);
+    static std::shared_ptr<ASTModuleAccessTargetNode> callableModuleAccessTarget = std::make_shared<ASTModuleAccessTargetNode>(ASTNodeFactory::callableIdExpression);
+    static std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpression = std::make_shared<ASTModuleAccessExpressionNode>(
             ASTNodeFactory::moduleAccessSource,
             ASTNodeFactory::moduleAccess,
             ASTNodeFactory::moduleAccessTarget
     );
-    static ASTModuleAccessExpressionNode* callableModuleAccessExpression = new ASTModuleAccessExpressionNode(
+    static std::shared_ptr<ASTModuleAccessExpressionNode> callableModuleAccessExpression = std::make_shared<ASTModuleAccessExpressionNode>(
             ASTNodeFactory::moduleAccessSource,
             ASTNodeFactory::moduleAccess,
             ASTNodeFactory::callableModuleAccessTarget
     );
-    static ASTColonBaseNode* colon = new ASTColonBaseNode(createLexeme(SymbolFactory::createColonSymbol()));
-    static ASTStructColonNode* structColon = new ASTStructColonNode(createLexeme(SymbolFactory::createColonSymbol()));
-    static ASTTypeColonNode* typeColon = new ASTTypeColonNode(createLexeme(SymbolFactory::createColonSymbol()));
-    static ASTVariableInitNode* letInit = new ASTVariableInitNode(
-                new ASTVariableTypeNode(createLexeme(SymbolFactory::createLetSymbol())),
-                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+    static std::shared_ptr<ASTColonBaseNode> colon = std::make_shared<ASTColonBaseNode>(createLexeme(SymbolFactory::createColonSymbol()));
+    static std::shared_ptr<ASTStructColonNode> structColon = std::make_shared<ASTStructColonNode>(createLexeme(SymbolFactory::createColonSymbol()));
+    static std::shared_ptr<ASTTypeColonNode> typeColon = std::make_shared<ASTTypeColonNode>(createLexeme(SymbolFactory::createColonSymbol()));
+    static std::shared_ptr<ASTVariableInitNode> letInit = std::make_shared<ASTVariableInitNode>(
+                std::make_shared<ASTVariableTypeNode>(createLexeme(SymbolFactory::createLetSymbol())),
+                std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol())),
                 ASTNodeFactory::assignment
     );
-    static ASTVariableInitNode* constInit = new ASTVariableInitNode(
-            new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
-            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+    static std::shared_ptr<ASTVariableInitNode> constInit = std::make_shared<ASTVariableInitNode>(
+            std::make_shared<ASTVariableTypeNode>(createLexeme(SymbolFactory::createConstSymbol())),
+            std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol())),
             ASTNodeFactory::assignment
     );
-    static ASTVariableInitNode* createConstInitWithType(ASTTypeNode* type) {
-        return new ASTVariableInitNode(
-                new ASTVariableTypeNode(createLexeme(SymbolFactory::createConstSymbol())),
-                new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+    static std::shared_ptr<ASTVariableInitNode> createConstInitWithType(std::shared_ptr<ASTTypeNode> type) {
+        return std::make_shared<ASTVariableInitNode>(
+                std::make_shared<ASTVariableTypeNode>(createLexeme(SymbolFactory::createConstSymbol())),
+                std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol())),
                 ASTNodeFactory::assignment,
                 ASTNodeFactory::typeColon,
                 type
         );
     }
-    static ASTIntLiteralNode* intLiteral = new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()));
-    static ASTFloatLiteralNode* floatLiteral = new ASTFloatLiteralNode(createLexeme(SymbolFactory::createFloatSymbol()));
-    static ASTStringLiteralNode* stringLiteral = new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()));
-    static ASTCharLiteralNode* charLiteral = new ASTCharLiteralNode(createLexeme(SymbolFactory::createCharSymbol()));
-    static ASTBooleanLiteralNode* trueLiteral = new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()));
-    static ASTBooleanLiteralNode* falseLiteral = new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()));
+    static std::shared_ptr<ASTIntLiteralNode> intLiteral = std::make_shared<ASTIntLiteralNode>(createLexeme(SymbolFactory::createIntSymbol()));
+    static std::shared_ptr<ASTFloatLiteralNode> floatLiteral = std::make_shared<ASTFloatLiteralNode>(createLexeme(SymbolFactory::createFloatSymbol()));
+    static std::shared_ptr<ASTStringLiteralNode> stringLiteral = std::make_shared<ASTStringLiteralNode>(createLexeme(SymbolFactory::createStringSymbol()));
+    static std::shared_ptr<ASTCharLiteralNode> charLiteral = std::make_shared<ASTCharLiteralNode>(createLexeme(SymbolFactory::createCharSymbol()));
+    static std::shared_ptr<ASTBooleanLiteralNode> trueLiteral = std::make_shared<ASTBooleanLiteralNode>(createLexeme(SymbolFactory::createTrueSymbol()));
+    static std::shared_ptr<ASTBooleanLiteralNode> falseLiteral = std::make_shared<ASTBooleanLiteralNode>(createLexeme(SymbolFactory::createFalseSymbol()));
 
-    static ASTLiteralExpressionNode* intExpression = new ASTLiteralExpressionNode(
-            new ASTIntLiteralNode(createLexeme(SymbolFactory::createIntSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> intExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTIntLiteralNode>(createLexeme(SymbolFactory::createIntSymbol()))
     );
-    static ASTLiteralExpressionNode* floatExpression = new ASTLiteralExpressionNode(
-            new ASTFloatLiteralNode(createLexeme(SymbolFactory::createFloatSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> floatExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTFloatLiteralNode>(createLexeme(SymbolFactory::createFloatSymbol()))
     );
-    static ASTLiteralExpressionNode* stringExpression = new ASTLiteralExpressionNode(
-            new ASTStringLiteralNode(createLexeme(SymbolFactory::createStringSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> stringExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTStringLiteralNode>(createLexeme(SymbolFactory::createStringSymbol()))
     );
-    static ASTLiteralExpressionNode* charExpression = new ASTLiteralExpressionNode(
-            new ASTCharLiteralNode(createLexeme(SymbolFactory::createCharSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> charExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTCharLiteralNode>(createLexeme(SymbolFactory::createCharSymbol()))
     );
-    static ASTLiteralExpressionNode* trueExpression = new ASTLiteralExpressionNode(
-            new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createTrueSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> trueExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTBooleanLiteralNode>(createLexeme(SymbolFactory::createTrueSymbol()))
     );
-    static ASTLiteralExpressionNode* falseExpression = new ASTLiteralExpressionNode(
-            new ASTBooleanLiteralNode(createLexeme(SymbolFactory::createFalseSymbol()))
+    static std::shared_ptr<ASTLiteralExpressionNode> falseExpression = std::make_shared<ASTLiteralExpressionNode>(
+            std::make_shared<ASTBooleanLiteralNode>(createLexeme(SymbolFactory::createFalseSymbol()))
     );
-    static ASTBinaryComparatorOperatorNode* greaterThan = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createGreaterThanSymbol()));
-    static ASTBinaryComparatorOperatorNode* greaterThanOrEqual = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createGreaterThanOrEqualSymbol()));
-    static ASTBinaryComparatorOperatorNode* lessThan = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createLessThanSymbol()));
-    static ASTBinaryComparatorOperatorNode* lessThanOrEqual = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createLessThanOrEqualSymbol()));
-    static ASTBinaryArithmeticOperatorNode* plus = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
-    static ASTBinaryArithmeticOperatorNode* minus = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
-    static ASTBinaryArithmeticOperatorNode* star = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createStarSymbol()));
-    static ASTBinaryArithmeticOperatorNode* slash = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createSlashSymbol()));
-    static ASTBinaryArithmeticOperatorNode* modulo = new ASTBinaryArithmeticOperatorNode(createLexeme(SymbolFactory::createModuloSymbol()));
-    static ASTBinaryComparatorOperatorNode* equality = new ASTBinaryComparatorOperatorNode(createLexeme(SymbolFactory::createEqualEqualSymbol()));
-    static ASTUnaryOperatorNode* unaryMinus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createMinusSymbol()));
-    static ASTUnaryOperatorNode* unaryPlus = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createPlusSymbol()));
-    static ASTUnaryOperatorNode* bang = new ASTUnaryOperatorNode(createLexeme(SymbolFactory::createBangSymbol()));
-    static ASTLogicalOperatorNode* andOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createAndSymbol()));
-    static ASTLogicalOperatorNode* orOperator = new ASTLogicalOperatorNode(createLexeme(SymbolFactory::createOrSymbol()));
-    static ASTConcatNode* concatOperator = new ASTConcatNode(createLexeme(SymbolFactory::createConcatSymbol()));
-    static ASTInterfaceNode* interfaceKeyword = new ASTInterfaceNode(createLexeme(SymbolFactory::createInterfaceSymbol()));
-    static ASTImplementsNode* implementsKeyword = new ASTImplementsNode(createLexeme(SymbolFactory::createImplementsSymbol()));
-    static ASTImplementsInterfaceNameNode* implementsInterfaceName = new ASTImplementsInterfaceNameNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTUnaryExpressionNode* bangTrue = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTBinaryComparatorOperatorNode> greaterThan = std::make_shared<ASTBinaryComparatorOperatorNode>(createLexeme(SymbolFactory::createGreaterThanSymbol()));
+    static std::shared_ptr<ASTBinaryComparatorOperatorNode> greaterThanOrEqual = std::make_shared<ASTBinaryComparatorOperatorNode>(createLexeme(SymbolFactory::createGreaterThanOrEqualSymbol()));
+    static std::shared_ptr<ASTBinaryComparatorOperatorNode> lessThan = std::make_shared<ASTBinaryComparatorOperatorNode>(createLexeme(SymbolFactory::createLessThanSymbol()));
+    static std::shared_ptr<ASTBinaryComparatorOperatorNode> lessThanOrEqual = std::make_shared<ASTBinaryComparatorOperatorNode>(createLexeme(SymbolFactory::createLessThanOrEqualSymbol()));
+    static std::shared_ptr<ASTBinaryArithmeticOperatorNode> plus = std::make_shared<ASTBinaryArithmeticOperatorNode>(createLexeme(SymbolFactory::createPlusSymbol()));
+    static std::shared_ptr<ASTBinaryArithmeticOperatorNode> minus = std::make_shared<ASTBinaryArithmeticOperatorNode>(createLexeme(SymbolFactory::createMinusSymbol()));
+    static std::shared_ptr<ASTBinaryArithmeticOperatorNode> star = std::make_shared<ASTBinaryArithmeticOperatorNode>(createLexeme(SymbolFactory::createStarSymbol()));
+    static std::shared_ptr<ASTBinaryArithmeticOperatorNode> slash = std::make_shared<ASTBinaryArithmeticOperatorNode>(createLexeme(SymbolFactory::createSlashSymbol()));
+    static std::shared_ptr<ASTBinaryArithmeticOperatorNode> modulo = std::make_shared<ASTBinaryArithmeticOperatorNode>(createLexeme(SymbolFactory::createModuloSymbol()));
+    static std::shared_ptr<ASTBinaryComparatorOperatorNode> equality = std::make_shared<ASTBinaryComparatorOperatorNode>(createLexeme(SymbolFactory::createEqualEqualSymbol()));
+    static std::shared_ptr<ASTUnaryOperatorNode> unaryMinus = std::make_shared<ASTUnaryOperatorNode>(createLexeme(SymbolFactory::createMinusSymbol()));
+    static std::shared_ptr<ASTUnaryOperatorNode> unaryPlus = std::make_shared<ASTUnaryOperatorNode>(createLexeme(SymbolFactory::createPlusSymbol()));
+    static std::shared_ptr<ASTUnaryOperatorNode> bang = std::make_shared<ASTUnaryOperatorNode>(createLexeme(SymbolFactory::createBangSymbol()));
+    static std::shared_ptr<ASTLogicalOperatorNode> andOperator = std::make_shared<ASTLogicalOperatorNode>(createLexeme(SymbolFactory::createAndSymbol()));
+    static std::shared_ptr<ASTLogicalOperatorNode> orOperator = std::make_shared<ASTLogicalOperatorNode>(createLexeme(SymbolFactory::createOrSymbol()));
+    static std::shared_ptr<ASTConcatNode> concatOperator = std::make_shared<ASTConcatNode>(createLexeme(SymbolFactory::createConcatSymbol()));
+    static std::shared_ptr<ASTInterfaceNode> interfaceKeyword = std::make_shared<ASTInterfaceNode>(createLexeme(SymbolFactory::createInterfaceSymbol()));
+    static std::shared_ptr<ASTImplementsNode> implementsKeyword = std::make_shared<ASTImplementsNode>(createLexeme(SymbolFactory::createImplementsSymbol()));
+    static std::shared_ptr<ASTImplementsInterfaceNameNode> implementsInterfaceName = std::make_shared<ASTImplementsInterfaceNameNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTUnaryExpressionNode> bangTrue = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::bang,
             ASTNodeFactory::trueExpression
     );
-    static ASTUnaryExpressionNode* bangFalse = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> bangFalse = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::bang,
             ASTNodeFactory::falseExpression
     );
-    static ASTUnaryExpressionNode* bangId = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> bangId = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::bang,
             ASTNodeFactory::idExpression
     );
-    static ASTUnaryExpressionNode* bangInt = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> bangInt = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::bang,
             ASTNodeFactory::intExpression
     );
-    static ASTUnaryExpressionNode* negativeInt = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> negativeInt = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryMinus,
             ASTNodeFactory::intExpression
     );
-    static ASTUnaryExpressionNode* positiveInt = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> positiveInt = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryPlus,
             ASTNodeFactory::intExpression
     );
-    static ASTUnaryExpressionNode* negativeId = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> negativeId = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryMinus,
             ASTNodeFactory::idExpression
     );
-    static ASTUnaryExpressionNode* positiveId = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> positiveId = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryPlus,
             ASTNodeFactory::idExpression
     );
-    static ASTUnaryExpressionNode* negativeFloat = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> negativeFloat = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryMinus,
             ASTNodeFactory::floatExpression
     );
-    static ASTUnaryExpressionNode* positiveFloat = new ASTUnaryExpressionNode(
+    static std::shared_ptr<ASTUnaryExpressionNode> positiveFloat = std::make_shared<ASTUnaryExpressionNode>(
             ASTNodeFactory::unaryPlus,
             ASTNodeFactory::floatExpression
     );
-    static ASTArrayAccessNode* arrayAccessInt =  new ASTArrayAccessNode(
+    static std::shared_ptr<ASTArrayAccessNode> arrayAccessInt =  std::make_shared<ASTArrayAccessNode>(
             ASTNodeFactory::leftBracket,
             ASTNodeFactory::intExpression,
             ASTNodeFactory::rightBracket
     );
-    static ASTArrayAccessNode* arrayAccessId =  new ASTArrayAccessNode(
+    static std::shared_ptr<ASTArrayAccessNode> arrayAccessId =  std::make_shared<ASTArrayAccessNode>(
             ASTNodeFactory::leftBracket,
             ASTNodeFactory::idExpression,
             ASTNodeFactory::rightBracket
     );
-    static ASTThisNode* thisNode = new ASTThisNode(
+    static std::shared_ptr<ASTThisNode> thisNode = std::make_shared<ASTThisNode>(
             createLexeme(SymbolFactory::createThisSymbol())
     );
-    static ASTCatchErrorVariableNode* catchErrorVariable = new ASTCatchErrorVariableNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTTypeNode* intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
-    static ASTTypeNode* floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
-    static ASTTypeNode* stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
-    static ASTTypeNode* charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
-    static ASTTypeNode* booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
-    static ASTTypeNode* idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
-    static ASTTypeNode* thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
-    static ASTTypeNode* voidType = ASTTypeNodeFactory::createVoidTypeNode(ASTNodeFactory::voidNode);
+    static std::shared_ptr<ASTCatchErrorVariableNode> catchErrorVariable = std::make_shared<ASTCatchErrorVariableNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTTypeNode> intType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createIntTypeSymbol()));
+    static std::shared_ptr<ASTTypeNode> floatType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createFloatTypeSymbol()));
+    static std::shared_ptr<ASTTypeNode> stringType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createStringTypeSymbol()));
+    static std::shared_ptr<ASTTypeNode> charType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createCharTypeSymbol()));
+    static std::shared_ptr<ASTTypeNode> booleanType = ASTTypeNodeFactory::createPrimitiveTypeNode(createLexeme(SymbolFactory::createBooleanTypeSymbol()));
+    static std::shared_ptr<ASTTypeNode> idType = ASTTypeNodeFactory::createCustomTypeNode(createLexeme(SymbolFactory::createIdentifierSymbol()), "id");
+    static std::shared_ptr<ASTTypeNode> thisType = ASTTypeNodeFactory::createThisTypeNode(ASTNodeFactory::thisNode);
+    static std::shared_ptr<ASTTypeNode> voidType = ASTTypeNodeFactory::createVoidTypeNode(ASTNodeFactory::voidNode);
 
-    static ASTFunctionNode* functionKeyword =  new ASTFunctionNode(
+    static std::shared_ptr<ASTFunctionNode> functionKeyword =  std::make_shared<ASTFunctionNode>(
             createLexeme(SymbolFactory::createFunctionSymbol())
     );
-    static ASTProcedureNode* procedureKeyword =  new ASTProcedureNode(
+    static std::shared_ptr<ASTProcedureNode> procedureKeyword =  std::make_shared<ASTProcedureNode>(
             createLexeme(SymbolFactory::createProcedureSymbol())
     );
-    static ASTFunctionNameNode* functionName =  new ASTFunctionNameNode(
+    static std::shared_ptr<ASTFunctionNameNode> functionName =  std::make_shared<ASTFunctionNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTFunctionReturnNode* functionReturn =  new ASTFunctionReturnNode(
+    static std::shared_ptr<ASTFunctionReturnNode> functionReturn =  std::make_shared<ASTFunctionReturnNode>(
             createLexeme(SymbolFactory::createReturnSymbol())
     );
-    static ASTFunctionReturnNode* functionReturnFatArrow =  new ASTFunctionReturnNode(
+    static std::shared_ptr<ASTFunctionReturnNode> functionReturnFatArrow =  std::make_shared<ASTFunctionReturnNode>(
             createLexeme(SymbolFactory::createFatArrowSymbol())
     );
-    static ASTFunctionParameterListStartNode* leftParen = new ASTFunctionParameterListStartNode(
+    static std::shared_ptr<ASTFunctionParameterListStartNode> leftParen = std::make_shared<ASTFunctionParameterListStartNode>(
             createLexeme(SymbolFactory::createLeftParenSymbol())
     );
-    static ASTFunctionParameterListEndNode* rightParen = new ASTFunctionParameterListEndNode(
+    static std::shared_ptr<ASTFunctionParameterListEndNode> rightParen = std::make_shared<ASTFunctionParameterListEndNode>(
             createLexeme(SymbolFactory::createRightParenSymbol())
     );
-    static ASTFunctionParameterNode* intFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> intFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::intType
     );
 
-    static ASTFunctionParameterNode* floatFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> floatFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::floatType
     );
-    static ASTFunctionParameterNode* stringFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> stringFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::stringType
     );
-    static ASTFunctionParameterNode* charFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> charFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::charType
     );
-    static ASTFunctionParameterNode* booleanFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> booleanFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::booleanType
     );
-    static ASTFunctionParameterNode* idFunctionParameter =  new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> idFunctionParameter =  std::make_shared<ASTFunctionParameterNode>(
             ASTNodeFactory::idExpression,
             ASTNodeFactory::typeColon,
             ASTNodeFactory::idType
     );
-    static std::vector<ASTCommaNode*> createCommaList(unsigned long size) {
-        auto commas = std::vector<ASTCommaNode*>();
+    static std::vector<std::shared_ptr<ASTCommaNode>> createCommaList(unsigned long size) {
+        auto commas = std::vector<std::shared_ptr<ASTCommaNode>>();
         for (int i = 0; i < size; ++i) {
-            commas.push_back(new ASTCommaNode(createLexeme(SymbolFactory::createCommaSymbol())));
+            commas.push_back(std::make_shared<ASTCommaNode>(createLexeme(SymbolFactory::createCommaSymbol())));
         }
         return commas;
     }
-    static ASTFunctionParameterNode* createFunctionParameter(ASTTypeNode* typeNode) {
-        return new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> createFunctionParameter(std::shared_ptr<ASTTypeNode> typeNode) {
+        return std::make_shared<ASTFunctionParameterNode>(
                 ASTNodeFactory::idExpression,
                 ASTNodeFactory::typeColon,
                 typeNode
         );
     }
-    static ASTFunctionDefinitionNode* createFunctionDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters, ASTTypeNode* returnType) {
-        return new ASTFunctionDefinitionNode(ASTNodeFactory::functionKeyword, name, parameters, returnType);
+    static std::shared_ptr<ASTFunctionDefinitionNode> createFunctionDefinition(std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters, std::shared_ptr<ASTTypeNode> returnType) {
+        return std::make_shared<ASTFunctionDefinitionNode>(ASTNodeFactory::functionKeyword, name, parameters, ASTNodeFactory::typeColon, returnType);
     }
-    static ASTProcedureDefinitionNode* createProcedureDefinition(ASTFunctionNameNode* name, ASTFunctionParameterListNode* parameters) {
-        return new ASTProcedureDefinitionNode(ASTNodeFactory::procedureKeyword, name, parameters);
+    static std::shared_ptr<ASTProcedureDefinitionNode> createProcedureDefinition(std::shared_ptr<ASTFunctionNameNode> name, std::shared_ptr<ASTFunctionParameterListNode> parameters) {
+        return std::make_shared<ASTProcedureDefinitionNode>(ASTNodeFactory::procedureKeyword, name, parameters);
     }
-    static ASTRefExpressionNode* createRefExpression(ASTExpressionNode* expression) {
-        return new ASTRefExpressionNode(ASTNodeFactory::refKeyword, expression);
+    static std::shared_ptr<ASTShareExpressionNode> createShareExpression(std::shared_ptr<ASTExpressionNode> expression) {
+        return std::make_shared<ASTShareExpressionNode>(ASTNodeFactory::shareKeyword, expression);
     }
-    static ASTDrefExpressionNode* createDrefExpression(ASTExpressionNode* expression) {
-        return new ASTDrefExpressionNode(ASTNodeFactory::drefKeyword, expression);
+    static std::shared_ptr<ASTDrefExpressionNode> createDrefExpression(std::shared_ptr<ASTExpressionNode> expression) {
+        return std::make_shared<ASTDrefExpressionNode>(ASTNodeFactory::drefKeyword, expression);
     }
-    static ASTConcatExpressionNode* createConcatExpression(ASTExpressionNode* leftExpression, ASTExpressionNode* rightExpression) {
-        return new ASTConcatExpressionNode(leftExpression, ASTNodeFactory::concatOperator, rightExpression);
+    static std::shared_ptr<ASTConcatExpressionNode> createConcatExpression(std::shared_ptr<ASTExpressionNode> leftExpression, std::shared_ptr<ASTExpressionNode> rightExpression) {
+        return std::make_shared<ASTConcatExpressionNode>(leftExpression, ASTNodeFactory::concatOperator, rightExpression);
     }
-    static ASTRefExpressionNode* refIntExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::intExpression);
-    static ASTRefExpressionNode* refFloatExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::floatExpression);
-    static ASTRefExpressionNode* refStringExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::stringExpression);
-    static ASTRefExpressionNode* refCharExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::charExpression);
-    static ASTRefExpressionNode* refTrueExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::trueExpression);
-    static ASTRefExpressionNode* refFalseExpression = ASTNodeFactory::createRefExpression(ASTNodeFactory::falseExpression);
-    static ASTVariableAssignmentNode* varAssignment =  new ASTVariableAssignmentNode(
-            new ASTIdentifierNode(createLexeme(SymbolFactory::createIdentifierSymbol())),
+    static std::shared_ptr<ASTShareExpressionNode> shareIntExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::intExpression);
+    static std::shared_ptr<ASTShareExpressionNode> shareFloatExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::floatExpression);
+    static std::shared_ptr<ASTShareExpressionNode> shareStringExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::stringExpression);
+    static std::shared_ptr<ASTShareExpressionNode> shareCharExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::charExpression);
+    static std::shared_ptr<ASTShareExpressionNode> shareTrueExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::trueExpression);
+    static std::shared_ptr<ASTShareExpressionNode> shareFalseExpression = ASTNodeFactory::createShareExpression(ASTNodeFactory::falseExpression);
+    static std::shared_ptr<ASTVariableAssignmentNode> varAssignment =  std::make_shared<ASTVariableAssignmentNode>(
+            std::make_shared<ASTIdentifierNode>(createLexeme(SymbolFactory::createIdentifierSymbol())),
             ASTNodeFactory::assignment
     );
-    static ASTEnumNode* enumKeyword =  new ASTEnumNode(
+    static std::shared_ptr<ASTEnumNode> enumKeyword =  std::make_shared<ASTEnumNode>(
             createLexeme(SymbolFactory::createEnumSymbol())
     );
-    static ASTEnumNameNode* enumName =  new ASTEnumNameNode(
+    static std::shared_ptr<ASTEnumNameNode> enumName =  std::make_shared<ASTEnumNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTEnumKeyNode* enumKey =  new ASTEnumKeyNode(
+    static std::shared_ptr<ASTEnumKeyNode> enumKey =  std::make_shared<ASTEnumKeyNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTEnumKeyValueNode* enumKeyOnly =  new ASTEnumKeyValueNode(
+    static std::shared_ptr<ASTEnumKeyValueNode> enumKeyOnly =  std::make_shared<ASTEnumKeyValueNode>(
             ASTNodeFactory::enumKey
     );
-    static ASTTupleAccessNode* tupleAccess =  new ASTTupleAccessNode(
+    static std::shared_ptr<ASTTupleAccessNode> tupleAccess =  std::make_shared<ASTTupleAccessNode>(
             createLexeme(SymbolFactory::createIntSymbol())
     );
-    static ASTObjectAccessSourceNode* objectAccessSourceId = new ASTObjectAccessSourceNode(
+    static std::shared_ptr<ASTObjectAccessSourceNode> objectAccessSourceId = std::make_shared<ASTObjectAccessSourceNode>(
             ASTNodeFactory::idExpression
     );
-    static ASTObjectAccessTargetNode* objectAccessTargetId = new ASTObjectAccessTargetNode(
+    static std::shared_ptr<ASTObjectAccessTargetNode> objectAccessTargetId = std::make_shared<ASTObjectAccessTargetNode>(
             ASTNodeFactory::idExpression
     );
-    static ASTObjectAccessTargetNode* objectAccessTargetCallableId = new ASTObjectAccessTargetNode(
+    static std::shared_ptr<ASTObjectAccessTargetNode> objectAccessTargetCallableId = std::make_shared<ASTObjectAccessTargetNode>(
             ASTNodeFactory::callableIdExpression
     );
-    static ASTForInVariableNode* forVariable = new ASTForInVariableNode(
+    static std::shared_ptr<ASTForInVariableNode> forVariable = std::make_shared<ASTForInVariableNode>(
             ASTNodeFactory::idExpression
     );
-    static ASTForInSourceNode* forSourceId = new ASTForInSourceNode(
+    static std::shared_ptr<ASTForInSourceNode> forSourceId = std::make_shared<ASTForInSourceNode>(
             ASTNodeFactory::idExpression
     );
-    static ASTBreakNode* breakStatement = new ASTBreakNode(
+    static std::shared_ptr<ASTBreakNode> breakStatement = std::make_shared<ASTBreakNode>(
             createLexeme(SymbolFactory::createBreakSymbol())
     );
-    static ASTSkipNode* skipStatement = new ASTSkipNode(
+    static std::shared_ptr<ASTSkipNode> skipStatement = std::make_shared<ASTSkipNode>(
             createLexeme(SymbolFactory::createSkipSymbol())
     );
-    static ASTModuleNode* moduleKeyword = new ASTModuleNode(createLexeme(SymbolFactory::createModuleSymbol()));
-    static ASTModuleNameNode* moduleName = new ASTModuleNameNode(
+    static std::shared_ptr<ASTModuleNode> moduleKeyword = std::make_shared<ASTModuleNode>(createLexeme(SymbolFactory::createModuleSymbol()));
+    static std::shared_ptr<ASTModuleNameNode> moduleName = std::make_shared<ASTModuleNameNode>(
             ASTNodeFactory::id
     );
-    static ASTModuleAliasNameNode* moduleAliasName = new ASTModuleAliasNameNode(
+    static std::shared_ptr<ASTModuleAliasNameNode> moduleAliasName = std::make_shared<ASTModuleAliasNameNode>(
             ASTNodeFactory::id
     );
-    static ASTModuleListItemNode* moduleNormalItem = new ASTModuleListItemNode(
-            new ASTModuleListNormalItemNode(moduleName)
+    static std::shared_ptr<ASTModuleListItemNode> moduleNormalItem = std::make_shared<ASTModuleListItemNode>(
+            std::make_shared<ASTModuleListNormalItemNode>(moduleName)
     );
-    static ASTAsNode* as = new ASTAsNode(
+    static std::shared_ptr<ASTAsNode> as = std::make_shared<ASTAsNode>(
             createLexeme(SymbolFactory::createAsSymbol())
     );
-    static ASTModuleListItemNode* moduleAliasItem = new ASTModuleListItemNode(
-            new ASTModuleListAliasItemNode(moduleName, ASTNodeFactory::as, moduleAliasName)
+    static std::shared_ptr<ASTModuleListItemNode> moduleAliasItem = std::make_shared<ASTModuleListItemNode>(
+            std::make_shared<ASTModuleListAliasItemNode>(moduleName, ASTNodeFactory::as, moduleAliasName)
     );
-    static ASTModuleListItemNode* moduleSpreadItem = new ASTModuleListItemNode(
-            new ASTModuleListSpreadItemNode(moduleName, ASTNodeFactory::moduleSpread)
+    static std::shared_ptr<ASTModuleListItemNode> moduleSpreadItem = std::make_shared<ASTModuleListItemNode>(
+            std::make_shared<ASTModuleListSpreadItemNode>(moduleName, ASTNodeFactory::moduleSpread)
     );
-    static ASTImportNode* importKeyword = new ASTImportNode(
+    static std::shared_ptr<ASTImportNode> importKeyword = std::make_shared<ASTImportNode>(
             createLexeme(SymbolFactory::createImportSymbol())
     );
-    static ASTUseNode* useKeyword = new ASTUseNode(
+    static std::shared_ptr<ASTUseNode> useKeyword = std::make_shared<ASTUseNode>(
             createLexeme(SymbolFactory::createUseSymbol())
     );
-    static ASTFromNode* fromKeyword = new ASTFromNode(
+    static std::shared_ptr<ASTFromNode> fromKeyword = std::make_shared<ASTFromNode>(
             createLexeme(SymbolFactory::createFromSymbol())
     );
-    static ASTImportModuleNameNode* importModuleName = new ASTImportModuleNameNode(
+    static std::shared_ptr<ASTImportModuleNameNode> importModuleName = std::make_shared<ASTImportModuleNameNode>(
             ASTNodeFactory::id
     );
-    static ASTImportModuleAliasNameNode* importModuleAliasName = new ASTImportModuleAliasNameNode(
+    static std::shared_ptr<ASTImportModuleAliasNameNode> importModuleAliasName = std::make_shared<ASTImportModuleAliasNameNode>(
             ASTNodeFactory::id
     );
-    static ASTImportWildcardNode* importModuleWildcard = new ASTImportWildcardNode(
+    static std::shared_ptr<ASTImportWildcardNode> importModuleWildcard = std::make_shared<ASTImportWildcardNode>(
             createLexeme(SymbolFactory::createStarSymbol())
     );
-    static ASTImportModuleListItemNode* importModuleNormalItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListNormalItemNode(importModuleName)
+    static std::shared_ptr<ASTImportModuleListItemNode> importModuleNormalItem = std::make_shared<ASTImportModuleListItemNode>(
+            std::make_shared<ASTImportModuleListNormalItemNode>(importModuleName)
     );
-    static ASTImportModuleListItemNode* importModuleAliasItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListAliasItemNode(importModuleName, ASTNodeFactory::as, importModuleAliasName)
+    static std::shared_ptr<ASTImportModuleListItemNode> importModuleAliasItem = std::make_shared<ASTImportModuleListItemNode>(
+            std::make_shared<ASTImportModuleListAliasItemNode>(importModuleName, ASTNodeFactory::as, importModuleAliasName)
     );
-    static ASTImportModuleListItemNode* importModuleSpreadItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListSpreadItemNode(ASTNodeFactory::importSpread, importModuleName)
+    static std::shared_ptr<ASTImportModuleListItemNode> importModuleSpreadItem = std::make_shared<ASTImportModuleListItemNode>(
+            std::make_shared<ASTImportModuleListSpreadItemNode>(ASTNodeFactory::importSpread, importModuleName)
     );
-    static ASTImportModuleListItemNode* importModuleWildcardItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListWildcardItemNode(createLexeme(SymbolFactory::createStarSymbol()))
+    static std::shared_ptr<ASTImportModuleListItemNode> importModuleWildcardItem = std::make_shared<ASTImportModuleListItemNode>(
+            std::make_shared<ASTImportModuleListWildcardItemNode>(createLexeme(SymbolFactory::createStarSymbol()))
     );
 
-    static ASTImportModuleListItemNode* importModuleByWildcardItem = new ASTImportModuleListItemNode(
-            new ASTImportModuleListByWildcardItemNode(importModuleName, ASTNodeFactory::moduleAccess, importModuleWildcard)
+    static std::shared_ptr<ASTImportModuleListItemNode> importModuleByWildcardItem = std::make_shared<ASTImportModuleListItemNode>(
+            std::make_shared<ASTImportModuleListByWildcardItemNode>(importModuleName, ASTNodeFactory::moduleAccess, importModuleWildcard)
     );
-    static ASTImportPathNode* importPath = new ASTImportPathNode(
+    static std::shared_ptr<ASTImportPathNode> importPath = std::make_shared<ASTImportPathNode>(
             ASTNodeFactory::stringLiteral
     );
-    static ASTNewNode* newKeyword = new ASTNewNode(
+    static std::shared_ptr<ASTNewNode> newKeyword = std::make_shared<ASTNewNode>(
             createLexeme(SymbolFactory::createNewSymbol())
     );
-    static ASTClassNode* classKeyword = new ASTClassNode(
+    static std::shared_ptr<ASTClassNode> classKeyword = std::make_shared<ASTClassNode>(
             createLexeme(SymbolFactory::createClassSymbol())
     );
-    static ASTClassNameNode* className = new ASTClassNameNode(
+    static std::shared_ptr<ASTClassNameNode> className = std::make_shared<ASTClassNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTClassPropertyNameNode* classPropertyName = new ASTClassPropertyNameNode(
+    static std::shared_ptr<ASTClassPropertyNameNode> classPropertyName = std::make_shared<ASTClassPropertyNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTClassMethodNameNode* classMethodName = new ASTClassMethodNameNode(
+    static std::shared_ptr<ASTClassMethodNameNode> classMethodName = std::make_shared<ASTClassMethodNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTClassMethodCallNode* classMethodCall = new ASTClassMethodCallNode(
+    static std::shared_ptr<ASTClassMethodCallNode> classMethodCall = std::make_shared<ASTClassMethodCallNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTConstructorNode* classConstructor = new ASTConstructorNode(
+    static std::shared_ptr<ASTConstructorNode> classConstructor = std::make_shared<ASTConstructorNode>(
             createLexeme(SymbolFactory::createConstructorSymbol())
     );
-    static ASTClassAccessNode* classAccess = new ASTClassAccessNode(
+    static std::shared_ptr<ASTClassAccessNode> classAccess = std::make_shared<ASTClassAccessNode>(
             ASTNodeFactory::thisNode,
-            new ASTThisAccessNode(createLexeme(SymbolFactory::createPeriodSymbol()))
+            std::make_shared<ASTThisAccessNode>(createLexeme(SymbolFactory::createPeriodSymbol()))
     );
-    static ASTClassPropertyAccessNode* classPropertyAccess = new ASTClassPropertyAccessNode(
+    static std::shared_ptr<ASTClassPropertyAccessNode> classPropertyAccess = std::make_shared<ASTClassPropertyAccessNode>(
             ASTNodeFactory::classAccess,
             ASTNodeFactory::classPropertyName
     );
-    static ASTClassPropertyAssignmentNode* classPropertyAssignment = new ASTClassPropertyAssignmentNode(
+    static std::shared_ptr<ASTClassPropertyAssignmentNode> classPropertyAssignment = std::make_shared<ASTClassPropertyAssignmentNode>(
             ASTNodeFactory::classPropertyAccess,
             ASTNodeFactory::assignment
     );
-    static ASTClassPropertyAccessExpressionNode* classPropertyAccessExpression = new ASTClassPropertyAccessExpressionNode(
+    static std::shared_ptr<ASTClassPropertyAccessExpressionNode> classPropertyAccessExpression = std::make_shared<ASTClassPropertyAccessExpressionNode>(
             ASTNodeFactory::classPropertyAccess
     );
-    static ASTThisExpressionNode* thisExpression = new ASTThisExpressionNode(
+    static std::shared_ptr<ASTThisExpressionNode> thisExpression = std::make_shared<ASTThisExpressionNode>(
             ASTNodeFactory::thisNode
     );
-    static ASTPublicNode* publicModifier = new ASTPublicNode(
+    static std::shared_ptr<ASTPublicNode> publicModifier = std::make_shared<ASTPublicNode>(
             createLexeme(SymbolFactory::createPublicSymbol())
     );
-    static ASTProtectedNode* protectedModifier = new ASTProtectedNode(
+    static std::shared_ptr<ASTProtectedNode> protectedModifier = std::make_shared<ASTProtectedNode>(
             createLexeme(SymbolFactory::createProtectedSymbol())
     );
-    static ASTPrivateNode* privateModifier = new ASTPrivateNode(
+    static std::shared_ptr<ASTPrivateNode> privateModifier = std::make_shared<ASTPrivateNode>(
             createLexeme(SymbolFactory::createPrivateSymbol())
     );
-    static ASTStaticNode* staticKeyword = new ASTStaticNode(
+    static std::shared_ptr<ASTStaticNode> staticKeyword = std::make_shared<ASTStaticNode>(
             createLexeme(SymbolFactory::createStaticSymbol())
     );
-    static ASTConstNode* constKeyword = new ASTConstNode(
+    static std::shared_ptr<ASTConstNode> constKeyword = std::make_shared<ASTConstNode>(
             createLexeme(SymbolFactory::createConstSymbol())
     );
-    static ASTInterfaceNameNode* interfaceName =  new ASTInterfaceNameNode(
+    static std::shared_ptr<ASTInterfaceNameNode> interfaceName =  std::make_shared<ASTInterfaceNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTInterfaceDefinitionNode* interfaceDefinition =  new ASTInterfaceDefinitionNode(
+    static std::shared_ptr<ASTInterfaceDefinitionNode> interfaceDefinition =  std::make_shared<ASTInterfaceDefinitionNode>(
             ASTNodeFactory::interfaceKeyword,
             ASTNodeFactory::interfaceName
     );
-    static ASTInterfaceStartNode* interfaceStart = new ASTInterfaceStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTInterfaceEndNode* interfaceEnd = new ASTInterfaceEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTInterfaceColonNode* interfaceColon = new ASTInterfaceColonNode(createLexeme(SymbolFactory::createColonSymbol()));
-    static ASTInterfacePropertyNameNode* interfacePropertyName = new ASTInterfacePropertyNameNode(
+    static std::shared_ptr<ASTInterfaceStartNode> interfaceStart = std::make_shared<ASTInterfaceStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTInterfaceEndNode> interfaceEnd = std::make_shared<ASTInterfaceEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTInterfaceColonNode> interfaceColon = std::make_shared<ASTInterfaceColonNode>(createLexeme(SymbolFactory::createColonSymbol()));
+    static std::shared_ptr<ASTInterfacePropertyNameNode> interfacePropertyName = std::make_shared<ASTInterfacePropertyNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );
-    static ASTInterfacePropertyNode* createInterfaceProperty(ASTTypeNode* type) {
-        return new ASTInterfacePropertyNode(
+    static std::shared_ptr<ASTInterfacePropertyNode> createInterfaceProperty(std::shared_ptr<ASTTypeNode> type) {
+        return std::make_shared<ASTInterfacePropertyNode>(
             ASTNodeFactory::interfacePropertyName,
             ASTNodeFactory::interfaceColon,
             type
         );
     }
-    static ASTInterfacePropertyListNode* createInterfacePropertyList(std::vector<ASTInterfacePropertyNode*> properties) {
-        return new ASTInterfacePropertyListNode(
+    static std::shared_ptr<ASTInterfacePropertyListNode> createInterfacePropertyList(std::vector<std::shared_ptr<ASTInterfacePropertyNode>> properties) {
+        return std::make_shared<ASTInterfacePropertyListNode>(
                 ASTNodeFactory::interfaceStart,
                 properties,
                 ASTNodeFactory::createCommaList(properties.size()),
                 ASTNodeFactory::interfaceEnd
         );
     }
-    static ASTStructTypeStartNode* structTypeStart = new ASTStructTypeStartNode(createLexeme(SymbolFactory::createLeftBraceSymbol()));
-    static ASTStructTypeEndNode* structTypeEnd = new ASTStructTypeEndNode(createLexeme(SymbolFactory::createRightBraceSymbol()));
-    static ASTStructTypeKeyNode* structTypeKey = new ASTStructTypeKeyNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTStructTypeColonNode* structTypeColon = new ASTStructTypeColonNode(createLexeme(SymbolFactory::createColonSymbol()));
-    static ASTTypeKeywordNode* typeKeyword = new ASTTypeKeywordNode(createLexeme(SymbolFactory::createTypeSymbol()));
-    static ASTTypeNameNode* typeName = new ASTTypeNameNode(createLexeme(SymbolFactory::createIdentifierSymbol()));
-    static ASTTypeAssignmentOperatorNode* typeAssignmentOperator = new ASTTypeAssignmentOperatorNode(createLexeme(SymbolFactory::createEqualSymbol()));
-    static ASTCustomTypeDeclarationNode* createCustomType(ASTTypeNode* type, std::optional<ASTExportNode*> exportKeyword = {}) {
-        return new ASTCustomTypeDeclarationNode(
+    static std::shared_ptr<ASTTupleTypeStartNode> tupleTypeStart = std::make_shared<ASTTupleTypeStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTTupleTypeEndNode> tupleTypeEnd = std::make_shared<ASTTupleTypeEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTStructTypeStartNode> structTypeStart = std::make_shared<ASTStructTypeStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
+    static std::shared_ptr<ASTStructTypeEndNode> structTypeEnd = std::make_shared<ASTStructTypeEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
+    static std::shared_ptr<ASTStructTypeKeyNode> structTypeKey = std::make_shared<ASTStructTypeKeyNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTStructTypeColonNode> structTypeColon = std::make_shared<ASTStructTypeColonNode>(createLexeme(SymbolFactory::createColonSymbol()));
+    static std::shared_ptr<ASTTypeKeywordNode> typeKeyword = std::make_shared<ASTTypeKeywordNode>(createLexeme(SymbolFactory::createTypeSymbol()));
+    static std::shared_ptr<ASTTypeNameNode> typeName = std::make_shared<ASTTypeNameNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+    static std::shared_ptr<ASTTypeAssignmentOperatorNode> typeAssignmentOperator = std::make_shared<ASTTypeAssignmentOperatorNode>(createLexeme(SymbolFactory::createEqualSymbol()));
+    static std::shared_ptr<ASTCustomTypeDeclarationNode> createCustomType(std::shared_ptr<ASTTypeNode> type, std::optional<std::shared_ptr<ASTExportNode>> exportKeyword = {}) {
+        return std::make_shared<ASTCustomTypeDeclarationNode>(
                ASTNodeFactory::typeKeyword,
                ASTNodeFactory::typeName,
                ASTNodeFactory::typeAssignmentOperator,
@@ -621,104 +621,104 @@ namespace ASTNodeFactory {
                exportKeyword
         );
     }
-    static ASTArrayNode* createArray(std::vector<ASTExpressionNode*> elements) {
-        return new ASTArrayNode(
+    static std::shared_ptr<ASTArrayNode> createArray(std::vector<std::shared_ptr<ASTExpressionNode>> elements) {
+        return std::make_shared<ASTArrayNode>(
             ASTNodeFactory::leftBracket,
             elements,
             ASTNodeFactory::createCommaList(elements.size()),
             ASTNodeFactory::rightBracket
         );
     }
-    static ASTArrayExpressionNode* createArrayExpression(std::vector<ASTExpressionNode*> elements) {
-        return new ASTArrayExpressionNode(
-                    new ASTArrayNode(
+    static std::shared_ptr<ASTArrayExpressionNode> createArrayExpression(std::vector<std::shared_ptr<ASTExpressionNode>> elements) {
+        return std::make_shared<ASTArrayExpressionNode>(
+                    std::make_shared<ASTArrayNode>(
                         ASTNodeFactory::leftBracket,
                         elements,
                         ASTNodeFactory::createCommaList(elements.size()),
                         ASTNodeFactory::rightBracket
         ));
     }
-    static ASTArrayAccessNode* createArrayAccess(ASTExpressionNode* element) {
-        return new ASTArrayAccessNode(
+    static std::shared_ptr<ASTArrayAccessNode> createArrayAccess(std::shared_ptr<ASTExpressionNode> element) {
+        return std::make_shared<ASTArrayAccessNode>(
                 ASTNodeFactory::leftBracket,
                 element,
                 ASTNodeFactory::rightBracket
         );
     }
-    static ASTStructKeyValueNode* createStructKeyValue(ASTExpressionNode* value) {
-        return new ASTStructKeyValueNode(
+    static std::shared_ptr<ASTStructKeyValueNode> createStructKeyValue(std::shared_ptr<ASTExpressionNode> value) {
+        return std::make_shared<ASTStructKeyValueNode>(
                 ASTNodeFactory::idExpression,
                 ASTNodeFactory::structColon,
                 value
         );
     }
-    static ASTStructExpressionNode* createStructExpression(std::vector<ASTStructKeyValueNode*> fields) {
-        return new ASTStructExpressionNode(
+    static std::shared_ptr<ASTStructExpressionNode> createStructExpression(std::vector<std::shared_ptr<ASTStructKeyValueNode>> fields) {
+        return std::make_shared<ASTStructExpressionNode>(
                 ASTNodeFactory::structStart,
                 fields,
                 ASTNodeFactory::createCommaList(fields.size()),
                 ASTNodeFactory::structEnd
         );
     }
-    static ASTObjectAccessExpressionNode* createObjectAccessExpression(ASTObjectAccessSourceNode* source, ASTObjectAccessTargetNode* target) {
-        return new ASTObjectAccessExpressionNode(
+    static std::shared_ptr<ASTObjectAccessExpressionNode> createObjectAccessExpression(std::shared_ptr<ASTObjectAccessSourceNode> source, std::shared_ptr<ASTObjectAccessTargetNode> target) {
+        return std::make_shared<ASTObjectAccessExpressionNode>(
                 source,
                 ASTNodeFactory::period,
                 target
         );
     }
-    static ASTTupleAccessExpressionNode* createTupleAccessExpression(ASTObjectAccessSourceNode* source, ASTTupleAccessNode* target) {
-        return new ASTTupleAccessExpressionNode(
+    static std::shared_ptr<ASTTupleAccessExpressionNode> createTupleAccessExpression(std::shared_ptr<ASTObjectAccessSourceNode> source, std::shared_ptr<ASTTupleAccessNode> target) {
+        return std::make_shared<ASTTupleAccessExpressionNode>(
                 source,
                 ASTNodeFactory::period,
                 target
         );
     }
-    static ASTFunctionParameterNode* createFunctionParameter(ASTIdentifierExpressionNode* name, ASTTypeNode* type) {
-        return new ASTFunctionParameterNode(
+    static std::shared_ptr<ASTFunctionParameterNode> createFunctionParameter(std::shared_ptr<ASTIdentifierExpressionNode> name, std::shared_ptr<ASTTypeNode> type) {
+        return std::make_shared<ASTFunctionParameterNode>(
                 name,
                 ASTNodeFactory::typeColon,
                 type
         );
     }
-    static ASTFunctionParameterListNode* createFunctionParameterList(std::vector<ASTFunctionParameterNode*> parameters = {}) {
-        return new ASTFunctionParameterListNode(
+    static std::shared_ptr<ASTFunctionParameterListNode> createFunctionParameterList(std::vector<std::shared_ptr<ASTFunctionParameterNode>> parameters = {}) {
+        return std::make_shared<ASTFunctionParameterListNode>(
                 ASTNodeFactory::functionParameterListStart,
                 parameters,
                 ASTNodeFactory::createCommaList(parameters.size()),
                 ASTNodeFactory::functionParameterListEnd
         );
     }
-    static ASTFunctionBlockNode* createFunctionBlock(std::vector<ASTNode*> contents) {
-        return new ASTFunctionBlockNode(
+    static std::shared_ptr<ASTFunctionBlockNode> createFunctionBlock(std::vector<std::shared_ptr<ASTNode>> contents) {
+        return std::make_shared<ASTFunctionBlockNode>(
                 ASTNodeFactory::blockStart,
                 contents,
                 ASTNodeFactory::blockEnd
         );
     }
-    static ASTBlockNode* createBlock(std::vector<ASTNode*> contents) {
-        return new ASTBlockNode(
+    static std::shared_ptr<ASTBlockNode> createBlock(std::vector<std::shared_ptr<ASTNode>> contents) {
+        return std::make_shared<ASTBlockNode>(
                 ASTNodeFactory::blockStart,
                 contents,
                 ASTNodeFactory::blockEnd
         );
     }
-    static ASTControlFlowBlockNode* createControlFlowBlock(std::vector<ASTNode*> contents) {
-        return new ASTControlFlowBlockNode(
+    static std::shared_ptr<ASTControlFlowBlockNode> createControlFlowBlock(std::vector<std::shared_ptr<ASTNode>> contents) {
+        return std::make_shared<ASTControlFlowBlockNode>(
                 ASTNodeFactory::blockStart,
                 contents,
                 ASTNodeFactory::blockEnd
         );
     }
-    static ASTImplementsInterfaceListNode* createImplementsInterfaceList(std::vector<ASTImplementsInterfaceNameNode*> interfaceNames) {
-        return new ASTImplementsInterfaceListNode(
+    static std::shared_ptr<ASTImplementsInterfaceListNode> createImplementsInterfaceList(std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> interfaceNames) {
+        return std::make_shared<ASTImplementsInterfaceListNode>(
                 ASTNodeFactory::implementsKeyword,
                 interfaceNames,
                 ASTNodeFactory::createCommaList(interfaceNames.size())
         );
     }
-    static ASTClassBlockNode* createClassBlock(std::vector<ASTClassPropertyDeclarationNode*> properties, std::vector<ASTClassMethodDeclarationNode*> methods, std::vector<ASTClassConstructorDeclarationNode*> constructors) {
-        return new ASTClassBlockNode(
+    static std::shared_ptr<ASTClassBlockNode> createClassBlock(std::vector<std::shared_ptr<ASTClassPropertyDeclarationNode>> properties, std::vector<std::shared_ptr<ASTClassMethodDeclarationNode>> methods, std::vector<std::shared_ptr<ASTClassConstructorDeclarationNode>> constructors) {
+        return std::make_shared<ASTClassBlockNode>(
                 ASTNodeFactory::blockStart,
                 properties,
                 methods,
@@ -726,122 +726,124 @@ namespace ASTNodeFactory {
                 ASTNodeFactory::blockEnd
         );
     }
-    static ASTEnumKeyValueListNode* createEnumKeyValueList(std::vector<ASTEnumKeyValueNode*> contents) {
-        return new ASTEnumKeyValueListNode(
+    static std::shared_ptr<ASTEnumKeyValueListNode> createEnumKeyValueList(std::vector<std::shared_ptr<ASTEnumKeyValueNode>> contents) {
+        return std::make_shared<ASTEnumKeyValueListNode>(
                 ASTNodeFactory::enumKeyValueListStart,
                 contents,
                 ASTNodeFactory::createCommaList(contents.size()),
                 ASTNodeFactory::enumKeyValueListEnd
         );
     }
-    static ASTFunctionArgumentListNode* createFunctionArgumentList(std::vector<ASTFunctionArgumentNode*> contents = {}) {
-        return new ASTFunctionArgumentListNode(
+    static std::shared_ptr<ASTFunctionArgumentListNode> createFunctionArgumentList(std::vector<std::shared_ptr<ASTFunctionArgumentNode>> contents = {}) {
+        return std::make_shared<ASTFunctionArgumentListNode>(
                 ASTNodeFactory::functionArgumentListStart,
                 contents,
                 ASTNodeFactory::createCommaList(contents.size()),
                 ASTNodeFactory::functionArgumentListEnd
         );
     }
-    static ASTTupleExpressionNode* createTupleExpression(std::vector<ASTExpressionNode*> expressions = {}) {
-        auto tupleItems = std::vector<ASTTupleItemNode*>();
+    static std::shared_ptr<ASTTupleExpressionNode> createTupleExpression(std::vector<std::shared_ptr<ASTExpressionNode>> expressions = {}) {
+        auto tupleItems = std::vector<std::shared_ptr<ASTTupleItemNode>>();
         for (auto expression : expressions) {
-            tupleItems.push_back(new ASTTupleItemNode(expression));
+            tupleItems.push_back(std::make_shared<ASTTupleItemNode>(expression));
         }
-        return new ASTTupleExpressionNode(
+        return std::make_shared<ASTTupleExpressionNode>(
                 ASTNodeFactory::tupleListStart,
                 tupleItems,
                 ASTNodeFactory::createCommaList(tupleItems.size()),
                 ASTNodeFactory::tupleListEnd
         );
     }
-    static ASTTypeParameterListNode* createTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
-        return new ASTTypeParameterListNode(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::createCommaList(items.size()), ASTNodeFactory::typeParameterListEnd);
+    static std::shared_ptr<ASTTypeParameterListNode> createTypeParameterList(std::vector<std::shared_ptr<ASTTypeNode>> items = {}) {
+        return std::make_shared<ASTTypeParameterListNode>(ASTNodeFactory::typeParameterListStart, items, ASTNodeFactory::createCommaList(items.size()), ASTNodeFactory::typeParameterListEnd);
     }
-    static ASTLambdaTypeParameterListNode* createLambdaTypeParameterList(std::vector<ASTTypeNode*> items = {}) {
-        return new ASTLambdaTypeParameterListNode(
+    static std::shared_ptr<ASTLambdaTypeParameterListNode> createLambdaTypeParameterList(std::vector<std::shared_ptr<ASTTypeNode>> items = {}) {
+        return std::make_shared<ASTLambdaTypeParameterListNode>(
                 ASTNodeFactory::lambdaTypeParameterListStart,
                 items,
                 ASTNodeFactory::createCommaList(items.size()),
                 ASTNodeFactory::lambdaTypeParameterListEnd
         );
     }
-    static ASTTypeNode* createTupleType(std::vector<ASTTypeNode*> items = {}) {
+    static std::shared_ptr<ASTTypeNode> createTupleType(std::vector<std::shared_ptr<ASTTypeNode>> items = {}) {
         return ASTTypeNodeFactory::createTupleTypeNode(
-                new ASTTupleTypeNodeDep(
-                    ASTNodeFactory::tupleKeyword,
-                    ASTNodeFactory::createTypeParameterList(items)
+                std::make_shared<ASTTupleTypeNode>(
+                        ASTNodeFactory::tupleTypeStart,
+                        items,
+                        ASTNodeFactory::createCommaList(items.size()),
+                        ASTNodeFactory::tupleTypeEnd
                 )
         );
     }
-    static ASTStructTypeKeyValueNode* createStructTypeKeyValue(ASTTypeNode* type) {
-        return new ASTStructTypeKeyValueNode(
+    static std::shared_ptr<ASTStructTypeKeyValueNode> createStructTypeKeyValue(std::shared_ptr<ASTTypeNode> type) {
+        return std::make_shared<ASTStructTypeKeyValueNode>(
                 ASTNodeFactory::structTypeKey,
                 ASTNodeFactory::structTypeColon,
                 type
         );
     }
-    static ASTTypeNode* createStructType(std::vector<ASTStructTypeKeyValueNode*> items = {}) {
-        return ASTTypeNodeFactory::createStructTypeNode(new ASTStructTypeNode(
+    static std::shared_ptr<ASTTypeNode> createStructType(std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>> items = {}) {
+        return ASTTypeNodeFactory::createStructTypeNode(std::make_shared<ASTStructTypeNode>(
                 ASTNodeFactory::structTypeStart,
                 items,
                 ASTNodeFactory::createCommaList(items.size()),
                 ASTNodeFactory::structTypeEnd
         ));
     }
-    static ASTTypeNode* createLambdaType(std::vector<ASTTypeNode*> items, ASTTypeNode* returnType) {
-        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+    static std::shared_ptr<ASTTypeNode> createLambdaType(std::vector<std::shared_ptr<ASTTypeNode>> items, std::shared_ptr<ASTTypeNode> returnType) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(items),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 returnType
         ));
     }
-    static ASTTypeNode* createLambdaType(ASTTypeNode* returnType) {
-        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+    static std::shared_ptr<ASTTypeNode> createLambdaType(std::shared_ptr<ASTTypeNode> returnType) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 returnType
         ));
     }
-    static ASTTypeNode* createLambdaTypeWithVoidReturn(std::vector<ASTTypeNode*> items = {}) {
-        return ASTTypeNodeFactory::createLambdaTypeNode(new ASTLambdaTypeNode(
+    static std::shared_ptr<ASTTypeNode> createLambdaTypeWithVoidReturn(std::vector<std::shared_ptr<ASTTypeNode>> items = {}) {
+        return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(items),
                 ASTNodeFactory::lambdaTypeFatArrow,
                 ASTNodeFactory::voidType
         ));
     }
-    static ASTArrayTypeStartNode* arrayTypeStart = new ASTArrayTypeStartNode(createLexeme(SymbolFactory::createLeftBracketSymbol()));
-    static ASTArrayTypeEndNode* arrayTypeEnd = new ASTArrayTypeEndNode(createLexeme(SymbolFactory::createRightBracketSymbol()));
-    static ASTTypeNode* createArrayType(ASTTypeNode* elementType) {
+    static std::shared_ptr<ASTArrayTypeStartNode> arrayTypeStart = std::make_shared<ASTArrayTypeStartNode>(createLexeme(SymbolFactory::createLeftBracketSymbol()));
+    static std::shared_ptr<ASTArrayTypeEndNode> arrayTypeEnd = std::make_shared<ASTArrayTypeEndNode>(createLexeme(SymbolFactory::createRightBracketSymbol()));
+    static std::shared_ptr<ASTTypeNode> createArrayType(std::shared_ptr<ASTTypeNode> elementType) {
         return ASTTypeNodeFactory::createArrayTypeNode(
-            new ASTArrayTypeNode(
+            std::make_shared<ASTArrayTypeNode>(
                 ASTNodeFactory::arrayTypeStart,
                 elementType,
                 ASTNodeFactory::arrayTypeEnd
         ));
     }
-    static ASTTypeNode* createRefType(ASTTypeNode* refType) {
-        return ASTTypeNodeFactory::createRefTypeNode(
-                new ASTRefTypeNode(
-                    ASTNodeFactory::refTypeKeyword,
+    static std::shared_ptr<ASTTypeNode> createSharedType(std::shared_ptr<ASTTypeNode> refType) {
+        return ASTTypeNodeFactory::createSharedTypeNode(
+                std::make_shared<ASTSharedTypeNode>(
+                    ASTNodeFactory::sharedTypeKeyword,
                     ASTNodeFactory::createTypeParameterList({ refType })
                 ));
     }
-    static ASTImportModuleListNode* createImportModuleList(std::vector<ASTImportModuleListItemNode*> items = {}) {
-        return new ASTImportModuleListNode(
+    static std::shared_ptr<ASTImportModuleListNode> createImportModuleList(std::vector<std::shared_ptr<ASTImportModuleListItemNode>> items = {}) {
+        return std::make_shared<ASTImportModuleListNode>(
                 ASTNodeFactory::importModuleListStart,
                 items,
                 ASTNodeFactory::importModuleListEnd
         );
     }
-    static ASTImportModuleListByGroupItemNode* createImportModuleByGroupItem(std::vector<ASTImportModuleListItemNode*> items) {
-        return new ASTImportModuleListByGroupItemNode(
+    static std::shared_ptr<ASTImportModuleListByGroupItemNode> createImportModuleByGroupItem(std::vector<std::shared_ptr<ASTImportModuleListItemNode>> items) {
+        return std::make_shared<ASTImportModuleListByGroupItemNode>(
                 ASTNodeFactory::importModuleName,
                 ASTNodeFactory::moduleAccess,
                 ASTNodeFactory::createImportModuleList(items)
         );
     }
-    static ASTImportModuleListByWildcardItemNode* createImportModuleByWildcard() {
-        return new ASTImportModuleListByWildcardItemNode(
+    static std::shared_ptr<ASTImportModuleListByWildcardItemNode> createImportModuleByWildcard() {
+        return std::make_shared<ASTImportModuleListByWildcardItemNode>(
                 ASTNodeFactory::importModuleName,
                 ASTNodeFactory::moduleAccess,
                 ASTNodeFactory::importModuleWildcard

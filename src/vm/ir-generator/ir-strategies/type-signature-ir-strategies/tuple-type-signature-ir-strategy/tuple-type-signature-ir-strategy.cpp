@@ -8,10 +8,10 @@
 
 std::shared_ptr<IRStructRefType> TupleTypeSignatureIRStrategy::generate(std::shared_ptr<TupleTypeSignature> tupleTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto tupleElementTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
-    for (unsigned long i = 0; i < tupleTypeSignature->size(); ++i) {
+    for (uint64_t i = 0; i < tupleTypeSignature->size(); ++i) {
         auto tupleElement = tupleTypeSignature->getTypeSignatureAtIndex(i);
         auto tupleElementIrType = irGenerator->generateTypeFor(tupleElement, scope, irContext);
         tupleElementTypes.push_back(tupleElementIrType->getType());

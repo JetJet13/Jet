@@ -8,7 +8,7 @@
 std::shared_ptr<IRTupleExpressionNode> TupleExpressionIRStrategy::generate(std::shared_ptr<ASTTupleExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto irType = irGenerator->generateTypeFor(node->getTupleTypeSignature(), scope, irContext);
     auto tupleValues = std::vector<std::shared_ptr<IRExpressionNode>>();
-    for (unsigned long i = 0; i < node->numItems(); ++i) {
+    for (uint64_t i = 0; i < node->numItems(); ++i) {
         auto tupleItem = node->getItems()->at(i);
         auto irNode = irGenerator->generateFor(tupleItem->getItem(), scope, irContext, irOperation);
         irNode->markAsAssigned();

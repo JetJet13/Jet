@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<ASTFunctionParameterNode>> ASTFunctionParameterListN
     return _parameters;
 }
 
-unsigned long ASTFunctionParameterListNode::numParameters() {
+uint64_t ASTFunctionParameterListNode::numParameters() {
     return _parameters.size();
 }
 
@@ -83,7 +83,7 @@ bool ASTFunctionParameterListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numParameters() != otherNode->numParameters()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numParameters(); i++) {
+    for (uint64_t i = 0; i < this->numParameters(); i++) {
         if (!_parameters[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -103,7 +103,7 @@ void ASTFunctionParameterListNode::print() {
 std::string ASTFunctionParameterListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_functionParameterListStartNode);
-    for (unsigned long i = 0; i < _parameters.size(); ++i) {
+    for (uint64_t i = 0; i < _parameters.size(); ++i) {
         sourceCodeBuilder.add(_parameters.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

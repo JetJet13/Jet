@@ -12,11 +12,11 @@ class ASTForInVariableNode : public ASTNode {
 private:
     std::shared_ptr<ASTIdentifierExpressionNode> _variable;
     std::shared_ptr<TypeSignature> _typeSignature = std::make_shared<UnknownTypeSignature>();
-    unsigned long _captureCount = 0;
+    uint64_t _captureCount = 0;
 public:
     ASTForInVariableNode(std::shared_ptr<ASTIdentifierExpressionNode> variable);
     void markAsCaptured();
-    unsigned long getCaptureCount();
+    uint64_t getCaptureCount();
     bool isCaptured();
     std::shared_ptr<ASTIdentifierExpressionNode> getVariable();
     void setTypeSignature(std::shared_ptr<TypeSignature> typeSignature);

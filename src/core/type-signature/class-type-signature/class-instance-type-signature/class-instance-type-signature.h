@@ -21,7 +21,7 @@ public:
     TypeSignatureMap<std::shared_ptr<ClassPropertyTypeSignature>>* getProperties();
     TypeSignatureMap<std::shared_ptr<TypeSignature>>* getKeyValuePairs() override;
     std::shared_ptr<TypeSignature> getTypeSignatureForKey(std::string key) override;
-    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
+    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(uint64_t index) override;
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;

@@ -36,8 +36,8 @@ std::optional<T> TypeSignatureMap<T>::find(std::string key) {
 }
 
 template<class T>
-unsigned long TypeSignatureMap<T>::findKeyIndex(std::string key) {
-    for (unsigned long i = 0; i < _typeSignatureKeyList.size(); ++i) {
+uint64_t TypeSignatureMap<T>::findKeyIndex(std::string key) {
+    for (uint64_t i = 0; i < _typeSignatureKeyList.size(); ++i) {
         if (_typeSignatureKeyList[i] == key) {
             return i;
         }
@@ -46,7 +46,7 @@ unsigned long TypeSignatureMap<T>::findKeyIndex(std::string key) {
 }
 
 template<class T>
-std::string TypeSignatureMap<T>::findKeyByIndex(unsigned long index) {
+std::string TypeSignatureMap<T>::findKeyByIndex(uint64_t index) {
     if (index >= _typeSignatureKeyList.size()) {
         throw std::invalid_argument("no key found for index: " + std::to_string(index));
     }
@@ -150,7 +150,7 @@ std::vector<T> TypeSignatureMap<T>::getValues() {
 }
 
 template<class T>
-unsigned long TypeSignatureMap<T>::size() {
+uint64_t TypeSignatureMap<T>::size() {
     return _typeSignatureMap.size();
 }
 

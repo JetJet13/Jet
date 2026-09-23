@@ -17,13 +17,13 @@ private:
     llvm::Function* _irValue;
     std::shared_ptr<IRBlockNode> _irBlock;
     std::shared_ptr<IRInstructionNode> _classScopeParameter;
-    std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>> _irExpressions;
-    std::vector<std::pair<unsigned long, llvm::Constant*>> _irInitializers;
+    std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>> _irExpressions;
+    std::vector<std::pair<uint64_t, llvm::Constant*>> _irInitializers;
 public:
-    IRClassPreConstructorNode(llvm::Function* irValue, std::shared_ptr<IRInstructionNode> classScopeParameter, std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>> irExpressions, std::vector<std::pair<unsigned long, llvm::Constant*>> irInitializers, std::shared_ptr<IRBlockNode> irBlock);
+    IRClassPreConstructorNode(llvm::Function* irValue, std::shared_ptr<IRInstructionNode> classScopeParameter, std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>> irExpressions, std::vector<std::pair<uint64_t, llvm::Constant*>> irInitializers, std::shared_ptr<IRBlockNode> irBlock);
     llvm::Function* getFunction();
-    std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>* getExpressions();
-    std::vector<std::pair<unsigned long, llvm::Constant*>>* getInitializers();
+    std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>>* getExpressions();
+    std::vector<std::pair<uint64_t, llvm::Constant*>>* getInitializers();
     std::shared_ptr<IRInstructionNode> getClassScopeParameter();
     std::shared_ptr<IRBlockNode> getBlock();
     std::shared_ptr<IRLookupTable> getScope();

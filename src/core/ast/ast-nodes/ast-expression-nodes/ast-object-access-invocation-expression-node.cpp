@@ -38,7 +38,7 @@ std::string ASTObjectAccessInvocationExpressionNode::getName() {
     return _objectAccess->getTarget()->getTarget()->getIdentifierNode()->getId();
 }
 
-unsigned long ASTObjectAccessInvocationExpressionNode::numArguments() {
+uint64_t ASTObjectAccessInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

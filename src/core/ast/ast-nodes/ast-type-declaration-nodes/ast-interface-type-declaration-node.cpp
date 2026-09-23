@@ -25,7 +25,7 @@ std::shared_ptr<ASTInterfaceNameNode> ASTInterfaceTypeDeclarationNode::getName()
     return _interfaceDefinition->getName();
 }
 
-unsigned long ASTInterfaceTypeDeclarationNode::numProperties() {
+uint64_t ASTInterfaceTypeDeclarationNode::numProperties() {
     return _propertyList->numProperties();
 }
 

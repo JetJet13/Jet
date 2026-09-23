@@ -23,7 +23,7 @@ public:
     std::shared_ptr<TypeSignature> setKeyId(std::string id) override;
     TypeSignatureMap<std::shared_ptr<LiteralTypeSignature>>* getKeyValuePairs() override;
     std::shared_ptr<LiteralTypeSignature> getTypeSignatureForKey(std::string key) override;
-    std::shared_ptr<LiteralTypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
+    std::shared_ptr<LiteralTypeSignature> getTypeSignatureAtIndex(uint64_t index) override;
     std::shared_ptr<LiteralTypeSignature> getType();
     void setType(std::shared_ptr<LiteralTypeSignature> type);
     bool hasKey(std::string key);

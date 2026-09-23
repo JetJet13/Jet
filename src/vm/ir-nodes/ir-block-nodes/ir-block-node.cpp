@@ -273,13 +273,13 @@ void IRBlockNode::nest(std::shared_ptr<IRBlockNode> irBlock) {
     _successors.push_back(irBlock);
 
     auto nestedOfNestedIrBlock = irBlock->getNestedBlocks();
-    for (unsigned long i = 0; i < nestedOfNestedIrBlock->size(); ++i) {
+    for (uint64_t i = 0; i < nestedOfNestedIrBlock->size(); ++i) {
         auto block = nestedOfNestedIrBlock->at(i);
         _nestedBlocks.push_back(block);
     }
 
     auto successorsOfSuccessorIrBlock = irBlock->getSuccessors();
-    for (unsigned long i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
+    for (uint64_t i = 0; i < successorsOfSuccessorIrBlock->size(); ++i) {
         auto block = successorsOfSuccessorIrBlock->at(i);
         _successors.push_back(block);
     }

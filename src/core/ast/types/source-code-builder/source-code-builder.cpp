@@ -22,10 +22,10 @@ SourceCodeBuilder* SourceCodeBuilder::add(std::shared_ptr<ASTNode> node) {
     auto columnDelta = lineDelta == 0
             ? node->getStartPosition()->getColumn() - lastColumn
             : node->getStartPosition()->getColumn();
-    for (unsigned long i = 0; i < lineDelta; ++i) {
+    for (uint64_t i = 0; i < lineDelta; ++i) {
         _sourceCode += NEW_LINE;
     }
-    for (unsigned long i = 0; i < columnDelta; ++i) {
+    for (uint64_t i = 0; i < columnDelta; ++i) {
         _sourceCode += WHITE_SPACE;
     }
     _sourceCode += node->toSourceCode();

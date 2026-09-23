@@ -11,7 +11,7 @@ std::shared_ptr<ASTNode> TupleTypeReducerStrategy::execute(std::vector<std::shar
             std::dynamic_pointer_cast<ASTTupleTypeEndNode>(nodes[nodes.size() - 1])
     );
 
-    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
+    for (uint64_t i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_TYPE_NODE)) {
             tupleTypeNode->addValueType(std::dynamic_pointer_cast<ASTTypeNode>(node));

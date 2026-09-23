@@ -26,7 +26,7 @@ public:
     explicit ASTFunctionInvocationExpressionNode(std::shared_ptr<ASTExpressionNode> function, std::shared_ptr<ASTFunctionArgumentListNode> arguments);
     std::shared_ptr<ASTFunctionArgumentListNode> getArguments();
     std::shared_ptr<ASTExpressionNode> getFunction();
-    unsigned long numArguments();
+    uint64_t numArguments();
     void setTypeSignature(std::shared_ptr<FunctionInvocationTypeSignature> functionInvocationTypeSignature);
     std::shared_ptr<FunctionInvocationTypeSignature> getInvocationTypeSignature();
     std::shared_ptr<TypeSignature> getTypeSignature() override;

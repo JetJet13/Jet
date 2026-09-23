@@ -85,7 +85,7 @@ void ASTArrayNode::print() {
 std::string ASTArrayNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_leftBracket);
-    for (unsigned long i = 0; i < _elements.size(); ++i) {
+    for (uint64_t i = 0; i < _elements.size(); ++i) {
         sourceCodeBuilder.add(_elements.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

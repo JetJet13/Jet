@@ -32,7 +32,7 @@ std::vector<std::shared_ptr<ASTEnumKeyValueNode>> ASTEnumKeyValueListNode::getPa
     return _enumKeyValues;
 }
 
-unsigned long ASTEnumKeyValueListNode::numParameters() {
+uint64_t ASTEnumKeyValueListNode::numParameters() {
     return _enumKeyValues.size();
 }
 
@@ -72,7 +72,7 @@ bool ASTEnumKeyValueListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numParameters() != otherNode->numParameters()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numParameters(); i++) {
+    for (uint64_t i = 0; i < this->numParameters(); i++) {
         if (!_enumKeyValues[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -93,7 +93,7 @@ std::string ASTEnumKeyValueListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_enumKeyValueListStartNode);
 
-    for (unsigned long i = 0; i < _enumKeyValues.size(); ++i) {
+    for (uint64_t i = 0; i < _enumKeyValues.size(); ++i) {
         sourceCodeBuilder.add(_enumKeyValues.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

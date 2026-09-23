@@ -20,7 +20,7 @@ protected:
     llvm::Type* _type;
     std::optional<std::shared_ptr<IRTypeValueInstructionNode>> _value;
     std::optional<llvm::Align> _alignmentOverride;
-    std::optional<unsigned long> _sizeInBytesOverride;
+    std::optional<uint64_t> _sizeInBytesOverride;
     void initClone(std::shared_ptr<IRType> irType);
 public:
     explicit IRType(llvm::Type* type);
@@ -37,7 +37,7 @@ public:
     void setModuleId(std::string id);
     void setValue(std::shared_ptr<IRTypeValueInstructionNode> value);
     virtual std::shared_ptr<IRTypeValueInstructionNode> getValue();
-    void setSizeInBytesOverride(unsigned long sizeInBytes);
+    void setSizeInBytesOverride(uint64_t sizeInBytes);
     bool hasValue();
     bool isCharType();
     bool isIntegerType();

@@ -18,8 +18,8 @@ public:
     explicit TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature>> elementTypes);
     TypeSignatureMap<std::shared_ptr<TypeSignature>>* getKeyValuePairs() override;
     std::shared_ptr<TypeSignature> getTypeSignatureForKey(std::string key) override;
-    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(unsigned long index) override;
-    unsigned long size();
+    std::shared_ptr<TypeSignature> getTypeSignatureAtIndex(uint64_t index) override;
+    uint64_t size();
     std::string toDetailString() override;
     std::string toString() override;
     TypeSource getTypeSource() override;

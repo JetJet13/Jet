@@ -10,22 +10,22 @@
 
 class TokenTable {
 private:
-    std::unordered_map<unsigned long, std::string> _intMap;
-    std::unordered_map<unsigned long, std::string> _floatMap;
-    std::unordered_map<unsigned long, char> _charMap;
-    std::unordered_map<unsigned long, std::string> _stringMap;
-    std::unordered_map<unsigned long, std::string> _identifierMap;
+    std::unordered_map<uint64_t, std::string> _intMap;
+    std::unordered_map<uint64_t, std::string> _floatMap;
+    std::unordered_map<uint64_t, char> _charMap;
+    std::unordered_map<uint64_t, std::string> _stringMap;
+    std::unordered_map<uint64_t, std::string> _identifierMap;
 public:
     TokenTable();
-    std::string getInt(unsigned long key);
-    std::string getFloat(unsigned long key);
-    char getChar(unsigned long key);
-    std::string getString(unsigned long key);
-    std::string getIdentifier(unsigned long key);
-    void setInt(unsigned long key, std::string value);
-    void setFloat(unsigned long key, std::string value);
-    void setChar(unsigned long key, char value);
-    void setString(unsigned long key, std::string value);
-    void setIdentifier(unsigned long key, std::string value);
+    std::string getInt(uint64_t key);
+    std::string getFloat(uint64_t key);
+    char getChar(uint64_t key);
+    std::string getString(uint64_t key);
+    std::string getIdentifier(uint64_t key);
+    void setInt(uint64_t key, std::string value);
+    void setFloat(uint64_t key, std::string value);
+    void setChar(uint64_t key, char value);
+    void setString(uint64_t key, std::string value);
+    void setIdentifier(uint64_t key, std::string value);
 };
 #endif //JETLANG_TOKEN_TABLE_H

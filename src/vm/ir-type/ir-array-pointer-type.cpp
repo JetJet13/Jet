@@ -45,7 +45,7 @@ llvm::Type* IRArrayPointerType::getElementType() {
     return _arrayElementType->getType();
 }
 
-unsigned long IRArrayPointerType::getDepth() {
+uint64_t IRArrayPointerType::getDepth() {
     auto depth = 1;
     auto irType = _arrayElementType;
     while (irType->isArrayPointerType()) {

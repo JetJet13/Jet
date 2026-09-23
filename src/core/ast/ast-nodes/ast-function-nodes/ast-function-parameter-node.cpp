@@ -28,7 +28,7 @@ void ASTFunctionParameterNode::markAsCaptured() {
     _captureCount++;
 }
 
-unsigned long ASTFunctionParameterNode::getCaptureCount() {
+uint64_t ASTFunctionParameterNode::getCaptureCount() {
     return _captureCount;
 }
 

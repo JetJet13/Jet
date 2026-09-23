@@ -85,6 +85,6 @@ llvm::Type* IRExpressionNode::getType() {
     return this->getValue()->getType();
 }
 
-llvm::Type* IRExpressionNode::getTypeAtIndex(unsigned long index) {
+llvm::Type* IRExpressionNode::getTypeAtIndex(uint64_t index) {
     return this->getValue()->getType();
 }

@@ -25,7 +25,7 @@ public:
     ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
     ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStartNode> tupleListStart, std::vector<std::shared_ptr<ASTTupleItemNode>> items, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTTupleListEndNode> tupleListEnd);
     std::vector<std::shared_ptr<ASTTupleItemNode>>* getItems();
-    unsigned long numItems();
+    uint64_t numItems();
     std::shared_ptr<ASTTupleExpressionNode> addItem(std::shared_ptr<ASTTupleItemNode> item);
     std::shared_ptr<ASTTupleExpressionNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<TypeSignature> getTypeSignature() override;

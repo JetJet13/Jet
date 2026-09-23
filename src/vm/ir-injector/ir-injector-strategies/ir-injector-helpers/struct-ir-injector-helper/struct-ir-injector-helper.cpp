@@ -22,7 +22,7 @@ llvm::Value* StructIRInjectorHelper::injectStructRef(std::shared_ptr<IRBlockNode
             irBlock->getBuilder()->get()->getInt64(irStructRefType->getCounterIRType()->getSizeInBytes())
     });
     auto sourceStructAllocation = structRefAllocation->getParentAllocation().value();
-    for (unsigned long i = 0; i < irStructType->size(); ++i) {
+    for (uint64_t i = 0; i < irStructType->size(); ++i) {
         auto irTypeAtIndex = irStructType->getIRTypeByIndex(i);
         auto destinationPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructType->getType(), destinationStructMalloc, i);
         if (irTypeAtIndex->isArrayPointerType()) {
@@ -77,7 +77,7 @@ llvm::Value* StructIRInjectorHelper::injectStructRefCopy(std::shared_ptr<IRBlock
     });
     auto loadedStructRef = InstructionIRInjectorHelper::injectLoad(irStructRefType->getType(), structRefSource, irBlock, irStructRefType);
     auto structSource = irBlock->getBuilder()->get()->CreateExtractValue(loadedStructRef, irStructRefType->getStructIndex());
-    for (unsigned long i = 0; i < irStructRefType->getStructIRType()->size(); ++i) {
+    for (uint64_t i = 0; i < irStructRefType->getStructIRType()->size(); ++i) {
         auto irTypeAtIndex = irStructRefType->getStructIRType()->getIRTypeByIndex(i);
         auto destinationPointer = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getStructIRType()->getType(), destinationStructAllocation, i);
         auto pointerToStructValue = irBlock->getBuilder()->get()->CreateStructGEP(irStructRefType->getStructIRType()->getType(), structSource, i);

@@ -8,8 +8,8 @@
 std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_ptr<ClassTypeSignature> classTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = std::dynamic_pointer_cast<IRClassType>(scope->findGlobalType(classTypeSignature->getModuleId(), classTypeSignature->getId()).value());
     auto classPropertyTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : classTypeSignature->getInstanceProperties()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);
@@ -41,7 +41,7 @@ std::shared_ptr<IRClassType> ClassTypeSignatureIRStrategy::generate(std::shared_
         );
     }
 
-    for (unsigned long i = 0; i < classTypeSignature->getInstanceMethods()->size(); ++i) {
+    for (uint64_t i = 0; i < classTypeSignature->getInstanceMethods()->size(); ++i) {
         auto keyValue = classTypeSignature->getInstanceMethods()->getKeyValues()[i];
         auto methodReturnType = irGenerator->generateTypeFor(keyValue.second->getReturnType()->convertToVariableTypeSignature(), scope, irContext);
         auto methodParameters = irGenerator->generateParameterList(

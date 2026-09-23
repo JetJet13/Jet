@@ -34,7 +34,7 @@ public:
     std::optional<std::shared_ptr<ASTTypeNode>> getReturnType();
     std::shared_ptr<ASTFunctionBlockNode> getBlock();
     bool isStatic();
-    unsigned long numParameters();
+    uint64_t numParameters();
     void setTypeSignature(std::shared_ptr<ClassMethodTypeSignature> typeSignature);
     std::shared_ptr<ClassMethodTypeSignature> getMethodTypeSignature();
     std::shared_ptr<TypeSignature> getTypeSignature() override;

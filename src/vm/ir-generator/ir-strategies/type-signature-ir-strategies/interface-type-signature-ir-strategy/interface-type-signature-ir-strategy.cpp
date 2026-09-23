@@ -9,8 +9,8 @@
 std::shared_ptr<IRStructType> InterfaceTypeSignatureIRStrategy::generate(std::shared_ptr<InterfaceTypeSignature> interfaceTypeSignature, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
 
     auto interfacePropertyTypes = std::vector<llvm::Type*>();
-    auto keyIndexMap = std::unordered_map<std::string, unsigned long>();
-    auto keyIdMap = std::unordered_map<unsigned long, std::string>();
+    auto keyIndexMap = std::unordered_map<std::string, uint64_t>();
+    auto keyIdMap = std::unordered_map<uint64_t, std::string>();
     auto keyTypeMap = std::unordered_map<std::string, std::shared_ptr<IRType>>();
     for (auto keyValue : interfaceTypeSignature->getKeyValuePairs()->getKeyValues()) {
         auto irType = irGenerator->generateTypeFor(keyValue.second, scope, irContext);

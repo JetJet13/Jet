@@ -71,7 +71,7 @@ bool FunctionTypeSignature::hasVariableLengthParameters() {
     return _parameterList->isVariableLength();
 }
 
-unsigned long FunctionTypeSignature::getVariableLengthParametersStartIndex() {
+uint64_t FunctionTypeSignature::getVariableLengthParametersStartIndex() {
     return _parameterList->getVariableLengthStartIndex();
 }
 

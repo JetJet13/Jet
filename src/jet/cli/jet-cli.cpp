@@ -13,10 +13,10 @@ int main (int argc, const char* argv[]) {
     targetOption->check(CLI::IsMember({
         "x86_64-macos",        // MacOS x64
         "aarch64-macos",       // MacOS arm64
-        "x86_64-linux-gnu",    // Linux x64
-        "aarch64-linux-gnu",   // Linux arm64
-        "x86_64-windows-msvc", // Windows x64
-        "aarch64-windows-msvc" // Windows arm64
+        "x86_64-linux-gnu",    // Linux GNU x64
+        "aarch64-linux-gnu",   // Linux GNU arm64
+        "x86_64-unknown-musl", // Linux MUSL x64
+        "aarch64-unknown-musl" // Linux MUSL arm64
     }));
     CLI11_PARSE(app, argc, argv);
 

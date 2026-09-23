@@ -21,7 +21,7 @@ std::shared_ptr<ASTExpressionNode> ASTFunctionInvocationExpressionNode::getFunct
     return _function;
 }
 
-unsigned long ASTFunctionInvocationExpressionNode::numArguments() {
+uint64_t ASTFunctionInvocationExpressionNode::numArguments() {
     return _arguments->numArguments();
 }
 

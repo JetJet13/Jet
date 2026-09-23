@@ -26,7 +26,7 @@ std::string IRClassInstanceType::getIRPropertyName(std::string propertyName) {
     return _irClassType->getIRPropertyName(std::move(propertyName));
 }
 
-unsigned long IRClassInstanceType::getIndexForProperty(std::string propertyName) {
+uint64_t IRClassInstanceType::getIndexForProperty(std::string propertyName) {
     return this->getIRClassPropertiesType()->getStructIRType()->getIndexForKey(this->getIRPropertyName(propertyName));
 }
 

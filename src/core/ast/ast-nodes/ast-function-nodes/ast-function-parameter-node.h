@@ -21,13 +21,13 @@ private:
     std::shared_ptr<ASTTypeColonNode> _colon;
     std::shared_ptr<ASTTypeNode> _type;
     std::shared_ptr<ParameterListItemTypeSignature> _typeSignature = std::make_shared<ParameterListItemTypeSignature>("_", std::make_shared<UnknownTypeSignature>());
-    unsigned long _captureCount = 0;
+    uint64_t _captureCount = 0;
 public:
     ASTFunctionParameterNode(std::shared_ptr<ASTIdentifierExpressionNode> identifier, std::shared_ptr<ASTTypeColonNode> colon, std::shared_ptr<ASTTypeNode> type);
     std::shared_ptr<ASTIdentifierExpressionNode> getIdentifier();
     std::shared_ptr<ASTTypeNode> getType();
     void markAsCaptured();
-    unsigned long getCaptureCount();
+    uint64_t getCaptureCount();
     bool isCaptured();
     void setTypeSignature(std::shared_ptr<ParameterListItemTypeSignature> typeSignature);
     std::shared_ptr<ParameterListItemTypeSignature> getParameterTypeSignature();

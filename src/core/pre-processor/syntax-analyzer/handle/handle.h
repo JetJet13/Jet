@@ -40,7 +40,7 @@ public:
     bool hasOneAndOnlyNode();
     void clear();
     void reset();
-    unsigned long size();
+    uint64_t size();
     std::vector<std::shared_ptr<ASTNode>> getFirstNodes(int numNodesToGet);
     void removeFirstNodes(int numNodesToRemove);
     void removeFirstNode();

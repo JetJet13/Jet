@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>> ASTImplementsInterf
     return _interfaceNames;
 }
 
-unsigned long ASTImplementsInterfaceListNode::numInterfaces() {
+uint64_t ASTImplementsInterfaceListNode::numInterfaces() {
     return _interfaceNames.size();
 }
 
@@ -67,7 +67,7 @@ bool ASTImplementsInterfaceListNode::isSameAs(std::shared_ptr<ASTNode> other) {
     if (this->numInterfaces() != otherNode->numInterfaces()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numInterfaces(); i++) {
+    for (uint64_t i = 0; i < this->numInterfaces(); i++) {
         if (!_interfaceNames[i]->isSameAs(otherNodeElements[i])) {
             return false;
         }
@@ -87,7 +87,7 @@ std::string ASTImplementsInterfaceListNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder.add(_implements);
 
-    for (unsigned long i = 0; i < _interfaceNames.size(); ++i) {
+    for (uint64_t i = 0; i < _interfaceNames.size(); ++i) {
         sourceCodeBuilder.add(_interfaceNames.at(i));
         if (i < _commas.size() ) {
             sourceCodeBuilder.add(_commas.at(i));

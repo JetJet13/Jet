@@ -83,8 +83,8 @@ std::optional<std::shared_ptr<IRClassPreConstructorNode>> ClassDeclarationIRStra
     functionBlock->getScope()->insert(irClassType->getClassScopeParameterType().value()->getName(), classScopeParameterAllocation);
     functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(0), classScopeParameterAllocation));
 
-    auto initialPropertyIRExpressions = std::vector<std::pair<unsigned long, std::shared_ptr<IRExpressionNode>>>();
-    auto initialPropertyConstants = std::vector<std::pair<unsigned long, llvm::Constant*>>();
+    auto initialPropertyIRExpressions = std::vector<std::pair<uint64_t, std::shared_ptr<IRExpressionNode>>>();
+    auto initialPropertyConstants = std::vector<std::pair<uint64_t, llvm::Constant*>>();
     for (int i = 0; i < node->getBlock()->getInstanceProperties()->size(); ++i) {
         auto property = node->getBlock()->getInstanceProperties()->at(i);
         auto propertyIndex = irClassType->getClassProperties()->getStructIRType()->getIndexForKey(property->getId());
@@ -112,7 +112,7 @@ std::shared_ptr<IRClassConstructorNode> ClassDeclarationIRStrategy::generate(std
 
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, constructorScope);
 
-    for (unsigned long i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
+    for (uint64_t i = 0; i < irFunction->getFunctionType()->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
@@ -139,7 +139,7 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generate(std::sha
     methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, methodScope);
 
-    for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
+    for (uint64_t i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));
@@ -184,7 +184,7 @@ std::shared_ptr<IRClassMethodNode> ClassDeclarationIRStrategy::generateStatic(st
     methodScope->insert(scopeParameter->getParameterType()->getName(), scopeParameter->getAllocation());
     auto functionBlock = irGenerator->generateFunctionBlock(irFunction, methodScope);
 
-    for (unsigned long i = 0; i < functionType->getNumParams(); ++i) {
+    for (uint64_t i = 0; i < functionType->getNumParams(); ++i) {
         auto formalParameter = functionParameterList->getParameters()->at(i);
         auto functionParameterAllocation = formalParameter->getAllocation();
         functionBlock->insert(std::make_shared<IRFunctionParameterDeclarationNode>(irFunction->getArg(i), functionParameterAllocation, formalParameter->getArc()));

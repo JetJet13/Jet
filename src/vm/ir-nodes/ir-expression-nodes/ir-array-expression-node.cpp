@@ -59,11 +59,11 @@ std::shared_ptr<Position> IRArrayExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-unsigned long IRArrayExpressionNode::size() {
+uint64_t IRArrayExpressionNode::size() {
     return _irValues.size();
 }
 
-llvm::Type* IRArrayExpressionNode::getTypeAtIndex(unsigned long index) {
+llvm::Type* IRArrayExpressionNode::getTypeAtIndex(uint64_t index) {
     return _irValue->getIRType()->getUnderlyingType()->getType()->getArrayElementType();
 }
 

@@ -22,7 +22,7 @@ public:
     ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::shared_ptr<ASTInterfaceEndNode> endNode);
     ASTInterfacePropertyListNode(std::shared_ptr<ASTInterfaceStartNode> startNode, std::vector<std::shared_ptr<ASTInterfacePropertyNode>> properties, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTInterfaceEndNode> endNode);
     std::vector<std::shared_ptr<ASTInterfacePropertyNode>> getProperties();
-    unsigned long numProperties();
+    uint64_t numProperties();
     std::shared_ptr<ASTInterfacePropertyListNode> addProperty(std::shared_ptr<ASTInterfacePropertyNode> property);
     std::shared_ptr<ASTInterfacePropertyListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

@@ -23,40 +23,34 @@ TEST_CASE( "should create expected vm code" ) {
     std::string expectedOutputFilePath = "./ir-generator-test-expected-output.ir";
     std::string outputFileName = "ir-generator-test-output.ir";
     std::string outputFilePath = "./" + outputFileName;
-    auto tokenTable = new TokenTable();
-    auto reservedKeywords = new ReservedKeywords();
-    auto lexicalAnalyzer = new LexicalAnalyzer(tokenTable, reservedKeywords);
-    auto syntaxAnalyzer = new SyntaxAnalyzer(tokenTable, lexicalAnalyzer);
-    auto semanticAnalyzer = new SemanticAnalyzer();
-    auto preProcessor = new PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+    auto tokenTable = std::make_shared<TokenTable>();
+    auto reservedKeywords = std::make_shared<ReservedKeywords>();
+    auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
+    auto syntaxAnalyzer = std::make_shared<SyntaxAnalyzer>(tokenTable, lexicalAnalyzer);
+    auto semanticAnalyzer = std::make_shared<SemanticAnalyzer>();
+    auto preProcessor = std::make_shared<PreProcessor>(syntaxAnalyzer, semanticAnalyzer);
     auto jetFileResult = preProcessor->process(filePath);
     jetFileResult->getScope()->dump();
     jetFileResult->getTypeCheckerResult()->printErrors();
     REQUIRE(jetFileResult->getTypeCheckerResult()->ok());
-    auto postProcessor = PostProcessor();
-    postProcessor.process(jetFileResult);
-    auto irInjector = new IRInjector();
+    auto irInjector = std::make_shared<IRInjector>();
     auto irGenerator = IRGenerator(irInjector);
     auto irModule = irGenerator.generateModule(filePath);
-    irGenerator.initModule(irModule);
     auto irMainFunction = irGenerator.generateMainFunction("main", irModule);
     auto irMainFunctionBlock = irGenerator.generateFunctionBlock(irMainFunction->getFunction());
     auto irContext = irGenerator.generateContext(irMainFunctionBlock, irModule);
-    auto irLookupTable = IRLookupTable();
-    llvm::Linker::linkModules(
-        *irModule->getModule(),
-        std::unique_ptr<llvm::Module>(irGenerator.generateUtilInternalModule()->getModule())
-    );
+    auto irLookupTable = std::make_shared<IRLookupTable>();
+    irGenerator.augmentUtilInternalModule(irModule);
     std::error_code streamError;
     auto ostream = std::make_unique<llvm::raw_fd_ostream>(outputFilePath, streamError, llvm::sys::fs::FileAccess('r'));
     for (auto node : *jetFileResult->getFile()->getBody()) {
-        auto value = irGenerator.generateFor((ASTDeclarationNode*)node, &irLookupTable, irContext);
-        irInjector->inject(irMainFunctionBlock, value, irModule, &irLookupTable);
+        auto value = irGenerator.generateFor(std::dynamic_pointer_cast<ASTDeclarationNode>(node), irLookupTable, irContext);
+        irInjector->inject(irMainFunctionBlock, value, irModule, irLookupTable);
         if (streamError.value() > 0) {
             throw std::logic_error(streamError.message());
         }
     }
-    irModule->getModule()->print(*ostream, nullptr);
+    irModule->getModule()->get()->print(*ostream, nullptr);
     ostream->close();
     auto fileEqualityChecker = FileEqualityChecker();
     REQUIRE(fileEqualityChecker.areFilesEqual(expectedOutputFilePath, outputFilePath));

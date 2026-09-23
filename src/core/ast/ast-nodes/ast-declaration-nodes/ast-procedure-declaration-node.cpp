@@ -35,7 +35,7 @@ std::shared_ptr<ASTProcedureDefinitionNode> ASTProcedureDeclarationNode::getDefi
     return _procedureDefinition;
 }
 
-unsigned long ASTProcedureDeclarationNode::numParameters() {
+uint64_t ASTProcedureDeclarationNode::numParameters() {
     return _procedureDefinition->numParameters();
 }
 

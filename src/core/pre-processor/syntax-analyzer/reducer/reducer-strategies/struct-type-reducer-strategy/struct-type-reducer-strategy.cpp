@@ -12,7 +12,7 @@ std::shared_ptr<ASTNode> StructTypeReducerStrategy::execute(std::vector<std::sha
             std::dynamic_pointer_cast<ASTStructTypeEndNode>(nodes[nodes.size() - 1])
     );
 
-    for (unsigned long i = 1; i < nodes.size() - 1; ++i) {
+    for (uint64_t i = 1; i < nodes.size() - 1; ++i) {
         auto node = nodes[i];
         if (i % 2 == 1 && node->is(AST_STRUCT_TYPE_KEY_NODE)) {
             structTypeNode->addKeyValueType(std::dynamic_pointer_cast<ASTStructTypeKeyValueNode>(node));

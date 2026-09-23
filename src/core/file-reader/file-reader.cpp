@@ -94,7 +94,7 @@ void FileReader::setCursor(Cursor cursor) {
     _cursor = cursor;
 }
 
-unsigned long FileReader::getPeekLine() {
+uint64_t FileReader::getPeekLine() {
     auto nextChar = this->peek();
     if (!nextChar) {
         return -1;
@@ -106,7 +106,7 @@ unsigned long FileReader::getPeekLine() {
     return _cursor.line;
 }
 
-unsigned long FileReader::getPeekColumn() {
+uint64_t FileReader::getPeekColumn() {
     auto nextChar = this->peek();
     if (!nextChar) {
         return -1;
@@ -118,7 +118,7 @@ unsigned long FileReader::getPeekColumn() {
     return _cursor.column;
 }
 
-unsigned long FileReader::getNumAdvances() const {
+uint64_t FileReader::getNumAdvances() const {
     return _numAdvances;
 }
 

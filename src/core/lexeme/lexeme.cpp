@@ -13,7 +13,7 @@ Lexeme::Lexeme(std::shared_ptr<Token> token) {
     _endPosition = std::make_shared<Position>();
 }
 
-Lexeme::Lexeme(std::shared_ptr<Token> token, unsigned long startLine, unsigned long startColumn, unsigned long endLine, unsigned long endColumn) {
+Lexeme::Lexeme(std::shared_ptr<Token> token, uint64_t startLine, uint64_t startColumn, uint64_t endLine, uint64_t endColumn) {
     _token = token;
     _startPosition = std::make_shared<Position>(startLine, startColumn);
     _endPosition = std::make_shared<Position>(endLine, endColumn);

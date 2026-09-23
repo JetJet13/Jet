@@ -32,7 +32,7 @@ bool LambdaTypeSignature::doArgumentsMatchParameters(std::shared_ptr<ArgumentLis
         return false;
     }
 
-    for (unsigned long i = 0; i < this->numParameters(); ++i) {
+    for (uint64_t i = 0; i < this->numParameters(); ++i) {
         auto parameter = _parameterTypes[i];
         auto argument = argumentListTypeSignature->getArgumentTypes()->at(i);
         if (!parameter->isEquivalentTo(argument)) {
@@ -78,7 +78,7 @@ bool LambdaTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
     if (this->numParameters() != other->numParameters()) {
         return false;
     }
-    for (unsigned long i = 0; i < this->numParameters(); i++) {
+    for (uint64_t i = 0; i < this->numParameters(); i++) {
         if (!_parameterTypes[i]->isEquivalentTo(otherParameters->at(i))) {
             return false;
         }

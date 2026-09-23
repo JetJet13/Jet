@@ -6,7 +6,7 @@
 #include "../../shared/utils/logger/logger.h"
 #include "ir-struct-ref-type.h"
 
-IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, unsigned long> keyIndexMap, std::unordered_map<unsigned long, std::string> keyIdMap, std::unordered_map<std::string, std::shared_ptr<IRType>> keyTypeMap) : IRType(type) {
+IRStructType::IRStructType(llvm::StructType *type, std::unordered_map<std::string, uint64_t> keyIndexMap, std::unordered_map<uint64_t, std::string> keyIdMap, std::unordered_map<std::string, std::shared_ptr<IRType>> keyTypeMap) : IRType(type) {
     _type = type;
     _keyIndexMap = keyIndexMap;
     _keyIdMap = keyIdMap;
@@ -24,7 +24,7 @@ void IRStructType::makeGlobal(std::string id, std::unique_ptr<llvm::LLVMContext>
 void IRStructType::setAlignmentAndSizeForIRTypes() {
     auto alignment = this->getAlignment();
     auto spaceRemaining = alignment.value();
-    for (unsigned long i = 0; i < this->size(); ++i) {
+    for (uint64_t i = 0; i < this->size(); ++i) {
         auto currentType = this->getIRTypeByIndex(i);
         currentType->setAlignmentOverride(alignment);
         if (currentType->isStructRefType()) {
@@ -45,7 +45,7 @@ void IRStructType::setAlignmentAndSizeForIRTypes() {
 
 }
 
-unsigned long IRStructType::size() {
+uint64_t IRStructType::size() {
     return _type->getNumElements();
 }
 
@@ -76,8 +76,8 @@ llvm::Align IRStructType::getAlignment() {
     if (_alignmentOverride) {
         return _alignmentOverride.value();
     }
-    unsigned long largestSize = 1;
-    for (unsigned long i = 0; i < this->getType()->getStructNumElements(); i++) {
+    uint64_t largestSize = 1;
+    for (uint64_t i = 0; i < this->getType()->getStructNumElements(); i++) {
         auto structElementSize = this->getIRTypeByIndex(i)->getAlignment().value();
         if (structElementSize > largestSize) {
             largestSize = structElementSize;
@@ -87,7 +87,7 @@ llvm::Align IRStructType::getAlignment() {
     return llvm::Align(std::pow(2, largestPowerOfTwo));
 }
 
-std::string IRStructType::getKeyForIndex(unsigned long index) {
+std::string IRStructType::getKeyForIndex(uint64_t index) {
     for (const auto& keyValue : _keyIndexMap) {
         if (keyValue.second == index) {
             return keyValue.first;
@@ -96,7 +96,7 @@ std::string IRStructType::getKeyForIndex(unsigned long index) {
     throw std::logic_error("no key found for index: " + std::to_string(index));
 }
 
-std::string IRStructType::getKeyIdForIndex(unsigned long index) {
+std::string IRStructType::getKeyIdForIndex(uint64_t index) {
     for (const auto& keyValue : _keyIdMap) {
         if (keyValue.first == index) {
             return keyValue.second;
@@ -105,7 +105,7 @@ std::string IRStructType::getKeyIdForIndex(unsigned long index) {
     throw std::logic_error("no key id found for index: " + std::to_string(index));
 }
 
-unsigned long IRStructType::getIndexForKey(std::string key) {
+uint64_t IRStructType::getIndexForKey(std::string key) {
     auto result = _keyIndexMap.find(key);
     if (result == _keyIndexMap.end()) {
         throw std::logic_error("no struct index found for key: " + key);
@@ -114,7 +114,7 @@ unsigned long IRStructType::getIndexForKey(std::string key) {
     }
 }
 
-unsigned long IRStructType::getIndexForKey(unsigned long indexAsKey) {
+uint64_t IRStructType::getIndexForKey(uint64_t indexAsKey) {
     return this->getIndexForKey(std::to_string(indexAsKey));
 }
 
@@ -127,7 +127,7 @@ std::shared_ptr<IRType> IRStructType::getIRTypeForKey(std::string key) {
     }
 }
 
-std::shared_ptr<IRType> IRStructType::getIRTypeByIndex(unsigned long index) {
+std::shared_ptr<IRType> IRStructType::getIRTypeByIndex(uint64_t index) {
     for (auto keyValue : _keyIndexMap) {
         if (keyValue.second == index) {
             return this->getIRTypeForKey(keyValue.first);

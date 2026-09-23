@@ -11,7 +11,7 @@ std::shared_ptr<ASTNode> IfStatementReducerStrategy::execute(std::vector<std::sh
     }
     auto elseIfBlocks = std::vector<std::shared_ptr<ASTElseIfBlockNode>>();
     auto elseBlock = std::optional<std::shared_ptr<ASTElseBlockNode>>();
-    for (unsigned long i = 1; i < nodes.size() ; i++) {
+    for (uint64_t i = 1; i < nodes.size() ; i++) {
         if (nodes[i]->is(AST_ELSE_IF_BLOCK_NODE)) {
             elseIfBlocks.push_back(std::dynamic_pointer_cast<ASTElseIfBlockNode>(nodes[i]));
         }

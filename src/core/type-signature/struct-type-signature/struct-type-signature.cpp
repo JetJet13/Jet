@@ -31,7 +31,7 @@ std::shared_ptr<TypeSignature> StructTypeSignature::getTypeSignatureForKey(std::
     return std::make_shared<UnknownTypeSignature>();
 }
 
-std::shared_ptr<TypeSignature> StructTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> StructTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= _keyValuePairs.size()) {
         return std::make_shared<UnknownTypeSignature>();
     }

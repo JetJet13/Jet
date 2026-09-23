@@ -44,7 +44,7 @@ std::shared_ptr<Position> IRIdentifierExpressionNode::getEndPosition() {
     return _node->getEndPosition();
 }
 
-llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(unsigned long index) {
+llvm::Type* IRIdentifierExpressionNode::getTypeAtIndex(uint64_t index) {
     auto type = _irValue->getIRType()->getUnderlyingType()->getType();
     if (type->isArrayTy()) {
         return type->getArrayElementType();

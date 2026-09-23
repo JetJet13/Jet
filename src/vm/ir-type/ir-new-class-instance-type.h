@@ -21,7 +21,7 @@ public:
     std::shared_ptr<IRFunctionType> getIRConstructorType();
     std::string getIRMethodName(std::string methodName);
     std::string getIRPropertyName(std::string propertyName);
-    unsigned long getIndexForProperty(std::string propertyName);
+    uint64_t getIndexForProperty(std::string propertyName);
     std::shared_ptr<IRType> getIRTypeForProperty(std::string propertyName);
     std::optional<std::shared_ptr<IRFunctionType>> getIRTypeForMethod(std::string methodName);
     uint64_t getSizeInBytes() override;

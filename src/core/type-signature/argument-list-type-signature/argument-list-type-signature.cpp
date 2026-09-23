@@ -17,7 +17,7 @@ std::vector<std::shared_ptr<TypeSignature>>* ArgumentListTypeSignature::getArgum
     return &_argumentTypes;
 }
 
-unsigned long ArgumentListTypeSignature::numParameters() {
+uint64_t ArgumentListTypeSignature::numParameters() {
     return _argumentTypes.size();
 }
 
@@ -48,7 +48,7 @@ bool ArgumentListTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherTy
         return false;
     }
 
-    for (unsigned long i = 0; i < this->numParameters(); i++) {
+    for (uint64_t i = 0; i < this->numParameters(); i++) {
         if (!_argumentTypes[i]->isEqualTo(otherArgumentTypes->at(i))) {
             return false;
         }

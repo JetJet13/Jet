@@ -12,7 +12,7 @@ TupleTypeSignature::TupleTypeSignature() {
 
 TupleTypeSignature::TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature>>* elementTypes) {
     _keyValuePairs = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
-    for (unsigned long i = 0; i < elementTypes->size(); ++i) {
+    for (uint64_t i = 0; i < elementTypes->size(); ++i) {
         auto key = std::to_string(i);
         auto value = elementTypes->at(i);
         _keyValuePairs.insert(key, value);
@@ -22,7 +22,7 @@ TupleTypeSignature::TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature
 TupleTypeSignature::TupleTypeSignature(std::vector<std::shared_ptr<TypeSignature>> elementTypes) {
     _id = "jet.tuple";
     _keyValuePairs = TypeSignatureMap<std::shared_ptr<TypeSignature>>();
-    for (unsigned long i = 0; i < elementTypes.size(); ++i) {
+    for (uint64_t i = 0; i < elementTypes.size(); ++i) {
         auto key = std::to_string(i);
         auto value = elementTypes[i];
         _id += "_" + value->getId();
@@ -42,14 +42,14 @@ std::shared_ptr<TypeSignature> TupleTypeSignature::getTypeSignatureForKey(std::s
     return std::make_shared<UnknownTypeSignature>();
 }
 
-std::shared_ptr<TypeSignature> TupleTypeSignature::getTypeSignatureAtIndex(unsigned long index) {
+std::shared_ptr<TypeSignature> TupleTypeSignature::getTypeSignatureAtIndex(uint64_t index) {
     if (index >= this->size()) {
         return std::make_shared<UnknownTypeSignature>();
     }
     return _keyValuePairs.find(std::to_string(index)).value();
 }
 
-unsigned long TupleTypeSignature::size() {
+uint64_t TupleTypeSignature::size() {
     return _keyValuePairs.size();
 }
 

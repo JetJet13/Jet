@@ -25,7 +25,7 @@ public:
     llvm::PointerType* getAllocType();
     std::shared_ptr<IRType> getElementIRType();
     llvm::Type* getElementType();
-    unsigned long getDepth();
+    uint64_t getDepth();
     uint64_t getSizeInBytes() override;
     void setAlignmentOverride(llvm::Align alignmentOverride) override;
     bool containsTypeThatRequiresFreeing() override;

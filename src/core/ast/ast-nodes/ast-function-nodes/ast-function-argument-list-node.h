@@ -25,7 +25,7 @@ public:
     ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
     ASTFunctionArgumentListNode(std::shared_ptr<ASTFunctionArgumentListStartNode> functionArgumentListStartNode, std::vector<std::shared_ptr<ASTFunctionArgumentNode>> arguments, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTFunctionArgumentListEndNode> functionArgumentListEndNode);
     std::vector<std::shared_ptr<ASTFunctionArgumentNode>>* getArguments();
-    unsigned long numArguments();
+    uint64_t numArguments();
     std::shared_ptr<ASTFunctionArgumentListNode> addArgument(std::shared_ptr<ASTFunctionArgumentNode> argument);
     std::shared_ptr<ASTFunctionArgumentListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<TypeSignature> getTypeSignature() override;

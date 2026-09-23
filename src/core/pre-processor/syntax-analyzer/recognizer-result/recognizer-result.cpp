@@ -4,7 +4,7 @@
 
 #include "recognizer-result.h"
 
-RecognizerResult::RecognizerResult(RecognizerAction recognizerAction, unsigned long numReducedNodes, ASTNodeType targetAstNodeType) {
+RecognizerResult::RecognizerResult(RecognizerAction recognizerAction, uint64_t numReducedNodes, ASTNodeType targetAstNodeType) {
     _recognizerAction = recognizerAction;
     _targetAstNodeType = targetAstNodeType;
     _numReducedNodes = numReducedNodes;

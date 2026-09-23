@@ -7,8 +7,8 @@
 
 void UniqueTypeSignatureKeysTypeCheckerRule::enforce(std::vector<std::string>* keys, ErrorMessageLambda& nonUniqueMessage, TypeCheckerResult* typeCheckerResult) {
     auto sameKeys = std::vector<std::string>();
-    for (unsigned long i = 0; i < keys->size(); ++i) {
-        for (unsigned long j = i + 1; j < keys->size(); ++j) {
+    for (uint64_t i = 0; i < keys->size(); ++i) {
+        for (uint64_t j = i + 1; j < keys->size(); ++j) {
             auto key = keys->at(i);
             auto otherKey = keys->at(j);
             if (key == otherKey) {

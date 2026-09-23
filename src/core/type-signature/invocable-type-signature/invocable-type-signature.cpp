@@ -25,7 +25,7 @@ bool InvocableTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> other
         return false;
     }
 
-    for (unsigned long i = 0; i < this->getParameterTypes()->size(); ++i) {
+    for (uint64_t i = 0; i < this->getParameterTypes()->size(); ++i) {
         if (!this->getParameterTypes()->at(i)->isEquivalentTo(other->getParameterTypes()->at(i))) {
             return false;
         }
@@ -54,6 +54,6 @@ bool InvocableTypeSignature::hasVariableLengthParameters() {
     return false;
 }
 
-unsigned long InvocableTypeSignature::getVariableLengthParametersStartIndex() {
+uint64_t InvocableTypeSignature::getVariableLengthParametersStartIndex() {
     return -1;
 }

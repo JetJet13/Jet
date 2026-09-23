@@ -15,7 +15,7 @@ void ASTForInVariableNode::markAsCaptured() {
     _captureCount++;
 }
 
-unsigned long ASTForInVariableNode::getCaptureCount() {
+uint64_t ASTForInVariableNode::getCaptureCount() {
     return _captureCount;
 }
 

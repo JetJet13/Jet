@@ -33,7 +33,7 @@ public:
     virtual std::optional<std::shared_ptr<IRInstructionNode>> getSourceAllocation();
     virtual std::optional<std::shared_ptr<IRInstructionNode>> getArc();
     virtual llvm::Type* getType();
-    virtual llvm::Type* getTypeAtIndex(unsigned long index);
+    virtual llvm::Type* getTypeAtIndex(uint64_t index);
     virtual llvm::Value* getValue() = 0;
     virtual std::shared_ptr<IRType> getIRType() = 0;
     virtual std::shared_ptr<TypeSignature> getTypeSignature() = 0;

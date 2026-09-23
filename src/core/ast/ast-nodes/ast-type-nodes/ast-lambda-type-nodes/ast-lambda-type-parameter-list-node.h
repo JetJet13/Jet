@@ -22,7 +22,7 @@ public:
     ASTLambdaTypeParameterListNode(std::shared_ptr<ASTLambdaTypeParameterListStartNode> startNode, std::shared_ptr<ASTLambdaTypeParameterListEndNode> endNode);
     ASTLambdaTypeParameterListNode(std::shared_ptr<ASTLambdaTypeParameterListStartNode> startNode, std::vector<std::shared_ptr<ASTTypeNode>> parameters, std::vector<std::shared_ptr<ASTCommaNode>> commas, std::shared_ptr<ASTLambdaTypeParameterListEndNode> endNode);
     std::vector<std::shared_ptr<ASTTypeNode>> getParameters();
-    unsigned long numParameters();
+    uint64_t numParameters();
     std::shared_ptr<ASTLambdaTypeParameterListNode> addParameter(std::shared_ptr<ASTTypeNode> parameter);
     std::shared_ptr<ASTLambdaTypeParameterListNode> addComma(std::shared_ptr<ASTCommaNode> comma);
     std::shared_ptr<Position> getStartPosition() override;

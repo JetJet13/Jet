@@ -8,7 +8,7 @@
 
 std::shared_ptr<IRFunctionParameterListNode> FunctionParameterListIRStrategy::generate(std::shared_ptr<ASTFunctionParameterListNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, llvm::Function* irFunction) {
     auto functionParameters = std::vector<std::shared_ptr<IRFunctionParameterNode>>();
-    for (unsigned long i = 0; i < node->getParameters().size(); ++i) {
+    for (uint64_t i = 0; i < node->getParameters().size(); ++i) {
         auto parameter = node->getParameters()[i];
         auto parameterType = irGenerator->generateParameterType(parameter->getParameterTypeSignature(), scope, irContext);
         auto argument = new llvm::Argument(parameterType->getType(), parameterType->getName(), irFunction, i);

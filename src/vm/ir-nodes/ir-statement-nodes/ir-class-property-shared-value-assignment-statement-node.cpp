@@ -4,7 +4,7 @@
 
 #include "ir-class-property-shared-value-assignment-statement-node.h"
 
-IRClassPropertySharedValueAssignmentStatementNode::IRClassPropertySharedValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::string propertyName, unsigned long propertyIndex) {
+IRClassPropertySharedValueAssignmentStatementNode::IRClassPropertySharedValueAssignmentStatementNode(std::shared_ptr<ASTClassPropertySharedValueAssignmentStatementNode> node, std::shared_ptr<IRExpressionNode> irExpression, std::string propertyName, uint64_t propertyIndex) {
     _node = node;
     _irExpression = irExpression;
     _propertyName = propertyName;
@@ -15,7 +15,7 @@ std::shared_ptr<IRExpressionNode> IRClassPropertySharedValueAssignmentStatementN
     return _irExpression;
 }
 
-unsigned long IRClassPropertySharedValueAssignmentStatementNode::getPropertyIndex() {
+uint64_t IRClassPropertySharedValueAssignmentStatementNode::getPropertyIndex() {
     return _propertyIndex;
 }
 

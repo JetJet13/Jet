@@ -24,7 +24,7 @@ public:
     std::shared_ptr<TypeSignature> getTypeSignature() override;
     std::shared_ptr<ArrayTypeSignature> getArrayTypeSignature();
     void setTypeSignature(std::shared_ptr<ArrayTypeSignature> arrayTypeSignature);
-    unsigned long size();
+    uint64_t size();
     std::shared_ptr<Position> getStartPosition() override;
     std::shared_ptr<Position> getEndPosition() override;
     ASTNodeType getNodeType() override;

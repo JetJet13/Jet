@@ -172,7 +172,7 @@ void Handle::reset() {
     _lastReducedNode = {};
 }
 
-unsigned long Handle::size() {
+uint64_t Handle::size() {
     return _handle.size();
 }
 
@@ -186,7 +186,7 @@ std::vector<std::shared_ptr<ASTNode>> Handle::getFirstNodes(int numNodesToGet) {
         throw std::invalid_argument("numNodesToGet too large.");
     }
 
-    for (unsigned long i = 0; i < numNodesToGet; ++i) {
+    for (uint64_t i = 0; i < numNodesToGet; ++i) {
         firstNodes.push_back(_handle[i]);
     }
 
