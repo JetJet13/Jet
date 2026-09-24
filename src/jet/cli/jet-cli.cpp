@@ -15,12 +15,12 @@ int main (int argc, const char* argv[]) {
         "aarch64-macos",       // MacOS arm64
         "x86_64-linux-gnu",    // Linux GNU x64
         "aarch64-linux-gnu",   // Linux GNU arm64
-        "x86_64-unknown-musl", // Linux MUSL x64
-        "aarch64-unknown-musl" // Linux MUSL arm64
+        "x86_64-linux-musl",   // Linux MUSL x64
+        "aarch64-linux-musl"   // Linux MUSL arm64
     }));
     CLI11_PARSE(app, argc, argv);
 
-    std::string zigCommand = "zig build --build-file build.zig -j8 -Dtarget=" + target;
+    std::string zigCommand = "zig build --prefix ./zig-out/" + target + " --build-file build.zig -j8 -Dtarget=" + target;
     std::system(zigCommand.c_str());
 
     return EXIT_SUCCESS;

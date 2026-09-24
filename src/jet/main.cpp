@@ -50,7 +50,7 @@ int main (int argc, const char* argv[]) {
         // Linux ARM64 = aarch64-unknown-linux-gnu
         // Windows x86 = x86_64-pc-windows-msvc
         // Windows ARM64 = aarch64-pc-windows-msvc
-        auto TargetTriple = "aarch64-unknown-linux-gnu";
+        auto TargetTriple = "x86_64-apple-darwin";
         auto Target = llvm::TargetRegistry::lookupTarget(
                 TargetTriple,
                 targetLookupError

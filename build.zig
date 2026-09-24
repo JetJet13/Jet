@@ -56,10 +56,18 @@ pub fn build(b: *std.Build) void {
     jetExe.addLibraryPath(b.path(zlibLibraryPath));
     jetExe.addIncludePath(b.path(zstdIncludePath));
     jetExe.addLibraryPath(b.path(zstdLibraryPath));
-    jetExe.linkSystemLibrary("ncurses");
-    jetExe.linkSystemLibrary("xml2");
-    jetExe.linkSystemLibrary("zlib");
-    jetExe.linkSystemLibrary("zstd");
+    jetExe.linkSystemLibrary2("ncurses", .{
+        .preferred_link_mode = .static,
+    });
+    jetExe.linkSystemLibrary2("xml2", .{
+        .preferred_link_mode = .static,
+    });
+    jetExe.linkSystemLibrary2("zlib", .{
+        .preferred_link_mode = .static,
+    });
+    jetExe.linkSystemLibrary2("zstd", .{
+        .preferred_link_mode = .static,
+    });
 
     jetSharedLib.linkLibCpp();
     buildShared.setup(jetSharedLib, b);
