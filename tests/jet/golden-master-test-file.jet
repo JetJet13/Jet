@@ -393,6 +393,7 @@ testGlobalConstantsAndMutables();
 
 proc testExpressionsWithGlobals() {
     const addInt = 100 + globalConstantInteger - globalMutableInteger;
+    print("addInt", addInt);
     assert(addInt == 1290);
 
     const subInt = 10000 - globalConstantInteger;

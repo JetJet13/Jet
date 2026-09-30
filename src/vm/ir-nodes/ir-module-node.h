@@ -91,6 +91,7 @@ private:
     std::string _incrementLambdaRefCountFunctionName;
     std::string _incrementRefCountIfNecessaryFunctionName;
     std::string _getRefCountFunctionName;
+    std::string _getVarArgFunctionName;
 public:
     IRModuleNode(std::unique_ptr<llvm::Module> irValue,
                  std::string intAddOverflowFunctionName,
@@ -171,7 +172,8 @@ public:
                  std::string incrementRefCountFunctionName,
                  std::string incrementLambdaRefCountFunctionName,
                  std::string incrementRefCountIfNecessaryFunctionName,
-                 std::string getRefCountFunctionName);
+                 std::string getRefCountFunctionName,
+                 std::string getVarArgFunctionName);
     std::unique_ptr<llvm::Module>* getModule();
     void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
     bool isLinked();
@@ -255,6 +257,7 @@ public:
     llvm::Function* getIncrementLambdaRefCountFunction();
     llvm::Function* getIncrementRefCountIfNecessaryFunction();
     llvm::Function* getGetRefCountFunction();
+    llvm::Function* getGetVarArgFunction();
 };
 
 #endif //JETLANG_IR_MODULE_NODE_H

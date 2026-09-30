@@ -3,6 +3,8 @@
 //
 
 #include "literal-ir-literal-expression-injector-strategy.h"
+#include "../../../ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
+#include "../../../../../ir-generator/ir-util-functions/print-ir-function/print-ir-function.h"
 
 llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::inject(std::shared_ptr<IRLiteralExpressionNode> irExpression, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IROperation> irOperation, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     if (irOperation->isSharedValueAssignment()) {
@@ -27,6 +29,6 @@ llvm::Value* LiteralIRLiteralExpressionInjectorStrategy::injectOperand(std::shar
         return irExpression->getValue();
     }
     auto literalAllocation = irBlock->getBuilder()->get()->CreateAlloca(irExpression->getIRType()->getType());
-    irBlock->getBuilder()->get()->CreateStore(irExpression->getValue(), literalAllocation);
+    InstructionIRInjectorHelper::injectStore(irExpression->getValue(), literalAllocation, irBlock, irExpression->getIRType());
     return literalAllocation;
 }

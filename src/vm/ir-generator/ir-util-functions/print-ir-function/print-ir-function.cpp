@@ -433,7 +433,7 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     auto floatType = irGenerator->generateFloatType();
     auto boolType = irGenerator->generateBooleanType();
     auto arrayPointerType = irGenerator->generateIrArrayPointerType(irGenerator->generateVoidType());
-    auto functionType = llvm::FunctionType::get(voidType->getType(), { arrayPointerType->getType() }, true);
+    auto functionType = llvm::FunctionType::get(voidType->getType(), { pointerType }, true);
     auto function = llvm::Function::Create(functionType, llvm::GlobalValue::ExternalLinkage, 0, PrintIRFunction::getPrintIRFunctionName(), irModuleNode->getModule()->get());
     auto functionBlock = irGenerator->generateFunctionBlock(function);
     auto irContext = std::make_shared<IRContext>(functionBlock, irModuleNode, context);
@@ -470,10 +470,12 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     auto endBlock = irGenerator->generateIfEndBlock(irContext, functionBlock->getScope());
 
     // for loop prep
-    auto numElements = functionBlock->getBuilder()->get()->CreateExtractValue(typeValueArrayArgument, { arrayPointerType->getNumElementsIndex() });
+    auto numElementsPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), typeValueArrayArgument, arrayPointerType->getNumElementsIndex());
+    auto numElements = InstructionIRInjectorHelper::injectLoad(intIrType->getType(), numElementsPointer, functionBlock, intIrType);
 
-    auto typeValueArrayPointer = functionBlock->getBuilder()->get()->CreateExtractValue(typeValueArrayArgument, { arrayPointerType->getAllocIndex() });
-    auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerType, nullptr, "vaList");
+    auto typeValueArrayPointer = functionBlock->getBuilder()->get()->CreateStructGEP(arrayPointerType->getType(), typeValueArrayArgument, arrayPointerType->getAllocIndex());
+    auto typeValueArrayAlloc = InstructionIRInjectorHelper::injectLoad(pointerType, typeValueArrayPointer, functionBlock);
+    auto vaList = functionBlock->getBuilder()->get()->CreateAlloca(pointerIntType, irGenerator->generateIntConstant(32), "vaList");
     auto varArgAlloc = functionBlock->getBuilder()->get()->CreateCall(
             irModuleNode->getMallocFunction(),
             {
@@ -506,11 +508,12 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
 
     // for loop body
     auto forLoopBody = forLoopBodyBlock->getBuilder()->get();
-    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueArrayPointer, { forLoopIndexValue });
+    auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueArrayAlloc, {forLoopIndexValue });
     auto typeValueAtIndex = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, forLoopBodyBlock, typeValueType);
     auto typeValueIdAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, typeValueType->getIdIndex());
-    auto varArg = forLoopBody->CreateVAArg(vaList, pointerType);
-    InstructionIRInjectorHelper::injectStore(varArg, varArgAlloc, forLoopBodyBlock);
+//    auto varArg = forLoopBody->CreateVAArg(vaList, pointerType);
+//    InstructionIRInjectorHelper::injectStore(varArg, varArgAlloc, forLoopBodyBlock);
+    forLoopBody->CreateCall(irModuleNode->getGetVarArgFunction(), { varArgAlloc, vaList });
 
     forLoopBody->CreateBr(addWhitespaceIfBlock->getBlock());
     auto forLoopIndexGreaterThenZero = addWhitespaceIfBlock->getBuilder()->get()->CreateICmp(
@@ -597,7 +600,7 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     refIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintRefFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintRefFunction(),
-            { varArgAlloc, typeValueArrayPointer, forLoopIndex }
+            {varArgAlloc, typeValueArrayAlloc, forLoopIndex }
     );
 
     auto isValueTypeArray = arrayIfBlock->getBuilder()->get()->CreateICmp(
@@ -609,7 +612,7 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     arrayIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintArrayFunction()->getFunctionType(),
             irContext->getIRModule()->getPrintArrayFunction(),
-            { varArgAlloc, typeValueArrayPointer, forLoopIndex }
+            {varArgAlloc, typeValueArrayAlloc, forLoopIndex }
     );
 
     auto isValueTypeStructRef = structRefIfBlock->getBuilder()->get()->CreateICmp(
@@ -620,7 +623,7 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     structRefIfBlock->getBuilder()->get()->CreateCondBr(isValueTypeStructRef, structRefIfThenBlock->getBlock(), lambdaIfBlock->getBlock());
     structRefIfThenBlock->getBuilder()->get()->CreateCall(
             irContext->getIRModule()->getPrintStructRefFunction(),
-            { varArgAlloc, typeValueArrayPointer, forLoopIndex }
+            {varArgAlloc, typeValueArrayAlloc, forLoopIndex }
     );
 
     auto isValueTypeLambda = lambdaIfBlock->getBuilder()->get()->CreateICmp(

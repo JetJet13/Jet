@@ -860,6 +860,8 @@ add_library(jet-vm
         ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.h
         ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.cpp
         ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.h
+        ir-generator/ir-util-functions/get-vararg-ir-function/get-vararg-ir-function.cpp
+        ir-generator/ir-util-functions/get-vararg-ir-function/get-vararg-ir-function.h
 )
 
 target_link_libraries(jet-vm

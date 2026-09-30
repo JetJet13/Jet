@@ -10,7 +10,6 @@
 
 void FunctionDeclarationIRInjectorStrategy::inject(std::shared_ptr<IRFunctionDeclarationNode> irFunctionDeclaration, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule, std::shared_ptr<IRLookupTable> scope) {
     irInjector->inject(irBlock, irFunctionDeclaration->getBlock(), irModule);
-
     auto irType = std::dynamic_pointer_cast<IRInvocableType>(irFunctionDeclaration->getGlobalVariable()->getIRType()->getSourceType());
     auto functionPointer = irBlock->getBuilder()->get()->CreateStructGEP(irType->getType(), irFunctionDeclaration->getGlobalVariable()->getValue(), irType->getFunctionIndex());
     InstructionIRInjectorHelper::injectStore(irFunctionDeclaration->getValue(), functionPointer, irBlock, irType);

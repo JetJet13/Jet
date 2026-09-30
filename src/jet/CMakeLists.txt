@@ -5,13 +5,27 @@ cmake_minimum_required(VERSION 3.26)
 #add_compile_options(-fno-rtti)
 #add_link_options(-fsanitize=address,undefined)
 
-set(LT_LLVM_INSTALL_DIR, "/Users/johny.georges/Documents/software/llvm-project-17.0.6.src/build")
-set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
 find_package(LLVM CONFIG)
+find_package(LLD CONFIG)
+
+message(STATUS "--------------------------------------------------------")
+message(STATUS "[LLVM CONFIG DETECTION]")
+message(STATUS "  LLVM Found:           ${LLVM_FOUND}")
+message(STATUS "  LLVM Version:         ${LLVM_PACKAGE_VERSION}")
+message(STATUS "  LLVM Config File:     ${LLVM_DIR}")
+message(STATUS "  LLVM Include Dirs:    ${LLVM_INCLUDE_DIRS}")
+message(STATUS "  LLVM Library Dirs:    ${LLVM_LIBRARY_DIRS}")
+
+message(STATUS "[LLD CONFIG DETECTION]")
+message(STATUS "  LLD Found:            ${LLD_FOUND}")
+message(STATUS "  LLD Config File:      ${LLD_DIR}")
+message(STATUS "  LLD Include Dirs:     ${LLD_INCLUDE_DIRS}")
+message(STATUS "--------------------------------------------------------")
+
 message(STATUS "Found LLVM: ${LLVM_DIR}")
 message(STATUS "LLVM Assertions: ${LLVM_ENABLE_ASSERTIONS}")
-include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
+include_directories(SYSTEM ${LLVM_INCLUDE_DIRS} ${LLD_INCLUDE_DIRS})
+link_directories(${LLVM_LIBRARY_DIRS} ${LLD_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 llvm_map_components_to_libnames(llvm_libs support core linker irreader irprinter ${LLVM_TARGETS_TO_BUILD})
 
@@ -32,6 +46,12 @@ target_link_libraries(jet
         PRIVATE jet-vm
         PRIVATE jet-core
         PRIVATE jet-shared
+        PRIVATE lldCommon
+        PRIVATE lldCOFF
+        PRIVATE lldELF
+        PRIVATE lldMachO
+        PRIVATE lldMinGW
+        PRIVATE lldWasm
         PRIVATE ${llvm_libs}
 )
 
@@ -41,6 +61,12 @@ target_link_libraries(jet-debug
         PRIVATE jet-vm
         PRIVATE jet-core
         PRIVATE jet-shared
+        PRIVATE lldCommon
+        PRIVATE lldCOFF
+        PRIVATE lldELF
+        PRIVATE lldMachO
+        PRIVATE lldMinGW
+        PRIVATE lldWasm
         PRIVATE ${llvm_libs}
 )
 

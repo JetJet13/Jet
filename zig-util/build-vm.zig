@@ -849,7 +849,8 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
         "ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.cpp",
         
         "ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.cpp",
-        
+
+        "ir-generator/ir-util-functions/get-vararg-ir-function/get-vararg-ir-function.cpp"
         },
     });
 }

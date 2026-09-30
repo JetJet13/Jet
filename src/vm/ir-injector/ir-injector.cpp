@@ -61,6 +61,7 @@ IRInjector::IRInjector() {
     _newClassInstanceIRInjectorStrategy = std::make_shared<NewClassInstanceIRInjectorStrategy>();
     _classInstanceIRInjectorStrategy = std::make_shared<ClassInstanceIRInjectorStrategy>();
     _variableIRInjector = std::make_shared<VariableIRInjectorStrategy>();
+    _functionParameterIRInjector = std::make_shared<FunctionParameterIRInjectorStrategy>();
     _functionReturnIRInjector = std::make_shared<FunctionReturnIRInjectorStrategy>();
     _variableAssignmentIRInjectorStrategy = std::make_shared<VariableAssignmentIRInjectorStrategy>();
     _arrayAccessAssignmentIRInjectorStrategy = std::make_shared<ArrayAccessAssignmentIRInjectorStrategy>();

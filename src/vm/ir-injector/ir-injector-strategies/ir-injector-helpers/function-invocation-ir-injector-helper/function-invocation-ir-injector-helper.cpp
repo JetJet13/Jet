@@ -71,8 +71,7 @@ llvm::Value* FunctionInvocationIRInjectorHelper::inject(std::shared_ptr<IRFuncti
                 { zeroIndex, allocIndex }
         );
         InstructionIRInjectorHelper::injectStore(varArgsArrayAllocation, pointerToArrayAllocation, irBlock);
-        auto loadedVarArgsArrayPointer = InstructionIRInjectorHelper::injectLoad(arrayPointerType->getType(), varArgsArrayPointerAllocation, irBlock, arrayPointerType);
-        irExpression->getValue()->setArgOperand(startIndex, loadedVarArgsArrayPointer);
+        irExpression->getValue()->setArgOperand(startIndex, varArgsArrayPointerAllocation);
     }
 
     if (irExpression->getFunctionIRType()->isLambdaType()) {

@@ -34,6 +34,6 @@ void MallocIRFunction::generateMallocFunction(std::shared_ptr<IRGenerator> irGen
     auto errorBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());
     auto segFaultCode = irGenerator->generateIntConstant(11);
     errorBlock->getBuilder()->get()->CreateCall(raise, { segFaultCode });
-    errorBlock->addVoidReturn();
+    errorBlock->getBuilder()->get()->CreateRet(irGenerator->generateConstantPointer());
     functionBlock->getBuilder()->get()->CreateCondBr(isAllocatedPointerNull, successBlock->getBlock(), errorBlock->getBlock());
 }

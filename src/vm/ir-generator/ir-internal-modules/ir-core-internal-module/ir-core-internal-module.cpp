@@ -53,6 +53,7 @@
 #include "../../ir-util-functions/array-size-ir-function/array-size-ir-function.h"
 #include "../../ir-util-functions/array-empty-ir-function/array-empty-ir-function.h"
 #include "../../ir-util-functions/get-ref-count-ir-function/get-ref-count-ir-function.h"
+#include "../../ir-util-functions/get-vararg-ir-function/get-vararg-ir-function.h"
 #include "../../ir-util-functions/equal-lambda-ir-function/equal-lambda-ir-function.h"
 #include "../../ir-util-functions/increment-ref-count-if-necessary-ir-function/increment-ref-count-if-necessary-ir-function.h"
 #include "../../ir-util-functions/set-shared-value-ir-function/set-shared-value-ir-function.h"
@@ -207,5 +208,6 @@ std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRG
     ArraySizeIRFunction::generateArraySizeFunction(irGenerator, context, irModule);
     ArrayEmptyIRFunction::generateArrayEmptyFunction(irGenerator, context, irModule);
     GetRefCountIRFunction::generateGetRefCountFunction(irGenerator, context, irModule);
+    GetVarArgIRFunction::generateGetVarArgFunction(irGenerator, context, irModule);
     return irModule;
 }

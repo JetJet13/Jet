@@ -45,7 +45,7 @@ void IntSubOverflowIRFunction::generateIntSubOverflowFunction(std::shared_ptr<IR
     isOverflowBlock->getBuilder()->get()->CreateStore(overflowMessage, overflowMessageAlloca);
     isOverflowBlock->getBuilder()->get()->CreateCall(printf, { overflowMessageAlloca });
     isOverflowBlock->getBuilder()->get()->CreateCall(raise, sigTermCode);
-    isOverflowBlock->addVoidReturn();
+    isOverflowBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
 
     auto value = elseBlock->getBuilder()->get()->CreateExtractValue(result, 0);
     elseBlock->getBuilder()->get()->CreateRet(value);

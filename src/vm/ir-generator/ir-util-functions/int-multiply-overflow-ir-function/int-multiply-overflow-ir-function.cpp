@@ -44,7 +44,7 @@ void IntMultiplyOverflowIRFunction::generateIntMultiplyOverflowFunction(std::sha
     isOverflowBlock->getBuilder()->get()->CreateCall(printf, { overflowMessageAlloca });
     auto sigTermCode = irGenerator->generateIntConstant(15);
     isOverflowBlock->getBuilder()->get()->CreateCall(raise, sigTermCode);
-    isOverflowBlock->addVoidReturn();
+    isOverflowBlock->getBuilder()->get()->CreateRet(irGenerator->generateIntConstant(0));
 
     auto value = elseBlock->getBuilder()->get()->CreateExtractValue(result, 0);
     elseBlock->getBuilder()->get()->CreateRet(value);

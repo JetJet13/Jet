@@ -54,7 +54,7 @@ void StringAtIRFunction::generateStringAtFunction(std::shared_ptr<IRGenerator> i
     );
     auto sigTermCode = irGenerator->generateIntConstant(15);
     notInRangeBlock->getBuilder()->get()->CreateCall(raise, sigTermCode);
-    notInRangeBlock->addVoidReturn();
+    notInRangeBlock->getBuilder()->get()->CreateRet(irGenerator->generateConstantPointer());
 
     auto arrayAllocation = inRangeBlock->getBuilder()->get()->CreateInBoundsGEP(arrayPointerType->getType(), function->getArg(0), { zero, allocIndex });
     auto loadedArrayAllocation = InstructionIRInjectorHelper::injectLoad(pointerType, arrayAllocation, inRangeBlock);

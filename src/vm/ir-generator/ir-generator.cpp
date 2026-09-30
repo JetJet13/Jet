@@ -148,6 +148,7 @@
 #include "ir-util-functions/int-add-overflow-ir-function/int-add-overflow-ir-function.h"
 #include "ir-util-functions/int-sub-overflow-ir-function/int-sub-overflow-ir-function.h"
 #include "ir-util-functions/int-multiply-overflow-ir-function/int-multiply-overflow-ir-function.h"
+#include "ir-util-functions/get-vararg-ir-function/get-vararg-ir-function.h"
 
 
 // The IRGenerator will be responsible for programmatically generating
@@ -1287,7 +1288,8 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             IncrementRefCountIRFunction::getIncrementRefCountIRFunctionName(),
             IncrementLambdaRefCountIRFunction::getIncrementLambdaRefCountIRFunctionName(),
             IncrementRefCountIfNecessaryIRFunction::getIncrementRefCountIfNecessaryIRFunctionName(),
-            GetRefCountIRFunction::getGetRefCountIRFunctionName()
+            GetRefCountIRFunction::getGetRefCountIRFunctionName(),
+            GetVarArgIRFunction::getGetVarArgIRFunctionName()
     ));
 }
 
