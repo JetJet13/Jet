@@ -26,6 +26,8 @@ public:
     IRScope* getIRScope();
     llvm::Module* getModule();
     llvm::Function* getFunction();
+    bool isTargetX86_64();
+    bool isTargetArm64();
     std::shared_ptr<IRContext> clone(std::shared_ptr<IRBlockNode> irBlock);
 };
 

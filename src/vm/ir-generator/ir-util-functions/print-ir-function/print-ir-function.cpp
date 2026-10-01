@@ -511,9 +511,13 @@ void PrintIRFunction::generatePrintFunction(std::shared_ptr<IRGenerator> irGener
     auto pointerToTypeValueAtIndex = forLoopBody->CreateInBoundsGEP(typeValueType->getType(), typeValueArrayAlloc, {forLoopIndexValue });
     auto typeValueAtIndex = InstructionIRInjectorHelper::injectLoad(typeValueType->getType(), pointerToTypeValueAtIndex, forLoopBodyBlock, typeValueType);
     auto typeValueIdAtIndex = forLoopBody->CreateExtractValue(typeValueAtIndex, typeValueType->getIdIndex());
-//    auto varArg = forLoopBody->CreateVAArg(vaList, pointerType);
-//    InstructionIRInjectorHelper::injectStore(varArg, varArgAlloc, forLoopBodyBlock);
-    forLoopBody->CreateCall(irModuleNode->getGetVarArgFunction(), { varArgAlloc, vaList });
+
+    if (irContext->isTargetX86_64()) {
+        auto varArg = forLoopBody->CreateVAArg(vaList, pointerType);
+        InstructionIRInjectorHelper::injectStore(varArg, varArgAlloc, forLoopBodyBlock);
+    } else {
+        forLoopBody->CreateCall(irModuleNode->getGetVarArgFunction(), { varArgAlloc, vaList });
+    }
 
     forLoopBody->CreateBr(addWhitespaceIfBlock->getBlock());
     auto forLoopIndexGreaterThenZero = addWhitespaceIfBlock->getBuilder()->get()->CreateICmp(

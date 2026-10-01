@@ -4,6 +4,10 @@
 
 #include "ir-context.h"
 
+#ifndef BUILD_TARGET
+#define BUILD_TARGET "unknown"
+#endif
+
 IRContext::IRContext(std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRModuleNode> irModule, std::unique_ptr<llvm::LLVMContext>* context) {
     _irBlock = irBlock;
     _irModule = irModule;
@@ -38,6 +42,16 @@ llvm::Module* IRContext::getModule() {
 
 llvm::Function* IRContext::getFunction() {
     return _irBlock->getBlock()->getParent();
+}
+
+bool IRContext::isTargetX86_64() {
+    std::string buildTarget = BUILD_TARGET;
+    return buildTarget.find("x86_64", 0) != std::string::npos;
+}
+
+bool IRContext::isTargetArm64() {
+    std::string buildTarget = BUILD_TARGET;
+    return buildTarget.find("aarch64", 0) != std::string::npos;
 }
 
 std::shared_ptr<IRContext> IRContext::clone(std::shared_ptr<IRBlockNode> irBlock) {

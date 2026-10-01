@@ -40,7 +40,10 @@ FetchContent_MakeAvailable(cli11_proj)
 
 
 set(CMAKE_EXE_LINKER_FLAGS "-lc++")
-add_executable(jet main.cpp main.h)
+add_executable(jet main.cpp main.h
+        types/target-linker-helper.cpp
+        types/target-linker-helper.h
+        types/supported-targets.h)
 target_compile_features(jet PRIVATE cxx_std_17)
 target_link_libraries(jet
         PRIVATE jet-vm

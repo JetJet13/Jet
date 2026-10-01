@@ -111,24 +111,27 @@ pub fn build(b: *std.Build) void {
     jetVmLib.linkLibrary(jetCoreLib);
     jetVmLib.linkLibrary(jetSharedLib);
     jetVmLib.linkLibCpp();
+    jetVmLib.root_module.addCMacro("BUILD_TARGET", b.fmt("\"{s}\"", .{ target }));
     buildVm.setup(jetVmLib, b);
 
     jetExe.addCSourceFiles(.{
         .root = b.path("src/jet"),
         .files = &.{
             "main.cpp",
+            "types/target-linker-helper.cpp"
         },
         .flags = &.{
-            "-std=c++17"
+            "-std=c++17",
         },
     });
     jetDebugExe.addCSourceFiles(.{
         .root = b.path("src/jet"),
         .files = &.{
             "debug-main.cpp",
+            "types/target-linker-helper.cpp"
         },
         .flags = &.{
-            "-std=c++17"
+            "-std=c++17",
         },
     });
 
