@@ -31,7 +31,6 @@ void VariableIRInjectorStrategy::inject(std::shared_ptr<IRVariableDeclarationNod
         InstructionIRInjectorHelper::inject(irVariableDeclaration->getArc().value(), irBlock, irVariableDeclaration->getVariableName() + ".arc");
     }
     if (irVariableDeclaration->toBeFreedDirectly()) {
-        Logger::log("found variable to free!", irVariableDeclaration->getVariableName());
         irBlock->addVariableToFree(irVariableDeclaration);
     } else if (irVariableDeclaration->isLambdaVariable()) {
         irBlock->addLambdaVariableToFree(irVariableDeclaration);

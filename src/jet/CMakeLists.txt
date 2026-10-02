@@ -41,9 +41,10 @@ FetchContent_MakeAvailable(cli11_proj)
 
 set(CMAKE_EXE_LINKER_FLAGS "-lc++")
 add_executable(jet main.cpp main.h
-        types/target-linker-helper.cpp
-        types/target-linker-helper.h
-        types/supported-targets.h)
+        types/target-helper.cpp
+        types/target-helper.h
+        types/supported-targets.h
+        types/supported-llvm-targets.h)
 target_compile_features(jet PRIVATE cxx_std_17)
 target_link_libraries(jet
         PRIVATE jet-vm
@@ -56,6 +57,7 @@ target_link_libraries(jet
         PRIVATE lldMinGW
         PRIVATE lldWasm
         PRIVATE ${llvm_libs}
+        PRIVATE CLI11::CLI11
 )
 
 add_executable(jet-debug debug-main.cpp debug-main.h)
@@ -71,6 +73,7 @@ target_link_libraries(jet-debug
         PRIVATE lldMinGW
         PRIVATE lldWasm
         PRIVATE ${llvm_libs}
+        PRIVATE CLI11::CLI11
 )
 
 add_executable(jet-cli cli/jet-cli.cpp cli/jet-cli.h)

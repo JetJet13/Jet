@@ -9,6 +9,8 @@ pub fn build(b: *std.Build) void {
     const targetTriple = std.Target.Query.parse(.{
         .arch_os_abi = target,
     }) catch unreachable;
+    const buildTargetMacroKey = "BUILD_TARGET";
+    const buildTargetMacroValue = b.fmt("\"{s}\"", .{ target });
 
     const optimize = b.standardOptimizeOption(.{});
 
@@ -38,6 +40,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize
     });
 
+    const cli11 = b.dependency("cli11", .{});
     const llvmIncludePath = b.fmt("zig-util/target/{s}/llvm/include", .{ target });
     const llvmLibraryPath = b.fmt("zig-util/target/{s}/llvm/lib", .{ target });
     const ncursesIncludePath = b.fmt("zig-util/target/{s}/sysroot/ncurses/include", .{ target });
@@ -52,7 +55,8 @@ pub fn build(b: *std.Build) void {
     // todo -  make llvm binary path dynamic based on target triple
     jetExe.linkLibCpp();
     jetDebugExe.linkLibCpp();
-
+    jetExe.addIncludePath(cli11.path(""));
+    jetDebugExe.addIncludePath(cli11.path(""));
     jetExe.addIncludePath(b.path(llvmIncludePath));
     jetDebugExe.addIncludePath(b.path(llvmIncludePath));
     jetExe.addLibraryPath(b.path(llvmLibraryPath));
@@ -111,14 +115,14 @@ pub fn build(b: *std.Build) void {
     jetVmLib.linkLibrary(jetCoreLib);
     jetVmLib.linkLibrary(jetSharedLib);
     jetVmLib.linkLibCpp();
-    jetVmLib.root_module.addCMacro("BUILD_TARGET", b.fmt("\"{s}\"", .{ target }));
+    jetVmLib.root_module.addCMacro(buildTargetMacroKey, buildTargetMacroValue);
     buildVm.setup(jetVmLib, b);
 
     jetExe.addCSourceFiles(.{
         .root = b.path("src/jet"),
         .files = &.{
             "main.cpp",
-            "types/target-linker-helper.cpp"
+            "types/target-helper.cpp"
         },
         .flags = &.{
             "-std=c++17",
@@ -128,7 +132,7 @@ pub fn build(b: *std.Build) void {
         .root = b.path("src/jet"),
         .files = &.{
             "debug-main.cpp",
-            "types/target-linker-helper.cpp"
+            "types/target-helper.cpp"
         },
         .flags = &.{
             "-std=c++17",
@@ -321,6 +325,7 @@ pub fn build(b: *std.Build) void {
     jetExe.linkSystemLibrary("lldMachO");
     jetExe.linkSystemLibrary("lldMinGW");
     jetExe.linkSystemLibrary("lldWasm");
+    jetExe.root_module.addCMacro(buildTargetMacroKey, buildTargetMacroValue);
 
     jetDebugExe.linkLibrary(jetCoreLib);
     jetDebugExe.linkLibrary(jetSharedLib);
@@ -508,6 +513,7 @@ pub fn build(b: *std.Build) void {
     jetDebugExe.linkSystemLibrary("lldMachO");
     jetDebugExe.linkSystemLibrary("lldMinGW");
     jetDebugExe.linkSystemLibrary("lldWasm");
+    jetDebugExe.root_module.addCMacro(buildTargetMacroKey, buildTargetMacroValue);
 
     b.installArtifact(jetExe);
     b.installArtifact(jetDebugExe);

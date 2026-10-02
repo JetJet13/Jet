@@ -17,11 +17,8 @@
 #include "llvm/Support/Host.h"
 #include "lld/Common/Driver.h"
 #include <vector>
+#include <CLI.hpp>
 
-LLD_HAS_DRIVER(coff)
-LLD_HAS_DRIVER(elf)
-LLD_HAS_DRIVER(mingw)
-LLD_HAS_DRIVER(macho)
-LLD_HAS_DRIVER(wasm)
-
+#define CLI11_ENABLE_EXTRA_VALIDATORS 1
+#define CLI11_HAS_FILESYSTEM 1
 #endif //JETLANG_MAIN_H

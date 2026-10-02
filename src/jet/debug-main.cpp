@@ -14,12 +14,11 @@
 #include "../core/pre-processor/pre-processor.h"
 #include "../vm/vm.h"
 #include "types/supported-targets.h"
-#include "types/target-linker-helper.h"
+#include "types/target-helper.h"
 
 int main (int argc, const char* argv[]) {
     if (argc == 1) {
         Logger::log("no file provided...starting REPL");
-        Logger::log("nevermind...REPL is not ready...exiting.");
     } else if (argc == 2) {
         std::string filePath = argv[1];
         Logger::log("executing file:", filePath);
@@ -55,7 +54,7 @@ int main (int argc, const char* argv[]) {
         llvm::InitializeAllAsmPrinters();
         std::string targetLookupError;
 
-        auto TargetTriple = SUPPORTED_TARGETS.X86_MAC_OS_TARGET_TRIPLE;
+        auto TargetTriple = TargetHelper::getLLVMTarget();
         auto Target = llvm::TargetRegistry::lookupTarget(
                 TargetTriple,
                 targetLookupError
@@ -93,10 +92,10 @@ int main (int argc, const char* argv[]) {
         Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
         Logger::log("Wrote ", objectFilename, "\n");
         return lld::lldMain(
-                TargetLinkerHelper::getArgs(TargetTriple, &objectFilename, &outputFilename),
+                TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename),
                 llvm::outs(),
                 llvm::errs(),
-                LLD_ALL_DRIVERS
+                TargetHelper::getLinkerDrivers()
         ).retCode;
 
     } else {

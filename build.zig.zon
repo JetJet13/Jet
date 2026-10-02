@@ -1,0 +1,11 @@
+.{
+    .name = "jet-lang",
+    .version = "0.1.0",
+    .dependencies = .{
+        .cli11 = .{
+            .url = "https://github.com/CLIUtils/CLI11/releases/download/v2.7.2/CLI11-2.7.2-Source.tar.gz",
+            .hash = "12208a3614aa12e85f7f28eedfff221a74b6462cd139c14d7f6946efd0d2d950c0ff",
+        },
+    },
+    .paths = .{""},
+}

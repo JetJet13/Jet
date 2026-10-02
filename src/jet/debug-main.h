@@ -17,11 +17,8 @@
 #include "lld/Common/Driver.h"
 #include <vector>
 
-LLD_HAS_DRIVER(coff)
 LLD_HAS_DRIVER(elf)
-LLD_HAS_DRIVER(mingw)
 LLD_HAS_DRIVER(macho)
-LLD_HAS_DRIVER(wasm)
 
 
 #endif //JETLANG_DEBUG_MAIN_H
