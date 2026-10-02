@@ -23,12 +23,10 @@ int main (int argc, const char* argv[]) {
     ->check(CLI::ExistingFile)
     ->check(CLI::ReadPermissions);
 
-    auto Filepath = std::filesystem::path(filePath);
     std::string outDirectory;
-    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory")->default_str(Filepath.parent_path().string())
+    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::WritePermissions);
-
 
     bool preserveObjectFile = false;
     app.add_flag("--obj", preserveObjectFile, "include object file in output");
@@ -78,10 +76,12 @@ int main (int argc, const char* argv[]) {
     auto TheTargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
     irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
 
-
-
-    auto objectFilename = std::filesystem::path(outDirectory).concat(Filepath.stem().string() + ".o").string();
-    auto outputFilename = std::filesystem::path(outDirectory).concat(Filepath.stem().string()).string();
+    auto Filepath = std::filesystem::path(filePath);
+    if (outDirectory.empty()) {
+        outDirectory = Filepath.parent_path().string();
+    }
+    auto objectFilename = std::filesystem::path(outDirectory).append(Filepath.stem().string() + ".o").string();
+    auto outputFilename = std::filesystem::path(outDirectory).append(Filepath.stem().string()).string();
     std::error_code EC;
     llvm::raw_fd_ostream dest(objectFilename, EC, llvm::sys::fs::OF_None);
 

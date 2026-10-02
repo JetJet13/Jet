@@ -1,6 +1,7 @@
 const std = @import("std");
 
 pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
+    exe.linkLibCpp();
     exe.addCSourceFiles(.{
         .root = b.path("src/shared"),
         .flags = &.{

@@ -5,6 +5,10 @@
 #ifndef JETLANG_DEBUG_MAIN_H
 #define JETLANG_DEBUG_MAIN_H
 
+#define CLI11_ENABLE_EXTRA_VALIDATORS 1
+#define CLI11_HAS_FILESYSTEM 1
+#define CLI11_CPP17 1
+
 #include "llvm/IR/Module.h"
 #include "llvm/Target/TargetOptions.h"
 #include "llvm/ADT/STLExtras.h"
@@ -16,6 +20,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include "lld/Common/Driver.h"
 #include <vector>
+#include "./cli11/CLI11.hpp"
 
 LLD_HAS_DRIVER(elf)
 LLD_HAS_DRIVER(macho)

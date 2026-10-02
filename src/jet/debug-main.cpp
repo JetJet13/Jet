@@ -17,90 +17,107 @@
 #include "types/target-helper.h"
 
 int main (int argc, const char* argv[]) {
-    if (argc == 1) {
-        Logger::log("no file provided...starting REPL");
-    } else if (argc == 2) {
-        std::string filePath = argv[1];
-        Logger::log("executing file:", filePath);
-        auto tokenTable = std::make_shared<TokenTable>();
-        auto reservedKeywords = std::make_shared<ReservedKeywords>();
-        auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
-        auto syntaxAnalyzer = std::make_shared<SyntaxAnalyzer>(tokenTable, lexicalAnalyzer);
-        auto semanticAnalyzer = std::make_shared<SemanticAnalyzer>();
-        auto preProcessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
-        preProcessor.switchToDebugMode();
-        auto jetFile = preProcessor.process(filePath);
-        if (!preProcessor.getTypeCheckerResult()->ok()) {
-            preProcessor.getTypeCheckerResult()->printErrors();
-            exit(EXIT_STATUS_GENERIC_ERROR);
-        }
-        auto irInjector = std::make_shared<IRInjector>();
-        auto irGenerator = std::make_shared<IRGenerator>(irInjector);
+    CLI::App app{"JET Debug Compiler"};
 
-        // using new here avoids llvm 'use after deletion' errors from
-        // being thrown
-        auto vm = new VM(irGenerator, irInjector);
-        vm->switchToDebugMode();
+    std::string filePath;
+    app.add_option("filePath", filePath, "the entry jet file path")->required()
+            ->check(CLI::ExistingFile)
+            ->check(CLI::ReadPermissions);
 
-        auto irJetFile = vm->compileMain(jetFile);
+    std::string outDirectory;
+    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory")
+            ->check(CLI::ExistingDirectory)
+            ->check(CLI::WritePermissions);
 
-        Logger::log("IR Generation & Injection is done.");
-        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
-        // Initialize the target registry etc.
-        llvm::InitializeAllTargetInfos();
-        llvm::InitializeAllTargets();
-        llvm::InitializeAllTargetMCs();
-        llvm::InitializeAllAsmParsers();
-        llvm::InitializeAllAsmPrinters();
-        std::string targetLookupError;
+    bool preserveObjectFile = false;
+    app.add_flag("--obj", preserveObjectFile, "include object file in output");
 
-        auto TargetTriple = TargetHelper::getLLVMTarget();
-        auto Target = llvm::TargetRegistry::lookupTarget(
-                TargetTriple,
-                targetLookupError
-        );
-        auto CPU = "generic";
-        auto Features = "";
+    CLI11_PARSE(app, argc, argv)
 
-        llvm::TargetOptions opt;
-        auto RM = std::optional<llvm::Reloc::Model>();
-        auto TheTargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
-        irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
+    Logger::log("executing file:", filePath);
+    auto tokenTable = std::make_shared<TokenTable>();
+    auto reservedKeywords = std::make_shared<ReservedKeywords>();
+    auto lexicalAnalyzer = std::make_shared<LexicalAnalyzer>(tokenTable, reservedKeywords);
+    auto syntaxAnalyzer = std::make_shared<SyntaxAnalyzer>(tokenTable, lexicalAnalyzer);
+    auto semanticAnalyzer = std::make_shared<SemanticAnalyzer>();
+    auto preProcessor = PreProcessor(syntaxAnalyzer, semanticAnalyzer);
+    preProcessor.switchToDebugMode();
+    auto jetFile = preProcessor.process(filePath);
+    if (!preProcessor.getTypeCheckerResult()->ok()) {
+        preProcessor.getTypeCheckerResult()->printErrors();
+        exit(EXIT_STATUS_GENERIC_ERROR);
+    }
+    auto irInjector = std::make_shared<IRInjector>();
+    auto irGenerator = std::make_shared<IRGenerator>(irInjector);
 
-        auto Filepath = std::filesystem::path(filePath);
-        auto objectFilename = Filepath.parent_path().string() + "/" + Filepath.stem().string() + ".o";
-        auto outputFilename = Filepath.parent_path().string() + "/" + Filepath.stem().string();
-        std::error_code EC;
-        llvm::raw_fd_ostream dest(objectFilename, EC, llvm::sys::fs::OF_None);
+    // using new here avoids llvm 'use after deletion' errors from
+    // being thrown
+    auto vm = new VM(irGenerator, irInjector);
+    vm->switchToDebugMode();
 
-        if (EC) {
-            Logger::log("Could not open file: ", EC.message());
-            return 1;
-        }
+    auto irJetFile = vm->compileMain(jetFile);
 
-        llvm::legacy::PassManager pass;
-        auto FileType = llvm::CGFT_ObjectFile;
+    Logger::log("IR Generation & Injection is done.");
+    irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
+    // Initialize the target registry etc.
+    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
+    llvm::InitializeAllTargetMCs();
+    llvm::InitializeAllAsmParsers();
+    llvm::InitializeAllAsmPrinters();
+    std::string targetLookupError;
 
-        if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
-            Logger::log("TheTargetMachine can't emit a file of this type");
-            return 1;
-        }
+    auto TargetTriple = TargetHelper::getLLVMTarget();
+    auto Target = llvm::TargetRegistry::lookupTarget(
+            TargetTriple,
+            targetLookupError
+    );
+    auto CPU = "generic";
+    auto Features = "";
 
-        pass.run(*irJetFile->getIRModule()->getModule()->get());
-        dest.flush();
-        Logger::log("Target Triple", TargetTriple);
-        Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
-        Logger::log("Wrote ", objectFilename, "\n");
-        return lld::lldMain(
-                TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename),
-                llvm::outs(),
-                llvm::errs(),
-                TargetHelper::getLinkerDrivers()
-        ).retCode;
+    llvm::TargetOptions opt;
+    auto RM = std::optional<llvm::Reloc::Model>();
+    auto TheTargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+    irJetFile->getIRModule()->getModule()->get()->setDataLayout(TheTargetMachine->createDataLayout());
 
-    } else {
-        Logger::log("no jet file path provided..exiting");
+    auto Filepath = std::filesystem::path(filePath);
+    if (outDirectory.empty()) {
+        outDirectory = Filepath.parent_path().string();
+    }
+    auto objectFilename = std::filesystem::path(outDirectory).append(Filepath.stem().string() + ".o").string();
+    auto outputFilename = std::filesystem::path(outDirectory).append(Filepath.stem().string()).string();
+    std::error_code EC;
+    llvm::raw_fd_ostream dest(objectFilename, EC, llvm::sys::fs::OF_None);
+
+    if (EC) {
+        Logger::log("Could not open file: ", EC.message());
+        return 1;
     }
 
-    return EXIT_STATUS_OK;
+    llvm::legacy::PassManager pass;
+    auto FileType = llvm::CGFT_ObjectFile;
+
+    if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
+        Logger::log("TheTargetMachine can't emit a file of this type");
+        return 1;
+    }
+
+    pass.run(*irJetFile->getIRModule()->getModule()->get());
+    dest.flush();
+    Logger::log("Target Triple", TargetTriple);
+    Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
+    Logger::log("Wrote ", objectFilename, "\n");
+
+    auto linkResult = lld::lldMain(
+            TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename),
+            llvm::outs(),
+            llvm::errs(),
+            TargetHelper::getLinkerDrivers()
+    );
+
+    if (!preserveObjectFile) {
+        std::filesystem::remove(objectFilename);
+    }
+
+    return linkResult.retCode;
 }

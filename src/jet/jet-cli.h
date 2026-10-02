@@ -5,6 +5,6 @@
 #ifndef JETLANG_JET_CLI_H
 #define JETLANG_JET_CLI_H
 
-#include <CLI/CLI.hpp>
+#include "./cli11/CLI11.hpp"
 
 #endif //JETLANG_JET_CLI_H
