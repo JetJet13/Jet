@@ -36,7 +36,9 @@ add_executable(jet main.cpp main.h
         types/target-helper.h
         types/supported-targets.h
         types/supported-llvm-targets.h
-        cli11/CLI11.hpp)
+        cli11/CLI11.hpp
+        types/linker-arg-overrides.cpp
+        types/linker-arg-overrides.h)
 target_compile_features(jet PRIVATE cxx_std_17)
 target_link_libraries(jet
         PRIVATE jet-vm

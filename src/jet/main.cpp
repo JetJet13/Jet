@@ -24,14 +24,36 @@ int main (int argc, const char* argv[]) {
     ->check(CLI::ReadPermissions);
 
     std::string outDirectory;
-    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory")
+    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory.")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::WritePermissions);
+
+    std::string macosSysLibDirectory;
+    app.add_option("--macosSysLibDir", macosSysLibDirectory, "override the macos sys-lib file. Defaults to '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
+    ->check(CLI::ExistingFile)
+    ->check(CLI::ReadPermissions);
+
+    std::string linuxDynamicLinkerPath;
+    app.add_option("--linuxDyLink", linuxDynamicLinkerPath, "override the linker dynamic linker path for linux distributions.")
+    ->check(CLI::ExistingDirectory)
+    ->check(CLI::ReadPermissions);
+
+    std::string linuxMultiArchPath;
+    app.add_option("--linuxMultiArch", linuxMultiArchPath, "override the linker multi-arch path for linux distributions.")
+    ->check(CLI::ExistingDirectory)
+    ->check(CLI::ReadPermissions);
+
+    std::string linuxLibDir;
+    app.add_option("--linuxLibDir", linuxMultiArchPath, "override the linker lib directory (-L) for linux distributions.")
+    ->check(CLI::ExistingDirectory)
+    ->check(CLI::ReadPermissions);
 
     bool preserveObjectFile = false;
     app.add_flag("--obj", preserveObjectFile, "include object file in output");
 
     CLI11_PARSE(app, argc, argv)
+
+    auto linkerArgOverrides = LinkerArgOverrides(macosSysLibDirectory, linuxDynamicLinkerPath, linuxMultiArchPath, linuxLibDir);
 
     auto tokenTable = std::make_shared<TokenTable>();
     auto reservedKeywords = std::make_shared<ReservedKeywords>();
@@ -102,7 +124,7 @@ int main (int argc, const char* argv[]) {
     dest.flush();
 
     auto linkResult = lld::lldMain(
-            TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename),
+            TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename, &linkerArgOverrides),
             llvm::outs(),
             llvm::errs(),
             TargetHelper::getLinkerDrivers()

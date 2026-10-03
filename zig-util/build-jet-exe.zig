@@ -5,7 +5,8 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build, target: []const u8) vo
         .root = b.path("src/jet"),
         .files = &.{
             "main.cpp",
-            "types/target-helper.cpp"
+            "types/target-helper.cpp",
+            "types/linker-arg-overrides.cpp"
         },
         .flags = &.{
             "-std=c++17",
@@ -20,7 +21,8 @@ pub fn setupDebug(exe: *std.Build.Step.Compile, b: *std.Build, target: []const u
         .root = b.path("src/jet"),
         .files = &.{
             "debug-main.cpp",
-            "types/target-helper.cpp"
+            "types/target-helper.cpp",
+            "types/linker-arg-overrides.cpp"
         },
         .flags = &.{
             "-std=c++17",

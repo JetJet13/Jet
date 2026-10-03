@@ -24,19 +24,19 @@ std::string TargetHelper::getLLVMTarget() {
     throw std::logic_error("getLLVMTarget - unsupported target triple" + targetTriple);
 }
 
-std::vector<const char*> TargetHelper::getLinkerArgs(std::string targetTriple, std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getLinkerArgs(std::string targetTriple, std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
     if (targetTriple == SUPPORTED_LLVM_TARGETS.X86_MAC_OS_TARGET_TRIPLE) {
-        return TargetHelper::getMacosx86_64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getX86_64MacosLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     } else if (targetTriple == SUPPORTED_LLVM_TARGETS.X86_LINUX_GNU_TARGET_TRIPLE) {
-        return TargetHelper::getLinuxGnux86_64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getX86_64LinuxGnuLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     } else if (targetTriple == SUPPORTED_LLVM_TARGETS.X86_LINUX_MUSL_TARGET_TRIPLE) {
-        return TargetHelper::getLinuxMuslx86_64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getX86_64LinuxMuslLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     } else if (targetTriple == SUPPORTED_LLVM_TARGETS.ARM64_MAC_OS_TARGET_TRIPLE) {
-        return TargetHelper::getMacosAarch64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getAarch64MacosLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     } else if (targetTriple == SUPPORTED_LLVM_TARGETS.ARM64_LINUX_GNU_TARGET_TRIPLE) {
-        return TargetHelper::getLinuxGnuAarch64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getAarch64LinuxGnuLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     } else if (targetTriple == SUPPORTED_LLVM_TARGETS.ARM64_LINUX_MUSL_TARGET_TRIPLE) {
-        return TargetHelper::getLinuxMuslAarch64LinkerArgs(objectFilename, outputFileName);
+        return TargetHelper::getAarch64LinuxMuslLinkerArgs(objectFilename, outputFileName, linkerArgOverrides);
     }
 
     throw std::logic_error("getLinkerArgs - unsupported target triple" + targetTriple);
@@ -48,45 +48,54 @@ std::array<lld::DriverDef, 2> TargetHelper::getLinkerDrivers() {
     return { macOsLinker, linuxLinker };
 }
 
-std::vector<const char*> TargetHelper::getMacosx86_64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getX86_64MacosLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    linkerArgOverrides->setMacOsSysLibFileDefault("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk");
     return {
         "ld64.lld",
         "-arch", "x86_64",
         "-platform_version", "macos", "12.7", "13.0",
+        "-syslibroot", linkerArgOverrides->getMacOsSysLibFile()->c_str(),
         "-lc++",
         "-lSystem",
-        "-syslibroot", "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
         objectFilename->c_str(),
         "-o", outputFileName->c_str()
     };
 }
 
-std::vector<const char*> TargetHelper::getMacosAarch64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getAarch64MacosLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    linkerArgOverrides->setMacOsSysLibFileDefault("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk");
     return {
         "ld64.lld",
         "-v",
         "-arch", "arm64",
-        "-platform_version", "macos", "26.0", "26.0",
-        "-L /usr/local/llvm-17/lib",
+        "-platform_version", "macos", "12.7", "13.0",
+        "-syslibroot", linkerArgOverrides->getMacOsSysLibFile()->c_str(),
         "-lc++",
         "-lSystem",
-        "-syslibroot", "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
         objectFilename->c_str(),
         "-o", outputFileName->c_str()
     };
 }
 
-std::vector<const char*> TargetHelper::getLinuxGnux86_64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getX86_64LinuxGnuLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    linkerArgOverrides->setLinuxMultiArchDirectoryDefault("/usr/lib/x86_64-linux-gnu");
+    linkerArgOverrides->setLinuxDynamicLinkerFileDefault("/lib64/ld-linux-x86-64.so.2");
+    linkerArgOverrides->setLinuxLibDirectoryDefault("/usr/lib");
+    auto multiArchPath = std::filesystem::path(*linkerArgOverrides->getLinuxMultiArchDirectory());
+    auto multiArchArg = "-L" + multiArchPath.string();
+    auto dynamicLinkerPath = linkerArgOverrides->getLinuxDynamicLinkerFile();
+    auto libPath = linkerArgOverrides->getLinuxLibDirectory();
+    auto libArg = "-L" + libPath;
     return {
         "ld.lld",
         "-t",
         "-z", "relro",
         "-m", "elf_x86_64",
-        "-dynamic-linker", "/lib64/ld-linux-x86-64.so.2",
-        "/usr/lib/x86_64-linux-gnu/crt1.o",
-        "/usr/lib/x86_64-linux-gnu/crti.o",
-        "-L/usr/lib/x86_64-linux-gnu",
-        "-L/usr/lib",
+        "-dynamic-linker", dynamicLinkerPath.c_str(),
+        multiArchPath.append("crt1.o").c_str(),
+        multiArchPath.append("crti.o").c_str(),
+        ("-L" + multiArchPath.string()).c_str(),
+        ("-L" + libPath).c_str(),
         "-lc++",
         "-lc++abi",
         "-lunwind",
@@ -94,21 +103,25 @@ std::vector<const char*> TargetHelper::getLinuxGnux86_64LinkerArgs(std::string* 
         "-lc",
         objectFilename->c_str(),
         "-o", outputFileName->c_str(),
-        "/usr/lib/x86_64-linux-gnu/crtn.o",
+        multiArchPath.append("crtn.o").c_str(),
     };
 }
 
-std::vector<const char*> TargetHelper::getLinuxGnuAarch64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getAarch64LinuxGnuLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    auto multiArchPath = std::filesystem::path(
+            linkerArgOverrides->getLinuxMultiArchDirectory("/usr/lib/aarch64-linux-gnu"));
+    auto dynamicLinkerPath = linkerArgOverrides->getLinuxDynamicLinkerFile("/lib/ld-linux-aarch64.so.1");
+    auto libPath = linkerArgOverrides->getLinuxLibDirectory("/usr/lib");
     return {
         "ld.lld",
         "-t",
         "-z", "relro",
         "-m", "aarch64elf",
-        "-dynamic-linker", "/lib/ld-linux-aarch64.so.1",
-        "/usr/lib/aarch64-linux-gnu/crt1.o",
-        "/usr/lib/aarch64-linux-gnu/crti.o",
-        "-L/usr/lib/aarch64-linux-gnu",
-        "-L/usr/lib",
+        "-dynamic-linker", dynamicLinkerPath.c_str(),
+        multiArchPath.append("crt1.o").c_str(),
+        multiArchPath.append("crti.o").c_str(),
+        ("-L" + multiArchPath.string()).c_str(),
+        ("-L" + libPath).c_str(),
         "-lc++",
         "-lc++abi",
         "-lunwind",
@@ -116,46 +129,54 @@ std::vector<const char*> TargetHelper::getLinuxGnuAarch64LinkerArgs(std::string*
         "-lc",
         objectFilename->c_str(),
         "-o", outputFileName->c_str(),
-        "/usr/lib/aarch64-linux-gnu/crtn.o",
+        multiArchPath.append("crtn.o").c_str(),
     };
 }
 
-std::vector<const char*> TargetHelper::getLinuxMuslx86_64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getX86_64LinuxMuslLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    auto multiArchPath = std::filesystem::path(linkerArgOverrides->getLinuxMultiArchDirectory("/usr/lib"));
+    auto dynamicLinkerPath = linkerArgOverrides->getLinuxDynamicLinkerFile("/lib/ld-musl-x86_64.so.1");
+    auto libPath = linkerArgOverrides->getLinuxLibDirectory("/usr/lib");
     return {
         "ld.lld",
         "-t",
         "-z", "relro",
         "-m", "elf_x86_64",
-        "-dynamic-linker", "/lib/ld-musl-x86_64.so.1",
-        "/usr/lib/crt1.o",
-        "/usr/lib/crti.o",
-        "-L/usr/lib",
+        "-dynamic-linker", dynamicLinkerPath.c_str(),
+        multiArchPath.append("crt1.o").c_str(),
+        multiArchPath.append("crti.o").c_str(),
+        ("-L" + multiArchPath.string()).c_str(),
+        ("-L" + libPath).c_str(),
         "-lc++",
         "-lc++abi",
         "-lm",
         "-lc",
         objectFilename->c_str(),
         "-o", outputFileName->c_str(),
-        "/usr/lib/crtn.o",
+        multiArchPath.append("crtn.o").c_str(),
     };
 }
 
-std::vector<const char*> TargetHelper::getLinuxMuslAarch64LinkerArgs(std::string* objectFilename, std::string* outputFileName) {
+std::vector<const char*> TargetHelper::getAarch64LinuxMuslLinkerArgs(std::string* objectFilename, std::string* outputFileName, LinkerArgOverrides* linkerArgOverrides) {
+    auto multiArchPath = std::filesystem::path(linkerArgOverrides->getLinuxMultiArchDirectory("/usr/lib"));
+    auto dynamicLinkerPath = linkerArgOverrides->getLinuxDynamicLinkerFile("/lib/ld-musl-aarch64.so.1");
+    auto libPath = linkerArgOverrides->getLinuxLibDirectory("/usr/lib");
     return {
         "ld.lld",
         "-t",
         "-z", "relro",
         "-m", "aarch64linux",
-        "-dynamic-linker", "/lib/ld-musl-aarch64.so.1",
-        "/usr/lib/crt1.o",
-        "/usr/lib/crti.o",
-        "-L/usr/lib",
+        "-dynamic-linker", dynamicLinkerPath.c_str(),
+        multiArchPath.append("crt1.o").c_str(),
+        multiArchPath.append("crti.o").c_str(),
+        ("-L" + multiArchPath.string()).c_str(),
+        ("-L" + libPath).c_str(),
         "-lc++",
         "-lc++abi",
         "-lm",
         "-lc",
         objectFilename->c_str(),
         "-o", outputFileName->c_str(),
-        "/usr/lib/crtn.o",
+        multiArchPath.append("crtn.o").c_str(),
     };
 }
