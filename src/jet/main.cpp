@@ -14,46 +14,36 @@
 #include "../vm/vm.h"
 #include "types/supported-targets.h"
 #include "types/target-helper.h"
+#include "types/cli-helper.h"
 
 int main (int argc, const char* argv[]) {
     CLI::App app{"JET Compiler"};
 
     std::string filePath;
-    app.add_option("filePath", filePath, "the entry jet file path")->required()
-    ->check(CLI::ExistingFile)
-    ->check(CLI::ReadPermissions);
-
     std::string outDirectory;
-    app.add_option("--outdir", outDirectory, "the output directory. Defaults to entry jet file parent directory.")
-    ->check(CLI::ExistingDirectory)
-    ->check(CLI::WritePermissions);
+    std::string macosSysLibDirectoryOverride;
+    std::string linuxDynamicLinkerPathOverride;
+    std::string linuxMultiArchPathOverride;
+    std::string linuxLibDirOverride;
+    bool includeObjectFile = false;
 
-    std::string macosSysLibDirectory;
-    app.add_option("--macosSysLibDir", macosSysLibDirectory, "override the macos sys-lib file. Defaults to '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
-    ->check(CLI::ExistingFile)
-    ->check(CLI::ReadPermissions);
-
-    std::string linuxDynamicLinkerPath;
-    app.add_option("--linuxDyLink", linuxDynamicLinkerPath, "override the linker dynamic linker path for linux distributions.")
-    ->check(CLI::ExistingDirectory)
-    ->check(CLI::ReadPermissions);
-
-    std::string linuxMultiArchPath;
-    app.add_option("--linuxMultiArch", linuxMultiArchPath, "override the linker multi-arch path for linux distributions.")
-    ->check(CLI::ExistingDirectory)
-    ->check(CLI::ReadPermissions);
-
-    std::string linuxLibDir;
-    app.add_option("--linuxLibDir", linuxMultiArchPath, "override the linker lib directory (-L) for linux distributions.")
-    ->check(CLI::ExistingDirectory)
-    ->check(CLI::ReadPermissions);
-
-    bool preserveObjectFile = false;
-    app.add_flag("--obj", preserveObjectFile, "include object file in output");
+    CliHelper(&app)
+    .addFilePathOption(filePath)
+    ->addOutDirOption(outDirectory)
+    ->addMacosSysLibDirOption(macosSysLibDirectoryOverride)
+    ->addLinuxDynamicLinkerPathOverrideOption(linuxDynamicLinkerPathOverride)
+    ->addLinuxMultiArchPathOverrideOption(linuxMultiArchPathOverride)
+    ->addLinuxLibDirOverrideOption(linuxLibDirOverride)
+    ->addIncludeObjectFileFlag(includeObjectFile);
 
     CLI11_PARSE(app, argc, argv)
 
-    auto linkerArgOverrides = LinkerArgOverrides(macosSysLibDirectory, linuxDynamicLinkerPath, linuxMultiArchPath, linuxLibDir);
+    auto linkerArgBuilder = LinkerArgBuilder(
+        macosSysLibDirectoryOverride,
+        linuxDynamicLinkerPathOverride,
+        linuxMultiArchPathOverride,
+        linuxLibDirOverride
+    );
 
     auto tokenTable = std::make_shared<TokenTable>();
     auto reservedKeywords = std::make_shared<ReservedKeywords>();
@@ -122,15 +112,15 @@ int main (int argc, const char* argv[]) {
 
     pass.run(*irJetFile->getIRModule()->getModule()->get());
     dest.flush();
-
+    TargetHelper::generateLinkerArgs(TargetTriple, objectFilename, outputFilename, &linkerArgBuilder);
     auto linkResult = lld::lldMain(
-            TargetHelper::getLinkerArgs(TargetTriple, &objectFilename, &outputFilename, &linkerArgOverrides),
+            linkerArgBuilder.build(),
             llvm::outs(),
             llvm::errs(),
             TargetHelper::getLinkerDrivers()
     );
 
-    if (!preserveObjectFile) {
+    if (!includeObjectFile) {
         std::filesystem::remove(objectFilename);
     }
 

@@ -19,7 +19,8 @@ ASTTupleExpressionNode::ASTTupleExpressionNode(std::shared_ptr<ASTTupleListStart
     _commas = commas;
     _items = std::vector<std::shared_ptr<ASTTupleItemNode>>();
     for (auto item: items) {
-        this->addItem(item);
+        _items.push_back(item);
+        _children.push_back(item);
     }
 }
 

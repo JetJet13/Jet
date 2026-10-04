@@ -19,7 +19,8 @@ ASTTypeParameterListNode::ASTTypeParameterListNode(std::shared_ptr<ASTTypeParame
     _commas = commas;
     _parameters = std::vector<std::shared_ptr<ASTTypeNode>>();
     for (auto parameter: parameters) {
-        this->addParameter(parameter);
+        _parameters.push_back(parameter);
+        _children.push_back(parameter);
     }
 }
 

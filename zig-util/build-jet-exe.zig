@@ -6,7 +6,8 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build, target: []const u8) vo
         .files = &.{
             "main.cpp",
             "types/target-helper.cpp",
-            "types/linker-arg-overrides.cpp"
+            "types/linker-arg-builder.cpp",
+            "types/cli-helper.cpp",
         },
         .flags = &.{
             "-std=c++17",
@@ -22,7 +23,8 @@ pub fn setupDebug(exe: *std.Build.Step.Compile, b: *std.Build, target: []const u
         .files = &.{
             "debug-main.cpp",
             "types/target-helper.cpp",
-            "types/linker-arg-overrides.cpp"
+            "types/linker-arg-builder.cpp",
+            "types/cli-helper.cpp",
         },
         .flags = &.{
             "-std=c++17",

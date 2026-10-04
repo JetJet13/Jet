@@ -22,7 +22,8 @@ ASTFunctionArgumentListNode::ASTFunctionArgumentListNode(std::shared_ptr<ASTFunc
     _commas = commas;
     _arguments = std::vector<std::shared_ptr<ASTFunctionArgumentNode>>();
     for (auto argument: arguments) {
-        this->addArgument(argument);
+        _arguments.push_back(argument);
+        _children.insert(_children.end() - 1, argument);
     }
     _children.push_back(_functionArgumentListEndNode);
 }

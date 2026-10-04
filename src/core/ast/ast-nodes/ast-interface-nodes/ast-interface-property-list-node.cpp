@@ -23,7 +23,8 @@ ASTInterfacePropertyListNode::ASTInterfacePropertyListNode(std::shared_ptr<ASTIn
     _commas = commas;
     _properties = std::vector<std::shared_ptr<ASTInterfacePropertyNode>>();
     for (auto property: properties) {
-        this->addProperty(property);
+        _properties.push_back(property);
+        _children.push_back(property);
     }
 }
 

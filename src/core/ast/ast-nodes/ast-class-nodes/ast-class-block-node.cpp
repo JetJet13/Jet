@@ -141,6 +141,12 @@ bool ASTClassBlockNode::isSameAs(std::shared_ptr<ASTNode> other) {
         }
     }
 
+    for (uint64_t i = 0; i < _staticMethods.size(); ++i) {
+        if (!_staticMethods[i]->isSameAs(otherNode->getStaticMethods()->at(i))) {
+            return false;
+        }
+    }
+
     for (uint64_t i = 0; i < _constructors.size(); ++i) {
         if (!_constructors[i]->isSameAs(otherNode->getConstructors()->at(i))) {
             return false;

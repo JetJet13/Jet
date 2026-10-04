@@ -98,6 +98,10 @@ bool ASTClassMethodDeclarationNode::isSameAs(std::shared_ptr<ASTNode> other) {
         return false;
     }
 
+    auto classMethodDef = this->getClassMethodDefinition()->isSameAs(otherNode->getClassMethodDefinition());
+    auto parameterEq = this->getParameters()->isSameAs(otherNode->getParameters());
+    auto blockEq = this->getBlock()->isSameAs(otherNode->getBlock());
+
     return this->getClassMethodDefinition()->isSameAs(otherNode->getClassMethodDefinition()) &&
            this->getParameters()->isSameAs(otherNode->getParameters()) &&
             this->getBlock()->isSameAs(otherNode->getBlock());

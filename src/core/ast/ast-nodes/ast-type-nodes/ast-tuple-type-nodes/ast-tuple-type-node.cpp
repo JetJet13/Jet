@@ -19,7 +19,8 @@ ASTTupleTypeNode::ASTTupleTypeNode(std::shared_ptr<ASTTupleTypeStartNode> tupleT
     _commas = commas;
     _types = std::vector<std::shared_ptr<ASTTypeNode>>();
     for (auto keyValueType: valueTypes) {
-        this->addValueType(keyValueType);
+        _types.push_back(keyValueType);
+        _children.push_back(keyValueType);
     }
 }
 

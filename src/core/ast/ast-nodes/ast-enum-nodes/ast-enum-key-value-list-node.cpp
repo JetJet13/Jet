@@ -24,7 +24,8 @@ ASTEnumKeyValueListNode::ASTEnumKeyValueListNode(std::shared_ptr<ASTEnumKeyValue
     _commas = commas;
     _enumKeyValues = std::vector<std::shared_ptr<ASTEnumKeyValueNode>>();
     for (auto enumKeyValue: enumKeyValues) {
-        this->addEnumKeyValue(enumKeyValue);
+        _enumKeyValues.push_back(enumKeyValue);
+        _children.push_back(enumKeyValue);
     }
 }
 

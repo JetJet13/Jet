@@ -293,24 +293,16 @@ func hi(n: int) int {
 }
 
 func bye() int {
-    try {
-        if 5 == 5 {
-            return 5;
-        }
-        return 1;
-    } catch err {
-        return 0;
+    if 5 == 5 {
+        return 5;
     }
+    return 1;
 }
 
 func withFinally() int {
-    try {
-        const zoo = 10;
-    } catch err {
-        const moo = 5;
-    } finally {
-        return 10;
-    }
+    const zoo = 10;
+    const moo = 5;
+    return 10;
 }
 
 const emptyArray: [int] = [];
@@ -318,37 +310,37 @@ const emptyArray: [int] = [];
 
 const foo = { bar : 'a' };
 const myArray = [10, 20, 30];
-const rInt = ref 1;
-const rFloat = ref 1.5;
-const rString = ref "hi there";
-const rBool = ref true;
-const rChar = ref 'x';
-const rArray = ref [1,2,3];
-const rStruct = ref { a: 1, b: true };
-const rTuple = ref { "hi", true, 0 };
-const rId = ref foo;
-const rIdChar = ref foo.bar;
-const rArrayAccess = ref myArray[0];
-const rTupleAccess = ref myTuple.0;
-const refsArray = [ ref 0, ref 1, ref 2 ];
-const refsStruct = { a: ref 1, b: ref 'Z' };
-const refsTuple = { ref "hi", ref true, ref 0 };
+const rInt = share 1;
+const rFloat = share 1.5;
+const rString = share "hi there";
+const rBool = share true;
+const rChar = share 'x';
+const rArray = share [1,2,3];
+const rStruct = share { a: 1, b: true };
+const rTuple = share { "hi", true, 0 };
+const rId = share foo;
+const rIdChar = share foo.bar;
+const rArrayAccess = share myArray[0];
+const rTupleAccess = share myTuple.0;
+const sharedArray = [ share 0, share 1, share 2 ];
+const sharedStruct = { a: share 1, b: share 'Z' };
+const sharedTuple = { share "hi", share true, share 0 };
 
 const dereferenceStruct = dref rId;
 const dereferenceChar = dref rIdChar;
-const dereferenceInt = dref refsArray[0];
-const dereferenceString = dref refsTuple.0;
+const dereferenceInt = dref sharedArray[0];
+const dereferenceString = dref sharedTuple.0;
 
-func refParamsTest(x: ref<int>, y: ref<bool>, z: ref<[int]>) ref<int> {
-    return ref 5;
+func refParamsTest(x: shared<int>, y: shared<bool>, z: shared<[int]>) shared<int> {
+    return share 5;
 }
 
-const rTypeId: ref<char> = rIdChar;
-const lambdaArrowRef = (x: ref<int>) => x + 1;
-const lambdaRef = (x: ref<int>) ref<int> {
-    return ref (x + 1);
+const rTypeId: shared<char> = rIdChar;
+const lambdaArrowRef = (x: shared<int>) => x + 1;
+const lambdaRef = (x: shared<int>) shared<int> {
+    return share (x + 1);
 };
-const refArrayRaw = ref [ 50, 60, 70 ];
+const refArrayRaw = share [ 50, 60, 70 ];
 
 const concatStrings = "hello" ++ "world";
 const tripleConcatString = "hello" ++ "world" ++ "!";
@@ -454,17 +446,6 @@ if intWithType == 5 {
     let bruce = "bruce";
 } else {
     let wayne = "wayne";
-}
-
-try {
-    let bruce = "bruce";
-    let wayne = "wayne";
-    bruce = "Bruce";
-    wayne = "Wayne";
-} catch err {
-    const alfred = 99;
-} finally {
-    const pennyworth = 101;
 }
 
 for i in array {

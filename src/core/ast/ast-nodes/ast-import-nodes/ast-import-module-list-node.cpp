@@ -21,9 +21,9 @@ ASTImportModuleListNode::ASTImportModuleListNode(std::shared_ptr<ASTImportModule
     _children.push_back(_importModuleListEndNode);
     _items = std::vector<std::shared_ptr<ASTImportModuleListItemNode>>();
     for (auto item: items) {
-        this->addItem(item);
+        _items.push_back(item);
+        _children.push_back(item);
     }
-
 }
 
 std::vector<std::shared_ptr<ASTImportModuleListItemNode>> ASTImportModuleListNode::getItems() {

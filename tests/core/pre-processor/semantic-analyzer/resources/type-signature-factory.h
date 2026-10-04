@@ -11,7 +11,7 @@
 #include "../../../../../src/core/type-signature/literal-type-signature/string-literal-type-signature.h"
 #include "../../../../../src/core/type-signature/literal-type-signature/bool-literal-type-signature.h"
 #include "../../../../../src/core/type-signature/parameter-list-type-signature/parameter-list-item-type-signature/parameter-list-item-type-signature.h"
-#include "../../../../../src/core/type-signature/ref-type-signature/ref-type-signature.h"
+#include "../../../../../src/core/type-signature/shared-type-signature/shared-type-signature.h"
 
 namespace TypeSignatureFactory {
     static std::shared_ptr<IntLiteralTypeSignature> intLiteral = std::make_shared<IntLiteralTypeSignature>();
@@ -19,11 +19,11 @@ namespace TypeSignatureFactory {
     static std::shared_ptr<CharLiteralTypeSignature> charLiteral = std::make_shared<CharLiteralTypeSignature>();
     static std::shared_ptr<StringLiteralTypeSignature> stringLiteral = std::make_shared<StringLiteralTypeSignature>();
     static std::shared_ptr<BoolLiteralTypeSignature> boolLiteral = std::make_shared<BoolLiteralTypeSignature>();
-    static std::shared_ptr<RefTypeSignature> refIntLiteral = std::make_shared<RefTypeSignature>(std::make_shared<IntLiteralTypeSignature>());
-    static std::shared_ptr<RefTypeSignature> refFloatLiteral = std::make_shared<RefTypeSignature>(std::make_shared<FloatLiteralTypeSignature>());
-    static std::shared_ptr<RefTypeSignature> refCharLiteral = std::make_shared<RefTypeSignature>(std::make_shared<CharLiteralTypeSignature>());
-    static std::shared_ptr<RefTypeSignature> refStringLiteral = std::make_shared<RefTypeSignature>(std::make_shared<StringLiteralTypeSignature>());
-    static std::shared_ptr<RefTypeSignature> refBoolLiteral = std::make_shared<RefTypeSignature>(std::make_shared<BoolLiteralTypeSignature>());
+    static std::shared_ptr<SharedTypeSignature> sharedIntLiteral = std::make_shared<SharedTypeSignature>(std::make_shared<IntLiteralTypeSignature>());
+    static std::shared_ptr<SharedTypeSignature> sharedFloatLiteral = std::make_shared<SharedTypeSignature>(std::make_shared<FloatLiteralTypeSignature>());
+    static std::shared_ptr<SharedTypeSignature> sharedCharLiteral = std::make_shared<SharedTypeSignature>(std::make_shared<CharLiteralTypeSignature>());
+    static std::shared_ptr<SharedTypeSignature> sharedStringLiteral = std::make_shared<SharedTypeSignature>(std::make_shared<StringLiteralTypeSignature>());
+    static std::shared_ptr<SharedTypeSignature> sharedBoolLiteral = std::make_shared<SharedTypeSignature>(std::make_shared<BoolLiteralTypeSignature>());
     static std::shared_ptr<ParameterListItemTypeSignature> createLambdaScopeParameter() {
         return ParameterListItemTypeSignature::createScopeParameter();
     }
@@ -42,20 +42,20 @@ namespace TypeSignatureFactory {
     static std::shared_ptr<ParameterListItemTypeSignature> createBoolParameter(std::string name) {
         return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::boolLiteral);
     }
-    static std::shared_ptr<ParameterListItemTypeSignature> createRefIntParameter(std::string name) {
-        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::refIntLiteral);
+    static std::shared_ptr<ParameterListItemTypeSignature> createSharedIntParameter(std::string name) {
+        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::sharedIntLiteral);
     }
-    static std::shared_ptr<ParameterListItemTypeSignature> createRefFloatParameter(std::string name) {
-        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::refFloatLiteral);
+    static std::shared_ptr<ParameterListItemTypeSignature> createSharedFloatParameter(std::string name) {
+        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::sharedFloatLiteral);
     }
-    static std::shared_ptr<ParameterListItemTypeSignature> createRefCharParameter(std::string name) {
-        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::refCharLiteral);
+    static std::shared_ptr<ParameterListItemTypeSignature> createSharedCharParameter(std::string name) {
+        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::sharedCharLiteral);
     }
-    static std::shared_ptr<ParameterListItemTypeSignature> createRefStringParameter(std::string name) {
-        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::refStringLiteral);
+    static std::shared_ptr<ParameterListItemTypeSignature> createSharedStringParameter(std::string name) {
+        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::sharedStringLiteral);
     }
-    static std::shared_ptr<ParameterListItemTypeSignature> createRefBoolParameter(std::string name) {
-        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::refBoolLiteral);
+    static std::shared_ptr<ParameterListItemTypeSignature> createSharedBoolParameter(std::string name) {
+        return std::make_shared<ParameterListItemTypeSignature>(name, TypeSignatureFactory::sharedBoolLiteral);
     }
     static std::shared_ptr<ParameterListItemTypeSignature> createParameter(std::string name, std::shared_ptr<TypeSignature> typeSignature) {
         return std::make_shared<ParameterListItemTypeSignature>(name, typeSignature);

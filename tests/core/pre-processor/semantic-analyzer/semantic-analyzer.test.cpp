@@ -19,6 +19,7 @@
 #include "../../../../src/core/type-signature/invocable-type-signature/function-type-signature/function-invocation-type-signature/function-invocation-type-signature.h"
 #include "../../../../src/core/type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table-factory.h"
+#include "../../../../src/core/type-signature/shared-type-signature/shared-type-signature.h"
 
 auto colorEnumTypeSignature = std::make_shared<EnumTypeSignature>(
         TypeSignatureFactory::stringLiteral,
@@ -549,15 +550,15 @@ std::unordered_map<int, std::shared_ptr<TypeSignature>> generateExpectedTypeSign
             {124, std::make_shared<ArrayTypeSignature>(
                     TypeSignatureFactory::intLiteral
             )},
-            {125, TypeSignatureFactory::refIntLiteral},
-            {126, TypeSignatureFactory::refFloatLiteral},
-            {127, TypeSignatureFactory::refStringLiteral},
-            {128, TypeSignatureFactory::refBoolLiteral},
-            {129, TypeSignatureFactory::refCharLiteral},
-            {130, std::make_shared<RefTypeSignature>(
+            {125, TypeSignatureFactory::sharedIntLiteral},
+            {126, TypeSignatureFactory::sharedFloatLiteral},
+            {127, TypeSignatureFactory::sharedStringLiteral},
+            {128, TypeSignatureFactory::sharedBoolLiteral},
+            {129, TypeSignatureFactory::sharedCharLiteral},
+            {130, std::make_shared<SharedTypeSignature>(
                     std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
             )},
-            {131, std::make_shared<RefTypeSignature>(
+            {131, std::make_shared<SharedTypeSignature>(
                     std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("a", TypeSignatureFactory::intLiteral),
@@ -565,37 +566,37 @@ std::unordered_map<int, std::shared_ptr<TypeSignature>> generateExpectedTypeSign
                         })
                     )
             )},
-            {132, std::make_shared<RefTypeSignature>(
+            {132, std::make_shared<SharedTypeSignature>(
                     std::make_shared<TupleTypeSignature>(std::vector<std::shared_ptr<TypeSignature>>({
                         TypeSignatureFactory::stringLiteral,
                         TypeSignatureFactory::boolLiteral,
                         TypeSignatureFactory::intLiteral
                     }))
             )},
-            {133, std::make_shared<RefTypeSignature>(
+            {133, std::make_shared<SharedTypeSignature>(
                     std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
                         })
                     )
             )},
-            {134, TypeSignatureFactory::refCharLiteral},
-            {135, TypeSignatureFactory::refIntLiteral},
-            {136, TypeSignatureFactory::refStringLiteral},
+            {134, TypeSignatureFactory::sharedCharLiteral},
+            {135, TypeSignatureFactory::sharedIntLiteral},
+            {136, TypeSignatureFactory::sharedStringLiteral},
             {137, std::make_shared<ArrayTypeSignature>(
-                    TypeSignatureFactory::refIntLiteral
+                    TypeSignatureFactory::sharedIntLiteral
             )},
             {138, std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
-                            std::pair("a", TypeSignatureFactory::refIntLiteral),
-                            std::pair("b", TypeSignatureFactory::refCharLiteral),
+                            std::pair("a", TypeSignatureFactory::sharedIntLiteral),
+                            std::pair("b", TypeSignatureFactory::sharedCharLiteral),
                         })
             )},
             {139, std::make_shared<TupleTypeSignature>(
                     std::vector<std::shared_ptr<TypeSignature>>({
-                        TypeSignatureFactory::refStringLiteral,
-                        TypeSignatureFactory::refBoolLiteral,
-                        TypeSignatureFactory::refIntLiteral
+                        TypeSignatureFactory::sharedStringLiteral,
+                        TypeSignatureFactory::sharedBoolLiteral,
+                        TypeSignatureFactory::sharedIntLiteral
             }))},
             {140, std::make_shared<StructTypeSignature>(
                     TypeSignatureMap({
@@ -608,43 +609,45 @@ std::unordered_map<int, std::shared_ptr<TypeSignature>> generateExpectedTypeSign
             {144, std::make_shared<FunctionTypeSignature>(
                     std::make_shared<ParameterListTypeSignature>(
                         std::vector<std::shared_ptr<ParameterListItemTypeSignature>>({
-                            TypeSignatureFactory::createRefIntParameter("x"),
-                            TypeSignatureFactory::createRefBoolParameter("y"),
+                                                                                             TypeSignatureFactory::createSharedIntParameter(
+                                                                                                     "x"),
+                                                                                             TypeSignatureFactory::createSharedBoolParameter(
+                                                                                                     "y"),
                             TypeSignatureFactory::createParameter(
                                 "z",
-                                std::make_shared<RefTypeSignature>(
+                                std::make_shared<SharedTypeSignature>(
                                     std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
                                 )
                             )
                     })),
-                    TypeSignatureFactory::refIntLiteral
+                    TypeSignatureFactory::sharedIntLiteral
             )},
-            {145, TypeSignatureFactory::refCharLiteral},
+            {145, TypeSignatureFactory::sharedCharLiteral},
             {146, std::make_shared<LambdaTypeSignature>(
                     std::vector<std::shared_ptr<TypeSignature>>({
-                        TypeSignatureFactory::refIntLiteral,
+                        TypeSignatureFactory::sharedIntLiteral,
                     }),
                     TypeSignatureFactory::intLiteral
             )},
             {147, std::make_shared<LambdaTypeSignature>(
                     std::vector<std::shared_ptr<TypeSignature>>({
-                        TypeSignatureFactory::refIntLiteral,
+                        TypeSignatureFactory::sharedIntLiteral,
                     }),
-                    TypeSignatureFactory::refIntLiteral
+                    TypeSignatureFactory::sharedIntLiteral
             )},
-            {148, std::make_shared<RefTypeSignature>(
+            {148, std::make_shared<SharedTypeSignature>(
                     std::make_shared<ArrayTypeSignature>(TypeSignatureFactory::intLiteral)
             )},
-            {149, std::make_shared<RefTypeSignature>(
+            {149, std::make_shared<SharedTypeSignature>(
                     std::make_shared<StructTypeSignature>(
                         TypeSignatureMap({
                             std::pair("bar", TypeSignatureFactory::charLiteral),
                         })
                     )
             )},
-            {150, std::make_shared<RefTypeSignature>(TypeSignatureFactory::charLiteral)},
-            {151, std::make_shared<RefTypeSignature>(TypeSignatureFactory::intLiteral)},
-            {152, std::make_shared<RefTypeSignature>(TypeSignatureFactory::stringLiteral)},
+            {150, std::make_shared<SharedTypeSignature>(TypeSignatureFactory::charLiteral)},
+            {151, std::make_shared<SharedTypeSignature>(TypeSignatureFactory::intLiteral)},
+            {152, std::make_shared<SharedTypeSignature>(TypeSignatureFactory::stringLiteral)},
             {153, TypeSignatureFactory::stringLiteral},
             {154, TypeSignatureFactory::stringLiteral},
             {155, TypeSignatureFactory::stringLiteral},

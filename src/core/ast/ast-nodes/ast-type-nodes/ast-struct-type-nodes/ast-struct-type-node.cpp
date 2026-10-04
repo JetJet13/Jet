@@ -19,7 +19,8 @@ ASTStructTypeNode::ASTStructTypeNode(std::shared_ptr<ASTStructTypeStartNode> str
     _commas = commas;
     _keyValueTypes = std::vector<std::shared_ptr<ASTStructTypeKeyValueNode>>();
     for (auto keyValueType: keyValueTypes) {
-        this->addKeyValueType(keyValueType);
+        _keyValueTypes.push_back(keyValueType);
+        _children.push_back(keyValueType);
     }
 }
 

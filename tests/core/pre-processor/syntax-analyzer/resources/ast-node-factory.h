@@ -137,8 +137,8 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 
 namespace ASTNodeFactory {
-    std::shared_ptr<Lexeme> createLexeme(std::shared_ptr<Symbol> symbol) {
-        return std::make_shared<Lexeme>(std::make_shared<Token>(symbol, symbol->toString()));
+    std::shared_ptr<Lexeme> createLexeme(std::shared_ptr<Symbol> symbol, std::optional<std::string> rawValue = {}) {
+        return std::make_shared<Lexeme>(std::make_shared<Token>(symbol, rawValue.value_or(symbol->toString())));
     }
     static std::shared_ptr<ASTShareNode> shareKeyword = std::make_shared<ASTShareNode>(createLexeme(SymbolFactory::createShareSymbol()));
     static std::shared_ptr<ASTSharedNode> sharedTypeKeyword = std::make_shared<ASTSharedNode>(createLexeme(SymbolFactory::createShareSymbol()));
@@ -527,9 +527,11 @@ namespace ASTNodeFactory {
     static std::shared_ptr<ASTClassNode> classKeyword = std::make_shared<ASTClassNode>(
             createLexeme(SymbolFactory::createClassSymbol())
     );
-    static std::shared_ptr<ASTClassNameNode> className = std::make_shared<ASTClassNameNode>(
-            createLexeme(SymbolFactory::createIdentifierSymbol())
-    );
+    static std::shared_ptr<ASTClassNameNode> createClassName(std::string name) {
+        auto className = std::make_shared<ASTClassNameNode>(createLexeme(SymbolFactory::createIdentifierSymbol()));
+        className->setId(name);
+        return className;
+    }
     static std::shared_ptr<ASTClassPropertyNameNode> classPropertyName = std::make_shared<ASTClassPropertyNameNode>(
             createLexeme(SymbolFactory::createIdentifierSymbol())
     );

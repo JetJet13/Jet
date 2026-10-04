@@ -22,7 +22,8 @@ ASTFunctionParameterListNode::ASTFunctionParameterListNode(std::shared_ptr<ASTFu
     _commas = commas;
     _parameters = std::vector<std::shared_ptr<ASTFunctionParameterNode>>();
     for (auto parameter: parameters) {
-        this->addParameter(parameter);
+        _parameters.push_back(parameter);
+        _children.insert(_children.end() - 1, parameter);
     }
     _children.push_back(_functionParameterListEndNode);
 }

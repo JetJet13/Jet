@@ -19,7 +19,8 @@ ASTImplementsInterfaceListNode::ASTImplementsInterfaceListNode(std::shared_ptr<A
     _commas = commas;
     _interfaceNames = std::vector<std::shared_ptr<ASTImplementsInterfaceNameNode>>();
     for (auto interfaceName: interfaceNames) {
-        this->addInterface(interfaceName);
+        _interfaceNames.push_back(interfaceName);
+        _children.push_back(interfaceName);
     }
 }
 

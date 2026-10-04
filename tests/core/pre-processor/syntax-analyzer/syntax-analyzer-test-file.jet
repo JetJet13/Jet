@@ -120,16 +120,16 @@ const structArr = {
 const structArrAccess = structArr.array[0].hello;
 const structArrNestedAccess = structArr.array[0][0].hello;
 
-func sum(x: int, y: int) int {
+func sum(x: int, y: int): int {
  const total = x + y;
  return total;
 }
 
-func returnFour() int {
+func returnFour(): int {
  return 4;
 }
 
-func returnFourX(x: int, y: int) int {
+func returnFourX(x: int, y: int): int {
  return 4 + x + y;
 }
 
@@ -232,99 +232,69 @@ for item in list {
 }
 
 for i in range(0,10) {
-    print(hello);
-    break;
-    skip;
+    doSomething();
 }
 
 if root {
     if nested {
-        break;
+        doSomething();
     }
     otherFunction();
 } else {
     myFunction();
 }
 
-try {
-    print("hello");
-} catch err {
-    print(err);
-}
-
-try {
-    print("hello");
-} catch {
-    print("error!");
-}
-
-try {
-    print("hello");
-} catch err {
-    print(err);
-} finally {
-    print("done");
-}
-
-try {
-    print("hello");
-} catch {
-    print("error!");
-} finally {
-    print("done");
-}
-
-func returnFour() CustomType {
+func returnFour(): CustomType {
  return "hello";
 }
 
 const lambda = (x: IdType, y: IdType) => x + y;
-const lambda = (x: int, y: int) bool => x > y;
-const lambda = (x: int) int { return x + 10; };
+const lambda = (x: int, y: int): bool => x > y;
+const lambda = (x: int): int { return x + 10; };
 const lambda = (x: int) { return x + 10; };
 const lambda = (x: int) => (y: int) => (z: int) => x + y + z;
 
 (x: int) => x + 10;
 
-func useLambda(x: int, lambda: (int) => bool) bool {
+func useLambda(x: int, lambda: (int) => bool): bool {
     return lambda(x);
 }
 
-func useLambda(lambda: (int, int) => (int) => bool) bool {
+func useLambda(lambda: (int, int) => (int) => bool): bool {
     return lambda(x);
 }
 
-func useLambda(lambda: () => ((string) => bool) => bool) bool {
+func useLambda(lambda: () => ((string) => bool) => bool): bool {
     return lambda(x);
 }
 
-func useLambda(x: int, lambda: () => bool) bool {
+func useLambda(x: int, lambda: () => bool): bool {
     return lambda();
 }
 
-func useLambda() () => int {
+func useLambda(): () => int {
     return () => 9;
 }
 
-func useLambda() (int) => int {
+func useLambda(): (int) => int {
     return (x: int) => 9;
 }
 
-func useLambda() bool {
+func useLambda(): bool {
     return (true && true);
 }
 
-func useLambda(x: (int) => bool) bool {
+func useLambda(x: (int) => bool): bool {
     return (true && true);
 }
 
-func useLambda(x: () => void, y: (CustomType) => void) bool {
+func useLambda(x: () => void, y: (CustomType) => void): bool {
     return true;
 }
 
-() () => () => int { return () => () => 9; };
-() () => () => int => () => () => 9;
-() () => () => void => () => () { 1 + 9; };
+(): () => () => int { return () => () => 9; };
+(): () => () => int => () => () => 9;
+(): () => () => void => () => () { 1 + 9; };
 
 const funcLambda = () => 10;
 const procLambda = () { x + 10; };
@@ -336,15 +306,15 @@ useLambda(x)(y);
 useLambda(x)(y)(z);
 useLambda(x)(y)(z)(a);
 
-func useTuple(x: tuple<int, string, bool, CustomType>) bool {
+func useTuple(x: { int, string, bool, CustomType }): bool {
     return true;
 }
 
-func useArray(x: [int], y: [CustomType], z: [[int]], n: [[[int]]]) bool {
+func useArray(x: [int], y: [CustomType], z: [[int]], n: [[[int]]]): bool {
     return true;
 }
 
-func useArrayOfFuncs(x: [(int) => bool]) bool {
+func useArrayOfFuncs(x: [(int) => bool]): bool {
     return true;
 }
 
@@ -356,19 +326,22 @@ const boolWithType: bool = true;
 const arrWithType: [int] = [1,2,3];
 const funcWithType: (int) => bool = (x: int) => true;
 const procWithType: (int) => void = (x: int) { x + 1; };
-const tupleWithType: tuple<int, int> = { 1, 2 };
+const tupleWithType: { int, int } = { 1, 2 };
 const customWithType: CustomType = "custom-type";
 
 module MyModule
 
-use MyPackage from "my-package";
+// todo - add support for use package
+//use MyPackage from "my-package";
 import GlobalModule from "./global-module.jet";
 
-use MyPackage::* from "my-package";
-import GlobalModule::* from "./global-module.jet";
+// todo - add support for wildcard imports
+//use MyPackage::* from "my-package";
+//import GlobalModule::* from "./global-module.jet";
 
-use MyPackage::{ MyPackageModule::{ MyClass, ...MyPackageModule }, MyOtherModule as OtherPackageModule, MyThirdPackageModule, MyFourthPackageModule::*, ...MyPackage, * } from "my-package";
-import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, MyFourthModule::*, ...GlobalModule, * } from "./global-module.jet";
+// todo - add support for partial & rest (i.e. ...) imports
+//use MyPackage::{ MyPackageModule::{ MyClass, ...MyPackageModule }, MyOtherModule as OtherPackageModule, MyThirdPackageModule, MyFourthPackageModule::*, ...MyPackage, * } from "my-package";
+//import GlobalModule::{ MyModule::{ MyClass, ...MyModule }, MyOtherModule as OtherModule, MyThirdModule, MyFourthModule::*, ...GlobalModule, * } from "./global-module.jet";
 
 // verify multiple inline comments
 // hello-world
@@ -383,10 +356,6 @@ class MyClass {
     public const myIntOne: int; // 5
     public const myIntTwo: int = 5; // 7
     public const myIntThree = 5; // 5
-
-    protected static fooOne: int; // 5
-    protected static fooTwo: int = 10; // 7
-    protected static fooThree = 10; // 5
 
     private static const mickOne: bool; // 6
     private static const mickTwo: bool = true; // 8
@@ -404,28 +373,19 @@ class MyClass {
             this.initIteratorTrait(this.foo);
     }
 
-    public static create(foo: int) MyClass {
+    public static create(foo: int): MyClass {
         return new MyClass(foo);
     }
 
-    protected static doSomething() MyClass {
-        return new MyClass();
-    }
-
-    private static doSomethingElse() MyClass {
+    private static doSomethingElse(): MyClass {
         return new MyClass(100);
     }
 
-    public isValid() bool {
+    public isValid(): bool {
         return this.bar;
     }
 
-    protected setBar(bar: bool) this {
-        this.bar = bar;
-        return this;
-    }
-
-    private hello() string {
+    private hello(): string {
         return "hello world!";
     }
 
@@ -436,7 +396,7 @@ class MyClass {
 }
 
 export const exportedVariable = 100;
-export func exportedFunction(x: int) int {
+export func exportedFunction(x: int): int {
     return x + 5;
 }
 export proc exportedProcedure(x: int) {
@@ -447,38 +407,38 @@ GlobalModule::print("hello world");
 
 const andLogicBangId = !flag && true;
 
-const rInt = ref 1;
-const rFloat = ref 1.5;
-const rString = ref "hi there";
-const rBool = ref true;
-const rChar = ref 'x';
-const rArray = ref [1,2,3];
-const rStruct = ref { a: 1, b: true };
-const rTuple = ref { "hi", true, 0 };
-const rId = ref foo;
-const rId = ref foo.bar;
-const rId = ref myArray[0];
-const rId = ref myTuple.0;
-const refsArray = [ ref 0, ref 1, ref 2 ];
-const refsStruct = { a: ref 1, b: ref 'Z' };
-const refsTuple = { ref "hi", ref true, ref 0 };
+const rInt = share 1;
+const rFloat = share 1.5;
+const rString = share "hi there";
+const rBool = share true;
+const rChar = share 'x';
+const rArray = share [1,2,3];
+const rStruct = share { a: 1, b: true };
+const rTuple = share { "hi", true, 0 };
+const rId = share foo;
+const rId = share foo.bar;
+const rId = share myArray[0];
+const rId = share myTuple.0;
+const sharesArray = [ share 0, share 1, share 2 ];
+const sharesStruct = { a: share 1, b: share 'Z' };
+const sharesTuple = { share "hi", share true, share 0 };
 
 const dereferenceId = dref foo;
 const dereferenceId = dref foo.bar;
 const dereferenceId = dref myArray[0];
 const dereferenceId = dref myTuple.0;
 
-func refParamsTest(x: ref<int>, y: ref<bool>, z: ref<[int]>) ref<int> {
-    return ref 5;
+func shareParamsTest(x: shared<int>, y: shared<bool>, z: shared<[int]>): shared<int> {
+    return share 5;
 }
 
-const rTypeId: ref<int> = rId;
-const lambdaArrowRef = (x: ref<int>) => x + 1;
-const lambdaRef = (x: ref<int>) ref<int> {
-    return ref (x + 1);
+const rTypeId: shared<int> = rId;
+const lambdaArrowRef = (x: shared<int>) => x + 1;
+const lambdaRef = (x: shared<int>): shared<int> {
+    return share (x + 1);
 };
 
-const refArrayRaw = ref [ 50, 60, 70 ];
+const shareArrayRaw = share [ 50, 60, 70 ];
 const concatStrings = "hello" ++ "world";
 const tripleConcatString = "hello" ++ "world" ++ "!";
 const concatIds = concatStrings ++ tripleConcatString;
@@ -488,34 +448,14 @@ const protoTake = concatArrays.take(1);
 const lambdaStruct = {
     foo: (x: int) => x + 10,
     bar: () => 100,
-    foo2: (x: int) int { return x + 5; }
+    foo2: (x: int): int { return x + 5; }
 };
-const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int): int { return x + 5; } };
 const lambdaTupleCall = lambdaTuple.1();
-
-interface MyInterface {
-    foo: int,
-    bar: bool,
-    hello: () => string,
-    structure: { a: int, b: int }
-}
-
-export interface MyOtherInterface {
-    foo: int,
-    bar: bool,
-    hello: () => string,
-    structure: { a: int, b: int },
-    bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
-    custom: CustomType
-}
 
 const structure: { a: bool, c: char } = { a: true, c: 'n' };
 
 proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
-
-class FooClass implements MyInterface {}
-
-class BarClass implements MyInterface, MyOtherInterface, MyThirdInterface {}
 
 type Foo = string;
 type Bar = () => bool;

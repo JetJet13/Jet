@@ -54,6 +54,7 @@ bool ASTFunctionReturnExpressionNode::isSameAs(std::shared_ptr<ASTNode> other) {
     }
     auto otherNode = std::dynamic_pointer_cast<ASTFunctionReturnExpressionNode>(other);
     if (this->getExpression() && otherNode->getExpression()) {
+        auto result = this->getExpression().value()->isSameAs(otherNode->getExpression().value());
         return this->getExpression().value()->isSameAs(otherNode->getExpression().value());
     } else if (!this->getExpression() && !otherNode->getExpression()) {
         return true;

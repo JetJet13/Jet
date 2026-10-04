@@ -24,7 +24,8 @@ ASTArrayNode::ASTArrayNode(std::shared_ptr<ASTLeftBracketNode> leftBracket, std:
     _commas = commas;
     _elements = std::vector<std::shared_ptr<ASTExpressionNode>>();
     for (auto element: elements) {
-        this->addElement(element);
+        _elements.push_back(element);
+        _children.push_back(element);
     }
 }
 
