@@ -53,7 +53,7 @@ std::shared_ptr<TypeSignature> ClassInstanceTypeSignature::getTypeSignatureAtInd
 
 
 std::string ClassInstanceTypeSignature::toDetailString() {
-    return "jet.class.interface." + this->getId();
+    return "jet.class.instance." + this->getId();
 }
 
 std::string ClassInstanceTypeSignature::toString() {

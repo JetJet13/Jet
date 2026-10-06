@@ -38,8 +38,8 @@ const andLogicOr = true && false || true;
 const andLogicOrBang = !true && false || true;
 const intLogicAnd = 1 && 2;
 const intLogicOr = 1 || 2;
-const intLogicAnd = !1 && 2;
-const intLogicOr = 1 || !2;
+const secondIntLogicAnd= !1 && 2;
+const secondIntLogicOr = 1 || !2;
 const doubleBang = !1 && !2;
 const tripleBang = !'a' && !'b' || !'c';
 const gt = 1 > 2;
@@ -54,7 +54,7 @@ const encloseSumBracket = ((1 + 2) + (2 + 3));
 const encloseOrBracket = ((1 + 2) || (2 + 3));
 const encloseUnary = (!true);
 const encloseDoubleUnary = !(!true);
-const encloseUnary = !(!true) && !(!false);
+const secondEncloseUnary = !(!true) && !(!false);
 const encloseBinary = (1 + ((2 + 3) + 4));
 const encloseLogical = (true && ((true || true) && true));
 const encloseTripleUnary = !(true && !(!(true || true) && true));
@@ -99,12 +99,12 @@ const structArr = {
 const structArrAccess = structArr.array[0].hello;
 const structArrNestedAccess = structArr.arrNested[0][0].hello;
 
-func sum(x: int, y: int) int {
+func sum(x: int, y: int): int {
  const total = x + y;
  return total;
 }
 
-func returnFour() int {
+func returnFour(): int {
  return 4;
 }
 
@@ -139,46 +139,47 @@ enum NoValEnum {
     Two
 }
 
-const isEnum = 0 == NoValEnum.Zero;
+const isEnum = NoValEnum.Zero == NoValEnum.Zero;
 const isNum = structObj.obj.test && RGB.Red;
 const myTuple = { "hello", 1, 2 };
 
-func returnString() string {
+func returnString(): string {
  return "hello";
 }
 
 const lambdaSum = (x: Color) => x;
-const lambdaGt = (x: int, y: int) bool => x > y;
+const lambdaGt = (x: int, y: int): bool => x > y;
 const lambdaFullSum = (x: int) { return x + 10; };
 const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
 
 const preDefinedFunctionCall = useLambdaBool();
 
-func useLambda(x: int, lambda: (int) => bool) bool {
+func useLambda(x: int, lambda: (int) => bool): bool {
     return lambda(x);
 }
 
-func useLambdaOther(lambda: (int,int) => (int) => bool) bool {
-    return lambda(1,2)(5);
+func useLambdaOther(lambda: (int,int) => (int) => bool): bool {
+    const result = lambda(1,2);
+    return result(5);
 }
 
-func useLambdaSimpleLambda() () => int {
+func useLambdaSimpleLambda(): () => int {
     return () => 9;
 }
 
-func useLambdaLambda() (int) => int {
+func useLambdaLambda(): (int) => int {
     return (x: int) => 9;
 }
 
-func useLambdaBool() bool {
+func useLambdaBool(): bool {
     return (true && true);
 }
 
-func useLambdaFunc(x: (int) => bool) bool {
+func useLambdaFunc(x: (int) => bool): bool {
     return (true && true);
 }
 
-func useAnotherProc(x: () => void, y: (Color) => void) bool {
+func useAnotherProc(x: () => void, y: (Color) => void): bool {
     return true;
 }
 
@@ -194,7 +195,7 @@ const boolWithType: bool = true;
 const arrWithType: [int] = [1,2,3];
 const funcWithType: (int) => bool = (x: int) => true;
 const procWithType: (int) => void = (x: int) { x + 1; };
-const tupleWithType: tuple<int, int> = { 1, 2 };
+const tupleWithType: { int, int } = { 1, 2 };
 const customWithType: Color = Color.Red;
 
 const preDefinedClassInstance = new MyClass(987);
@@ -212,22 +213,15 @@ class MyClass {
     public const myIntTwoConst: int = 5;
     public const myIntThreeConst = 5;
 
-    protected static fooOneStatic: int;
-    protected static fooTwoStatic: int = 10;
-    protected static fooThreeStatic = 10;
-
     private static const mickOneStatic: bool;
     private static const mickTwoStatic: bool = true;
     private static const mickThreeStatic = true;
 
-    private initMyClass = new MyClass(5);
-    private myClassProp: MyClass;
-    private otherClass: OtherClass = new OtherClass();
 
     private foo: int;
     private bar: bool;
 
-    constructor(other: MyClass) {
+    constructor() {
         this.foo = 10;
         this.bar = true;
     }
@@ -237,32 +231,23 @@ class MyClass {
             this.bar = true;
     }
 
-    public static create(foo: int) MyClass {
+    public static create(foo: int): MyClass {
         return new MyClass(foo);
     }
 
-    protected static doSomething(other: MyClass) MyClass {
-        return new MyClass(40);
-    }
-
-    private static doSomethingElse() MyClass {
+    private static doSomethingElse(): MyClass {
         return new MyClass(100);
     }
 
-    private static getBar() bool {
+    private static getBar(): bool {
         return true;
     }
 
-    public isValid() () => bool {
-        return this.getBar;
+    public isValid(): () => bool {
+        return MyClass.getBar;
     }
 
-    protected setBar(bar: bool) this {
-        this.bar = bar;
-        return this;
-    }
-
-    private hello() string {
+    private hello(): string {
         return "hello world!";
     }
 
@@ -272,7 +257,7 @@ class MyClass {
 
 }
 
-func hi(n: int) int {
+func hi(n: int): int {
     if n == 0 {
         return 0;
     }
@@ -292,14 +277,14 @@ func hi(n: int) int {
     }
 }
 
-func bye() int {
+func bye(): int {
     if 5 == 5 {
         return 5;
     }
     return 1;
 }
 
-func withFinally() int {
+func withFinally(): int {
     const zoo = 10;
     const moo = 5;
     return 10;
@@ -331,13 +316,13 @@ const dereferenceChar = dref rIdChar;
 const dereferenceInt = dref sharedArray[0];
 const dereferenceString = dref sharedTuple.0;
 
-func refParamsTest(x: shared<int>, y: shared<bool>, z: shared<[int]>) shared<int> {
+func refParamsTest(x: shared<int>, y: shared<bool>, z: shared<[int]>): shared<int> {
     return share 5;
 }
 
 const rTypeId: shared<char> = rIdChar;
 const lambdaArrowRef = (x: shared<int>) => x + 1;
-const lambdaRef = (x: shared<int>) shared<int> {
+const lambdaRef = (x: shared<int>): shared<int> {
     return share (x + 1);
 };
 const refArrayRaw = share [ 50, 60, 70 ];
@@ -350,33 +335,27 @@ const concatIds = string1 ++ string2;
 const concatArrays = [1,2] ++ [3,4];
 
 const protoTake = concatArrays.take(1);
-const protoTakeLast = concatArrays.take(1);
-const protoDrop = concatArrays.drop(1);
-const protoDropLast = concatArrays.dropLast(1);
-const protoHead = concatArrays.head();
-const protoLast = concatArrays.last();
+const protoTakeLast = concatArrays.takeLast(1);
 const protoTail = concatArrays.tail();
-const protoAppend = concatArrays.append(1);
-const protoPrepend = concatArrays.prepend(2);
 const lambdaStruct = {
     foo: (x: int) => x + 10,
     bar: () => 100,
-    foo2: (x: int) int { return x + 5; }
+    foo2: (x: int): int { return x + 5; }
 };
-const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int) int { return x + 5; } };
+const lambdaTuple = { (x: int) => x + 10, () => 100, (x: int): int { return x + 5; } };
 const lambdaTupleCall = lambdaTuple.1();
 
-interface MyInterface {
+type MyStructType = {
     foo: int,
     bar: bool,
     hello: () => string,
     structure: { a: int, b: int },
     bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
     myClassInstance: MyClass
-}
+};
 
 const structure: { a: bool, c: char } = { a: true, c: 'n' };
-const myInterfaceImpl: MyInterface = {
+const myStructImpl: MyStructType = {
     foo: 4,
     bar: true,
     hello: () => "hello",
@@ -387,18 +366,9 @@ const myInterfaceImpl: MyInterface = {
 
 proc SProc(myStruct: { a: bool, b: { foo: int, bar: bool } }) {}
 
-interface ITest {
-    foo: bool,
-    bar: int,
-    getColor: () => string,
-    size: () => int
-}
 
-interface ITwoTest {
-    magic: bool
-}
 
-class TestImplementation implements ITest, ITwoTest {
+class TestImplementation {
     public foo: bool = true;
     public bar: int = 10;
     public magic: bool = false;
@@ -417,8 +387,8 @@ class TestImplementation implements ITest, ITwoTest {
     }
 }
 
-const tester: ITest = new TestImplementation("blue");
-const twoTester: ITwoTest = new TestImplementation("red");
+const tester = new TestImplementation("blue");
+const twoTester = new TestImplementation("red");
 
 type TypeFoo = string;
 type TypeBar = () => bool;
@@ -430,28 +400,3 @@ const myPoint: Point = {
     y: 55
 };
 const structArray = [ { foo: true, nested: { bar: 10 } }, { foo: true, nested: { bar: 99 } }];
-
-structObj.i = 20;
-arrWithType[0] = 21;
-
-print("hello world!");
-
-if intWithType == 5 {
-    const nope = "hello";
-}
-
-if intWithType == 5 {
-    const nope = "hello";
-} else if decimal == 0.0 {
-    let bruce = "bruce";
-} else {
-    let wayne = "wayne";
-}
-
-for i in array {
-  array[i] + 1;
-}
-
-while true {
-    const anotherVar = true;
-}

@@ -224,8 +224,11 @@ bool ClassTypeSignature::isEquivalentTo(std::shared_ptr<TypeSignature> otherType
 }
 
 bool ClassTypeSignature::isEqualTo(std::shared_ptr<TypeSignature> otherType) {
-    if (this->getId() == otherType->getId()) return true;
-    return false;
+    if (otherType->typeSourceIs(CLASS_INSTANCE_TYPE_SOURCE)){
+        auto classInstanceTypeSignature = std::dynamic_pointer_cast<ClassInstanceTypeSignature>(otherType);
+        return this->getId() == classInstanceTypeSignature->getClass()->getId();
+    }
+    return this->getId() == otherType->getId();
 }
 
 void ClassTypeSignature::copyFrom(std::shared_ptr<TypeSignature> otherType) {

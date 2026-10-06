@@ -14,6 +14,7 @@
 #include "../../../../../src/core/type-signature/shared-type-signature/shared-type-signature.h"
 
 namespace TypeSignatureFactory {
+    static std::shared_ptr<VoidTypeSignature> voidType = std::make_shared<VoidTypeSignature>();
     static std::shared_ptr<IntLiteralTypeSignature> intLiteral = std::make_shared<IntLiteralTypeSignature>();
     static std::shared_ptr<FloatLiteralTypeSignature> floatLiteral = std::make_shared<FloatLiteralTypeSignature>();
     static std::shared_ptr<CharLiteralTypeSignature> charLiteral = std::make_shared<CharLiteralTypeSignature>();
@@ -62,7 +63,6 @@ namespace TypeSignatureFactory {
     }
 
     static std::shared_ptr<AccessModifierTypeSignature> publicAccess = std::make_shared<AccessModifierTypeSignature>(PUBLIC_ACCESS_MODIFIER_TYPE);
-    static std::shared_ptr<AccessModifierTypeSignature> protectedAccess = std::make_shared<AccessModifierTypeSignature>(PROTECTED_ACCESS_MODIFIER_TYPE);
     static std::shared_ptr<AccessModifierTypeSignature> privateAccess = std::make_shared<AccessModifierTypeSignature>(PRIVATE_ACCESS_MODIFIER_TYPE);
 
 };
