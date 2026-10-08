@@ -4,7 +4,7 @@
 
 #include "ast-greater-than-base-node.h"
 #include "../../../../shared/utils/logger/logger.h"
-#include "../ast-lambda-nodes/ast-lambda-type-fat-arrow-node.h"
+#include "../ast-lambda-nodes/ast-lambda-arrow-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-arithmetic-operator-node.h"
 #include "../ast-type-nodes/ast-type-parameter-list-end-node.h"
 #include "../ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"

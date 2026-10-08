@@ -6,12 +6,12 @@
 #include "../../../../../shared/utils/logger/logger.h"
 #include "../../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaTypeNode::ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaTypeFatArrowNode> fatArrowNode, std::shared_ptr<ASTTypeNode> returnType) {
+ASTLambdaTypeNode::ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaArrowNode> arrowNode, std::shared_ptr<ASTTypeNode> returnType) {
     _parameterList = parameterList;
-    _fatArrowNode = fatArrowNode;
+    _arrowNode = arrowNode;
     _returnType = returnType;
     _children.push_back(_parameterList);
-    _children.push_back(_fatArrowNode);
+    _children.push_back(_arrowNode);
     _children.push_back(_returnType);
 }
 
@@ -60,7 +60,7 @@ std::string ASTLambdaTypeNode::toSourceCode() {
     auto sourceCodeBuilder = SourceCodeBuilder();
     sourceCodeBuilder
             .add(_parameterList)
-            ->add(_fatArrowNode)
+            ->add(_arrowNode)
             ->add(_returnType);
     return sourceCodeBuilder.build();
 }

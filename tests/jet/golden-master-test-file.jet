@@ -827,7 +827,7 @@ proc testLambdas() {
     assert(lambdaNested(150) == 250);
     assert(lambdaNested(5) == 5);
 
-    const myLambdas: [() => int] = [];
+    const myLambdas: [() -> int] = [];
     for integer in range(10) {
         const loopLambda = () {
             return 100 + integer;
@@ -855,7 +855,7 @@ proc testLambdas() {
 }
 testLambdas();
 
-func getSomeLambda(): (int) => int {
+func getSomeLambda(): (int) -> int {
     const foo = 100; // captured variable
     return (x: int) {
       if x > 10 {
@@ -1466,24 +1466,24 @@ proc testArcPassUp() {
 }
 testArcPassUp();
 
-func testPassUpLambda(): () => int {
+func testPassUpLambda(): () -> int {
     return () => 10;
 }
 
-func testDoublePassUpLambda(): () => int {
+func testDoublePassUpLambda(): () -> int {
     return testPassUpLambda();
 }
 
-func testPassUpLambdaAlt(): () => int {
+func testPassUpLambdaAlt(): () -> int {
     const x = () => 10;
     return x;
 }
 
-func testDoublePassUpLambdaAlt(): () => int {
+func testDoublePassUpLambdaAlt(): () -> int {
     return testPassUpLambdaAlt();
 }
 
-proc testPassInLambda(x: () => int, sharedCount: int) {
+proc testPassInLambda(x: () -> int, sharedCount: int) {
     assertDebugLambdaRefCount(x, sharedCount);
 }
 
@@ -1881,7 +1881,7 @@ func functionUsedAsLambda(x: string): int {
 }
 
 proc testFunctionsAsLambdas() {
-    const lambdaUsingFunction = (x: int, l: (int) => int) {
+    const lambdaUsingFunction = (x: int, l: (int) -> int) {
         return l(x) + 1000;
     };
     assert(lambdaUsingFunction(1, functionUsedAsLambda) == 2001);
@@ -1903,7 +1903,7 @@ proc procUsedAsLambda(x: shared<int>, y: shared<int>) {
 }
 
 proc testProceduresAsLambdas() {
-    const lambdaUsingProcedure = (x: shared<int>, l: (shared<int>) => void) {
+    const lambdaUsingProcedure = (x: shared<int>, l: (shared<int>) -> void) {
         x := x + 10;
         l(x);
     };
@@ -2240,7 +2240,7 @@ proc testBigModule() {
     assert(BigModule::BIG_LAMBDA_ARROW(120) == 121);
     assert(BigModule::BIG_LAMBDA_BLOCK(120) == 121);
 
-    const myLambda = (x: int, y: (int) => int) => x + y(x);
+    const myLambda = (x: int, y: (int) -> int) => x + y(x);
     assert(myLambda(5, BigModule::BIG_LAMBDA_ARROW) == 11);
     assert(myLambda(5, BigModule::BIG_LAMBDA_BLOCK) == 11);
     const lambdaResult = myLambda(5, BigModule::BIG_LAMBDA_ARROW);
@@ -2338,8 +2338,8 @@ func testTupleAccess(): string {
     return x.2;
 }
 
-func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } } {
-    const x: { () => int } = { () => 5 };
+func testTupleInvocation(): { int, TestType, bool, () -> string, (TestType) -> { int, TestType }, { int, bool }, { foo: bool, bar: string } } {
+    const x: { () -> int } = { () => 5 };
     const y: { int } = { 5 };
     const z: { int, bool } = { 10, true };
     const a: { TestType } = { [1,2,3] };
@@ -2347,8 +2347,8 @@ func testTupleInvocation(): { int, TestType, bool, () => string, (TestType) => {
     return { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
 }
 
-func testSharedTupleInvocation(): shared<{ int, TestType, bool, () => string, (TestType) => { int, TestType }, { int, bool }, { foo: bool, bar: string } }> {
-    const x: { () => int } = { () => 5 };
+func testSharedTupleInvocation(): shared<{ int, TestType, bool, () -> string, (TestType) -> { int, TestType }, { int, bool }, { foo: bool, bar: string } }> {
+    const x: { () -> int } = { () => 5 };
     const y: { int } = { 5 };
     const z: { int, bool } = { 10, true };
     const a: { TestType } = { [1,2,3] };
@@ -2356,11 +2356,11 @@ func testSharedTupleInvocation(): shared<{ int, TestType, bool, () => string, (T
     return share { 1, [1,2,3], false, () => "hello", (x: TestType) => { 500, x }, { 6, false }, { foo: false, bar: "testing" } };
 }
 
-func testTupleReturnTypeTest1(): { () => string } {
+func testTupleReturnTypeTest1(): { () -> string } {
     return { () => "hello" };
 }
 
-func testTupleReturnTypeTest2(): { TestType, () => string } {
+func testTupleReturnTypeTest2(): { TestType, () -> string } {
     return { [1,2,3], () => "hello" };
 }
 
@@ -2421,8 +2421,8 @@ func testStructAccess(): string {
     return x.c;
 }
 
-func testStructInvocation(): { a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } } {
-    const x: { a: () => int } = { a: () => 5 };
+func testStructInvocation(): { a: int, b: TestType, c: bool, d: () -> string, e: (TestType) -> { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } } {
+    const x: { a: () -> int } = { a: () => 5 };
     const y: { a: int } = { a: 5 };
     const z: { a: int, b: bool } = { a: 10, b: true };
     const a: { a: TestType } = { a: [1,2,3] };
@@ -2430,8 +2430,8 @@ func testStructInvocation(): { a: int, b: TestType, c: bool, d: () => string, e:
     return { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
 }
 
-func testSharedStructInvocation(): shared<{ a: int, b: TestType, c: bool, d: () => string, e: (TestType) => { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } }> {
-    const x: { a: () => int } = { a: () => 5 };
+func testSharedStructInvocation(): shared<{ a: int, b: TestType, c: bool, d: () -> string, e: (TestType) -> { a: int, b: TestType }, f: { int, bool }, g: { foo: bool, bar: string } }> {
+    const x: { a: () -> int } = { a: () => 5 };
     const y: { a: int } = { a: 5 };
     const z: { a: int, b: bool } = { a: 10, b: true };
     const a: { a: TestType } = { a: [1,2,3] };
@@ -2439,11 +2439,11 @@ func testSharedStructInvocation(): shared<{ a: int, b: TestType, c: bool, d: () 
     return share { a: 1, b: [1,2,3], c: false, d: () => "hello", e: (x: TestType) => { a: 500, b: x }, f: { 6, false }, g: { foo: false, bar: "testing" } };
 }
 
-func testStructReturnTypeTest1(): { a: () => string } {
+func testStructReturnTypeTest1(): { a: () -> string } {
     return { a: () => "hello" };
 }
 
-func testStructReturnTypeTest2(): { a: TestType, b: () => string } {
+func testStructReturnTypeTest2(): { a: TestType, b: () -> string } {
     return { a: [1,2,3], b: () => "hello" };
 }
 

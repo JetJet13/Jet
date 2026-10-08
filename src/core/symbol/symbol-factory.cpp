@@ -207,6 +207,10 @@ namespace SymbolFactory {
         return std::make_shared<Symbol>(SYM_FINALLY, "finally");
     }
 
+    std::shared_ptr<Symbol> createArrowSymbol() {
+        return std::make_shared<Symbol>(SYM_ARROW, "->");
+    }
+
     std::shared_ptr<Symbol> createFatArrowSymbol() {
         return std::make_shared<Symbol>(SYM_FAT_ARROW, "=>");
     }

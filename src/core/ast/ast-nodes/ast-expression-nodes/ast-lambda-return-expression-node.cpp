@@ -6,14 +6,14 @@
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../types/source-code-builder/source-code-builder.h"
 
-ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(std::shared_ptr<ASTLambdaExpressionFatArrowNode> fatArrowNode, std::shared_ptr<ASTExpressionNode> expressionNode) {
+ASTLambdaReturnExpressionNode::ASTLambdaReturnExpressionNode(std::shared_ptr<ASTLambdaFatArrowNode> fatArrowNode, std::shared_ptr<ASTExpressionNode> expressionNode) {
     _fatArrowNode = fatArrowNode;
     _returnExpression = expressionNode;
     _children.push_back(_fatArrowNode);
     _children.push_back(_returnExpression);
 }
 
-std::shared_ptr<ASTLambdaExpressionFatArrowNode> ASTLambdaReturnExpressionNode::getFatArrowNode() {
+std::shared_ptr<ASTLambdaFatArrowNode> ASTLambdaReturnExpressionNode::getFatArrowNode() {
     return _fatArrowNode;
 }
 

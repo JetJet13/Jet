@@ -212,7 +212,7 @@ export class BigClass {
         return BigClass.bigStaticStringEnum;
     }
 
-    public static getBigStaticLambda(): (int) => int {
+    public static getBigStaticLambda(): (int) -> int {
         return (x: int) => x + 2;
     }
 

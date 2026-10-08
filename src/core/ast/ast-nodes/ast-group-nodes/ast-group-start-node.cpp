@@ -9,7 +9,7 @@
 
 std::shared_ptr<ASTNode> ASTGroupStartNode::transformIfNecessary(std::optional<std::shared_ptr<ASTNode>> prevNode, std::optional<std::shared_ptr<ASTNode>> nextNode, SyntaxAnalyzerMode mode) {
 
-    if (prevNode && prevNode.value()->isOneOf({ AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_TYPE_START_NODE, AST_TYPE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_LAMBDA_TYPE_FAT_ARROW_NODE })) {
+    if (prevNode && prevNode.value()->isOneOf({AST_TYPE_ASSIGNMENT_OPERATOR_NODE, AST_ARRAY_TYPE_START_NODE, AST_TYPE_COLON_NODE, AST_STRUCT_TYPE_COLON_NODE, AST_INTERFACE_COLON_NODE, AST_FUNCTION_PARAMETER_LIST_NODE, AST_LAMBDA_ARROW_NODE })) {
         return std::make_shared<ASTLambdaTypeParameterListStartNode>(this->getLexeme());
     }
     if (mode == SA_LAMBDA_TYPE_PARAMETER_LIST_MODE || mode == SA_TYPE_PARAMETER_LIST_MODE || mode == SA_TUPLE_TYPE_MODE) {
@@ -29,7 +29,7 @@ std::shared_ptr<ASTNode> ASTGroupStartNode::transformIfNecessary(std::optional<s
     }
 
     if ((!prevNode ||
-        prevNode && prevNode.value()->isOneOf({ AST_VARIABLE_INIT_NODE, AST_FUNCTION_RETURN_NODE, AST_LAMBDA_EXPRESSION_FAT_ARROW_NODE })) &&
+        prevNode && prevNode.value()->isOneOf({AST_VARIABLE_INIT_NODE, AST_FUNCTION_RETURN_NODE, AST_LAMBDA_FAT_ARROW_NODE })) &&
         nextNode && nextNode.value()->is(AST_GROUP_END_NODE)) {
         return std::make_shared<ASTFunctionParameterListStartNode>(this->getLexeme());
     }

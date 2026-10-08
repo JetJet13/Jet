@@ -380,8 +380,6 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.h
-        ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.cpp
-        ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.h
         ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.h
         pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.cpp
@@ -406,10 +404,10 @@ add_library(jet-core
         pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.cpp
         pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.h
         ast/ast-nodes/ast-type-nodes/ast-type-node-factory.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.cpp
-        ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.h
+        ast/ast-nodes/ast-lambda-nodes/ast-lambda-fat-arrow-node.cpp
+        ast/ast-nodes/ast-lambda-nodes/ast-lambda-fat-arrow-node.h
+        ast/ast-nodes/ast-lambda-nodes/ast-lambda-arrow-node.cpp
+        ast/ast-nodes/ast-lambda-nodes/ast-lambda-arrow-node.h
         ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.cpp
         ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.h
         ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.cpp

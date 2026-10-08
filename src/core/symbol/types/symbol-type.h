@@ -60,6 +60,7 @@ typedef enum {
     SYM_TRY,
     SYM_CATCH,
     SYM_FINALLY,
+    SYM_ARROW,
     SYM_FAT_ARROW,
     SYM_MODULE,
     SYM_AS,

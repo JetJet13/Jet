@@ -6,16 +6,16 @@
 #define JETLANG_AST_LAMBDA_TYPE_NODE_H
 
 #include "../ast-type-base-node.h"
-#include "../../ast-lambda-nodes/ast-lambda-type-fat-arrow-node.h"
+#include "../../ast-lambda-nodes/ast-lambda-arrow-node.h"
 #include "ast-lambda-type-parameter-list-node.h"
 
 class ASTLambdaTypeNode : public ASTTypeBaseNode {
 private:
     std::shared_ptr<ASTLambdaTypeParameterListNode> _parameterList;
-    std::shared_ptr<ASTLambdaTypeFatArrowNode> _fatArrowNode;
+    std::shared_ptr<ASTLambdaArrowNode> _arrowNode;
     std::shared_ptr<ASTTypeNode> _returnType;
 public:
-    ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaTypeFatArrowNode> fatArrowNode, std::shared_ptr<ASTTypeNode> returnType);
+    ASTLambdaTypeNode(std::shared_ptr<ASTLambdaTypeParameterListNode> parameterList, std::shared_ptr<ASTLambdaArrowNode> arrowNode, std::shared_ptr<ASTTypeNode> returnType);
     std::shared_ptr<ASTLambdaTypeParameterListNode> getParameterList();
     std::shared_ptr<ASTTypeNode> getReturnType();
     std::shared_ptr<Position> getStartPosition() override;

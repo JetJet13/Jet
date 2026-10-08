@@ -39,7 +39,6 @@
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-catch-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-try-node.h"
 #include "../../../ast/ast-nodes/ast-control-flow-nodes/try-catch-finally/ast-finally-node.h"
-#include "../../../ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.h"
 #include "../../../ast/ast-nodes/ast-type-nodes/ast-type-node-factory.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-less-than-base-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-greater-than-base-node.h"
@@ -70,6 +69,7 @@
 #include "../../../ast/ast-nodes/ast-operator-nodes/ast-binary-operators/ast-binary-comparator-operator-node.h"
 #include "../../../ast/ast-nodes/ast-base-nodes/ast-colon-colon-base-node.h"
 #include "../../../ast/ast-nodes/ast-share-nodes/ast-share-node.h"
+#include "../../../ast/ast-nodes/ast-lambda-nodes/ast-lambda-fat-arrow-node.h"
 
 std::optional<std::shared_ptr<ASTNode>> LexemeTransformer::transform(std::optional<std::shared_ptr<Lexeme>> lexeme) {
     if (lexeme) {
@@ -167,8 +167,10 @@ std::shared_ptr<ASTNode> LexemeTransformer::transform(std::shared_ptr<Lexeme> le
         return std::make_shared<ASTCatchNode>(lexeme);
     } else if (symbol->isFinally()) {
         return std::make_shared<ASTFinallyNode>(lexeme);
+    } else if (symbol->isArrow()) {
+        return std::make_shared<ASTLambdaArrowNode>(lexeme);
     } else if (symbol->isFatArrow()) {
-        return std::make_shared<ASTFatArrowBaseNode>(lexeme);
+        return std::make_shared<ASTLambdaFatArrowNode>(lexeme);
     } else if (symbol->isLessThan()) {
         return std::make_shared<ASTLessThanBaseNode>(lexeme);
     } else if (symbol->isGreaterThan()) {

@@ -20,7 +20,7 @@ std::shared_ptr<ASTNode> ASTGroupEndNode::transformIfNecessary(std::optional<std
         return std::make_shared<ASTFunctionArgumentListEndNode>(this->getLexeme());
     }
 
-    if (nextNode && nextNode.value()->isOneOf({ AST_FAT_ARROW_BASE_NODE, AST_BLOCK_START_NODE })) {
+    if (nextNode && nextNode.value()->isOneOf({ AST_LAMBDA_FAT_ARROW_NODE, AST_BLOCK_START_NODE })) {
         return std::make_shared<ASTFunctionParameterListEndNode>(this->getLexeme());
     }
 

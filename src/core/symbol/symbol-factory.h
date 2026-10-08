@@ -60,6 +60,7 @@ namespace SymbolFactory {
     std::shared_ptr<Symbol> createTrySymbol();
     std::shared_ptr<Symbol> createCatchSymbol();
     std::shared_ptr<Symbol> createFinallySymbol();
+    std::shared_ptr<Symbol> createArrowSymbol();
     std::shared_ptr<Symbol> createFatArrowSymbol();
     std::shared_ptr<Symbol> createVoidSymbol();
     std::shared_ptr<Symbol> createIntTypeSymbol();

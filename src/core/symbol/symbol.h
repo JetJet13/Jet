@@ -74,6 +74,7 @@ public:
     bool isTry();
     bool isCatch();
     bool isFinally();
+    bool isArrow();
     bool isFatArrow();
     bool isModule();
     bool isAsKeyword();

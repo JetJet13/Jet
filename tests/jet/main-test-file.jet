@@ -469,7 +469,7 @@ proc testEquality() {
 
 }
 
-func getTestLambda() () => int {
+func getTestLambda() () -> int {
     const ms = [100, 200, 300];
     const fs = 909;
     return () => 9008 + ms[0] + fs;
@@ -585,7 +585,7 @@ proc testArcPassUp() {
     assert(passedUpX == 121);
 }
 
-func handleCapturedLambda(lambda: () => int) int {
+func handleCapturedLambda(lambda: () -> int) int {
     const vv = lambda();
     return vv + 1;
 }
@@ -597,7 +597,7 @@ proc testCapturedLambda() {
     print("result", result);
 }
 
-func handleCapturedLambda2(lambda: () => int, secondLambda: () => string) int {
+func handleCapturedLambda2(lambda: () -> int, secondLambda: () -> string) int {
     const vv = lambda();
     print("SECOND LAMBDA", secondLambda() ++ "_WORD!");
     return vv + 1;

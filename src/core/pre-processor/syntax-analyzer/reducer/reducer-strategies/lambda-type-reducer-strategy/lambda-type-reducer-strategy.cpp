@@ -10,7 +10,7 @@ std::shared_ptr<ASTNode> LambdaTypeReducerStrategy::execute(std::vector<std::sha
     return ASTTypeNodeFactory::createLambdaTypeNode(
             std::make_shared<ASTLambdaTypeNode>(
                     std::dynamic_pointer_cast<ASTLambdaTypeParameterListNode>(nodes[0]),
-                    std::dynamic_pointer_cast<ASTLambdaTypeFatArrowNode>(nodes[1]),
+                    std::dynamic_pointer_cast<ASTLambdaArrowNode>(nodes[1]),
                     std::dynamic_pointer_cast<ASTTypeNode>(nodes[2])
             ));
 }

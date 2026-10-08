@@ -199,6 +199,26 @@ std::optional<std::shared_ptr<Token>> LexicalAnalyzer::buildNextToken() {
                 return std::make_shared<Token>(isConcatOperator.value());
             }
             return std::make_shared<Token>(isCharacterReservedKeyword.value());
+        } else if (nextChar && reservedKeyword->isMinus()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isArrow = _reservedKeywords->match(term);
+            if (isArrow) {
+                _fileReader.advance();
+                return std::make_shared<Token>(isArrow.value());
+            }
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
+        } else if (nextChar && reservedKeyword->isMinus()) {
+            std::string term;
+            term += character.value();
+            term += nextChar.value();
+            auto isArrow = _reservedKeywords->match(term);
+            if (isArrow) {
+                _fileReader.advance();
+                return std::make_shared<Token>(isArrow.value());
+            }
+            return std::make_shared<Token>(isCharacterReservedKeyword.value());
         } else if (nextChar && reservedKeyword->isStar()) {
             std::string term;
             term += character.value();

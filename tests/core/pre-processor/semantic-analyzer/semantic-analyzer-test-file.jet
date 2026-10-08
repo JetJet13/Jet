@@ -154,20 +154,20 @@ const lambdaNestedSum = (x: int) => (y: int) => (z: int) => x + y + z;
 
 const preDefinedFunctionCall = useLambdaBool();
 
-func useLambda(x: int, lambda: (int) => bool): bool {
+func useLambda(x: int, lambda: (int) -> bool): bool {
     return lambda(x);
 }
 
-func useLambdaOther(lambda: (int,int) => (int) => bool): bool {
+func useLambdaOther(lambda: (int,int) -> (int) -> bool): bool {
     const result = lambda(1,2);
     return result(5);
 }
 
-func useLambdaSimpleLambda(): () => int {
+func useLambdaSimpleLambda(): () -> int {
     return () => 9;
 }
 
-func useLambdaLambda(): (int) => int {
+func useLambdaLambda(): (int) -> int {
     return (x: int) => 9;
 }
 
@@ -175,11 +175,11 @@ func useLambdaBool(): bool {
     return (true && true);
 }
 
-func useLambdaFunc(x: (int) => bool): bool {
+func useLambdaFunc(x: (int) -> bool): bool {
     return (true && true);
 }
 
-func useAnotherProc(x: () => void, y: (Color) => void): bool {
+func useAnotherProc(x: () -> void, y: (Color) -> void): bool {
     return true;
 }
 
@@ -193,8 +193,8 @@ const charWithType: char = 'c';
 const stringWithType: string = "foo";
 const boolWithType: bool = true;
 const arrWithType: [int] = [1,2,3];
-const funcWithType: (int) => bool = (x: int) => true;
-const procWithType: (int) => void = (x: int) { x + 1; };
+const funcWithType: (int) -> bool = (x: int) => true;
+const procWithType: (int) -> void = (x: int) { x + 1; };
 const tupleWithType: { int, int } = { 1, 2 };
 const customWithType: Color = Color.Red;
 
@@ -243,7 +243,7 @@ class MyClass {
         return true;
     }
 
-    public isValid(): () => bool {
+    public isValid(): () -> bool {
         return MyClass.getBar;
     }
 
@@ -348,9 +348,9 @@ const lambdaTupleCall = lambdaTuple.1();
 type MyStructType = {
     foo: int,
     bar: bool,
-    hello: () => string,
+    hello: () -> string,
     structure: { a: int, b: int },
-    bye: ({ a: int, b: int }, { c: bool, d: char }) => string,
+    bye: ({ a: int, b: int }, { c: bool, d: char }) -> string,
     myClassInstance: MyClass
 };
 
@@ -391,7 +391,7 @@ const tester = new TestImplementation("blue");
 const twoTester = new TestImplementation("red");
 
 type TypeFoo = string;
-type TypeBar = () => bool;
+type TypeBar = () -> bool;
 type Money = float;
 type Point = { x: int, y: int };
 

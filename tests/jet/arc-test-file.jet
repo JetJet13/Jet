@@ -24,7 +24,7 @@ class SimpleClass {
         this.value = this.value + 1;
     }
 
-    public getTuple(): { int, () => int, bool } {
+    public getTuple(): { int, () -> int, bool } {
         return { 1, () => 2, false };
     }
 }

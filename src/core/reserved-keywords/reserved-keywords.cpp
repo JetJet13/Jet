@@ -83,6 +83,7 @@ void ReservedKeywords::init() {
     this->add("while", SymbolFactory::createWhileSymbol());
 //    this->add("break", SymbolFactory::createBreakSymbol());
 //    this->add("skip", SymbolFactory::createSkipSymbol());
+    this->add("->", SymbolFactory::createArrowSymbol());
     this->add("=>", SymbolFactory::createFatArrowSymbol());
     this->add("module", SymbolFactory::createModuleSymbol());
 //    this->add("as", SymbolFactory::createAsSymbol());

@@ -102,7 +102,7 @@
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-new-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-block-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-class-nodes/ast-class-node.h"
-#include "../../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.h"
+#include "../../../../../src/core/ast/ast-nodes/ast-lambda-nodes/ast-lambda-fat-arrow-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-type-nodes/ast-type-colon-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-function-nodes/ast-function-definition-node.h"
 #include "../../../../../src/core/ast/ast-nodes/ast-export-node.h"
@@ -165,8 +165,8 @@ namespace ASTNodeFactory {
     static std::shared_ptr<ASTImportModuleListStartNode> importModuleListStart = std::make_shared<ASTImportModuleListStartNode>(createLexeme(SymbolFactory::createLeftBraceSymbol()));
     static std::shared_ptr<ASTImportModuleListEndNode> importModuleListEnd = std::make_shared<ASTImportModuleListEndNode>(createLexeme(SymbolFactory::createRightBraceSymbol()));
     static std::shared_ptr<ASTPeriodNode> period = std::make_shared<ASTPeriodNode>(createLexeme(SymbolFactory::createPeriodSymbol()));
-    static std::shared_ptr<ASTLambdaExpressionFatArrowNode> lambdaFatArrow = std::make_shared<ASTLambdaExpressionFatArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
-    static std::shared_ptr<ASTLambdaTypeFatArrowNode> lambdaTypeFatArrow = std::make_shared<ASTLambdaTypeFatArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
+    static std::shared_ptr<ASTLambdaFatArrowNode> lambdaFatArrow = std::make_shared<ASTLambdaFatArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
+    static std::shared_ptr<ASTLambdaArrowNode> lambdaArrow = std::make_shared<ASTLambdaArrowNode>(createLexeme(SymbolFactory::createFatArrowSymbol()));
     static std::shared_ptr<ASTVoidNode> voidNode = std::make_shared<ASTVoidNode>(createLexeme(SymbolFactory::createVoidSymbol()));
     static std::shared_ptr<ASTLambdaTypeParameterListStartNode> lambdaTypeParameterListStart = std::make_shared<ASTLambdaTypeParameterListStartNode>(createLexeme(SymbolFactory::createLeftParenSymbol()));
     static std::shared_ptr<ASTLambdaTypeParameterListEndNode> lambdaTypeParameterListEnd = std::make_shared<ASTLambdaTypeParameterListEndNode>(createLexeme(SymbolFactory::createRightParenSymbol()));
@@ -795,21 +795,21 @@ namespace ASTNodeFactory {
     static std::shared_ptr<ASTTypeNode> createLambdaType(std::vector<std::shared_ptr<ASTTypeNode>> items, std::shared_ptr<ASTTypeNode> returnType) {
         return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(items),
-                ASTNodeFactory::lambdaTypeFatArrow,
+                ASTNodeFactory::lambdaArrow,
                 returnType
         ));
     }
     static std::shared_ptr<ASTTypeNode> createLambdaType(std::shared_ptr<ASTTypeNode> returnType) {
         return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(),
-                ASTNodeFactory::lambdaTypeFatArrow,
+                ASTNodeFactory::lambdaArrow,
                 returnType
         ));
     }
     static std::shared_ptr<ASTTypeNode> createLambdaTypeWithVoidReturn(std::vector<std::shared_ptr<ASTTypeNode>> items = {}) {
         return ASTTypeNodeFactory::createLambdaTypeNode(std::make_shared<ASTLambdaTypeNode>(
                 ASTNodeFactory::createLambdaTypeParameterList(items),
-                ASTNodeFactory::lambdaTypeFatArrow,
+                ASTNodeFactory::lambdaArrow,
                 ASTNodeFactory::voidType
         ));
     }

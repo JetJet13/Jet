@@ -221,6 +221,10 @@ bool Symbol::isFinally() {
     return _type == SYM_FINALLY;
 }
 
+bool Symbol::isArrow() {
+    return _type == SYM_ARROW;
+}
+
 bool Symbol::isFatArrow() {
     return _type == SYM_FAT_ARROW;
 }
