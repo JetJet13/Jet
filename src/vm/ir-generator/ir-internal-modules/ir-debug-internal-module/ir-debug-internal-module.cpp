@@ -9,6 +9,22 @@
 #include "../../../../shared/utils/function-id-generator/function-id-generator.h"
 
 void IRDebugInternalModule::augment(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIRModule) {
+    new llvm::GlobalVariable(
+            **coreIRModule->getModule(),
+            irGenerator->generateIntType(),
+            false,
+            llvm::GlobalValue::ExternalLinkage,
+            irGenerator->generateIntConstant(0),
+            "DEBUG_MALLOC_COUNTER"
+    );
+    new llvm::GlobalVariable(
+            **coreIRModule->getModule(),
+            irGenerator->generateIntType(),
+            false,
+            llvm::GlobalValue::ExternalLinkage,
+            irGenerator->generateIntConstant(0),
+            "DEBUG_FREE_COUNTER"
+    );
     AssertIRFunction::generateAssertDebugGlobals(irGenerator, context, coreIRModule);
     AssertIRFunction::generateAssertDebugRefCountFunction(irGenerator, context, coreIRModule);
     AssertIRFunction::generateAssertDebugStructRefCountFunction(irGenerator, context, coreIRModule);

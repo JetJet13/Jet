@@ -11,8 +11,11 @@
 #include "../../../../ir-nodes/ir-function-nodes/ir-function-parameter-list-node.h"
 
 class DebugIRInjectorHelper {
+private:
+    static inline bool _debugMode = false;
 public:
-    static bool const _debugMode = true;
+    static void enable();
+    static void disable();
     static void injectFunctionEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule);
     static void injectFunctionExitLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule);
     static void injectControlFlowEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, int index, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule);

@@ -19,6 +19,7 @@ VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irI
 void VM::switchToDebugMode() {
     _debugMode = true;
     _irInjector->switchToDebugMode();
+    DebugIRInjectorHelper::enable();
 }
 
 std::optional<std::shared_ptr<IRJetFile>> VM::findCompiledJetFile(std::string id) {
@@ -63,12 +64,12 @@ std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
     auto dependencyGraph = DependencyGraph();
     dependencyGraph.insert(jetFile);
     dependencyGraph.prioritize();
-    if (_debugMode) {
-        dependencyGraph.dump();
-    }
     auto irCoreModule = _irGenerator->generateCoreModule();
     _irGenerator->augmentUtilInternalModule(irCoreModule);
-    _irGenerator->augmentDebugInternalModule(irCoreModule);
+    if (_debugMode) {
+        _irGenerator->augmentDebugInternalModule(irCoreModule);
+        dependencyGraph.dump();
+    }
 
     auto irMainModule = _irGenerator->generateModule(jetFile->getId());
     irMainModule->linkTo(irCoreModule);
@@ -91,16 +92,18 @@ std::shared_ptr<IRJetFile> VM::compileMain(std::shared_ptr<JetFile> jetFile) {
                 jetFileMainFunction->getFunction()
         );
         if (jetFileToCompile->getId() == jetFile->getId()) {
-            auto mallocCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_MALLOC_COUNTER");
-            auto mallocCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), mallocCounterVariable);
-            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "MALLOC COUNT", _irInjector, irMainModule);
-            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, mallocCounter, _irInjector, irMainModule);
-            auto freeCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_FREE_COUNTER");
-            auto freeCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), freeCounterVariable);
-            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "FREE COUNT", _irInjector, irMainModule);
-            DebugIRInjectorHelper::injectLog(irMainFunctionBlock, freeCounter, _irInjector, irMainModule);
-            DebugIRInjectorHelper::injectFunctionEnterLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
-            DebugIRInjectorHelper::injectFunctionExitLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
+            if (_debugMode) {
+                auto mallocCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_MALLOC_COUNTER");
+                auto mallocCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), mallocCounterVariable);
+                DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "MALLOC COUNT", _irInjector, irMainModule);
+                DebugIRInjectorHelper::injectLog(irMainFunctionBlock, mallocCounter, _irInjector, irMainModule);
+                auto freeCounterVariable = irMainModule.get()->getModule()->get()->getGlobalVariable("DEBUG_FREE_COUNTER");
+                auto freeCounter = irMainFunctionBlock->getBuilder()->get()->CreateLoad(_irGenerator->generateIntType(), freeCounterVariable);
+                DebugIRInjectorHelper::injectLog(irMainFunctionBlock, "FREE COUNT", _irInjector, irMainModule);
+                DebugIRInjectorHelper::injectLog(irMainFunctionBlock, freeCounter, _irInjector, irMainModule);
+                DebugIRInjectorHelper::injectFunctionEnterLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
+                DebugIRInjectorHelper::injectFunctionExitLog(irMainFunctionBlock, jetFile->getId(), _irInjector, irMainModule);
+            }
             irMainFunctionBlock->getBuilder()->get()->CreateRet(mainIRValue);
         }
     }

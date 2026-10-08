@@ -4,6 +4,14 @@
 
 #include "debug-ir-injector-helper.h"
 
+void DebugIRInjectorHelper::enable() {
+    DebugIRInjectorHelper::_debugMode = true;
+}
+
+void DebugIRInjectorHelper::disable() {
+    DebugIRInjectorHelper::_debugMode = false;
+}
+
 void DebugIRInjectorHelper::injectFunctionEnterLog(std::shared_ptr<IRBlockNode> irBlockNode, std::string functionName, std::shared_ptr<IRInjector> irInjector, std::shared_ptr<IRModuleNode> irModule) {
     if (!DebugIRInjectorHelper::_debugMode) return;
     irBlockNode->setInsertionPointBeforeFirstInstruction();

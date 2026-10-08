@@ -3,7 +3,7 @@
 //
 
 #include <catch2/catch_all.hpp>
-#include "./resources/ast-node-factory.h"
+#include "./utils/ast-node-factory.h"
 #include "../../../../src/core/reserved-keywords/reserved-keywords.h"
 #include "../../../../src/core/pre-processor/lexical-analyzer/lexical-analyzer.h"
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"

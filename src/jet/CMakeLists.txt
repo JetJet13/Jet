@@ -55,7 +55,17 @@ target_link_libraries(jet
         PRIVATE ${llvm_libs}
 )
 
-add_executable(jet-debug debug-main.cpp debug-main.h cli11/CLI11.hpp)
+add_executable(jet-debug debug-main.cpp debug-main.h
+        types/target-helper.cpp
+        types/target-helper.h
+        types/supported-targets.h
+        types/supported-llvm-targets.h
+        cli11/CLI11.hpp
+        types/linker-arg-builder.cpp
+        types/linker-arg-builder.h
+        types/cli-helper.cpp
+        types/cli-helper.h
+)
 target_compile_features(jet-debug PRIVATE cxx_std_17)
 target_link_libraries(jet-debug
         PRIVATE jet-vm

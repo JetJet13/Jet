@@ -6,6 +6,8 @@
 #define JETLANG_FILE_EQUALITY_CHECKER_H
 
 #include <string>
+#include <vector>
+#include <set>
 
 class FileEqualityChecker {
 public:

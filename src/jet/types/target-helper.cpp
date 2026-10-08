@@ -23,7 +23,7 @@ std::string TargetHelper::getLLVMTarget() {
         return SUPPORTED_LLVM_TARGETS.ARM64_LINUX_MUSL_TARGET_TRIPLE;
     }
 
-    throw std::logic_error("getLLVMTarget - unsupported target triple" + targetTriple);
+    throw std::logic_error("getLLVMTarget - unsupported target triple: " + targetTriple);
 }
 
 void TargetHelper::generateLinkerArgs(std::string targetTriple, std::string objectFilename, std::string outputFileName, LinkerArgBuilder* linkerArgBuilder) {
@@ -41,7 +41,7 @@ void TargetHelper::generateLinkerArgs(std::string targetTriple, std::string obje
         return TargetHelper::generateAarch64LinuxMuslLinkerArgs(objectFilename, outputFileName, linkerArgBuilder);
     }
 
-    throw std::logic_error("generateLinkerArgs - unsupported target triple" + targetTriple);
+    throw std::logic_error("generateLinkerArgs - unsupported target triple: " + targetTriple);
 }
 
 std::array<lld::DriverDef, 2> TargetHelper::getLinkerDrivers() {

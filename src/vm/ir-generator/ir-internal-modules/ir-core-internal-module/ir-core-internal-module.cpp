@@ -77,22 +77,6 @@
 
 std::shared_ptr<IRModuleNode> IRCoreInternalModule::generate(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context) {
     auto irModule = irGenerator->generateModule("jet-core");
-    new llvm::GlobalVariable(
-            **irModule->getModule(),
-            irGenerator->generateIntType(),
-            false,
-            llvm::GlobalValue::ExternalLinkage,
-            irGenerator->generateIntConstant(0),
-            "DEBUG_MALLOC_COUNTER"
-    );
-    new llvm::GlobalVariable(
-            **irModule->getModule(),
-            irGenerator->generateIntType(),
-            false,
-            llvm::GlobalValue::ExternalLinkage,
-            irGenerator->generateIntConstant(0),
-            "DEBUG_FREE_COUNTER"
-    );
     CopyValueIRFunction::declareCopyValueFunction(irGenerator, context, irModule);
     CopyArrayIRFunction::declareCopyArrayFunction(irGenerator, context, irModule);
     CopyPointerIRFunction::declareCopyPointerFunction(irGenerator, context, irModule);

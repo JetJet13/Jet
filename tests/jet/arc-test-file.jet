@@ -157,13 +157,3 @@ proc testShare() {
     assert(y == x);
 }
 testShare();
-
-
-//proc testSyntax() {
-//    const x = uniq 10;
-//    const y: shared<int> = shared 5;
-//    const z = share x;
-//    const a = share (x + 1);
-//    const b = share new MyClass(40);
-//    myFunction(shared 5, share Foo::Create());
-//}

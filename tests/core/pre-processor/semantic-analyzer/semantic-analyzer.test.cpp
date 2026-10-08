@@ -10,7 +10,7 @@
 #include "../../../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../../../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
-#include "resources/type-signature-factory.h"
+#include "utils/type-signature-factory.h"
 #include "../../../../src/core/type-signature/array-type-signature/array-type-signature.h"
 #include "../../../../src/core/type-signature/enum-type-signature/enum-access-type-signature/enum-access-type-signature.h"
 #include "../../../../src/core/type-signature/tuple-type-signature/tuple-type-signature.h"

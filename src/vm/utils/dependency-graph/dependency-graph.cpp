@@ -54,7 +54,8 @@ void DependencyGraph::prioritize() {
         _totalCounts.begin(),
         _totalCounts.end(),
         [](const std::pair<uint64_t, std::shared_ptr<JetFile>>& a, const std::pair<uint64_t, std::shared_ptr<JetFile>>& b) {
-          return a.first > b.first;  // sort by desc order
+            if (a.first == b.first) return a.second->getId() < b.second->getId(); // if total count equal, sort alphabetically
+            return a.first > b.first;  // sort by desc order
         }
     );
 }
