@@ -199,6 +199,14 @@ IRGenerator::IRGenerator(std::shared_ptr<IRInjector> irInjector) {
     );
 }
 
+void IRGenerator::switchToDebugMode() {
+    _debugMode = true;
+}
+
+bool IRGenerator::isDebugMode() {
+    return _debugMode;
+}
+
 std::shared_ptr<IRNode> IRGenerator::generateFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     if (ASTNodeUtils::isTypeDeclarationNode(node)) {
         return this->generateFor(std::dynamic_pointer_cast<ASTTypeDeclarationNode>(node), scope, irContext);
@@ -1208,7 +1216,7 @@ std::shared_ptr<IRContext> IRGenerator::generateContext(std::shared_ptr<IRBlockN
 }
 
 std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName) {
-    return std::make_shared<IRModuleNode>(IRModuleNode(
+    auto irModule = std::make_shared<IRModuleNode>(IRModuleNode(
             std::make_unique<llvm::Module>(moduleName,*_context),
             IntAddOverflowIRFunction::getIntAddOverflowIRFunctionName(),
             IntSubOverflowIRFunction::getIntSubOverflowIRFunctionName(),
@@ -1291,6 +1299,11 @@ std::shared_ptr<IRModuleNode> IRGenerator::generateModule(std::string moduleName
             GetRefCountIRFunction::getGetRefCountIRFunctionName(),
             GetVarArgIRFunction::getGetVarArgIRFunctionName()
     ));
+
+    if (this->isDebugMode()) {
+        irModule->switchToDebugMode();
+    }
+    return irModule;
 }
 
 std::shared_ptr<IRFunctionNode> IRGenerator::generateMainFunction(std::string functionName, std::shared_ptr<IRModuleNode> irModuleNode) {

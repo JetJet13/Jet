@@ -7,7 +7,6 @@
 
 #define CLI11_ENABLE_EXTRA_VALIDATORS 1
 #define CLI11_HAS_FILESYSTEM 1
-#define CLI11_CPP17 1
 
 #include <string>
 #include "../cli11/CLI11.hpp"

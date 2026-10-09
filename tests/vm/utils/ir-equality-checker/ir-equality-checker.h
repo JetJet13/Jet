@@ -2,8 +2,8 @@
 // Created by Johny Georges on 2024-06-15.
 //
 
-#ifndef JETLANG_FILE_EQUALITY_CHECKER_H
-#define JETLANG_FILE_EQUALITY_CHECKER_H
+#ifndef JETLANG_IR_EQUALITY_CHECKER_H
+#define JETLANG_IR_EQUALITY_CHECKER_H
 
 #include <string>
 #include <vector>
@@ -14,4 +14,4 @@ public:
     bool areFilesEqual(std::string filePath, std::string otherFilePath);
 };
 
-#endif //JETLANG_FILE_EQUALITY_CHECKER_H
+#endif //JETLANG_IR_EQUALITY_CHECKER_H

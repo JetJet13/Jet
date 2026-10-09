@@ -76,6 +76,7 @@
 
 class IRGenerator : public std::enable_shared_from_this<IRGenerator> {
 private:
+    bool _debugMode = false;
     std::unique_ptr<llvm::LLVMContext> _context;
     IRStrategyMap _irStrategyMap;
     std::shared_ptr<IRInjector> _irInjector;
@@ -88,6 +89,8 @@ private:
     std::shared_ptr<IRClassInstanceType> _genericClassInstanceIRType;
 public:
     explicit IRGenerator(std::shared_ptr<IRInjector> irInjector);
+    void switchToDebugMode();
+    bool isDebugMode();
     std::shared_ptr<IRNode> generateFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     void generateInitialTypeFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);
     void generatePostInitialTypeFor(std::shared_ptr<ASTNode> node, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext);

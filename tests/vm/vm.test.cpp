@@ -11,7 +11,7 @@
 #include "../../src/core/pre-processor/semantic-analyzer/type-signature-lookup-table/type-signature-lookup-table.h"
 #include "../../src/core/pre-processor/syntax-analyzer/syntax-analyzer.h"
 #include "../../src/vm/ir-generator/ir-generator.h"
-#include "utils/file-equality-checker/file-equality-checker.h"
+#include "utils/file-equality-checker/ir-equality-checker.h"
 #include "../../src/core/pre-processor/semantic-analyzer/semantic-analyzer.h"
 #include "../../src/core/pre-processor/pre-processor.h"
 #include "../../src/vm/vm.h"

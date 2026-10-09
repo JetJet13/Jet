@@ -96,6 +96,14 @@ std::unique_ptr<llvm::Module>* IRModuleNode::getModule() {
     return &_irValue;
 }
 
+void IRModuleNode::switchToDebugMode() {
+    _debugMode = true;
+}
+
+bool IRModuleNode::isDebugMode() {
+    return _debugMode;
+}
+
 void IRModuleNode::linkTo(std::shared_ptr<IRModuleNode> otherIRModule) {
     if (_linkedToIRModule != nullptr) {
         _linkedToIRModule->linkTo(otherIRModule);

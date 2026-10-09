@@ -25,10 +25,12 @@ void MallocIRFunction::generateMallocFunction(std::shared_ptr<IRGenerator> irGen
             llvm::ConstantPointerNull::get(pointerType->getType())
     );
     auto successBlock = irGenerator->generateIfThenBlock(irContext, functionBlock->getScope());
-    auto mallocCounter = irModuleNode->getModule()->get()->getGlobalVariable("DEBUG_MALLOC_COUNTER");
-    auto currentMallocCounter = successBlock->getBuilder()->get()->CreateLoad(intType, mallocCounter);
-    auto newMallocCounter = successBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, currentMallocCounter, irGenerator->generateIntConstant(1));
-    successBlock->getBuilder()->get()->CreateStore(newMallocCounter, mallocCounter);
+    if (irModuleNode->isDebugMode()) {
+        auto mallocCounter = irModuleNode->getModule()->get()->getGlobalVariable("DEBUG_MALLOC_COUNTER");
+        auto currentMallocCounter = successBlock->getBuilder()->get()->CreateLoad(intType, mallocCounter);
+        auto newMallocCounter = successBlock->getBuilder()->get()->CreateBinOp(llvm::Instruction::BinaryOps::Add, currentMallocCounter, irGenerator->generateIntConstant(1));
+        successBlock->getBuilder()->get()->CreateStore(newMallocCounter, mallocCounter);
+    }
     successBlock->getBuilder()->get()->CreateRet(allocatedPointer);
 
     auto errorBlock = irGenerator->generateIfElseBlock(irContext, functionBlock->getScope());

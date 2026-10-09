@@ -4,9 +4,6 @@
 
 #include "target-helper.h"
 
-#include <utility>
-#include "supported-llvm-targets.h"
-
 std::string TargetHelper::getLLVMTarget() {
     std::string targetTriple = BUILD_TARGET;
     if (targetTriple == SUPPORTED_TARGETS.X86_MAC_OS) {
@@ -22,7 +19,6 @@ std::string TargetHelper::getLLVMTarget() {
     } else if (targetTriple == SUPPORTED_TARGETS.ARM64_LINUX_MUSL) {
         return SUPPORTED_LLVM_TARGETS.ARM64_LINUX_MUSL_TARGET_TRIPLE;
     }
-
     throw std::logic_error("getLLVMTarget - unsupported target triple: " + targetTriple);
 }
 

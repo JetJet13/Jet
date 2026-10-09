@@ -380,9 +380,7 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
         "pre-processor/syntax-analyzer/reducer/reducer-strategies/catch-block-reducer-strategy/catch-block-reducer-strategy.cpp",
         
         "pre-processor/syntax-analyzer/reducer/reducer-strategies/try-statement-reducer-strategy/try-statement-reducer-strategy.cpp",
-        
-        "ast/ast-nodes/ast-base-nodes/ast-fat-arrow-base-node.cpp",
-        
+
         "ast/ast-nodes/ast-expression-nodes/ast-lambda-expression-node.cpp",
         
         "pre-processor/syntax-analyzer/reducer/reducer-strategies/lambda-expression-reducer-strategy/lambda-expression-reducer-strategy.cpp",
@@ -407,9 +405,9 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
         "pre-processor/syntax-analyzer/reducer/reducer-strategies/type-parameter-list-reducer-strategy/type-parameter-list-reducer-strategy.cpp",
         
         "ast/ast-nodes/ast-type-nodes/ast-type-node-factory.cpp",
-        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-expression-fat-arrow-node.cpp",
+        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-arrow-node.cpp",
         
-        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-type-fat-arrow-node.cpp",
+        "ast/ast-nodes/ast-lambda-nodes/ast-lambda-fat-arrow-node.cpp",
         
         "ast/ast-nodes/ast-expression-nodes/ast-curry-expression-node.cpp",
         

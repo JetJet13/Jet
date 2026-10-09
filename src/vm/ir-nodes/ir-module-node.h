@@ -10,6 +10,7 @@
 
 class IRModuleNode {
 private:
+    bool _debugMode = false;
     std::shared_ptr<IRModuleNode> _linkedToIRModule;
     std::unique_ptr<llvm::Module> _irValue;
     std::string _intAddOverflowFunctionName;
@@ -175,6 +176,8 @@ public:
                  std::string getRefCountFunctionName,
                  std::string getVarArgFunctionName);
     std::unique_ptr<llvm::Module>* getModule();
+    void switchToDebugMode();
+    bool isDebugMode();
     void linkTo(std::shared_ptr<IRModuleNode> otherIRModule);
     bool isLinked();
     llvm::Function* findFunction(std::string name);

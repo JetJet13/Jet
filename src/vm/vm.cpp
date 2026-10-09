@@ -18,6 +18,7 @@ VM::VM(std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRInjector> irI
 
 void VM::switchToDebugMode() {
     _debugMode = true;
+    _irGenerator->switchToDebugMode();
     _irInjector->switchToDebugMode();
     DebugIRInjectorHelper::enable();
 }

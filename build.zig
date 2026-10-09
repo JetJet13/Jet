@@ -48,8 +48,8 @@ pub fn build(b: *std.Build) void {
 
     jetVmLib.linkLibrary(jetCoreLib);
     jetVmLib.linkLibrary(jetSharedLib);
-    jetVmLib.root_module.addCMacro(buildTargetMacroKey, buildTargetMacroValue);
     buildVm.setup(jetVmLib, b);
+    jetVmLib.root_module.addCMacro(buildTargetMacroKey, buildTargetMacroValue);
     buildJetExe.linkLLVM(jetVmLib, b, target);
 
     jetExe.linkLibrary(jetCoreLib);

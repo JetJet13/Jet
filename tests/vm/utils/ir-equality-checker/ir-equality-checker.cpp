@@ -3,7 +3,7 @@
 //
 
 #include <fstream>
-#include "file-equality-checker.h"
+#include "ir-equality-checker.h"
 #include "../../../../src/shared/utils/file-io/file-io.h"
 #include "../../../../src/shared/utils/logger/logger.h"
 

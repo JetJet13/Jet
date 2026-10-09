@@ -20,8 +20,8 @@ add_executable(jet-test
         core/pre-processor/semantic-analyzer/semantic-analyzer.test.cpp
         core/pre-processor/semantic-analyzer/utils/type-signature-factory.h
         vm/vm.test.cpp
-        vm/utils/file-equality-checker/file-equality-checker.cpp
-        vm/utils/file-equality-checker/file-equality-checker.h
+        vm/utils/ir-equality-checker/ir-equality-checker.cpp
+        vm/utils/ir-equality-checker/ir-equality-checker.h
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/core/pre-processor/syntax-analyzer/syntax-analyzer-test-file.jet

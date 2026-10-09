@@ -3,7 +3,7 @@
 //
 
 #include "jet-cli.h"
-#include "../types/supported-targets.h"
+#include "types/supported-targets.h"
 
 int main (int argc, const char* argv[]) {
     CLI::App app{"JET CLI"};
@@ -21,7 +21,7 @@ int main (int argc, const char* argv[]) {
     }));
     CLI11_PARSE(app, argc, argv)
 
-    std::string zigCommand = "zig build --prefix ./zig-out/" + target + " --build-file build.zig -j8 -Dtarget=" + target;
+    std::string zigCommand = "zig build --prefix ./zig-out/" + target + " --build-file build.zig -j6 -Dtarget=" + target;
     std::system(zigCommand.c_str());
 
     return EXIT_SUCCESS;
