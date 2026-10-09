@@ -26,6 +26,7 @@ int main (int argc, const char* argv[]) {
     std::string linuxMultiArchPathOverride;
     std::string linuxLibDirOverride;
     bool includeObjectFile = false;
+    bool printIR = false;
 
     CliHelper(&app)
     .addFilePathOption(filePath)
@@ -34,7 +35,8 @@ int main (int argc, const char* argv[]) {
     ->addLinuxDynamicLinkerPathOverrideOption(linuxDynamicLinkerPathOverride)
     ->addLinuxMultiArchPathOverrideOption(linuxMultiArchPathOverride)
     ->addLinuxLibDirOverrideOption(linuxLibDirOverride)
-    ->addIncludeObjectFileFlag(includeObjectFile);
+    ->addIncludeObjectFileFlag(includeObjectFile)
+    ->addPrintIRFlag(printIR);
 
     CLI11_PARSE(app, argc, argv)
 
@@ -122,6 +124,12 @@ int main (int argc, const char* argv[]) {
 
     if (!includeObjectFile) {
         std::filesystem::remove(objectFilename);
+    }
+
+    if (printIR) {
+        irJetFile->getIRModule()->getModule()->get()->print(llvm::outs(), nullptr);
+        Logger::log("Target Triple", TargetTriple);
+        Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
     }
 
     return linkResult.retCode;

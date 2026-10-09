@@ -54,3 +54,8 @@ CliHelper* CliHelper::addIncludeObjectFileFlag(bool &includeObjectFileVar) {
     _app->add_flag("--obj", includeObjectFileVar, "include object file in output");
     return this;
 }
+
+CliHelper* CliHelper::addPrintIRFlag(bool &printIRVar) {
+    _app->add_flag("--print-ir", printIRVar, "print generated IR");
+    return this;
+}

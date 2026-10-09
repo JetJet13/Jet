@@ -23,6 +23,7 @@ public:
     CliHelper* addLinuxMultiArchPathOverrideOption(std::string &linuxMultiArchPathOverrideVar);
     CliHelper* addLinuxLibDirOverrideOption(std::string &linuxLibDirOverrideVar);
     CliHelper* addIncludeObjectFileFlag(bool &includeObjectFileVar);
+    CliHelper* addPrintIRFlag(bool &printIRVar);
 };
 
 #endif //JETLANG_CLI_HELPER_H
