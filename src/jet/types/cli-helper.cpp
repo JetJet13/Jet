@@ -30,35 +30,35 @@ CliHelper* CliHelper::addFilePathOption(std::string &filePathVar) {
 }
 
 CliHelper* CliHelper::addOutDirOption(std::string &outDirVar) {
-    _app->add_option("--outdir", outDirVar, "the output directory. Defaults to entry jet file parent directory")
+    _app->add_option("--out-dir", outDirVar, "the output directory. Defaults to jet file parent directory")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::WritePermissions);
     return this;
 }
 
-CliHelper* CliHelper::addMacosSysLibDirOption(std::string &macosSysLibDirectoryOverrideVar) {
-    _app->add_option("--macosSysLibDir", macosSysLibDirectoryOverrideVar, "override the macos sys-lib file. e.g. '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
+CliHelper* CliHelper::addMacosSysLibFileOption(std::string &macosSysLibFileOverrideVar) {
+    _app->add_option("--macos-sys-lib-dir", macosSysLibFileOverrideVar, "override the macos sys-lib file (for macos only) e.g. '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
     ->check(CLI::ExistingFile)
     ->check(CLI::ReadPermissions);
     return this;
 }
 
-CliHelper* CliHelper::addLinuxDynamicLinkerPathOverrideOption(std::string &linuxDynamicLinkerPathOverrideVar) {
-    _app->add_option("--linuxDyLink", linuxDynamicLinkerPathOverrideVar, "override the linker dynamic linker path for linux distributions. e.g. /lib/ld-linux-aarch64.so.1, /lib64/ld-linux-x86-64.so.2, /lib/ld-musl-x86_64.so.1")
-    ->check(CLI::ExistingDirectory)
+CliHelper* CliHelper::addLinuxDynamicLinkerFileOverrideOption(std::string &linuxDynamicLinkerFileOverrideVar) {
+    _app->add_option("--linux-dy-link", linuxDynamicLinkerFileOverrideVar, "override the linker dynamic linker file (for linux distributions only) e.g. /lib/ld-linux-aarch64.so.1, /lib64/ld-linux-x86-64.so.2, /lib/ld-musl-x86_64.so.1")
+    ->check(CLI::ExistingFile)
     ->check(CLI::ReadPermissions);
     return this;
 }
 
 CliHelper* CliHelper::addLinuxMultiArchPathOverrideOption(std::string &linuxMultiArchPathOverrideVar) {
-    _app->add_option("--linuxMultiArch", linuxMultiArchPathOverrideVar, "override the linker multi-arch path for linux distributions. e.g. /usr/lib/x86_64-linux-gnu, /usr/lib/aarch64-linux-gnu")
+    _app->add_option("--linux-multi-arch-dir", linuxMultiArchPathOverrideVar, "override the linker multi-arch directory (for linux distributions only) e.g. /usr/lib/x86_64-linux-gnu, /usr/lib/aarch64-linux-gnu")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::ReadPermissions);
     return this;
 }
 
 CliHelper* CliHelper::addLinuxLibDirOverrideOption(std::string &linuxLibDirOverrideVar) {
-    _app->add_option("--linuxLibDir", linuxLibDirOverrideVar, "override the linker lib directory (-L) for linux distributions. e.g. /usr/lib")
+    _app->add_option("--linux-lib-dir", linuxLibDirOverrideVar, "override the linker lib directory (-L) (for linux distributions only) e.g. /usr/lib")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::ReadPermissions);
     return this;

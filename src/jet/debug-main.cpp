@@ -36,8 +36,8 @@ int main (int argc, const char* argv[]) {
 
     std::string filePath;
     std::string outDirectory;
-    std::string macosSysLibDirectoryOverride;
-    std::string linuxDynamicLinkerPathOverride;
+    std::string macosSysLibFileOverride;
+    std::string linuxDynamicLinkerFileOverride;
     std::string linuxMultiArchPathOverride;
     std::string linuxLibDirOverride;
     bool includeObjectFile = false;
@@ -45,8 +45,8 @@ int main (int argc, const char* argv[]) {
     CliHelper(&app)
     .addFilePathOption(filePath)
     ->addOutDirOption(outDirectory)
-    ->addMacosSysLibDirOption(macosSysLibDirectoryOverride)
-    ->addLinuxDynamicLinkerPathOverrideOption(linuxDynamicLinkerPathOverride)
+    ->addMacosSysLibFileOption(macosSysLibFileOverride)
+    ->addLinuxDynamicLinkerFileOverrideOption(linuxDynamicLinkerFileOverride)
     ->addLinuxMultiArchPathOverrideOption(linuxMultiArchPathOverride)
     ->addLinuxLibDirOverrideOption(linuxLibDirOverride)
     ->addIncludeObjectFileFlag(includeObjectFile);
@@ -54,10 +54,10 @@ int main (int argc, const char* argv[]) {
     CLI11_PARSE(app, argc, argv)
 
     auto linkerArgBuilder = LinkerArgBuilder(
-        macosSysLibDirectoryOverride,
-        linuxDynamicLinkerPathOverride,
-        linuxMultiArchPathOverride,
-        linuxLibDirOverride
+            macosSysLibFileOverride,
+            linuxDynamicLinkerFileOverride,
+            linuxMultiArchPathOverride,
+            linuxLibDirOverride
     );
 
     Logger::log("executing file:", filePath);

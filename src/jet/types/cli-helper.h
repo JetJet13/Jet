@@ -32,8 +32,8 @@ public:
     CliHelper(CLI::App* app);
     CliHelper* addFilePathOption(std::string &filePathVar);
     CliHelper* addOutDirOption(std::string &outDirVar);
-    CliHelper* addMacosSysLibDirOption(std::string &macosSysLibDirectoryOverrideVar);
-    CliHelper* addLinuxDynamicLinkerPathOverrideOption(std::string &linuxDynamicLinkerPathOverrideVar);
+    CliHelper* addMacosSysLibFileOption(std::string &macosSysLibFileOverrideVar);
+    CliHelper* addLinuxDynamicLinkerFileOverrideOption(std::string &linuxDynamicLinkerFileOverrideVar);
     CliHelper* addLinuxMultiArchPathOverrideOption(std::string &linuxMultiArchPathOverrideVar);
     CliHelper* addLinuxLibDirOverrideOption(std::string &linuxLibDirOverrideVar);
     CliHelper* addIncludeObjectFileFlag(bool &includeObjectFileVar);

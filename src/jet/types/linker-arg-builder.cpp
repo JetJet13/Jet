@@ -18,7 +18,6 @@
 
 #include "linker-arg-builder.h"
 
-#include <utility>
 
 LinkerArgBuilder::LinkerArgBuilder(std::string macosSysLibFileOverride, std::string linuxDynamicLinkerFileOverride, std::string linuxMultiArchDirectoryOverride, std::string linuxLibDirectoryOverride) {
     _macosSysLibFileOverride = std::move(macosSysLibFileOverride);
@@ -86,5 +85,6 @@ std::vector<const char*> LinkerArgBuilder::build() {
     for (const auto &arg : _args) {
         args.push_back(arg.c_str());
     }
+
     return args;
 }

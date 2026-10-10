@@ -92,17 +92,14 @@ void TargetHelper::generateX86_64LinuxGnuLinkerArgs(std::string objectFilename, 
     ->setLinuxDynamicLinkerFileDefault("/lib64/ld-linux-x86-64.so.2")
     ->setLinuxLibDirectoryDefault("/usr/lib");
 
-    auto multiArchPath = std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory());
-
     linkerArgBuilder
     ->addArg("ld.lld")
-    ->addArg("-t")
     ->addArg("-z")->addArg("relro")
     ->addArg("-m")->addArg("elf_x86_64")
     ->addArg("-dynamic-linker")->addArg(linkerArgBuilder->getLinuxDynamicLinkerFile())
-    ->addArg(multiArchPath.append("crt1.o"))
-    ->addArg(multiArchPath.append("crti.o"))
-    ->addArg("-L" + multiArchPath.string())
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crt1.o"))
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crti.o"))
+    ->addArg("-L" + std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).string())
     ->addArg("-L" + linkerArgBuilder->getLinuxLibDirectory())
     ->addArg("-lc++")
     ->addArg("-lc++abi")
@@ -111,7 +108,7 @@ void TargetHelper::generateX86_64LinuxGnuLinkerArgs(std::string objectFilename, 
     ->addArg("-lc")
     ->addArg(std::move(objectFilename))
     ->addArg("-o")->addArg(std::move(outputFileName))
-    ->addArg(multiArchPath.append("crtn.o"));
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crtn.o"));
 }
 
 void TargetHelper::generateAarch64LinuxGnuLinkerArgs(std::string objectFilename, std::string outputFileName, LinkerArgBuilder* linkerArgBuilder) {
@@ -120,17 +117,14 @@ void TargetHelper::generateAarch64LinuxGnuLinkerArgs(std::string objectFilename,
     ->setLinuxDynamicLinkerFileDefault("/lib/ld-linux-aarch64.so.1")
     ->setLinuxLibDirectoryDefault("/usr/lib");
 
-    auto multiArchPath = std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory());
-
     linkerArgBuilder
     ->addArg("ld.lld")
-    ->addArg("-t")
     ->addArg("-z")->addArg("relro")
     ->addArg("-m")->addArg("aarch64elf")
     ->addArg("-dynamic-linker")->addArg(linkerArgBuilder->getLinuxDynamicLinkerFile())
-    ->addArg(multiArchPath.append("crt1.o"))
-    ->addArg(multiArchPath.append("crti.o"))
-    ->addArg("-L" + multiArchPath.string())
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crt1.o"))
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crti.o"))
+    ->addArg("-L" + std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).string())
     ->addArg("-L" + linkerArgBuilder->getLinuxLibDirectory())
     ->addArg("-lc++")
     ->addArg("-lc++abi")
@@ -139,7 +133,7 @@ void TargetHelper::generateAarch64LinuxGnuLinkerArgs(std::string objectFilename,
     ->addArg("-lc")
     ->addArg(std::move(objectFilename))
     ->addArg("-o")->addArg(std::move(outputFileName))
-    ->addArg(multiArchPath.append("crtn.o"));
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crtn.o"));
 }
 
 void TargetHelper::generateX86_64LinuxMuslLinkerArgs(std::string objectFilename, std::string outputFileName, LinkerArgBuilder* linkerArgBuilder) {
@@ -148,17 +142,14 @@ void TargetHelper::generateX86_64LinuxMuslLinkerArgs(std::string objectFilename,
     ->setLinuxDynamicLinkerFileDefault("/lib/ld-musl-x86_64.so.1")
     ->setLinuxLibDirectoryDefault("/usr/lib");
 
-    auto multiArchPath = std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory());
-
     linkerArgBuilder
     ->addArg("ld.lld")
-    ->addArg("-t")
     ->addArg("-z")->addArg("relro")
     ->addArg("-m")->addArg("elf_x86_64")
     ->addArg("-dynamic-linker")->addArg(linkerArgBuilder->getLinuxDynamicLinkerFile())
-    ->addArg(multiArchPath.append("crt1.o"))
-    ->addArg(multiArchPath.append("crti.o"))
-    ->addArg("-L" + multiArchPath.string())
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crt1.o"))
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crti.o"))
+    ->addArg("-L" + std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).string())
     ->addArg("-L" + linkerArgBuilder->getLinuxLibDirectory())
     ->addArg("-lc++")
     ->addArg("-lc++abi")
@@ -166,7 +157,7 @@ void TargetHelper::generateX86_64LinuxMuslLinkerArgs(std::string objectFilename,
     ->addArg("-lc")
     ->addArg(std::move(objectFilename))
     ->addArg("-o")->addArg(std::move(outputFileName))
-    ->addArg(multiArchPath.append("crtn.o"));
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crtn.o"));
 }
 
 void TargetHelper::generateAarch64LinuxMuslLinkerArgs(std::string objectFilename, std::string outputFileName, LinkerArgBuilder* linkerArgBuilder) {
@@ -175,17 +166,14 @@ void TargetHelper::generateAarch64LinuxMuslLinkerArgs(std::string objectFilename
     ->setLinuxDynamicLinkerFileDefault("/lib/ld-musl-aarch64.so.1")
     ->setLinuxLibDirectoryDefault("/usr/lib");
 
-    auto multiArchPath = std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory());
-
     linkerArgBuilder
     ->addArg("ld.lld")
-    ->addArg("-t")
     ->addArg("-z")->addArg("relro")
     ->addArg("-m")->addArg("aarch64linux")
     ->addArg("-dynamic-linker")->addArg(linkerArgBuilder->getLinuxDynamicLinkerFile())
-    ->addArg(multiArchPath.append("crt1.o"))
-    ->addArg(multiArchPath.append("crti.o"))
-    ->addArg("-L" + multiArchPath.string())
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crt1.o"))
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crti.o"))
+    ->addArg("-L" + std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).string())
     ->addArg("-L" + linkerArgBuilder->getLinuxLibDirectory())
     ->addArg("-lc++")
     ->addArg("-lc++abi")
@@ -193,5 +181,5 @@ void TargetHelper::generateAarch64LinuxMuslLinkerArgs(std::string objectFilename
     ->addArg("-lc")
     ->addArg(std::move(objectFilename))
     ->addArg("-o")->addArg(std::move(outputFileName))
-    ->addArg(multiArchPath.append("crtn.o"));
+    ->addArg(std::filesystem::path(linkerArgBuilder->getLinuxMultiArchDirectory()).append("crtn.o"));
 }
