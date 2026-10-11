@@ -132,7 +132,9 @@ int main (int argc, const char* argv[]) {
     dest.flush();
     Logger::log("Target Triple", TargetTriple);
     Logger::log("Data Layout", irJetFile->getIRModule()->getModule()->get()->getDataLayoutStr());
-    Logger::log("Wrote ", objectFilename, "\n");
+    if (includeObjectFile) {
+        Logger::log("Wrote ", objectFilename, "\n");
+    }
     TargetHelper::generateLinkerArgs(TargetTriple, objectFilename, outputFilename, &linkerArgBuilder);
     auto linkResult = lld::lldMain(
             linkerArgBuilder.build(),
