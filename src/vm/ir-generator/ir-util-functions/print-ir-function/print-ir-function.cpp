@@ -334,7 +334,7 @@ void PrintIRFunction::generatePrintGlobals(std::shared_ptr<IRGenerator> irGenera
             falseFormatString,
             PrintIRFunction::getGlobalFalseFormatStringName()
     );
-    auto stringFormatString = irGenerator->generateRawString("\"%s\"");
+    auto stringFormatString = irGenerator->generateRawString("%s");
     new llvm::GlobalVariable(
             *irModuleNode->getModule()->get(),
             stringFormatString->getType(),

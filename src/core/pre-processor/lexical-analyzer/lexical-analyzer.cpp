@@ -174,15 +174,18 @@ std::optional<std::shared_ptr<Token>> LexicalAnalyzer::buildNextToken() {
 
     if (character.value() == DOUBLE_QUOTE) {
         std::string term;
+        auto prevChar = character.value();
         auto peekNextChar = _fileReader.peek();
         while (peekNextChar) {
             auto nextChar = _fileReader.advance();
-            if (nextChar.value() == DOUBLE_QUOTE) {
+            auto isPrevCharEscapeSlash = prevChar == '\\';
+            if (nextChar.value() == DOUBLE_QUOTE && !isPrevCharEscapeSlash) {
                 auto valueId = this->generateTokenValueId();
                 _tokenTable->setString(valueId, term);
                 return std::make_shared<Token>(SymbolFactory::createStringSymbol(), term, valueId);
             }
             term += nextChar.value();
+            prevChar = nextChar.value();
             peekNextChar = _fileReader.peek();
         }
         return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);
@@ -362,13 +365,16 @@ std::optional<std::shared_ptr<Token>> LexicalAnalyzer::peekNextToken() {
 
     if (character.value() == DOUBLE_QUOTE) {
         std::string term;
+        auto prevChar = character.value();
         auto peekNextChar = _fileReader.peek();
         while (peekNextChar) {
             auto nextChar = _fileReader.advance();
-            if (nextChar.value() == DOUBLE_QUOTE) {
+            auto isPrevCharEscapeSlash = prevChar == '\\';
+            if (nextChar.value() == DOUBLE_QUOTE && !isPrevCharEscapeSlash) {
                 return std::make_shared<Token>(SymbolFactory::createStringSymbol(), term);
             }
             term += nextChar.value();
+            prevChar = nextChar.value();
             peekNextChar = _fileReader.peek();
         }
         return std::make_shared<Token>(SymbolFactory::createMalformedSymbol(term), term);

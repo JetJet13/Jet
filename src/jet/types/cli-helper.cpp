@@ -44,7 +44,7 @@ CliHelper* CliHelper::addOutDirOption(std::string &outDirVar) {
 }
 
 CliHelper* CliHelper::addMacosSysLibFileOption(std::string &macosSysLibFileOverrideVar) {
-    _app->add_option("--macos-sys-lib-dir", macosSysLibFileOverrideVar, "override the macos sys-lib file (for macos only) e.g. '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
+    _app->add_option("--macos-sys-lib", macosSysLibFileOverrideVar, "override the macos sys-lib file (for macos only) e.g. '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk'")
     ->check(CLI::ExistingFile)
     ->check(CLI::ReadPermissions);
     return this;

@@ -3386,6 +3386,9 @@ std::unordered_map<int, std::shared_ptr<ASTNode>> expectedNodes = {
                    })),
                })
         )},
+        {229, std::make_shared<ASTVariableDeclarationNode>(
+                ASTNodeFactory::constInit, ASTNodeFactory::stringExpression
+        )}
 };
 
 TEST_CASE( "should print the expected reduced nodes" ) {
@@ -3419,8 +3422,8 @@ for (int i = 0; i < 1; i++) {
     }
     REQUIRE(result == true);
 }
-REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 228);
-    for (int i = 0; i < 228; i++) {
+REQUIRE(syntaxAnalyzerResult->getFileScope()->getScope().size() == 229);
+    for (int i = 0; i < 229; i++) {
         auto declaration = syntaxAnalyzerResult->getFileScope()->getScope()[i];
         Logger::log("=====", i + 1, declaration->toString(), "=====");
         Logger::log("----ACTUAL----");

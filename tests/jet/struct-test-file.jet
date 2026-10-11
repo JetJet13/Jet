@@ -1,7 +1,2 @@
-import MyThirdModule from "./third-test-file.jet"
-
-proc main() {
-    const hello = "world";
-    print(hello, MyThirdModule::myThirdIntFunction());
-}
-main();
+const myEscapeQuoteTest = "Hello!";
+print(myEscapeQuoteTest);
