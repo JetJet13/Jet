@@ -25,7 +25,14 @@ CliHelper::CliHelper(CLI::App* app) {
 CliHelper* CliHelper::addFilePathOption(std::string &filePathVar) {
     _app->add_option("filePath", filePathVar, "the entry jet file path")->required()
     ->check(CLI::ExistingFile)
-    ->check(CLI::ReadPermissions);
+    ->check(CLI::ReadPermissions)
+    ->check([](const std::string &filePath) {
+        auto path = std::filesystem::path(filePath);
+        if (!path.has_extension() || path.extension().string() != ".jet") {
+            return "Invalid file provided. File must have .jet extension.";
+        }
+        return "";
+    });
     return this;
 }
 
