@@ -22,18 +22,24 @@
 #include "../../../../../shared/utils/logger/logger.h"
 
 std::shared_ptr<IRBinaryExpressionNode> BinaryExpressionIRStrategy::generate(std::shared_ptr<ASTBinaryArithmeticExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
-    auto typeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
     auto leftExpressionIr = irGenerator->generateFor(node->getLeftNode(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     auto rightExpressionIr = irGenerator->generateFor(node->getRightNode(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
-    auto binaryOperator = typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+
+    auto sourceTypeSignature = node->getLeftNode()->getTypeSignature()->getTargetTypeSignature();
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    }
+
+
+    auto binaryOperator = sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
             ? llvm::BinaryOperator::Create(
-                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
+                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), sourceTypeSignature),
                     irGenerator->generateFloatConstant(0),
                     irGenerator->generateFloatConstant(0)
             )
             : llvm::BinaryOperator::Create(
-                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), typeSignature),
+                    this->determineArithmeticOperatorIR(node->getBinaryOperator(), sourceTypeSignature),
                     irGenerator->generateIntConstant(0),
                     irGenerator->generateIntConstant(0)
             );
@@ -53,7 +59,14 @@ std::shared_ptr<IRBinaryExpressionNode> BinaryExpressionIRStrategy::generate(std
 
     auto leftIrType = irGenerator->generateTypeFor(node->getLeftNode()->getTypeSignature(), scope, irContext);
     auto rightIrType = irGenerator->generateTypeFor(node->getRightNode()->getTypeSignature(), scope, irContext);
-    auto comparison = typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+
+    auto sourceTypeSignature = typeSignature;
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    }
+
+
+    auto comparison = sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
             ? llvm::CmpInst::Create(
                     llvm::Instruction::OtherOps::FCmp,
                     this->determineComparatorPredicate(node->getBinaryOperator(), typeSignature),
@@ -70,20 +83,25 @@ std::shared_ptr<IRBinaryExpressionNode> BinaryExpressionIRStrategy::generate(std
 }
 
 llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOperatorIR(std::shared_ptr<ASTBinaryArithmeticOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {
+    auto sourceTypeSignature = typeSignature;
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    }
+
     if (operatorNode->isPlus()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FAdd
         : llvm::Instruction::BinaryOps::Add;
     } else if (operatorNode->isMinus()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FSub
         : llvm::Instruction::BinaryOps::Sub;
     } else if (operatorNode->isMultiply()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FMul
         : llvm::Instruction::BinaryOps::Mul;
     } else if (operatorNode->isDivide()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::Instruction::BinaryOps::FDiv
         : llvm::Instruction::BinaryOps::SDiv;
     } else if (operatorNode->isModulo()) {
@@ -93,28 +111,33 @@ llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOper
 }
 
 llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {
+    auto sourceTypeSignature = typeSignature;
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    }
+
     if (operatorNode->isEqual()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OEQ
         : llvm::CmpInst::Predicate::ICMP_EQ;
     } else if (operatorNode->isNotEqual()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_ONE
         : llvm::CmpInst::Predicate::ICMP_NE;
     } else if (operatorNode->isLessThan()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OLT
         : llvm::CmpInst::Predicate::ICMP_SLT;
     } else if (operatorNode->isLessThanOrEqual()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OLE
         : llvm::CmpInst::Predicate::ICMP_SLE;
     } else if (operatorNode->isGreaterThan()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OGE
         : llvm::CmpInst::Predicate::ICMP_SGT;
     } else if (operatorNode->isGreaterThanOrEqual()) {
-        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OGE
         : llvm::CmpInst::Predicate::ICMP_SGE;
     }

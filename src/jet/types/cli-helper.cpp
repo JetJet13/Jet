@@ -65,7 +65,7 @@ CliHelper* CliHelper::addLinuxMultiArchPathOverrideOption(std::string &linuxMult
 }
 
 CliHelper* CliHelper::addLinuxLibDirOverrideOption(std::string &linuxLibDirOverrideVar) {
-    _app->add_option("--linux-lib-dir", linuxLibDirOverrideVar, "override the linker lib directory (-L) (for linux distributions only) e.g. /usr/lib")
+    _app->add_option("--linux-lib-dir", linuxLibDirOverrideVar, "override the linker lib directory (for linux distributions only) e.g. /usr/lib")
     ->check(CLI::ExistingDirectory)
     ->check(CLI::ReadPermissions);
     return this;

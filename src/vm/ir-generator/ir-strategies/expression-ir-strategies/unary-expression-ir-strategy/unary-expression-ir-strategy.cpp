@@ -25,15 +25,28 @@
 std::shared_ptr<IRUnaryExpressionNode> UnaryExpressionIRStrategy::generate(std::shared_ptr<ASTUnaryExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto expressionIr = irGenerator->generateFor(node->getExpressionNode(), scope, irContext, std::make_shared<IROperation>(IR_OPERAND_VALUE_OP));
     auto irType = irGenerator->generateTypeFor(node->getTypeSignature(), scope, irContext);
+
+    auto sourceTypeSignature = node->getTypeSignature()->getTargetTypeSignature();
+    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
+        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
+    }
+
+
     if (node->getUnaryOperatorNode()->isPlus()) {
+        if (sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
+            return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
+                    llvm::Instruction::BinaryOps::FMul,
+                    irGenerator->generateFloatConstant(1),
+                    irGenerator->generateFloatConstant(1) // placeholder
+            ), expressionIr, irType);
+        }
         return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
                 llvm::Instruction::BinaryOps::Mul,
                 irGenerator->generateInt64Constant(1),
                 irGenerator->generateInt64Constant(1) // placeholder
         ), expressionIr, irType);
     } else if (node->getUnaryOperatorNode()->isMinus()) {
-        auto isFloat = node->getTypeSignature()->getTargetTypeSignature()->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE);
-        if (isFloat) {
+        if (sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)) {
             return std::make_shared<IRUnaryArithmeticExpressionNode>(node, llvm::BinaryOperator::Create(
                     llvm::Instruction::BinaryOps::FSub,
                     irGenerator->generateFloatConstant(0),

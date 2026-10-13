@@ -1267,8 +1267,8 @@ proc testArrayPrototype() {
 
     const oneIntArray = [1,2,3];
     const twoIntArray = [4,5,6];
-    const concatIntResult = oneIntArray ++ twoIntArray;
-    assert(concatIntResult == [1, 2, 3, 4, 5, 6]);
+    const concatintDoubleResult = oneIntArray ++ twoIntArray;
+    assert(concatintDoubleResult == [1, 2, 3, 4, 5, 6]);
 
     const oneString = "Hello ";
     const twoString = "World!";
@@ -2696,3 +2696,34 @@ class EmptyClass {
     constructor() {}
 }
 const emptyClassInstance = new EmptyClass();
+
+// func overload
+func double(x: int): int {
+  return x * 2;
+}
+
+func double(x: float): float {
+  return x * 2.0;
+}
+
+const fiftyInt = double(25);
+const fiftyFloat = double(25.0);
+print(fiftyInt, fiftyFloat);
+
+// proc overload
+proc double(x: shared<int>) {
+  x := x * 2;
+}
+
+proc double(x: shared<float>) {
+  x := x * 2.0;
+}
+
+const intDoubleResult = share 25;
+const floatDoubleResult = share 25.0;
+
+double(intDoubleResult); // intDoubleResult = 50
+double(floatDoubleResult); // floatDoubleResult = 50.0
+
+assert(intDoubleResult == 50);
+assert(floatDoubleResult == 50.0);
