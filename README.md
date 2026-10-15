@@ -1,7 +1,17 @@
 # Jet
-Jet is a C-like general purpose programming language created by Johny Georges. It's currently in alpha.
+Jet is a C-like general purpose programming language created by Johny Georges. It's currently in alpha. If you'd like to learn more, please visit [jet-lang.com](https://jet-lang.com)
 
-If you'd like to learn more about it, please visit [jet-lang.com](https://jet-lang.com)
+```
+// main.jet
+print("hello world");
+```
+
+```
+$ jet ./main.jet # outputs ~/main
+
+$ ./main
+hello world
+```
 
 ### Download
 For download instructions, please visit [jet-lang.com/download](https://jet-lang.com/download).
@@ -22,4 +32,3 @@ Please visit [FAQ.md](./FAQ.md)
 Jet is licensed under Apache License, Version 2.0.
 
 To learn more, please visit [LICENSE.md](./LICENSE.md)
-

@@ -1,4 +1,4 @@
-# Contributing to Jet
+# Contribute to Jet
 Hi there, since Jet is currently in alpha, contributions are going to be limited to the following:
 1. Fixing typos in code and documentation
 2. Adding new test cases
