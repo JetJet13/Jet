@@ -38,11 +38,11 @@ For download instructions, please visit [jet-lang.com/download](https://jet-lang
    ```shell
    # We're going to use macOS x86_64 as an example
    
-   # from /jet-lang directory
-   mkdir -p ./zig-util/target/x86_64-macos
+   # run from /jet-lang directory
+   mkdir -p ./zig-util/target
    
-   # unzip target dependencies into desired target folder
-   tar -xf x86_64-macos-target-deps-jet-v0.1.0.tar.gz -C <path-to-jet-lang-repo>/jet-lang/zig-util/target/x86_64-macos
+   # unzip target dependencies into target folder
+   tar -xf x86_64-macos-target-deps-jet-v0.1.0.tar.gz -C <path-to-jet-lang-repo>/jet-lang/zig-util/target
    ```
 5. You should now have a folder structure like this
     ```
@@ -56,16 +56,18 @@ For download instructions, please visit [jet-lang.com/download](https://jet-lang
                     └── (sub-folders)
     ```
 6. Build `jet-cli`
-    ```shell
-    cmake -S ./src/jet-cli -B ./build
-    
-    cmake --build build
-    ```
+     
+   | Directory   | Command                             |
+   |-------------|-------------------------------------|    
+   | `/jet-lang` | `cmake -S ./src/jet-cli -B ./build` |
+   | `/jet-lang` | `cmake --build build`               | 
 
 7. Use `jet-cli` to build the jet compiler for your desired target
-    ```shell
-    ./build/jet-cli --target x86_64-macos
-    ```
+   
+   | Directory   | Command                                 |
+   |-------------|-----------------------------------------|    
+   | `/jet-lang` | `./build/jet-cli --target x86_64-macos` |
+
 8. Once the jet-cli command completes successfully, the executables will be located in the `zig-out` folder
     ```
    /jet-lang
@@ -75,7 +77,7 @@ For download instructions, please visit [jet-lang.com/download](https://jet-lang
                 ├── jet
                 └── jet-debug
     ```
-9. Congrats, you built Jet from source!
+9. Congrats, you've just built Jet from source!
 
 Note: If you get stuck or run into problems when attempting to build Jet from source, please review the github issues list to see if an issue already exists for the problem(s) you're dealing with. If no issue exists, then feel free to create a new issue.
 
