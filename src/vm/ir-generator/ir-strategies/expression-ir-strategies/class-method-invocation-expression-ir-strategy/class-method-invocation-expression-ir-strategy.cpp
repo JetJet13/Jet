@@ -17,7 +17,7 @@
 //
 
 #include "class-method-invocation-expression-ir-strategy.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRClassMethodInvocationExpressionNode> ClassMethodInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTClassMethodInvocationExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();

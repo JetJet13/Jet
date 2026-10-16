@@ -18,7 +18,7 @@
 
 #include "vm.h"
 #include "../shared/utils/logger/logger.h"
-#include "../shared/utils/function-id-generator/function-id-generator.h"
+#include "../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 #include "utils/dependency-graph/dependency-graph.h"
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/debug-ir-injector-helper/debug-ir-injector-helper.h"
 #include "ir-injector/ir-injector-strategies/ir-injector-helpers/free-variables-ir-injector-helper/free-variables-ir-injector-helper.h"

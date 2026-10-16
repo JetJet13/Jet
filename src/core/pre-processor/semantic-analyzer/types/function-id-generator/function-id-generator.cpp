@@ -17,8 +17,8 @@
 //
 
 #include "function-id-generator.h"
-#include "../md5/md5.h"
-#include "../logger/logger.h"
+#include "../../../../../shared/utils/md5/md5.h"
+#include "../../../../../shared/utils/logger/logger.h"
 
 std::string FunctionIdGenerator::getNameFromId(std::string functionId) {
     auto delimiterIndex = functionId.find('.');

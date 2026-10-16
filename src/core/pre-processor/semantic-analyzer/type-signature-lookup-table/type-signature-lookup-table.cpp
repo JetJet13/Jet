@@ -21,7 +21,7 @@
 #include "../../../type-signature/unknown-type-signature/unknown-type-signature.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../../type-signature/invocable-type-signature/procedure-type-signature/procedure-type-signature.h"
-#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../types/function-id-generator/function-id-generator.h"
 
 TypeSignatureLookupTable::TypeSignatureLookupTable(std::optional<std::shared_ptr<TypeSignatureLookupTable>> outerScope) {
     _moduleName = "";

@@ -24,7 +24,7 @@
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-invocation-expression-node.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-string-prototype-invocation-expression-node.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRExpressionNode> ObjectAccessInvocationExpressionIRStrategy::generate(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto arguments = std::vector<std::shared_ptr<IRFunctionArgumentNode>>();

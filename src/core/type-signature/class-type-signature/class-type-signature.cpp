@@ -22,7 +22,7 @@
 #include "new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../struct-type-signature/struct-type-signature.h"
 #include "class-instance-type-signature/class-instance-type-signature.h"
-#include "../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 ClassTypeSignature::ClassTypeSignature() {
     _constructors = TypeSignatureMap<std::shared_ptr<ClassConstructorTypeSignature>>();

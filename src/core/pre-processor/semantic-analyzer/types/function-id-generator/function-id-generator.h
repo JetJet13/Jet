@@ -20,11 +20,11 @@
 #define JETLANG_FUNCTION_ID_GENERATOR_H
 
 #include <string>
-#include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
-#include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
-#include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
-#include "../../../core/ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
-#include "../../../core/ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
+#include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-function-declaration-node.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-function-invocation-expression-node.h"
+#include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-procedure-declaration-node.h"
+#include "../../../../ast/ast-nodes/ast-declaration-nodes/ast-class-method-declaration-node.h"
+#include "../../../../ast/ast-nodes/ast-expression-nodes/ast-object-access-invocation-expression-node.h"
 
 class FunctionIdGenerator {
 public:

@@ -20,7 +20,7 @@
 #include "../../../utils/address-space-generator/address-space-generator.h"
 #include "../../../ir-nodes/ir-declaration-nodes/ir-function-parameter-declaration-node.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
-#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRProcedureDeclarationNode> ProcedureDeclarationIRStrategy::generate(std::shared_ptr<ASTProcedureDeclarationNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto procedureScope = std::make_shared<IRLookupTable>();

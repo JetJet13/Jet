@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-
+project("jet")
 #set(CMAKE_BUILD_TYPE Debug)
 #add_compile_options(-fsanitize=address,undefined)
 #add_compile_options(-fno-rtti)
@@ -34,9 +34,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-lc++")
 add_executable(jet main.cpp main.h
         types/target-helper.cpp
         types/target-helper.h
-        types/supported-targets.h
-        types/supported-llvm-targets.h
-        cli11/CLI11.hpp
         types/linker-arg-builder.cpp
         types/linker-arg-builder.h
         types/cli-helper.cpp
@@ -58,9 +55,6 @@ target_link_libraries(jet
 add_executable(jet-debug debug-main.cpp debug-main.h
         types/target-helper.cpp
         types/target-helper.h
-        types/supported-targets.h
-        types/supported-llvm-targets.h
-        cli11/CLI11.hpp
         types/linker-arg-builder.cpp
         types/linker-arg-builder.h
         types/cli-helper.cpp
@@ -79,6 +73,3 @@ target_link_libraries(jet-debug
         PRIVATE lldWasm
         PRIVATE ${llvm_libs}
 )
-
-add_executable(jet-cli jet-cli.cpp jet-cli.h cli11/CLI11.hpp)
-target_compile_features(jet-cli PRIVATE cxx_std_17)

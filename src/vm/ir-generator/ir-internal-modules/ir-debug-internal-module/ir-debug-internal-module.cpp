@@ -20,7 +20,7 @@
 #include "../../../../core/pre-processor/semantic-analyzer/jet-debug-type-signature-map/jet-debug-type-signature-map.h"
 #include "../../../../shared/utils/logger/logger.h"
 #include "../../ir-util-functions/assert-ir-function/assert-ir-function.h"
-#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 void IRDebugInternalModule::augment(std::shared_ptr<IRGenerator> irGenerator, std::unique_ptr<llvm::LLVMContext>* context, std::shared_ptr<IRModuleNode> coreIRModule) {
     AssertIRFunction::generateAssertDebugGlobals(irGenerator, context, coreIRModule);

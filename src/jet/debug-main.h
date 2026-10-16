@@ -30,7 +30,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include "lld/Common/Driver.h"
 #include <vector>
-#include "./cli11/CLI11.hpp"
+#include "../shared/utils/cli11/CLI11.hpp"
 
 LLD_HAS_DRIVER(elf)
 LLD_HAS_DRIVER(macho)

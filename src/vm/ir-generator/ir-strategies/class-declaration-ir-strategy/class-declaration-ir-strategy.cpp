@@ -19,7 +19,7 @@
 #include "class-declaration-ir-strategy.h"
 #include "../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../ir-injector/ir-injector-strategies/ir-injector-helpers/instruction-ir-injector-helper/instruction-ir-injector-helper.h"
-#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRClassDeclarationNode> ClassDeclarationIRStrategy::generate(std::shared_ptr<ASTClassDeclarationNode> node,  std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext) {
     auto irClassType = irGenerator->generateTypeFor(node->getClassTypeSignature(), scope, irContext);

@@ -20,7 +20,7 @@
 #include "../../../type-signature/literal-type-signature/literal-type-signature.h"
 #include "../../../type-signature/literal-type-signature/int-literal-type-signature.h"
 #include "../../../type-signature/array-type-signature/array-type-signature.h"
-#include "../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../types/function-id-generator/function-id-generator.h"
 #include "../../../type-signature/literal-type-signature/bool-literal-type-signature.h"
 #include "../../../type-signature/literal-type-signature/string-literal-type-signature.h"
 

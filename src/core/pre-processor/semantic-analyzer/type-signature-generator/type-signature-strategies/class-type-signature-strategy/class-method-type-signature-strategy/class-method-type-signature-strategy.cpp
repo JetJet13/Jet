@@ -17,7 +17,7 @@
 //
 
 #include "class-method-type-signature-strategy.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 void ClassMethodTypeSignatureStrategy::assign(std::shared_ptr<ASTClassMethodDeclarationNode> classMethodDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     std::optional<std::shared_ptr<TypeSignature>> returnType = {};

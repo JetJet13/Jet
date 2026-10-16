@@ -19,7 +19,7 @@
 #include "object-access-expression-ir-strategy.h"
 #include "../../../../utils/ir-instruction-node-factory/ir-instruction-node-factory.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-static-method-access-expression-node.h"
 #include "../../../../../core/type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-instance-method-access-expression-node.h"

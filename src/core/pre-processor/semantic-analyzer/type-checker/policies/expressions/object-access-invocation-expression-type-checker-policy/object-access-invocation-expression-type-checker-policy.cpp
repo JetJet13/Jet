@@ -21,7 +21,7 @@
 #include "../../../rules/type-checker-rule-provider.h"
 #include "../../../type-checker.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 namespace ObjectAccessInvocationExpressionTypeCheckerPolicy {
     void apply(std::shared_ptr<ASTObjectAccessInvocationExpressionNode> objectAccessInvocationExpression, TypeCheckerResult* typeCheckerResult, std::shared_ptr<TypeSignatureLookupTable> fileScope) {

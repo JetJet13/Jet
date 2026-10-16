@@ -18,7 +18,7 @@
 
 #include "unique-scoped-names-type-checker-rule.h"
 #include "../../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 void UniqueScopedNamesTypeCheckerRule::enforce(std::shared_ptr<ASTClassDeclarationNode> classDeclaration, TypeCheckerResult* typeCheckerResult) {
     // populate sets of names

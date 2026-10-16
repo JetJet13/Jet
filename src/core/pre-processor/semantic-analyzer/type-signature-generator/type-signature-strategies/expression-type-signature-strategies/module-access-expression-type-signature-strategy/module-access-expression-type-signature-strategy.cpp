@@ -17,7 +17,7 @@
 //
 
 #include "module-access-expression-type-signature-strategy.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 void ModuleAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTModuleAccessExpressionNode> moduleAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto typeSignature = scope->find(moduleAccessExpression->getModuleName(), moduleAccessExpression->getModuleTargetName());

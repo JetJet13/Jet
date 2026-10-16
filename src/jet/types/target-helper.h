@@ -23,9 +23,9 @@
 #include <string>
 #include <filesystem>
 #include <utility>
-#include "supported-llvm-targets.h"
+#include "../../shared/types/supported-llvm-targets.h"
 #include "lld/Common/Driver.h"
-#include "supported-targets.h"
+#include "../../shared/types/supported-targets.h"
 #include "linker-arg-builder.h"
 
 LLD_HAS_DRIVER(elf)

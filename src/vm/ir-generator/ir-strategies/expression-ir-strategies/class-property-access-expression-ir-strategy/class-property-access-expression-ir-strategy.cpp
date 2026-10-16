@@ -18,7 +18,7 @@
 
 #include "class-property-access-expression-ir-strategy.h"
 #include "../../../../../shared/utils/logger/logger.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 #include "../../../../ir-nodes/ir-expression-nodes/ir-class-method-access-expression-node.h"
 
 std::shared_ptr<IRExpressionNode> ClassPropertyAccessExpressionIRStrategy::generate(std::shared_ptr<ASTClassPropertyAccessExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {

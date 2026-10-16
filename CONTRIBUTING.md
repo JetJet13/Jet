@@ -7,6 +7,6 @@ Hi there, since Jet is currently in alpha, contributions are going to be limited
 
 As Jet matures over time, you can expect the list to grow and expand in scope.
 
-Thanks for showing interest in contributing to Jet!
+Thanks for showing an interest in contributing to Jet!
 <br/>
-Johny Georges
+-&nbsp;Johny Georges

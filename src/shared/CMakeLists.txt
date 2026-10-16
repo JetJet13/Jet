@@ -2,6 +2,8 @@ add_library(jet-shared
         hash-table/hash-table.h
         hash-table/hash-table.cpp
         types/exit-status.enum.h
+        types/supported-targets.h
+        types/supported-llvm-targets.h
         utils/file-io/file-io.h
         utils/file-io/file-io.cpp
         utils/logger/logger.h
@@ -12,6 +14,4 @@ add_library(jet-shared
         utils/to-string/to-string.cpp
         types/null-type.h
         types/basic-character-type.h
-        utils/function-id-generator/function-id-generator.cpp
-        utils/function-id-generator/function-id-generator.h
 )

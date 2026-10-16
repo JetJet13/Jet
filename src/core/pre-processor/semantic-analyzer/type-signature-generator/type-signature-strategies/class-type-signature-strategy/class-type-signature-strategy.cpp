@@ -19,7 +19,7 @@
 #include "class-type-signature-strategy.h"
 #include "../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../ast/ast-nodes/ast-expression-nodes/ast-new-class-instance-expression.h"
-#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../types/function-id-generator/function-id-generator.h"
 
 void ClassTypeSignatureStrategy::assign(std::shared_ptr<ASTClassDeclarationNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto classTypeSignature = node->getClassTypeSignature();

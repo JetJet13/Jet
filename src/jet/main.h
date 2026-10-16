@@ -32,6 +32,6 @@
 #include "llvm/Support/Host.h"
 #include "lld/Common/Driver.h"
 #include <vector>
-#include "./cli11/CLI11.hpp"
+#include "../shared/utils/cli11/CLI11.hpp"
 
 #endif //JETLANG_MAIN_H

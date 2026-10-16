@@ -17,7 +17,7 @@
 //
 
 #include "function-type-signature-strategy.h"
-#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../types/function-id-generator/function-id-generator.h"
 
 void FunctionTypeSignatureStrategy::assign(std::shared_ptr<ASTFunctionDeclarationNode> functionDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto functionScope = std::make_shared<TypeSignatureLookupTable>();

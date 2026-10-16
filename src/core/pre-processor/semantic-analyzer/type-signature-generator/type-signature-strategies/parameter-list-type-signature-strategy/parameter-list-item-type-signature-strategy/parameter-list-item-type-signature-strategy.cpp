@@ -17,7 +17,7 @@
 //
 
 #include "parameter-list-item-type-signature-strategy.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 void ParameterListItemTypeSignatureStrategy::assignAndAddToScope(std::shared_ptr<ASTFunctionParameterNode> node, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(node->getType(), context, scope);

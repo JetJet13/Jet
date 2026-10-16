@@ -26,7 +26,7 @@
 #include "../vm/ir-generator/ir-generator.h"
 #include "../core/pre-processor/pre-processor.h"
 #include "../vm/vm.h"
-#include "types/supported-targets.h"
+#include "../shared/types/supported-targets.h"
 #include "types/target-helper.h"
 #include "types/cli-helper.h"
 

@@ -18,8 +18,7 @@
 
 #include "class-method-invocation-expression-type-signature-strategy.h"
 #include "../../../../../../type-signature/invalid-type-signature/invalid-type-signature.h"
-#include "../../../../../../../shared/utils/logger/logger.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 
 void ClassMethodInvocationExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTClassMethodInvocationExpressionNode> classMethodInvocationExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     strategyMap->assignTypeSignatureFor(classMethodInvocationExpression->getArguments(), context, scope);

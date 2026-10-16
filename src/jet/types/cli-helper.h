@@ -23,7 +23,7 @@
 #define CLI11_HAS_FILESYSTEM 1
 
 #include <string>
-#include "../cli11/CLI11.hpp"
+#include "../../shared/utils/cli11/CLI11.hpp"
 
 class CliHelper {
 private:

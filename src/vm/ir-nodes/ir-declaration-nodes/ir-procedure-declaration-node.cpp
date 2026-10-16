@@ -17,7 +17,7 @@
 //
 
 #include "ir-procedure-declaration-node.h"
-#include "../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 IRProcedureDeclarationNode::IRProcedureDeclarationNode(std::shared_ptr<ASTProcedureDeclarationNode> node, llvm::Function* irValue, std::shared_ptr<IRFunctionParameterListNode> irParameterList, std::shared_ptr<IRBlockNode> irBlock, std::shared_ptr<IRInstructionNode> globalVariable) {
     _node = node;

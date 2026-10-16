@@ -1453,6 +1453,8 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
         "pre-processor/semantic-analyzer/types/type-check-error/type-check-error.cpp",
         
         "pre-processor/semantic-analyzer/types/variable-context/variable-context.cpp",
+
+        "pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.cpp",
         
         },
     });

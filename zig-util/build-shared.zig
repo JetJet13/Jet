@@ -25,8 +25,7 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
         .files = &.{
             
             "hash-table/hash-table.cpp",
-            
-            
+
             "utils/file-io/file-io.cpp",
             
             "utils/logger/logger.cpp",
@@ -34,9 +33,7 @@ pub fn setup(exe: *std.Build.Step.Compile, b: *std.Build) void {
             "utils/md5/md5.cpp",
             
             "utils/to-string/to-string.cpp",
-            
-            
-            "utils/function-id-generator/function-id-generator.cpp",
+
             
         },
     });

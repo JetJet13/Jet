@@ -17,7 +17,7 @@
 //
 
 #include "jet-cli.h"
-#include "types/supported-targets.h"
+#include "../shared/types/supported-targets.h"
 
 int main (int argc, const char* argv[]) {
     CLI::App app{"JET CLI"};

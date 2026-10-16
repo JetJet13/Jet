@@ -17,7 +17,7 @@
 //
 
 #include "variable-type-signature-strategy.h"
-#include "../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../types/function-id-generator/function-id-generator.h"
 
 void VariableTypeSignatureStrategy::assignAndAddToScope(std::shared_ptr<ASTVariableDeclarationNode> variableDeclaration, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
     auto variableContext = std::make_shared<VariableContext>();

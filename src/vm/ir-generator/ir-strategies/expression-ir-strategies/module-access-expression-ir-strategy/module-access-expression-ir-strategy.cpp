@@ -17,7 +17,7 @@
 //
 
 #include "module-access-expression-ir-strategy.h"
-#include "../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../../core/pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h"
 
 std::shared_ptr<IRExpressionNode> ModuleAccessExpressionIRStrategy::generate(std::shared_ptr<ASTModuleAccessExpressionNode> node, std::shared_ptr<IRGenerator> irGenerator, std::shared_ptr<IRLookupTable> scope, std::shared_ptr<IRContext> irContext, std::shared_ptr<IROperation> irOperation) {
     auto sourceValue = scope->findGlobalVariable(node->getModuleName(), node->getModuleTargetName());

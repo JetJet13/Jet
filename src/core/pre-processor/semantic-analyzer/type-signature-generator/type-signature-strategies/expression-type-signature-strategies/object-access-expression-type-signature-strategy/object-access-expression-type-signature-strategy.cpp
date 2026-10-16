@@ -23,7 +23,7 @@
 #include "../../../../../../type-signature/shared-type-signature/shared-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/new-class-instance-type-signature/new-class-instance-type-signature.h"
 #include "../../../../../../type-signature/class-type-signature/class-instance-type-signature/class-instance-type-signature.h"
-#include "../../../../../../../shared/utils/function-id-generator/function-id-generator.h"
+#include "../../../../types/function-id-generator/function-id-generator.h"
 #include "../../../../../../type-signature/invocable-type-signature/lambda-type-signature/lambda-type-signature.h"
 
 void ObjectAccessExpressionTypeSignatureStrategy::assign(std::shared_ptr<ASTObjectAccessExpressionNode> objectAccessExpression, std::shared_ptr<TypeSignatureContext> context, std::shared_ptr<TypeSignatureLookupTable> scope, TypeSignatureStrategyProvider* strategyMap) {
