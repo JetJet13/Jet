@@ -68,6 +68,4 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
 7. Congrats, you just built Jet from source! 
 
 ##### Important Note
-After building Jet from source, your machine might be missing some dependencies that Jet expects to be installed. Head over to the [github release page](https://github.com/JetJet13/Jet/releases) and select the version you've built against and refer to the section `Target Specific Download Instructions` for more info.
-
-
+After building Jet from source, your machine might be missing some dependencies that Jet expects to be installed. Head over to the [github release page](https://github.com/JetJet13/Jet/releases) and select the version you've built against and refer to the `Download Instructions` section for more info.

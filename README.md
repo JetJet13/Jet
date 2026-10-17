@@ -14,7 +14,7 @@ hello world
 ```
 
 ### Download
-For download instructions, please visit [jet-lang.com/download](https://jet-lang.com/download).
+At this time, the recommended way to download Jet's compilers is through the [Release Page](https://github.com/JetJet13/Jet/releases).
 
 ### Documentation
 Please visit [jet-lang.com/docs](https://jet-lang.com/docs)
