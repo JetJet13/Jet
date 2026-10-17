@@ -26,15 +26,15 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
    ```shell
    # We're going to use macOS x86_64 as an example
    
-   # run from /jet-lang directory
+   # run from the root directory
    mkdir -p ./zig-util/target
    
    # unzip target dependencies into target folder
-   tar -xf x86_64-macos-target-deps-jet-v0.1.0.tar.gz -C <path-to-jet-lang-repo>/jet-lang/zig-util/target
+   tar -xf x86_64-macos-target-deps-jet-v0.1.0.tar.gz -C <path-to-jet-lang-root-dir>/zig-util/target
    ```
    You should now have a folder structure like this
     ```
-    /jet-lang
+    /jet-lang (root)
     ├── zig-util/
         ├── target/
             ├── x86_64-macos/
@@ -45,20 +45,20 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
     ```
 5. Build `jet-cli`
 
-   | Directory   | Command                             |
-   |-------------|-------------------------------------|    
-   | `/jet-lang` | `cmake -S ./src/jet-cli -B ./build` |
-   | `/jet-lang` | `cmake --build build`               | 
+   | Directory | Command                             |
+   |-----------|-------------------------------------|    
+   | `root`    | `cmake -S ./src/jet-cli -B ./build` |
+   | `root`    | `cmake --build build`               | 
 
 6. Use `jet-cli` to build the jet compiler for your desired target
 
-   | Directory   | Command                                 |
-      |-------------|-----------------------------------------|    
-   | `/jet-lang` | `./build/jet-cli --target x86_64-macos` |
+   | Directory | Command                                 |
+      |-----------|-----------------------------------------|    
+   | `root`    | `./build/jet-cli --target x86_64-macos` |
 
    Once the jet-cli command completes successfully, the executables will be located in the `zig-out` folder
     ```
-   /jet-lang
+   /jet-lang (root)
     ├── zig-out/
         └── x86_64-macos/
             └── bin/
