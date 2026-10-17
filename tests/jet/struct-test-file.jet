@@ -1,33 +1,10 @@
-const myEscapeQuoteTest = "Hello!";
-print(myEscapeQuoteTest);
-print(share "hello");
+import BigModule from "./big-module.jet";
 
-func double(x: int): int {
-  return x * 2;
+const myArray = share [ 100, 200, 300 ];
+const sayHello = (name: string) => "Hello " ++ name ++ "!";
+
+proc main() {
+  print(myArray, sayHello("James"), BigModule::BIG_FLOAT);
 }
 
-func double(x: float): float {
-  return x * 2.0;
-}
-
-const fiftyInt = double(25);
-const fiftyFloat = double(25.0);
-print(fiftyInt, fiftyFloat);
-
-// Procedure Example
-proc double(x: shared<int>) {
-  x := x * 2;
-}
-
-proc double(x: shared<float>) {
-  x := x * 2.0;
-}
-
-const intResult = share 25;
-const floatResult = share 25.0;
-
-double(intResult); // intResult = 50
-double(floatResult); // floatResult = 50.0
-
-assert(intResult == 50);
-assert(floatResult == 50.0);
+main();

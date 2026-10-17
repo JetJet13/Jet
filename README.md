@@ -7,7 +7,7 @@ print("hello world");
 ```
 
 ```
-$ jet ./main.jet # outputs ~/main
+$ jet ./main.jet # outputs ./main
 
 $ ./main
 hello world
