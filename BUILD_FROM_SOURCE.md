@@ -13,14 +13,14 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
     - MacOS x86_64 - `x86_64-macos-target-deps-jet-<version>.tar.gz`
     - MacOS aarch64 - `aarch64-macos-target-deps-jet-<version>.tar.gz`
     - Linux GNU x86_64 - `x86_64-linux-gnu-target-deps-jet-<version>.tar.gz`
-    - Linux GNU aarch64 - `aarch64linux-gnu-target-deps-jet-<version>.tar.gz`
+    - Linux GNU aarch64 - `aarch64-linux-gnu-target-deps-jet-<version>.tar.gz`
     - Linux MUSL x86_64 - `x86_64-linux-musl-target-deps-jet-<version>.tar.gz`
     - Linux MUSL aarch64 - `aarch64-linux-musl-target-deps-jet-<version>.tar.gz`
 4. Extract the target-deps bundle into a new folder that is named after your desired target
     - MacOS x86_64 - `jet-lang/zig-util/target/x86_64-macos`
     - MacOS aarch64 - `jet-lang/zig-util/target/aarch64-macos`
     - Linux GNU x86_64 - `jet-lang/zig-util/target/x86_64-linux-gnu`
-    - Linux GNU aarch64 - `jet-lang/zig-util/target/aarch64linux-gnu`
+    - Linux GNU aarch64 - `jet-lang/zig-util/target/aarch64-linux-gnu`
     - Linux MUSL x86_64 - `jet-lang/zig-util/target/x86_64-linux-musl`
     - Linux MUSL aarch64 - `jet-lang/zig-util/target/aarch64-linux-musl`
    ```shell
@@ -53,7 +53,7 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
 6. Use `jet-cli` to build the jet compiler for your desired target
 
    | Directory | Command                                 |
-      |-----------|-----------------------------------------|    
+   |-----------|-----------------------------------------|    
    | `root`    | `./build/jet-cli --target x86_64-macos` |
 
    Once the jet-cli command completes successfully, the executables will be located in the `zig-out` folder
@@ -65,5 +65,9 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
                 ├── jet
                 └── jet-debug
     ```
-7. Congrats, you just built Jet from source!
+7. Congrats, you just built Jet from source! 
+
+##### Important Note
+After building Jet from source, your machine might be missing some dependencies that Jet expects to be installed. Head over to the [github release page](https://github.com/JetJet13/Jet/releases) and select the version you've built against and refer to the section `Target Specific Download Instructions` for more info.
+
 
