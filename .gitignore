@@ -5,6 +5,7 @@ cmake-build-debug-jet-lang-toolchain-debug
 ir-generator-test-output.ir
 *.exe
 builds
+build
 .zig-cache
 zig-out
 target
