@@ -9,22 +9,19 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
     ```shell
     git clone git@github.com:JetJet13/Jet.git ./jet-lang
     ```
-3. Download the `target-deps` bundle from the [github release page](https://github.com/JetJet13/Jet/releases) for your desired target
-    - MacOS x86_64 - `x86_64-macos-target-deps-jet-<version>.tar.gz`
-    - MacOS aarch64 - `aarch64-macos-target-deps-jet-<version>.tar.gz`
-    - Linux GNU x86_64 - `x86_64-linux-gnu-target-deps-jet-<version>.tar.gz`
-    - Linux GNU aarch64 - `aarch64-linux-gnu-target-deps-jet-<version>.tar.gz`
-    - Linux MUSL x86_64 - `x86_64-linux-musl-target-deps-jet-<version>.tar.gz`
-    - Linux MUSL aarch64 - `aarch64-linux-musl-target-deps-jet-<version>.tar.gz`
-4. Extract the target-deps bundle into a new folder that is named after your desired target
-    - MacOS x86_64 - `jet-lang/zig-util/target/x86_64-macos`
-    - MacOS aarch64 - `jet-lang/zig-util/target/aarch64-macos`
-    - Linux GNU x86_64 - `jet-lang/zig-util/target/x86_64-linux-gnu`
-    - Linux GNU aarch64 - `jet-lang/zig-util/target/aarch64-linux-gnu`
-    - Linux MUSL x86_64 - `jet-lang/zig-util/target/x86_64-linux-musl`
-    - Linux MUSL aarch64 - `jet-lang/zig-util/target/aarch64-linux-musl`
+3. Download the `target-deps` bundle from the [github release page](https://github.com/JetJet13/Jet/releases) for your desired target 
+
+   | Target | Asset                                                 |
+   |--------|-------------------------------------------------------| 
+   | MacOS x86_64 | `x86_64-macos-target-deps-jet-<version>.tar.gz`       | 
+   | MacOS aarch64 | `aarch64-macos-target-deps-jet-<version>.tar.gz`      | 
+   | Linux GNU x86_64 | `x86_64-linux-gnu-target-deps-jet-<version>.tar.gz`   | 
+   | Linux GNU aarch64 | `aarch64-linux-gnu-target-deps-jet-<version>.tar.gz`  | 
+   | Linux MUSL x86_64 | `x86_64-linux-musl-target-deps-jet-<version>.tar.gz`  | 
+   | Linux MUSL aarch64 | `aarch64-linux-musl-target-deps-jet-<version>.tar.gz` |
+4. Extract the target-deps bundle into a new `target` folder
    ```shell
-   # We're going to use macOS x86_64 as an example
+   # let's use macOS x86_64 as an example
    
    # run from the root directory
    mkdir -p ./zig-util/target
