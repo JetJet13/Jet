@@ -6,7 +6,10 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
     - `cmake` >= v3.26
     - `zig` >= v0.13.0
 2. Git clone the repo
-3. Download the `target-deps` bundle from the github release page for your desired target
+    ```shell
+    git clone git@github.com:JetJet13/Jet.git ./jet-lang
+    ```
+3. Download the `target-deps` bundle from the [github release page](https://github.com/JetJet13/Jet/releases) for your desired target
     - MacOS x86_64 - `x86_64-macos-target-deps-jet-<version>.tar.gz`
     - MacOS aarch64 - `aarch64-macos-target-deps-jet-<version>.tar.gz`
     - Linux GNU x86_64 - `x86_64-linux-gnu-target-deps-jet-<version>.tar.gz`
@@ -29,7 +32,7 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
    # unzip target dependencies into target folder
    tar -xf x86_64-macos-target-deps-jet-v0.1.0.tar.gz -C <path-to-jet-lang-repo>/jet-lang/zig-util/target
    ```
-5. You should now have a folder structure like this
+   You should now have a folder structure like this
     ```
     /jet-lang
     ├── zig-util/
@@ -40,20 +43,20 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
                 └── sysroot/
                     └── (sub-folders)
     ```
-6. Build `jet-cli`
+5. Build `jet-cli`
 
    | Directory   | Command                             |
    |-------------|-------------------------------------|    
    | `/jet-lang` | `cmake -S ./src/jet-cli -B ./build` |
    | `/jet-lang` | `cmake --build build`               | 
 
-7. Use `jet-cli` to build the jet compiler for your desired target
+6. Use `jet-cli` to build the jet compiler for your desired target
 
    | Directory   | Command                                 |
       |-------------|-----------------------------------------|    
    | `/jet-lang` | `./build/jet-cli --target x86_64-macos` |
 
-8. Once the jet-cli command completes successfully, the executables will be located in the `zig-out` folder
+   Once the jet-cli command completes successfully, the executables will be located in the `zig-out` folder
     ```
    /jet-lang
     ├── zig-out/
@@ -62,5 +65,5 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
                 ├── jet
                 └── jet-debug
     ```
-9. Congrats, you just built Jet from source!
+7. Congrats, you just built Jet from source!
 
