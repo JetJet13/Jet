@@ -1,14 +1,13 @@
-#set(CMAKE_BUILD_TYPE Debug)
-#add_compile_options(
-#        -fsanitize=address,undefined
-#        -fno-omit-frame-pointer
-#        -g
-#        -O1
-#)
 
-set(LT_LLVM_INSTALL_DIR, "/Users/johny.georges/Documents/software/llvm-project-17.0.6.src/build")
-set(LT_LLVM_INCLUDE_DIR "${LT_LLVM_INSTALL_DIR}/include")
 find_package(LLVM CONFIG)
+message(STATUS "--------------------------------------------------------")
+message(STATUS "[LLVM CONFIG DETECTION]")
+message(STATUS "  LLVM Found:           ${LLVM_FOUND}")
+message(STATUS "  LLVM Version:         ${LLVM_PACKAGE_VERSION}")
+message(STATUS "  LLVM Config File:     ${LLVM_DIR}")
+message(STATUS "  LLVM Include Dirs:    ${LLVM_INCLUDE_DIRS}")
+message(STATUS "  LLVM Library Dirs:    ${LLVM_LIBRARY_DIRS}")
+message(STATUS "--------------------------------------------------------")
 message(STATUS "Found LLVM: ${LLVM_DIR}")
 message(STATUS "LLVM Assertions: ${LLVM_ENABLE_ASSERTIONS}")
 include_directories(SYSTEM ${LLVM_INCLUDE_DIRS})

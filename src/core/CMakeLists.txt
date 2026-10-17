@@ -846,6 +846,8 @@ add_library(jet-core
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.cpp
         pre-processor/semantic-analyzer/type-checker/policies/variable-declaration-type-checker-policy/variable-declaration-type-checker-policy.h
         pre-processor/semantic-analyzer/types/ast-node-type-signature-result.h
+        pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.h
+        pre-processor/semantic-analyzer/types/function-id-generator/function-id-generator.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.cpp
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/variable-assignment-statement-type-signature-strategy/variable-assignment-statement-type-signature-strategy.h
         pre-processor/semantic-analyzer/type-signature-generator/type-signature-strategies/if-statement-type-signature-strategy/if-statement-type-signature-strategy.cpp
