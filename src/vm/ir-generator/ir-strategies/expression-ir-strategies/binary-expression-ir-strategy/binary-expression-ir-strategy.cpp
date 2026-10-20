@@ -111,33 +111,29 @@ llvm::Instruction::BinaryOps BinaryExpressionIRStrategy::determineArithmeticOper
 }
 
 llvm::CmpInst::Predicate BinaryExpressionIRStrategy::determineComparatorPredicate(std::shared_ptr<ASTBinaryComparatorOperatorNode> operatorNode, std::shared_ptr<TypeSignature> typeSignature) {
-    auto sourceTypeSignature = typeSignature;
-    if (sourceTypeSignature->typeSourceIs(SHARED_TYPE_SOURCE)) {
-        sourceTypeSignature = (std::dynamic_pointer_cast<SharedTypeSignature>(sourceTypeSignature)->getUnderlyingType());
-    }
 
     if (operatorNode->isEqual()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OEQ
         : llvm::CmpInst::Predicate::ICMP_EQ;
     } else if (operatorNode->isNotEqual()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_ONE
         : llvm::CmpInst::Predicate::ICMP_NE;
     } else if (operatorNode->isLessThan()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OLT
         : llvm::CmpInst::Predicate::ICMP_SLT;
     } else if (operatorNode->isLessThanOrEqual()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OLE
         : llvm::CmpInst::Predicate::ICMP_SLE;
     } else if (operatorNode->isGreaterThan()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OGE
         : llvm::CmpInst::Predicate::ICMP_SGT;
     } else if (operatorNode->isGreaterThanOrEqual()) {
-        return sourceTypeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
+        return typeSignature->typeSourceIs(FLOAT_LITERAL_TYPE_SOURCE)
         ? llvm::CmpInst::Predicate::FCMP_OGE
         : llvm::CmpInst::Predicate::ICMP_SGE;
     }

@@ -2727,3 +2727,5 @@ double(floatDoubleResult); // floatDoubleResult = 50.0
 
 assert(intDoubleResult == 50);
 assert(floatDoubleResult == 50.0);
+
+print("Golden Master Test File Done!");
