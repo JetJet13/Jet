@@ -34,4 +34,4 @@ Please visit [FAQ.md](./FAQ.md)
 ### License
 Jet is licensed under Apache License, Version 2.0.
 
-To learn more, please visit [LICENSE.md](./LICENSE.md)
+To view the license, [click here](./LICENSE.md)
