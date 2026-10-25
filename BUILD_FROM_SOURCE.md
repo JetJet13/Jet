@@ -10,6 +10,7 @@ This is step-by-step guide to build Jet from source. If you get stuck or run int
     ```shell
     git clone git@github.com:JetJet13/Jet.git ./jet-lang
     ```
+    Moving forward, if you see the term `root`, it is referring to `/jet-lang`.
 3. Download the `target-deps` bundle from the [github release page](https://github.com/JetJet13/Jet/releases) for your desired target.
 
    | Target | Asset                                                 |
