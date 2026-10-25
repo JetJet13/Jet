@@ -1,6 +1,6 @@
 # Frequently Answered Questions
 1. **Why Create Another Programming Language?**<br/>
-A: I created Jet for 3 Reasons (not in order):
+A: I created Jet for 3 Reasons:
    1. To learn
    2. To contribute to OSS
    3. Accomplish a personal goal
@@ -17,3 +17,5 @@ A: In order of significance:
 A: Jet has a custom frontend that I wrote by hand using the shift-reduce (bottom-up) parsing technique and the backend is built using LLVM v17.
 6. **Why did you write a custom frontend when tools like Yacc and Bison are proven and available?**<br/>
 A. After completing the Crafting Interpreters book, I felt that I had gained enough confidence and foundational knowledge to write my own custom frontend. Had I used a tool like Yacc or Bison, it would've felt like cheating.
+7. **Why did you choose the name Jet for your programming language?**<br/>
+A. I chose Jet because it's easy to spell, easy to say and neutral. 
