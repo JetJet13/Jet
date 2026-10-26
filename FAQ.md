@@ -7,7 +7,7 @@ A: I created Jet for 3 Reasons:
 2. **Is Jet vibe-coded?**<br/>
 A: Absolutely not. Jet is 100% written by hand. It took 3 years worth of free-time on week nights and weekends to get to v0.1.0-alpha.
 3. **What role did AI play in creating Jet?**<br/>
-A: AI was only used for learning purposes and to help make sense of obscure LLVM errors. For example, I found it to be great resource for learning about cross-compiling C/C++ projects with Zig. It has no influence on the design of the language or the compiler. The [Jet site](https://jet-lang.com) and the documentation in this repo are also written by hand.
+A: AI was only used for learning purposes and to help make sense of obscure LLVM errors. For example, I found it to be a great resource for learning about cross-compiling C/C++ projects using Zig. It has no influence on the design of the language or the compiler. The [Jet site](https://jet-lang.com) and the documentation in this repo are also written by hand.
 4. **What materials/resources did you use to help you create Jet?**<br/>
 A: In order of significance:
    1. Crafting Interpreters - Robert Nystrom
@@ -18,4 +18,4 @@ A: Jet has a custom frontend that I wrote by hand using the shift-reduce (bottom
 6. **Why did you write a custom frontend when tools like Yacc and Bison are proven and available?**<br/>
 A. After completing the Crafting Interpreters book, I felt that I had gained enough confidence and foundational knowledge to write my own custom frontend. Had I used a tool like Yacc or Bison, it would've felt like cheating.
 7. **Why did you choose the name Jet for your programming language?**<br/>
-A. I chose Jet because it's easy to spell, easy to say and neutral. 
+A. I chose Jet because it's easy to spell and easy to say. 
