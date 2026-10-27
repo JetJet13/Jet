@@ -1,5 +1,5 @@
 # Jet Programming Language
-Jet is a C-like general purpose programming language released in Oct 2026. It's currently in alpha. Please visit [jet-lang.com](https://jet-lang.com) to learn more.
+Jet is a C-like programming language written 100% by hand. It was released in Oct 2026 and is currently in alpha. Please visit [jet-lang.com](https://jet-lang.com) to learn more.
 
 ```
 // main.jet
