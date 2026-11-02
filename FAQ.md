@@ -14,7 +14,7 @@ A: In order of significance:
    2. Compilers - Principles, Techniques, & Tools (Second Edition) - Alfred Aho, Monica Lam, Ravi Sethi, Jeffrey Ullman
    3. The Garbage Collection Handbook (Second Edition) - Richard Jones, Antony Hosking, Eliot Moss
 5. **How does Jet work under the hood?**<br/>
-A: Jet has a custom frontend that I wrote by hand using the shift-reduce (bottom-up) parsing technique and the backend is built using LLVM v17.
+A: Jet has a custom frontend that I wrote by hand using the shift-reduce (bottom-up) parsing technique and LLVM (v17) is used for the backend.
 6. **Why did you write a custom frontend when tools like Yacc and Bison are proven and available?**<br/>
 A. After completing the Crafting Interpreters book, I felt that I had gained enough confidence and foundational knowledge to write my own custom frontend. Had I used a tool like Yacc or Bison, it would've felt like cheating.
 7. **Why did you choose the name Jet for your programming language?**<br/>
