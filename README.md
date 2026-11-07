@@ -1,14 +1,8 @@
 <p align="center">
   <img src="https://jet-lang.com/jet-black-bg-v4.png" alt="Project logo" width="260">
 </p>
-<p align="center">
+
 ![Discord](https://img.shields.io/discord/1568432875127308388?style=plastic&label=Join%20us%20on%20Discord)
-</p>
-
-
-
-
-
 
 # Jet
 Jet is a general purpose programming language that aims to strike a balance between ergonomics and performance. It was released in Oct 2026 and is currently in alpha.
